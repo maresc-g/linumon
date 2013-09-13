@@ -1,0 +1,40 @@
+=========================================
+- Stats + Arbre de talents -> ansel_l
+- Faction + guildes / territoires
+- Chat -> jourda_c
+- Gestion des combats -> maresc_g
+- Metiers -> ansel_l
+- Systeme de capture -> maresc_g
+- PNJ -> mestag_a
+- Graphique -> paquet_a, jourda_c
+- IA -> mestag_a
+- BDD (libodb) -> mestag_a
+- Map (core) -> maresc_g
+=========================================
+______________________________
+Maresc_g |
+	 |-Gestion des combats
+	 |-Systeme de capture
+	 |-Map
+	 ---------------------
+_____________________________
+Mestag_a |
+	 |-PNJ
+	 |-BDD
+	 |-IA
+	 ---------------------
+______________________________
+Ansel_l |
+	|-Stats + Arbre de talents
+	|-Metiers
+	----------------------
+______________________________
+Jourda_c |
+	 |-Graphique
+	 |-Chat
+	 ---------------------
+______________________________
+Paquet_a |
+	 |-Graphique
+	 ---------------------
+______________________________
