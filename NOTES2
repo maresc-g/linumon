@@ -1,0 +1,64 @@
+Reseau
+{
+	protocol
+		{
+			Envoi de message
+			Envoi d'info
+		}
+	socket
+	buffer tournant
+	connexion / deconnexion
+	BDD
+}
+
+Core
+{
+	Entity
+		{
+			Mobs
+			Joueur
+		}
+	Map
+		{
+			Collision
+			Zone de combat
+			Soins
+			Territoires
+			Ressources
+			Cadavres
+		}
+	FicheJoueur
+		{
+			Talent
+			Stat
+			Métier
+			Inventaire
+			Equipement
+			StockageMobsCombat
+			StockageMobs
+			Argent
+			Bonus de faction
+		}
+	Interaction
+		{
+			Echange
+			Chat
+			Agression
+			Duel?
+		}
+	Combat
+		{
+			Combat
+			Drop
+			Capture
+			Exp
+		}
+}
+
+Graphisme
+{
+	Decor
+	Interface
+	Animation
+	Combat
+}
