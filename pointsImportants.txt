@@ -1,0 +1,7 @@
+systeme de combat
+systeme de capture
+guildes
+factions
+chat
+equipements
+metiers
