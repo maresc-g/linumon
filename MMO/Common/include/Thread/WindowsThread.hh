@@ -11,9 +11,7 @@
 #ifndef 			__WINDOWSTHREAD_HH__
 # define 			__WINDOWSTHREAD_HH__
 
-#ifdef				_WIN32
-
-#define _WINSOCKAPI_
+#define				_WINSOCKAPI_
 #include			<Windows.h>
 #include			"Thread/IThread.hh"
 
@@ -24,13 +22,11 @@ private:
 public:
   WindowsThread();
   virtual ~WindowsThread();
-  virtual int			start();
-  virtual int			createThread(void *(*func)(void*), void *);
-  virtual void			destroyThread();
-  virtual int			cancelThread();
-  virtual int			waitThread();
+  virtual bool			create(void *(*func)(void *), void *);
+  virtual bool			start();
+  virtual bool			exit();
+  virtual bool			cancel();
+  virtual bool			join();
 };
-
-#endif
 
 #endif

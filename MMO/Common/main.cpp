@@ -9,21 +9,21 @@
 //
 
 #include		<iostream>
-#include		<unistd.h>
 #include		"Mutex/Mutex.hpp"
 #include		"Thread/Thread.hpp"
 
 void			*bite(void *data)
 {
-  int			x = 30;
+  int			x = 30000;
 
   std::cout << "I'm the thread and I'm waiting for " << x << std::endl;
-  sleep(x);
+  Sleep(x);
   return (NULL);
 }
 
 int			main()
 {
+	char	c;
   Thread		t;
 
   std::cout << "Creating thread" << std::endl;
@@ -31,9 +31,10 @@ int			main()
   std::cout << "Launching thread" << std::endl;
   t.start();
   std::cout << "Waiting for 5 seconds" << std::endl;
-  sleep(5);
+  Sleep(5000);
   std::cout << "Joining thread" << std::endl;
   t.join();
   std::cout << "Done" << std::endl;
+  std::cin >> c;
   return (0);
 }

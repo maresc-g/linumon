@@ -11,8 +11,6 @@
 #ifndef 			__UNIXTHREAD_HH__
 # define 			__UNIXTHREAD_HH__
 
-#ifndef				_WIN32
-
 #include			<pthread.h>
 #include			"Thread/IThread.hh"
 #include			"Thread/PthreadCondition.hh"
@@ -47,7 +45,5 @@ public:
   virtual bool			cancel();
   virtual bool			join();
 };
-
-#endif
 
 #endif

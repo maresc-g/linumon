@@ -8,8 +8,7 @@
 // Last update Tue Nov 12 20:28:33 2013 alexis mestag
 //
 
-#ifdef			_WIN32
-
+#include		<iostream>
 #include		<exception>
 #include		"Thread/WindowsThread.hh"
 
@@ -24,40 +23,52 @@ WindowsThread::~WindowsThread()
 
 }
 
-int			WindowsThread::start()
+bool			WindowsThread::start()
 {
-  if (!this->_thread)
-    return (1);
-  ResumeThread(this->_thread);
-  return (0);
+	bool		ret = true;
+
+  if (ResumeThread(this->_thread) == -1) {
+	  std::cerr << THREAD_START_ERROR << std::endl;
+	  ret = false;
+  }
+  return (ret);
 }
 
-int			WindowsThread::createThread(void *(*func)(void *), void *data)
+bool			WindowsThread::create(void *(*func)(void *), void *data)
 {
-  if ((this->_thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)func, data, CREATE_SUSPENDED, NULL)) == NULL)
+	bool		ret = true;
+
+	if ((this->_thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)func, data, CREATE_SUSPENDED, NULL)) == NULL)
     {
-      std::cerr << "error" << std::endl;
-      return (1);
+      std::cerr << THREAD_CREATE_ERROR << std::endl;
+	  ret = false;
     }
-  return (0);
+	return (ret);
 }
 
-void			WindowsThread::destroyThread()
+bool			WindowsThread::exit()
 {
-  if (this->_thread)
-    CloseHandle(this->_thread);
+	bool		ret = true;
+
+    if (!CloseHandle(this->_thread)) {
+		std::cerr << THREAD_EXIT_ERROR << std::endl;
+		ret = false;
+	}
+	return (ret);
 }
 
-int			WindowsThread::cancelThread()
+bool			WindowsThread::cancel()
 {
   throw std::exception();
 }
 
-int			WindowsThread::waitThread()
+bool			WindowsThread::join()
 {
-  if (WaitForSingleObject(this->_thread, INFINITE) == WAIT_FAILED)
-    return (1);
-  return (0);
-}
+	bool		ret = true;
 
-#endif
+	if (WaitForSingleObject(this->_thread, INFINITE) == WAIT_FAILED) {
+	std::cerr << THREAD_JOIN_ERROR << std::endl;
+	ret = false;
+	}
+	return (ret);
+}

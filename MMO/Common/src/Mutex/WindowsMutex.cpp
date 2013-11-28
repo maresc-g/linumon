@@ -40,7 +40,7 @@ bool			WindowsMutex::lock()
   return (true);
 }
 
-int			WindowsMutex::tryLock()
+bool			WindowsMutex::tryLock()
 {
   bool			ret = true;
 
