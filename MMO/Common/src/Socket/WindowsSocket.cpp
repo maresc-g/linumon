@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:21:19 2013 laurent ansel
-// Last update Sat Nov 23 16:46:54 2013 laurent ansel
+// Last update Thu Nov 28 19:47:15 2013 laurent ansel
 //
 
 #ifdef _WIN32
@@ -89,12 +89,12 @@ int				WindowsSocket::listenSocket()
   return (0);
 }
 
-SocketClient const		&WindowsSocket::getSocket() const
+ISocketClient const		&WindowsSocket::getSocket() const
 {
   return (*this->_currentSocket);
 }
 
-SocketClient			*WindowsSocket::connectToAddr(std::string const &addr, int const port)
+ISocketClient			*WindowsSocket::connectToAddr(std::string const &addr, int const port)
 {
   sockaddr_in			*addrClient = new sockaddr_in;
   char				*ip;
@@ -119,7 +119,7 @@ SocketClient			*WindowsSocket::connectToAddr(std::string const &addr, int const 
   return (this->_currentSocket);
 }
 
-SocketClient			*WindowsSocket::acceptConnection()
+ISocketClient			*WindowsSocket::acceptConnection()
 {
   struct sockaddr_in		client;
   int				size = sizeof(client);

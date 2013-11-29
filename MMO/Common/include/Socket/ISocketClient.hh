@@ -5,15 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:24:56 2013 laurent ansel
-// Last update Mon Nov 18 16:39:13 2013 laurent ansel
+// Last update Thu Nov 28 19:40:06 2013 laurent ansel
 //
 
 #ifndef 			__ISOCKETCLIENT_HH__
 # define 			__ISOCKETCLIENT_HH__
 
 #include			<string>
-
-#define	SIZE_BUFFER		65536
 
 class				ISocketClient
 {

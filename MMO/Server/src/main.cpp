@@ -1,0 +1,52 @@
+//
+// main.cpp for  in /home/ansel_l/Documents/Pfa/work/Server
+// 
+// Made by laurent ansel
+// Login   <ansel_l@epitech.net>
+// 
+// Started on  Thu Nov 28 16:45:53 2013 laurent ansel
+// Last update Thu Nov 28 19:43:30 2013 laurent ansel
+//
+
+#include		<string>
+#include		<iostream>
+#include		<sstream>
+#include		<stdexcept>
+#include		<stdlib.h>
+#include		<ctime>
+#include		"Server/Server.hh"
+#include		"Error/SocketError.hpp"
+
+int			main(int argc, char **argv)
+{
+  int			ret = 0;
+
+  if (argc == 2)
+    {
+      try
+  	{
+  	  int			port = std::stoi(argv[1]);
+  	  Server		*server = new Server(port);
+
+  	  srand(time(NULL));
+  	  server->run();
+  	  delete server;
+  	}
+      catch (std::invalid_argument const &e)
+  	{
+  	  std::cerr << "Invalid port" << std::endl;
+  	  ret = 2;
+  	}
+      catch (SocketError const &e)
+  	{
+  	  std::cerr << e.what() << std::endl;
+  	  ret = 3;
+  	}
+    }
+  else
+    {
+      std::cerr << "Usage:\n\t" << argv[0] << " [port]" << std::endl;
+      ret = 1;
+    }
+  return (ret);
+}

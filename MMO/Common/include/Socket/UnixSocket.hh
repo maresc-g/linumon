@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:23:27 2013 laurent ansel
-// Last update Tue Nov  5 18:17:08 2013 laurent ansel
+// Last update Thu Nov 28 19:46:20 2013 laurent ansel
 //
 
 #ifndef 			__UNIXSOCKET_HH__
@@ -37,9 +37,9 @@ public:
   virtual int			destroy();
   virtual int			bindSocket(int const);
   virtual int			listenSocket();
-  virtual SocketClient const	&getSocket() const;
-  virtual SocketClient		*connectToAddr(std::string const &, int const);
-  virtual SocketClient		*acceptConnection();
+  virtual ISocketClient const	&getSocket() const;
+  virtual ISocketClient		*connectToAddr(std::string const &, int const);
+  virtual ISocketClient		*acceptConnection();
   virtual void			initAddr();
 };
 

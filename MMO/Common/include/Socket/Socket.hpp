@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 14:42:30 2013 laurent ansel
-// Last update Tue Oct 29 15:06:19 2013 laurent ansel
+// Last update Thu Nov 28 19:38:59 2013 laurent ansel
 //
 
 #ifndef 		__SOCKET_HH__

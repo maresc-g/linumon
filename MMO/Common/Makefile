@@ -1,33 +1,33 @@
 ##
-## Makefile for  in /home/ansel_l/Documents/Rtype/rtype/Server
+## Makefile for  in /home/ansel_l/Documents/Pfa/work
 ## 
 ## Made by laurent ansel
 ## Login   <ansel_l@epitech.net>
 ## 
-## Started on  Mon Oct 28 16:05:51 2013 laurent ansel
-## Last update Mon Nov 25 23:04:42 2013 alexis mestag
+## Started on  Thu Nov 28 16:47:21 2013 laurent ansel
+## Last update Fri Nov 29 15:36:07 2013 laurent ansel
 ##
 
-NAME=			test
+THREAD=		$(COMMON_SRC)/Thread
+MUTEX=		$(COMMON_SRC)/Mutex
+SOCKET=		$(COMMON_SRC)/Socket
+CIRCULAR_BUFFER_MANAGER=	$(COMMON_SRC)/CircularBufferManager
+FILESYSTEM=	$(COMMON_SRC)/FileSystem
+TRAME=		$(COMMON_SRC)/Trame
+POLL=		$(COMMON_SRC)/Poll
+HEADER=		$(COMMON_SRC)/Header
 
-SRCCOMMON=		main.cpp
-OBJ=			$(SRCCOMMON:.cpp=.o)
+include		$(THREAD)/Makefile
+include		$(MUTEX)/Makefile
+include		$(SOCKET)/Makefile
+include		$(CIRCULAR_BUFFER_MANAGER)/Makefile
+include		$(FILESYSTEM)/Makefile
+include		$(TRAME)/Makefile
+include		$(POLL)/Makefile
+include		$(HEADER)/Makefile
 
-CPPFLAGS=		-W -Wall -Wextra -I include -std=c++0x
-LDFLAGS=
+ifndef _WIN32
+LDFLAGS +=	-lpthread -D_REENTRANT -ljsoncpp
+endif
 
-SRCDIR=			src
-include			$(SRCDIR)/Makefile
-
-all:			$(NAME)
-
-$(NAME):		$(OBJ)
-			g++ -o $(NAME) $(OBJ) $(LDFLAGS)
-
-clean:
-			rm -f $(OBJ)
-
-fclean:			clean
-			rm -f $(NAME)
-
-re:			fclean all
+COMMON_INCLUDES=	-I $(COMMON)/include

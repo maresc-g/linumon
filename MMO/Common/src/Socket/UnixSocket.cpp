@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:20:50 2013 laurent ansel
-// Last update Sat Nov 23 16:48:51 2013 laurent ansel
+// Last update Thu Nov 28 19:46:58 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -83,12 +83,12 @@ int				UnixSocket::listenSocket()
   return (0);
 }
 
-SocketClient const		&UnixSocket::getSocket() const
+ISocketClient const		&UnixSocket::getSocket() const
 {
   return (*this->_currentSocket);
 }
 
-SocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const port)
+ISocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const port)
 {
   struct sockaddr_in		*sin = new struct sockaddr_in;
   struct hostent		*host;
@@ -111,7 +111,7 @@ SocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const por
   return (this->_currentSocket);
 }
 
-SocketClient			*UnixSocket::acceptConnection()
+ISocketClient			*UnixSocket::acceptConnection()
 {
   int				fd;
   unsigned int			size;
