@@ -1,0 +1,1 @@
+test virtual odb member for different class that inherits from Nameable and some might want to set the member to unique

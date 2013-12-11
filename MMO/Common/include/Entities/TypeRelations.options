@@ -1,0 +1,2 @@
+--odb-epilogue '#include "Entities/TypeRelations-traits.hxx"'
+--hxx-prologue '#include "Entities/TypeRelations-traits.hxx"'

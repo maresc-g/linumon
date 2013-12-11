@@ -1,0 +1,2 @@
+--odb-epilogue '#include "Stats/Stats-traits.hxx"'
+--hxx-prologue '#include "Stats/Stats-traits.hxx"'
