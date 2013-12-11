@@ -5,13 +5,13 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Tue Dec  3 13:13:10 2013 alexis mestag
+// Last update Thu Dec  5 20:25:30 2013 alexis mestag
 //
 
 #include			"Entities/AStatEntity.hh"
 
 AStatEntity::AStatEntity() :
-  AEntity("", eEntity::STATENTITY), _statEntityType(eStatEntity::NONE), _stats(NULL)
+  AEntity("", eEntity::STATENTITY), _statEntityType(eStatEntity::NONE), _stats(new Stats)
 {
 
 }

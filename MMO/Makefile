@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:06:15 2013 laurent ansel
-## Last update Thu Dec  5 15:15:36 2013 alexis mestag
+## Last update Mon Dec  9 21:07:38 2013 alexis mestag
 ##
 
 NAMESERVER=	server
@@ -23,7 +23,7 @@ include		$(SERVER)/Makefile
 
 OBJSERVER=	$(SRCSERVER:.cpp=.o)
 OBJCOMMON=	$(SRCCOMMON:.cpp=.o) $(ODB_OBJ)
-CPPFLAGS=	-W -Wall -Wextra $(SERVER_INCLUDES) $(COMMON_INCLUDES) -std=c++0x
+CPPFLAGS=	-W -Wall -Wextra $(SERVER_INCLUDES) $(COMMON_INCLUDES) -std=c++0x -g
 
 all:		$(ODB_SRC) $(OBJCOMMON) $(NAMESERVER)
 

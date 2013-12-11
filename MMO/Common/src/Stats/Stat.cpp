@@ -5,24 +5,25 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:08:36 2013 alexis mestag
-// Last update Tue Dec  3 13:14:06 2013 alexis mestag
+// Last update Thu Dec  5 20:01:16 2013 alexis mestag
 //
 
 #include			"Stats/Stat.hh"
 
 Stat::Stat() :
-  _statType(eStat::NONE), _value(0)
+  Persistent(), _statType(eStat::NONE), _value(0)
 {
 
 }
 
 Stat::Stat(Stat::eStat const statType, int const value) :
-  _statType(statType), _value(value)
+  Persistent(), _statType(statType), _value(value)
 {
 
 }
 
-Stat::Stat(Stat const &rhs)
+Stat::Stat(Stat const &rhs) :
+  Persistent(rhs)
 {
   *this = rhs;
 }

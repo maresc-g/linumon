@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:33:45 2013 alexis mestag
-// Last update Tue Dec  3 13:42:38 2013 alexis mestag
+// Last update Thu Dec  5 16:40:35 2013 alexis mestag
 //
 
 #ifndef			__ACHARACTER_HH__
@@ -15,6 +15,8 @@
 
 class			ACharacter : public AStatEntity
 {
+  friend class		odb::access;
+
 public:
   typedef enum		eCharacter
     {
@@ -40,5 +42,10 @@ public:
 
   eCharacter		getCharacterType() const;
 };
+
+# ifdef	ODB_COMPILER
+#  pragma db object(ACharacter) abstract
+#  pragma db member(ACharacter::_characterType) transient
+# endif
 
 #endif

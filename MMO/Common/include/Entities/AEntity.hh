@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:48:29 2013 alexis mestag
-// Last update Tue Dec  3 13:40:28 2013 alexis mestag
+// Last update Thu Dec  5 16:45:08 2013 alexis mestag
 //
 
 #ifndef			__AENTITY_HH__
@@ -41,5 +41,10 @@ public:
 
   eEntity		getEntityType() const;
 };
+
+# ifdef	ODB_COMPILER
+#  pragma db object(AEntity) abstract
+#  pragma db member(AEntity::_entityType) transient
+# endif
 
 #endif

@@ -5,17 +5,20 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:58:39 2013 alexis mestag
-// Last update Tue Dec  3 13:14:31 2013 alexis mestag
+// Last update Thu Dec  5 20:24:31 2013 alexis mestag
 //
 
 #ifndef			__STATS_HH__
 # define		__STATS_HH__
 
+# include		<odb/core.hxx>
 # include		<list>
 # include		"Stats/Stat.hh"
 
 class			Stats
 {
+  friend class		odb::access;
+
 private:
   std::list<Stat *>	*_stats;
 

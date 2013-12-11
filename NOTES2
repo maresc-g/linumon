@@ -15,8 +15,8 @@ Core
 {
 	Entity
 		{
-			Mobs
-			Joueur
+			Mobs				OK
+			Joueur				OK
 		}
 	Map
 		{
@@ -29,15 +29,15 @@ Core
 		}
 	FicheJoueur
 		{
-			Talent
-			Stat
-			Métier
-			Inventaire
-			Equipement
-			StockageMobsCombat
-			StockageMobs
-			Argent
-			Bonus de faction
+			Talent				OK
+			Stat				OK
+			Métier				OK
+			Inventaire			OK
+			Equipement			OK
+			StockageMobsCombat		OK
+			StockageMobs			OK
+			Argent				OK
+			Bonus de faction		OK
 		}
 	Interaction
 		{

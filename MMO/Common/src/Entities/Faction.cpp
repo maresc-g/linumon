@@ -5,21 +5,21 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:31:07 2013 alexis mestag
-// Last update Thu Nov 28 23:40:28 2013 alexis mestag
+// Last update Tue Dec 10 15:04:23 2013 alexis mestag
 //
 
 #include			"Entities/Faction.hh"
 
 Faction::Faction(std::string const &name) :
-  AStatEntity(name)
+  Persistent(), Nameable(name)
 {
 
 }
 
 Faction::Faction(Faction const &rhs) :
-  AStatEntity(rhs)
+  Persistent(rhs), Nameable(rhs)
 {
-
+  *this = rhs;
 }
 
 Faction::~Faction()
