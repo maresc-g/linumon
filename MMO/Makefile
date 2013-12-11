@@ -5,10 +5,10 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:06:15 2013 laurent ansel
-## Last update Mon Dec  9 21:07:38 2013 alexis mestag
+## Last update Wed Dec 11 12:59:05 2013 laurent ansel
 ##
 
-NAMESERVER=	server
+NAMESERVER=	pfa-server
 
 SERVER=		Server
 SERVER_SRC=	$(SERVER)/src

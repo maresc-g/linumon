@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:41 2013 laurent ansel
-// Last update Sat Nov 23 16:57:14 2013 laurent ansel
+// Last update Wed Dec  4 13:43:47 2013 laurent ansel
 //
 
 #ifdef _WIN32
@@ -27,10 +27,28 @@ WindowsSocketClient::WindowsSocketClient(SOCKET const socket, std::string const 
     }
 }
 
+WindowsSocketClient::WindowsSocketClient(WindowsSocketClient *client)
+{
+  *this = client;
+}
+
 WindowsSocketClient::~WindowsSocketClient()
 {
   if (this->_addr)
     delete this->_addr;
+}
+
+
+WindowsSocketClient	&WindowsSocketClient::operator=(WindowsSocketClient *client)
+{
+  if (this != client)
+    {
+      this->_socket = client->getSocket();
+      this->_proto = client->getProto();
+      this->_addr = new struct sockaddr_in;
+      this->setAddr(client->getAddr());
+    }
+  return (*this);
 }
 
 int			WindowsSocketClient::readSocket(char *buf, int const size) const
@@ -104,6 +122,11 @@ void			WindowsSocketClient::setAddr(struct sockaddr_in *addr)
 struct sockaddr_in	*WindowsSocketClient::getAddr() const
 {
   return (this->_addr);
+}
+
+std::string const	&WindowsSocketClient::getProto() const
+{
+  return (this->_proto);
 }
 
 #endif

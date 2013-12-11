@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Fri Nov 29 15:38:29 2013 laurent ansel
+// Last update Tue Dec 10 10:33:21 2013 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -20,21 +20,47 @@
 #include			"Mutex/Mutex.hpp"
 #include			"Thread/Thread.hpp"
 #include			"Poll/Poll.hpp"
+#include			"Utility/Singleton.hpp"
+#include			"ClientManager/ClientManager.hh"
+#include			"ObjectPool/ObjectPoolManager.hpp"
+#include			"Crypto/Crypto.hh"
 
-class				Server
+class				Server : public Singleton<Server>
 {
+  friend class			Singleton<Server>;
+
 private:
-  unsigned int			_clientId;
   std::map<std::string, Socket *>	*_socket;
   Poll				*_poll;
-public:
-  Server(int const port);
+  std::map<FD, std::pair<bool, bool> >	*_actionServer; /*[client] = {write, disconnect}*/
+  Mutex				*_mutex;
+  Server(/*int const port*/);
   virtual ~Server();
+public:
   void				run();
+  void				detectWrite(FD const fd);
+  void				init(int const port);
 private:
   void				initializePoll() const;
   void				runPoll() const;
   void				debug(std::string const &str) const;
+  void				actionServer();
+  void				actionClient();
+  bool				acceptNewClient();
+  bool			        disconnect();
+  bool				readSomething(std::map<FD, std::pair<bool, bool> >::iterator &it);
+  bool			        writeSomething(std::map<FD, std::pair<bool, bool> >::iterator &it);
+  bool			        disconnectClient(std::map<FD, std::pair<bool, bool> >::iterator &it);
+  bool				recvUdp();
+};
+
+void				somethingWrite(FD const fd);
+
+template<typename T, typename R, typename... P>
+struct				s_func
+{
+  T				_type;
+  R				(Server::*func)(P...);
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 17:18:27 2013 laurent ansel
-// Last update Thu Nov 28 20:00:38 2013 laurent ansel
+// Last update Fri Dec  6 10:27:06 2013 laurent ansel
 //
 
 #ifndef 			__WINDOWSPOLL_HH__

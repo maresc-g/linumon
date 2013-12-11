@@ -5,13 +5,15 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 17:02:58 2013 laurent ansel
-// Last update Thu Nov 28 19:53:15 2013 laurent ansel
+// Last update Fri Dec  6 10:27:18 2013 laurent ansel
 //
 
 #ifndef 			__IPOLL_HH__
 # define 			__IPOLL_HH__
 
 #include			"Utility/CommonDefine.hh"
+
+#define	CLIENT_MIN		1000
 
 class				IPoll
 {

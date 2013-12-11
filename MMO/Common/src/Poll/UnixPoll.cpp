@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 17:56:11 2013 laurent ansel
-// Last update Thu Nov 28 19:58:37 2013 laurent ansel
+// Last update Tue Dec 10 17:00:12 2013 laurent ansel
 //
 
 #include			<iostream>
@@ -31,14 +31,15 @@ void				UnixPoll::pushFd(FD const fd, enum IPoll::ePoll const type)
     {
       if ((*it).fd == fd)
 	{
-	  (*it).events |= type;
+	  (*it).events = type;
 	  init = true;
 	}
     }
   if (!init)
     {
       tmp.fd = fd;
-      tmp.events |= type;
+      tmp.events = type;
+      tmp.revents = 0;
       _fd->push_back(tmp);
     }
 

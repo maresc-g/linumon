@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 14:19:41 2013 laurent ansel
-// Last update Tue Nov 26 00:58:26 2013 alexis mestag
+// Last update Thu Dec  5 22:37:35 2013 laurent ansel
 //
 
 #include			<iostream>
@@ -44,8 +44,8 @@ bool				PthreadCondition::destroy()
       if (this->_mutex->destroy() && !pthread_cond_destroy(&this->_cond))
 	ret = true;
     }
-  if (!ret)
-    std::cerr << PTHREADCOND_DESTROY_ERROR << std::endl;
+  // if (!ret)
+  //   std::cerr << PTHREADCOND_DESTROY_ERROR << std::endl;
   return (ret);
 }
 

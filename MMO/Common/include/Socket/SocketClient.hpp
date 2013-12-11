@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 14:57:01 2013 laurent ansel
-// Last update Wed Oct 30 16:15:17 2013 laurent ansel
+// Last update Thu Dec  5 22:25:38 2013 laurent ansel
 //
 
 #ifndef 			__SOCKETCLIENT_HH__
@@ -26,9 +26,25 @@ class			SocketClient : public	UnixSocketClient
 public:
   SocketClient(int const socket, std::string const &protocole, struct sockaddr_in *addr = NULL):
 #ifdef _WIN32
-    WindowsSocketClient(socket, protocole)
+    WindowsSocketClient(socket, protocole, addr)
 #else
     UnixSocketClient(socket, protocole, addr)
+#endif
+  {}
+
+  SocketClient(SocketClient *client):
+#ifdef _WIN32
+    WindowsSocketClient(client)
+#else
+    UnixSocketClient(client)
+#endif
+  {}
+
+  SocketClient(ISocketClient *client):
+#ifdef _WIN32
+    WindowsSocketClient(client)
+#else
+    UnixSocketClient(client)
 #endif
   {}
   virtual ~SocketClient()

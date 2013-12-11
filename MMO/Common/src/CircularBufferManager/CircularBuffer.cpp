@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:13:43 2013 laurent ansel
-// Last update Thu Nov 28 19:30:09 2013 laurent ansel
+// Last update Mon Dec  9 19:11:47 2013 laurent ansel
 //
 
 #include			"Socket/ISocketClient.hh"
@@ -26,60 +26,58 @@ CircularBuffer::~CircularBuffer()
     }
 }
 
-void				CircularBuffer::pushTrame(Trame *trame, bool const check)
+void				CircularBuffer::pushTrame(Trame *trame, bool const write)
 {
-  (void)trame;
-  (void)check;
-  // bool				append = false;
+  bool				append = false;
 
-  // for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end() ; ++it)
-  //   {
-  //     if ((*it)->getHeader().getId() == trame->getHeader().getId() &&
-  // 	  (*it)->getHeader().getTrameId() == trame->getHeader().getTrameId() &&
-  // 	  (*it)->getHeader().getProto() == trame->getHeader().getProto())
-  // 	{
-  // 	  if (check && trame->getContent().size() + (*it)->getContent().size() <= SIZE_BUFFER)
-  // 	    {
-  // 	      (*it)->appendContent(trame->getContent());
-  // 	      append = true;
-  // 	    }
-  // 	  else if (!check)
-  // 	    {
-  // 	      (*it)->appendContent(trame->getContent());
-  // 	      append = true;
-  // 	    }
-  // 	}
-  //   }
-  // if (!append)
-  //   this->_buffer->push_back(trame);
+  if (trame->isMember(HEADER))
+    {
+      for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end() ; ++it)
+	{
+	  if ((*(*it))[HEADER] == (*trame)[HEADER])
+	    {
+	      if (write && (*trame)[CONTENT].asString().size() + (*(*it))[CONTENT].asString().size() <= SIZE_BUFFER)
+		{
+		  (*(*it))[CONTENT].append((*trame)[CONTENT]);
+		  append = true;
+		}
+	      else if (!write)
+		{
+		  (*(*it))[CONTENT].append((*trame)[CONTENT]);
+		  append = true;
+		}
+	    }
+	}
+      if (!append)
+	this->_buffer->push_back(trame);
+    }
 }
 
-void				CircularBuffer::pushFrontTrame(Trame *trame, bool const check)
+void				CircularBuffer::pushFrontTrame(Trame *trame, bool const write)
 {
-  (void)trame;
-  (void)check;
-  // bool				append = false;
+  bool				append = false;
 
-  // for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end() ; ++it)
-  //   {
-  //     if ((*it)->getHeader().getId() == trame->getHeader().getId() &&
-  // 	  (*it)->getHeader().getTrameId() == trame->getHeader().getTrameId() &&
-  // 	  (*it)->getHeader().getProto() == trame->getHeader().getProto())
-  // 	{
-  // 	  if (check && trame->getContent().size() + (*it)->getContent().size() <= SIZE_BUFFER)
-  // 	    {
-  // 	      (*it)->appendContent(trame->getContent());
-  // 	      append = true;
-  // 	    }
-  // 	  else if (!check)
-  // 	    {
-  // 	      (*it)->appendContent(trame->getContent());
-  // 	      append = true;
-  // 	    }
-  // 	}
-  //   }
-  // if (!append)
-  //   this->_buffer->push_front(trame);
+  if (trame->isMember(HEADER))
+    {
+      for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end() ; ++it)
+	{
+	  if ((*(*it))[HEADER] == (*trame)[HEADER])
+	    {
+	      if (write && (*trame)[CONTENT].asString().size() + (*(*it))[CONTENT].asString().size() <= SIZE_BUFFER)
+		{
+		  (*(*it))[CONTENT].append((*trame)[CONTENT]);
+		  append = true;
+		}
+	      else if (!write)
+		{
+		  (*(*it))[CONTENT].append((*trame)[CONTENT]);
+		  append = true;
+		}
+	    }
+	}
+      if (!append)
+	this->_buffer->push_front(trame);
+    }
 }
 
 Trame const			&CircularBuffer::getFirstTrame() const
@@ -91,15 +89,15 @@ Trame				*CircularBuffer::popFirstTrame()
 {
   Trame				*tmp = NULL;
 
-  // if (!this->_buffer->empty())
-  //   {
-  //     for (std::list<Trame *>::iterator it = _buffer->begin() ; !tmp && it != _buffer->end() ; ++it)
-  // 	if ((*it)->isSetEndTrame())
-  // 	  {
-  // 	    tmp = *it;
-  // 	    it = this->_buffer->erase(it);
-  // 	  }
-  //   }
+  if (!this->_buffer->empty())
+    {
+      for (std::list<Trame *>::iterator it = _buffer->begin() ; !tmp && it != _buffer->end() ; ++it)
+  	if ((*it)->getEnd())
+  	  {
+  	    tmp = *it;
+  	    it = this->_buffer->erase(it);
+  	  }
+    }
   return (tmp);
 }
 
@@ -107,32 +105,31 @@ Trame				*CircularBuffer::popFirstTrame(unsigned int const id, std::string const
 {
   Trame				*tmp = NULL;
 
-  (void)id;
-  (void)proto;
-  // for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end() ; ++it)
-  //   {
-  //     if ((*it)->getHeader().getId() == id &&
-  // 	  (*it)->getHeader().getProto() == proto &&
-  // 	  (*it)->isSetEndTrame())
-  // 	{
-  // 	  //	  std::cout << "content = " << (*it)->getContent()<< std::endl;
-  // 	  tmp = (*it);
-  // 	  it = this->_buffer->erase(it);
-  // 	  return (tmp);
-  // 	}
-  //   }
+  for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end() ; ++it)
+    {
+      if ((*it)->isMember(HEADER))
+	{
+	  if ((*(*it))[HEADER]["IDCLIENT"].asUInt() == id &&
+	      (*(*it))[HEADER]["PROTOCOLE"].asString() == proto &&
+	      (*it)->getEnd())
+	    {
+	      tmp = (*it);
+	      it = this->_buffer->erase(it);
+	      return (tmp);
+	    }
+	}
+    }
   return (tmp);
 }
 
 void				CircularBuffer::deleteTrame(unsigned int const id)
 {
-  (void)id;
-  // for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end()&& !this->_buffer->empty(); ++it)
-  //   {
-  //     if ((*it)->getHeader().getId() == id)
-  // 	{
-  // 	  delete (*it);
-  // 	  it = this->_buffer->erase(it);
-  // 	}
-  //   }
+  for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end()&& !this->_buffer->empty(); ++it)
+    {
+      if ((*(*it))[HEADER]["IDCLIENT"].asUInt() == id)
+  	{
+  	  delete (*it);
+  	  it = this->_buffer->erase(it);
+  	}
+    }
 }

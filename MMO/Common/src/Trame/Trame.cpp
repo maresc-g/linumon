@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:55:14 2013 laurent ansel
-// Last update Fri Nov 29 15:42:16 2013 laurent ansel
+// Last update Mon Dec  9 19:12:14 2013 laurent ansel
 //
 
 #include		<sstream>
@@ -14,14 +14,16 @@
 
 Trame::Trame(bool const end):
   Json::Value(),
-  _end(end)
+  _end(end),
+  _size(0)
 {
 
 }
 
 Trame::Trame(std::string const &str, bool const end):
   Json::Value(),
-  _end(end)
+  _end(end),
+  _size(0)
 {
   Trame::toTrame(*this, str);
 }
@@ -34,9 +36,14 @@ Trame::~Trame()
 bool			Trame::toString(std::string &content) const
 {
   Json::StyledWriter	*writer = new Json::StyledWriter;
+  size_t		pos;
+  std::string		str(CONTENT + std::string(" : "));
 
   content = writer->write(*this);
   delete writer;
+  if ((pos = content.find(str)) != std::string::npos)
+    if (pos < _size)
+      content.erase(pos + std::string(str).size(), _size);
   if (this->_end)
     content.append(TRAMEEND);
   return (true);
@@ -63,6 +70,11 @@ void			Trame::setEnd(bool const end)
 bool			Trame::getEnd() const
 {
   return (this->_end);
+}
+
+void			Trame::setSize(size_t const size)
+{
+  this->_size = size;
 }
 
 void			Trame::removeTrameEnd(std::string &content)
@@ -99,6 +111,7 @@ bool			Trame::toTrame(Trame &trame, std::string const &str)
   Json::Reader		*reader = new Json::Reader;
 
   trame.setEnd(Trame::isEnd(tmp));
+  Trame::removeTrameEnd(tmp);
   ret = reader->parse(tmp, trame);
   delete reader;
   return (ret);
