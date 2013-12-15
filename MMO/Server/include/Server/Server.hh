@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Tue Dec 10 10:33:21 2013 laurent ansel
+// Last update Fri Dec 13 17:24:43 2013 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -24,6 +24,7 @@
 #include			"ClientManager/ClientManager.hh"
 #include			"ObjectPool/ObjectPoolManager.hpp"
 #include			"Crypto/Crypto.hh"
+#include			"Utility/FunctorContainer.hpp"
 
 class				Server : public Singleton<Server>
 {
@@ -34,6 +35,7 @@ private:
   Poll				*_poll;
   std::map<FD, std::pair<bool, bool> >	*_actionServer; /*[client] = {write, disconnect}*/
   Mutex				*_mutex;
+  CodeBreaker			*_codeBreaker;
   Server(/*int const port*/);
   virtual ~Server();
 public:

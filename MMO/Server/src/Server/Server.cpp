@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Tue Dec 10 16:59:51 2013 laurent ansel
+// Last update Thu Dec 12 13:33:22 2013 laurent ansel
 //
 
 #include			<list>
@@ -31,7 +31,8 @@ Server::Server(/*int const port*/):
   _socket(new std::map<std::string, Socket *>),
   _poll(new Poll),
   _actionServer(new std::map<FD, std::pair<bool, bool> >),
-  _mutex(new Mutex)
+  _mutex(new Mutex),
+  _codeBreaker(new CodeBreaker)
 {
 }
 
@@ -39,8 +40,8 @@ Server::~Server()
 {
   ClientManager::getInstance()->setQuit(true);
   ClientManager::getInstance()->join();
-  CodeBreaker::getInstance()->setQuit(true);
-  CodeBreaker::getInstance()->join();
+  _codeBreaker->setQuit(true);
+  _codeBreaker->join();
   ObjectPoolManager::deleteInstance();
   if ((*this->_socket)["TCP"])
     {
@@ -58,7 +59,7 @@ Server::~Server()
   delete this->_actionServer;
   CircularBufferManager::deleteInstance();
   ClientManager::deleteInstance();
-  CodeBreaker::deleteInstance();
+  delete _codeBreaker;
   Crypto::deleteInstance();
   this->_mutex->unlock();
   this->_mutex->destroy();
@@ -85,12 +86,12 @@ void				Server::init(int const port)
   this->_mutex->init();
   Crypto::getInstance();
   CircularBufferManager::getInstance();
+  _codeBreaker->start();
   // std::function<void (FD const)> func;
 
   // func = std::bind1st(std::mem_fun(&Server::detectWrite), this);
   // ClientManager::getInstance()->setWriteFunction(&func);
   ClientManager::getInstance()->setWriteFunction(&somethingWrite);
-  CodeBreaker::getInstance();
   ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
   ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
   ObjectPoolManager::getInstance()->runObjectPool<InitializeConnection>("initializeConnection");

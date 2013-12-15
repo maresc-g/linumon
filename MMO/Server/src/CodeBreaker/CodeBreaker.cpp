@@ -5,12 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 14:52:17 2013 laurent ansel
-// Last update Sat Dec  7 12:14:48 2013 laurent ansel
+// Last update Sun Dec 15 16:04:38 2013 laurent ansel
 //
 
 #include			"CodeBreaker/CodeBreaker.hh"
 
 CodeBreaker::CodeBreaker():
+  _protocol(new Protocol<std::string>),
   _pool(new ObjectPool<Trame>),
   _list(new std::list<std::pair<Trame *, bool> >),
   _mutex(new Mutex()),
@@ -19,7 +20,7 @@ CodeBreaker::CodeBreaker():
   _mutex->init();
   this->_pool->startObjectPool();
   this->create(&runCodeBreaker, this);
-  this->start();
+  this->initProtocol();
 }
 
 CodeBreaker::~CodeBreaker()
@@ -33,6 +34,7 @@ CodeBreaker::~CodeBreaker()
 	std::cout << "." << std::flush;
       }
   delete _list;
+  delete _protocol;
   std::cout << "." << std::flush;
   this->_pool->setQuit(true);
   this->_pool->waitExit();
@@ -44,6 +46,11 @@ CodeBreaker::~CodeBreaker()
   delete _mutex;
   std::cout << "." << std::flush;
   std::cout << std::endl << "Done" << std::endl;
+}
+
+void				CodeBreaker::initProtocol()
+{
+
 }
 
 void				CodeBreaker::getNewObject()
@@ -125,8 +132,8 @@ void				CodeBreaker::execCode()
       {
 	this->_mutex->unlock();
 	std::cout << "CODE BREAKER" << std::endl;
-	it->second = false;
 	this->_mutex->lock();
+	it->second = false;
       }
   this->_mutex->unlock();
 }

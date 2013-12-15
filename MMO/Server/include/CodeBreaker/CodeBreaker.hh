@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 14:35:59 2013 laurent ansel
-// Last update Fri Dec  6 20:44:08 2013 laurent ansel
+// Last update Sun Dec 15 15:51:16 2013 laurent ansel
 //
 
 #ifndef 			__CODEBREAKER_HH__
@@ -19,18 +19,19 @@
 #include			"Utility/Singleton.hpp"
 #include			"ObjectPool/ObjectPool.hpp"
 #include			"CircularBufferManager/CircularBufferManager.hh"
+#include			"Protocol/Protocol.hpp"
 
-class				CodeBreaker : public Thread, public Singleton<CodeBreaker>
+class				CodeBreaker : public Thread
 {
-  friend class			Singleton<CodeBreaker>;
 private:
+  Protocol<std::string>		*_protocol;
   IObjectPool			*_pool;
   std::list<std::pair<Trame *, bool> >	*_list;
   Mutex				*_mutex;
   bool				_quit;
+public:
   CodeBreaker();
   virtual ~CodeBreaker();
-public:
   void				run();
   void				setQuit(bool const quit);
 private:
@@ -38,6 +39,7 @@ private:
   bool				newCode(std::string const &str);
   bool				newCode(Trame *trame);
   void				execCode();
+  void				initProtocol();
 };
 
 void				*runCodeBreaker(void *data);
