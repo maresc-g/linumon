@@ -1,0 +1,29 @@
+Legend:
+	... -> UML
+
+{
+	HEADER : {id}
+	CONTENT :
+		{
+			ENTITY : {id, x, y} -> server/client
+			REMOVEENTITY : {id} -> server
+			CHAT : {"pseudo + msg"} -> server / client
+			INITIALIZECONNECTION : {} -> client / server
+			CONNECTION : {"pseudo", "pass"} -> client
+			CONNECTION : {bool} -> server
+			PLAYERLIST : {"name", "name", ...} -> server
+			CHOOSEPLAYER : {"name"} -> client
+			PLAYER : {...} -> server
+			MAP : {...} -> server
+			DIGITALISER : {...} -> server
+			TALENT : {...} -> server
+			INVENTORY : {...} -> server
+			JOB : {...} -> server
+			FACTION : {...} -> server
+			DROP : {...} -> server
+			INTERACTION : {enum eInteraction, targetId } -> client
+			QUIT -> client / server
+			BATTLE : {TARGET : {...} } -> server
+			
+		}
+}
