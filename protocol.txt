@@ -1,29 +1,92 @@
-Legend:
-	... -> UML
-
 {
 	HEADER : {id}
 	CONTENT :
 		{
-			ENTITY : {id, x, y} -> server/client
-			REMOVEENTITY : {id} -> server
-			CHAT : {"pseudo + msg"} -> server / client
-			INITIALIZECONNECTION : {} -> client / server
-			CONNECTION : {"pseudo", "pass"} -> client
-			CONNECTION : {bool} -> server
-			PLAYERLIST : {"name", "name", ...} -> server
-			CHOOSEPLAYER : {"name"} -> client
-			PLAYER : {...} -> server
-			MAP : {...} -> server
-			DIGITALISER : {...} -> server
-			TALENT : {...} -> server
-			INVENTORY : {...} -> server
-			JOB : {...} -> server
-			FACTION : {...} -> server
-			DROP : {...} -> server
-			INTERACTION : {enum eInteraction, targetId } -> client
-			QUIT -> client / server
-			BATTLE : {TARGET : {...} } -> server
+			# init connection
+			WELCOME : {} -> server
+			INITIALIZE : {} -> client
+			CHECK : {} -> server
+			# end
 			
+
+			# user connection
+			CONNECTION : {pseudo : string, pass : string} -> client
+			[don't exist] = ERROR : {bad username or pass : eError} -> server
+			[else] = PLAYERLIST : {PLAYER : {id : int, name : string, level : int, faction : string}, ...} -> server
+			CREATE : {name : string, faction : Faction} -> client
+			[name exist] = ERROR : {name exists : eError} -> server
+			[else] = PLAYERLIST : {PLAYER : {id : int, name : string, level : int, faction : string}, ...} -> server
+			CHOOSEPLAYER : {id : int} -> client
+			PLAYER : {player : Player} -> server
+			MAP : {zone : Zone} -> server
+			# end
+
+
+			# action
+			CHAT : {pseudo + msg : string} -> server / client
+
+			#  battle
+			LAUNCHBATTLE : {enemy : APlayer} -> server
+			SPELL : {spell : ASpell, target : int} -> client / server
+			SPELLEFFECT : {hpChange : int, target : int} -> server
+			CAPTURE : {target : int} -> client
+			CAPTUREEFFECT : {success : bool} -> server
+			SWITCH : {target : int, new mob : int} -> client / server
+			DEADMOB : {id : int} -> server
+			ENDBATTLE : {win : bool, money : int, exp : int, items : list of AItem} -> server
+			#  end
+
+			#  stuff
+			STUFF : {action : eActionStuff, item : AItem, target : ACharacter} -> client
+			[not equippable] = ERROR : {not equippable : eError} -> server
+			[else] = UPDATESTATS : {character : ACharacter} -> server
+			#  end
+
+			#  talents
+			TALENTS : {talents : List of Talent} -> client
+			UPDATETALENTS : {player : Player} -> server
+			#  end
+
+			#  craft
+			CRAFT : {craft : Craft} -> client
+			-INVENTORY : {inventory : Inventory} -> server
+			-JOB : {job : Job} -> server
+			#  end
+
+			#  gather
+			GATHER : {ressource : Ressource} -> client
+			-INVENTORY : {inventory : Inventory} -> server
+			-JOB : {job : Job} -> server
+			-CASE : {entities : list of AEntity} -> server (all clients)						
+			#  end
+
+			#  use object
+			USEOBJECT : {target : ACharacter, item : AItem} -> client
+			-OBJECTEFFECT : {target : ACharacter} -> server
+			-INVENTORY : {inventory : Inventory} -> server
+			#  end
+			# end
+
+
+			# interaction
+			INTERACTION : {enum eInteraction, targetId } -> client
+
+			#  trade
+			LAUNCHTRADE : {id : int, name : string} -> server
+			PUTITEM : {item : AItem} -> client / server
+			GETITEM : {item : AItem} -> client / server
+			PUTMONEY : {money : int} -> client / server
+			GETMONEY : {money : int} -> client / server
+			ACCEPT : {} -> client / server
+			REFUSE : {} -> client / server
+			#  end
+			# end
+
+
+			# others
+			QUIT : {} -> client / server
+			REMOVEENTITY : {id : int} -> server
+			ENTITY : {id : int, coord : Coordinate} -> server/client
+			# end						
 		}
 }
