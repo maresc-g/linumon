@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Fri Jan 24 14:13:49 2014 laurent ansel
+// Last update Fri Jan 24 16:49:35 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -35,10 +35,11 @@ public:
   virtual ~Protocol();
   bool				operator()(std::string const &key, unsigned int const id, void *param);
   bool				addFunc(std::string const &key, bool (*func)(Trame *));
+  bool				decodeTrame(Trame *trame);
+private:
   bool				welcome(unsigned int const id, void *);
   bool				initialize(unsigned int const id, void *);
   bool				check(unsigned int const id, void *);
-  bool				decodeTrame(Trame *trame);
 };
 
 #endif

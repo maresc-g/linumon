@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Thu Dec 12 13:33:22 2013 laurent ansel
+// Last update Fri Jan 24 16:35:05 2014 laurent ansel
 //
 
 #include			<list>
@@ -32,7 +32,8 @@ Server::Server(/*int const port*/):
   _poll(new Poll),
   _actionServer(new std::map<FD, std::pair<bool, bool> >),
   _mutex(new Mutex),
-  _codeBreaker(new CodeBreaker)
+  _codeBreaker(new CodeBreaker),
+  _protocol(new Protocol(true))
 {
 }
 
@@ -42,7 +43,6 @@ Server::~Server()
   ClientManager::getInstance()->join();
   _codeBreaker->setQuit(true);
   _codeBreaker->join();
-  ObjectPoolManager::deleteInstance();
   if ((*this->_socket)["TCP"])
     {
       (*this->_socket)["TCP"]->destroy();
@@ -61,6 +61,8 @@ Server::~Server()
   ClientManager::deleteInstance();
   delete _codeBreaker;
   Crypto::deleteInstance();
+  delete _protocol;
+  ObjectPoolManager::deleteInstance();
   this->_mutex->unlock();
   this->_mutex->destroy();
   delete this->_mutex;
@@ -94,7 +96,6 @@ void				Server::init(int const port)
   ClientManager::getInstance()->setWriteFunction(&somethingWrite);
   ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
   ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
-  ObjectPoolManager::getInstance()->runObjectPool<InitializeConnection>("initializeConnection");
 }
 
 void				Server::debug(std::string const &str) const
@@ -105,6 +106,23 @@ void				Server::debug(std::string const &str) const
   (void)str;
 #endif
 }
+
+bool				Server::callProtocol(std::string const &key, unsigned int const id, void *param)
+{
+  this->_mutex->lock();
+  this->_protocol->operator()(key, id, param);
+  this->_mutex->unlock();
+  return (true);
+}
+
+bool				Server::callProtocol(Trame *trame)
+{
+  this->_mutex->lock();
+  this->_protocol->decodeTrame(trame);
+  this->_mutex->unlock();
+  return (true);
+}
+
 
 void				Server::detectWrite(FD const fd)
 {
@@ -139,8 +157,6 @@ bool				Server::acceptNewClient()
 {
    ISocketClient		*client;
    Header			*header = NULL;
-   Trame			*trame = NULL;
-   InitializeConnection		*init = NULL;
 
    this->debug("NewClient ...");
    client = (*this->_socket)["TCP"]->acceptConnection();
@@ -152,30 +168,43 @@ bool				Server::acceptNewClient()
    (*this->_actionServer)[header->getIdClient()] = std::make_pair(false, false);
    this->_poll->pushFd(header->getIdClient(), IPoll::RDWRDC);
    std::cout << "CLIENT = " << header->getIdClient() << std::endl;
-   if (!ObjectPoolManager::getInstance()->setObject(trame, "trame"))
-     return (false);
-   if (trame)
-     {
-       if (!ObjectPoolManager::getInstance()->setObject(init, "initializeConnection"))
-	 return (false);
-       init->setAll(header->getIdClient(), true, false);
-       init->serialization(*trame);
-       header->serialization(*trame);
-       trame->setEnd(true);
-       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
-       ClientManager::getInstance()->newTrameToWrite(header->getIdClient(), 1);
-     }
+   this->_mutex->unlock();
+   this->callProtocol("WELCOME", header->getIdClient(), NULL);
+   this->_mutex->lock();
+   ClientManager::getInstance()->newTrameToWrite(header->getIdClient(), 1);
    this->_mutex->unlock();
    delete header;
-   delete init;
    this->debug("Done");
    return (true);
 }
 
 bool				Server::recvUdp()
 {
+  char                          tmp[SIZE_BUFFER] = "";
+  std::string			decrypt;
+  std::string			str;
+  int				ret = (*this->_socket)["UDP"]->getSocket().readSocket(tmp, SIZE_BUFFER);
+  Trame				*trame;
+
   this->_mutex->lock();
-  ClientManager::getInstance()->setInfoClient((*this->_socket)["UDP"]->getSocket().getSocket(), true, "UDP");
+  if (ret > 0)
+    {
+      decrypt.append(tmp, ret);
+      if (Crypto::getInstance()->decryption(decrypt, str))
+	{
+	  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+	  Trame::toTrame(*trame, str);
+	  if (trame->isMember("INITIALIZE"))
+	    {
+	      ClientManager::getInstance()->setInfoClient((*trame)[HEADER]["IDCLIENT"].asUInt(), (*this->_socket)["UDP"]->getSocket().getSocket(), "UDP");
+	      this->_mutex->unlock();
+	      this->callProtocol("CHECK", (*trame)[HEADER]["IDCLIENT"].asUInt(), NULL);
+	      this->_mutex->lock();
+	    }
+	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
+	}
+    }
+  //  ClientManager::getInstance()->setInfoClient((*this->_socket)["UDP"]->getSocket().getSocket(), true, "UDP");
   this->_mutex->unlock();
   return (true);
 }

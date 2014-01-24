@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Fri Dec 13 17:24:43 2013 laurent ansel
+// Last update Fri Jan 24 15:46:43 2014 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -36,12 +36,15 @@ private:
   std::map<FD, std::pair<bool, bool> >	*_actionServer; /*[client] = {write, disconnect}*/
   Mutex				*_mutex;
   CodeBreaker			*_codeBreaker;
+  Protocol			*_protocol;
   Server(/*int const port*/);
   virtual ~Server();
 public:
   void				run();
   void				detectWrite(FD const fd);
   void				init(int const port);
+  bool				callProtocol(std::string const &key, unsigned int const id, void *param);
+  bool				callProtocol(Trame *trame);
 private:
   void				initializePoll() const;
   void				runPoll() const;

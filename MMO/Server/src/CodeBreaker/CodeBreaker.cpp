@@ -5,20 +5,18 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 14:52:17 2013 laurent ansel
-// Last update Fri Jan 24 14:45:11 2014 laurent ansel
+// Last update Fri Jan 24 15:47:42 2014 laurent ansel
 //
 
 #include			"CodeBreaker/CodeBreaker.hh"
+#include			"Server/Server.hh"
 
 CodeBreaker::CodeBreaker():
-  _protocol(new Protocol(true)),
-  _pool(new ObjectPool<Trame>),
   _list(new std::list<std::pair<Trame *, bool> >),
   _mutex(new Mutex()),
   _quit(false)
 {
   _mutex->init();
-  this->_pool->startObjectPool();
   this->create(&runCodeBreaker, this);
   this->initProtocol();
 }
@@ -34,12 +32,8 @@ CodeBreaker::~CodeBreaker()
 	std::cout << "." << std::flush;
       }
   delete _list;
-  delete _protocol;
   std::cout << "." << std::flush;
-  this->_pool->setQuit(true);
-  this->_pool->waitExit();
   std::cout << "." << std::flush;
-  delete this->_pool;
   _mutex->unlock();
   _mutex->destroy();
   std::cout << "." << std::flush;
@@ -58,7 +52,7 @@ void				CodeBreaker::getNewObject()
   Trame				*trame;
 
   this->_mutex->lock();
-  trame = reinterpret_cast<Trame *>(this->_pool->getObject());
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   if (trame)
     this->_list->push_back(std::make_pair(trame, false));
   this->_mutex->unlock();
@@ -130,9 +124,8 @@ void				CodeBreaker::execCode()
   for (auto it = this->_list->begin() ; it != this->_list->end() ; ++it)
     if ((*it).second)
       {
-	this->_mutex->unlock();
 	std::cout << "CODE BREAKER" << std::endl;
-	this->_mutex->lock();
+	Server::getInstance()->callProtocol((*it).first);
 	it->second = false;
       }
   this->_mutex->unlock();
