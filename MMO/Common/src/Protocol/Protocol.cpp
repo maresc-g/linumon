@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Jan 24 14:40:54 2014 laurent ansel
+// Last update Fri Jan 24 16:50:01 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -54,8 +54,10 @@ bool			Protocol::welcome(unsigned int const id, void *)
   if (header->serialization(*trame))
     {
       (*trame)["WELCOME"];
+      trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
+  delete header;
   return (false);
 }
 
@@ -72,8 +74,10 @@ bool			Protocol::initialize(unsigned int const id, void *)
   if (header->serialization(*trame))
     {
       (*trame)["INITIALIZE"];
+      trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
+  delete header;
   return (false);
 }
 
@@ -90,8 +94,10 @@ bool			Protocol::check(unsigned int const id, void *)
   if (header->serialization(*trame))
     {
       (*trame)["CHECK"];
+      trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
+  delete header;
   return (false);
 }
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 19:08:45 2013 laurent ansel
-// Last update Mon Dec  9 13:54:30 2013 laurent ansel
+// Last update Fri Jan 24 16:43:22 2014 laurent ansel
 //
 
 #ifndef 			__OBJECTPOOL_HPP__
@@ -48,8 +48,7 @@ public:
   {
     _mutex->lock();
     for (auto it = _list->begin() ; it != _list->end() ; ++it)
-      if ((*it))
-	delete *it;
+      delete *it;
     delete _list;
     _mutex->unlock();
     _mutex->destroy();

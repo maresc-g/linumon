@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Thu Dec  5 22:21:42 2013 laurent ansel
+// Last update Fri Jan 24 16:26:17 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -23,7 +23,6 @@
 class				ClientUpdater : public Thread
 {
 private:
-  IObjectPool			*_pool;
   Mutex				*_mutex;
   bool				_quit;
   std::map<Client *, std::list<ReadWriteAction * > * >	*_action;
