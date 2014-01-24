@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Nov 14 18:56:32 2013 guillaume marescaux
-// Last update Wed Nov 20 10:39:04 2013 laurent ansel
+// Last update Fri Jan 24 13:41:10 2014 guillaume marescaux
 //
 
 #ifndef 		__MUTEXVAR_HPP__
@@ -26,7 +26,7 @@ public:
   MutexVar(T var):
     _mutex(new Mutex), _var(var)
   {
-    _mutex->initialize();
+    _mutex->init();
   }
 
   virtual ~MutexVar()
@@ -37,18 +37,18 @@ public:
 
   void			setVar(T var)
   {
-    _mutex->enter();
+    _mutex->lock();
     _var = var;
-    _mutex->leave();
+    _mutex->unlock();
   }
 
   T			getVar(void) const
   {
     T			tmp;
 
-    _mutex->enter();
+    _mutex->lock();
     tmp = _var;
-    _mutex->leave();
+    _mutex->unlock();
     return (tmp);
   }
 
