@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 14:35:59 2013 laurent ansel
-// Last update Sun Dec 15 15:51:16 2013 laurent ansel
+// Last update Fri Jan 24 14:45:01 2014 laurent ansel
 //
 
 #ifndef 			__CODEBREAKER_HH__
@@ -24,7 +24,7 @@
 class				CodeBreaker : public Thread
 {
 private:
-  Protocol<std::string>		*_protocol;
+  Protocol			*_protocol;
   IObjectPool			*_pool;
   std::list<std::pair<Trame *, bool> >	*_list;
   Mutex				*_mutex;

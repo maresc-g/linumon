@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:55:14 2013 laurent ansel
-// Last update Mon Dec  9 19:12:14 2013 laurent ansel
+// Last update Fri Jan 24 13:14:29 2014 laurent ansel
 //
 
 #include		<sstream>
@@ -104,7 +104,7 @@ bool			Trame::readFile(Trame &trame, std::string const &filename)
   return (ret);
 }
 
-bool			Trame::toTrame(Trame &trame, std::string const &str)
+int			Trame::toTrame(Trame &trame, std::string const &str)
 {
   std::string		tmp = str;
   bool			ret;
@@ -114,5 +114,9 @@ bool			Trame::toTrame(Trame &trame, std::string const &str)
   Trame::removeTrameEnd(tmp);
   ret = reader->parse(tmp, trame);
   delete reader;
-  return (ret);
+  if (!ret)
+    return (-1);
+  if (trame.asString().size() < str.size())
+    return (1);
+  return (0);
 }

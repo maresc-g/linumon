@@ -5,13 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 14:52:17 2013 laurent ansel
-// Last update Sun Dec 15 16:04:38 2013 laurent ansel
+// Last update Fri Jan 24 14:45:11 2014 laurent ansel
 //
 
 #include			"CodeBreaker/CodeBreaker.hh"
 
 CodeBreaker::CodeBreaker():
-  _protocol(new Protocol<std::string>),
+  _protocol(new Protocol(true)),
   _pool(new ObjectPool<Trame>),
   _list(new std::list<std::pair<Trame *, bool> >),
   _mutex(new Mutex()),

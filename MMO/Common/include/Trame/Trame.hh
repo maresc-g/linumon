@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:57:30 2013 laurent ansel
-// Last update Thu Dec  5 13:30:00 2013 laurent ansel
+// Last update Fri Jan 24 13:11:37 2014 laurent ansel
 //
 
 #ifndef 			__TRAME_HH__
@@ -33,7 +33,13 @@ public:
   static void			removeTrameEnd(std::string &content);
   static bool			isEnd(std::string const &content);
   static bool			readFile(Trame &trame, std::string const &filename);
-  static bool			toTrame(Trame &trame, std::string const &content);
+
+  /*
+  ** renvoie -1 error
+  ** renvoie 1 s'il y a encore du json à parser
+  ** renvoie 0 si tout est bon x)
+  */
+  static int			toTrame(Trame &trame, std::string const &content);
 };
 
 #endif
