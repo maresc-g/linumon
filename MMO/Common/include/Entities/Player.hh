@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Dec 10 15:39:16 2013 alexis mestag
+// Last update Fri Jan 24 14:32:12 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -33,7 +33,7 @@ class			Player : public Persistent, public ACharacter
 private:
   PlayerCoordinate		*_coord;
   Faction const			*_faction;
-  Digitaliser			*_digitaliser;
+  Digitaliser			_digitaliser;
 
 private:
   Player();
@@ -46,9 +46,13 @@ public:
   virtual ~Player();
 
   PlayerCoordinate const	&getCoord() const;
-  void			setCoord(PlayerCoordinate const &coord);
-  void			setCoord(PlayerCoordinate::type const &x,  // Keep calm :
-				 PlayerCoordinate::type const &y); // these are just integers (int)
+  PlayerCoordinate::type const	&getX() const;
+  PlayerCoordinate::type const	&getY() const;
+  void				setCoord(PlayerCoordinate const &coord);
+  void				setCoord(PlayerCoordinate::type const &x,  // Keep calm :
+					 PlayerCoordinate::type const &y); // these are just integers
+  void				setX(PlayerCoordinate::type const &x);
+  void				setY(PlayerCoordinate::type const &y);
 
   Faction const		&getFaction() const;
   void			setFaction(Faction const &faction);
@@ -60,8 +64,8 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(Player)
 #  pragma db member(Player::_coord) transient
-#  pragma db member(Player::_x) virtual(Player::PlayerCoordinate::type) access(Player::_coord->_x)
-#  pragma db member(Player::_y) virtual(Player::PlayerCoordinate::type) access(Player::_coord->_y)
+#  pragma db member(Player::_x) virtual(Player::PlayerCoordinate::type) get(_coord->getX()) set(_coord->setX(?))
+#  pragma db member(Player::_y) virtual(Player::PlayerCoordinate::type) get(_coord->getY()) set(_coord->setY(?))
 #  pragma db member(Player::_faction) not_null
 #  pragma db member(Player::_digitaliser) value_not_null id_column("player_id") value_column("mob_id")
 # endif

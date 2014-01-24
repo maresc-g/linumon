@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:16 2013 alexis mestag
-// Last update Thu Dec  5 13:12:46 2013 alexis mestag
+// Last update Fri Jan 24 13:09:52 2014 alexis mestag
 //
 
 #ifndef			__USER_HH__
@@ -23,7 +23,7 @@ class			User : public Persistent
 private:
   std::string		_pseudo;
   std::string		_password;
-  Players		*_players;
+  Players		_players;
 
   User();
   User(User const &rhs);
@@ -44,7 +44,6 @@ public:
 #  pragma db object(User)
 #  pragma db member(User::_pseudo)
 #  pragma db member(User::_password)
-#  pragma db member(User::_players) value_not_null id_column("user_id") value_column("player_id")
 # endif
 
 #endif

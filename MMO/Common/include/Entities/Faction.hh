@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:28:40 2013 alexis mestag
-// Last update Tue Dec 10 15:03:49 2013 alexis mestag
+// Last update Fri Jan 24 14:48:24 2014 alexis mestag
 //
 
 #ifndef			__FACTION_HH__
@@ -17,14 +17,15 @@
 class			Faction : public Persistent, public Nameable
 {
   friend class		odb::access;
+
 private:
   Faction(std::string const &name = "");
-
-public:
   Faction(Faction const &rhs);
-  virtual ~Faction();
 
   Faction		&operator=(Faction const &rhs);
+
+public:
+  virtual ~Faction();
 };
 
 # ifdef	ODB_COMPILER

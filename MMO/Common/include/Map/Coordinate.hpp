@@ -5,19 +5,15 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 16:59:07 2013 alexis mestag
-// Last update Thu Dec  5 18:30:32 2013 alexis mestag
+// Last update Fri Jan 24 14:21:02 2014 alexis mestag
 //
 
 #ifndef			__COORDINATE_HPP__
 # define		__COORDINATE_HPP__
 
-# include		<odb/core.hxx>
-
 template<typename T>
 class			Coordinate
 {
-  friend class		odb::access;
-
 public:
   typedef T		type;
 

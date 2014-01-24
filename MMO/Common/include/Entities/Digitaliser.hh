@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Tue Dec 10 15:32:44 2013 alexis mestag
+// Last update Fri Jan 24 14:31:03 2014 alexis mestag
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -22,7 +22,7 @@ class			Digitaliser
   typedef std::list<Mob *>	Mobs;
 
 private:
-  Mobs			*_mobs;
+  Mobs			_mobs;
 
 private:
   Digitaliser(Digitaliser const &rhs);
@@ -35,5 +35,9 @@ public:
 
   Mobs const		&getMobs() const;
 };
+
+# ifdef	ODB_COMPILER
+#  pragma db value(Digitaliser)
+# endif
 
 #endif
