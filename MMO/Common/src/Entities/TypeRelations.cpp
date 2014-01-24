@@ -5,26 +5,24 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Dec  9 18:28:39 2013 alexis mestag
-// Last update Tue Dec 10 13:19:33 2013 alexis mestag
+// Last update Fri Jan 24 15:22:45 2014 alexis mestag
 //
 
 #include			"Entities/Type.hh"
 
-TypeRelations::TypeRelations() :
-  _relations(new Relations)
+TypeRelations::TypeRelations()
 {
 
 }
 
-TypeRelations::TypeRelations(TypeRelations const &rhs) :
-  TypeRelations()
+TypeRelations::TypeRelations(TypeRelations const &rhs)
 {
   *this = rhs;
 }
 
 TypeRelations::~TypeRelations()
 {
-  delete _relations;
+
 }
 
 TypeRelations			&TypeRelations::operator=(TypeRelations const &rhs)
@@ -38,13 +36,13 @@ TypeRelations			&TypeRelations::operator=(TypeRelations const &rhs)
 
 TypeRelations::Relations const	&TypeRelations::getRelations() const
 {
-  return (*_relations);
+  return (_relations);
 }
 
 void				TypeRelations::setRelations(Relations const &relations)
 {
   for (auto it = relations.cbegin() ; it != relations.cend() ; ++it)
     {
-      _relations->push_back(*it);
+      _relations.push_back(*it);
     }
 }

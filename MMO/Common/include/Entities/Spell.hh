@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:32:05 2013 alexis mestag
-// Last update Tue Dec 10 14:15:38 2013 alexis mestag
+// Last update Fri Jan 24 16:57:54 2014 alexis mestag
 //
 
 #ifndef			__SPELL_HH__
@@ -22,6 +22,7 @@ class			Spell : public Persistent, public Nameable
 private:
   Type const		*_type;
   int			_power;
+  int			_useLimit;
 
   Spell();
 
@@ -35,13 +36,17 @@ public:
   void			setType(Type const &type);
 
   int			getPower() const;
-  void			setPower(int const power); // Should this one be private ?
+  void			setPower(int const power);
+
+  int			getUseLimit() const;
+  void			setUseLimit(int const useLimit);
 };
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Spell)
 #  pragma db member(Spell::_type) not_null column("type_id")
 #  pragma db member(Spell::_power)
+#  pragma db member(Spell::_useLimit)
 # endif
 
 #endif

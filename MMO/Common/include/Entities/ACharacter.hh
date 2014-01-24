@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:33:45 2013 alexis mestag
-// Last update Thu Dec  5 16:40:35 2013 alexis mestag
+// Last update Fri Jan 24 21:17:38 2014 alexis mestag
 //
 
 #ifndef			__ACHARACTER_HH__
@@ -27,6 +27,7 @@ public:
 
 private:
   eCharacter		_characterType;
+  int			_currentExp;
 
 protected:
   ACharacter();
@@ -41,6 +42,9 @@ public:
   virtual ~ACharacter();
 
   eCharacter		getCharacterType() const;
+
+  int			getCurrentExp() const;
+  void			setCurrentExp(int const currentExp);
 };
 
 # ifdef	ODB_COMPILER

@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Fri Jan 24 14:45:25 2014 alexis mestag
+## Last update Fri Jan 24 21:07:34 2014 alexis mestag
 ##
 
 ENTITIES_SRC=		User.cpp		\
@@ -15,8 +15,10 @@ ENTITIES_SRC=		User.cpp		\
 			Player.cpp		\
 			Players.cpp		\
 			Mob.cpp			\
+			MobModel.cpp		\
 			Type.cpp		\
 			Spell.cpp		\
+			Spells.cpp		\
 			TypeRelations.cpp	\
 			Faction.cpp		\
 			Digitaliser.cpp
@@ -30,16 +32,18 @@ ODB_ENTITIES+=		User.hh			\
 			Players.hh		\
 			Digitaliser.hh		\
 			Mob.hh			\
+			MobModel.hh		\
 			ACharacter.hh		\
 			AStatEntity.hh		\
 			AEntity.hh		\
 			Type.hh			\
 			Spell.hh		\
+			Spells.hh		\
 			Faction.hh
 
 ENTITIES_H_DIR=		$(subst src,include,$(ENTITIES))
 
-ODB_ENTITIES_OPTIONS=	TypeRelations.options
+ODB_ENTITIES_OPTIONS=	
 ODB_ENTITIES_OPTIONS:=	$(addprefix $(ENTITIES_H_DIR)/, $(ODB_ENTITIES_OPTIONS))
 ODB_OPTIONS+=		$(ODB_ENTITIES_OPTIONS)
 

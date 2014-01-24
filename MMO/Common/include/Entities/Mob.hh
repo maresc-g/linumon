@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Tue Dec 10 14:16:21 2013 alexis mestag
+// Last update Fri Jan 24 18:46:21 2014 alexis mestag
 //
 
 #ifndef			__MOB_HH__
@@ -13,14 +13,14 @@
 
 # include		"Database/Persistent.hh"
 # include		"Entities/ACharacter.hh"
-# include		"Entities/Type.hh"
+# include		"Entities/MobModel.hh"
 
 class			Mob : public Persistent, public ACharacter
 {
   friend class		odb::access;
 
 private:
-  Type const		*_type;
+  MobModel const	*_model;
 
 private:
   Mob();
@@ -31,13 +31,13 @@ public:
 
   Mob			&operator=(Mob const &rhs);
 
-  Type const		&getType() const;
-  void			setType(Type const &type);
+  MobModel const	&getModel() const;
+  void			setModel(MobModel const &model);
 };
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Mob)
-#  pragma db member(Mob::_type) not_null column("type_id")
+#  pragma db member(Mob::_model) not_null column("model_id")
 # endif
 
 #endif

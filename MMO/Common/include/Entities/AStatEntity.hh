@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:21:41 2013 alexis mestag
-// Last update Thu Dec  5 21:23:30 2013 alexis mestag
+// Last update Fri Jan 24 18:41:47 2014 alexis mestag
 //
 
 #ifndef			__ASTATENTITY_HH__
@@ -22,7 +22,8 @@ public:
   typedef enum		eStatEntity
     {
       NONE,
-      CHARACTER
+      CHARACTER,
+      MOBMODEL
     }			eStatEntity;
 
 private:
