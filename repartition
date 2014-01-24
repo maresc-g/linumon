@@ -1,0 +1,48 @@
+
+GUI
+	jourda_c
+
+DRAWING
+	paquet_a
+
+CLIENT
+	maresc_g
+
+MAP (zones, cases)
+	maitre_c
+
+BATTLE (battlemanager, battle, battleupdater)
+	maitre_c
+
+CHAT
+	ansel_l
+
+INTERACTIONS (exchanges, agressions)
+	maresc_g
+
+SKILLS
+	ansel_l
+
+STATS (effects)
+	mestag_a
+
+STUFF
+	maresc_g
+
+PLAYERS (level, inventory, factions)
+	ansel_l
+
+IA
+	maresc_g
+
+JOBS
+	maresc_g
+
+MOBS (spells, digitaliseur, mobmodel, drop)
+	ansel_l
+
+RESSOURCES (healers, carcass)
+	maitre_c
+
+ODB
+	mestag_a
