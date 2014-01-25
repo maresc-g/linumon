@@ -5,10 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Jan 24 16:50:01 2014 laurent ansel
+// Last update Sat Jan 25 15:39:32 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
+#include		"Error/Error.hpp"
 
 Protocol::Protocol(bool const server):
   _container(new std::map<std::string, funcProtocol>),
@@ -21,11 +22,13 @@ Protocol::Protocol(bool const server):
   if (server)
     {
       (*this->_container)["WELCOME"] = &Protocol::welcome;
-      (*this->_container)["CHECK"] = &Protocol::welcome;
+      (*this->_container)["CHECK"] = &Protocol::check;
+      (*this->_container)["ERROR"] = &Protocol::error;
     }
   else
     {
       (*this->_container)["INITIALIZE"] = &Protocol::initialize;
+      (*this->_container)["ERROR"] = &Protocol::error;
     }
 }
 
@@ -41,11 +44,16 @@ bool			Protocol::addFunc(std::string const &key, bool (*func)(Trame *))
   return (true);
 }
 
+bool			Protocol::addFunc(std::string const &key, std::function<bool (Trame *)> func)
+{
+  (*this->_decode)[key] = func;
+  return (true);
+}
+
 bool			Protocol::welcome(unsigned int const id, void *)
 {
   Trame			*trame;
   Header		*header;
-  std::string str;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -61,11 +69,29 @@ bool			Protocol::welcome(unsigned int const id, void *)
   return (false);
 }
 
+bool			Protocol::error(unsigned int const id, void *param)
+{
+  Trame			*trame;
+  Header		*header;
+  Error			*error = reinterpret_cast<Error *>(param);
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame) && error->serialization(*trame))
+    {
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
 bool			Protocol::initialize(unsigned int const id, void *)
 {
   Trame			*trame;
   Header		*header;
-  std::string str;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -85,7 +111,6 @@ bool			Protocol::check(unsigned int const id, void *)
 {
   Trame			*trame;
   Header		*header;
-  std::string str;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -103,12 +128,14 @@ bool			Protocol::check(unsigned int const id, void *)
 
 bool			Protocol::decodeTrame(Trame *trame)
 {
+  bool			ret = false;
+
   for (auto it = this->_decode->begin() ; it != this->_decode->end() ; ++it)
     {
       if (trame->isMember(it->first))
-	return (((*this->_decode)[it->first])(trame));
+	ret = ((*this->_decode)[it->first])(trame);
     }
-  return (false);
+  return (ret);
 }
 
 bool			Protocol::operator()(std::string const &key, unsigned int const id, void *param)

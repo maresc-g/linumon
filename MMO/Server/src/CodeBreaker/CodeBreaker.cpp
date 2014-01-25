@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 14:52:17 2013 laurent ansel
-// Last update Fri Jan 24 15:47:42 2014 laurent ansel
+// Last update Sat Jan 25 15:21:12 2014 laurent ansel
 //
 
 #include			"CodeBreaker/CodeBreaker.hh"
@@ -18,7 +18,6 @@ CodeBreaker::CodeBreaker():
 {
   _mutex->init();
   this->create(&runCodeBreaker, this);
-  this->initProtocol();
 }
 
 CodeBreaker::~CodeBreaker()
@@ -40,11 +39,6 @@ CodeBreaker::~CodeBreaker()
   delete _mutex;
   std::cout << "." << std::flush;
   std::cout << std::endl << "Done" << std::endl;
-}
-
-void				CodeBreaker::initProtocol()
-{
-
 }
 
 void				CodeBreaker::getNewObject()

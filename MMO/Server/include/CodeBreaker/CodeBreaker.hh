@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 14:35:59 2013 laurent ansel
-// Last update Fri Jan 24 15:46:03 2014 laurent ansel
+// Last update Sat Jan 25 15:20:55 2014 laurent ansel
 //
 
 #ifndef 			__CODEBREAKER_HH__
@@ -37,7 +37,6 @@ private:
   bool				newCode(std::string const &str);
   bool				newCode(Trame *trame);
   void				execCode();
-  void				initProtocol();
 };
 
 void				*runCodeBreaker(void *data);

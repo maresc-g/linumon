@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Fri Jan 24 16:11:51 2014 laurent ansel
+// Last update Sat Jan 25 15:19:13 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -14,7 +14,8 @@ Client::Client():
   _use(false),
   _id(0),
   _sockets(new std::map<std::string, ISocketClient *>),
-  _trame(0)
+  _trame(0),
+  _user(NULL)
 {
   (*_sockets)["UDP"] = NULL;
   (*_sockets)["TCP"] = NULL;
@@ -25,6 +26,7 @@ Client::~Client()
   delete (*_sockets)["UDP"];
   delete (*_sockets)["TCP"];
   delete _sockets;
+  delete _user;
 }
 
 void				Client::clear()
@@ -36,6 +38,8 @@ void				Client::clear()
   _id = 0;
   _trame = 0;
   _use = false;
+  delete _user;
+  _user = NULL;
 }
 
 bool				Client::isUse() const
@@ -106,4 +110,9 @@ void				Client::addTrame(unsigned int const nb)
 unsigned int			Client::getNbTrame() const
 {
   return (this->_trame);
+}
+
+void				Client::addUser(User *user)
+{
+  this->_user = user;
 }

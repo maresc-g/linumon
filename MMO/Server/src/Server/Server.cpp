@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Fri Jan 24 16:35:05 2014 laurent ansel
+// Last update Sat Jan 25 15:40:15 2014 laurent ansel
 //
 
 #include			<list>
@@ -13,9 +13,9 @@
 #include			<signal.h>
 #include			<boost/function.hpp>
 #include			<functional>
-#include			"InitializeConnection/InitializeConnection.hh"
 #include			"Server/Server.hh"
 #include			"CircularBufferManager/CircularBufferManager.hh"
+#include			"Error/Error.hpp"
 
 bool				quit = false;
 
@@ -89,13 +89,22 @@ void				Server::init(int const port)
   Crypto::getInstance();
   CircularBufferManager::getInstance();
   _codeBreaker->start();
-  // std::function<void (FD const)> func;
+  this->debug("Initialization protocol ...");
+  this->_mutex->lock();
 
-  // func = std::bind1st(std::mem_fun(&Server::detectWrite), this);
-  // ClientManager::getInstance()->setWriteFunction(&func);
+  std::function<bool (Trame *)> func;
+
+  func = std::bind1st(std::mem_fun(&ClientManager::connectionUser), ClientManager::getInstance());
+  this->_protocol->addFunc("CONNECTION", func);
+
+  this->_mutex->unlock();
+  this->debug("Done");
   ClientManager::getInstance()->setWriteFunction(&somethingWrite);
+  this->debug("Starting ObjectPoolManager ...");
   ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
   ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
+  ObjectPoolManager::getInstance()->runObjectPool<Error>("error");
+  this->debug("Done");
 }
 
 void				Server::debug(std::string const &str) const
@@ -109,10 +118,12 @@ void				Server::debug(std::string const &str) const
 
 bool				Server::callProtocol(std::string const &key, unsigned int const id, void *param)
 {
+  bool				ret = false;
+
   this->_mutex->lock();
-  this->_protocol->operator()(key, id, param);
+  ret = this->_protocol->operator()(key, id, param);
   this->_mutex->unlock();
-  return (true);
+  return (ret);
 }
 
 bool				Server::callProtocol(Trame *trame)

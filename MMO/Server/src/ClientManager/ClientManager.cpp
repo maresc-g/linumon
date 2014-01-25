@@ -5,10 +5,12 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Fri Jan 24 15:04:59 2014 laurent ansel
+// Last update Sat Jan 25 15:20:38 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientManager.hh"
+#include			"Error/Error.hpp"
+#include			"Server/Server.hh"
 
 ClientManager::ClientManager():
   _updaters(new std::vector<std::pair<ClientUpdater *, bool> >),
@@ -190,6 +192,35 @@ void				ClientManager::run()
       this->_mutex->lock();
     }
   this->_mutex->unlock();
+}
+
+bool				ClientManager::connectionUser(Trame *trame)
+{
+  bool				ret = false;
+  Error				*error = NULL;
+
+  if (trame->isMember("CONNECTION"))
+    {
+      //call BDD to find user
+      //(*trame)["pseudo"]
+      //(*trame)["pass"]
+      //ret =
+      if (ret)
+	{
+	  //answer list player with user
+	}
+      else
+	{
+	  if (ObjectPoolManager::getInstance()->setObject(error, "error"))
+	    {
+	      error->setType(Error::USER);
+	      if (Server::getInstance()->callProtocol("ERROR", (*trame)[HEADER]["IDCLIENT"].asUInt(), error))
+		ClientManager::getInstance()->newTrameToWrite((*trame)[HEADER]["IDCLIENT"].asUInt(), 1);
+	      delete error;
+	    }
+	}
+    }
+  return (false);
 }
 
 void				*runClientManager(void *data)
