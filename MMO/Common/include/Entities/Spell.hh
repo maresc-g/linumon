@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:32:05 2013 alexis mestag
-// Last update Fri Jan 24 16:57:54 2014 alexis mestag
+// Last update Sun Jan 26 14:11:29 2014 laurent ansel
 //
 
 #ifndef			__SPELL_HH__
@@ -14,8 +14,9 @@
 # include		"Database/Persistent.hh"
 # include		"Utility/Nameable.hh"
 # include		"Entities/Type.hh"
+# include		"Utility/ISerialization.hh"
 
-class			Spell : public Persistent, public Nameable
+class			Spell : public Persistent, public Nameable, public ISerialization
 {
   friend class		odb::access;
 
@@ -40,6 +41,8 @@ public:
 
   int			getUseLimit() const;
   void			setUseLimit(int const useLimit);
+  virtual bool		serialization(Trame &trame);
+  virtual bool		deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

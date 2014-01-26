@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Fri Jan 24 14:32:12 2014 alexis mestag
+// Last update Sun Jan 26 14:08:49 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -16,8 +16,9 @@
 # include		"Entities/ACharacter.hh"
 # include		"Entities/Faction.hh"
 # include		"Map/Coordinate.hpp"
+# include		"Utility/ISerialization.hh"
 
-class			Player : public Persistent, public ACharacter
+class			Player : public Persistent, public ACharacter, public ISerialization
 {
   friend class		odb::access;
 
@@ -59,6 +60,9 @@ public:
 
   Digitaliser const	&getDigitaliser() const;
   // No setter for this attribute
+
+  virtual bool			serialization(Trame &trame);
+  virtual bool			deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

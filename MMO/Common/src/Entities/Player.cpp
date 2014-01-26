@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Jan 24 14:33:27 2014 alexis mestag
+// Last update Sun Jan 26 14:41:34 2014 laurent ansel
 //
 
 #include			"Entities/Player.hh"
@@ -95,4 +95,31 @@ void				Player::setFaction(Faction const &faction)
 Digitaliser const		&Player::getDigitaliser() const
 {
   return (_digitaliser);
+}
+
+/*
+** faction -> const, Why ?
+*/
+
+bool				Player::serialization(Trame &trame)
+{
+  bool				ret;
+
+  if ((ret = this->_coord->serialization(trame[CONTENT]["PLAYER"])))
+    //    if ((ret = this->_faction->serialization(trame)))
+      ret = this->_digitaliser.serialization(trame);
+  return (ret);
+}
+
+bool				Player::deserialization(Trame const &trame)
+{
+  bool				ret;
+
+  if (trame[CONTENT].isMember("PLAYER"))
+    {
+      if ((ret = this->_coord->deserialization(trame[CONTENT]["PLAYER"])))
+	//	if ((ret = this->_faction->deserialization(trame)))
+	  ret = this->_digitaliser.deserialization(trame);
+    }
+  return (ret);
 }

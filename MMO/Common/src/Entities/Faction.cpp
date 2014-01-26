@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:31:07 2013 alexis mestag
-// Last update Tue Dec 10 15:04:23 2013 alexis mestag
+// Last update Sun Jan 26 14:47:39 2014 laurent ansel
 //
 
 #include			"Entities/Faction.hh"
@@ -34,4 +34,26 @@ Faction				&Faction::operator=(Faction const &rhs)
 
     }
   return (*this);
+}
+
+/*
+** _name -> private, you're kidding me ?!!
+*/
+
+bool				Faction::serialization(Trame &)
+{
+  bool				ret = true;
+
+  //  trame[CONTENT]["PLAYER"]["FACTION"] = this->_name;
+  return (ret);
+}
+
+bool				Faction::deserialization(Trame const &)
+{
+  bool				ret = true;;
+
+  //  if (trame[CONTENT]["PLAYER"].isMember("FACTION"))
+    //this->_name = trame[CONTENT]["PLAYER"]["FACTION"].asString();
+  return (ret);
+
 }

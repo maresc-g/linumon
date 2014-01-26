@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:21:00 2014 alexis mestag
-// Last update Fri Jan 24 20:32:48 2014 alexis mestag
+// Last update Sun Jan 26 14:42:59 2014 laurent ansel
 //
 
 #ifndef			__MOBMODEL_HH__
@@ -15,8 +15,9 @@
 # include		"Entities/AStatEntity.hh"
 # include		"Entities/Spells.hh"
 # include		"Entities/Type.hh"
+# include		"Utility/ISerialization.hh"
 
-class			MobModel : public Persistent, public AStatEntity
+class			MobModel : public Persistent, public AStatEntity, public ISerialization
 {
   friend class		odb::access;
 
@@ -36,6 +37,8 @@ public:
   void			setType(Type const &type);
 
   Spells const		&getSpells() const;
+  virtual bool		serialization(Trame &trame);
+  virtual bool		deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

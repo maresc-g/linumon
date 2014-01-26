@@ -5,14 +5,16 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 16:59:07 2013 alexis mestag
-// Last update Fri Jan 24 14:21:02 2014 alexis mestag
+// Last update Sun Jan 26 14:35:53 2014 laurent ansel
 //
 
 #ifndef			__COORDINATE_HPP__
 # define		__COORDINATE_HPP__
 
+# include		"Utility/ISerialization.hh"
+
 template<typename T>
-class			Coordinate
+class			Coordinate : public ISerialization
 {
 public:
   typedef T		type;
@@ -49,6 +51,39 @@ public:
   void			setY(T const &y) {
     _y = y;
   }
+
+  /*
+  ** EXCEPTION !!!!!
+  ** trame => trame[CONTENT]["PLAYER" or "CASE" or ...]
+  */
+
+  bool			serialization(Trame &trame)
+  {
+    bool		ret = true;
+
+    trame["COORDINATE"]["X"] = _x;
+    trame["COORDINATE"]["Y"] = _y;
+    return (ret);
+  }
+
+  bool			deserialization(Trame const &trame)
+  {
+    bool		ret = true;
+
+    if (trame.isMember("COORDINATE"))
+      {
+	if (trame["COORDINATE"]["X"].isInt())
+	  _x = trame["COORDINATE"]["X"].asInt();
+	else if (trame["COORDINATE"]["X"].isDouble())
+	  _x = trame["COORDINATE"]["X"].asDouble();
+	if (trame["COORDINATE"]["Y"].isInt())
+	  _y = trame["COORDINATE"]["Y"].asInt();
+	else if (trame["COORDINATE"]["Y"].isDouble())
+	  _y = trame["COORDINATE"]["Y"].asDouble();
+      }
+    return (ret);
+  }
+
 };
 
 typedef Coordinate<int>	iCoordinate;

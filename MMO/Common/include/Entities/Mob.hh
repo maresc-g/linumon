@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Fri Jan 24 18:46:21 2014 alexis mestag
+// Last update Sun Jan 26 14:23:52 2014 laurent ansel
 //
 
 #ifndef			__MOB_HH__
@@ -14,8 +14,9 @@
 # include		"Database/Persistent.hh"
 # include		"Entities/ACharacter.hh"
 # include		"Entities/MobModel.hh"
+# include		"Utility/ISerialization.hh"
 
-class			Mob : public Persistent, public ACharacter
+class			Mob : public Persistent, public ACharacter, public ISerialization
 {
   friend class		odb::access;
 
@@ -33,6 +34,8 @@ public:
 
   MobModel const	&getModel() const;
   void			setModel(MobModel const &model);
+  virtual bool		serialization(Trame &trame);
+  virtual bool		deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER
