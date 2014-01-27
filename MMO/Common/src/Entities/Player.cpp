@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Sun Jan 26 14:41:34 2014 laurent ansel
+// Last update Mon Jan 27 12:36:28 2014 laurent ansel
 //
 
 #include			"Entities/Player.hh"
@@ -105,9 +105,9 @@ bool				Player::serialization(Trame &trame)
 {
   bool				ret;
 
-  if ((ret = this->_coord->serialization(trame[CONTENT]["PLAYER"])))
+  if ((ret = this->_coord->serialization(*(static_cast<Trame *>(&trame[CONTENT]["PLAYER"])))))
     //    if ((ret = this->_faction->serialization(trame)))
-      ret = this->_digitaliser.serialization(trame);
+    ret = this->_digitaliser.serialization(trame);
   return (ret);
 }
 
@@ -117,9 +117,9 @@ bool				Player::deserialization(Trame const &trame)
 
   if (trame[CONTENT].isMember("PLAYER"))
     {
-      if ((ret = this->_coord->deserialization(trame[CONTENT]["PLAYER"])))
+      //      if ((ret = this->_coord->deserialization(*(static_cast<Trame *>(&trame[CONTENT]["PLAYER"])))))
 	//	if ((ret = this->_faction->deserialization(trame)))
-	  ret = this->_digitaliser.deserialization(trame);
+	ret = this->_digitaliser.deserialization(trame);
     }
   return (ret);
 }

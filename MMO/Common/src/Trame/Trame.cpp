@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:55:14 2013 laurent ansel
-// Last update Sun Jan 26 14:41:23 2014 laurent ansel
+// Last update Mon Jan 27 09:16:27 2014 laurent ansel
 //
 
 #include		<sstream>
@@ -33,10 +33,10 @@ Trame::~Trame()
 
 }
 
-Trame			&Trame::operator[](std::string const &key) const
-{
-  return ((*this)[key]);
-}
+// Trame			&Trame::operator[](std::string const &key) const
+// {
+//   return ((*this)[key]);
+// }
 
 bool			Trame::toString(std::string &content) const
 {
