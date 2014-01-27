@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov 29 15:21:32 2013 laurent ansel
-// Last update Mon Dec  9 14:37:20 2013 laurent ansel
+// Last update Mon Jan 27 13:14:34 2014 laurent ansel
 //
 
 #ifndef 			__HEADER_HH__
@@ -29,7 +29,7 @@ public:
   void				setIdClient(unsigned int const id);
   void				setProtocole(std::string const &protocole);
   void				setAll(unsigned int const id, std::string const &protocole);
-  virtual bool			serialization(Trame &trame);
+  virtual bool			serialization(Trame &trame) const;
   virtual bool			deserialization(Trame const &trame);
 };
 

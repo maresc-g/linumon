@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Jan 25 14:45:20 2014 laurent ansel
-// Last update Sat Jan 25 15:03:58 2014 laurent ansel
+// Last update Mon Jan 27 13:16:36 2014 laurent ansel
 //
 
 #ifndef			__ERROR_HPP__
@@ -39,7 +39,7 @@ public:
   {
     return (_msg.c_str());
   }
-  virtual bool			serialization(Trame &trame)
+  virtual bool			serialization(Trame &trame) const
   {
     trame[CONTENT]["ERROR"] = this->_type;
     return (true);

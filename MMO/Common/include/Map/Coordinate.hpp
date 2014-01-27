@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 16:59:07 2013 alexis mestag
-// Last update Sun Jan 26 14:35:53 2014 laurent ansel
+// Last update Mon Jan 27 13:13:02 2014 laurent ansel
 //
 
 #ifndef			__COORDINATE_HPP__
@@ -57,7 +57,7 @@ public:
   ** trame => trame[CONTENT]["PLAYER" or "CASE" or ...]
   */
 
-  bool			serialization(Trame &trame)
+  bool			serialization(Trame &trame) const
   {
     bool		ret = true;
 

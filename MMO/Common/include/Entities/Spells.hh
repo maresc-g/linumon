@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:33:20 2014 alexis mestag
-// Last update Sun Jan 26 14:23:37 2014 laurent ansel
+// Last update Mon Jan 27 13:07:39 2014 laurent ansel
 //
 
 #ifndef			__SPELLS_HH__
@@ -34,7 +34,7 @@ public:
   virtual ~Spells();
 
   containerType const	&getContainer() const;
-  virtual bool		serialization(Trame &trame);
+  virtual bool		serialization(Trame &trame) const;
   virtual bool		deserialization(Trame const &trame);
 };
 

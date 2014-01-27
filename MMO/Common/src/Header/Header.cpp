@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov 29 15:26:56 2013 laurent ansel
-// Last update Mon Dec  9 19:11:11 2013 laurent ansel
+// Last update Mon Jan 27 13:14:46 2014 laurent ansel
 //
 
 #include			"Header/Header.hh"
@@ -62,7 +62,7 @@ void				Header::setAll(unsigned int const id, std::string const &protocole)
   this->setProtocole(protocole);
 }
 
-bool				Header::serialization(Trame &trame)
+bool				Header::serialization(Trame &trame) const
 {
   if (&trame)
     {

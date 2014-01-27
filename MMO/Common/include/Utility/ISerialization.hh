@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov 29 15:22:29 2013 laurent ansel
-// Last update Fri Nov 29 15:33:20 2013 laurent ansel
+// Last update Mon Jan 27 13:06:47 2014 laurent ansel
 //
 
 #ifndef 			__ISERIALIZATION_HH__
@@ -17,7 +17,7 @@ class				ISerialization
 {
 public:
   virtual ~ISerialization(){}
-  virtual bool			serialization(Trame &trame) = 0;
+  virtual bool			serialization(Trame &trame) const = 0;
   virtual bool			deserialization(Trame const &trame) = 0;
 };
 

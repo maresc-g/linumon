@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:32:05 2013 alexis mestag
-// Last update Sun Jan 26 14:11:29 2014 laurent ansel
+// Last update Mon Jan 27 13:11:59 2014 laurent ansel
 //
 
 #ifndef			__SPELL_HH__
@@ -41,7 +41,7 @@ public:
 
   int			getUseLimit() const;
   void			setUseLimit(int const useLimit);
-  virtual bool		serialization(Trame &trame);
+  virtual bool		serialization(Trame &trame) const;
   virtual bool		deserialization(Trame const &trame);
 };
 

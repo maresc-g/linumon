@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:54:19 2014 alexis mestag
-// Last update Sun Jan 26 14:44:47 2014 laurent ansel
+// Last update Mon Jan 27 13:11:26 2014 laurent ansel
 //
 
 #include			"Entities/Spells.hh"
@@ -39,7 +39,7 @@ Spells::containerType const	&Spells::getContainer() const
   return (_spells);
 }
 
-bool				Spells::serialization(Trame &)
+bool				Spells::serialization(Trame &) const
 {
   bool				ret = true;
 

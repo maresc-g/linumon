@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:54:34 2013 alexis mestag
-// Last update Sun Jan 26 14:43:26 2014 laurent ansel
+// Last update Mon Jan 27 13:11:20 2014 laurent ansel
 //
 
 #include			"Entities/Spell.hh"
@@ -68,7 +68,7 @@ void				Spell::setUseLimit(int const useLimit)
   _useLimit = useLimit;
 }
 
-bool				Spell::serialization(Trame &)
+bool				Spell::serialization(Trame &) const
 {
   bool				ret = false;
   return (ret);

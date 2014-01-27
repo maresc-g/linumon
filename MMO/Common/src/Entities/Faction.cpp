@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:31:07 2013 alexis mestag
-// Last update Sun Jan 26 14:47:39 2014 laurent ansel
+// Last update Mon Jan 27 13:08:00 2014 laurent ansel
 //
 
 #include			"Entities/Faction.hh"
@@ -36,11 +36,7 @@ Faction				&Faction::operator=(Faction const &rhs)
   return (*this);
 }
 
-/*
-** _name -> private, you're kidding me ?!!
-*/
-
-bool				Faction::serialization(Trame &)
+bool				Faction::serialization(Trame &) const
 {
   bool				ret = true;
 

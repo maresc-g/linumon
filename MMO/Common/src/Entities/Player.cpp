@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Jan 27 12:36:28 2014 laurent ansel
+// Last update Mon Jan 27 13:07:44 2014 laurent ansel
 //
 
 #include			"Entities/Player.hh"
@@ -97,11 +97,7 @@ Digitaliser const		&Player::getDigitaliser() const
   return (_digitaliser);
 }
 
-/*
-** faction -> const, Why ?
-*/
-
-bool				Player::serialization(Trame &trame)
+bool				Player::serialization(Trame &trame) const
 {
   bool				ret;
 

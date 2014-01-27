@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:21:00 2014 alexis mestag
-// Last update Sun Jan 26 14:42:59 2014 laurent ansel
+// Last update Mon Jan 27 13:12:19 2014 laurent ansel
 //
 
 #ifndef			__MOBMODEL_HH__
@@ -37,7 +37,7 @@ public:
   void			setType(Type const &type);
 
   Spells const		&getSpells() const;
-  virtual bool		serialization(Trame &trame);
+  virtual bool		serialization(Trame &trame) const;
   virtual bool		deserialization(Trame const &trame);
 };
 
