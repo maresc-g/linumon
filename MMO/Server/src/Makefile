@@ -5,13 +5,15 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Thu Nov 28 19:36:25 2013 laurent ansel
-## Last update Tue Dec  3 16:07:36 2013 laurent ansel
+## Last update Fri Jan 24 16:32:18 2014 antoine maitre
 ##
 
 SOURCESERVER=		$(SERVER_SRC)/Server
 CODEBREAKER=		$(SERVER_SRC)/CodeBreaker
 CLIENTMANAGER=		$(SERVER_SRC)/ClientManager
+MAP=			$(SERVER_SRC)/Map
 
 include			$(SOURCESERVER)/Makefile
 include			$(CODEBREAKER)/Makefile
 include			$(CLIENTMANAGER)/Makefile
+include			$(MAP)/Makefile

@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Thu Nov 28 16:47:21 2013 laurent ansel
-## Last update Wed Dec 11 12:58:14 2013 laurent ansel
+## Last update Fri Jan 24 13:51:47 2014 antoine maitre
 ##
 
 COMMON_INCLUDES=	-I $(COMMON)/include
@@ -24,7 +24,7 @@ UTILITY=	$(COMMON_SRC)/Utility
 STATS=		$(COMMON_SRC)/Stats
 INITIALIZECONNECTION=		$(COMMON_SRC)/InitializeConnection
 CRYPTO=		$(COMMON_SRC)/Crypto
-
+ZONE=		$(COMMON_SRC)/Zone
 # Needed for odb
 ODB_CLASSES=
 ODB_OPTIONS=
@@ -43,6 +43,7 @@ include		$(UTILITY)/Makefile
 include		$(STATS)/Makefile
 include		$(INITIALIZECONNECTION)/Makefile
 include		$(CRYPTO)/Makefile
+include		$(ZONE)/Makefile
 
 ODB_OPTIONS:=	$(addprefix --options-file ,$(ODB_OPTIONS))
 
