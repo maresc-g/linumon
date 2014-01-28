@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Jan 28 11:11:48 2014 laurent ansel
+// Last update Tue Jan 28 15:26:21 2014 antoine maitre
 //
 
 #ifndef			__PLAYER_HH__
@@ -15,7 +15,7 @@
 # include		"Entities/Digitaliser.hh"
 # include		"Entities/ACharacter.hh"
 # include		"Entities/Faction.hh"
-# include		"Map/Coordinate.hpp"
+# include		"Zone/Coordinate.hpp"
 # include		"Utility/ISerialization.hh"
 
 class			Player : public Persistent, public ACharacter, public ISerialization

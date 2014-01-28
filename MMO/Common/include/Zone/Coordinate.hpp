@@ -5,19 +5,19 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 16:59:07 2013 alexis mestag
-// Last update Thu Dec  5 18:30:32 2013 alexis mestag
+// Last update Tue Jan 28 12:34:57 2014 laurent ansel
 //
 
 #ifndef			__COORDINATE_HPP__
 # define		__COORDINATE_HPP__
 
-# include		<odb/core.hxx>
+# include		<typeinfo>
+# include		"Utility/ISerialization.hh"
+# include		"ObjectPool/ObjectPoolManager.hpp"
 
 template<typename T>
-class			Coordinate
+class			Coordinate : public ISerialization
 {
-  friend class		odb::access;
-
 public:
   typedef T		type;
 
@@ -53,6 +53,40 @@ public:
   void			setY(T const &y) {
     _y = y;
   }
+
+  /*
+  ** EXCEPTION !!!!!
+  ** trame => trame[CONTENT]["PLAYER" or "CASE" or ...]
+  */
+
+  bool			serialization(Trame &trame) const
+  {
+    bool		ret = true;
+
+    trame["COORDINATE"]["X"] = _x;
+    trame["COORDINATE"]["Y"] = _y;
+    return (ret);
+  }
+
+  static Coordinate<T>	*deserialization(Trame const &trame)
+  {
+    Coordinate<T>	*coord = NULL;
+
+    if (trame.isMember("COORDINATE"))
+      {
+	if (typeid(T) == typeid(int))
+	  ObjectPoolManager::getInstance()->setObject(coord, "coordinateint");
+	else if (typeid(T) == typeid(double))
+	  ObjectPoolManager::getInstance()->setObject(coord, "coordinatedouble");
+	if (trame["COORDINATE"].isMember("X") && trame["COORDINATE"].isMember("X"))
+	  {
+	    coord->setX(trame["COORDINATE"]["X"].isDouble());
+	    coord->setY(trame["COORDINATE"]["Y"].isDouble());
+	  }
+      }
+    return (coord);
+  }
+
 };
 
 typedef Coordinate<int>	iCoordinate;
