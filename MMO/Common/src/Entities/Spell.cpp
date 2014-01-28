@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:54:34 2013 alexis mestag
-// Last update Mon Jan 27 13:11:20 2014 laurent ansel
+// Last update Tue Jan 28 12:42:11 2014 laurent ansel
 //
 
 #include			"Entities/Spell.hh"
@@ -74,8 +74,8 @@ bool				Spell::serialization(Trame &) const
   return (ret);
 }
 
-bool				Spell::deserialization(Trame const &)
+Spell				*Spell::deserialization(Trame const &)
 {
-  bool				ret = false;
-  return (ret);
+  Spell				*spell = NULL;
+  return (spell);
 }

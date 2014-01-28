@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:54:19 2014 alexis mestag
-// Last update Mon Jan 27 13:11:26 2014 laurent ansel
+// Last update Tue Jan 28 12:42:34 2014 laurent ansel
 //
 
 #include			"Entities/Spells.hh"
@@ -44,15 +44,13 @@ bool				Spells::serialization(Trame &) const
   bool				ret = true;
 
   for (auto it = this->_spells.begin() ; it != this->_spells.end() && ret; ++it)
-    ;//    ret = (*it)->serialization(trame); /* ARRRRGGGGGGHHHHHHHHHHHHHH !!!!*/
+    ;
   return (ret);
 }
 
-bool				Spells::deserialization(Trame const &)
+Spells				*Spells::deserialization(Trame const &)
 {
-  bool				ret = true;
+  Spells			*spells = NULL;
 
-  for (auto it = this->_spells.begin() ; it != this->_spells.end() && ret; ++it)
-    ;//    ret = (*it)->deserialization(trame); /* ARRRRGGGGGGHHHHHHHHHHHHHH !!!!*/
-  return (ret);
+  return (spells);
 }

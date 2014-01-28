@@ -5,12 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov 29 15:21:32 2013 laurent ansel
-// Last update Mon Jan 27 13:14:34 2014 laurent ansel
+// Last update Tue Jan 28 11:01:24 2014 laurent ansel
 //
 
 #ifndef 			__HEADER_HH__
 # define 			__HEADER_HH__
 
+#include			<list>
 #include			<string>
 #include			"Utility/ISerialization.hh"
 
@@ -30,7 +31,8 @@ public:
   void				setProtocole(std::string const &protocole);
   void				setAll(unsigned int const id, std::string const &protocole);
   virtual bool			serialization(Trame &trame) const;
-  virtual bool			deserialization(Trame const &trame);
+  //  virtual bool			deserialization(Trame const &trame);
+  static Header			*deserialization(Trame const &trame);
 };
 
 #endif

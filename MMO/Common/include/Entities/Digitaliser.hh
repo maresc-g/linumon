@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Mon Jan 27 13:12:42 2014 laurent ansel
+// Last update Tue Jan 28 11:05:16 2014 laurent ansel
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -36,7 +36,7 @@ public:
 
   Mobs const		&getMobs() const;
   virtual bool		serialization(Trame &trame) const;
-  virtual bool		deserialization(Trame const &trame);
+  static Digitaliser	*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

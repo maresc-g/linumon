@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Mon Jan 27 13:08:54 2014 laurent ansel
+// Last update Tue Jan 28 11:09:21 2014 laurent ansel
 //
 
 #include			"Entities/Mob.hh"
@@ -52,8 +52,8 @@ bool				Mob::serialization(Trame &) const
   return (ret);
 }
 
-bool				Mob::deserialization(Trame const &)
+Mob				*Mob::deserialization(Trame const &)
 {
-  bool				ret = false;
-  return (ret);
+  Mob				*mob = NULL;
+  return (mob);
 }

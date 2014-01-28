@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 21:14:39 2013 alexis mestag
-// Last update Fri Jan 24 15:40:24 2014 alexis mestag
+// Last update Tue Jan 28 12:41:55 2014 laurent ansel
 //
 
 #include			"Entities/Type.hh"
@@ -60,4 +60,21 @@ TypeRelations const		&Type::getRelations() const
 void				Type::setRelations(TypeRelations const &relations)
 {
   _relations = relations;
+}
+
+bool				Type::serialization(Trame &trame) const
+{
+  bool				ret = true;
+
+  trame["TYPE"] = this->getName();
+  return (ret);
+}
+
+Type				*Type::deserialization(Trame const &trame)
+{
+  Type				*type = NULL;
+
+  if (trame.isMember("TYPE"))
+    type = new Type(trame["TYPE"].asString());
+  return (type);
 }

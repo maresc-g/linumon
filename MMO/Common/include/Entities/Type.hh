@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 21:03:13 2013 alexis mestag
-// Last update Fri Jan 24 15:39:40 2014 alexis mestag
+// Last update Tue Jan 28 12:24:50 2014 laurent ansel
 //
 
 #ifndef			__TYPE_HH__
@@ -14,6 +14,7 @@
 # include		<list>
 # include		"Database/Persistent.hh"
 # include		"Utility/Nameable.hh"
+# include		"Utility/ISerialization.hh"
 
 class			Type;
 
@@ -46,7 +47,7 @@ public:
   Relations const	&getRelations() const;
 };
 
-class			Type : public Persistent, public Nameable
+class			Type : public Persistent, public Nameable, public ISerialization
 {
   friend class		odb::access;
 
@@ -68,6 +69,9 @@ public:
   bool			operator!=(Type const &rhs) const;
 
   TypeRelations const	&getRelations() const;
+
+  virtual bool		serialization(Trame &trame) const;
+  static Type		*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

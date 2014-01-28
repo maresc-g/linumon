@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:21:00 2014 alexis mestag
-// Last update Mon Jan 27 13:12:19 2014 laurent ansel
+// Last update Tue Jan 28 11:10:47 2014 laurent ansel
 //
 
 #ifndef			__MOBMODEL_HH__
@@ -38,7 +38,7 @@ public:
 
   Spells const		&getSpells() const;
   virtual bool		serialization(Trame &trame) const;
-  virtual bool		deserialization(Trame const &trame);
+  static MobModel	*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER
