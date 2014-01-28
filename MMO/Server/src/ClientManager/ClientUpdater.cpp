@@ -5,14 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Tue Dec 10 16:39:59 2013 laurent ansel
+// Last update Fri Jan 24 16:45:36 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
 
 ClientUpdater::ClientUpdater(unsigned int const nbClient):
   Thread(),
-  _pool(new ObjectPool<Trame>),
   _mutex(new Mutex),
   _quit(false),
   _action(new std::map<Client *, std::list<ReadWriteAction *> * >)
@@ -22,7 +21,6 @@ ClientUpdater::ClientUpdater(unsigned int const nbClient):
   for (unsigned int i = 0 ; i < nbClient ; ++i)
     (*_action)[new Client] = new std::list<ReadWriteAction *>;
   this->_mutex->unlock();
-  this->_pool->startObjectPool();
   this->create(&runClientUpdater, this);
 }
 
@@ -40,9 +38,6 @@ ClientUpdater::~ClientUpdater()
   this->_mutex->unlock();
   _mutex->destroy();
   delete this->_mutex;
-  this->_pool->setQuit(true);
-  this->_pool->waitExit();
-  delete this->_pool;
 }
 
 void				ClientUpdater::check()
@@ -170,7 +165,7 @@ void				ClientUpdater::readTrame(Client *client, std::string const &protocole) c
     {
       if (client->readTrame(str, protocole))
 	{
-	  trame = reinterpret_cast<Trame *>(_pool->getObject());
+	  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
 	  std::cout << "RET = " << Trame::toTrame(*trame, str) << std::endl;
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
 	}
@@ -187,9 +182,12 @@ void				ClientUpdater::writeTrame(Client *client, std::string const &protocole) 
     {
       trame = CircularBufferManager::getInstance()->popTrame(client->getId(), protocole, CircularBufferManager::WRITE_BUFFER);
       if (trame)
-	client->writeTrame(trame, protocole);
-      // else
-      // 	CircularBufferManager::getInstance()->pushFrontTrame(trame, CircularBufferManager::WRITE_BUFFER);
+	{
+	  if (client->writeTrame(trame, protocole))
+	    delete trame;
+	  else
+	    CircularBufferManager::getInstance()->pushFrontTrame(trame, CircularBufferManager::WRITE_BUFFER);
+	}
     }
   this->_mutex->unlock();
 }

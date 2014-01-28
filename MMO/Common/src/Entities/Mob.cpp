@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Thu Dec  5 22:03:53 2013 alexis mestag
+// Last update Sun Jan 26 14:41:49 2014 laurent ansel
 //
 
 #include			"Entities/Mob.hh"
@@ -31,17 +31,29 @@ Mob				&Mob::operator=(Mob const &rhs)
 {
   if (this != &rhs)
     {
-      this->setType(rhs.getType());
+      this->setModel(rhs.getModel());
     }
   return (*this);
 }
 
-Type const			&Mob::getType() const
+MobModel const			&Mob::getModel() const
 {
-  return (*_type);
+  return (*_model);
 }
 
-void				Mob::setType(Type const &type)
+void				Mob::setModel(MobModel const &model)
 {
-  _type = &type;
+  _model = &model;
+}
+
+bool				Mob::serialization(Trame &)
+{
+  bool				ret = false;
+  return (ret);
+}
+
+bool				Mob::deserialization(Trame const &)
+{
+  bool				ret = false;
+  return (ret);
 }

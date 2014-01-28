@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:21:41 2013 alexis mestag
-// Last update Thu Dec  5 21:23:30 2013 alexis mestag
+// Last update Fri Jan 24 21:59:19 2014 alexis mestag
 //
 
 #ifndef			__ASTATENTITY_HH__
@@ -22,12 +22,13 @@ public:
   typedef enum		eStatEntity
     {
       NONE,
-      CHARACTER
+      CHARACTER,
+      MOBMODEL
     }			eStatEntity;
 
 private:
   eStatEntity		_statEntityType;
-  Stats			*_stats;
+  Stats			_stats;
 
 protected:
   AStatEntity();
@@ -42,14 +43,14 @@ public:
   virtual ~AStatEntity();
 
   eStatEntity		getStatEntityType() const;
-  Stats const		*getStats() const;
-  void			setStats(Stats *const stats);
+  Stats const		&getStats() const;
+  void			setStats(Stats const &stats);
 };
 
 # ifdef	ODB_COMPILER
 #  pragma db object(AStatEntity) abstract
 #  pragma db member(AStatEntity::_statEntityType) transient
-#  pragma db member(AStatEntity::_stats) value_not_null id_column("statEntity_id") value_column("stat_id")
+#  pragma db member(AStatEntity::_stats)
 # endif
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Tue Dec 10 10:42:31 2013 laurent ansel
+// Last update Sat Jan 25 14:31:08 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -16,6 +16,7 @@
 #include			"Trame/Trame.hh"
 #include			"Socket/SocketClient.hpp"
 #include			"Crypto/Crypto.hh"
+#include			"Entities/User.hh"
 
 class				Client
 {
@@ -24,6 +25,7 @@ private:
   FD				_id;
   std::map<std::string, ISocketClient *>	*_sockets;
   int				_trame;
+  User				*_user;
 public:
   Client();
   virtual ~Client();
@@ -36,6 +38,7 @@ public:
   bool				readTrame(std::string &str, std::string const &proto);
   void				addTrame(unsigned int const nb);
   unsigned int			getNbTrame() const;
+  void				addUser(User *user);
 };
 
 #endif

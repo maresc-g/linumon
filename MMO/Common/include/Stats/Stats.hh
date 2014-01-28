@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:58:39 2013 alexis mestag
-// Last update Thu Dec  5 20:24:31 2013 alexis mestag
+// Last update Fri Jan 24 21:53:38 2014 alexis mestag
 //
 
 #ifndef			__STATS_HH__
@@ -20,11 +20,11 @@ class			Stats
   friend class		odb::access;
 
 private:
-  std::list<Stat *>	*_stats;
+  std::list<Stat *>	_stats;
 
 private:
-  std::list<Stat *>	*getStatsDeepCopy() const;
-  void			setStats(std::list<Stat *> *const stats);
+  std::list<Stat *>	&getStatsDeepCopy() const;
+  void			setStats(std::list<Stat *> &stats);
   void			deleteStats();
 
 public:
@@ -34,5 +34,9 @@ public:
 
   Stats			&operator=(Stats const &rhs);
 };
+
+# ifdef	ODB_COMPILER
+#  pragma db value(Stats)
+# endif
 
 #endif

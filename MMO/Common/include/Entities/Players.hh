@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 15:53:16 2013 alexis mestag
-// Last update Thu Dec  5 11:04:56 2013 alexis mestag
+// Last update Fri Jan 24 13:17:03 2014 alexis mestag
 //
 
 #ifndef			__PLAYERS_HH__
@@ -20,7 +20,12 @@ class			Players
   friend class		odb::access;
 
 private:
-  std::list<Player *>	*_players;
+  std::list<Player *>	_players;
+
+private:
+  Players(Players const &rhs);
+
+  Players		&operator=(Players const &rhs);
 
 public:
   Players();
@@ -28,5 +33,9 @@ public:
 
   void			deletePlayers();
 };
+
+# ifdef ODB_COMPILER
+#  pragma db value(Players)
+# endif
 
 #endif

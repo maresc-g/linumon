@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:54:34 2013 alexis mestag
-// Last update Thu Dec  5 23:06:39 2013 alexis mestag
+// Last update Sun Jan 26 14:43:26 2014 laurent ansel
 //
 
 #include			"Entities/Spell.hh"
@@ -33,6 +33,7 @@ Spell				&Spell::operator=(Spell const &rhs)
     {
       this->setType(rhs.getType());
       this->setPower(rhs.getPower());
+      this->setUseLimit(rhs.getUseLimit());
     }
   return (*this);
 }
@@ -55,4 +56,26 @@ int				Spell::getPower() const
 void				Spell::setPower(int const power)
 {
   _power = power;
+}
+
+int				Spell::getUseLimit() const
+{
+  return (_useLimit);
+}
+
+void				Spell::setUseLimit(int const useLimit)
+{
+  _useLimit = useLimit;
+}
+
+bool				Spell::serialization(Trame &)
+{
+  bool				ret = false;
+  return (ret);
+}
+
+bool				Spell::deserialization(Trame const &)
+{
+  bool				ret = false;
+  return (ret);
 }

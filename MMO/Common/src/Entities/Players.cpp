@@ -5,21 +5,34 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 15:55:08 2013 alexis mestag
-// Last update Tue Dec  3 16:06:34 2013 alexis mestag
+// Last update Fri Jan 24 13:15:21 2014 alexis mestag
 //
 
 #include			<functional>
 #include			"Entities/Players.hh"
 
-Players::Players() :
-  _players(new std::list<Player *>)
+Players::Players()
 {
 
+}
+
+Players::Players(Players const &rhs)
+{
+  *this = rhs;
 }
 
 Players::~Players()
 {
   this->deletePlayers();
+}
+
+Players				&Players::operator=(Players const &rhs)
+{
+  if (this != &rhs)
+    {
+
+    }
+  return (*this);
 }
 
 void				Players::deletePlayers()
@@ -29,7 +42,5 @@ void				Players::deletePlayers()
     return (true);
   };
 
-  _players->remove_if(f);
-  delete _players;
-  _players = NULL;
+  _players.remove_if(f);
 }

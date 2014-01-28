@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:32:05 2013 alexis mestag
-// Last update Tue Dec 10 14:15:38 2013 alexis mestag
+// Last update Sun Jan 26 14:11:29 2014 laurent ansel
 //
 
 #ifndef			__SPELL_HH__
@@ -14,14 +14,16 @@
 # include		"Database/Persistent.hh"
 # include		"Utility/Nameable.hh"
 # include		"Entities/Type.hh"
+# include		"Utility/ISerialization.hh"
 
-class			Spell : public Persistent, public Nameable
+class			Spell : public Persistent, public Nameable, public ISerialization
 {
   friend class		odb::access;
 
 private:
   Type const		*_type;
   int			_power;
+  int			_useLimit;
 
   Spell();
 
@@ -35,13 +37,19 @@ public:
   void			setType(Type const &type);
 
   int			getPower() const;
-  void			setPower(int const power); // Should this one be private ?
+  void			setPower(int const power);
+
+  int			getUseLimit() const;
+  void			setUseLimit(int const useLimit);
+  virtual bool		serialization(Trame &trame);
+  virtual bool		deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Spell)
 #  pragma db member(Spell::_type) not_null column("type_id")
 #  pragma db member(Spell::_power)
+#  pragma db member(Spell::_useLimit)
 # endif
 
 #endif

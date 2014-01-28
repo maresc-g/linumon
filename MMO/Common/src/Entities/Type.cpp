@@ -5,32 +5,32 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 21:14:39 2013 alexis mestag
-// Last update Tue Dec 10 14:31:58 2013 alexis mestag
+// Last update Fri Jan 24 15:40:24 2014 alexis mestag
 //
 
 #include			"Entities/Type.hh"
 
 Type::Type() :
-  Persistent(), Nameable(), _relations(new TypeRelations)
+  Persistent(), Nameable()
 {
 
 }
 
 Type::Type(std::string const &name) :
-  Persistent(), Nameable(name), _relations(new TypeRelations)
+  Persistent(), Nameable(name)
 {
 
 }
 
 Type::Type(Type const &rhs) :
-  Persistent(rhs), Nameable(rhs), _relations(new TypeRelations)
+  Persistent(rhs), Nameable(rhs)
 {
   *this = rhs;
 }
 
 Type::~Type()
 {
-  delete _relations;
+
 }
 
 Type				&Type::operator=(Type const &rhs)
@@ -54,10 +54,10 @@ bool				Type::operator!=(Type const &rhs) const
 
 TypeRelations const		&Type::getRelations() const
 {
-  return (*_relations);
+  return (_relations);
 }
 
 void				Type::setRelations(TypeRelations const &relations)
 {
-  *_relations = relations;
+  _relations = relations;
 }

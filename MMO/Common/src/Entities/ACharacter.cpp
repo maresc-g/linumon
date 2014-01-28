@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:37:01 2013 alexis mestag
-// Last update Tue Dec  3 13:43:12 2013 alexis mestag
+// Last update Fri Jan 24 21:22:23 2014 alexis mestag
 //
 
 #include			"Entities/ACharacter.hh"
@@ -38,6 +38,7 @@ ACharacter			&ACharacter::operator=(ACharacter const &rhs)
   if (this != &rhs)
     {
       this->setCharacterType(rhs.getCharacterType());
+      this->setCurrentExp(rhs.getCurrentExp());
     }
   return (*this);
 }
@@ -50,4 +51,14 @@ ACharacter::eCharacter		ACharacter::getCharacterType() const
 void				ACharacter::setCharacterType(ACharacter::eCharacter const characterType)
 {
   _characterType = characterType;
+}
+
+int				ACharacter::getCurrentExp() const
+{
+  return (_currentExp);
+}
+
+void				ACharacter::setCurrentExp(int const currentExp)
+{
+  _currentExp = currentExp;
 }

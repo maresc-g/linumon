@@ -5,19 +5,19 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Thu Dec  5 20:25:30 2013 alexis mestag
+// Last update Fri Jan 24 21:59:17 2014 alexis mestag
 //
 
 #include			"Entities/AStatEntity.hh"
 
 AStatEntity::AStatEntity() :
-  AEntity("", eEntity::STATENTITY), _statEntityType(eStatEntity::NONE), _stats(new Stats)
+  AEntity("", eEntity::STATENTITY), _statEntityType(eStatEntity::NONE)
 {
 
 }
 
 AStatEntity::AStatEntity(std::string const &name, AStatEntity::eStatEntity const statEntityType) :
-  AEntity(name, eEntity::STATENTITY), _statEntityType(statEntityType), _stats(new Stats)
+  AEntity(name, eEntity::STATENTITY), _statEntityType(statEntityType)
 {
 
 }
@@ -30,7 +30,7 @@ AStatEntity::AStatEntity(AStatEntity const &rhs) :
 
 AStatEntity::~AStatEntity()
 {
-  delete _stats;
+
 }
 
 AStatEntity			&AStatEntity::operator=(AStatEntity const &rhs)
@@ -38,7 +38,7 @@ AStatEntity			&AStatEntity::operator=(AStatEntity const &rhs)
   if (this != &rhs)
     {
       this->setStatEntityType(rhs.getStatEntityType());
-      this->setStats(new Stats(*rhs.getStats()));
+      this->setStats(rhs.getStats());
     }
   return (*this);
 }
@@ -53,13 +53,12 @@ void				AStatEntity::setStatEntityType(AStatEntity::eStatEntity const statEntity
   _statEntityType = statEntityType;
 }
 
-Stats const			*AStatEntity::getStats() const
+Stats const			&AStatEntity::getStats() const
 {
   return (_stats);
 }
 
-void				AStatEntity::setStats(Stats *const stats)
+void				AStatEntity::setStats(Stats const &stats)
 {
-  delete _stats;
   _stats = stats;
 }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:28:40 2013 alexis mestag
-// Last update Tue Dec 10 15:03:49 2013 alexis mestag
+// Last update Sun Jan 26 14:09:33 2014 laurent ansel
 //
 
 #ifndef			__FACTION_HH__
@@ -13,18 +13,22 @@
 
 # include		"Database/Persistent.hh"
 # include		"Utility/Nameable.hh"
+# include		"Utility/ISerialization.hh"
 
-class			Faction : public Persistent, public Nameable
+class			Faction : public Persistent, public Nameable, public ISerialization
 {
   friend class		odb::access;
+
 private:
   Faction(std::string const &name = "");
-
-public:
   Faction(Faction const &rhs);
-  virtual ~Faction();
 
   Faction		&operator=(Faction const &rhs);
+
+public:
+  virtual ~Faction();
+  virtual bool			serialization(Trame &trame);
+  virtual bool			deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

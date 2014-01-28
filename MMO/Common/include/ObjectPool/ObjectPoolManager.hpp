@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  8 20:53:36 2013 laurent ansel
-// Last update Mon Dec  9 14:34:55 2013 laurent ansel
+// Last update Fri Jan 24 16:40:53 2014 laurent ansel
 //
 
 #ifndef 			__OBJECTPOOLMANAGER_HPP__
@@ -15,7 +15,7 @@
 #include			"ObjectPool/ObjectPool.hpp"
 #include			"Utility/Singleton.hpp"
 
-#define	LIMIT_COPY		10
+#define	LIMIT_COPY		100
 
 class				ObjectPoolManager : public Singleton<ObjectPoolManager>
 {
@@ -78,6 +78,7 @@ public:
   {
     unsigned int		i;
 
+    object = NULL;
     for (i = 0 ; i < LIMIT_COPY && !object ; ++i)
       {
 	object = reinterpret_cast<T *>(getObject(key));
