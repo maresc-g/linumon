@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Tue Jan 28 14:00:29 2014 antoine maitre
+// Last update Tue Jan 28 15:07:11 2014 antoine maitre
 //
 
 #ifndef			__ZONE_HH__
@@ -15,8 +15,9 @@
 # include		<string>
 # include		"Case.hh"
 # include		"Trame/Trame.hh"
+# include		"Utility/Nameable.hh"
 
-class			Zone
+class			Zone : public Nameable
 {
 public :
   enum			eZone
@@ -27,7 +28,6 @@ public :
 private:
   int const		_sizeX; 
   int const		_sizeY;
-  std::string const	_name;
   std::list<AEntity *>	_players;
   eZone const		_type;
   std::list<Case *>	_cases;
