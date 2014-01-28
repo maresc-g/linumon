@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:33:20 2014 alexis mestag
-// Last update Sun Jan 26 14:23:37 2014 laurent ansel
+// Last update Tue Jan 28 12:24:34 2014 laurent ansel
 //
 
 #ifndef			__SPELLS_HH__
@@ -34,8 +34,8 @@ public:
   virtual ~Spells();
 
   containerType const	&getContainer() const;
-  virtual bool		serialization(Trame &trame);
-  virtual bool		deserialization(Trame const &trame);
+  virtual bool		serialization(Trame &trame) const;
+  static Spells		*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

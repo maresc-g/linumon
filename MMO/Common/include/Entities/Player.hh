@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Sun Jan 26 14:08:49 2014 laurent ansel
+// Last update Tue Jan 28 11:11:48 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -61,8 +61,8 @@ public:
   Digitaliser const	&getDigitaliser() const;
   // No setter for this attribute
 
-  virtual bool			serialization(Trame &trame);
-  virtual bool			deserialization(Trame const &trame);
+  virtual bool			serialization(Trame &trame) const;
+  static Player			*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

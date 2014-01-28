@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 15:55:08 2013 alexis mestag
-// Last update Fri Jan 24 13:15:21 2014 alexis mestag
+// Last update Tue Jan 28 12:44:22 2014 laurent ansel
 //
 
 #include			<functional>
@@ -44,3 +44,10 @@ void				Players::deletePlayers()
 
   _players.remove_if(f);
 }
+
+// bool				Players::serialization(Trame &)
+// {
+//   bool				ret = false;
+
+//   return (ret);
+// }

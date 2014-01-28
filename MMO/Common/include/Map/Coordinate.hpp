@@ -5,13 +5,15 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 16:59:07 2013 alexis mestag
-// Last update Sun Jan 26 14:35:53 2014 laurent ansel
+// Last update Tue Jan 28 12:34:57 2014 laurent ansel
 //
 
 #ifndef			__COORDINATE_HPP__
 # define		__COORDINATE_HPP__
 
+# include		<typeinfo>
 # include		"Utility/ISerialization.hh"
+# include		"ObjectPool/ObjectPoolManager.hpp"
 
 template<typename T>
 class			Coordinate : public ISerialization
@@ -57,7 +59,7 @@ public:
   ** trame => trame[CONTENT]["PLAYER" or "CASE" or ...]
   */
 
-  bool			serialization(Trame &trame)
+  bool			serialization(Trame &trame) const
   {
     bool		ret = true;
 
@@ -66,22 +68,23 @@ public:
     return (ret);
   }
 
-  bool			deserialization(Trame const &trame)
+  static Coordinate<T>	*deserialization(Trame const &trame)
   {
-    bool		ret = true;
+    Coordinate<T>	*coord = NULL;
 
     if (trame.isMember("COORDINATE"))
       {
-	if (trame["COORDINATE"]["X"].isInt())
-	  _x = trame["COORDINATE"]["X"].asInt();
-	else if (trame["COORDINATE"]["X"].isDouble())
-	  _x = trame["COORDINATE"]["X"].asDouble();
-	if (trame["COORDINATE"]["Y"].isInt())
-	  _y = trame["COORDINATE"]["Y"].asInt();
-	else if (trame["COORDINATE"]["Y"].isDouble())
-	  _y = trame["COORDINATE"]["Y"].asDouble();
+	if (typeid(T) == typeid(int))
+	  ObjectPoolManager::getInstance()->setObject(coord, "coordinateint");
+	else if (typeid(T) == typeid(double))
+	  ObjectPoolManager::getInstance()->setObject(coord, "coordinatedouble");
+	if (trame["COORDINATE"].isMember("X") && trame["COORDINATE"].isMember("X"))
+	  {
+	    coord->setX(trame["COORDINATE"]["X"].isDouble());
+	    coord->setY(trame["COORDINATE"]["Y"].isDouble());
+	  }
       }
-    return (ret);
+    return (coord);
   }
 
 };

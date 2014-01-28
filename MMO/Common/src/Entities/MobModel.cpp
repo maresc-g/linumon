@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:39:45 2014 alexis mestag
-// Last update Sun Jan 26 14:42:08 2014 laurent ansel
+// Last update Tue Jan 28 11:11:23 2014 laurent ansel
 //
 
 #include			"Entities/MobModel.hh"
@@ -51,16 +51,14 @@ Spells const			&MobModel::getSpells() const
   return (_spells);
 }
 
-bool				MobModel::serialization(Trame &)
+bool				MobModel::serialization(Trame &) const
 {
   bool				ret = false;
-
   return (ret);
 }
 
-bool				MobModel::deserialization(Trame const &)
+MobModel			*MobModel::deserialization(Trame const &)
 {
-  bool				ret = false;
-
-  return (ret);
+  MobModel			*model = NULL;
+  return (model);
 }

@@ -5,10 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov 29 15:26:56 2013 laurent ansel
-// Last update Mon Dec  9 19:11:11 2013 laurent ansel
+// Last update Tue Jan 28 10:59:49 2014 laurent ansel
 //
 
 #include			"Header/Header.hh"
+#include			"ObjectPool/ObjectPoolManager.hpp"
 
 Header::Header(unsigned int const idClient, std::string const &protocole):
   _idClient(idClient),
@@ -62,7 +63,7 @@ void				Header::setAll(unsigned int const id, std::string const &protocole)
   this->setProtocole(protocole);
 }
 
-bool				Header::serialization(Trame &trame)
+bool				Header::serialization(Trame &trame) const
 {
   if (&trame)
     {
@@ -73,19 +74,21 @@ bool				Header::serialization(Trame &trame)
   return (false);
 }
 
-bool				Header::deserialization(Trame const &trame)
+Header				*Header::deserialization(Trame const &trame)
 {
+  Header			*header = NULL;
+
   if (trame.isMember(HEADER))
     {
-      if (trame[HEADER].isMember("IDCLIENT"))
-	this->_idClient = trame[HEADER]["IDCLIENT"].asUInt();
-      else
-	return (false);
-      if (trame[HEADER].isMember("PROTOCOLE"))
-	this->_protocole = trame[HEADER]["PROTOCOLE"].asString();
-      else
-	return (false);
-      return (true);
+      if (trame[HEADER].isMember("IDCLIENT") && trame[HEADER].isMember("PROTOCOLE"))
+	{
+	  ObjectPoolManager::getInstance()->setObject(header, "header");
+	  if (header)
+	    {
+	      header->setIdClient(trame[HEADER]["IDCLIENT"].asUInt());
+	      header->setProtocole(trame[HEADER]["PROTOCOLE"].asString());
+	    }
+	}
     }
-  return (false);
+  return (header);
 }

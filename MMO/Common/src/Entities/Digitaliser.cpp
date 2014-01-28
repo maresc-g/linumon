@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Sun Jan 26 14:48:04 2014 laurent ansel
+// Last update Tue Jan 28 11:07:16 2014 laurent ansel
 //
 
 #include			"Entities/Digitaliser.hh"
@@ -39,7 +39,7 @@ Digitaliser::Mobs const		&Digitaliser::getMobs() const
   return (_mobs);
 }
 
-bool				Digitaliser::serialization(Trame &trame)
+bool				Digitaliser::serialization(Trame &trame) const
 {
   bool				ret = true;
 
@@ -48,11 +48,9 @@ bool				Digitaliser::serialization(Trame &trame)
   return (ret);
 }
 
-bool				Digitaliser::deserialization(Trame const &trame)
+Digitaliser			*Digitaliser::deserialization(Trame const &)
 {
-  bool				ret = true;
+  Digitaliser			*digit = NULL;
 
-  for (auto it = this->_mobs.begin() ; it != this->_mobs.end() && ret; ++it)
-    ret = (*it)->deserialization(trame);
-  return (ret);
+  return (digit);
 }

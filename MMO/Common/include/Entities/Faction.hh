@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:28:40 2013 alexis mestag
-// Last update Sun Jan 26 14:09:33 2014 laurent ansel
+// Last update Tue Jan 28 11:09:24 2014 laurent ansel
 //
 
 #ifndef			__FACTION_HH__
@@ -27,8 +27,8 @@ private:
 
 public:
   virtual ~Faction();
-  virtual bool			serialization(Trame &trame);
-  virtual bool			deserialization(Trame const &trame);
+  virtual bool			serialization(Trame &trame) const;
+  static Faction		*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER
