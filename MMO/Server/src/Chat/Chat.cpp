@@ -1,0 +1,126 @@
+//
+// Chat.cpp for  in /home/ansel_l/Documents/Pfa/work
+// 
+// Made by laurent ansel
+// Login   <ansel_l@epitech.net>
+// 
+// Started on  Tue Jan 28 13:21:19 2014 laurent ansel
+// Last update Tue Jan 28 15:02:38 2014 laurent ansel
+//
+
+# include			"Chat/Chat.hh"
+# include			"Server/Server.hh"
+
+Chat::Chat():
+  _msg(new std::list<std::pair<bool, Trame *> >),
+  _quit(false),
+  _mutex(new Mutex)
+{
+  _mutex->init();
+  _mutex->lock();
+
+  Trame			*trame = NULL;
+
+  for (int i = 0 ; i < DEFAULT_STORAGE_CHAT ; ++i)
+    _msg->push_back(std::make_pair(false, trame));
+  std::function<bool (Trame *)> func;
+
+  func = std::bind1st(std::mem_fun(&Chat::newMsg), this);
+  Server::getInstance()->addFuncProtocol("CHAT", func);
+
+  _mutex->unlock();
+}
+
+Chat::~Chat()
+{
+  _mutex->lock();
+  for (auto it = _msg->begin() ; it != _msg->end() ; ++it)
+    delete (*it).second;
+  delete _msg;
+  _mutex->unlock();
+  _mutex->destroy();
+  delete _mutex;
+}
+
+void				Chat::run()
+{
+  Header			*header = NULL;
+
+  ObjectPoolManager::getInstance()->setObject(header, "header");
+  _mutex->lock();
+  while (!_quit)
+    {
+      Trame			*trame = NULL;
+      std::list<AEntity *>	list;
+      for (auto it = this->_msg->begin() ; it != this->_msg->end() ; ++it)
+	{
+	  if ((*it).first)
+	    {
+	      ObjectPoolManager::getInstance()->setObject(trame, "trame");
+	      if (trame)
+		{
+		  (*it).first = false;
+		  
+		}
+	    }
+	}
+      _mutex->unlock();
+      usleep(50000); //calculer le temps
+      _mutex->lock();
+    }
+  _mutex->unlock();
+}
+
+void				Chat::setQuit(bool const quit)
+{
+  this->_mutex->lock();
+  this->_quit = quit;
+  this->_mutex->unlock();
+}
+
+bool				Chat::newMsg(Trame *trame)
+{
+  if (trame->isMember("CHAT"))
+    {
+      if ((*trame)["CHAT"].isMember("MESSAGE") && (*trame)["CHAT"].isMember("FACTION"))
+	{
+	  _mutex->lock();
+	  auto it = this->_msg->begin();
+
+	  for (it = this->_msg->begin() ; it != this->_msg->end() && (*it).first ; ++it);
+	  if (it != this->_msg->end())
+	    {
+	      if (!(*it).second)
+		ObjectPoolManager::getInstance()->setObject((*it).second, "trame");
+	      if ((*it).second)
+		{
+		  (*it).first = true;
+		  (*it).second->clear();
+		  *(*it).second = *static_cast<Trame *>(&(*trame)["CHAT"]);
+		}
+	    }
+	  else
+	    {
+	      Trame		*trame = NULL;
+
+	      ObjectPoolManager::getInstance()->setObject(trame, "trame");
+	      *trame = *static_cast<Trame *>(&(*trame)["CHAT"]);
+	      this->_msg->push_back(std::make_pair(true, trame));
+	    }
+	  _mutex->unlock();
+	}
+      return (true);
+    }
+  return (false);
+}
+
+void				*runChat(void *data)
+{
+  if (data)
+    {
+      Chat		*chat = reinterpret_cast<Chat *>(data);
+
+      chat->run();
+    }
+  return (NULL);
+}
