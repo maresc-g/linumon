@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Tue Jan 28 14:47:37 2014 laurent ansel
+// Last update Tue Jan 28 16:28:43 2014 antoine maitre
 //
 
 #ifndef			__ZONE_HH__
@@ -17,7 +17,7 @@
 # include		"Trame/Trame.hh"
 # include		"Utility/Nameable.hh"
 
-class			Zone : public Nameable
+class			Zone
 {
 public :
   enum			eZone
