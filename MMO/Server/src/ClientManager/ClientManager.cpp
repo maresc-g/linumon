@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Sat Jan 25 15:20:38 2014 laurent ansel
+// Last update Tue Jan 28 13:37:51 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientManager.hh"
@@ -20,6 +20,11 @@ ClientManager::ClientManager():
 {
   _mutex->init();
   _mutex->lock();
+  std::function<bool (Trame *)> func;
+
+  func = std::bind1st(std::mem_fun(&ClientManager::connectionUser), this);
+  Server::getInstance()->addFuncProtocol("CONNECTION", func);
+
   for (int i = 0 ; i < CLIENT_THREAD_MIN ; ++i)
     _updaters->push_back(std::make_pair(new ClientUpdater(NB_CLIENTS_PER_THREAD), false));
   _mutex->unlock();
@@ -56,7 +61,9 @@ void				ClientManager::setWriteFunction(function *writeFunc)
 
 void				ClientManager::setQuit(bool const quit)
 {
+  _mutex->lock();
   _quit = quit;
+  _mutex->unlock();
 }
 
 void				ClientManager::newClient(Header const &header, ISocketClient *tcp)

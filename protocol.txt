@@ -7,7 +7,7 @@
 			INITIALIZE : {} -> client
 			CHECK : {} -> server
 			# end
-			
+
 
 			# user connection
 			CONNECTION : {pseudo : string, pass : string} -> client
@@ -23,7 +23,7 @@
 
 
 			# action
-			CHAT : {pseudo + msg : string} -> server / client
+			CHAT : {Message (pseudo + msg) : string, Zone : name} -> server / client
 
 			#  battle
 			LAUNCHBATTLE : {enemy : APlayer} -> server

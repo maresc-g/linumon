@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Sun Dec  1 14:59:50 2013 laurent ansel
-## Last update Thu Dec  5 16:50:49 2013 laurent ansel
+## Last update Tue Jan 28 13:27:06 2014 laurent ansel
 ##
 
 SRCSERVER +=	$(CLIENTMANAGER)/Client.cpp		\

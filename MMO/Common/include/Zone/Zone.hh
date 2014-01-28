@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Tue Jan 28 15:07:11 2014 antoine maitre
+// Last update Tue Jan 28 14:47:37 2014 laurent ansel
 //
 
 #ifndef			__ZONE_HH__
@@ -26,21 +26,21 @@ public :
       ROCK
     };
 private:
-  int const		_sizeX; 
+  int const		_sizeX;
   int const		_sizeY;
-  std::list<AEntity *>	_players;
+  std::list<AEntity *>	*_players;
   eZone const		_type;
-  std::list<Case *>	_cases;
+  std::list<Case *>	*_cases;
 public:
   Zone(Json::Value topography);
-  ~Zone();
+  virtual ~Zone();
   void			addPlayer(AEntity *);
   void			delPlayer(AEntity *);
-  std::list<AEntity*>	getPlayers() const;
+  std::list<AEntity*>	&getPlayers() const;
   void			addCase(Case *);
   void			delCase(Case *);
-  Case			*getCase(int, int);
-  std::list<Case *>	getCases() const;
+  Case			*getCase(int const, int const);
+  std::list<Case *>	&getCases() const;
 };
 
 bool			sameValue(Case *, Case *);
