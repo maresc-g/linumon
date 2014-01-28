@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Sat Jan 25 15:40:15 2014 laurent ansel
+// Last update Tue Jan 28 14:58:23 2014 laurent ansel
 //
 
 #include			<list>
@@ -16,6 +16,7 @@
 #include			"Server/Server.hh"
 #include			"CircularBufferManager/CircularBufferManager.hh"
 #include			"Error/Error.hpp"
+#include			"Chat/Chat.hh"
 
 bool				quit = false;
 
@@ -43,6 +44,8 @@ Server::~Server()
   ClientManager::getInstance()->join();
   _codeBreaker->setQuit(true);
   _codeBreaker->join();
+  Chat::getInstance()->setQuit(true);
+  Chat::getInstance()->join();
   if ((*this->_socket)["TCP"])
     {
       (*this->_socket)["TCP"]->destroy();
@@ -59,6 +62,7 @@ Server::~Server()
   delete this->_actionServer;
   CircularBufferManager::deleteInstance();
   ClientManager::deleteInstance();
+  Chat::deleteInstance();
   delete _codeBreaker;
   Crypto::deleteInstance();
   delete _protocol;
@@ -86,18 +90,12 @@ void				Server::init(int const port)
   this->debug("Done");
   (*this->_socket)["UDP"]->initAddr();
   this->_mutex->init();
+  Chat::getInstance();
   Crypto::getInstance();
   CircularBufferManager::getInstance();
   _codeBreaker->start();
   this->debug("Initialization protocol ...");
-  this->_mutex->lock();
 
-  std::function<bool (Trame *)> func;
-
-  func = std::bind1st(std::mem_fun(&ClientManager::connectionUser), ClientManager::getInstance());
-  this->_protocol->addFunc("CONNECTION", func);
-
-  this->_mutex->unlock();
   this->debug("Done");
   ClientManager::getInstance()->setWriteFunction(&somethingWrite);
   this->debug("Starting ObjectPoolManager ...");
@@ -114,6 +112,16 @@ void				Server::debug(std::string const &str) const
 #else
   (void)str;
 #endif
+}
+
+bool				Server::addFuncProtocol(std::string const &key, std::function<bool (Trame *)> func)
+{
+  bool				ret;
+
+  this->_mutex->lock();
+  ret = this->_protocol->addFunc(key, func);
+  this->_mutex->unlock();
+  return (ret);
 }
 
 bool				Server::callProtocol(std::string const &key, unsigned int const id, void *param)

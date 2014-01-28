@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Fri Jan 24 15:46:43 2014 laurent ansel
+// Last update Tue Jan 28 13:35:24 2014 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -45,6 +45,7 @@ public:
   void				init(int const port);
   bool				callProtocol(std::string const &key, unsigned int const id, void *param);
   bool				callProtocol(Trame *trame);
+  bool				addFuncProtocol(std::string const &key, std::function<bool (Trame *)> func);
 private:
   void				initializePoll() const;
   void				runPoll() const;
