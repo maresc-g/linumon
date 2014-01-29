@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sat Jan 25 15:39:32 2014 laurent ansel
+// Last update Wed Jan 29 12:42:54 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -61,7 +61,7 @@ bool			Protocol::welcome(unsigned int const id, void *)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)["WELCOME"];
+      (*trame)[CONTENT]["WELCOME"];
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -99,7 +99,7 @@ bool			Protocol::initialize(unsigned int const id, void *)
   header->setProtocole("UDP");
   if (header->serialization(*trame))
     {
-      (*trame)["INITIALIZE"];
+      (*trame)[CONTENT]["INITIALIZE"];
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -118,7 +118,7 @@ bool			Protocol::check(unsigned int const id, void *)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)["CHECK"];
+      (*trame)[CONTENT]["CHECK"];
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
