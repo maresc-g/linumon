@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Wed Jan 29 14:56:48 2014 laurent ansel
+// Last update Wed Jan 29 17:45:33 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientManager.hh"
@@ -100,7 +100,7 @@ void				ClientManager::newClient(Header const &header, ISocketClient *tcp)
   this->_mutex->unlock();
 }
 
-void				ClientManager::setInfoClient(FD const fd, ISocketClient *socket, std::string const &proto) const
+void				ClientManager::setInfoClient(FD const fd, ISocketClient const *socket, std::string const &proto) const
 {
   bool				set = false;
 
@@ -128,7 +128,7 @@ void				ClientManager::setInfoClient(FD const fd) const
   this->_mutex->unlock();
 }
 
-void				ClientManager::setInfoClient(FD const fd, bool const read, std::string const &protocole) const
+void				ClientManager::setInfoClient(FD const fd, std::string const &protocole, bool const read) const
 {
   bool				set = false;
 

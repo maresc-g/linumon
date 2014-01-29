@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Wed Jan 29 16:23:18 2014 laurent ansel
+// Last update Wed Jan 29 18:02:05 2014 laurent ansel
 //
 
 #include			<list>
@@ -146,7 +146,7 @@ bool				Server::callProtocol(Trame *trame)
 void				Server::detectWrite(FD const fd)
 {
   this->_mutex->lock();
-  if (this->_actionServer->find(fd) != this->_actionServer->end())
+  if (this->_actionServer->find(fd) != this->_actionServer->end() && !(*this->_actionServer)[fd].second)
     {
       (*this->_actionServer)[fd].second = true;
       this->_poll->pushFd(fd, IPoll::RDWRDC);
@@ -168,8 +168,9 @@ void				Server::initializePoll() const
 void				Server::runPoll() const
 {
   // this->debug("Run Poll ...");
-  this->_poll->runPoll(false);
-  // this->debug("Done");
+  this->_poll->setTimeout(30);
+  this->_poll->runPoll(true);
+  //this->debug("Done");
 }
 
 bool				Server::acceptNewClient()
@@ -216,10 +217,11 @@ bool				Server::recvUdp()
 	  Trame::toTrame(*trame, str);
 	  if ((*trame)[CONTENT].isMember("INITIALIZE"))
 	    {
-	      ClientManager::getInstance()->setInfoClient((*trame)[HEADER]["IDCLIENT"].asUInt(), (*this->_socket)["UDP"]->getSocket().getSocket(), "UDP");
+	      ClientManager::getInstance()->setInfoClient((*trame)[HEADER]["IDCLIENT"].asInt(), &(*this->_socket)["UDP"]->getSocket(), "UDP");
 	      this->_mutex->unlock();
-	      this->callProtocol("CHECK", (*trame)[HEADER]["IDCLIENT"].asUInt(), NULL);
+	      this->callProtocol("CHECK", (*trame)[HEADER]["IDCLIENT"].asInt(), NULL);
 	      this->_mutex->lock();
+	      ClientManager::getInstance()->newTrameToWrite((*trame)[HEADER]["IDCLIENT"].asInt(), 1);
 	    }
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
 	// }
@@ -259,26 +261,26 @@ void				Server::actionServer()
 
 bool				Server::readSomething(std::map<FD, std::pair<bool, bool> >::iterator &it)
 {
-  // this->debug("read ...");
+  this->debug("read ...");
   this->_mutex->lock();
-  ClientManager::getInstance()->setInfoClient(it->first, true, "TCP");
+  ClientManager::getInstance()->setInfoClient(it->first, "TCP", true);
   this->_mutex->unlock();
-  // this->debug("Done");
+  this->debug("Done");
   return (true);
 }
 
 bool				Server::writeSomething(std::map<FD, std::pair<bool, bool> >::iterator &it)
 {
-  //  this->debug("write ...");
+  this->debug("write ...");
   this->_mutex->lock();
   if (this->_actionServer->find(it->first) != this->_actionServer->end())
     {
       it->second.second = false;
-      ClientManager::getInstance()->setInfoClient(it->first, false, "TCP");
+      ClientManager::getInstance()->setInfoClient(it->first, "TCP", false);
       this->_poll->pushFd(it->first, IPoll::RDDC);
     }
   this->_mutex->unlock();
-  // this->debug("Done");
+  this->debug("Done");
   return (true);
 }
 

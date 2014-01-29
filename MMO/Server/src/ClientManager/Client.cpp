@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Jan 29 16:11:48 2014 laurent ansel
+// Last update Wed Jan 29 17:32:46 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -58,7 +58,7 @@ void				Client::use(FD const id)
   this->_use = true;
 }
 
-void				Client::setSocket(ISocketClient *socket, std::string const &proto)
+void				Client::setSocket(ISocketClient const *socket, std::string const &proto)
 {
   if ((*_sockets)[proto])
     delete (*_sockets)[proto];
@@ -92,9 +92,8 @@ bool				Client::readTrame(std::string &str, std::string const &proto)
 {
   char                          tmp[SIZE_BUFFER] = "";
   std::string			decrypt;
-   int				ret = (*this->_sockets)[proto]->readSocket(tmp, SIZE_BUFFER);
+  int				ret = (*this->_sockets)[proto]->readSocket(tmp, SIZE_BUFFER);
 
-  std::cout << "TOTOTOTO  = " << ret << std::endl;
   if (ret > 0)
     {
       std::cout << ret << std::endl;
@@ -110,6 +109,7 @@ bool				Client::readTrame(std::string &str, std::string const &proto)
 void				Client::addTrame(unsigned int const nb)
 {
   this->_trame += nb;
+  std::cout << "TRAME = " << nb << std::endl;
 }
 
 unsigned int			Client::getNbTrame() const

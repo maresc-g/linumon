@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 14:57:01 2013 laurent ansel
-// Last update Thu Dec  5 22:25:38 2013 laurent ansel
+// Last update Wed Jan 29 17:18:00 2014 laurent ansel
 //
 
 #ifndef 			__SOCKETCLIENT_HH__
@@ -40,7 +40,7 @@ public:
 #endif
   {}
 
-  SocketClient(ISocketClient *client):
+  SocketClient(ISocketClient const *client):
 #ifdef _WIN32
     WindowsSocketClient(client)
 #else

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Wed Jan 29 14:54:16 2014 laurent ansel
+// Last update Wed Jan 29 17:16:42 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -33,7 +33,7 @@ public:
   bool				isUse() const;
   void				use(FD const fd);
   FD				getId() const;
-  void				setSocket(ISocketClient *socket, std::string const &proto);
+  void				setSocket(ISocketClient const *socket, std::string const &proto);
   bool				writeTrame(Trame *trame, std::string const &proto);
   bool				readTrame(std::string &str, std::string const &proto);
   void				addTrame(unsigned int const nb);
