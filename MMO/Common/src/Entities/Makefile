@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Fri Jan 24 21:07:34 2014 alexis mestag
+## Last update Wed Jan 29 14:13:47 2014 alexis mestag
 ##
 
 ENTITIES_SRC=		User.cpp		\
@@ -21,7 +21,8 @@ ENTITIES_SRC=		User.cpp		\
 			Spells.cpp		\
 			TypeRelations.cpp	\
 			Faction.cpp		\
-			Digitaliser.cpp
+			Digitaliser.cpp		\
+			Level.cpp
 
 ENTITIES_SRC:=		$(addprefix $(ENTITIES)/, $(ENTITIES_SRC))
 
@@ -39,7 +40,8 @@ ODB_ENTITIES+=		User.hh			\
 			Type.hh			\
 			Spell.hh		\
 			Spells.hh		\
-			Faction.hh
+			Faction.hh		\
+			Level.hh
 
 ENTITIES_H_DIR=		$(subst src,include,$(ENTITIES))
 
