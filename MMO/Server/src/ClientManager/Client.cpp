@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Sat Jan 25 15:19:13 2014 laurent ansel
+// Last update Wed Jan 29 13:09:49 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -73,9 +73,11 @@ bool				Client::writeTrame(Trame *trame, std::string const &proto)
 
   if (trame && trame->toString(str))
     {
-      Crypto::getInstance()->encryption(str, tmp);
-      ret = (*this->_sockets)[proto]->writeSocket(const_cast<char *>(tmp.c_str()), tmp.size());
-      if (ret < tmp.size())
+      //      Crypto::getInstance()->encryption(str, tmp);
+      //      ret = (*this->_sockets)[proto]->writeSocket(const_cast<char *>(tmp.c_str()), tmp.size());
+      ret = (*this->_sockets)[proto]->writeSocket(const_cast<char *>(str.c_str()), str.size());
+      //      if (ret < tmp.size())
+      if (ret < str.size())
 	{
 	  trame->setSize(ret);
 	  return (false);
@@ -95,9 +97,10 @@ bool				Client::readTrame(std::string &str, std::string const &proto)
   if (ret > 0)
     {
       std::cout << ret << std::endl;
-      decrypt.append(tmp, ret);
-      if (Crypto::getInstance()->decryption(decrypt, str))
-	return (true);
+      str.append(tmp, ret);
+      // decrypt.append(tmp, ret);
+      // if (Crypto::getInstance()->decryption(decrypt, str))
+      return (true);
     }
   return (false);
 }
