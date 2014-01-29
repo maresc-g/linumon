@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 13:39:52 2014 alexis mestag
-// Last update Wed Jan 29 13:48:13 2014 alexis mestag
+// Last update Wed Jan 29 14:41:27 2014 alexis mestag
 //
 
 #ifndef			__DATABASE_HPP__
@@ -33,8 +33,8 @@ private:
 	       _db(new odb::mysql::database(DB_USER, DB_PASSWORD, DB_DATABASE)),
 	       _s(new odb::session) {}
   virtual ~Database() {
-    delete _db;
     delete _s;
+    delete _db;
   }
 };
 
