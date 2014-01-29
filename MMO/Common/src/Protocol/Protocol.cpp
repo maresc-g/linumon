@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Jan 29 12:42:54 2014 laurent ansel
+// Last update Wed Jan 29 16:23:13 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -132,7 +132,7 @@ bool			Protocol::decodeTrame(Trame *trame)
 
   for (auto it = this->_decode->begin() ; it != this->_decode->end() ; ++it)
     {
-      if (trame->isMember(it->first))
+      if ((*trame)[CONTENT].isMember(it->first))
 	ret = ((*this->_decode)[it->first])(trame);
     }
   return (ret);
