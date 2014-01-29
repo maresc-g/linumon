@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Dec  9 23:29:39 2013 laurent ansel
-// Last update Tue Dec 10 11:16:47 2013 laurent ansel
+// Last update Wed Jan 29 13:11:20 2014 laurent ansel
 //
 
 #include			"Crypto/Crypto.hh"
@@ -52,6 +52,7 @@ bool				Crypto::decryption(std::string const &text, std::string &result)
 {
   try
     {
+      result = "";
       CryptoPP::StreamTransformationFilter	decryptor(*_decryption, new CryptoPP::StringSink(result));
       decryptor.Put(reinterpret_cast<const unsigned char*>(text.c_str()), text.size());
       decryptor.MessageEnd();
