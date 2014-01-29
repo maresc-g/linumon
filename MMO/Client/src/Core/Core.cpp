@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Jan 29 15:36:07 2014 guillaume marescaux
+// Last update Wed Jan 29 16:02:07 2014 guillaume marescaux
 //
 
 #include			<string.h>
@@ -24,6 +24,8 @@ Core::Core():
   _proto(new Protocol(false)),
   _id(0)
 {
+  ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
+  ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
   std::function<bool (Trame *)> func;
   func = std::bind1st(std::mem_fun(&Core::welcome), this);
 
@@ -123,12 +125,12 @@ void                            Core::write()
   while (tmp)
     {
       _poll->runPoll(false);
-      if ((*tmp)[HEADER]["PROTOCOL"].asString() == "TCP")
+      if ((*tmp)[HEADER]["PROTOCOLE"].asString() == "TCP")
         {
           if (_poll->isSet((*_socketsClient)[TCP]->getSocket(), Poll::WRITE))
             writeToSocket(*tmp, Core::TCP);
         }
-      else if ((*tmp)[HEADER]["PROTOCOL"].asString() == "UDP")
+      else if ((*tmp)[HEADER]["PROTOCOLE"].asString() == "UDP")
         {
           if (_poll->isSet((*_socketsClient)[UDP]->getSocket(), Poll::WRITE))
             writeToSocket(*tmp, Core::UDP);
@@ -169,7 +171,6 @@ void				Core::init(void)
   while (!(trame = manager->popTrame(CircularBufferManager::READ_BUFFER)))
     this->read(0, false);
   _proto->decodeTrame(trame);
-  std::cout << "LOOOOOOOOOOOOOOOOOOOOOOOOOOL" << std::endl;
   this->write();
 }
 
