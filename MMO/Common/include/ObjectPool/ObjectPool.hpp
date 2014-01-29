@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 19:08:45 2013 laurent ansel
-// Last update Fri Jan 24 16:43:22 2014 laurent ansel
+// Last update Wed Jan 29 16:06:32 2014 laurent ansel
 //
 
 #ifndef 			__OBJECTPOOL_HPP__
@@ -16,6 +16,7 @@
 #else
 #include			<unistd.h>
 #endif
+#include			<typeinfo>
 #include			"ObjectPool/IObjectPool.hh"
 #include			"Mutex/Mutex.hpp"
 #include			"Thread/Thread.hpp"
@@ -64,9 +65,7 @@ public:
       {
 	this->_mutex->unlock();
 	this->_mutex->lock();
-	if (_list && _list->size() < _nb / 2)
-	  time = 100;
-	else
+	if (_list && _list->size() >= _nb / 2)
 	  time = 600;
 	_list->push_back(new T());
 	//	std::cout << "ptr {" << _list->back() << "}" << std::endl;

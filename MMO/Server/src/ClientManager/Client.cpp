@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Jan 29 14:54:21 2014 laurent ansel
+// Last update Wed Jan 29 16:11:48 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -92,12 +92,14 @@ bool				Client::readTrame(std::string &str, std::string const &proto)
 {
   char                          tmp[SIZE_BUFFER] = "";
   std::string			decrypt;
-  int				ret = (*this->_sockets)[proto]->readSocket(tmp, SIZE_BUFFER);
+   int				ret = (*this->_sockets)[proto]->readSocket(tmp, SIZE_BUFFER);
 
+  std::cout << "TOTOTOTO  = " << ret << std::endl;
   if (ret > 0)
     {
       std::cout << ret << std::endl;
       str.append(tmp, ret);
+      std::cout << "toto" << std::endl;
       // decrypt.append(tmp, ret);
       // if (Crypto::getInstance()->decryption(decrypt, str))
       return (true);
