@@ -5,16 +5,16 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 11:16:43 2014 guillaume marescaux
-// Last update Fri Jan 24 14:34:03 2014 guillaume marescaux
+// Last update Fri Jan 24 15:34:27 2014 guillaume marescaux
 //
 
 #include		<iostream>
-#include		"Trame/Trame.hh"
-#include "Core/Core.hh"
+#include		"Client.hh"
 
 int			main()
 {
-  Core *core = new Core;
-  delete core;
+  Client		*client = Client::getInstance();
+
+  client->deleteInstance();
   return (0);
 }
