@@ -5,13 +5,15 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Jan 28 13:21:19 2014 laurent ansel
-// Last update Tue Jan 28 15:02:38 2014 laurent ansel
+// Last update Wed Jan 29 13:31:23 2014 laurent ansel
 //
 
 # include			"Chat/Chat.hh"
 # include			"Server/Server.hh"
+# include			"Map/Map.hh"
 
 Chat::Chat():
+  Thread(),
   _msg(new std::list<std::pair<bool, Trame *> >),
   _quit(false),
   _mutex(new Mutex)
@@ -29,6 +31,8 @@ Chat::Chat():
   Server::getInstance()->addFuncProtocol("CHAT", func);
 
   _mutex->unlock();
+  this->create(&runChat, this);
+  this->start();
 }
 
 Chat::~Chat()
@@ -46,21 +50,36 @@ void				Chat::run()
 {
   Header			*header = NULL;
 
-  ObjectPoolManager::getInstance()->setObject(header, "header");
+  while (!header)
+    ObjectPoolManager::getInstance()->setObject(header, "header");
+  header->setProtocole("UDP");
   _mutex->lock();
   while (!_quit)
     {
       Trame			*trame = NULL;
       std::list<AEntity *>	list;
+      Zone			*zone = NULL;
+
       for (auto it = this->_msg->begin() ; it != this->_msg->end() ; ++it)
 	{
 	  if ((*it).first)
 	    {
-	      ObjectPoolManager::getInstance()->setObject(trame, "trame");
-	      if (trame)
+	      (*it).first = false;
+	      if ((zone = Map::getInstance()->getZone(static_cast<Zone::eZone>((*trame)["CHAT"]["FACTION"].asInt()))))
 		{
-		  (*it).first = false;
-		  
+		  list = zone->getPlayers();
+		  for (auto ip = list.begin() ; ip != list.end() ; ++ip)
+		    {
+		      ObjectPoolManager::getInstance()->setObject(trame, "trame");
+		      if (trame)
+			{
+			  /*
+			  ** setIdClient avec player -> get client
+			  ** push trame
+			  */
+			}
+		      trame = NULL;
+		    }
 		}
 	    }
 	}

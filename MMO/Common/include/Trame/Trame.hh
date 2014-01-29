@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:57:30 2013 laurent ansel
-// Last update Mon Jan 27 09:16:38 2014 laurent ansel
+// Last update Wed Jan 29 13:22:44 2014 laurent ansel
 //
 
 #ifndef 			__TRAME_HH__
@@ -27,6 +27,7 @@ public:
   virtual ~Trame();
   // Trame				&operator[](std::string const &key) const;
   bool				toString(std::string &content) const;
+  std::string			toString() const;
   bool				writeInFile(std::string const &filename) const;
   bool				getEnd() const;
   void				setEnd(bool const end);

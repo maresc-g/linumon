@@ -5,10 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 15:55:08 2013 alexis mestag
-// Last update Tue Jan 28 12:44:22 2014 laurent ansel
+// Last update Wed Jan 29 12:38:50 2014 laurent ansel
 //
 
 #include			<functional>
+#include			<sstream>
 #include			"Entities/Players.hh"
 
 Players::Players()
@@ -45,9 +46,21 @@ void				Players::deletePlayers()
   _players.remove_if(f);
 }
 
-// bool				Players::serialization(Trame &)
-// {
-//   bool				ret = false;
+bool				Players::serialization(Trame &trame) const
+{
+  bool				ret = true;
+  int				i = 0;
+  std::ostringstream		str("PLAYER");
 
-//   return (ret);
-// }
+  for (auto it = this->_players.begin() ; it != this->_players.end() ; ++it)
+    {
+      str << i;
+      trame[CONTENT][str.str()]["IDPLAYER"] = static_cast<unsigned int>((*it)->getId());
+      trame[CONTENT][str.str()]["NAME"] = (*it)->getName();
+      //      trame[CONTENT][str.str()]["LEVEL"] = (*it)->getLevel().getLevel();
+      trame[CONTENT][str.str()]["Faction"] = (*it)->getFaction().getName();
+      str.str("PLAYER");
+      i++;
+    }
+  return (ret);
+}

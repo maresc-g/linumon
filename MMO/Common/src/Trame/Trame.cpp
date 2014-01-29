@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:55:14 2013 laurent ansel
-// Last update Mon Jan 27 09:16:27 2014 laurent ansel
+// Last update Wed Jan 29 13:22:51 2014 laurent ansel
 //
 
 #include		<sstream>
@@ -52,6 +52,23 @@ bool			Trame::toString(std::string &content) const
   if (this->_end)
     content.append(TRAMEEND);
   return (true);
+}
+
+std::string		Trame::toString() const
+{
+  std::string		content;
+  Json::StyledWriter	*writer = new Json::StyledWriter;
+  size_t		pos;
+  std::string		str(CONTENT + std::string(" : "));
+
+  content = writer->write(*this);
+  delete writer;
+  if ((pos = content.find(str)) != std::string::npos)
+    if (pos < _size)
+      content.erase(pos + std::string(str).size(), _size);
+  if (this->_end)
+    content.append(TRAMEEND);
+  return (content);
 }
 
 bool			Trame::writeInFile(std::string const &filename) const
@@ -112,6 +129,7 @@ bool			Trame::readFile(Trame &trame, std::string const &filename)
 int			Trame::toTrame(Trame &trame, std::string const &str)
 {
   std::string		tmp = str;
+  std::string		result;
   bool			ret;
   Json::Reader		*reader = new Json::Reader;
 
@@ -119,9 +137,10 @@ int			Trame::toTrame(Trame &trame, std::string const &str)
   Trame::removeTrameEnd(tmp);
   ret = reader->parse(tmp, trame);
   delete reader;
+  trame.toString(result);
   if (!ret)
     return (-1);
-  if (trame.asString().size() < str.size())
+  if (result.size() < str.size())
     return (1);
   return (0);
 }
