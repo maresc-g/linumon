@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Fri Jan 24 16:26:17 2014 laurent ansel
+// Last update Wed Jan 29 14:51:51 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -35,6 +35,8 @@ public:
   bool				setInfo(FD const fd, ISocketClient *client, std::string const &proto) const;
   bool				setInfo(FD const fd, bool const disconnect) const;
   bool				setInfo(FD const fd, unsigned int const nbTrame) const;
+  bool				setInfo(FD const fd, std::string const &name, std::string const &Faction, bool &ok) const;
+  bool				setInfo(FD const fd, unsigned int const idPlayer, bool const send) const;
   void				readClient(FD const fd, std::string const &protocole);
   void				canWrite(FD const fd, std::string const &protocole);
   bool				search(FD const fd) const;

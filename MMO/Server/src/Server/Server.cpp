@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Tue Jan 28 14:58:23 2014 laurent ansel
+// Last update Wed Jan 29 13:23:55 2014 laurent ansel
 //
 
 #include			<list>
@@ -42,10 +42,10 @@ Server::~Server()
 {
   ClientManager::getInstance()->setQuit(true);
   ClientManager::getInstance()->join();
-  _codeBreaker->setQuit(true);
-  _codeBreaker->join();
   Chat::getInstance()->setQuit(true);
   Chat::getInstance()->join();
+  _codeBreaker->setQuit(true);
+  _codeBreaker->join();
   if ((*this->_socket)["TCP"])
     {
       (*this->_socket)["TCP"]->destroy();

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Jan 29 13:09:49 2014 laurent ansel
+// Last update Wed Jan 29 14:54:21 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -118,4 +118,15 @@ unsigned int			Client::getNbTrame() const
 void				Client::addUser(User *user)
 {
   this->_user = user;
+}
+
+bool				Client::addPlayer(std::string const &, std::string const &)
+{
+
+  return (false);
+}
+
+void				Client::choosePlayer(unsigned int const, bool const)
+{
+
 }
