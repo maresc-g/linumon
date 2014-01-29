@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Jan 29 16:02:07 2014 guillaume marescaux
+// Last update Wed Jan 29 16:25:55 2014 guillaume marescaux
 //
 
 #include			<string.h>
@@ -172,6 +172,9 @@ void				Core::init(void)
     this->read(0, false);
   _proto->decodeTrame(trame);
   this->write();
+  while (!(trame = manager->popTrame(CircularBufferManager::READ_BUFFER)))
+    this->read(0, false);
+  std::cout << trame->toString() << std::endl;
 }
 
 //--------------------------------------END METHODS--------------------------------------------
