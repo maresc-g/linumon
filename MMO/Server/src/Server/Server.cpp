@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Wed Jan 29 13:23:55 2014 laurent ansel
+// Last update Wed Jan 29 16:23:18 2014 laurent ansel
 //
 
 #include			<list>
@@ -208,12 +208,13 @@ bool				Server::recvUdp()
   this->_mutex->lock();
   if (ret > 0)
     {
-      decrypt.append(tmp, ret);
-      if (Crypto::getInstance()->decryption(decrypt, str))
-	{
+      str.append(tmp, ret);
+      //      decrypt.append(tmp, ret);
+      // if (Crypto::getInstance()->decryption(decrypt, str))
+      // 	{
 	  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
 	  Trame::toTrame(*trame, str);
-	  if (trame->isMember("INITIALIZE"))
+	  if ((*trame)[CONTENT].isMember("INITIALIZE"))
 	    {
 	      ClientManager::getInstance()->setInfoClient((*trame)[HEADER]["IDCLIENT"].asUInt(), (*this->_socket)["UDP"]->getSocket().getSocket(), "UDP");
 	      this->_mutex->unlock();
@@ -221,7 +222,7 @@ bool				Server::recvUdp()
 	      this->_mutex->lock();
 	    }
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
-	}
+	// }
     }
   //  ClientManager::getInstance()->setInfoClient((*this->_socket)["UDP"]->getSocket().getSocket(), true, "UDP");
   this->_mutex->unlock();
