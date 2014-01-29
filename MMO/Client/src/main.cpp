@@ -5,11 +5,12 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 11:16:43 2014 guillaume marescaux
-// Last update Fri Jan 24 15:34:27 2014 guillaume marescaux
+// Last update Wed Jan 29 15:37:59 2014 guillaume marescaux
 //
 
 #include		<iostream>
 #include		"Client.hh"
+#include <unistd.h>
 
 int			main()
 {
