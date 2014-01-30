@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Wed Jan 29 15:06:11 2014 guillaume marescaux
+// Last update Thu Jan 30 11:19:57 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -47,6 +47,7 @@ private:
   Poll					*_poll;
   Protocol				*_proto;
   int					_id;
+  bool					_initialized;
 
 public:
 
@@ -67,6 +68,7 @@ private:
   void			readFromSocket(eSocket sock);
   void			writeToSocket(Trame const &trame, eSocket sock);
   bool			welcome(Trame *trame);
+  bool			check(Trame *trame);
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Jan 29 16:25:55 2014 guillaume marescaux
+// Last update Thu Jan 30 11:24:48 2014 guillaume marescaux
 //
 
 #include			<string.h>
@@ -22,10 +22,9 @@ Core::Core():
   _player(NULL),
   _poll(new Poll),
   _proto(new Protocol(false)),
-  _id(0)
+  _id(0),
+  _initialized(false)
 {
-  ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
-  ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
   std::function<bool (Trame *)> func;
   func = std::bind1st(std::mem_fun(&Core::welcome), this);
 
@@ -110,6 +109,12 @@ bool				Core::welcome(Trame *trame)
   return (true);
 }
 
+bool				Core::check(Trame *trame)
+{
+  _initialized = true;
+  return (true);
+}
+
 //-------------------------------------BEGIN METHODS-------------------------------------------
 
 void                            Core::write()
@@ -174,7 +179,7 @@ void				Core::init(void)
   this->write();
   while (!(trame = manager->popTrame(CircularBufferManager::READ_BUFFER)))
     this->read(0, false);
-  std::cout << trame->toString() << std::endl;
+  _proto->decodeTrame(trame);
 }
 
 //--------------------------------------END METHODS--------------------------------------------
