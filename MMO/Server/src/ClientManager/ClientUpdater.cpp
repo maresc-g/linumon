@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Tue Jan 28 14:28:23 2014 laurent ansel
+// Last update Wed Jan 29 17:31:35 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -107,7 +107,7 @@ bool				ClientUpdater::newClient(Header const &header, ISocketClient *client)
   return (false);
 }
 
-bool				ClientUpdater::setInfo(FD const fd, ISocketClient *client, std::string const &proto) const
+bool				ClientUpdater::setInfo(FD const fd, ISocketClient const *client, std::string const &proto) const
 {
   this->_mutex->lock();
   for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
@@ -147,6 +147,38 @@ bool				ClientUpdater::setInfo(FD const fd, unsigned int const nbTrame) const
       if (fd == (*it).first->getId() && (*it).first->isUse())
 	{
 	  (*it).first->addTrame(nbTrame);
+	  this->_mutex->unlock();
+	  return (true);
+	}
+    }
+  this->_mutex->unlock();
+  return (false);
+}
+
+bool				ClientUpdater::setInfo(FD const fd, unsigned int const idPlayer, bool const send) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  (*it).first->choosePlayer(idPlayer, send);
+	  this->_mutex->unlock();
+	  return (true);
+	}
+    }
+  this->_mutex->unlock();
+  return (false);
+}
+
+bool				ClientUpdater::setInfo(FD const fd, std::string const &name, std::string const &faction, bool &ok) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  ok = (*it).first->addPlayer(name, faction);
 	  this->_mutex->unlock();
 	  return (true);
 	}

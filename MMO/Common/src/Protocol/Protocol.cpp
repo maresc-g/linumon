@@ -5,10 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Jan 30 14:18:41 2014 antoine maitre
+// Last update Thu Jan 30 14:23:04 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
+#include		"Protocol/LoginInfos.hpp"
 #include		"Error/Error.hpp"
 
 Protocol::Protocol(bool const server):
@@ -29,6 +30,7 @@ Protocol::Protocol(bool const server):
   else
     {
       (*this->_container)["INITIALIZE"] = &Protocol::initialize;
+      (*this->_container)["CONNECTION"] = &Protocol::connection;
       (*this->_container)["ERROR"] = &Protocol::error;
     }
 }
@@ -62,7 +64,7 @@ bool			Protocol::welcome(unsigned int const id, void *)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)["WELCOME"];
+      (*trame)[CONTENT]["WELCOME"];
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -100,7 +102,28 @@ bool			Protocol::initialize(unsigned int const id, void *)
   header->setProtocole("UDP");
   if (header->serialization(*trame))
     {
-      (*trame)["INITIALIZE"];
+      (*trame)[CONTENT]["INITIALIZE"];
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			Protocol::connection(unsigned int const id, void *param)
+{
+  Trame			*trame;
+  Header		*header;
+  LoginInfos		*infos = reinterpret_cast<LoginInfos *>(param);
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["CONNECTION"]["PSEUDO"] = infos->pseudo;
+      (*trame)[CONTENT]["CONNECTION"]["PASS"] = infos->pass;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -119,7 +142,7 @@ bool			Protocol::check(unsigned int const id, void *)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)["CHECK"];
+      (*trame)[CONTENT]["CHECK"];
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -151,7 +174,7 @@ bool			Protocol::decodeTrame(Trame *trame)
 
   for (auto it = this->_decode->begin() ; it != this->_decode->end() ; ++it)
     {
-      if (trame->isMember(it->first))
+      if ((*trame)[CONTENT].isMember(it->first))
 	ret = ((*this->_decode)[it->first])(trame);
     }
   return (ret);

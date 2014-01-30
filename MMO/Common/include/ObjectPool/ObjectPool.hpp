@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 19:08:45 2013 laurent ansel
-// Last update Fri Jan 24 16:43:22 2014 laurent ansel
+// Last update Thu Jan 30 12:33:38 2014 guillaume marescaux
 //
 
 #ifndef 			__OBJECTPOOL_HPP__
@@ -16,6 +16,7 @@
 #else
 #include			<unistd.h>
 #endif
+#include			<typeinfo>
 #include			"ObjectPool/IObjectPool.hh"
 #include			"Mutex/Mutex.hpp"
 #include			"Thread/Thread.hpp"
@@ -35,11 +36,13 @@ private:
   unsigned int			_nb;
 public:
   ObjectPool(unsigned int const nb = DEFAULT_CREATE):
-    _list(new std::list<T *>),
+    _list(new std::list<T *>(100)),
     _mutex(new Mutex()),
     _quit(false),
     _nb(nb)
   {
+    for (auto it = _list->begin() ; it != _list->end() ; it++)
+      (*it) = new T;
     _mutex->init();
     this->create(&runObjectPoolThread<T>, this);
   }
@@ -64,10 +67,10 @@ public:
       {
 	this->_mutex->unlock();
 	this->_mutex->lock();
-	if (_list && _list->size() < _nb / 2)
-	  time = 100;
-	else
+	if (_list && _list->size() >= _nb / 2)
 	  time = 600;
+	else
+	  time = 1;
 	_list->push_back(new T());
 	//	std::cout << "ptr {" << _list->back() << "}" << std::endl;
 	this->_mutex->unlock();

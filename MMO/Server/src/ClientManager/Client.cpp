@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Sat Jan 25 15:19:13 2014 laurent ansel
+// Last update Wed Jan 29 17:32:46 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -58,7 +58,7 @@ void				Client::use(FD const id)
   this->_use = true;
 }
 
-void				Client::setSocket(ISocketClient *socket, std::string const &proto)
+void				Client::setSocket(ISocketClient const *socket, std::string const &proto)
 {
   if ((*_sockets)[proto])
     delete (*_sockets)[proto];
@@ -73,9 +73,11 @@ bool				Client::writeTrame(Trame *trame, std::string const &proto)
 
   if (trame && trame->toString(str))
     {
-      Crypto::getInstance()->encryption(str, tmp);
-      ret = (*this->_sockets)[proto]->writeSocket(const_cast<char *>(tmp.c_str()), tmp.size());
-      if (ret < tmp.size())
+      //      Crypto::getInstance()->encryption(str, tmp);
+      //      ret = (*this->_sockets)[proto]->writeSocket(const_cast<char *>(tmp.c_str()), tmp.size());
+      ret = (*this->_sockets)[proto]->writeSocket(const_cast<char *>(str.c_str()), str.size());
+      //      if (ret < tmp.size())
+      if (ret < str.size())
 	{
 	  trame->setSize(ret);
 	  return (false);
@@ -95,9 +97,11 @@ bool				Client::readTrame(std::string &str, std::string const &proto)
   if (ret > 0)
     {
       std::cout << ret << std::endl;
-      decrypt.append(tmp, ret);
-      if (Crypto::getInstance()->decryption(decrypt, str))
-	return (true);
+      str.append(tmp, ret);
+      std::cout << "toto" << std::endl;
+      // decrypt.append(tmp, ret);
+      // if (Crypto::getInstance()->decryption(decrypt, str))
+      return (true);
     }
   return (false);
 }
@@ -105,6 +109,7 @@ bool				Client::readTrame(std::string &str, std::string const &proto)
 void				Client::addTrame(unsigned int const nb)
 {
   this->_trame += nb;
+  std::cout << "TRAME = " << nb << std::endl;
 }
 
 unsigned int			Client::getNbTrame() const
@@ -115,4 +120,15 @@ unsigned int			Client::getNbTrame() const
 void				Client::addUser(User *user)
 {
   this->_user = user;
+}
+
+bool				Client::addPlayer(std::string const &, std::string const &)
+{
+
+  return (false);
+}
+
+void				Client::choosePlayer(unsigned int const, bool const)
+{
+
 }

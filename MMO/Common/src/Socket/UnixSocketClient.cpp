@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:32 2013 laurent ansel
-// Last update Fri Dec  6 12:39:45 2013 laurent ansel
+// Last update Wed Jan 29 17:18:32 2014 laurent ansel
 //
 
 #ifndef _WIN32
@@ -31,7 +31,7 @@ UnixSocketClient::UnixSocketClient(UnixSocketClient *client)
   *this = client;
 }
 
-UnixSocketClient::UnixSocketClient(ISocketClient *client)
+UnixSocketClient::UnixSocketClient(ISocketClient const *client)
 {
   *this = client;
 }
@@ -48,7 +48,7 @@ UnixSocketClient	&UnixSocketClient::operator=(UnixSocketClient *client)
   return (*this);
 }
 
-UnixSocketClient	&UnixSocketClient::operator=(ISocketClient *client)
+UnixSocketClient	&UnixSocketClient::operator=(ISocketClient const *client)
 {
   if (this != client)
     {

@@ -5,13 +5,14 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:33:45 2013 alexis mestag
-// Last update Fri Jan 24 21:17:38 2014 alexis mestag
+// Last update Wed Jan 29 14:27:05 2014 alexis mestag
 //
 
 #ifndef			__ACHARACTER_HH__
 # define		__ACHARACTER_HH__
 
 # include		"Entities/AStatEntity.hh"
+# include		"Entities/Level.hh"
 
 class			ACharacter : public AStatEntity
 {
@@ -28,6 +29,7 @@ public:
 private:
   eCharacter		_characterType;
   int			_currentExp;
+  Level			_level;
 
 protected:
   ACharacter();
@@ -45,6 +47,10 @@ public:
 
   int			getCurrentExp() const;
   void			setCurrentExp(int const currentExp);
+
+  Level const		&getLevel() const;
+  void			setLevel(Level const &level);
+  void			levelUp();
 };
 
 # ifdef	ODB_COMPILER

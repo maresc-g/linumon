@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Sat Jan 25 14:33:00 2014 laurent ansel
+// Last update Wed Jan 29 16:53:06 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -40,14 +40,18 @@ public:
   void				run();
   void				setQuit(bool const quit);
   void				newClient(Header const &header, ISocketClient *tcp);
-  void				setInfoClient(FD const fd, ISocketClient *socket, std::string const &proto) const;
+  void				setInfoClient(FD const fd, ISocketClient const *socket, std::string const &proto) const;
   void				setInfoClient(FD const fd) const;
-  void				setInfoClient(FD const fd, bool const read, std::string const &protocole) const;
+  void				setInfoClient(FD const fd, std::string const &protocole, bool const read) const;
+  void				setInfoClient(FD const fd, std::string const &name, std::string const &faction, bool &ok) const;
+  void				setInfoClient(FD const fd, unsigned int const idPlayer) const;
   void				setWriteFunction(function *writeFunc);
   void				newTrameToWrite(FD const fd, unsigned int const nbTrame) const;
-  bool				connectionUser(Trame * trame);
 private:
   void				findWrite() const;
+  bool				connectionUser(Trame * trame);
+  bool				createPlayer(Trame * trame);
+  bool				choosePlayer(Trame * trame);
 };
 
 void				*runClientManager(void *data);

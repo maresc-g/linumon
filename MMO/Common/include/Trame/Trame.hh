@@ -5,18 +5,18 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:57:30 2013 laurent ansel
-// Last update Mon Jan 27 09:16:38 2014 laurent ansel
+// Last update Thu Jan 30 12:34:36 2014 laurent ansel
 //
 
 #ifndef 			__TRAME_HH__
 # define 			__TRAME_HH__
 
-#include			<jsoncpp/json/json.h>
+#include			"JsonFile/JsonFile.hh"
 #include			"Utility/CommonDefine.hh"
 
 #define	TRAMEEND		"<TRAMEEND>"
 
-class				Trame : public Json::Value
+class				Trame : public JsonFile
 {
 private:
   bool				_end;
@@ -26,14 +26,13 @@ public:
   Trame(std::string const &str, bool const end = false);
   virtual ~Trame();
   // Trame				&operator[](std::string const &key) const;
-  bool				toString(std::string &content) const;
-  bool				writeInFile(std::string const &filename) const;
+  void				setSize(size_t const size);
+  virtual bool			toString(std::string &content) const;
+  std::string			toString() const;
   bool				getEnd() const;
   void				setEnd(bool const end);
-  void				setSize(size_t const size);
   static void			removeTrameEnd(std::string &content);
   static bool			isEnd(std::string const &content);
-  static bool			readFile(Trame &trame, std::string const &filename);
 
   /*
   ** renvoie -1 error

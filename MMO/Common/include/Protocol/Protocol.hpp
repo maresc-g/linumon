@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Thu Jan 30 14:15:54 2014 antoine maitre
+// Last update Thu Jan 30 14:23:23 2014 antoine maitre
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -45,6 +45,7 @@ private:
   bool				check(unsigned int const id, void *);
   bool				launchBattle(unsigned int const id, void *param);
   bool				error(unsigned int const id, void *error);
+  bool				connection(unsigned int const id, void *param);
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:55:14 2013 laurent ansel
-// Last update Mon Jan 27 09:16:27 2014 laurent ansel
+// Last update Thu Jan 30 12:36:21 2014 laurent ansel
 //
 
 #include		<sstream>
@@ -13,7 +13,7 @@
 #include		"Trame/Trame.hh"
 
 Trame::Trame(bool const end):
-  Json::Value(),
+  JsonFile(),
   _end(end),
   _size(0)
 {
@@ -21,7 +21,7 @@ Trame::Trame(bool const end):
 }
 
 Trame::Trame(std::string const &str, bool const end):
-  Json::Value(),
+  JsonFile(),
   _end(end),
   _size(0)
 {
@@ -37,6 +37,11 @@ Trame::~Trame()
 // {
 //   return ((*this)[key]);
 // }
+
+void			Trame::setSize(size_t const size)
+{
+  this->_size = size;
+}
 
 bool			Trame::toString(std::string &content) const
 {
@@ -54,17 +59,21 @@ bool			Trame::toString(std::string &content) const
   return (true);
 }
 
-bool			Trame::writeInFile(std::string const &filename) const
+std::string		Trame::toString() const
 {
-  std::ofstream		file(filename);
-  std::string		str;
+  std::string		content;
+  Json::StyledWriter	*writer = new Json::StyledWriter;
+  size_t		pos;
+  std::string		str(CONTENT + std::string(" : "));
 
-  if (this->toString(str))
-    {
-      file.write(str.c_str(), str.size());
-      file.close();
-    }
-  return (false);
+  content = writer->write(*this);
+  delete writer;
+  if ((pos = content.find(str)) != std::string::npos)
+    if (pos < _size)
+      content.erase(pos + std::string(str).size(), _size);
+  if (this->_end)
+    content.append(TRAMEEND);
+  return (content);
 }
 
 void			Trame::setEnd(bool const end)
@@ -75,11 +84,6 @@ void			Trame::setEnd(bool const end)
 bool			Trame::getEnd() const
 {
   return (this->_end);
-}
-
-void			Trame::setSize(size_t const size)
-{
-  this->_size = size;
 }
 
 void			Trame::removeTrameEnd(std::string &content)
@@ -97,21 +101,10 @@ bool			Trame::isEnd(std::string const &content)
   return (false);
 }
 
-bool			Trame::readFile(Trame &trame, std::string const &filename)
-{
-  bool			ret;
-  std::ifstream		str(filename, std::ifstream::binary);
-  Json::Reader		*reader = new Json::Reader;
-
-  ret = reader->parse(str, trame);
-  delete reader;
-  str.close();
-  return (ret);
-}
-
 int			Trame::toTrame(Trame &trame, std::string const &str)
 {
   std::string		tmp = str;
+  std::string		result;
   bool			ret;
   Json::Reader		*reader = new Json::Reader;
 
@@ -119,9 +112,10 @@ int			Trame::toTrame(Trame &trame, std::string const &str)
   Trame::removeTrameEnd(tmp);
   ret = reader->parse(tmp, trame);
   delete reader;
+  trame.toString(result);
   if (!ret)
     return (-1);
-  if (trame.asString().size() < str.size())
+  if (result.size() < str.size())
     return (1);
   return (0);
 }
