@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 19:08:45 2013 laurent ansel
-// Last update Thu Jan 30 09:15:49 2014 laurent ansel
+// Last update Thu Jan 30 11:09:47 2014 laurent ansel
 //
 
 #ifndef 			__OBJECTPOOL_HPP__
@@ -36,7 +36,7 @@ private:
   unsigned int			_nb;
 public:
   ObjectPool(unsigned int const nb = DEFAULT_CREATE):
-    _list(new std::list<T *>(nb / 2, new T())),
+    _list(new std::list<T *>),
     _mutex(new Mutex()),
     _quit(false),
     _nb(nb)
