@@ -5,13 +5,14 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Jan 30 11:24:48 2014 guillaume marescaux
+// Last update Thu Jan 30 12:57:50 2014 guillaume marescaux
 //
 
 #include			<string.h>
 #include			<functional>
 #include			"Core/Core.hh"
 #include			"Crypto/Crypto.hh"
+#include			"Protocol/LoginInfos.hpp"
 
 //-----------------------------------BEGIN CTOR / DTOR-----------------------------------------
 
@@ -180,6 +181,11 @@ void				Core::init(void)
   while (!(trame = manager->popTrame(CircularBufferManager::READ_BUFFER)))
     this->read(0, false);
   _proto->decodeTrame(trame);
+  LoginInfos *test = new LoginInfos;
+  test->pseudo = "toto";
+  test->pass = "titi";
+  (*_proto)("CONNECTION", _id, test);
+  this->write();
 }
 
 //--------------------------------------END METHODS--------------------------------------------
