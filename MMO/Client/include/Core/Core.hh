@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Thu Jan 30 12:40:53 2014 guillaume marescaux
+// Last update Thu Jan 30 15:35:35 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -18,10 +18,14 @@
 #include		"Entities/Player.hh"
 #include		"Poll/Poll.hpp"
 #include		"Protocol/Protocol.hpp"
+#include		"Protocol/LoginInfos.hpp"
+#include		"Thread/Thread.hpp"
+#include		"Mutex/MutexVar.hpp"
+#include		"eState.hh"
 
-# define		CONNECT_FILE	"Res/Connection.json"
+# define		CONNECT_FILE	"../Res/Connection.json"
 
-class			Core
+class			Core : public Thread
 {
 public:
 
@@ -47,20 +51,23 @@ private:
   Poll					*_poll;
   Protocol				*_proto;
   int					_id;
-  bool					_initialized;
+  MutexVar<bool>			*_initialized;
+  MutexVar<bool>			*_running;
+  MutexVar<eState>			*_state;
 
 public:
 
   // Ctor / Dtor
-  Core();
+  Core(MutexVar<eState> *state);
   virtual ~Core();
 
   // Methods
   void			init(void);
   void			read(int const timeout, bool const setTimeout);
   void			write();
-  void			connection(std::string const &pseudo, std::string const &pass);
-
+  void			connection(LoginInfos *infos);
+  void			run(void);
+  void			loop(void);
 private:
 
   Core(Core const &);

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Fri Jan 24 15:32:02 2014 guillaume marescaux
+// Last update Thu Jan 30 15:50:53 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -15,6 +15,14 @@
 #include			"Mutex/MutexVar.hpp"
 #include			"eState.hh"
 #include			"Core/Core.hh"
+#include		        "SFML/SFMLView.hpp"
+#include		        "Qt/WindowManager.hh"
+#include			"Qt/LoginView/LoginView.hh"
+#include			<Qt/qapplication.h>
+#include			<Qt/qframe.h>
+#include			<Qt/qpushbutton.h>
+#include			<Qt/qfile.h>
+#include			<Qt/qgridlayout.h>
 
 class				Client : public Singleton<Client>
 {
@@ -25,12 +33,18 @@ private:
   // Attributes
   MutexVar<eState>		*_state;
   Core				*_core;
+  WindowManager			*_manager;
 
   // Ctor / Dtor
   Client();
   virtual ~Client();
   Client(Client const &);
   Client			&operator=(Client const &);
+
+public:
+
+  void				init(int ac, char **av);
+  void				connection(LoginInfos *infos);
 };
 
 #endif

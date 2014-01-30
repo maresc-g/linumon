@@ -5,29 +5,22 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 11:16:43 2014 guillaume marescaux
-// Last update Thu Jan 30 13:49:18 2014 cyril jourdain
+// Last update Thu Jan 30 15:47:33 2014 guillaume marescaux
 //
 
 #include		<iostream>
 #include		"Client.hh"
-#include	        "SFML/SFMLView.hpp"
-#include	        "Qt/WindowManager.hh"
-#include	        "Qt/LoginView/LoginView.hh"
-#include	        <Qt/qapplication.h>
-#include	        <Qt/qframe.h>
-#include	        <Qt/qpushbutton.h>
-#include	        <Qt/qfile.h>
-#include	        <Qt/qgridlayout.h>
 
 int			main(int ac, char **av)
 {
-  // ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
-  // ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
-  // Client		*client = Client::getInstance();
-  WindowManager         *manager = new WindowManager(ac, av);
+  ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
+  ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
+  Client		*client = Client::getInstance();
+  // WindowManager         *manager = new WindowManager(ac, av);
 
-  manager->exec();
+  // manager->exec();
 
-  // client->deleteInstance();
+  client->init(ac, av);
+  client->deleteInstance();
   return (0);
 }
