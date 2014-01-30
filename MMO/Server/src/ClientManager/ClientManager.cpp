@@ -5,9 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Wed Jan 29 17:45:33 2014 laurent ansel
+// Last update Thu Jan 30 13:07:41 2014 alexis mestag
 //
 
+#include			"Database/Database.hpp"
+#include			"Entities/User-odb.hxx"
 #include			"ClientManager/ClientManager.hh"
 #include			"Error/Error.hpp"
 #include			"Server/Server.hh"
@@ -242,10 +244,20 @@ bool				ClientManager::connectionUser(Trame *trame)
 
   if ((*trame)[CONTENT].isMember("CONNECTION"))
     {
-      //call BDD to find user
-      //(*trame)["pseudo"]
-      //(*trame)["pass"]
-      //ret =
+      User			*user = NULL;
+      Database			*db = Database::getInstance();
+      odb::transaction		t(db->getDb()->begin());
+      odb::query<User>		q(odb::query<User>::pseudo == (*trame)[CONTENT]["CONNECTION"]["PSEUDO"].asString());
+      odb::result<User>		r(db->getDb()->query<User>(q));
+      
+      for (User &u: r) {
+	user = &u;
+      }
+
+      if (user) {
+
+      }
+      
       if (ret)
 	{
 	  //answer list player with user
@@ -261,6 +273,7 @@ bool				ClientManager::connectionUser(Trame *trame)
 	      delete error;
 	    }
 	}
+      t.commit();
     }
   return (false);
 }
