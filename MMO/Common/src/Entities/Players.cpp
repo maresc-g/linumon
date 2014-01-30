@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 15:55:08 2013 alexis mestag
-// Last update Thu Jan 30 14:53:07 2014 alexis mestag
+// Last update Thu Jan 30 15:09:23 2014 laurent ansel
 //
 
 #include			<functional>
@@ -52,13 +52,14 @@ bool				Players::serialization(Trame &trame) const
   int				i = 0;
   std::ostringstream		str("PLAYER");
 
+  trame[CONTENT]["PLAYERSLIST"];
   for (auto it = this->_players.begin() ; it != this->_players.end() ; ++it)
     {
       str << i;
-      trame[CONTENT][str.str()]["IDPLAYER"] = static_cast<unsigned int>((*it)->getId());
-      trame[CONTENT][str.str()]["NAME"] = (*it)->getName();
-      //      trame[CONTENT][str.str()]["LEVEL"] = (*it)->getLevel().getLevel();
-      trame[CONTENT][str.str()]["Faction"] = (*it)->getFaction().getName();
+      trame[CONTENT]["PLAYERSLIST"][str.str()]["IDPLAYER"] = static_cast<unsigned int>((*it)->getId());
+      trame[CONTENT]["PLAYERSLIST"][str.str()]["NAME"] = (*it)->getName();
+      trame[CONTENT]["PLAYERSLIST"][str.str()]["LEVEL"] = (*it)->getLevel().getLevel();
+      trame[CONTENT]["PLAYERSLIST"][str.str()]["Faction"] = (*it)->getFaction().getName();
       str.str("PLAYER");
       i++;
     }
