@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 13:39:52 2014 alexis mestag
-// Last update Wed Jan 29 14:41:27 2014 alexis mestag
+// Last update Thu Jan 30 13:13:55 2014 alexis mestag
 //
 
 #ifndef			__DATABASE_HPP__
@@ -16,9 +16,9 @@
 # include		<odb/mysql/database.hxx>
 # include		"Utility/Singleton.hpp"
 
-# define DB_USER	"odbLinumon"
+# define DB_USER	"odbLinumonUser"
 # define DB_PASSWORD	"odbLinumonPassword"
-# define DB_DATABASE	"LinumonDatabase"
+# define DB_DATABASE	"Linumon"
 
 class			Database : public Singleton<Database>
 {
@@ -35,6 +35,11 @@ private:
   virtual ~Database() {
     delete _s;
     delete _db;
+  }
+
+public:
+  odb::mysql::database	*getDb() {
+    return (_db);
   }
 };
 
