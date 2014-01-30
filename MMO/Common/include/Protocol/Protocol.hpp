@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Sat Jan 25 15:39:54 2014 laurent ansel
+// Last update Thu Jan 30 14:15:54 2014 antoine maitre
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -15,6 +15,7 @@
 #include			<fstream>
 #include			<list>
 #include			<functional>
+#include			"Battle/BattleUpdater.hh"
 #include			"Header/Header.hh"
 #include			"Trame/Trame.hh"
 #include			"ObjectPool/ObjectPoolManager.hpp"
@@ -42,6 +43,7 @@ private:
   bool				welcome(unsigned int const id, void *);
   bool				initialize(unsigned int const id, void *);
   bool				check(unsigned int const id, void *);
+  bool				launchBattle(unsigned int const id, void *param);
   bool				error(unsigned int const id, void *error);
 };
 

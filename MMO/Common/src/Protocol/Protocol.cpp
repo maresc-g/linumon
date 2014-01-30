@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sat Jan 25 15:39:32 2014 laurent ansel
+// Last update Thu Jan 30 14:16:24 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -24,6 +24,7 @@ Protocol::Protocol(bool const server):
       (*this->_container)["WELCOME"] = &Protocol::welcome;
       (*this->_container)["CHECK"] = &Protocol::check;
       (*this->_container)["ERROR"] = &Protocol::error;
+      (*this->_container)["LAUNCHBATTLE"] = &Protocol::launchBattle;
     }
   else
     {
@@ -126,6 +127,24 @@ bool			Protocol::check(unsigned int const id, void *)
   return (false);
 }
 
+bool			Protocol::launchBattle(unsigned int const id, void *param)
+{
+  Trame			*trame;
+  Header		*header;
+  auto			params = reinterpret_cast<std::tuple<unsigned int const, Player const> *>(param);
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      
+    }
+  delete header;
+  return (false);
+}
+
 bool			Protocol::decodeTrame(Trame *trame)
 {
   bool			ret = false;
@@ -144,3 +163,4 @@ bool			Protocol::operator()(std::string const &key, unsigned int const id, void 
     return ((this->*(*_container)[key])(id, param));
   return (false);
 }
+
