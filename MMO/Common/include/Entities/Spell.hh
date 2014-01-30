@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:32:05 2013 alexis mestag
-// Last update Tue Jan 28 12:24:11 2014 laurent ansel
+// Last update Thu Jan 30 14:46:59 2014 alexis mestag
 //
 
 #ifndef			__SPELL_HH__
@@ -25,6 +25,7 @@ private:
   int			_power;
   int			_useLimit;
 
+private:
   Spell();
 
 public:

@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Thu Nov 28 16:47:21 2013 laurent ansel
-## Last update Thu Jan 30 11:25:59 2014 laurent ansel
+## Last update Thu Jan 30 13:59:16 2014 alexis mestag
 ##
 
 COMMON_INCLUDES=	-I $(COMMON)/include
@@ -14,6 +14,7 @@ THREAD=		$(COMMON_SRC)/Thread
 MUTEX=		$(COMMON_SRC)/Mutex
 SOCKET=		$(COMMON_SRC)/Socket
 CIRCULAR_BUFFER_MANAGER=	$(COMMON_SRC)/CircularBufferManager
+EFFECTS=	$(COMMON_SRC)/Effects
 FILESYSTEM=	$(COMMON_SRC)/FileSystem
 TRAME=		$(COMMON_SRC)/Trame
 POLL=		$(COMMON_SRC)/Poll
@@ -36,6 +37,7 @@ include		$(THREAD)/Makefile
 include		$(MUTEX)/Makefile
 include		$(SOCKET)/Makefile
 include		$(CIRCULAR_BUFFER_MANAGER)/Makefile
+include		$(EFFECTS)/Makefile
 include		$(FILESYSTEM)/Makefile
 include		$(TRAME)/Makefile
 include		$(POLL)/Makefile

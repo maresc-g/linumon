@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:50 2013 alexis mestag
-// Last update Fri Jan 24 13:15:05 2014 alexis mestag
+// Last update Thu Jan 30 14:53:53 2014 alexis mestag
 //
 
 #include			<functional>
@@ -63,4 +63,9 @@ std::string const		&User::getPassword() const
 void				User::setPassword(std::string const &password)
 {
   _password = password;
+}
+
+Players const			&User::getPlayers() const
+{
+  return (_players);
 }

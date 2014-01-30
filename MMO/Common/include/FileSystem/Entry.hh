@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 14:19:17 2013 alexis mestag
-// Last update Mon Nov  4 17:39:09 2013 alexis mestag
+// Last update Thu Jan 30 14:10:49 2014 alexis mestag
 //
 
 #ifndef			__FILESYSTEM_ENTRY_HH__
@@ -31,7 +31,6 @@ namespace		FileSystem
 
     Entry();
 
-    void		setPath(std::string const &path);
     void		setType(FileSystem::eType const type);
 
   public:
@@ -42,6 +41,8 @@ namespace		FileSystem
     Entry		&operator=(Entry const &rhs);
 
     std::string const	&getPath() const;
+    void		setPath(std::string const &path);
+
     FileSystem::eType	getType() const;
   };
 }
