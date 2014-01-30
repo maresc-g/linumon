@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Jan 30 11:18:31 2014 laurent ansel
-// Last update Thu Jan 30 12:36:41 2014 laurent ansel
+// Last update Thu Jan 30 21:24:26 2014 laurent ansel
 //
 
 #include		<sstream>
@@ -49,7 +49,7 @@ bool			JsonFile::readFile(JsonFile &json, std::string const &filename)
 {
   bool			ret;
   std::ifstream		str(filename, std::ifstream::binary);
-  Json::Reader	*reader = new Json::Reader;
+  Json::Reader		*reader = new Json::Reader;
 
   ret = reader->parse(str, json);
   delete reader;
