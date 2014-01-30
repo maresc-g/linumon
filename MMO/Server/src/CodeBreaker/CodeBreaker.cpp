@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 14:52:17 2013 laurent ansel
-// Last update Wed Jan 29 16:43:30 2014 laurent ansel
+// Last update Thu Jan 30 13:57:44 2014 laurent ansel
 //
 
 #include			"CodeBreaker/CodeBreaker.hh"
@@ -92,7 +92,7 @@ bool				CodeBreaker::newCode(Trame *trame)
 	  if (!(*it).second)
 	    {
 	      (*it).first->clear();
-	      *(*it).first = trame;
+	      *(*it).first = *trame;
 	      (*it).second = true;
 	      set = true;
 	    }

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Tue Jan 28 13:35:24 2014 laurent ansel
+// Last update Thu Jan 30 14:10:10 2014 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -35,6 +35,7 @@ private:
   Poll				*_poll;
   std::map<FD, std::pair<bool, bool> >	*_actionServer; /*[client] = {write, disconnect}*/
   Mutex				*_mutex;
+  Mutex				*_protoMutex;
   CodeBreaker			*_codeBreaker;
   Protocol			*_protocol;
   Server(/*int const port*/);

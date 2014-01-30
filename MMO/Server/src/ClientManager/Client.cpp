@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Jan 29 17:32:46 2014 laurent ansel
+// Last update Thu Jan 30 14:43:29 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -38,7 +38,7 @@ void				Client::clear()
   _id = 0;
   _trame = 0;
   _use = false;
-  delete _user;
+  //  delete _user;
   _user = NULL;
 }
 
@@ -96,9 +96,8 @@ bool				Client::readTrame(std::string &str, std::string const &proto)
 
   if (ret > 0)
     {
-      std::cout << ret << std::endl;
+      std::cout << "RETREAD = " << ret << std::endl;
       str.append(tmp, ret);
-      std::cout << "toto" << std::endl;
       // decrypt.append(tmp, ret);
       // if (Crypto::getInstance()->decryption(decrypt, str))
       return (true);
@@ -119,6 +118,8 @@ unsigned int			Client::getNbTrame() const
 
 void				Client::addUser(User *user)
 {
+  // if (user)
+  //   delete user;
   this->_user = user;
 }
 

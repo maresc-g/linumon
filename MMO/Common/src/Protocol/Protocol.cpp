@@ -5,12 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Jan 30 12:57:37 2014 guillaume marescaux
+// Last update Thu Jan 30 14:36:46 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
 #include		"Protocol/LoginInfos.hpp"
 #include		"Error/Error.hpp"
+#include		"Entities/Players.hh"
 
 Protocol::Protocol(bool const server):
   _container(new std::map<std::string, funcProtocol>),
@@ -25,6 +26,7 @@ Protocol::Protocol(bool const server):
       (*this->_container)["WELCOME"] = &Protocol::welcome;
       (*this->_container)["CHECK"] = &Protocol::check;
       (*this->_container)["ERROR"] = &Protocol::error;
+      (*this->_container)["PLAYERLIST"] = &Protocol::playerlist;
     }
   else
     {
@@ -142,6 +144,25 @@ bool			Protocol::check(unsigned int const id, void *)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["CHECK"];
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			Protocol::playerlist(unsigned int const id, void *param)
+{
+  Trame			*trame;
+  Header		*header;
+  Players		*ps = reinterpret_cast<Players *>(param);
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame) && ps->serialization(*trame))
+    {
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
