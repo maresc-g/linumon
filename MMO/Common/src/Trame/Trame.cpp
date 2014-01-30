@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:55:14 2013 laurent ansel
-// Last update Wed Jan 29 13:22:51 2014 laurent ansel
+// Last update Thu Jan 30 12:36:21 2014 laurent ansel
 //
 
 #include		<sstream>
@@ -13,7 +13,7 @@
 #include		"Trame/Trame.hh"
 
 Trame::Trame(bool const end):
-  Json::Value(),
+  JsonFile(),
   _end(end),
   _size(0)
 {
@@ -21,7 +21,7 @@ Trame::Trame(bool const end):
 }
 
 Trame::Trame(std::string const &str, bool const end):
-  Json::Value(),
+  JsonFile(),
   _end(end),
   _size(0)
 {
@@ -37,6 +37,11 @@ Trame::~Trame()
 // {
 //   return ((*this)[key]);
 // }
+
+void			Trame::setSize(size_t const size)
+{
+  this->_size = size;
+}
 
 bool			Trame::toString(std::string &content) const
 {
@@ -71,19 +76,6 @@ std::string		Trame::toString() const
   return (content);
 }
 
-bool			Trame::writeInFile(std::string const &filename) const
-{
-  std::ofstream		file(filename);
-  std::string		str;
-
-  if (this->toString(str))
-    {
-      file.write(str.c_str(), str.size());
-      file.close();
-    }
-  return (false);
-}
-
 void			Trame::setEnd(bool const end)
 {
   this->_end = end;
@@ -92,11 +84,6 @@ void			Trame::setEnd(bool const end)
 bool			Trame::getEnd() const
 {
   return (this->_end);
-}
-
-void			Trame::setSize(size_t const size)
-{
-  this->_size = size;
 }
 
 void			Trame::removeTrameEnd(std::string &content)
@@ -112,18 +99,6 @@ bool			Trame::isEnd(std::string const &content)
   if (!content.empty() && (content.find(TRAMEEND) != std::string::npos))
     return (true);
   return (false);
-}
-
-bool			Trame::readFile(Trame &trame, std::string const &filename)
-{
-  bool			ret;
-  std::ifstream		str(filename, std::ifstream::binary);
-  Json::Reader		*reader = new Json::Reader;
-
-  ret = reader->parse(str, trame);
-  delete reader;
-  str.close();
-  return (ret);
 }
 
 int			Trame::toTrame(Trame &trame, std::string const &str)

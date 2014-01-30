@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Thu Nov 28 16:47:21 2013 laurent ansel
-## Last update Mon Jan 27 13:54:45 2014 antoine maitre
+## Last update Thu Jan 30 11:25:59 2014 laurent ansel
 ##
 
 COMMON_INCLUDES=	-I $(COMMON)/include
@@ -26,6 +26,7 @@ INITIALIZECONNECTION=		$(COMMON_SRC)/InitializeConnection
 CRYPTO=		$(COMMON_SRC)/Crypto
 ZONE=		$(COMMON_SRC)/Zone
 PROTOCOL=	$(COMMON_SRC)/Protocol
+JSON=		$(COMMON_SRC)/JsonFile
 
 # Needed for odb
 ODB_CLASSES=
@@ -47,6 +48,7 @@ include		$(INITIALIZECONNECTION)/Makefile
 include		$(CRYPTO)/Makefile
 include		$(ZONE)/Makefile
 include		$(PROTOCOL)/Makefile
+include		$(JSON)/Makefile
 
 ODB_OPTIONS:=	$(addprefix --options-file ,$(ODB_OPTIONS))
 
