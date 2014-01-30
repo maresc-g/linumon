@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Thu Jan 30 13:07:41 2014 alexis mestag
+// Last update Thu Jan 30 14:42:21 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -175,6 +175,20 @@ void				ClientManager::setInfoClient(FD const fd, unsigned int const idPlayer) c
   this->_mutex->unlock();
 }
 
+void				ClientManager::setInfoClient(FD const fd, User *user) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second && (*it).first->search(fd))
+      {
+	(*it).first->setInfo(fd, user);
+	set = true;
+      }
+  this->_mutex->unlock();
+}
+
 void				ClientManager::findWrite() const
 {
   std::list<FD>			list;
@@ -242,6 +256,7 @@ bool				ClientManager::connectionUser(Trame *trame)
   bool				ret = false;
   Error				*error = NULL;
 
+  this->_mutex->lock();
   if ((*trame)[CONTENT].isMember("CONNECTION"))
     {
       User			*user = NULL;
@@ -249,33 +264,38 @@ bool				ClientManager::connectionUser(Trame *trame)
       odb::transaction		t(db->getDb()->begin());
       odb::query<User>		q(odb::query<User>::pseudo == (*trame)[CONTENT]["CONNECTION"]["PSEUDO"].asString());
       odb::result<User>		r(db->getDb()->query<User>(q));
-      
-      for (User &u: r) {
-	user = &u;
+
+      for (auto it = r.begin() ; it != r.end() ; ++it) {
+	user = it.load();
       }
 
-      if (user) {
+      std::cout << "Pseudo = |" << user->getPseudo() << "|"<< std::endl;
+      std::cout << "Password = |" << user->getPassword() << "|"<< std::endl;
 
-      }
-      
-      if (ret)
+      if (user && user->getPassword() == (*trame)[CONTENT]["CONNECTION"]["PASS"].asString())
 	{
-	  //answer list player with user
-	  return (true);
+	  this->_mutex->unlock();
+	  //	  Server::getInstance()->callProtocol("PLAYERLIST", (*trame)[HEADER]["IDCLIENT"].asUInt(), user->getPlayers());
+	  this->setInfoClient((*trame)[HEADER]["IDCLIENT"].asUInt(), user);
+	  this->_mutex->lock();
+	  ret = true;
 	}
       else
 	{
+
 	  if (ObjectPoolManager::getInstance()->setObject(error, "error"))
 	    {
 	      error->setType(Error::USER);
-	      if (Server::getInstance()->callProtocol("ERROR", (*trame)[HEADER]["IDCLIENT"].asUInt(), error))
-		ClientManager::getInstance()->newTrameToWrite((*trame)[HEADER]["IDCLIENT"].asUInt(), 1);
+	      this->_mutex->unlock();
+	      Server::getInstance()->callProtocol("ERROR", (*trame)[HEADER]["IDCLIENT"].asUInt(), error);
+	      this->_mutex->lock();
 	      delete error;
 	    }
 	}
       t.commit();
     }
-  return (false);
+  this->_mutex->unlock();
+  return (ret);
 }
 
 bool				ClientManager::createPlayer(Trame *trame)
