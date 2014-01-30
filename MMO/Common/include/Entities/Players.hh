@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 15:53:16 2013 alexis mestag
-// Last update Wed Jan 29 12:27:08 2014 laurent ansel
+// Last update Thu Jan 30 15:20:30 2014 alexis mestag
 //
 
 #ifndef			__PLAYERS_HH__
@@ -32,6 +32,7 @@ public:
   Players();
   virtual ~Players();
 
+  void			addPlayer(Player &player);
   void			deletePlayers();
   virtual bool		serialization(Trame &trame) const;
 };

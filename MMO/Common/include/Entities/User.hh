@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:16 2013 alexis mestag
-// Last update Thu Jan 30 14:52:46 2014 alexis mestag
+// Last update Thu Jan 30 15:16:40 2014 alexis mestag
 //
 
 #ifndef			__USER_HH__
@@ -40,6 +40,7 @@ public:
   void			setPassword(std::string const &password);
 
   Players const		&getPlayers() const;
+  bool			addPlayer(Player &player);
 };
 
 # ifdef	ODB_COMPILER

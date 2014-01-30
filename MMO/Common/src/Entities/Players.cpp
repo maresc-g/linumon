@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 15:55:08 2013 alexis mestag
-// Last update Thu Jan 30 14:53:07 2014 alexis mestag
+// Last update Thu Jan 30 15:18:48 2014 alexis mestag
 //
 
 #include			<functional>
@@ -63,4 +63,9 @@ bool				Players::serialization(Trame &trame) const
       i++;
     }
   return (ret);
+}
+
+void				Players::addPlayer(Player &player)
+{
+  _players.push_back(&player);
 }
