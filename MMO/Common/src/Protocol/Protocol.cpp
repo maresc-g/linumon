@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Jan 30 14:16:24 2014 antoine maitre
+// Last update Thu Jan 30 14:18:41 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
