@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Thu Jan 30 11:19:57 2014 guillaume marescaux
+// Last update Thu Jan 30 12:40:53 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -59,6 +59,7 @@ public:
   void			init(void);
   void			read(int const timeout, bool const setTimeout);
   void			write();
+  void			connection(std::string const &pseudo, std::string const &pass);
 
 private:
 
