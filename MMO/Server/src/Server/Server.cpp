@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Wed Jan 29 18:02:05 2014 laurent ansel
+// Last update Thu Jan 30 09:20:08 2014 laurent ansel
 //
 
 #include			<list>
@@ -130,6 +130,7 @@ bool				Server::callProtocol(std::string const &key, unsigned int const id, void
 
   this->_mutex->lock();
   ret = this->_protocol->operator()(key, id, param);
+  ClientManager::getInstance()->newTrameToWrite(id, 1);
   this->_mutex->unlock();
   return (ret);
 }
@@ -190,9 +191,6 @@ bool				Server::acceptNewClient()
    std::cout << "CLIENT = " << header->getIdClient() << std::endl;
    this->_mutex->unlock();
    this->callProtocol("WELCOME", header->getIdClient(), NULL);
-   this->_mutex->lock();
-   ClientManager::getInstance()->newTrameToWrite(header->getIdClient(), 1);
-   this->_mutex->unlock();
    delete header;
    this->debug("Done");
    return (true);
@@ -221,7 +219,6 @@ bool				Server::recvUdp()
 	      this->_mutex->unlock();
 	      this->callProtocol("CHECK", (*trame)[HEADER]["IDCLIENT"].asInt(), NULL);
 	      this->_mutex->lock();
-	      ClientManager::getInstance()->newTrameToWrite((*trame)[HEADER]["IDCLIENT"].asInt(), 1);
 	    }
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
 	// }

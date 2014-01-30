@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 19:08:45 2013 laurent ansel
-// Last update Wed Jan 29 16:06:32 2014 laurent ansel
+// Last update Thu Jan 30 09:15:49 2014 laurent ansel
 //
 
 #ifndef 			__OBJECTPOOL_HPP__
@@ -36,7 +36,7 @@ private:
   unsigned int			_nb;
 public:
   ObjectPool(unsigned int const nb = DEFAULT_CREATE):
-    _list(new std::list<T *>),
+    _list(new std::list<T *>(nb / 2, new T())),
     _mutex(new Mutex()),
     _quit(false),
     _nb(nb)
@@ -67,6 +67,8 @@ public:
 	this->_mutex->lock();
 	if (_list && _list->size() >= _nb / 2)
 	  time = 600;
+	else
+	  time = 1;
 	_list->push_back(new T());
 	//	std::cout << "ptr {" << _list->back() << "}" << std::endl;
 	this->_mutex->unlock();
