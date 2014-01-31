@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:55:14 2013 laurent ansel
-// Last update Thu Jan 30 12:36:21 2014 laurent ansel
+// Last update Thu Jan 30 16:28:56 2014 laurent ansel
 //
 
 #include		<sstream>
@@ -37,6 +37,16 @@ Trame::~Trame()
 // {
 //   return ((*this)[key]);
 // }
+
+Trame			&Trame::operator()(Json::Value &value) const
+{
+  return (*(static_cast<Trame *>(&value)));
+}
+
+Trame const		&Trame::operator()(Json::Value const &value) const
+{
+  return (*(static_cast<const Trame *>(&value)));
+}
 
 void			Trame::setSize(size_t const size)
 {
