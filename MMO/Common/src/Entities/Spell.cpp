@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:54:34 2013 alexis mestag
-// Last update Tue Jan 28 12:42:11 2014 laurent ansel
+// Last update Fri Jan 31 15:14:47 2014 laurent ansel
 //
 
 #include			"Entities/Spell.hh"
@@ -68,14 +68,24 @@ void				Spell::setUseLimit(int const useLimit)
   _useLimit = useLimit;
 }
 
-bool				Spell::serialization(Trame &) const
+bool				Spell::serialization(Trame &trame) const
 {
-  bool				ret = false;
+  bool				ret = true;
+
+  trame[this->getName()]["NAME"] = this->getName();
+  this->_type->serialization(trame(trame[this->getName()]));
+  trame[this->getName()]["POWER"] = this->_power;
+  trame[this->getName()]["USELIMIT"] = this->_useLimit;
   return (ret);
 }
 
-Spell				*Spell::deserialization(Trame const &)
+Spell				*Spell::deserialization(Trame const &trame)
 {
-  Spell				*spell = NULL;
+  Spell				*spell = new Spell;
+
+  spell->setType(*Type::deserialization(trame));
+  spell->setName(trame["NAME"].asString());
+  spell->setPower(trame["POWER"].asInt());
+  spell->setUseLimit(trame["USELIMIT"].asInt());
   return (spell);
 }

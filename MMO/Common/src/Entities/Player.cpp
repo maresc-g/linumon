@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Jan 31 11:05:03 2014 laurent ansel
+// Last update Fri Jan 31 15:19:03 2014 laurent ansel
 //
 
 #include			"Entities/Player.hh"
@@ -99,13 +99,15 @@ Digitaliser const		&Player::getDigitaliser() const
 
 bool				Player::serialization(Trame &trame) const
 {
-  bool				ret;
+  bool				ret = true;
 
   trame["PLAYER"]["NAME"] = this->getName();
-  //  if ((ret = this->_coord->serialization(*(static_cast<Trame *>(&trame["PLAYER"])))))
-  if ((ret = this->_coord->serialization(trame(trame["PLAYER"]))))
-    if ((ret = this->_faction->serialization(trame(trame["PLAYER"]))))
-      ret = this->_digitaliser.serialization(trame);
+  trame["PLAYER"]["TYPE"] = this->getStatEntityType();
+  this->_coord->serialization(trame(trame["PLAYER"]));
+  this->_faction->serialization(trame(trame["PLAYER"]));
+  this->_digitaliser.serialization(trame);
+  this->getLevel().serialization(trame);
+  trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
   return (ret);
 }
 
@@ -115,12 +117,11 @@ Player				*Player::deserialization(Trame const &trame)
 
   if (trame.isMember("PLAYER"))
     {
-      //      Trame	const			*tmp = static_cast<const Trame *>(&trame["PLAYER"]);
-
       player = new Player(trame["PLAYER"]["NAME"].asString());
+      player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame["PLAYER"]["TYPE"].asInt()));
       player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));
       player->setFaction(*Faction::deserialization(trame(trame["PLAYER"])));
-      //      player->setDigitaliser(Faction::deserialization(*tmp));
+      player->setLevel(*Level::deserialization(trame(trame["PLAYER"])));
     }
   return (player);
 }

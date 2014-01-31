@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:58:39 2013 alexis mestag
-// Last update Fri Jan 24 21:53:38 2014 alexis mestag
+// Last update Fri Jan 31 13:38:05 2014 laurent ansel
 //
 
 #ifndef			__STATS_HH__
@@ -14,6 +14,7 @@
 # include		<odb/core.hxx>
 # include		<list>
 # include		"Stats/Stat.hh"
+# include		"Utility/ISerialization.hh"
 
 class			Stats
 {
@@ -24,7 +25,6 @@ private:
 
 private:
   std::list<Stat *>	&getStatsDeepCopy() const;
-  void			setStats(std::list<Stat *> &stats);
   void			deleteStats();
 
 public:
@@ -33,6 +33,10 @@ public:
   virtual ~Stats();
 
   Stats			&operator=(Stats const &rhs);
+  void			setStats(std::list<Stat *> &stats);
+
+  virtual bool		serialization(Trame &trame) const;
+  static Stats		*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER
