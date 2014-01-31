@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:57:30 2013 laurent ansel
-// Last update Thu Jan 30 12:34:36 2014 laurent ansel
+// Last update Thu Jan 30 16:29:18 2014 laurent ansel
 //
 
 #ifndef 			__TRAME_HH__
@@ -26,6 +26,8 @@ public:
   Trame(std::string const &str, bool const end = false);
   virtual ~Trame();
   // Trame				&operator[](std::string const &key) const;
+  Trame				&operator()(Json::Value &value) const;
+  Trame const			&operator()(Json::Value const &value) const;
   void				setSize(size_t const size);
   virtual bool			toString(std::string &content) const;
   std::string			toString() const;
