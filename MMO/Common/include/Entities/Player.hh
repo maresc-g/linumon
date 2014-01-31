@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Jan 28 15:26:21 2014 antoine maitre
+// Last update Fri Jan 31 15:17:57 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -16,6 +16,7 @@
 # include		"Entities/ACharacter.hh"
 # include		"Entities/Faction.hh"
 # include		"Zone/Coordinate.hpp"
+# include		"Zone/Zone.hh"
 # include		"Utility/ISerialization.hh"
 
 class			Player : public Persistent, public ACharacter, public ISerialization
@@ -35,6 +36,7 @@ private:
   PlayerCoordinate		*_coord;
   Faction const			*_faction;
   Digitaliser			_digitaliser;
+  Zone::eZone			_zone;
 
 private:
   Player();
@@ -61,12 +63,16 @@ public:
   Digitaliser const	&getDigitaliser() const;
   // No setter for this attribute
 
+  Zone::eZone		getZone() const;
+  void			setZone(Zone::eZone const zone);
+
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Player)
+#  pragma db member(Player::_zone)
 #  pragma db member(Player::_coord) transient
 #  pragma db member(Player::_x) virtual(Player::PlayerCoordinate::type) get(_coord->getX()) set(_coord->setX(?))
 #  pragma db member(Player::_y) virtual(Player::PlayerCoordinate::type) get(_coord->getY()) set(_coord->setY(?))

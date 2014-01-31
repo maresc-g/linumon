@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Jan 30 12:30:55 2014 alexis mestag
-// Last update Thu Jan 30 13:46:21 2014 alexis mestag
+// Last update Fri Jan 31 11:10:51 2014 alexis mestag
 //
 
 #ifndef				__EFFECTLIB_HH__
@@ -24,6 +24,7 @@ public:
 
 private:
   EffectLib();
+  EffectLib(std::string const &name, std::string const &path);
 
 public:
   EffectLib(EffectLib const &rhs);

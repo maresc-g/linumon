@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:00:16 2013 alexis mestag
-// Last update Thu Dec  5 19:55:57 2013 alexis mestag
+// Last update Thu Jan 30 15:31:59 2014 alexis mestag
 //
 
 #ifndef			__STAT_HH__
@@ -30,15 +30,14 @@ public:
       DEFENSE,
       PRECISION,
       CAPTURE,
-      LIMIT_MOB,
-      SPE_ATTACK,
-      SPE_DEFENSE
+      LIMIT_MOB
     }			eStat;
 
 private:
   eStat			_statType;
   int			_value;
 
+private:
   Stat();
 
 public:

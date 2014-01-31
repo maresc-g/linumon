@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Tue Jan 28 16:28:43 2014 antoine maitre
+// Last update Fri Jan 31 15:16:56 2014 alexis mestag
 //
 
 #ifndef			__ZONE_HH__
@@ -22,6 +22,7 @@ class			Zone
 public :
   enum			eZone
     {
+      NONE,
       PLAIN,
       ROCK
     };
