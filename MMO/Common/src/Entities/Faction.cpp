@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:31:07 2013 alexis mestag
-// Last update Tue Jan 28 11:08:39 2014 laurent ansel
+// Last update Thu Jan 30 16:25:35 2014 laurent ansel
 //
 
 #include			"Entities/Faction.hh"
@@ -40,7 +40,7 @@ bool				Faction::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  trame[CONTENT]["PLAYER"]["FACTION"] = this->getName();
+  trame["FACTION"] = this->getName();
   return (ret);
 }
 
@@ -48,7 +48,7 @@ Faction				*Faction::deserialization(Trame const &trame)
 {
   Faction			*faction = NULL;
 
-  if (trame[CONTENT]["PLAYER"].isMember("FACTION"))
-    faction = new Faction(trame[CONTENT]["PLAYER"]["FACTION"].asString());
+  if (trame.isMember("FACTION"))
+    faction = new Faction(trame["FACTION"].asString());
   return (faction);
 }

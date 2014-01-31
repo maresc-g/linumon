@@ -5,15 +5,16 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 13:50:49 2014 alexis mestag
-// Last update Wed Jan 29 14:35:13 2014 alexis mestag
+// Last update Fri Jan 31 12:08:48 2014 laurent ansel
 //
 
 #ifndef			__LEVEL_HH__
 # define		__LEVEL_HH__
 
 # include		"Database/Persistent.hh"
+# include		"Utility/ISerialization.hh"
 
-class			Level
+class			Level : public ISerialization
 {
   friend class		odb::access;
 
@@ -35,6 +36,8 @@ public:
   void			setExp(int const exp);
 
   void			levelUp();
+  virtual bool		serialization(Trame &trame) const;
+  static Level		*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

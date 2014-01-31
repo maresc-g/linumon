@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Tue Jan 28 11:10:32 2014 laurent ansel
+// Last update Fri Jan 31 13:15:16 2014 laurent ansel
 //
 
 #ifndef			__MOB_HH__
@@ -34,6 +34,7 @@ public:
 
   MobModel const	&getModel() const;
   void			setModel(MobModel const &model);
+
   virtual bool		serialization(Trame &trame) const;
   static Mob		*deserialization(Trame const &trame);
 };

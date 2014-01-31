@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Fri Jan 31 10:49:38 2014 guillaume marescaux
+// Last update Fri Jan 31 11:35:03 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -23,7 +23,7 @@
 #include		"Mutex/MutexVar.hpp"
 #include		"eState.hh"
 
-# define		CONNECT_FILE	"../Res/Connection.json"
+# define		CONNECT_FILE	"Res/Connection.json"
 
 class			Core : public Thread
 {
@@ -68,6 +68,8 @@ public:
   void			connection(LoginInfos *infos);
   void			run(void);
   void			loop(void);
+  void			quit(void);
+
 private:
 
   Core(Core const &);
@@ -77,6 +79,7 @@ private:
   void			writeToSocket(Trame const &trame, eSocket sock);
   bool			welcome(Trame *trame);
   bool			check(Trame *trame);
+  bool			handlerError(Trame *trame);
 };
 
 #endif

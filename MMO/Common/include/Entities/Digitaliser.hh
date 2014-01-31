@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Tue Jan 28 11:05:16 2014 laurent ansel
+// Last update Fri Jan 31 13:08:53 2014 laurent ansel
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -35,6 +35,8 @@ public:
   virtual ~Digitaliser();
 
   Mobs const		&getMobs() const;
+  void			setMobs(Mobs const &mobs);
+
   virtual bool		serialization(Trame &trame) const;
   static Digitaliser	*deserialization(Trame const &trame);
 };

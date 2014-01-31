@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Jan 31 15:16:13 2014 alexis mestag
+// Last update Fri Jan 31 15:37:47 2014 alexis mestag
 //
 
 #include			"Entities/Player.hh"
@@ -100,12 +100,15 @@ Digitaliser const		&Player::getDigitaliser() const
 
 bool				Player::serialization(Trame &trame) const
 {
-  bool				ret;
+  bool				ret = true;
 
-  trame[CONTENT]["PLAYER"]["NAME"] = this->getName();
-  if ((ret = this->_coord->serialization(*(static_cast<Trame *>(&trame[CONTENT]["PLAYER"])))))
-    if ((ret = this->_faction->serialization(trame)))
-      ret = this->_digitaliser.serialization(trame);
+  trame["PLAYER"]["NAME"] = this->getName();
+  trame["PLAYER"]["TYPE"] = this->getStatEntityType();
+  this->_coord->serialization(trame(trame["PLAYER"]));
+  this->_faction->serialization(trame(trame["PLAYER"]));
+  this->_digitaliser.serialization(trame);
+  this->getLevel().serialization(trame);
+  trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
   return (ret);
 }
 
@@ -113,14 +116,13 @@ Player				*Player::deserialization(Trame const &trame)
 {
   Player			*player = NULL;
 
-  if (trame[CONTENT].isMember("PLAYER"))
+  if (trame.isMember("PLAYER"))
     {
-      Trame	const			*tmp = static_cast<const Trame *>(&trame[CONTENT]["PLAYER"]);
-
-      player = new Player(trame[CONTENT]["PLAYER"]["NAME"].asString());
-      player->setCoord(*PlayerCoordinate::deserialization(*tmp));
-      player->setFaction(*Faction::deserialization(*tmp));
-      //      player->setDigitaliser(Faction::deserialization(*tmp));
+      player = new Player(trame["PLAYER"]["NAME"].asString());
+      player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame["PLAYER"]["TYPE"].asInt()));
+      player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));
+      player->setFaction(*Faction::deserialization(trame(trame["PLAYER"])));
+      player->setLevel(*Level::deserialization(trame(trame["PLAYER"])));
     }
   return (player);
 }

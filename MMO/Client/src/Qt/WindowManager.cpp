@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Thu Jan 30 13:52:38 2014 cyril jourdain
+// Last update Fri Jan 31 11:32:28 2014 guillaume marescaux
 //
 
 #include		"Qt/WindowManager.hh"
@@ -42,7 +42,7 @@ WindowManager::~WindowManager()
 
 int			WindowManager::exec()
 {
-  QFile File("../Res/stylesheet.qss");
+  QFile File("./Res/stylesheet.qss");
   File.open(QFile::ReadOnly);
 
   QString styleSheet = QLatin1String(File.readAll());
