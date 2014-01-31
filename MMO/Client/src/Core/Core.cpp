@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Jan 30 15:55:52 2014 guillaume marescaux
+// Last update Fri Jan 31 11:08:22 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -74,6 +74,8 @@ Core::~Core()
 
 //------------------------------------END CTOR / DTOR------------------------------------------
 
+//---------------------------------BEGIN PRIVATE METHODS---------------------------------------
+
 void				Core::readFromSocket(eSocket sock)
 {
   static char			buff[SIZE_BUFFER];
@@ -137,7 +139,19 @@ bool				Core::check(Trame *)
   return (true);
 }
 
+bool				Core::handlerError(Trame *trame)
+{
+
+}
+
+//----------------------------------END PRIVATE METHODS----------------------------------------
+
 //-------------------------------------BEGIN METHODS-------------------------------------------
+
+void				Core::quit()
+{
+  *_running = false;
+}
 
 void                            Core::write()
 {
