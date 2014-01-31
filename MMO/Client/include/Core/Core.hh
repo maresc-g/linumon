@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Fri Jan 31 10:49:38 2014 guillaume marescaux
+// Last update Fri Jan 31 10:55:07 2014 laurent ansel
 //
 
 #ifndef 		__CORE_HH__
@@ -23,7 +23,7 @@
 #include		"Mutex/MutexVar.hpp"
 #include		"eState.hh"
 
-# define		CONNECT_FILE	"../Res/Connection.json"
+# define		CONNECT_FILE	"Res/Connection.json"
 
 class			Core : public Thread
 {
