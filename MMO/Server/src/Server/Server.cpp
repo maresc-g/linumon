@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Thu Jan 30 09:20:08 2014 laurent ansel
+// Last update Thu Jan 30 14:15:47 2014 laurent ansel
 //
 
 #include			<list>
@@ -33,6 +33,7 @@ Server::Server(/*int const port*/):
   _poll(new Poll),
   _actionServer(new std::map<FD, std::pair<bool, bool> >),
   _mutex(new Mutex),
+  _protoMutex(new Mutex),
   _codeBreaker(new CodeBreaker),
   _protocol(new Protocol(true))
 {
@@ -69,7 +70,9 @@ Server::~Server()
   ObjectPoolManager::deleteInstance();
   this->_mutex->unlock();
   this->_mutex->destroy();
+  this->_protoMutex->destroy();
   delete this->_mutex;
+  delete this->_protoMutex;
 }
 
 void				Server::init(int const port)
@@ -90,6 +93,7 @@ void				Server::init(int const port)
   this->debug("Done");
   (*this->_socket)["UDP"]->initAddr();
   this->_mutex->init();
+  this->_protoMutex->init();
   Chat::getInstance();
   Crypto::getInstance();
   CircularBufferManager::getInstance();
@@ -124,14 +128,18 @@ bool				Server::addFuncProtocol(std::string const &key, std::function<bool (Tram
   return (ret);
 }
 
+/*
+** si segfault verifier mutex en dessous
+*/
+
 bool				Server::callProtocol(std::string const &key, unsigned int const id, void *param)
 {
   bool				ret = false;
 
-  this->_mutex->lock();
+  this->_protoMutex->lock();
   ret = this->_protocol->operator()(key, id, param);
   ClientManager::getInstance()->newTrameToWrite(id, 1);
-  this->_mutex->unlock();
+  this->_protoMutex->unlock();
   return (ret);
 }
 
@@ -258,17 +266,17 @@ void				Server::actionServer()
 
 bool				Server::readSomething(std::map<FD, std::pair<bool, bool> >::iterator &it)
 {
-  this->debug("read ...");
+  //  this->debug("read ...");
   this->_mutex->lock();
   ClientManager::getInstance()->setInfoClient(it->first, "TCP", true);
   this->_mutex->unlock();
-  this->debug("Done");
+  //  this->debug("Done");
   return (true);
 }
 
 bool				Server::writeSomething(std::map<FD, std::pair<bool, bool> >::iterator &it)
 {
-  this->debug("write ...");
+  //  this->debug("write ...");
   this->_mutex->lock();
   if (this->_actionServer->find(it->first) != this->_actionServer->end())
     {
@@ -277,7 +285,7 @@ bool				Server::writeSomething(std::map<FD, std::pair<bool, bool> >::iterator &i
       this->_poll->pushFd(it->first, IPoll::RDDC);
     }
   this->_mutex->unlock();
-  this->debug("Done");
+  //  this->debug("Done");
   return (true);
 }
 

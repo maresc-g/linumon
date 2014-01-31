@@ -1,0 +1,101 @@
+LoginView
+{
+	border-image:url(../Res/backgroundLogin.png);
+	background-color:transparent;
+}
+
+QWidget#loginForm
+{
+	background-color:rgba(255,255,255,50%);
+}
+
+LoginView QLabel
+{
+	color:black;
+	font-weight:bold;
+}
+
+LoginView QPushButton
+{
+	border-radius:4px;
+   	font-weight:bold;
+   	background-color:rgb(255,255,255);
+   	border-color:#999999;
+   	border-width:3px;
+}
+
+LoginView QPushButton:pressed
+{
+	border-color:gray;
+	border: 2px solid gray;
+	background-color:white;
+}
+
+CharacterView
+{
+	border-image:url(../Res/background2.png);
+}
+
+CharDescription
+{
+	border-image:url(../Res/charSelectBorder.png);
+}
+
+CharDescription QLabel#charPic
+{
+	border-image:url(../Res/harpe.png);
+}
+
+CharDescription QLabel#l_name, QLabel#l_level
+{
+	color:white;
+	font-weight:bold;
+	font-size:20;
+	qproperty-alignment:AlignCenter;
+}
+
+CharacterView QPushButton#b_next
+{
+	border-image:url(../Res/arrow_next.png);
+}
+
+CharacterView QPushButton#b_prev
+{
+	border-image:url(../Res/arrow_prev.png);
+}
+
+CharacterView QScrollArea#scrollPerso
+{
+	border:0px;
+	background-color:transparent;
+}
+
+CharacterView QFrame#charContainer
+{
+	background-color:transparent;
+}
+
+CharacterView QPushButton#b_play
+{
+	border-image:url(../Res/play_button.png)
+}
+
+CharacterView QPushButton#b_back
+{
+	border-image:url(../Res/back_button.png)
+}
+
+ CreateCharView QGroupBox#charBox
+{
+	border-image:url(../Res/CreateCharBorder.png)
+}
+
+CreateCharView QPushButton#b_spritePerso1
+{
+	border-image:url(../Res/char1.png)
+}
+
+CreateCharView QPushButton#b_spritePerso2
+{
+	border-image:url(../Res/char2.png)
+}

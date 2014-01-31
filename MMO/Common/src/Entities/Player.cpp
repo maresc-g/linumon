@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Jan 28 12:41:28 2014 laurent ansel
+// Last update Fri Jan 31 11:05:03 2014 laurent ansel
 //
 
 #include			"Entities/Player.hh"
@@ -101,9 +101,10 @@ bool				Player::serialization(Trame &trame) const
 {
   bool				ret;
 
-  trame[CONTENT]["PLAYER"]["NAME"] = this->getName();
-  if ((ret = this->_coord->serialization(*(static_cast<Trame *>(&trame[CONTENT]["PLAYER"])))))
-    if ((ret = this->_faction->serialization(trame)))
+  trame["PLAYER"]["NAME"] = this->getName();
+  //  if ((ret = this->_coord->serialization(*(static_cast<Trame *>(&trame["PLAYER"])))))
+  if ((ret = this->_coord->serialization(trame(trame["PLAYER"]))))
+    if ((ret = this->_faction->serialization(trame(trame["PLAYER"]))))
       ret = this->_digitaliser.serialization(trame);
   return (ret);
 }
@@ -112,13 +113,13 @@ Player				*Player::deserialization(Trame const &trame)
 {
   Player			*player = NULL;
 
-  if (trame[CONTENT].isMember("PLAYER"))
+  if (trame.isMember("PLAYER"))
     {
-      Trame	const			*tmp = static_cast<const Trame *>(&trame[CONTENT]["PLAYER"]);
+      //      Trame	const			*tmp = static_cast<const Trame *>(&trame["PLAYER"]);
 
-      player = new Player(trame[CONTENT]["PLAYER"]["NAME"].asString());
-      player->setCoord(*PlayerCoordinate::deserialization(*tmp));
-      player->setFaction(*Faction::deserialization(*tmp));
+      player = new Player(trame["PLAYER"]["NAME"].asString());
+      player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));
+      player->setFaction(*Faction::deserialization(trame(trame["PLAYER"])));
       //      player->setDigitaliser(Faction::deserialization(*tmp));
     }
   return (player);

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:16 2013 alexis mestag
-// Last update Fri Jan 24 13:09:52 2014 alexis mestag
+// Last update Thu Jan 30 15:16:40 2014 alexis mestag
 //
 
 #ifndef			__USER_HH__
@@ -38,6 +38,9 @@ public:
   void			setPseudo(std::string const &pseudo);
   std::string const	&getPassword() const;
   void			setPassword(std::string const &password);
+
+  Players const		&getPlayers() const;
+  bool			addPlayer(Player &player);
 };
 
 # ifdef	ODB_COMPILER

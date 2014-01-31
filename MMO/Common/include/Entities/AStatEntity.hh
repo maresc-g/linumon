@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:21:41 2013 alexis mestag
-// Last update Fri Jan 24 21:59:19 2014 alexis mestag
+// Last update Thu Jan 30 15:12:39 2014 alexis mestag
 //
 
 #ifndef			__ASTATENTITY_HH__
@@ -29,6 +29,7 @@ public:
 private:
   eStatEntity		_statEntityType;
   Stats			_stats;
+  Stats			_tmpStats;
 
 protected:
   AStatEntity();
@@ -51,6 +52,7 @@ public:
 #  pragma db object(AStatEntity) abstract
 #  pragma db member(AStatEntity::_statEntityType) transient
 #  pragma db member(AStatEntity::_stats)
+#  pragma db member(AStatEntity::_tmpStats) transient
 # endif
 
 #endif

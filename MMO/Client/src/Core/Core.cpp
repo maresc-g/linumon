@@ -5,18 +5,32 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Jan 30 12:57:50 2014 guillaume marescaux
+// Last update Thu Jan 30 15:55:52 2014 guillaume marescaux
 //
 
+#include			<unistd.h>
 #include			<string.h>
 #include			<functional>
 #include			"Core/Core.hh"
 #include			"Crypto/Crypto.hh"
 #include			"Protocol/LoginInfos.hpp"
 
+
+static void			*runThread(void *data)
+{
+  if (data)
+    {
+      Core			*core = reinterpret_cast<Core *>(data);
+
+      core->run();
+    }
+  return (NULL);
+}
+
 //-----------------------------------BEGIN CTOR / DTOR-----------------------------------------
 
-Core::Core():
+Core::Core(MutexVar<eState> *state):
+  Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
   _infos(new ConnectionInfos),
@@ -24,20 +38,27 @@ Core::Core():
   _poll(new Poll),
   _proto(new Protocol(false)),
   _id(0),
-  _initialized(false)
+  _initialized(new MutexVar<bool>(false)),
+  _running(new MutexVar<bool>(true)),
+  _state(state)
 {
   std::function<bool (Trame *)> func;
   func = std::bind1st(std::mem_fun(&Core::welcome), this);
+  _proto->addFunc("WELCOME", func);
+  func = std::bind1st(std::mem_fun(&Core::check), this);
+  _proto->addFunc("CHECK", func);
 
   (*_sockets)[TCP] = new Socket;
   (*_sockets)[UDP] = new Socket;
   (*_socketsClient)[TCP] = NULL;
   (*_socketsClient)[UDP] = NULL;
-  _proto->addFunc("WELCOME", func);
+  this->create(&runThread, this);
+  this->start();
 }
 
 Core::~Core()
 {
+  this->join();
   delete _infos;
   (*_sockets)[TCP]->destroy();
   (*_sockets)[UDP]->destroy();
@@ -110,9 +131,9 @@ bool				Core::welcome(Trame *trame)
   return (true);
 }
 
-bool				Core::check(Trame *trame)
+bool				Core::check(Trame *)
 {
-  _initialized = true;
+  *_initialized = true;
   return (true);
 }
 
@@ -158,6 +179,11 @@ void				Core::read(int const timeout, bool const setTimeout)
   this->readFromSocket(Core::UDP);  
 }
 
+void				Core::connection(LoginInfos *infos)
+{
+  (*_proto)("CONNECTION", _id, infos);
+}
+
 void				Core::init(void)
 {
   Trame				*trame = new Trame();
@@ -181,10 +207,40 @@ void				Core::init(void)
   while (!(trame = manager->popTrame(CircularBufferManager::READ_BUFFER)))
     this->read(0, false);
   _proto->decodeTrame(trame);
-  LoginInfos *test = new LoginInfos;
-  test->pseudo = "toto";
-  test->pass = "titi";
-  (*_proto)("CONNECTION", _id, test);
+  // LoginInfos *test = new LoginInfos;
+  // test->pseudo = "toto";
+  // test->pass = "titi";
+  // this->connection(test);
+  // this->write();
+
+  // *_running = false;
+  // std::cout << "toto" << std::endl;
+}
+
+void				Core::run()
+{
+  while (**_running)
+    {
+      while (!**_initialized)
+	usleep(100000);
+      if (**_running)
+	this->loop();
+    }
+  std::cout << "lol" << std::endl;
+}
+
+void				Core::loop()
+{
+  Trame				*trame = new Trame();
+  CircularBufferManager		*manager = CircularBufferManager::getInstance();
+
+  this->read(0, true);
+  trame = manager->popTrame(CircularBufferManager::READ_BUFFER);
+  if (trame)
+    {
+      _proto->decodeTrame(trame);
+    }
+  // *_running = false;
   this->write();
 }
 

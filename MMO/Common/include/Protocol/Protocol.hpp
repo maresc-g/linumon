@@ -5,7 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
+<<<<<<< HEAD
 // Last update Thu Jan 30 16:25:42 2014 antoine maitre
+=======
+// Last update Thu Jan 30 14:36:22 2014 laurent ansel
+>>>>>>> d41a15550b70eba8612120327b2bfc2f2d8018d2
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -52,6 +56,7 @@ private:
   bool				deadMob(unsigned int const id, void *param);
   bool				endBattle(unsigned int const id, void *param);
   bool				error(unsigned int const id, void *error);
+  bool				playerlist(unsigned int const id, void *players);
   bool				connection(unsigned int const id, void *param);
 };
 
