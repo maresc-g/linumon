@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:25:25 2014 antoine maitre
-// Last update Thu Jan 30 14:12:31 2014 antoine maitre
+// Last update Thu Jan 30 16:48:59 2014 antoine maitre
 //
 
 #ifndef					__BATTLEUPDATER_HH__
@@ -23,20 +23,12 @@
 
 class					BattleUpdater : public Thread
 {
-private:
-  std::list<std::pair<bool, Trame *> >	*_msg;
 public:
   BattleUpdater();
   virtual ~BattleUpdater();
   std::list<Battle *>			*_battles;
-  bool					launchBattle(Player *, Player *);
-  bool					spell(Trame *trame);
-  bool					spellEffect(Trame *trame);
-  bool					capture(Trame *trame);
-  bool					captureEffect(Trame *trame);
-  bool					datSwitch(Trame *trame);
-  bool					deadMob(Trame *trame);
-  bool					endBattle(Trame *trame);
+  bool					newBattle(Player*, Player*);
+  bool					capture(Trame *);
 };
 
 #endif

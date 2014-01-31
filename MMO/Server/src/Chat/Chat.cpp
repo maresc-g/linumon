@@ -5,11 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Jan 28 13:21:19 2014 laurent ansel
-<<<<<<< HEAD
-// Last update Wed Jan 29 15:17:43 2014 antoine maitre
-=======
-// Last update Wed Jan 29 13:31:23 2014 laurent ansel
->>>>>>> 0a225dcc7587d91872080178f00754d9d3f80075
+// Last update Thu Jan 30 14:27:27 2014 antoine maitre
 //
 
 # include			"Chat/Chat.hh"

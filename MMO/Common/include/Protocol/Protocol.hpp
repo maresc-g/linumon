@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Thu Jan 30 14:23:23 2014 antoine maitre
+// Last update Thu Jan 30 16:25:42 2014 antoine maitre
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -20,6 +20,7 @@
 #include			"Trame/Trame.hh"
 #include			"ObjectPool/ObjectPoolManager.hpp"
 #include			"CircularBufferManager/CircularBufferManager.hh"
+#include			"Entities/AItem.hh"
 
 class				Protocol;
 
@@ -44,6 +45,12 @@ private:
   bool				initialize(unsigned int const id, void *);
   bool				check(unsigned int const id, void *);
   bool				launchBattle(unsigned int const id, void *param);
+  bool				spell(unsigned int const id, void *param);
+  bool				spellEffect(unsigned int const id, void *param);
+  bool				captureEffect(unsigned int const id, void *param);
+  bool				dswitch(unsigned int const id, void *param);
+  bool				deadMob(unsigned int const id, void *param);
+  bool				endBattle(unsigned int const id, void *param);
   bool				error(unsigned int const id, void *error);
   bool				connection(unsigned int const id, void *param);
 };
