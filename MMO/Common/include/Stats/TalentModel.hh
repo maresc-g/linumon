@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:07:00 2014 alexis mestag
-// Last update Fri Jan 31 15:25:26 2014 alexis mestag
+// Last update Fri Jan 31 16:41:25 2014 alexis mestag
 //
 
 #ifndef				__TALENTMODEL_HH__
@@ -21,9 +21,9 @@ class				TalentModel : public Persistent, public Nameable
   friend class			odb::access;
 
 private:
-  int				_maxPoints;
-  EffectLib			*_effectLib;
-  std::list<TalentModel *>	_talents;
+  int					_maxPoints;
+  EffectLib const			*_effectLib;
+  std::list<TalentModel const *>	_talents;
 
 private:
   TalentModel();

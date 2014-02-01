@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 13:39:52 2014 alexis mestag
-// Last update Thu Jan 30 13:13:55 2014 alexis mestag
+// Last update Sat Feb  1 15:59:47 2014 alexis mestag
 //
 
 #ifndef			__DATABASE_HPP__
@@ -15,6 +15,7 @@
 # include		<odb/database.hxx>
 # include		<odb/mysql/database.hxx>
 # include		"Utility/Singleton.hpp"
+# include		"Database/Repositories/Repository.hpp"
 
 # define DB_USER	"odbLinumonUser"
 # define DB_PASSWORD	"odbLinumonPassword"
@@ -25,12 +26,21 @@ class			Database : public Singleton<Database>
   friend class		Singleton<Database>;
 
 public:
-  odb::mysql::database	*_db;
+  template<typename T>
+  using Query = odb::query<T>;
+  template<typename T>
+  using Result = odb::result<T>;
+  using Transaction = odb::transaction;
+
+  typedef odb::mysql::database	DBType;
+
+private:
+  DBType		*_db;
   odb::session		*_s;
 
 private:
   Database() : Singleton(),
-	       _db(new odb::mysql::database(DB_USER, DB_PASSWORD, DB_DATABASE)),
+	       _db(new DBType(DB_USER, DB_PASSWORD, DB_DATABASE)),
 	       _s(new odb::session) {}
   virtual ~Database() {
     delete _s;
@@ -38,8 +48,13 @@ private:
   }
 
 public:
-  odb::mysql::database	*getDb() {
+  DBType		*getDb() {
     return (_db);
+  }
+
+  template<typename T>
+  static Repository<T>	&getRepository() {
+    return (*Repository<T>::getInstance());
   }
 };
 

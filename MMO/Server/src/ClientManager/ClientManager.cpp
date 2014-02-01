@@ -5,11 +5,10 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Thu Jan 30 14:42:21 2014 laurent ansel
+// Last update Sat Feb  1 16:13:52 2014 alexis mestag
 //
 
-#include			"Database/Database.hpp"
-#include			"Entities/User-odb.hxx"
+#include			"Database/Repositories/UserRepository.hpp"
 #include			"ClientManager/ClientManager.hh"
 #include			"Error/Error.hpp"
 #include			"Server/Server.hh"
@@ -259,15 +258,7 @@ bool				ClientManager::connectionUser(Trame *trame)
   this->_mutex->lock();
   if ((*trame)[CONTENT].isMember("CONNECTION"))
     {
-      User			*user = NULL;
-      Database			*db = Database::getInstance();
-      odb::transaction		t(db->getDb()->begin());
-      odb::query<User>		q(odb::query<User>::pseudo == (*trame)[CONTENT]["CONNECTION"]["PSEUDO"].asString());
-      odb::result<User>		r(db->getDb()->query<User>(q));
-
-      for (auto it = r.begin() ; it != r.end() ; ++it) {
-	user = it.load();
-      }
+      User			*user = Database::getRepository<User>().getByPseudo((*trame)[CONTENT]["CONNECTION"]["PSEUDO"].asString());
 
       std::cout << "Pseudo = |" << user->getPseudo() << "|"<< std::endl;
       std::cout << "Password = |" << user->getPassword() << "|"<< std::endl;
@@ -282,7 +273,6 @@ bool				ClientManager::connectionUser(Trame *trame)
 	}
       else
 	{
-
 	  if (ObjectPoolManager::getInstance()->setObject(error, "error"))
 	    {
 	      error->setType(Error::USER);
@@ -292,7 +282,6 @@ bool				ClientManager::connectionUser(Trame *trame)
 	      delete error;
 	    }
 	}
-      t.commit();
     }
   this->_mutex->unlock();
   return (ret);
