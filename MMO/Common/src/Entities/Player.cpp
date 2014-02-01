@@ -5,21 +5,21 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Jan 31 15:37:47 2014 alexis mestag
+// Last update Sat Feb  1 16:38:02 2014 alexis mestag
 //
 
 #include			"Entities/Player.hh"
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _zone(Zone::eZone::NONE)
+  _faction(NULL), _zone(Zone::eZone::NONE), _talentTree(NULL)
 {
 
 }
 
 Player::Player(std::string const &name) :
   Persistent(), ACharacter(name, eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _zone(Zone::eZone::NONE)
+  _faction(NULL), _zone(Zone::eZone::NONE), _talentTree(NULL)
 {
 
 }

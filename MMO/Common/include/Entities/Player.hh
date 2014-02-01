@@ -5,16 +5,19 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Fri Jan 31 15:17:57 2014 alexis mestag
+// Last update Sat Feb  1 16:38:51 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
 # define		__PLAYER_HH__
 
+# include		<list>
 # include		"Database/Persistent.hh"
 # include		"Entities/Digitaliser.hh"
 # include		"Entities/ACharacter.hh"
 # include		"Entities/Faction.hh"
+# include		"Stats/TalentTree.hh"
+# include		"Stats/Talent.hh"
 # include		"Zone/Coordinate.hpp"
 # include		"Zone/Zone.hh"
 # include		"Utility/ISerialization.hh"
@@ -37,6 +40,8 @@ private:
   Faction const			*_faction;
   Digitaliser			_digitaliser;
   Zone::eZone			_zone;
+  TalentTree const		*_talentTree;
+  std::list<Talent *>		_talents;
 
 private:
   Player();

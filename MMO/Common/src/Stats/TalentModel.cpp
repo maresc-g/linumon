@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:18:40 2014 alexis mestag
-// Last update Fri Jan 31 15:30:47 2014 alexis mestag
+// Last update Sat Feb  1 16:48:42 2014 alexis mestag
 //
 
 #include			<functional>
@@ -66,7 +66,7 @@ void				TalentModel::setEffectLib(EffectLib const &effectLib)
     _effectLib = new EffectLib(effectLib);
   }
   else
-    *_effectLib = effectLib;
+    _effectLib = &effectLib;
 }
 
 void				TalentModel::deleteTalents()
