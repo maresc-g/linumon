@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:06:15 2013 laurent ansel
-## Last update Fri Jan 31 11:20:14 2014 guillaume marescaux
+## Last update Sat Feb  1 16:52:45 2014 alexis mestag
 ##
 
 NAMESERVER=	pfa-server
@@ -41,9 +41,7 @@ $(NAMECLIENT):	$(OBJCOMMON) $(OBJCLIENT)
 		g++ -o $(NAMECLIENT) $(OBJCOMMON) $(OBJCLIENT) $(LDFLAGS)
 
 $(SCHEMA):	$(ODB_CLASSES)
-		$(ODB) -d mysql --generate-schema-only --at-once --std c++11 \
-		$(ODB_OPTIONS) \
-		--input-name $(SCHEMA) $(COMMON_INCLUDES) $(ODB_CLASSES)
+		$(ODB) -d mysql --generate-schema-only --at-once --std c++11 $(ODB_OPTIONS) --input-name $(SCHEMA) $(COMMON_INCLUDES) $(ODB_CLASSES)
 
 clean:
 		rm -rf $(OBJSERVER) $(OBJCLIENT) $(OBJCOMMON) $(ODB_SRC) $(ODB_OBJ)
