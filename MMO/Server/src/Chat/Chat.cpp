@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Jan 28 13:21:19 2014 laurent ansel
-// Last update Thu Jan 30 14:27:27 2014 antoine maitre
+// Last update Mon Feb  3 14:00:42 2014 antoine maitre
 //
 
 # include			"Chat/Chat.hh"
@@ -65,7 +65,7 @@ void				Chat::run()
 	  if ((*it).first)
 	    {
 	      (*it).first = false;
-	      if ((zone = Map::getInstance()->getZone(static_cast<Zone::eZone>((*trame)["CHAT"]["FACTION"].asInt()))))
+	      if ((zone = Map::getInstance()->getZone(static_cast<Zone::eZone>((*trame)["CHAT"]["ZONE"].asInt()))))
 		{
 		  list = zone->getPlayers();
 		  for (auto ip = list.begin() ; ip != list.end() ; ++ip)

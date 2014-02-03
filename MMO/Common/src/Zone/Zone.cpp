@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Mon Feb  3 13:54:07 2014 antoine maitre
+// Last update Mon Feb  3 14:53:15 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -15,7 +15,7 @@ Zone::Zone(Json::Value const topography):
   _sizeX(topography["X"].asInt()),
   _sizeY(topography["Y"].asInt()),
   _players(new std::list<AEntity *>),
-  _type(static_cast<const eZone>(topography["Type"].asInt())),
+  _type(static_cast<const ZONE::eZone>(topography["Type"].asInt())),
   _cases(new std::list<Case *>)
 {
   std::ostringstream		zone;
@@ -39,7 +39,7 @@ Zone::Zone(Json::Value const topography):
   this->_cases->unique(sameValue);
 }
 
-Zone::Zone(int const x, int const y, Zone::eZone const type)
+Zone::Zone(int const x, int const y, ZONE::eZone const type)
   : _sizeX(x), _sizeY(y), _type(type)
 {
   
@@ -149,7 +149,7 @@ Zone				*Zone::deserialization(Trame const &trame)
 	  {
 	    ret = new Zone(trame["ZONE"]["SIZEX"].asInt(), 
 			   trame["ZONE"]["SIZEY"].asInt(), 
-			   static_cast<Zone::eZone const>(trame["ZONE"]["TYPE"].asInt()));
+			   static_cast<ZONE::eZone const>(trame["ZONE"]["TYPE"].asInt()));
 	      for (int i = 0; i == 0 || trame["ZONE"].isMember(oss.str()); i++)
 		{
 		  oss.str("");

@@ -5,9 +5,10 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:08:36 2013 alexis mestag
-// Last update Thu Dec  5 20:01:16 2013 alexis mestag
+// Last update Fri Jan 31 13:53:46 2014 laurent ansel
 //
 
+#include			<sstream>
 #include			"Stats/Stat.hh"
 
 Stat::Stat() :
@@ -61,4 +62,23 @@ Stat::eStat			Stat::getStatType() const
 void				Stat::setStatType(Stat::eStat const statType)
 {
   _statType = statType;
+}
+
+bool		 		Stat::serialization(Trame &trame) const
+{
+  bool				ret = true;
+  std::ostringstream		str;
+
+  str << "STAT" << this->getStatType();
+  trame[str.str()]["VALUE"] = this->getValue();
+  trame[str.str()]["TYPE"] = this->getStatType();
+  return (ret);
+}
+
+Stat				*Stat::deserialization(Trame const &trame)
+{
+  Stat				*stat = NULL;
+
+  stat = new Stat(static_cast<eStat>(trame["TYPE"].asInt()), trame["VALUE"].asInt());
+  return (stat);
 }

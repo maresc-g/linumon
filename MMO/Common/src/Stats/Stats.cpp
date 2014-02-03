@@ -5,9 +5,10 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Fri Jan 24 21:54:35 2014 alexis mestag
+// Last update Fri Jan 31 13:50:49 2014 laurent ansel
 //
 
+#include			<sstream>
 #include			<functional>
 #include			"Stats/Stats.hh"
 
@@ -60,4 +61,30 @@ void				Stats::deleteStats()
   };
 
   _stats.remove_if(f);
+}
+
+bool				Stats::serialization(Trame &trame) const
+{
+  bool				ret = true;
+
+  for (auto it = this->_stats.begin() ; it != this->_stats.end() ; ++it)
+    {
+      (*it)->serialization(trame);
+    }
+  return (ret);
+}
+
+Stats				*Stats::deserialization(Trame const &trame)
+{
+  Stats				*stats = NULL;
+  std::ostringstream		str;
+  std::list<Stat *>		*stat;
+  auto				members = trame.getMemberNames();
+
+  stats = new Stats;
+  stat = new std::list<Stat *>;
+  for (auto it = members.begin() ; it != members.end() ; ++it)
+    stat->push_back(Stat::deserialization(trame(trame[*it])));
+  stats->setStats(*stat);
+  return (stats);
 }

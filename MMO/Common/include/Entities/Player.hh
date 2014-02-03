@@ -5,19 +5,24 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Jan 28 15:26:21 2014 antoine maitre
+// Last update Mon Feb  3 14:46:19 2014 antoine maitre
 //
 
 #ifndef			__PLAYER_HH__
 # define		__PLAYER_HH__
 
+# include		<list>
 # include		"Database/Persistent.hh"
 # include		"Entities/Digitaliser.hh"
 # include		"Entities/ACharacter.hh"
 # include		"Entities/Faction.hh"
+# include		"Stats/TalentTree.hh"
+# include		"Stats/Talent.hh"
 # include		"Zone/Coordinate.hpp"
+# include		"Zone/Zone.hh"
 # include		"Utility/ISerialization.hh"
 
+class			Zone;
 class			Player : public Persistent, public ACharacter, public ISerialization
 {
   friend class		odb::access;
@@ -35,6 +40,9 @@ private:
   PlayerCoordinate		*_coord;
   Faction const			*_faction;
   Digitaliser			_digitaliser;
+  ZONE::eZone			_zone;
+  TalentTree const		*_talentTree;
+  std::list<Talent *>		_talents;
 
 private:
   Player();
@@ -61,12 +69,16 @@ public:
   Digitaliser const	&getDigitaliser() const;
   // No setter for this attribute
 
+  ZONE::eZone		getZone() const;
+  void			setZone(ZONE::eZone const zone);
+
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Player)
+#  pragma db member(Player::_zone)
 #  pragma db member(Player::_coord) transient
 #  pragma db member(Player::_x) virtual(Player::PlayerCoordinate::type) get(_coord->getX()) set(_coord->setX(?))
 #  pragma db member(Player::_y) virtual(Player::PlayerCoordinate::type) get(_coord->getY()) set(_coord->setY(?))

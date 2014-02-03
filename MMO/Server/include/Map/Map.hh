@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:31:09 2014 antoine maitre
-// Last update Tue Jan 28 12:03:06 2014 antoine maitre
+// Last update Mon Feb  3 14:47:50 2014 antoine maitre
 //
 
 #ifndef				__MAP_HH__
@@ -18,12 +18,12 @@
 class				Map : public Singleton<Map>
 {
   friend class			Singleton<Map>;
-  std::map<Zone::eZone const, Zone*>	_map;
+  std::map<ZONE::eZone const, Zone*>	_map;
 private:
   Map();
   virtual ~Map();
 public:
-  Zone				*getZone(Zone::eZone const);
+  Zone				*getZone(ZONE::eZone const);
 };
 
 #endif

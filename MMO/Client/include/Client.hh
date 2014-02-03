@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Thu Jan 30 15:50:53 2014 guillaume marescaux
+// Last update Mon Feb  3 10:52:12 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -44,7 +44,8 @@ private:
 public:
 
   void				init(int ac, char **av);
-  void				connection(LoginInfos *infos);
+  void				connection(Protocol::LoginInfos *infos);
+  void				choosePlayer(int id);
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:21:00 2014 alexis mestag
-// Last update Tue Jan 28 11:10:47 2014 laurent ansel
+// Last update Fri Jan 31 14:46:02 2014 laurent ansel
 //
 
 #ifndef			__MOBMODEL_HH__
@@ -23,13 +23,15 @@ class			MobModel : public Persistent, public AStatEntity, public ISerialization
 
 private:
   Type const		*_type;
-  Spells const		_spells;
+  Spells 		_spells;
 
 private:
   MobModel();
   MobModel(MobModel const &rhs);
 
   MobModel		&operator=(MobModel const &rhs);
+
+  void			setSpells(Spells const &spells);
 
 public:
   virtual ~MobModel();

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Fri Jan 31 14:10:20 2014 antoine maitre
+// Last update Mon Feb  3 14:00:29 2014 antoine maitre
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -29,6 +29,20 @@ typedef std::function <bool (Trame *)> funcDecode;
 
 class				Protocol
 {
+public:
+
+  struct			LoginInfos
+  {
+    std::string			pseudo;
+    std::string			pass;
+  };
+
+  struct			CreateInfos
+  {
+    std::string			name;
+    int				faction;
+  };
+
 private:
   std::map<std::string, funcProtocol>	*_container;
   std::map<std::string, funcDecode>	*_decode;
@@ -54,6 +68,8 @@ private:
   bool				error(unsigned int const id, void *error);
   bool				playerlist(unsigned int const id, void *players);
   bool				connection(unsigned int const id, void *param);
+  bool				create(unsigned int const id, void *param);
+  bool				choosePlayer(unsigned int const id, void *param);
 };
 
 #endif

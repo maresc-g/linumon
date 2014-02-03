@@ -5,13 +5,19 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Jan 30 12:41:57 2014 alexis mestag
-// Last update Thu Jan 30 14:00:42 2014 alexis mestag
+// Last update Fri Jan 31 11:13:05 2014 alexis mestag
 //
 
 #include			"Effects/EffectLib.hh"
 
 EffectLib::EffectLib() :
   Persistent(), Nameable(), _file(new FileSystem::File(""))
+{
+
+}
+
+EffectLib::EffectLib(std::string const &name, std::string const &path) :
+  Persistent(), Nameable(name), _file(new FileSystem::File(path))
 {
 
 }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Thu Jan 30 15:51:22 2014 guillaume marescaux
+// Last update Mon Feb  3 10:56:58 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -33,9 +33,15 @@ void				Client::init(int ac, char **av)
   _core->init();
   _manager = new WindowManager(ac, av);
   _manager->exec();
+  _core->quit();
 }
 
-void				Client::connection(LoginInfos *infos)
+void				Client::connection(Protocol::LoginInfos *infos)
 {
   _core->connection(infos);
+}
+
+void				Client::choosePlayer(int id)
+{
+  _core->choosePlayer(id);
 }
