@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Thu Jan 30 16:53:55 2014 antoine maitre
+// Last update Mon Feb  3 16:02:53 2014 laurent ansel
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -56,8 +56,8 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2)
 	{
 	  // if (player2->getType() == IA || player1->getType() == IA)
 	  new Battle(id, Battle::PVE, 1, player1, player2);
-	  Server::getInstance()->callProtocol("LAUNCHBATTLE", player1->getId(), new std::tuple<unsigned int const, Player *>(id, player2));
-	  Server::getInstance()->callProtocol("LAUNCHBATTLE", player2->getId(), new std::tuple<unsigned int const, Player *>(id, player1));
+	  Server::getInstance()->callProtocol<unsigned int const, unsigned int const, Player *>("LAUNCHBATTLE", true, player1->getId(), id, player2);
+	  Server::getInstance()->callProtocol<unsigned int const, unsigned int const, Player *>("LAUNCHBATTLE", true, player2->getId(), id, player1);
 	    // else
 	    //   new Battle(id, Battle::PVP, 1, player1, player2);
 	}
