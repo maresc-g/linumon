@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Sat Feb  1 16:38:51 2014 alexis mestag
+// Last update Mon Feb  3 14:46:19 2014 antoine maitre
 //
 
 #ifndef			__PLAYER_HH__
@@ -22,6 +22,7 @@
 # include		"Zone/Zone.hh"
 # include		"Utility/ISerialization.hh"
 
+class			Zone;
 class			Player : public Persistent, public ACharacter, public ISerialization
 {
   friend class		odb::access;
@@ -39,7 +40,7 @@ private:
   PlayerCoordinate		*_coord;
   Faction const			*_faction;
   Digitaliser			_digitaliser;
-  Zone::eZone			_zone;
+  ZONE::eZone			_zone;
   TalentTree const		*_talentTree;
   std::list<Talent *>		_talents;
 
@@ -68,8 +69,8 @@ public:
   Digitaliser const	&getDigitaliser() const;
   // No setter for this attribute
 
-  Zone::eZone		getZone() const;
-  void			setZone(Zone::eZone const zone);
+  ZONE::eZone		getZone() const;
+  void			setZone(ZONE::eZone const zone);
 
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);

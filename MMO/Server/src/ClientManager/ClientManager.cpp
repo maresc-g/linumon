@@ -5,13 +5,15 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Sat Feb  1 16:13:52 2014 alexis mestag
+// Last update Mon Feb  3 13:40:38 2014 laurent ansel
 //
 
-#include			"Database/Repositories/UserRepository.hpp"
+#include			"Database/Database.hpp"
+#include			"Entities/User-odb.hxx"
 #include			"ClientManager/ClientManager.hh"
 #include			"Error/Error.hpp"
 #include			"Server/Server.hh"
+#include			"Database/Repositories/UserRepository.hpp"
 
 ClientManager::ClientManager():
   _updaters(new std::vector<std::pair<ClientUpdater *, bool> >),
@@ -33,7 +35,9 @@ ClientManager::ClientManager():
   Server::getInstance()->addFuncProtocol("CHOOSEPLAYER", func);
 
   for (int i = 0 ; i < CLIENT_THREAD_MIN ; ++i)
-    _updaters->push_back(std::make_pair(new ClientUpdater(NB_CLIENTS_PER_THREAD), false));
+    {
+      _updaters->push_back(std::make_pair(new ClientUpdater(NB_CLIENTS_PER_THREAD), false));
+    }
   _mutex->unlock();
   this->create(&runClientManager, this);
   this->start();
@@ -146,7 +150,7 @@ void				ClientManager::setInfoClient(FD const fd, std::string const &protocole, 
   this->_mutex->unlock();
 }
 
-void				ClientManager::setInfoClient(FD const fd, std::string const &name, std::string const &faction, bool &ok) const
+void				ClientManager::setInfoClient(FD const fd, std::string const &name, Faction *faction, bool &ok) const
 {
   bool				set = false;
 
@@ -183,6 +187,20 @@ void				ClientManager::setInfoClient(FD const fd, User *user) const
     if ((*it).first && (*it).second && (*it).first->search(fd))
       {
 	(*it).first->setInfo(fd, user);
+	set = true;
+      }
+  this->_mutex->unlock();
+}
+
+void				ClientManager::sendListPlayers(FD const fd) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second && (*it).first->search(fd))
+      {
+	(*it).first->sendListPlayers(fd);
 	set = true;
       }
   this->_mutex->unlock();
@@ -260,19 +278,17 @@ bool				ClientManager::connectionUser(Trame *trame)
     {
       User			*user = Database::getRepository<User>().getByPseudo((*trame)[CONTENT]["CONNECTION"]["PSEUDO"].asString());
 
-      std::cout << "Pseudo = |" << user->getPseudo() << "|"<< std::endl;
-      std::cout << "Password = |" << user->getPassword() << "|"<< std::endl;
-
       if (user && user->getPassword() == (*trame)[CONTENT]["CONNECTION"]["PASS"].asString())
 	{
 	  this->_mutex->unlock();
-	  //	  Server::getInstance()->callProtocol("PLAYERLIST", (*trame)[HEADER]["IDCLIENT"].asUInt(), user->getPlayers());
 	  this->setInfoClient((*trame)[HEADER]["IDCLIENT"].asUInt(), user);
+	  this->sendListPlayers((*trame)[HEADER]["IDCLIENT"].asUInt());
 	  this->_mutex->lock();
 	  ret = true;
 	}
       else
 	{
+
 	  if (ObjectPoolManager::getInstance()->setObject(error, "error"))
 	    {
 	      error->setType(Error::USER);
@@ -292,27 +308,33 @@ bool				ClientManager::createPlayer(Trame *trame)
   bool				ret;
   Error				*error = NULL;
 
+  this->_mutex->lock();
   if ((*trame)[CONTENT].isMember("CREATE"))
     {
-      this->setInfoClient((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["CREATE"]["NAME"].asString(), (*trame)[CONTENT]["CREATE"]["FACTION"].asString(), ret);
+      Faction			*faction = Faction::deserialization((*trame)((*trame)[CONTENT]["CREATE"]["FACTION"]));
+
+      this->setInfoClient((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["CREATE"]["NAME"].asString(), faction, ret);
       if (ret)
-	{
-	  /*
-	  ** send player list
-	  */
+      	{
+	  this->_mutex->unlock();
+	  this->sendListPlayers((*trame)[HEADER]["IDCLIENT"].asInt());
+	  this->_mutex->lock();
 	}
       else
-	{
+      	{
 	  if (ObjectPoolManager::getInstance()->setObject(error, "error"))
 	    {
 	      error->setType(Error::CREATEPLAYER);
-	      if (Server::getInstance()->callProtocol("ERROR", (*trame)[HEADER]["IDCLIENT"].asUInt(), error))
-		ClientManager::getInstance()->newTrameToWrite((*trame)[HEADER]["IDCLIENT"].asUInt(), 1);
+	      this->_mutex->unlock();
+	      Server::getInstance()->callProtocol("ERROR", (*trame)[HEADER]["IDCLIENT"].asUInt(), error);
+	      this->_mutex->lock();
 	      delete error;
 	    }
 	}
+      this->_mutex->unlock();
       return (true);
     }
+  this->_mutex->unlock();
   return (false);
 }
 

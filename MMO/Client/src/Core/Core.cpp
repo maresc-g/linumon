@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Jan 31 11:08:22 2014 guillaume marescaux
+// Last update Mon Feb  3 14:32:39 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -13,8 +13,7 @@
 #include			<functional>
 #include			"Core/Core.hh"
 #include			"Crypto/Crypto.hh"
-#include			"Protocol/LoginInfos.hpp"
-
+#include			"Map/Map.hh"
 
 static void			*runThread(void *data)
 {
@@ -29,24 +28,34 @@ static void			*runThread(void *data)
 
 //-----------------------------------BEGIN CTOR / DTOR-----------------------------------------
 
-Core::Core(MutexVar<eState> *state):
+Core::Core(MutexVar<eState> *state, MutexVar<Player *> *player, MutexVar<Players *> *players):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
   _infos(new ConnectionInfos),
-  _player(NULL),
   _poll(new Poll),
   _proto(new Protocol(false)),
   _id(0),
   _initialized(new MutexVar<bool>(false)),
   _running(new MutexVar<bool>(true)),
-  _state(state)
+  _state(state),
+  _player(player),
+  _players(players),
+  _handler(new ErrorHandler)
 {
   std::function<bool (Trame *)> func;
   func = std::bind1st(std::mem_fun(&Core::welcome), this);
   _proto->addFunc("WELCOME", func);
   func = std::bind1st(std::mem_fun(&Core::check), this);
   _proto->addFunc("CHECK", func);
+  func = std::bind1st(std::mem_fun(&Core::handleError), this);
+  _proto->addFunc("ERROR", func);
+  func = std::bind1st(std::mem_fun(&Core::playerlist), this);
+  _proto->addFunc("PLAYERLIST", func);
+  func = std::bind1st(std::mem_fun(&Core::player), this);
+  _proto->addFunc("PLAYER", func);
+  func = std::bind1st(std::mem_fun(&Core::map), this);
+  _proto->addFunc("MAP", func);
 
   (*_sockets)[TCP] = new Socket;
   (*_sockets)[UDP] = new Socket;
@@ -66,9 +75,9 @@ Core::~Core()
   delete (*_sockets)[UDP];
   delete _sockets;
   delete _socketsClient;
-  delete _player;
   delete _poll;
   delete _proto;
+  delete _handler;
   ObjectPoolManager::deleteInstance();
 }
 
@@ -139,9 +148,34 @@ bool				Core::check(Trame *)
   return (true);
 }
 
-bool				Core::handlerError(Trame *trame)
+bool				Core::handleError(Trame *trame)
 {
+  Error				*error;
 
+  error = Error::deserialization(*trame);
+  _handler->handleError(*error, _state);
+  delete error;
+  return (true);
+}
+
+bool				Core::playerlist(Trame *)
+{
+  *_state = CHOOSE_PLAYER;
+  // *_players = Players
+  return (true);
+}
+
+bool				Core::player(Trame *)
+{
+  // *_state = CHOOSE_PLAYER;
+  // *_players = Players
+  return (true);
+}
+
+bool				Core::map(Trame *trame)
+{
+  Map::getInstance()->setZone(Zone::deserialization(trame));
+  return (true);
 }
 
 //----------------------------------END PRIVATE METHODS----------------------------------------
@@ -193,9 +227,14 @@ void				Core::read(int const timeout, bool const setTimeout)
   this->readFromSocket(Core::UDP);  
 }
 
-void				Core::connection(LoginInfos *infos)
+void				Core::connection(Protocol::LoginInfos *infos)
 {
   (*_proto)("CONNECTION", _id, infos);
+}
+
+void				Core::choosePlayer(int id)
+{
+  (*_proto)("CHOOSEPLAYER", _id, &id);
 }
 
 void				Core::init(void)
@@ -221,14 +260,6 @@ void				Core::init(void)
   while (!(trame = manager->popTrame(CircularBufferManager::READ_BUFFER)))
     this->read(0, false);
   _proto->decodeTrame(trame);
-  // LoginInfos *test = new LoginInfos;
-  // test->pseudo = "toto";
-  // test->pass = "titi";
-  // this->connection(test);
-  // this->write();
-
-  // *_running = false;
-  // std::cout << "toto" << std::endl;
 }
 
 void				Core::run()
@@ -239,8 +270,8 @@ void				Core::run()
 	usleep(100000);
       if (**_running)
 	this->loop();
+      usleep(1000);
     }
-  std::cout << "lol" << std::endl;
 }
 
 void				Core::loop()
@@ -254,7 +285,6 @@ void				Core::loop()
     {
       _proto->decodeTrame(trame);
     }
-  // *_running = false;
   this->write();
 }
 

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Thu Jan 30 15:50:53 2014 guillaume marescaux
+// Last update Mon Feb  3 14:26:49 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -23,6 +23,7 @@
 #include			<Qt/qpushbutton.h>
 #include			<Qt/qfile.h>
 #include			<Qt/qgridlayout.h>
+#include			"Entities/Players.hh"
 
 class				Client : public Singleton<Client>
 {
@@ -32,6 +33,8 @@ private:
 
   // Attributes
   MutexVar<eState>		*_state;
+  MutexVar<Player *>		*_player;
+  MutexVar<Players *>		*_players;
   Core				*_core;
   WindowManager			*_manager;
 
@@ -44,7 +47,8 @@ private:
 public:
 
   void				init(int ac, char **av);
-  void				connection(LoginInfos *infos);
+  void				connection(Protocol::LoginInfos *infos);
+  void				choosePlayer(int id);
 };
 
 #endif

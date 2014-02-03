@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 12:39:07 2014 alexis mestag
-// Last update Fri Jan 31 15:28:13 2014 alexis mestag
+// Last update Mon Feb  3 13:43:15 2014 laurent ansel
 //
 
 #ifndef				__TALENTTREE_HH__
@@ -14,8 +14,9 @@
 # include			"Database/Persistent.hh"
 # include			"Utility/Nameable.hh"
 # include			"Stats/TalentModel.hh"
+# include			"Utility/ISerialization.hh"
 
-class				TalentTree : public Persistent, public Nameable
+class				TalentTree : public Persistent, public Nameable, public ISerialization
 {
   friend class			odb::access;
 
@@ -34,6 +35,9 @@ public:
 
   TalentModel const		&getTalent() const;
   void				setTalent(TalentModel const &talent);
+
+  virtual bool			serialization(Trame &trame) const;
+  static TalentTree		*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

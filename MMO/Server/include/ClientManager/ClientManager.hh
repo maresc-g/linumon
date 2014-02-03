@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Thu Jan 30 14:40:26 2014 laurent ansel
+// Last update Thu Jan 30 16:37:02 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -43,9 +43,10 @@ public:
   void				setInfoClient(FD const fd, ISocketClient const *socket, std::string const &proto) const;
   void				setInfoClient(FD const fd) const;
   void				setInfoClient(FD const fd, std::string const &protocole, bool const read) const;
-  void				setInfoClient(FD const fd, std::string const &name, std::string const &faction, bool &ok) const;
+  void				setInfoClient(FD const fd, std::string const &name, Faction *faction, bool &ok) const;
   void				setInfoClient(FD const fd, unsigned int const idPlayer) const;
   void				setInfoClient(FD const fd, User *user) const;
+  void				sendListPlayers(FD const fd) const;
   void				setWriteFunction(function *writeFunc);
   void				newTrameToWrite(FD const fd, unsigned int const nbTrame) const;
 private:

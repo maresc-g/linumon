@@ -5,11 +5,12 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 11:16:43 2014 guillaume marescaux
-// Last update Thu Jan 30 15:47:33 2014 guillaume marescaux
+// Last update Mon Feb  3 11:19:01 2014 guillaume marescaux
 //
 
 #include		<iostream>
 #include		"Client.hh"
+#include		"Map/Map.hh"
 
 int			main(int ac, char **av)
 {
@@ -19,6 +20,7 @@ int			main(int ac, char **av)
   // WindowManager         *manager = new WindowManager(ac, av);
 
   // manager->exec();
+  Map::getInstance();
 
   client->init(ac, av);
   client->deleteInstance();

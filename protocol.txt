@@ -26,14 +26,14 @@
 			CHAT : {Zone : idZone, Message (pseudo + msg)} -> server / client
 
 			#  battle
-			LAUNCHBATTLE : {enemy : APlayer} -> server
-			SPELL : {spell : ASpell, target : int} -> client / server
-			SPELLEFFECT : {hpChange : int, target : int} -> server
-			CAPTURE : {target : int} -> client
-			CAPTUREEFFECT : {success : bool} -> server
-			SWITCH : {target : int, new mob : int} -> client / server
-			DEADMOB : {id : int} -> server
-			ENDBATTLE : {win : bool, money : int, exp : int, items : list of AItem} -> server
+			LAUNCHBATTLE : {idBattle: int, enemy : APlayer} -> server
+			SPELL : {idBattle: int, spell : Spell, target : int} -> client / server
+			SPELLEFFECT : {idBattle: int, hpChange : int, target : int} -> server
+			CAPTURE : {idBattle: int, target : int} -> client
+			CAPTUREEFFECT : {idBattle: int, success : bool} -> server
+			SWITCH : {idBattle: int, target : int, new mob : int} -> client / server
+			DEADMOB : {idBattle: int, id : int} -> server
+			ENDBATTLE : {idBattle: int, win : bool, money : int, exp : int, items : list of AItem} -> server
 			#  end
 
 			#  stuff
@@ -88,6 +88,7 @@
 			REMOVEENTITY : {id : int} -> server
 			ENTITY : {id : int, coord : Coordinate} -> server/client
 			HEAL : {} -> client
+			DISCONNECT : {} -> client
 			# end						
 		}
 }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 12:50:05 2014 alexis mestag
-// Last update Fri Jan 31 15:33:58 2014 alexis mestag
+// Last update Mon Feb  3 13:43:55 2014 laurent ansel
 //
 
 #include			"Stats/TalentTree.hh"
@@ -50,4 +50,17 @@ TalentModel const		&TalentTree::getTalent() const
 void				TalentTree::setTalent(TalentModel const &talent)
 {
   _talent = &talent;
+}
+
+bool				TalentTree::serialization(Trame &) const
+{
+  bool				ret = true;
+
+  return (ret);
+}
+
+TalentTree			*TalentTree::deserialization(Trame const &)
+{
+  TalentTree			*talentTree = NULL;
+  return (talentTree);
 }
