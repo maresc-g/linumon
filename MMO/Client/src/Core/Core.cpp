@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Feb  3 15:59:24 2014 guillaume marescaux
+// Last update Mon Feb  3 16:39:52 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -138,7 +138,7 @@ bool				Core::welcome(Trame *trame)
 
   header = Header::deserialization(*trame);
   _id = header->getIdClient();
-  (*_proto)("INITIALIZE", _id, NULL);
+  (*_proto).operator()<unsigned int const>("INITIALIZE", _id);
   return (true);
 }
 
@@ -345,12 +345,12 @@ void				Core::read(int const timeout, bool const setTimeout)
 
 void				Core::connection(std::string const &pseudo, std::string const &pass)
 {
-  (*_proto)<int, std::string const &, std::string const &>("CONNECTION", _id, pseudo, pass);
+  (*_proto).operator()<unsigned int const, std::string const &, std::string const &>("CONNECTION", _id, pseudo, pass);
 }
 
 void				Core::choosePlayer(int id)
 {
-  (*_proto)<int, int>("CHOOSEPLAYER", _id, id);
+  (*_proto).operator()<unsigned int const, int>("CHOOSEPLAYER", _id, id);
 }
 
 void				Core::init(void)

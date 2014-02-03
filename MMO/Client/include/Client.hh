@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Mon Feb  3 14:26:49 2014 guillaume marescaux
+// Last update Mon Feb  3 16:25:43 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -47,7 +47,7 @@ private:
 public:
 
   void				init(int ac, char **av);
-  void				connection(Protocol::LoginInfos *infos);
+  void				connection(std::string const &pseudo, std::string const &pass);
   void				choosePlayer(int id);
 };
 
