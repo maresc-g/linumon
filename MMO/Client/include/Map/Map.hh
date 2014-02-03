@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb  3 11:11:28 2014 guillaume marescaux
-// Last update Mon Feb  3 11:15:41 2014 guillaume marescaux
+// Last update Mon Feb  3 12:43:11 2014 guillaume marescaux
 //
 
 #ifndef 		__MAP_HH__
@@ -37,6 +37,7 @@ public:
   void			lock();
   void			unlock();
   Zone const		&getZone(void) const;
+  void			setZone(Zone *zone);
 };
 
 #endif

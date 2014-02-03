@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Feb  3 12:32:27 2014 guillaume marescaux
+// Last update Mon Feb  3 13:10:19 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -38,7 +38,8 @@ Core::Core(MutexVar<eState> *state):
   _id(0),
   _initialized(new MutexVar<bool>(false)),
   _running(new MutexVar<bool>(true)),
-  _state(state)
+  _state(state),
+  _handler(new ErrorHandler)
 {
   std::function<bool (Trame *)> func;
   func = std::bind1st(std::mem_fun(&Core::welcome), this);
@@ -67,6 +68,7 @@ Core::~Core()
   delete _player;
   delete _poll;
   delete _proto;
+  delete _handler;
   ObjectPoolManager::deleteInstance();
 }
 
@@ -137,14 +139,24 @@ bool				Core::check(Trame *)
   return (true);
 }
 
-bool				Core::handlerError(Trame *)
+bool				Core::handlerError(Trame *trame)
 {
+  Error				*error;
+
+  error = Error::deserialization(*trame);
+  delete error;
   return (true);
 }
 
-bool				Core::map(Trame *trame)
+bool				Core::playerlist(Trame *)
 {
-  
+  *_state = CHOOSE_PLAYER;
+  return (true);
+}
+
+bool				Core::map(Trame *)
+{
+  return (true);
 }
 
 //----------------------------------END PRIVATE METHODS----------------------------------------
