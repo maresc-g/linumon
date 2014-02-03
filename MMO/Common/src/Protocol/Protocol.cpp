@@ -5,11 +5,10 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Jan 30 14:36:46 2014 laurent ansel
+// Last update Fri Jan 31 16:03:49 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
-#include		"Protocol/LoginInfos.hpp"
 #include		"Error/Error.hpp"
 #include		"Entities/Players.hh"
 
@@ -33,6 +32,8 @@ Protocol::Protocol(bool const server):
       (*this->_container)["INITIALIZE"] = &Protocol::initialize;
       (*this->_container)["CONNECTION"] = &Protocol::connection;
       (*this->_container)["ERROR"] = &Protocol::error;
+      (*this->_container)["CREATE"] = &Protocol::create;
+      (*this->_container)["CHOOSEPLAYER"] = &Protocol::choosePlayer;
     }
 }
 
@@ -125,6 +126,47 @@ bool			Protocol::connection(unsigned int const id, void *param)
     {
       (*trame)[CONTENT]["CONNECTION"]["PSEUDO"] = infos->pseudo;
       (*trame)[CONTENT]["CONNECTION"]["PASS"] = infos->pass;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			Protocol::create(unsigned int const id, void *param)
+{
+  Trame			*trame;
+  Header		*header;
+  CreateInfos		*infos = reinterpret_cast<CreateInfos *>(param);
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["CREATE"]["NAME"] = infos->name;
+      (*trame)[CONTENT]["CREATE"]["FACTION"] = infos->faction;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			Protocol::choosePlayer(unsigned int const id, void *param)
+{
+  Trame			*trame;
+  Header		*header;
+  int			*playerId = reinterpret_cast<int *>(param);
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["CHOOSEPLAYER"]["ID"] = *playerId;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }

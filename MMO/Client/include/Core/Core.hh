@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Fri Jan 31 11:35:03 2014 guillaume marescaux
+// Last update Mon Feb  3 11:04:37 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -18,7 +18,6 @@
 #include		"Entities/Player.hh"
 #include		"Poll/Poll.hpp"
 #include		"Protocol/Protocol.hpp"
-#include		"Protocol/LoginInfos.hpp"
 #include		"Thread/Thread.hpp"
 #include		"Mutex/MutexVar.hpp"
 #include		"eState.hh"
@@ -65,7 +64,8 @@ public:
   void			init(void);
   void			read(int const timeout, bool const setTimeout);
   void			write();
-  void			connection(LoginInfos *infos);
+  void			connection(Protocol::LoginInfos *infos);
+  void			choosePlayer(int id);
   void			run(void);
   void			loop(void);
   void			quit(void);
@@ -80,6 +80,7 @@ private:
   bool			welcome(Trame *trame);
   bool			check(Trame *trame);
   bool			handlerError(Trame *trame);
+  bool			map(Trame *trame);
 };
 
 #endif

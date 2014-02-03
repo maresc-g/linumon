@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Oct 18 11:04:31 2013 cyril jourdain
-// Last update Thu Jan 30 15:54:43 2014 guillaume marescaux
+// Last update Fri Jan 31 16:06:14 2014 guillaume marescaux
 //
 
 #include	<iostream>
@@ -38,7 +38,7 @@ void	LoginView::on_bConnect_clicked()
   if (ui.le_Login->text().isEmpty() || ui.le_Pass->text().isEmpty())
     QMessageBox::critical(this, "Error", "You must fill in your login / password");
   else {
-    LoginInfos	*infos = new LoginInfos;
+    Protocol::LoginInfos	*infos = new Protocol::LoginInfos;
     infos->pseudo = ui.le_Login->text().toStdString();
     infos->pass = ui.le_Pass->text().toStdString();
     Client::getInstance()->connection(infos);

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Jan 31 11:08:22 2014 guillaume marescaux
+// Last update Mon Feb  3 12:32:27 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -13,8 +13,6 @@
 #include			<functional>
 #include			"Core/Core.hh"
 #include			"Crypto/Crypto.hh"
-#include			"Protocol/LoginInfos.hpp"
-
 
 static void			*runThread(void *data)
 {
@@ -139,9 +137,14 @@ bool				Core::check(Trame *)
   return (true);
 }
 
-bool				Core::handlerError(Trame *trame)
+bool				Core::handlerError(Trame *)
 {
+  return (true);
+}
 
+bool				Core::map(Trame *trame)
+{
+  
 }
 
 //----------------------------------END PRIVATE METHODS----------------------------------------
@@ -193,9 +196,14 @@ void				Core::read(int const timeout, bool const setTimeout)
   this->readFromSocket(Core::UDP);  
 }
 
-void				Core::connection(LoginInfos *infos)
+void				Core::connection(Protocol::LoginInfos *infos)
 {
   (*_proto)("CONNECTION", _id, infos);
+}
+
+void				Core::choosePlayer(int id)
+{
+  (*_proto)("CHOOSEPLAYER", _id, &id);
 }
 
 void				Core::init(void)
@@ -221,14 +229,6 @@ void				Core::init(void)
   while (!(trame = manager->popTrame(CircularBufferManager::READ_BUFFER)))
     this->read(0, false);
   _proto->decodeTrame(trame);
-  // LoginInfos *test = new LoginInfos;
-  // test->pseudo = "toto";
-  // test->pass = "titi";
-  // this->connection(test);
-  // this->write();
-
-  // *_running = false;
-  // std::cout << "toto" << std::endl;
 }
 
 void				Core::run()
@@ -239,8 +239,8 @@ void				Core::run()
 	usleep(100000);
       if (**_running)
 	this->loop();
+      usleep(1000);
     }
-  std::cout << "lol" << std::endl;
 }
 
 void				Core::loop()
@@ -254,7 +254,6 @@ void				Core::loop()
     {
       _proto->decodeTrame(trame);
     }
-  // *_running = false;
   this->write();
 }
 
