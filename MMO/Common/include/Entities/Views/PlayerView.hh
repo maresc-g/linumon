@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 10:15:18 2014 alexis mestag
-// Last update Mon Feb  3 15:58:18 2014 alexis mestag
+// Last update Mon Feb  3 16:42:19 2014 alexis mestag
 //
 
 #ifndef				__PLAYERVIEW_HH__
@@ -17,6 +17,7 @@
 class				PlayerView
 {
 public:
+  unsigned long			persistentId;
   std::string			name;
   int				level;
   unsigned long			userId;
