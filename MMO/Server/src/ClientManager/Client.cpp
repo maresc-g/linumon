@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Jan 30 16:38:38 2014 laurent ansel
+// Last update Mon Feb  3 13:35:40 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -136,11 +136,12 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
   return (false);
 }
 
-void				Client::sendListPlayers() const
+void				Client::sendListPlayers()
 {
   if (_user)
     {
-      Server::getInstance()->callProtocol("PLAYERLIST", _id, const_cast<Players *>(&_user->getPlayers()));
+      Server::getInstance()->callProtocol("PLAYERLIST", _id, const_cast<Players *>(&_user->getPlayers()), false);
+      this->_trame++;
     }
 }
 

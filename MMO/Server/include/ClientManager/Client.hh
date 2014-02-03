@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Thu Jan 30 16:37:49 2014 laurent ansel
+// Last update Mon Feb  3 13:35:53 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -40,7 +40,7 @@ public:
   unsigned int			getNbTrame() const;
   void				addUser(User *user);
   bool				addPlayer(std::string const &name, Faction *faction);
-  void				sendListPlayers() const;
+  void				sendListPlayers();
   void				choosePlayer(unsigned int const idPlayer, bool const send);
 };
 
