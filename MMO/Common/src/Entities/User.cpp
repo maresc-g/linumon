@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:50 2013 alexis mestag
-// Last update Thu Jan 30 15:18:15 2014 alexis mestag
+// Last update Mon Feb  3 16:23:29 2014 alexis mestag
 //
 
 #include			<functional>
@@ -75,3 +75,42 @@ bool				User::addPlayer(Player &player)
   _players.addPlayer(player);
   return (true);
 }
+
+/*
+** Code to get a list of PlayerView with the user's persistent id
+**
+*/
+
+// #include			"Database/Repositories/UserViewRepository.hpp"
+// #include			"Database/Repositories/PlayerViewRepository.hpp"
+
+// Repository<UserView>		*ru = &Database::getRepository<UserView>();
+// Repository<PlayerView>	*rp = &Database::getRepository<PlayerView>();
+// UserView			*uv = NULL;
+// std::list<PlayerView>		*pvs = NULL;
+
+// uv = ru->getByPseudo("Laurent");
+// std::cout << uv->persistentId << ": " << uv->pseudo << " => " << uv->password << std::endl;
+// pvs = rp->getByUserId(uv->persistentId);
+// if (pvs) {
+//   for (auto it = pvs->begin() ; it != pvs->end() ; ++it) {
+//     std::cout << "\t" << it->name << ", level : " << it->level << std::endl;
+//   }
+//   delete pvs;
+//  }
+// delete uv;
+
+// uv = ru->getByPseudo("Cyril");
+// std::cout << uv->persistentId << ": " << uv->pseudo << " => " << uv->password << std::endl;
+// pvs = rp->getByUserId(uv->persistentId);
+// if (pvs) {
+//   for (auto it = pvs->begin() ; it != pvs->end() ; ++it) {
+//     std::cout << "\t" << it->name << ", level : " << it->level << std::endl;
+//     }
+//   delete pvs;
+//  }
+// delete uv;
+
+// Repository<PlayerView>::deleteInstance();
+// Repository<UserView>::deleteInstance();
+// Database::deleteInstance();

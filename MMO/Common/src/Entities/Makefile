@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Wed Jan 29 14:13:47 2014 alexis mestag
+## Last update Mon Feb  3 10:22:41 2014 alexis mestag
 ##
 
 ENTITIES_SRC=		User.cpp		\
@@ -41,7 +41,9 @@ ODB_ENTITIES+=		User.hh			\
 			Spell.hh		\
 			Spells.hh		\
 			Faction.hh		\
-			Level.hh
+			Level.hh		\
+			Views/UserView.hh	\
+			Views/PlayerView.hh
 
 ENTITIES_H_DIR=		$(subst src,include,$(ENTITIES))
 

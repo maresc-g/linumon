@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 10:15:18 2014 alexis mestag
-// Last update Mon Feb  3 11:02:55 2014 alexis mestag
+// Last update Mon Feb  3 15:58:18 2014 alexis mestag
 //
 
 #ifndef				__PLAYERVIEW_HH__
@@ -19,11 +19,13 @@ class				PlayerView
 public:
   std::string			name;
   int				level;
+  unsigned long			userId;
 };
 
 # ifdef	ODB_COMPILER
 #  pragma db view(PlayerView) object(Player)
 #  pragma db member(PlayerView::level) column(Player::_level._lvl)
+#  pragma db member(PlayerView::userId) column(Player::_user)
 # endif
 
 #endif

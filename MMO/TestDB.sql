@@ -37,8 +37,10 @@ INSERT INTO `TalentTree`(`id`, `name`, `talent`) VALUES(2, 'BaseTree2', 2);
 /* Inserting Players */
 DELETE FROM Player;
 
-INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `zone`, `talentTree`, `user`, `x`, `y`) VALUES(1, 'Thinenus', 0, 1, 10, 1, 'PLAIN', 1, 1, 10, 30);
-INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `zone`, `talentTree`, `user`, `x`, `y`) VALUES(2, 'Sezu-Kho', 0, 1, 10, 2, 'ROCK', 2, 2, 20, 20);
+INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `zone`, `talentTree`, `user`, `x`, `y`) VALUES(1, 'Thinenus', 13, 4, 10, 1, 'PLAIN', 1, 1, 10, 30);
+INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `zone`, `talentTree`, `user`, `x`, `y`) VALUES(2, 'Sezu-Kho', 20, 6, 10, 2, 'ROCK', 2, 2, 20, 20);
+INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `zone`, `talentTree`, `user`, `x`, `y`) VALUES(3, 'WeshWeshCabillaud', 15, 5, 10, 1, 'ROCK', 1, 1, 10, 30);
+INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `zone`, `talentTree`, `user`, `x`, `y`) VALUES(4, 'EnThéorieCaDevraitMarcher', 584, 10, 10, 2, 'PLAIN', 2, 2, 20, 20);
 
 /* Assigning Players to Users */
 DELETE FROM `User_players_players`;
