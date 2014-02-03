@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Jan 25 14:45:20 2014 laurent ansel
-// Last update Mon Feb  3 12:43:17 2014 laurent ansel
+// Last update Mon Feb  3 12:45:44 2014 guillaume marescaux
 //
 
 #ifndef			__ERROR_HPP__
@@ -48,15 +48,14 @@ public:
 
   static Error			*deserialization(Trame const &trame)
   {
-    Error			error = NULL;
+    Error			*error = NULL;
 
     if (trame[CONTENT].isMember("ERROR"))
       {
 	error = new Error(static_cast<enum eError>(trame[CONTENT]["ERROR"].asInt()));
 	error->buildError();
-	return (true);
       }
-    return (false);
+    return (error);
   }
 
   void				setType(enum eError const type)

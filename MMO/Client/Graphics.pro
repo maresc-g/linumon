@@ -24,6 +24,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Client.hh \
                 include/eState.hh \
                 include/Core/Core.hh \
+                include/Core/ErrorHandler.hh \
                 include/Map/Map.hh
 
 SOURCES +=      src/main.cpp \
@@ -38,6 +39,7 @@ SOURCES +=      src/main.cpp \
                 src/SFML/Sprite/Animation.cpp \
                 src/Client.cpp \
                 src/Core/Core.cpp \
+                src/Core/ErrorHandler.cpp \
                 src/Map/Map.cpp \
                 ../Common/src/Crypto/Crypto.cpp \ 
                 ../Common/src/Mutex/AMutex.cpp \ 

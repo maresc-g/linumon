@@ -88,6 +88,7 @@
 			REMOVEENTITY : {id : int} -> server
 			ENTITY : {id : int, coord : Coordinate} -> server/client
 			HEAL : {} -> client
+			DISCONNECT : {} -> client
 			# end						
 		}
 }
