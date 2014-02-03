@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Mon Feb  3 14:28:40 2014 guillaume marescaux
+// Last update Mon Feb  3 16:25:16 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -38,9 +38,9 @@ void				Client::init(int ac, char **av)
   _core->quit();
 }
 
-void				Client::connection(Protocol::LoginInfos *infos)
+void				Client::connection(std::string const &pseudo, std::string const &pass)
 {
-  _core->connection(infos);
+  _core->connection(pseudo, pass);
 }
 
 void				Client::choosePlayer(int id)

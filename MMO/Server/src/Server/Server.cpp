@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Mon Feb  3 16:26:15 2014 laurent ansel
+// Last update Mon Feb  3 16:43:38 2014 laurent ansel
 //
 
 #include			<list>
@@ -227,7 +227,7 @@ bool				Server::recvUdp()
 	    {
 	      ClientManager::getInstance()->setInfoClient((*trame)[HEADER]["IDCLIENT"].asInt(), &(*this->_socket)["UDP"]->getSocket(), "UDP");
 	      this->_mutex->unlock();
-	      this->callProtocol("CHECK", (*trame)[HEADER]["IDCLIENT"].asInt(), NULL);
+	      this->callProtocol<unsigned int const>("CHECK", true, (*trame)[HEADER]["IDCLIENT"].asInt());
 	      this->_mutex->lock();
 	    }
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);

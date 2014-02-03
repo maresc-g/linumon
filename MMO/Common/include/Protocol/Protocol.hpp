@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Mon Feb  3 16:18:36 2014 laurent ansel
+// Last update Mon Feb  3 16:37:17 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -70,7 +70,6 @@ public:
   bool				decodeTrame(Trame *trame);
 
 private:
-  bool				initialize(unsigned int const id);
   bool				launchBattle(unsigned int const id, void *param);
   bool				spell(unsigned int const id, void *param);
   bool				spellEffect(unsigned int const id, void *param);
@@ -87,5 +86,6 @@ bool				welcome(unsigned int const id);
 bool				check(unsigned int const id);
 bool				error(unsigned int const id, Error *error);
 bool				playerlist(unsigned int const id, Players *players);
+bool				initialize(unsigned int const id);
 
 #endif

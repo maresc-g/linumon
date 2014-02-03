@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Feb  3 16:21:19 2014 laurent ansel
+// Last update Mon Feb  3 16:37:36 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -39,6 +39,7 @@ Protocol::Protocol(bool const server):
     }
   else
     {
+      this->_container->load<unsigned int>("INITIALIZE", &initialize);
       // (*this->_container)["INITIALIZE"] = &Protocol::initialize;
       // (*this->_container)["CONNECTION"] = &Protocol::connection;
       // (*this->_container)["ERROR"] = &Protocol::error;
@@ -121,7 +122,7 @@ bool			check(unsigned int const id)
   return (false);
 }
 
-bool		         Protocol::initialize(unsigned int const id)
+bool		         initialize(unsigned int const id)
 {
   Trame                 *trame;
   Header                *header;
@@ -140,7 +141,7 @@ bool		         Protocol::initialize(unsigned int const id)
   return (false);
 }
 
-bool			Protocol::connection(unsigned int const id, std::string const &pseudo, std::string const &pass)
+bool			connection(unsigned int const id, std::string const &pseudo, std::string const &pass)
 {
   Trame			*trame;
   Header		*header;
@@ -181,7 +182,7 @@ bool			Protocol::create(unsigned int const id, void *param)
   return (false);
 }
 
-bool                    Protocol::choosePlayer(unsigned int const id, int playerId)
+bool                    choosePlayer(unsigned int const id, int playerId)
 {
   Trame			*trame;
   Header		*header;
