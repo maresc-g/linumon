@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Feb  3 14:32:39 2014 guillaume marescaux
+// Last update Mon Feb  3 15:59:24 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -165,10 +165,10 @@ bool				Core::playerlist(Trame *)
   return (true);
 }
 
-bool				Core::player(Trame *)
+bool				Core::player(Trame *trame)
 {
-  // *_state = CHOOSE_PLAYER;
-  // *_players = Players
+  *_state = PLAYING;
+  *_player = Player::deserialization(*trame);
   return (true);
 }
 
@@ -177,6 +177,122 @@ bool				Core::map(Trame *trame)
   Map::getInstance()->setZone(Zone::deserialization(trame));
   return (true);
 }
+
+bool				Core::launchBattle(Trame *)
+{
+  return (true);
+}
+
+bool				Core::spell(Trame *)
+{
+  return (true);
+}
+
+bool				Core::spellEffect(Trame *)
+{
+  return (true);
+}
+
+bool				Core::captureEffect(Trame *)
+{
+  return (true);
+}
+
+bool				Core::switchMob(Trame *)
+{
+  return (true);
+}
+
+bool				Core::deadMob(Trame *)
+{
+  return (true);
+}
+
+bool				Core::endBattle(Trame *)
+{
+  return (true);
+}
+
+bool				Core::upStats(Trame *)
+{
+  return (true);
+}
+
+bool				Core::upTalents(Trame *)
+{
+  return (true);
+}
+
+bool				Core::inventory(Trame *)
+{
+  return (true);
+}
+
+bool				Core::job(Trame *)
+{
+  return (true);
+}
+
+bool				Core::caseMap(Trame *)
+{
+  return (true);
+}
+
+bool				Core::objectEffect(Trame *)
+{
+  return (true);
+}
+
+bool				Core::launchTrade(Trame *)
+{
+  return (true);
+}
+
+bool				Core::putItem(Trame *)
+{
+  return (true);
+}
+
+bool				Core::getItem(Trame *)
+{
+  return (true);
+}
+
+bool				Core::putMoney(Trame *)
+{
+  return (true);
+}
+
+bool				Core::getMoney(Trame *)
+{
+  return (true);
+}
+
+bool				Core::accept(Trame *)
+{
+  return (true);
+}
+
+bool				Core::refuse(Trame *)
+{
+  return (true);
+}
+
+bool				Core::quitServer(Trame *)
+{
+  return (true);
+}
+
+bool				Core::removeEntity(Trame *)
+{
+  return (true);
+}
+
+bool				Core::entity(Trame *)
+{
+  return (true);
+}
+
 
 //----------------------------------END PRIVATE METHODS----------------------------------------
 
@@ -227,14 +343,14 @@ void				Core::read(int const timeout, bool const setTimeout)
   this->readFromSocket(Core::UDP);  
 }
 
-void				Core::connection(Protocol::LoginInfos *infos)
+void				Core::connection(std::string const &pseudo, std::string const &pass)
 {
-  (*_proto)("CONNECTION", _id, infos);
+  (*_proto)<int, std::string const &, std::string const &>("CONNECTION", _id, pseudo, pass);
 }
 
 void				Core::choosePlayer(int id)
 {
-  (*_proto)("CHOOSEPLAYER", _id, &id);
+  (*_proto)<int, int>("CHOOSEPLAYER", _id, id);
 }
 
 void				Core::init(void)

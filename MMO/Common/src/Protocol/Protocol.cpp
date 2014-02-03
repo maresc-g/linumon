@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Feb  3 15:03:52 2014 antoine maitre
+// Last update Mon Feb  3 16:02:35 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -119,11 +119,10 @@ bool			Protocol::initialize(unsigned int const id, void *)
   return (false);
 }
 
-bool			Protocol::connection(unsigned int const id, void *param)
+bool			Protocol::connection(unsigned int const id, std::string const &pseudo, std::string const &pass)
 {
   Trame			*trame;
   Header		*header;
-  LoginInfos		*infos = reinterpret_cast<LoginInfos *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -131,8 +130,8 @@ bool			Protocol::connection(unsigned int const id, void *param)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["CONNECTION"]["PSEUDO"] = infos->pseudo;
-      (*trame)[CONTENT]["CONNECTION"]["PASS"] = infos->pass;
+      (*trame)[CONTENT]["CONNECTION"]["PSEUDO"] = pseudo;
+      (*trame)[CONTENT]["CONNECTION"]["PASS"] = pass;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -161,11 +160,10 @@ bool			Protocol::create(unsigned int const id, void *param)
   return (false);
 }
 
-bool			Protocol::choosePlayer(unsigned int const id, void *param)
+bool			Protocol::choosePlayer(unsigned int const id, int playerId)
 {
   Trame			*trame;
   Header		*header;
-  int			*playerId = reinterpret_cast<int *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -173,7 +171,7 @@ bool			Protocol::choosePlayer(unsigned int const id, void *param)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["CHOOSEPLAYER"]["ID"] = *playerId;
+      (*trame)[CONTENT]["CHOOSEPLAYER"]["ID"] = playerId;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }

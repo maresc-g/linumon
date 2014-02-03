@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Mon Feb  3 15:03:47 2014 antoine maitre
+// Last update Mon Feb  3 16:07:24 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -42,6 +42,12 @@ public:
     int				faction;
   };
 
+  struct			ChatInfos
+  {
+    ZONE::eZone			zone;
+    std::string			msg;
+  };
+
 private:
   std::map<std::string, funcProtocol>	*_container;
   std::map<std::string, funcDecode>	*_decode;
@@ -66,9 +72,9 @@ private:
   bool				endBattle(unsigned int const id, void *param);
   bool				error(unsigned int const id, void *error);
   bool				playerlist(unsigned int const id, void *players);
-  bool				connection(unsigned int const id, void *param);
+  bool				connection(unsigned int const id, std::string const &pseudo, std::string const &pass);
   bool				create(unsigned int const id, void *param);
-  bool				choosePlayer(unsigned int const id, void *param);
+  bool				choosePlayer(unsigned int const id, int playerId);
 };
 
 #endif
