@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:48:29 2013 alexis mestag
-// Last update Thu Dec  5 16:45:08 2013 alexis mestag
+// Last update Fri Jan 31 15:49:50 2014 antoine maitre
 //
 
 #ifndef			__AENTITY_HH__
@@ -13,6 +13,7 @@
 
 # include		"Utility/Id.hh"
 # include		"Utility/Nameable.hh"
+# include		"Utility/ISerialization.hh"
 
 class			AEntity : public Id, public Nameable
 {
@@ -40,6 +41,7 @@ public:
   virtual ~AEntity();
 
   eEntity		getEntityType() const;
+  virtual bool		serialization(Trame &trame) const = 0;
 };
 
 # ifdef	ODB_COMPILER

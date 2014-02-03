@@ -5,11 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-<<<<<<< HEAD
-// Last update Thu Jan 30 16:26:16 2014 antoine maitre
-=======
-// Last update Thu Jan 30 14:36:46 2014 laurent ansel
->>>>>>> d41a15550b70eba8612120327b2bfc2f2d8018d2
+// Last update Fri Jan 31 14:10:52 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -30,7 +26,6 @@ Protocol::Protocol(bool const server):
       (*this->_container)["WELCOME"] = &Protocol::welcome;
       (*this->_container)["CHECK"] = &Protocol::check;
       (*this->_container)["ERROR"] = &Protocol::error;
-<<<<<<< HEAD
       (*this->_container)["LAUNCHBATTLE"] = &Protocol::launchBattle;
       (*this->_container)["SPELL"] = &Protocol::spell;
       (*this->_container)["SPELLEFFECT"] = &Protocol::spellEffect;
@@ -38,9 +33,7 @@ Protocol::Protocol(bool const server):
       (*this->_container)["SWITCH"] = &Protocol::dswitch;
       (*this->_container)["DEADMOB"] = &Protocol::deadMob;
       (*this->_container)["ENDBATTLE"] = &Protocol::endBattle;
-=======
       (*this->_container)["PLAYERLIST"] = &Protocol::playerlist;
->>>>>>> d41a15550b70eba8612120327b2bfc2f2d8018d2
     }
   else
     {
@@ -165,38 +158,43 @@ bool			Protocol::check(unsigned int const id, void *)
   return (false);
 }
 
-<<<<<<< HEAD
-bool			Protocol::launchBattle(unsigned int const id, void *param)
+bool                    Protocol::playerlist(unsigned int const id, void *param)
 {
-  Trame			*trame;
-  Header		*header;
-  auto			params = reinterpret_cast<std::tuple<unsigned int const, Player const> *>(param);
-=======
-bool			Protocol::playerlist(unsigned int const id, void *param)
-{
-  Trame			*trame;
-  Header		*header;
-  Players		*ps = reinterpret_cast<Players *>(param);
->>>>>>> d41a15550b70eba8612120327b2bfc2f2d8018d2
+  Trame                 *trame;
+  Header                *header;
+  Players               *ps = reinterpret_cast<Players *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("TCP");
-<<<<<<< HEAD
-  if (header->serialization(*trame))
-    {
-      (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"] = std::get<0>(*params);
-      // (*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"] = std::get<1>(*params)->;
-=======
   if (header->serialization(*trame) && ps->serialization(*trame))
     {
->>>>>>> d41a15550b70eba8612120327b2bfc2f2d8018d2
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
   delete header;
-<<<<<<< HEAD
+  return (false);
+}
+
+bool			Protocol::launchBattle(unsigned int const id, void *param)
+{
+  Trame			*trame;
+  Header		*header;
+  auto			params = reinterpret_cast<std::tuple<unsigned int const, Player const> *>(param);
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"] = std::get<0>(*params);
+      // (*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"] = std::get<1>(*params)->;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
   delete params;
   return (false);
 }
@@ -336,8 +334,6 @@ bool			Protocol::endBattle(unsigned int const id, void *param)
     }
   delete params;
   delete header;
-=======
->>>>>>> d41a15550b70eba8612120327b2bfc2f2d8018d2
   return (false);
 }
 

@@ -5,11 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-<<<<<<< HEAD
-// Last update Thu Jan 30 16:25:42 2014 antoine maitre
-=======
-// Last update Thu Jan 30 14:36:22 2014 laurent ansel
->>>>>>> d41a15550b70eba8612120327b2bfc2f2d8018d2
+// Last update Fri Jan 31 14:10:20 2014 antoine maitre
 //
 
 #ifndef 			__PROTOCOL_HPP__

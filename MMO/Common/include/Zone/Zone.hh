@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Tue Jan 28 16:28:43 2014 antoine maitre
+// Last update Mon Feb  3 13:37:04 2014 antoine maitre
 //
 
 #ifndef			__ZONE_HH__
@@ -16,8 +16,9 @@
 # include		"Case.hh"
 # include		"Trame/Trame.hh"
 # include		"Utility/Nameable.hh"
+# include		"Utility/ISerialization.hh"
 
-class			Zone
+class			Zone : public ISerialization
 {
 public :
   enum			eZone
@@ -33,6 +34,7 @@ private:
   std::list<Case *>	*_cases;
 public:
   Zone(Json::Value topography);
+  Zone(int const, int const, eZone const);
   virtual ~Zone();
   void			addPlayer(AEntity *);
   void			delPlayer(AEntity *);
@@ -41,6 +43,8 @@ public:
   void			delCase(Case *);
   Case			*getCase(int const, int const);
   std::list<Case *>	&getCases() const;
+  virtual bool		serialization(Trame &trame) const;
+  static Zone		*deserialization(Trame const &trame);
 };
 
 bool			sameValue(Case *, Case *);

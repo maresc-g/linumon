@@ -5,16 +5,18 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:39:46 2014 antoine maitre
-// Last update Tue Jan 28 14:45:36 2014 laurent ansel
+// Last update Fri Jan 31 15:46:48 2014 antoine maitre
 //
 
 #ifndef				__CASE_HH__
 # define			__CASE_HH__
 
 
+# include			<sstream>
 # include			<list>
 # include			"Coordinate.hpp"
-# include			"Entities/AEntity.hh"
+# include			"Entities/Player.hh"
+# include			"Utility/ISerialization.hh"
 
 class				Case
 {
@@ -31,6 +33,8 @@ public:
   const Coordinate<int>		&getCoord() const;
   void				addAEntity(AEntity*);
   void				delAEntity(AEntity*);
+  virtual bool			serialization(Trame &trame) const;
+  static Case			*deserialization(Trame const &trame);
 };
 
 #endif
