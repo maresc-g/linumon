@@ -5,9 +5,10 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Feb  3 14:46:24 2014 antoine maitre
+// Last update Mon Feb  3 18:00:15 2014 alexis mestag
 //
 
+#include			<functional>
 #include			"Entities/Player.hh"
 
 Player::Player() :
@@ -33,6 +34,8 @@ Player::Player(Player const &rhs) :
 Player::~Player()
 {
   delete _coord;
+  this->deleteTalents();
+  // delete _faction; // Causes an invalid pointer delete
 }
 
 Player				&Player::operator=(Player const &rhs)
@@ -135,4 +138,14 @@ ZONE::eZone			Player::getZone() const
 void				Player::setZone(ZONE::eZone const zone)
 {
   _zone = zone;
+}
+
+void				Player::deleteTalents()
+{
+  static std::function<bool(Talent *)>	talentsDeleter = [](Talent *t) {
+    delete t;
+    return (true);
+  };
+
+  _talents.remove_if(talentsDeleter);
 }

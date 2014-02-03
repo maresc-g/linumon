@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Feb  1 15:25:50 2014 alexis mestag
-// Last update Mon Feb  3 10:03:40 2014 alexis mestag
+// Last update Mon Feb  3 17:45:07 2014 alexis mestag
 //
 
 #ifndef				__USERREPOSITORY_HPP__
@@ -18,28 +18,28 @@
 # include			"Entities/User-odb.hxx"
 
 template<>
-class				Repository<User> : public Singleton<Repository<User> >
+class				Repository<User> : public BaseRepository<User>
 {
   friend class			Singleton<Repository<User> >;
 
 private:
-  Repository() : Singleton() {}
+  Repository() : BaseRepository() {}
   virtual ~Repository() {}
 
 public:
   User				*getByPseudo(std::string const &pseudo) {
-    static std::function<bool(User &)>	byPseudoFinder = [&](User &u) -> bool {
-      return (u.getPseudo() == pseudo);
-    };
-    User			*ret = NULL;
+    // static std::function<bool(User &)>	byPseudoFinder = [&](User &u) -> bool {
+    //   return (u.getPseudo() == pseudo);
+    // };
     Database::Transaction	t(Database::getInstance()->getDb()->begin());
     Database::Query<User>	query(Database::Query<User>::pseudo == pseudo);
     Database::Result<User>	result(Database::getInstance()->getDb()->query<User>(query));
+    User			*ret = NULL;
 
-    auto it = std::find_if(result.begin(), result.end(), byPseudoFinder);
+    // auto it = std::find_if(result.begin(), result.end(), byPseudoFinder);
 
-    if (it != result.end())
-      ret = it.load();
+    if (result.size())
+      ret = result.begin().load();
 
     t.commit();
     return (ret);

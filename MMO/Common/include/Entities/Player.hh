@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Feb  3 15:24:27 2014 alexis mestag
+// Last update Mon Feb  3 17:54:30 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -52,6 +52,8 @@ private:
   Player(Player const &rhs);
 
   Player		&operator=(Player const &rhs);
+
+  void			deleteTalents();
 
 public:
   Player(std::string const &name);

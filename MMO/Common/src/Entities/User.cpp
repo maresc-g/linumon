@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:50 2013 alexis mestag
-// Last update Mon Feb  3 16:44:27 2014 alexis mestag
+// Last update Mon Feb  3 18:09:31 2014 alexis mestag
 //
 
 #include			<functional>
@@ -78,7 +78,6 @@ bool				User::addPlayer(Player &player)
 
 /*
 ** Code to get a list of PlayerView with the user's persistent id
-**
 */
 
 // #include			"Database/Repositories/UserViewRepository.hpp"
