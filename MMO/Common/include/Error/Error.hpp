@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Jan 25 14:45:20 2014 laurent ansel
-// Last update Mon Feb  3 12:45:44 2014 guillaume marescaux
+// Last update Mon Feb  3 13:35:13 2014 guillaume marescaux
 //
 
 #ifndef			__ERROR_HPP__
@@ -61,6 +61,11 @@ public:
   void				setType(enum eError const type)
   {
     this->_type = type;
+  }
+
+  eError			getType(void) const
+  {
+    return (_type);
   }
 
   void				buildError()

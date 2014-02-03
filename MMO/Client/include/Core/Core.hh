@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Mon Feb  3 12:57:02 2014 guillaume marescaux
+// Last update Mon Feb  3 14:32:28 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -15,7 +15,7 @@
 #include		<string>
 #include		"Trame/Trame.hh"
 #include		"Socket/Socket.hpp"
-#include		"Entities/Player.hh"
+#include		"Entities/Players.hh"
 #include		"Poll/Poll.hpp"
 #include		"Protocol/Protocol.hpp"
 #include		"Thread/Thread.hpp"
@@ -47,19 +47,20 @@ private:
   std::map<eSocket, Socket *>           *_sockets;
   std::map<eSocket, ISocketClient *>    *_socketsClient;
   ConnectionInfos			*_infos;
-  Player				*_player;
   Poll					*_poll;
   Protocol				*_proto;
   int					_id;
   MutexVar<bool>			*_initialized;
   MutexVar<bool>			*_running;
   MutexVar<eState>			*_state;
+  MutexVar<Player *>			*_player;
+  MutexVar<Players *>			*_players;
   ErrorHandler				*_handler;
 
 public:
 
   // Ctor / Dtor
-  Core(MutexVar<eState> *state);
+  Core(MutexVar<eState> *state, MutexVar<Player *> *player, MutexVar<Players *> *players);
   virtual ~Core();
 
   // Methods
@@ -81,8 +82,9 @@ private:
   void			writeToSocket(Trame const &trame, eSocket sock);
   bool			welcome(Trame *trame);
   bool			check(Trame *trame);
-  bool			handlerError(Trame *trame);
+  bool			handleError(Trame *trame);
   bool			playerlist(Trame *trame);
+  bool			player(Trame *trame);
   bool			map(Trame *trame);
 };
 
