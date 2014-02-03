@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Mon Feb  3 15:53:49 2014 laurent ansel
+// Last update Mon Feb  3 16:26:15 2014 laurent ansel
 //
 
 #include			<list>
@@ -200,7 +200,7 @@ bool				Server::acceptNewClient()
    this->_poll->pushFd(header->getIdClient(), IPoll::RDWRDC);
    std::cout << "CLIENT = " << header->getIdClient() << std::endl;
    this->_mutex->unlock();
-   this->callProtocol<unsigned int const>("WELCOME", header->getIdClient());
+   this->callProtocol<unsigned int const>("WELCOME", true, header->getIdClient());
    delete header;
    this->debug("Done");
    return (true);
