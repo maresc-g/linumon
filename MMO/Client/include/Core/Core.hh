@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Mon Feb  3 14:32:28 2014 guillaume marescaux
+// Last update Mon Feb  3 15:58:51 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -67,7 +67,7 @@ public:
   void			init(void);
   void			read(int const timeout, bool const setTimeout);
   void			write();
-  void			connection(Protocol::LoginInfos *infos);
+  void			connection(std::string const &pseudo, std::string const &pass);
   void			choosePlayer(int id);
   void			run(void);
   void			loop(void);
@@ -80,12 +80,36 @@ private:
 
   void			readFromSocket(eSocket sock);
   void			writeToSocket(Trame const &trame, eSocket sock);
+
   bool			welcome(Trame *trame);
   bool			check(Trame *trame);
   bool			handleError(Trame *trame);
   bool			playerlist(Trame *trame);
   bool			player(Trame *trame);
   bool			map(Trame *trame);
+  bool			launchBattle(Trame *);
+  bool			spell(Trame *);
+  bool			spellEffect(Trame *);
+  bool			captureEffect(Trame *);
+  bool			switchMob(Trame *);
+  bool			deadMob(Trame *);
+  bool			endBattle(Trame *);
+  bool			upStats(Trame *);
+  bool			upTalents(Trame *);
+  bool			inventory(Trame *);
+  bool			job(Trame *);
+  bool			caseMap(Trame *);
+  bool			objectEffect(Trame *);
+  bool			launchTrade(Trame *);
+  bool			putItem(Trame *);
+  bool			getItem(Trame *);
+  bool			putMoney(Trame *);
+  bool			getMoney(Trame *);
+  bool			accept(Trame *);
+  bool			refuse(Trame *);
+  bool			quitServer(Trame *);
+  bool			removeEntity(Trame *);
+  bool			entity(Trame *);
 };
 
 #endif

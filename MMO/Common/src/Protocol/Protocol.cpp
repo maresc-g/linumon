@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Feb  3 15:03:52 2014 antoine maitre
+// Last update Mon Feb  3 16:21:19 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -13,7 +13,8 @@
 #include		"Entities/Players.hh"
 
 Protocol::Protocol(bool const server):
-  _container(new std::map<std::string, funcProtocol>),
+  //  _container(new std::map<std::string, funcProtocol>),
+  _container(new FunctorContainer<std::string, bool>),
   _decode(new std::map<std::string, funcDecode>),
   _server(server)
 {
@@ -22,25 +23,27 @@ Protocol::Protocol(bool const server):
 
   if (server)
     {
-      (*this->_container)["WELCOME"] = &Protocol::welcome;
-      (*this->_container)["CHECK"] = &Protocol::check;
-      (*this->_container)["ERROR"] = &Protocol::error;
-      (*this->_container)["LAUNCHBATTLE"] = &Protocol::launchBattle;
-      (*this->_container)["SPELL"] = &Protocol::spell;
-      (*this->_container)["SPELLEFFECT"] = &Protocol::spellEffect;
-      (*this->_container)["CAPTUREEFFECT"] = &Protocol::captureEffect;
-      (*this->_container)["SWITCH"] = &Protocol::dswitch;
-      (*this->_container)["DEADMOB"] = &Protocol::deadMob;
-      (*this->_container)["ENDBATTLE"] = &Protocol::endBattle;
-      (*this->_container)["PLAYERLIST"] = &Protocol::playerlist;
+      this->_container->load<unsigned int>("WELCOME", &welcome);
+      this->_container->load<unsigned int>("CHECK", &check);
+      this->_container->load<unsigned int, Error *>("ERROR", &error);
+      this->_container->load<unsigned int, Players *>("PLAYERLIST", &playerlist);
+
+      // (*this->_container)["LAUNCHBATTLE"] = &Protocol::launchBattle;
+      // (*this->_container)["SPELL"] = &Protocol::spell;
+      // (*this->_container)["SPELLEFFECT"] = &Protocol::spellEffect;
+      // (*this->_container)["CAPTUREEFFECT"] = &Protocol::captureEffect;
+      // (*this->_container)["SWITCH"] = &Protocol::dswitch;
+      // (*this->_container)["DEADMOB"] = &Protocol::deadMob;
+      // (*this->_container)["ENDBATTLE"] = &Protocol::endBattle;
+
     }
   else
     {
-      (*this->_container)["INITIALIZE"] = &Protocol::initialize;
-      (*this->_container)["CONNECTION"] = &Protocol::connection;
-      (*this->_container)["ERROR"] = &Protocol::error;
-      (*this->_container)["CREATE"] = &Protocol::create;
-      (*this->_container)["CHOOSEPLAYER"] = &Protocol::choosePlayer;
+      // (*this->_container)["INITIALIZE"] = &Protocol::initialize;
+      // (*this->_container)["CONNECTION"] = &Protocol::connection;
+      // (*this->_container)["ERROR"] = &Protocol::error;
+      // (*this->_container)["CREATE"] = &Protocol::create;
+      // (*this->_container)["CHOOSEPLAYER"] = &Protocol::choosePlayer;
     }
 }
 
@@ -62,7 +65,7 @@ bool			Protocol::addFunc(std::string const &key, std::function<bool (Trame *)> f
   return (true);
 }
 
-bool			Protocol::welcome(unsigned int const id, void *)
+bool			welcome(unsigned int const id)
 {
   Trame			*trame;
   Header		*header;
@@ -81,11 +84,10 @@ bool			Protocol::welcome(unsigned int const id, void *)
   return (false);
 }
 
-bool			Protocol::error(unsigned int const id, void *param)
+bool			error(unsigned int const id, Error *error)
 {
   Trame			*trame;
   Header		*header;
-  Error			*error = reinterpret_cast<Error *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -100,88 +102,7 @@ bool			Protocol::error(unsigned int const id, void *param)
   return (false);
 }
 
-bool			Protocol::initialize(unsigned int const id, void *)
-{
-  Trame			*trame;
-  Header		*header;
-
-  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
-  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
-  header->setIdClient(id);
-  header->setProtocole("UDP");
-  if (header->serialization(*trame))
-    {
-      (*trame)[CONTENT]["INITIALIZE"];
-      trame->setEnd(true);
-      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
-    }
-  delete header;
-  return (false);
-}
-
-bool			Protocol::connection(unsigned int const id, void *param)
-{
-  Trame			*trame;
-  Header		*header;
-  LoginInfos		*infos = reinterpret_cast<LoginInfos *>(param);
-
-  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
-  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
-  header->setIdClient(id);
-  header->setProtocole("TCP");
-  if (header->serialization(*trame))
-    {
-      (*trame)[CONTENT]["CONNECTION"]["PSEUDO"] = infos->pseudo;
-      (*trame)[CONTENT]["CONNECTION"]["PASS"] = infos->pass;
-      trame->setEnd(true);
-      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
-    }
-  delete header;
-  return (false);
-}
-
-bool			Protocol::create(unsigned int const id, void *param)
-{
-  Trame			*trame;
-  Header		*header;
-  CreateInfos		*infos = reinterpret_cast<CreateInfos *>(param);
-
-  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
-  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
-  header->setIdClient(id);
-  header->setProtocole("TCP");
-  if (header->serialization(*trame))
-    {
-      (*trame)[CONTENT]["CREATE"]["NAME"] = infos->name;
-      (*trame)[CONTENT]["CREATE"]["FACTION"] = infos->faction;
-      trame->setEnd(true);
-      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
-    }
-  delete header;
-  return (false);
-}
-
-bool			Protocol::choosePlayer(unsigned int const id, void *param)
-{
-  Trame			*trame;
-  Header		*header;
-  int			*playerId = reinterpret_cast<int *>(param);
-
-  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
-  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
-  header->setIdClient(id);
-  header->setProtocole("TCP");
-  if (header->serialization(*trame))
-    {
-      (*trame)[CONTENT]["CHOOSEPLAYER"]["ID"] = *playerId;
-      trame->setEnd(true);
-      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
-    }
-  delete header;
-  return (false);
-}
-
-bool			Protocol::check(unsigned int const id, void *)
+bool			check(unsigned int const id)
 {
   Trame			*trame;
   Header		*header;
@@ -200,11 +121,89 @@ bool			Protocol::check(unsigned int const id, void *)
   return (false);
 }
 
-bool                    Protocol::playerlist(unsigned int const id, void *param)
+bool		         Protocol::initialize(unsigned int const id)
 {
   Trame                 *trame;
   Header                *header;
-  Players               *ps = reinterpret_cast<Players *>(param);
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("UDP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["INITIALIZE"];
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			Protocol::connection(unsigned int const id, std::string const &pseudo, std::string const &pass)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["CONNECTION"]["PSEUDO"]= pseudo;
+      (*trame)[CONTENT]["CONNECTION"]["PASS"] =pass;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			Protocol::create(unsigned int const id, void *param)
+{
+  Trame                 *trame;
+  Header                *header;
+  CreateInfos           *infos = reinterpret_cast<CreateInfos *>(param);
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["CREATE"]["NAME"] = infos->name;
+      (*trame)[CONTENT]["CREATE"]["FACTION"] = infos->faction;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool                    Protocol::choosePlayer(unsigned int const id, int playerId)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["CHOOSEPLAYER"]["ID"] = playerId;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool                    playerlist(unsigned int const id, Players *ps)
+{
+  Trame                 *trame;
+  Header                *header;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -391,10 +390,10 @@ bool			Protocol::decodeTrame(Trame *trame)
   return (ret);
 }
 
-bool			Protocol::operator()(std::string const &key, unsigned int const id, void *param)
-{
-  if (this->_container->find(key) != this->_container->end())
-    return ((this->*(*_container)[key])(id, param));
-  return (false);
-}
+// bool			Protocol::operator()(std::string const &key, unsigned int const id, void *param)
+// {
+//   if (this->_container->find(key) != this->_container->end())
+//     return ((this->*(*_container)[key])(id, param));
+//   return (false);
+// }
 

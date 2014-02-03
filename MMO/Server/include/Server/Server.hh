@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Mon Feb  3 13:34:54 2014 laurent ansel
+// Last update Mon Feb  3 16:12:21 2014 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -45,7 +45,19 @@ public:
   void				run();
   void				detectWrite(FD const fd);
   void				init(int const port);
-  bool				callProtocol(std::string const &key, unsigned int const id, void *param, bool const write = true);
+
+  template<typename ... P>
+  bool				callProtocol(std::string const &key, bool const, P ... params)
+{
+  bool				ret = false;
+
+  this->_protoMutex->lock();
+  ret = this->_protocol->operator()<P ...>(key, params ...);
+  // if (write)
+  //   ClientManager::getInstance()->newTrameToWrite(id, 1);
+  this->_protoMutex->unlock();
+  return (ret);
+}
   bool				callProtocol(Trame *trame);
   bool				addFuncProtocol(std::string const &key, std::function<bool (Trame *)> func);
 private:
