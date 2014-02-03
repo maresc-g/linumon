@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Feb  3 16:14:09 2014 laurent ansel
+// Last update Mon Feb  3 16:21:19 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -26,11 +26,8 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("WELCOME", &welcome);
       this->_container->load<unsigned int>("CHECK", &check);
       this->_container->load<unsigned int, Error *>("ERROR", &error);
+      this->_container->load<unsigned int, Players *>("PLAYERLIST", &playerlist);
 
-      // std::function<bool (unsigned int const, Error *)> funcError = std::bind1st(std::mem_fun(&Protocol::error), this);
-      // this->_container->load<unsigned int>("ERROR", func);
-
-      // (*this->_container)["PLAYERLIST"] = &Protocol::playerlist;
       // (*this->_container)["LAUNCHBATTLE"] = &Protocol::launchBattle;
       // (*this->_container)["SPELL"] = &Protocol::spell;
       // (*this->_container)["SPELLEFFECT"] = &Protocol::spellEffect;
@@ -124,10 +121,10 @@ bool			check(unsigned int const id)
   return (false);
 }
 
-bool			Protocol::initialize(unsigned int const id)
+bool		         Protocol::initialize(unsigned int const id)
 {
-  Trame			*trame;
-  Header		*header;
+  Trame                 *trame;
+  Header                *header;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -143,11 +140,10 @@ bool			Protocol::initialize(unsigned int const id)
   return (false);
 }
 
-bool			Protocol::connection(unsigned int const id, void *param)
+bool			Protocol::connection(unsigned int const id, std::string const &pseudo, std::string const &pass)
 {
   Trame			*trame;
   Header		*header;
-  LoginInfos		*infos = reinterpret_cast<LoginInfos *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -155,8 +151,8 @@ bool			Protocol::connection(unsigned int const id, void *param)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["CONNECTION"]["PSEUDO"] = infos->pseudo;
-      (*trame)[CONTENT]["CONNECTION"]["PASS"] = infos->pass;
+      (*trame)[CONTENT]["CONNECTION"]["PSEUDO"]= pseudo;
+      (*trame)[CONTENT]["CONNECTION"]["PASS"] =pass;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -166,9 +162,9 @@ bool			Protocol::connection(unsigned int const id, void *param)
 
 bool			Protocol::create(unsigned int const id, void *param)
 {
-  Trame			*trame;
-  Header		*header;
-  CreateInfos		*infos = reinterpret_cast<CreateInfos *>(param);
+  Trame                 *trame;
+  Header                *header;
+  CreateInfos           *infos = reinterpret_cast<CreateInfos *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -185,11 +181,10 @@ bool			Protocol::create(unsigned int const id, void *param)
   return (false);
 }
 
-bool			Protocol::choosePlayer(unsigned int const id, void *param)
+bool                    Protocol::choosePlayer(unsigned int const id, int playerId)
 {
   Trame			*trame;
   Header		*header;
-  int			*playerId = reinterpret_cast<int *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -197,7 +192,7 @@ bool			Protocol::choosePlayer(unsigned int const id, void *param)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["CHOOSEPLAYER"]["ID"] = *playerId;
+      (*trame)[CONTENT]["CHOOSEPLAYER"]["ID"] = playerId;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -205,7 +200,7 @@ bool			Protocol::choosePlayer(unsigned int const id, void *param)
   return (false);
 }
 
-bool                    Protocol::playerlist(unsigned int const id, Players *ps)
+bool                    playerlist(unsigned int const id, Players *ps)
 {
   Trame                 *trame;
   Header                *header;
