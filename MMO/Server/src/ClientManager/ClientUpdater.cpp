@@ -5,10 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Thu Jan 30 14:41:56 2014 laurent ansel
+// Last update Fri Jan 31 11:14:41 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
+#include			"Server/Server.hh"
 
 ClientUpdater::ClientUpdater(unsigned int const nbClient):
   Thread(),
@@ -171,7 +172,7 @@ bool				ClientUpdater::setInfo(FD const fd, unsigned int const idPlayer, bool co
   return (false);
 }
 
-bool				ClientUpdater::setInfo(FD const fd, std::string const &name, std::string const &faction, bool &ok) const
+bool				ClientUpdater::setInfo(FD const fd, std::string const &name, Faction *faction, bool &ok) const
 {
   this->_mutex->lock();
   for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
@@ -195,6 +196,22 @@ bool				ClientUpdater::setInfo(FD const fd, User *user) const
       if (fd == (*it).first->getId() && (*it).first->isUse())
 	{
 	  (*it).first->addUser(user);
+	  this->_mutex->unlock();
+	  return (true);
+	}
+    }
+  this->_mutex->unlock();
+  return (false);
+}
+
+bool				ClientUpdater::sendListPlayers(FD const fd) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  (*it).first->sendListPlayers();
 	  this->_mutex->unlock();
 	  return (true);
 	}

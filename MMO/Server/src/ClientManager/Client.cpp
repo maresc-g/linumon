@@ -5,10 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Jan 30 14:43:29 2014 laurent ansel
+// Last update Thu Jan 30 16:38:38 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
+#include			"Server/Server.hh"
 
 Client::Client():
   _use(false),
@@ -123,10 +124,24 @@ void				Client::addUser(User *user)
   this->_user = user;
 }
 
-bool				Client::addPlayer(std::string const &, std::string const &)
+bool				Client::addPlayer(std::string const &name, Faction *faction)
 {
+  if (this->_user)
+    {
+      Player			*player = new Player(name);
 
+      player->setFaction(*faction);
+      this->_user->addPlayer(*player);
+    }
   return (false);
+}
+
+void				Client::sendListPlayers() const
+{
+  if (_user)
+    {
+      Server::getInstance()->callProtocol("PLAYERLIST", _id, const_cast<Players *>(&_user->getPlayers()));
+    }
 }
 
 void				Client::choosePlayer(unsigned int const, bool const)
