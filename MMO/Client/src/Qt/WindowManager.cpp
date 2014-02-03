@@ -5,16 +5,17 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Fri Jan 31 11:32:28 2014 guillaume marescaux
+// Last update Mon Feb  3 12:49:05 2014 cyril jourdain
 //
 
 #include		"Qt/WindowManager.hh"
 #include	<iostream>
 
-WindowManager::WindowManager(int ac, char **av) :
+WindowManager::WindowManager(int ac, char **av, MutexVar<eState> *state) :
   _app(new QApplication(ac, av)),
   _mainLayout(new QGridLayout),
-  _mainFrame(new QFrame)
+  _mainFrame(new QFrame),
+  _state(state)
 {
   _mainFrame->setWindowTitle("Qt SFML");
   _mainFrame->resize(1600, 1200);
@@ -84,4 +85,9 @@ void			WindowManager::showSfmlView()
 void			WindowManager::hideSfmlView()
 {
   _sfmlView->hide();
+}
+
+MutexVar<eState>	*WindowManager::getState()
+{
+  return _state;
 }

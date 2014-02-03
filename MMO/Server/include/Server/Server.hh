@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Thu Jan 30 14:10:10 2014 laurent ansel
+// Last update Mon Feb  3 13:34:54 2014 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -25,6 +25,7 @@
 #include			"ObjectPool/ObjectPoolManager.hpp"
 #include			"Crypto/Crypto.hh"
 #include			"Utility/FunctorContainer.hpp"
+#include			"Mutex/MutexVar.hpp"
 
 class				Server : public Singleton<Server>
 {
@@ -44,7 +45,7 @@ public:
   void				run();
   void				detectWrite(FD const fd);
   void				init(int const port);
-  bool				callProtocol(std::string const &key, unsigned int const id, void *param);
+  bool				callProtocol(std::string const &key, unsigned int const id, void *param, bool const write = true);
   bool				callProtocol(Trame *trame);
   bool				addFuncProtocol(std::string const &key, std::function<bool (Trame *)> func);
 private:

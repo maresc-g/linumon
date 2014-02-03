@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Thu Jan 30 14:15:47 2014 laurent ansel
+// Last update Mon Feb  3 13:34:27 2014 laurent ansel
 //
 
 #include			<list>
@@ -132,13 +132,14 @@ bool				Server::addFuncProtocol(std::string const &key, std::function<bool (Tram
 ** si segfault verifier mutex en dessous
 */
 
-bool				Server::callProtocol(std::string const &key, unsigned int const id, void *param)
+bool				Server::callProtocol(std::string const &key, unsigned int const id, void *param, bool const write)
 {
   bool				ret = false;
 
   this->_protoMutex->lock();
   ret = this->_protocol->operator()(key, id, param);
-  ClientManager::getInstance()->newTrameToWrite(id, 1);
+  if (write)
+    ClientManager::getInstance()->newTrameToWrite(id, 1);
   this->_protoMutex->unlock();
   return (ret);
 }

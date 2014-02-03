@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Mon Feb  3 11:04:37 2014 guillaume marescaux
+// Last update Mon Feb  3 12:57:02 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -21,6 +21,7 @@
 #include		"Thread/Thread.hpp"
 #include		"Mutex/MutexVar.hpp"
 #include		"eState.hh"
+#include		"ErrorHandler.hh"
 
 # define		CONNECT_FILE	"Res/Connection.json"
 
@@ -53,6 +54,7 @@ private:
   MutexVar<bool>			*_initialized;
   MutexVar<bool>			*_running;
   MutexVar<eState>			*_state;
+  ErrorHandler				*_handler;
 
 public:
 
@@ -80,6 +82,7 @@ private:
   bool			welcome(Trame *trame);
   bool			check(Trame *trame);
   bool			handlerError(Trame *trame);
+  bool			playerlist(Trame *trame);
   bool			map(Trame *trame);
 };
 

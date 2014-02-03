@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:07:00 2014 alexis mestag
-// Last update Sat Feb  1 16:49:34 2014 alexis mestag
+// Last update Mon Feb  3 12:50:27 2014 laurent ansel
 //
 
 #ifndef				__TALENTMODEL_HH__
@@ -15,8 +15,9 @@
 # include			"Database/Persistent.hh"
 # include			"Utility/Nameable.hh"
 # include			"Effects/EffectLib.hh"
+# include			"Utility/ISerialization.hh"
 
-class				TalentModel : public Persistent, public Nameable
+class				TalentModel : public Persistent, public Nameable, public ISerialization
 {
   friend class			odb::access;
 
@@ -45,6 +46,9 @@ public:
   void				setEffectLib(EffectLib const &effectLib);
 
   void				addTalent(TalentModel const &talent);
+
+  virtual bool			serialization(Trame &trame) const;
+  static TalentModel		*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

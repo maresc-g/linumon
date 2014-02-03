@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 14:51:25 2014 alexis mestag
-// Last update Fri Jan 31 15:28:06 2014 alexis mestag
+// Last update Mon Feb  3 13:43:31 2014 laurent ansel
 //
 
 #include			"Stats/Talent.hh"
@@ -55,4 +55,17 @@ int				Talent::getCurrentPoints() const
 void				Talent::setCurrentPoints(int const currentPoints)
 {
   _currentPoints = currentPoints;
+}
+
+bool				Talent::serialization(Trame &) const
+{
+  bool				ret = true;
+
+  return (ret);
+}
+
+Talent				*Talent::deserialization(Trame const &)
+{
+  Talent			*talent = NULL;
+  return (talent);
 }
