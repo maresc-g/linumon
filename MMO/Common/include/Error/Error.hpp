@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Jan 25 14:45:20 2014 laurent ansel
-// Last update Wed Jan 29 14:43:50 2014 laurent ansel
+// Last update Mon Feb  3 12:43:17 2014 laurent ansel
 //
 
 #ifndef			__ERROR_HPP__
@@ -46,12 +46,14 @@ public:
     return (true);
   }
 
-  virtual bool			deserialization(Trame const &trame)
+  static Error			*deserialization(Trame const &trame)
   {
+    Error			error = NULL;
+
     if (trame[CONTENT].isMember("ERROR"))
       {
-	this->_type = static_cast<enum eError>(trame[CONTENT]["ERROR"].asInt());
-	buildError();
+	error = new Error(static_cast<enum eError>(trame[CONTENT]["ERROR"].asInt()));
+	error->buildError();
 	return (true);
       }
     return (false);
@@ -61,7 +63,7 @@ public:
   {
     this->_type = type;
   }
-private:
+
   void				buildError()
   {
     static std::map<enum eError, std::string> map =
