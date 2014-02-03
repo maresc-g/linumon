@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Mon Feb  3 10:56:58 2014 guillaume marescaux
+// Last update Mon Feb  3 12:42:45 2014 cyril jourdain
 //
 
 #include			"Client.hh"
@@ -31,7 +31,7 @@ Client::~Client()
 void				Client::init(int ac, char **av)
 {
   _core->init();
-  _manager = new WindowManager(ac, av);
+  _manager = new WindowManager(ac, av, _state);
   _manager->exec();
   _core->quit();
 }
