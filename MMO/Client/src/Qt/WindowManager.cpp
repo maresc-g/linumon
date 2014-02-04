@@ -5,17 +5,18 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Mon Feb  3 12:49:05 2014 cyril jourdain
+// Last update Tue Feb  4 14:10:52 2014 guillaume marescaux
 //
 
 #include		"Qt/WindowManager.hh"
 #include	<iostream>
 
-WindowManager::WindowManager(int ac, char **av, MutexVar<eState> *state) :
+WindowManager::WindowManager(int ac, char **av, MutexVar<eState> *state, MutexVar<std::list<PlayerView *> *> *players) :
   _app(new QApplication(ac, av)),
   _mainLayout(new QGridLayout),
   _mainFrame(new QFrame),
-  _state(state)
+  _state(state),
+  _players(players)
 {
   _mainFrame->setWindowTitle("Qt SFML");
   _mainFrame->resize(1600, 1200);
@@ -27,12 +28,13 @@ WindowManager::WindowManager(int ac, char **av, MutexVar<eState> *state) :
   _mainLayout->addWidget(_loginView);
   _mainLayout->addWidget(_characterView);
   //_mainLayout->addWidget(_sfmlView);
-  showCharacter();
   _mainFrame->setLayout(_mainLayout);
   _mainLayout->setMargin(0);
   //hideCharacter();
   hideSfmlView();
   showLogin();
+  showCharacter();
+  showCharacter();
   //hideLogin();
   hideCharacter();
 }
@@ -67,7 +69,9 @@ void			WindowManager::hideLogin()
 
 void			WindowManager::showCharacter()
 {
-  // _mainLayout->addWidget(_characterView);
+  _characterView->clear();
+  if (**_players)
+    _characterView->setPlayers(***_players);
   _characterView->show();
 }
 

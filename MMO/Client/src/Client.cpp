@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Tue Feb  4 11:16:57 2014 guillaume marescaux
+// Last update Tue Feb  4 13:12:55 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -15,10 +15,17 @@
 Client::Client():
   _state(new MutexVar<eState>(LOGIN)),
   _player(new MutexVar<Player *>(NULL)),
-  _players(new MutexVar<std::list<PlayerView *> *>(NULL)),
+  _players(new MutexVar<std::list<PlayerView *> *>(new std::list<PlayerView *>)),
   _core(new Core(_state, _player, _players)),
   _manager(NULL)
 {
+  PlayerView			*pv = new PlayerView;
+
+  pv->persistentId = 0;
+  pv->name = "toto";
+  pv->level = 10;
+  pv->userId = 0;
+  (**_players)->push_back(pv);
 }
 
 
@@ -33,7 +40,7 @@ Client::~Client()
 void				Client::init(int ac, char **av)
 {
   _core->init();
-  _manager = new WindowManager(ac, av, _state);
+  _manager = new WindowManager(ac, av, _state, _players);
   _manager->exec();
   _core->quit();
 }

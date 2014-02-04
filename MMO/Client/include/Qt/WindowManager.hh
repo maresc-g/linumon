@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:15:41 2013 cyril jourdain
-// Last update Mon Feb  3 12:49:00 2014 cyril jourdain
+// Last update Tue Feb  4 13:05:59 2014 guillaume marescaux
 //
 
 #ifndef 		__WINDOWMANAGER_HH__
@@ -33,12 +33,13 @@ private:
   QGridLayout		*_mainLayout;
   QFrame		*_mainFrame;
   MutexVar<eState>	*_state;
+  MutexVar<std::list<PlayerView *> *>	*_players;
   LoginView		*_loginView;
   CharacterView		*_characterView;
   SFMLView		*_sfmlView;
 
 public:
-  WindowManager(int, char **, MutexVar<eState> *);
+  WindowManager(int, char **, MutexVar<eState> *, MutexVar<std::list<PlayerView *> *> *);
   virtual ~WindowManager();
 
 public:
