@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:05:10 2013 cyril jourdain
-// Last update Tue Feb  4 15:05:02 2014 guillaume marescaux
+// Last update Tue Feb  4 15:56:38 2014 cyril jourdain
 //
 
 #include		"Qt/CharacterView/CharacterView.hh"
@@ -75,16 +75,19 @@ void		CharacterView::clear()
 }
 
 void		CharacterView::setPlayers(std::list<PlayerView *> const &players)
-{
+{ 
   for (auto it = players.begin() ; it != players.end() ; it++)
     _charList->push_back(new CharDescription(this, **it));
   _charContainer->resize((*_charList)[0]->size().width() * _charList->size(),412);
   _scrollArea->setMaximumSize((*_charList)[0]->size().width(), 412);
 
+  float oldy = (*_charList)[0]->pos().y();
+
   for (auto it = _charList->begin(); it != _charList->end(); it++)
     {
       _charLayout->addWidget(*it);
     }
+  //_charContainer->setGeometry(0,0, _charContainer->width(), _charContainer->height());
 }
 
 void		CharacterView::paintEvent(QPaintEvent *)
