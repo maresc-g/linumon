@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Feb  3 14:46:19 2014 antoine maitre
+// Last update Tue Feb  4 11:07:53 2014 antoine maitre
 //
 
 #ifndef			__PLAYER_HH__
@@ -23,6 +23,8 @@
 # include		"Utility/ISerialization.hh"
 
 class			Zone;
+class			User;
+
 class			Player : public Persistent, public ACharacter, public ISerialization
 {
   friend class		odb::access;
@@ -43,12 +45,15 @@ private:
   ZONE::eZone			_zone;
   TalentTree const		*_talentTree;
   std::list<Talent *>		_talents;
+  User const			*_user;
 
 private:
   Player();
   Player(Player const &rhs);
 
   Player		&operator=(Player const &rhs);
+
+  void			deleteTalents();
 
 public:
   Player(std::string const &name);
@@ -72,9 +77,12 @@ public:
   ZONE::eZone		getZone() const;
   void			setZone(ZONE::eZone const zone);
 
+  void				capture(Mob const &mob);
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);
 };
+
+# include			"Entities/User.hh"
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Player)

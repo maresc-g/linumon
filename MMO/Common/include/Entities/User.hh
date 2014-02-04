@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:16 2013 alexis mestag
-// Last update Thu Jan 30 15:16:40 2014 alexis mestag
+// Last update Mon Feb  3 14:19:43 2014 alexis mestag
 //
 
 #ifndef			__USER_HH__
@@ -47,6 +47,7 @@ public:
 #  pragma db object(User)
 #  pragma db member(User::_pseudo)
 #  pragma db member(User::_password)
+#  pragma db member(User::_players) inverse(_user)
 # endif
 
 #endif

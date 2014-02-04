@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Feb  3 13:10:19 2014 guillaume marescaux
+// Last update Mon Feb  3 16:39:52 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -13,6 +13,7 @@
 #include			<functional>
 #include			"Core/Core.hh"
 #include			"Crypto/Crypto.hh"
+#include			"Map/Map.hh"
 
 static void			*runThread(void *data)
 {
@@ -27,18 +28,19 @@ static void			*runThread(void *data)
 
 //-----------------------------------BEGIN CTOR / DTOR-----------------------------------------
 
-Core::Core(MutexVar<eState> *state):
+Core::Core(MutexVar<eState> *state, MutexVar<Player *> *player, MutexVar<Players *> *players):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
   _infos(new ConnectionInfos),
-  _player(NULL),
   _poll(new Poll),
   _proto(new Protocol(false)),
   _id(0),
   _initialized(new MutexVar<bool>(false)),
   _running(new MutexVar<bool>(true)),
   _state(state),
+  _player(player),
+  _players(players),
   _handler(new ErrorHandler)
 {
   std::function<bool (Trame *)> func;
@@ -46,6 +48,14 @@ Core::Core(MutexVar<eState> *state):
   _proto->addFunc("WELCOME", func);
   func = std::bind1st(std::mem_fun(&Core::check), this);
   _proto->addFunc("CHECK", func);
+  func = std::bind1st(std::mem_fun(&Core::handleError), this);
+  _proto->addFunc("ERROR", func);
+  func = std::bind1st(std::mem_fun(&Core::playerlist), this);
+  _proto->addFunc("PLAYERLIST", func);
+  func = std::bind1st(std::mem_fun(&Core::player), this);
+  _proto->addFunc("PLAYER", func);
+  func = std::bind1st(std::mem_fun(&Core::map), this);
+  _proto->addFunc("MAP", func);
 
   (*_sockets)[TCP] = new Socket;
   (*_sockets)[UDP] = new Socket;
@@ -65,7 +75,6 @@ Core::~Core()
   delete (*_sockets)[UDP];
   delete _sockets;
   delete _socketsClient;
-  delete _player;
   delete _poll;
   delete _proto;
   delete _handler;
@@ -129,7 +138,7 @@ bool				Core::welcome(Trame *trame)
 
   header = Header::deserialization(*trame);
   _id = header->getIdClient();
-  (*_proto)("INITIALIZE", _id, NULL);
+  (*_proto).operator()<unsigned int const>("INITIALIZE", _id);
   return (true);
 }
 
@@ -139,11 +148,12 @@ bool				Core::check(Trame *)
   return (true);
 }
 
-bool				Core::handlerError(Trame *trame)
+bool				Core::handleError(Trame *trame)
 {
   Error				*error;
 
   error = Error::deserialization(*trame);
+  _handler->handleError(*error, _state);
   delete error;
   return (true);
 }
@@ -151,13 +161,138 @@ bool				Core::handlerError(Trame *trame)
 bool				Core::playerlist(Trame *)
 {
   *_state = CHOOSE_PLAYER;
+  // *_players = Players
   return (true);
 }
 
-bool				Core::map(Trame *)
+bool				Core::player(Trame *trame)
+{
+  *_state = PLAYING;
+  *_player = Player::deserialization(*trame);
+  return (true);
+}
+
+bool				Core::map(Trame *trame)
+{
+  Map::getInstance()->setZone(Zone::deserialization(trame));
+  return (true);
+}
+
+bool				Core::launchBattle(Trame *)
 {
   return (true);
 }
+
+bool				Core::spell(Trame *)
+{
+  return (true);
+}
+
+bool				Core::spellEffect(Trame *)
+{
+  return (true);
+}
+
+bool				Core::captureEffect(Trame *)
+{
+  return (true);
+}
+
+bool				Core::switchMob(Trame *)
+{
+  return (true);
+}
+
+bool				Core::deadMob(Trame *)
+{
+  return (true);
+}
+
+bool				Core::endBattle(Trame *)
+{
+  return (true);
+}
+
+bool				Core::upStats(Trame *)
+{
+  return (true);
+}
+
+bool				Core::upTalents(Trame *)
+{
+  return (true);
+}
+
+bool				Core::inventory(Trame *)
+{
+  return (true);
+}
+
+bool				Core::job(Trame *)
+{
+  return (true);
+}
+
+bool				Core::caseMap(Trame *)
+{
+  return (true);
+}
+
+bool				Core::objectEffect(Trame *)
+{
+  return (true);
+}
+
+bool				Core::launchTrade(Trame *)
+{
+  return (true);
+}
+
+bool				Core::putItem(Trame *)
+{
+  return (true);
+}
+
+bool				Core::getItem(Trame *)
+{
+  return (true);
+}
+
+bool				Core::putMoney(Trame *)
+{
+  return (true);
+}
+
+bool				Core::getMoney(Trame *)
+{
+  return (true);
+}
+
+bool				Core::accept(Trame *)
+{
+  return (true);
+}
+
+bool				Core::refuse(Trame *)
+{
+  return (true);
+}
+
+bool				Core::quitServer(Trame *)
+{
+  return (true);
+}
+
+bool				Core::removeEntity(Trame *)
+{
+  return (true);
+}
+
+bool				Core::entity(Trame *)
+{
+  return (true);
+}
+
 
 //----------------------------------END PRIVATE METHODS----------------------------------------
 
@@ -208,14 +343,14 @@ void				Core::read(int const timeout, bool const setTimeout)
   this->readFromSocket(Core::UDP);  
 }
 
-void				Core::connection(Protocol::LoginInfos *infos)
+void				Core::connection(std::string const &pseudo, std::string const &pass)
 {
-  (*_proto)("CONNECTION", _id, infos);
+  (*_proto).operator()<unsigned int const, std::string const &, std::string const &>("CONNECTION", _id, pseudo, pass);
 }
 
 void				Core::choosePlayer(int id)
 {
-  (*_proto)("CHOOSEPLAYER", _id, &id);
+  (*_proto).operator()<unsigned int const, int>("CHOOSEPLAYER", _id, id);
 }
 
 void				Core::init(void)

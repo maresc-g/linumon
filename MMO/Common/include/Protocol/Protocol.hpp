@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Mon Feb  3 15:03:47 2014 antoine maitre
+// Last update Tue Feb  4 14:03:07 2014 antoine maitre
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -20,6 +20,9 @@
 #include			"ObjectPool/ObjectPoolManager.hpp"
 #include			"CircularBufferManager/CircularBufferManager.hh"
 #include			"Entities/AItem.hh"
+#include			"Utility/FunctorContainer.hpp"
+#include			"Error/Error.hpp"
+#include			"Entities/Players.hh"
 
 class				Protocol;
 
@@ -42,33 +45,49 @@ public:
     int				faction;
   };
 
+  struct			ChatInfos
+  {
+    ZONE::eZone			zone;
+    std::string			msg;
+  };
+
 private:
-  std::map<std::string, funcProtocol>	*_container;
+  FunctorContainer<std::string, bool>	*_container;
   std::map<std::string, funcDecode>	*_decode;
   bool				_server;
 public:
   Protocol(bool const server);
   virtual ~Protocol();
-  bool				operator()(std::string const &key, unsigned int const id, void *param);
+
+  template<typename... P>
+  bool				operator()(std::string const &key, P... params)
+  {
+    return (this->_container->operator()(key, params ...));
+  }
+
   bool				addFunc(std::string const &key, bool (*func)(Trame *));
   bool				addFunc(std::string const &key, std::function<bool (Trame *)> func);
   bool				decodeTrame(Trame *trame);
+
 private:
-  bool				welcome(unsigned int const id, void *);
-  bool				initialize(unsigned int const id, void *);
-  bool				check(unsigned int const id, void *);
-  bool				launchBattle(unsigned int const id, void *param);
-  bool				spell(unsigned int const id, void *param);
-  bool				spellEffect(unsigned int const id, void *param);
-  bool				captureEffect(unsigned int const id, void *param);
-  bool				dswitch(unsigned int const id, void *param);
-  bool				deadMob(unsigned int const id, void *param);
-  bool				endBattle(unsigned int const id, void *param);
-  bool				error(unsigned int const id, void *error);
-  bool				playerlist(unsigned int const id, void *players);
-  bool				connection(unsigned int const id, void *param);
+  bool				connection(unsigned int const id, std::string const &pseudo, std::string const &pass);
   bool				create(unsigned int const id, void *param);
-  bool				choosePlayer(unsigned int const id, void *param);
+  bool				choosePlayer(unsigned int const id, int playerId);
 };
+
+bool				launchBattle(unsigned int const id, unsigned int const idBatlle, Player const*);
+bool				spell(unsigned int const id, unsigned int const idBattle, Spell const *spell, unsigned int const target);
+bool				spellEffect(unsigned int const id, unsigned int const idBattle, int const hpChange, unsigned int const target);
+bool				captureEffect(unsigned int const id, unsigned int const idBattle, bool success);
+bool				dswitch(unsigned int const id, unsigned int const idBattle, unsigned int const target, unsigned int const newMob);
+bool				deadMob(unsigned int const id, unsigned int const idBattle, unsigned int const idMob);
+bool				endBattle(unsigned int const id, unsigned int const idBattle, bool win, unsigned int const money, unsigned int const exp, std::list<AItem *> *items);
+
+
+bool				welcome(unsigned int const id);
+bool				check(unsigned int const id);
+bool				error(unsigned int const id, Error *error);
+bool				playerlist(unsigned int const id, Players *players);
+bool				initialize(unsigned int const id);
 
 #endif

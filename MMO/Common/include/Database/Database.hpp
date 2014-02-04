@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 13:39:52 2014 alexis mestag
-// Last update Sat Feb  1 15:59:47 2014 alexis mestag
+// Last update Mon Feb  3 17:29:55 2014 alexis mestag
 //
 
 #ifndef			__DATABASE_HPP__
@@ -15,11 +15,13 @@
 # include		<odb/database.hxx>
 # include		<odb/mysql/database.hxx>
 # include		"Utility/Singleton.hpp"
-# include		"Database/Repositories/Repository.hpp"
 
 # define DB_USER	"odbLinumonUser"
 # define DB_PASSWORD	"odbLinumonPassword"
 # define DB_DATABASE	"Linumon"
+
+template<typename T>
+class			Repository;
 
 class			Database : public Singleton<Database>
 {
@@ -57,5 +59,7 @@ public:
     return (*Repository<T>::getInstance());
   }
 };
+
+# include		"Database/Repositories/Repository.hpp"
 
 #endif

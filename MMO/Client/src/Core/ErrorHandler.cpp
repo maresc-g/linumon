@@ -5,10 +5,12 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb  3 13:06:46 2014 guillaume marescaux
-// Last update Mon Feb  3 13:07:15 2014 guillaume marescaux
+// Last update Mon Feb  3 13:36:49 2014 guillaume marescaux
 //
 
 #include			"Core/ErrorHandler.hh"
+
+//-----------------------------------BEGIN CTOR / DTOR-----------------------------------------
 
 ErrorHandler::ErrorHandler()
 {
@@ -17,3 +19,34 @@ ErrorHandler::ErrorHandler()
 ErrorHandler::~ErrorHandler()
 {
 }
+
+//------------------------------------END CTOR / DTOR------------------------------------------
+
+//---------------------------------BEGIN PRIVATE METHODS---------------------------------------
+
+void				ErrorHandler::badUsernamePass(MutexVar<eState> *state)
+{
+  *state = LOGIN;
+}
+
+void				ErrorHandler::nameExists(MutexVar<eState> *state)
+{
+  *state = CHOOSE_PLAYER;
+}
+
+//----------------------------------END PRIVATE METHODS----------------------------------------
+
+//-------------------------------------BEGIN METHODS-------------------------------------------
+
+void				ErrorHandler::handleError(Error const &error, MutexVar<eState> *state)
+{
+  static std::map<Error::eError, void (ErrorHandler::*)(MutexVar<eState> *)>	ptrs =
+    {
+      { Error::USER, &ErrorHandler::badUsernamePass },
+      { Error::CREATEPLAYER, &ErrorHandler::nameExists }
+    };
+
+  (this->*ptrs[error.getType()])(state);
+}
+
+//--------------------------------------END METHODS--------------------------------------------

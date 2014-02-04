@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Mon Feb  3 13:34:27 2014 laurent ansel
+// Last update Mon Feb  3 16:43:38 2014 laurent ansel
 //
 
 #include			<list>
@@ -132,17 +132,18 @@ bool				Server::addFuncProtocol(std::string const &key, std::function<bool (Tram
 ** si segfault verifier mutex en dessous
 */
 
-bool				Server::callProtocol(std::string const &key, unsigned int const id, void *param, bool const write)
-{
-  bool				ret = false;
 
-  this->_protoMutex->lock();
-  ret = this->_protocol->operator()(key, id, param);
-  if (write)
-    ClientManager::getInstance()->newTrameToWrite(id, 1);
-  this->_protoMutex->unlock();
-  return (ret);
-}
+// bool				Server::callProtocol(std::string const &key, unsigned int const id, void *param, bool const write)
+// {
+//   bool				ret = false;
+
+//   this->_protoMutex->lock();
+//   ret = this->_protocol->operator()(key, id, param);
+//   if (write)
+//     ClientManager::getInstance()->newTrameToWrite(id, 1);
+//   this->_protoMutex->unlock();
+//   return (ret);
+// }
 
 bool				Server::callProtocol(Trame *trame)
 {
@@ -199,7 +200,7 @@ bool				Server::acceptNewClient()
    this->_poll->pushFd(header->getIdClient(), IPoll::RDWRDC);
    std::cout << "CLIENT = " << header->getIdClient() << std::endl;
    this->_mutex->unlock();
-   this->callProtocol("WELCOME", header->getIdClient(), NULL);
+   this->callProtocol<unsigned int const>("WELCOME", true, header->getIdClient());
    delete header;
    this->debug("Done");
    return (true);
@@ -226,7 +227,7 @@ bool				Server::recvUdp()
 	    {
 	      ClientManager::getInstance()->setInfoClient((*trame)[HEADER]["IDCLIENT"].asInt(), &(*this->_socket)["UDP"]->getSocket(), "UDP");
 	      this->_mutex->unlock();
-	      this->callProtocol("CHECK", (*trame)[HEADER]["IDCLIENT"].asInt(), NULL);
+	      this->callProtocol<unsigned int const>("CHECK", true, (*trame)[HEADER]["IDCLIENT"].asInt());
 	      this->_mutex->lock();
 	    }
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);

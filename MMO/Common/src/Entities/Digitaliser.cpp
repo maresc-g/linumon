@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Fri Jan 31 13:36:45 2014 laurent ansel
+// Last update Mon Feb  3 16:48:06 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -43,6 +43,11 @@ Digitaliser::Mobs const		&Digitaliser::getMobs() const
 void				Digitaliser::setMobs(Mobs const &mobs)
 {
   this->_mobs = mobs;
+}
+
+void				Digitaliser::addMob(Mob const &mob)
+{
+  _mobs.push_back(new Mob(mob));
 }
 
 bool				Digitaliser::serialization(Trame &trame) const

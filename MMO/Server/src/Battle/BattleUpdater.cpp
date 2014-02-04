@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Mon Feb  3 16:35:41 2014 antoine maitre
+// Last update Tue Feb  4 11:23:27 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -42,8 +42,8 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2)
 	{
 	  // if (player2->getType() == IA || player1->getType() == IA)
 	  new Battle(id, Battle::PVE, 1, player1, player2);
-	  Server::getInstance()->callProtocol("LAUNCHBATTLE", player1->getId(), new std::tuple<unsigned int const, Player *>(id, player2));
-	  Server::getInstance()->callProtocol("LAUNCHBATTLE", player2->getId(), new std::tuple<unsigned int const, Player *>(id, player1));
+	  Server::getInstance()->callProtocol<unsigned int const, unsigned int const, Player *>("LAUNCHBATTLE", true, player1->getId(), id, player2);
+	  Server::getInstance()->callProtocol<unsigned int const, unsigned int const, Player *>("LAUNCHBATTLE", true, player2->getId(), id, player1);
 	    // else
 	    //   new Battle(id, Battle::PVP, 1, player1, player2);
 	}
@@ -59,10 +59,17 @@ bool				BattleUpdater::spell(Trame *trame)
 
 bool				BattleUpdater::capture(Trame *trame)
 {
-  if ((*trame).isMember("CAPTURE"))
+  if ((*trame)["CAPTURE"].isMember("IDBATTLE") && (*trame)["CAPTURE"].isMember("TARGET"))
     {
-      
-      return (true);
+      for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
+	{
+	  if ((*it)->getID() == (*trame)["CAPTURE"]["IDBATTLE"].asUInt())
+	    {
+	      (*it)->capture((*trame)["CAPTURE"]["TARGET"].asInt());
+	      return (true);
+	    }
+	}
+      return (false);
     }
   return (false);
 }

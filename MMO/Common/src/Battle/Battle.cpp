@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Feb  4 10:58:37 2014 antoine maitre
+// Last update Tue Feb  4 11:24:03 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -99,8 +99,9 @@ bool					Battle::capture(unsigned int const target)
 	{
 	  if ((*it)->getId() == target)
 	    {
-	      // this->_player1->getDigitaliser().setMob(*(*it));
+	      this->_player1->capture(*(*it));
 	      this->_mobs2.erase(it);
+	      delete *it;
 	      return (true);
 	    }
 	}

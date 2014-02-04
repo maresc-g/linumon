@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Mon Feb  3 14:53:15 2014 antoine maitre
+// Last update Tue Feb  4 14:16:58 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -121,19 +121,19 @@ bool				Zone::serialization(Trame &trame) const
   std::ostringstream		ossb;
 
   oss << "ZONE" << this->_type;
-  trame[oss.str()]["TYPE"] = this->_type;
-  trame[oss.str()]["SIZEX"] = this->_sizeX;
-  trame[oss.str()]["SIZEY"] = this->_sizeY;
+  trame[CONTENT][oss.str()]["TYPE"] = this->_type;
+  trame[CONTENT][oss.str()]["SIZEX"] = this->_sizeX;
+  trame[CONTENT][oss.str()]["SIZEY"] = this->_sizeY;
   int i = 0;
   for (auto it = this->_players->begin(); it != this->_players->end(); it++)
     {
       ossb << "PLAYER" << i;
-      (*it)->serialization(trame(trame[oss.str()][ossb.str()]));
+      (*it)->serialization(trame(trame[CONTENT][oss.str()][ossb.str()]));
       ossb.str("");
       i++;
     }
   for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
-    (*it)->serialization(trame(trame[oss.str()]));
+    (*it)->serialization(trame(trame[CONTENT][oss.str()]));
   return (true);
 }
 
@@ -142,20 +142,20 @@ Zone				*Zone::deserialization(Trame const &trame)
   Zone				*ret = NULL;
   std::ostringstream		oss;
 
-  if (trame.isMember("ZONE"))
-    if (trame["ZONE"].isMember("TYPE"))
-      if (trame["ZONE"].isMember("SIZEX"))
-	if (trame["ZONE"].isMember("SIZEY"))
+  if (trame[CONTENT].isMember("ZONE"))
+    if (trame[CONTENT]["ZONE"].isMember("TYPE"))
+      if (trame[CONTENT]["ZONE"].isMember("SIZEX"))
+	if (trame[CONTENT]["ZONE"].isMember("SIZEY"))
 	  {
-	    ret = new Zone(trame["ZONE"]["SIZEX"].asInt(), 
-			   trame["ZONE"]["SIZEY"].asInt(), 
-			   static_cast<ZONE::eZone const>(trame["ZONE"]["TYPE"].asInt()));
-	      for (int i = 0; i == 0 || trame["ZONE"].isMember(oss.str()); i++)
+	    ret = new Zone(trame[CONTENT]["ZONE"]["SIZEX"].asInt(), 
+			   trame[CONTENT]["ZONE"]["SIZEY"].asInt(), 
+			   static_cast<ZONE::eZone const>(trame[CONTENT]["ZONE"]["TYPE"].asInt()));
+	      for (int i = 0; i == 0 || trame[CONTENT]["ZONE"].isMember(oss.str()); i++)
 		{
 		  oss.str("");
 		  oss << "ENTITIES" << i;
-		  if (trame["ZONE"].isMember(oss.str()))
-		    ret->addCase(Case::deserialization(trame(trame["ZONE"][oss.str()])));
+		  if (trame[CONTENT]["ZONE"].isMember(oss.str()))
+		    ret->addCase(Case::deserialization(trame(trame[CONTENT]["ZONE"][oss.str()])));
 		}
 	  }
       return (ret);
