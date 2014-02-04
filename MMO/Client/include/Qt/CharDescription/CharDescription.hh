@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 15:44:54 2013 cyril jourdain
-// Last update Tue Feb  4 12:56:13 2014 guillaume marescaux
+// Last update Tue Feb  4 14:47:39 2014 guillaume marescaux
 //
 
 #ifndef 		__CHARDESCRIPTION_HH__
@@ -24,7 +24,7 @@ public:
   CharDescription(QWidget *, PlayerView const &player);
   ~CharDescription();
 
-private:
+public:
   Ui::CharDescription	ui;
 
 private:

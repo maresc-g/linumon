@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb  4 16:27:46 2014 antoine maitre
+// Last update Tue Feb  4 15:34:27 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -46,7 +46,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("INITIALIZE", &initialize);
       this->_container->load<unsigned int, std::string, std::string>("CONNECTION", &connection);
       this->_container->load<unsigned int, Error *>("ERROR", &error);
-      this->_container->load<unsigned int, std::string const &>("CREATE", &create);
+      this->_container->load<unsigned int, std::string, Faction>("CREATE", &create);
       this->_container->load<unsigned int, int>("CHOOSEPLAYER", &choosePlayer);
     }
 }
@@ -164,7 +164,7 @@ bool			connection(unsigned int const id, std::string pseudo, std::string pass)
   return (false);
 }
 
-bool			create(unsigned int const id, std::string const &name)
+bool			create(unsigned int const id, std::string name, Faction faction)
 {
   Trame                 *trame;
   Header                *header;
@@ -176,7 +176,7 @@ bool			create(unsigned int const id, std::string const &name)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["CREATE"]["NAME"] = name;
-      (*trame)[CONTENT]["CREATE"]["FACTION"] = 0;
+      faction.serialization((*trame)((*trame)[CONTENT]["CREATE"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Tue Feb  4 13:12:55 2014 guillaume marescaux
+// Last update Tue Feb  4 15:35:46 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -53,4 +53,9 @@ void				Client::connection(std::string const &pseudo, std::string const &pass)
 void				Client::choosePlayer(PlayerView const &player)
 {
   _core->choosePlayer(player);
+}
+
+void				Client::create(std::string const &name, std::string const &faction)
+{
+  _core->createPlayer(name, faction);
 }

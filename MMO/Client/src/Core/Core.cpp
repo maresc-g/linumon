@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb  4 14:15:54 2014 guillaume marescaux
+// Last update Tue Feb  4 15:31:03 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -353,6 +353,13 @@ void				Core::connection(std::string const &pseudo, std::string const &pass)
 void				Core::choosePlayer(PlayerView const &player)
 {
   (*_proto).operator()<unsigned int const, int>("CHOOSEPLAYER", _id, player.persistentId);
+}
+
+void				Core::createPlayer(std::string const &name, std::string const &faction)
+{
+  Faction			*tmp = new Faction(faction);
+
+  (*_proto).operator()<unsigned int const, std::string, Faction>("CREATE", _id, name, *tmp);
 }
 
 void				Core::init(void)

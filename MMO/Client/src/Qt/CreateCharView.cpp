@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec 10 16:16:06 2013 cyril jourdain
-// Last update Tue Jan 28 10:50:49 2014 cyril jourdain
+// Last update Tue Feb  4 15:16:16 2014 guillaume marescaux
 //
 
 #include		"Qt/CreateCharView/CreateCharView.hh"
@@ -53,6 +53,7 @@ void		CreateCharView::on_b_validate_clicked()
     }
   else
     {
+      // _wMan->create();
       this->close();
       // Need connexions, add to players list, etc ...
     }

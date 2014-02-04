@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Tue Feb  4 11:16:43 2014 guillaume marescaux
+// Last update Tue Feb  4 15:36:17 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -49,6 +49,7 @@ public:
   void				init(int ac, char **av);
   void				connection(std::string const &pseudo, std::string const &pass);
   void				choosePlayer(PlayerView const &player);
+  void				create(std::string const &name, std::string const &faction);
 };
 
 #endif
