@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb  3 13:06:46 2014 guillaume marescaux
-// Last update Mon Feb  3 13:36:49 2014 guillaume marescaux
+// Last update Tue Feb  4 11:01:43 2014 guillaume marescaux
 //
 
 #include			"Core/ErrorHandler.hh"
@@ -26,7 +26,7 @@ ErrorHandler::~ErrorHandler()
 
 void				ErrorHandler::badUsernamePass(MutexVar<eState> *state)
 {
-  *state = LOGIN;
+  *state = NONE;
 }
 
 void				ErrorHandler::nameExists(MutexVar<eState> *state)

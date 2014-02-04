@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Mon Feb  3 15:59:18 2014 laurent ansel
+// Last update Mon Feb  3 16:49:25 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -140,7 +140,7 @@ void				Client::sendListPlayers()
 {
   if (_user)
     {
-      Server::getInstance()->callProtocol<unsigned int const, Players *>("PLAYERLIST", false, _id, const_cast<Players *>(&_user->getPlayers()));
+      Server::getInstance()->callProtocol<Players *>("PLAYERLIST", _id, const_cast<Players *>(&_user->getPlayers()), false);
       this->_trame++;
     }
 }

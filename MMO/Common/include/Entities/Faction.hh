@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:28:40 2013 alexis mestag
-// Last update Tue Jan 28 11:09:24 2014 laurent ansel
+// Last update Tue Feb  4 12:31:37 2014 guillaume marescaux
 //
 
 #ifndef			__FACTION_HH__
@@ -14,6 +14,9 @@
 # include		"Database/Persistent.hh"
 # include		"Utility/Nameable.hh"
 # include		"Utility/ISerialization.hh"
+
+# define		FACTION1	"Brakmar"
+# define		FACTION2	"Bonta"
 
 class			Faction : public Persistent, public Nameable, public ISerialization
 {
