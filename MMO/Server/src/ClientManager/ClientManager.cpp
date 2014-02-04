@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Mon Feb  3 16:01:00 2014 laurent ansel
+// Last update Mon Feb  3 16:49:03 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -293,7 +293,7 @@ bool				ClientManager::connectionUser(Trame *trame)
 	    {
 	      error->setType(Error::USER);
 	      this->_mutex->unlock();
-	      Server::getInstance()->callProtocol<unsigned int const, Error *>("ERROR", true, (*trame)[HEADER]["IDCLIENT"].asUInt(), error);
+	      Server::getInstance()->callProtocol<Error *>("ERROR", (*trame)[HEADER]["IDCLIENT"].asUInt(), error);
 	      this->_mutex->lock();
 	      delete error;
 	    }
@@ -326,7 +326,7 @@ bool				ClientManager::createPlayer(Trame *trame)
 	    {
 	      error->setType(Error::CREATEPLAYER);
 	      this->_mutex->unlock();
-	      Server::getInstance()->callProtocol<unsigned int const, Error *>("ERROR", true, (*trame)[HEADER]["IDCLIENT"].asUInt(), error);
+	      Server::getInstance()->callProtocol<Error *>("ERROR", (*trame)[HEADER]["IDCLIENT"].asUInt(), error);
 	      this->_mutex->lock();
 	      delete error;
 	    }
