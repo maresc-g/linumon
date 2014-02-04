@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:50 2013 alexis mestag
-// Last update Tue Feb  4 14:05:23 2014 laurent ansel
+// Last update Tue Feb  4 14:09:48 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -87,20 +87,20 @@ bool				User::serialization(Trame &trame) const
   Repository<PlayerView>	*rp = &Database::getRepository<PlayerView>();
   std::list<PlayerView *>	*pvs = NULL;
   int				i = 0;
-  std::ostringstream		str("PLAYER");
+  std::ostringstream		str;
 
   pvs = rp->getByUserId(this->getPersistentId());
   if (pvs)
     {
       for (auto it = pvs->begin() ; it != pvs->end() ; ++it)
 	{
-	  str << i;
+	  str << "PLAYER" << i;
 	  trame[CONTENT]["PLAYERLIST"][str.str()]["IDPLAYER"] = static_cast<unsigned int>((*it)->persistentId);
 	  trame[CONTENT]["PLAYERLIST"][str.str()]["NAME"] = (*it)->name;
 	  trame[CONTENT]["PLAYERLIST"][str.str()]["LEVEL"] = (*it)->level;
 	  trame[CONTENT]["PLAYERLIST"][str.str()]["FACTION"] = (*it)->faction;
 	  trame[CONTENT]["PLAYERLIST"][str.str()]["USERID"] = static_cast<unsigned int>((*it)->userId);
-	  str.str("PLAYER");
+	  str.str("");
 	  i++;
 	}
       return (true);
