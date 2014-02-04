@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Tue Feb  4 14:03:07 2014 antoine maitre
+// Last update Tue Feb  4 14:22:36 2014 antoine maitre
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -70,9 +70,9 @@ public:
   bool				decodeTrame(Trame *trame);
 
 private:
-  bool				connection(unsigned int const id, std::string const &pseudo, std::string const &pass);
-  bool				create(unsigned int const id, void *param);
-  bool				choosePlayer(unsigned int const id, int playerId);
+  // bool				connection(unsigned int const id, std::string const &pseudo, std::string const &pass);
+  // bool				create(unsigned int const id, void *param);
+  // bool				choosePlayer(unsigned int const id, int playerId);
 };
 
 bool				launchBattle(unsigned int const id, unsigned int const idBatlle, Player const*);
@@ -89,5 +89,8 @@ bool				check(unsigned int const id);
 bool				error(unsigned int const id, Error *error);
 bool				playerlist(unsigned int const id, Players *players);
 bool				initialize(unsigned int const id);
+bool				connection(unsigned int const id, std::string pseudo, std::string pass);
+bool				create(unsigned int const id, std::string const &name);
+bool				choosePlayer(unsigned int const id, int playerId);
 
 #endif

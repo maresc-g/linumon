@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 10:15:18 2014 alexis mestag
-// Last update Mon Feb  3 16:42:19 2014 alexis mestag
+// Last update Tue Feb  4 12:59:21 2014 alexis mestag
 //
 
 #ifndef				__PLAYERVIEW_HH__
@@ -21,12 +21,36 @@ public:
   std::string			name;
   int				level;
   unsigned long			userId;
+  std::string			faction;
+
+private:
+  PlayerView() {}
+
+public:
+  PlayerView(PlayerView const &rhs) {
+    *this = rhs;
+  }
+  virtual ~PlayerView() {}
+
+  PlayerView			&operator=(PlayerView const &rhs) {
+    if (this != &rhs) {
+      this->persistentId = rhs.persistentId;
+      this->name = rhs.name;
+      this->level = rhs.level;
+      this->userId = rhs.userId;
+      this->faction = rhs.faction;
+    }
+    return (*this);
+  }
 };
 
 # ifdef	ODB_COMPILER
-#  pragma db view(PlayerView) object(Player)
+#  pragma db view(PlayerView) object(Player) object(Faction)
+#  pragma db member(PlayerView::persistentId) column(Player::_persistentId)
+#  pragma db member(PlayerView::name) column(Player::_name)
 #  pragma db member(PlayerView::level) column(Player::_level._lvl)
 #  pragma db member(PlayerView::userId) column(Player::_user)
+#  pragma db member(PlayerView::faction) column(Faction::_name)
 # endif
 
 #endif

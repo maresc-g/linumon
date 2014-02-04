@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Feb  4 11:24:03 2014 antoine maitre
+// Last update Tue Feb  4 16:25:19 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -50,8 +50,9 @@ Battle::eBattle 			Battle::getType() const
   return (this->_type);
 }
 
-bool					Battle::spell(unsigned int const target, Spell *)
+bool					Battle::spell(unsigned int const target, Spell *spell)
 {
+  (void) spell;
   (void) target;
   return (true);
 }

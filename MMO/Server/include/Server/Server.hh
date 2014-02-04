@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Mon Feb  3 16:12:21 2014 laurent ansel
+// Last update Mon Feb  3 16:48:11 2014 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -47,17 +47,18 @@ public:
   void				init(int const port);
 
   template<typename ... P>
-  bool				callProtocol(std::string const &key, bool const, P ... params)
-{
-  bool				ret = false;
+  bool				callProtocol(std::string const &key, unsigned int const id, P ... params, bool const write = true)
+  {
+    bool				ret = false;
 
-  this->_protoMutex->lock();
-  ret = this->_protocol->operator()<P ...>(key, params ...);
-  // if (write)
-  //   ClientManager::getInstance()->newTrameToWrite(id, 1);
-  this->_protoMutex->unlock();
-  return (ret);
-}
+    this->_protoMutex->lock();
+    ret = this->_protocol->operator()<unsigned int const, P ...>(key, id, params ...);
+    if (write)
+      ClientManager::getInstance()->newTrameToWrite(id, 1);
+    this->_protoMutex->unlock();
+    return (ret);
+  }
+
   bool				callProtocol(Trame *trame);
   bool				addFuncProtocol(std::string const &key, std::function<bool (Trame *)> func);
 private:

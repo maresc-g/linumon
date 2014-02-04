@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Feb  3 16:39:52 2014 guillaume marescaux
+// Last update Tue Feb  4 11:16:30 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -28,7 +28,7 @@ static void			*runThread(void *data)
 
 //-----------------------------------BEGIN CTOR / DTOR-----------------------------------------
 
-Core::Core(MutexVar<eState> *state, MutexVar<Player *> *player, MutexVar<Players *> *players):
+Core::Core(MutexVar<eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
@@ -138,7 +138,7 @@ bool				Core::welcome(Trame *trame)
 
   header = Header::deserialization(*trame);
   _id = header->getIdClient();
-  (*_proto).operator()<unsigned int const>("INITIALIZE", _id);
+  _proto->operator()<unsigned int const>("INITIALIZE", _id);
   return (true);
 }
 
@@ -152,6 +152,7 @@ bool				Core::handleError(Trame *trame)
 {
   Error				*error;
 
+  std::cout << "ERROR" << std::endl;
   error = Error::deserialization(*trame);
   _handler->handleError(*error, _state);
   delete error;
@@ -161,7 +162,7 @@ bool				Core::handleError(Trame *trame)
 bool				Core::playerlist(Trame *)
 {
   *_state = CHOOSE_PLAYER;
-  // *_players = Players
+  // *_players = std::list<PlayerView *>
   return (true);
 }
 
@@ -345,12 +346,12 @@ void				Core::read(int const timeout, bool const setTimeout)
 
 void				Core::connection(std::string const &pseudo, std::string const &pass)
 {
-  (*_proto).operator()<unsigned int const, std::string const &, std::string const &>("CONNECTION", _id, pseudo, pass);
+  (*_proto).operator()<unsigned int const, std::string, std::string>("CONNECTION", _id, pseudo, pass);
 }
 
-void				Core::choosePlayer(int id)
+void				Core::choosePlayer(PlayerView const &player)
 {
-  (*_proto).operator()<unsigned int const, int>("CHOOSEPLAYER", _id, id);
+  (*_proto).operator()<unsigned int const, int>("CHOOSEPLAYER", _id, player.persistentId);
 }
 
 void				Core::init(void)
