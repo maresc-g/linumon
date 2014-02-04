@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 15:55:08 2013 alexis mestag
-// Last update Tue Feb  4 11:02:39 2014 laurent ansel
+// Last update Tue Feb  4 12:58:37 2014 laurent ansel
 //
 
 #include			<functional>
@@ -44,26 +44,6 @@ void				Players::deletePlayers()
   };
 
   _players.remove_if(f);
-}
-
-bool				Players::serialization(Trame &trame) const
-{
-  bool				ret = true;
-  int				i = 0;
-  std::ostringstream		str("PLAYER");
-
-  trame[CONTENT]["PLAYERLIST"];
-  for (auto it = this->_players.begin() ; it != this->_players.end() ; ++it)
-    {
-      str << i;
-      trame[CONTENT]["PLAYERLIST"][str.str()]["IDPLAYER"] = static_cast<unsigned int>((*it)->getId());
-      trame[CONTENT]["PLAYERLIST"][str.str()]["NAME"] = (*it)->getName();
-      trame[CONTENT]["PLAYERLIST"][str.str()]["LEVEL"] = (*it)->getLevel().getLevel();
-      trame[CONTENT]["PLAYERLIST"][str.str()]["Faction"] = (*it)->getFaction().getName();
-      str.str("PLAYER");
-      i++;
-    }
-  return (ret);
 }
 
 void				Players::addPlayer(Player &player)

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 10:15:18 2014 alexis mestag
-// Last update Tue Feb  4 13:35:01 2014 alexis mestag
+// Last update Tue Feb  4 13:47:35 2014 laurent ansel
 //
 
 #ifndef				__PLAYERVIEW_HH__
@@ -24,7 +24,8 @@ public:
   std::string			faction;
 
 public:
-  PlayerView() : persistentId(0), name(""), level(0), userId(0), faction("") {}
+  PlayerView(unsigned long const id = 0, std::string const &playerName = "", int const playerLevel = 0, unsigned long const user = 0, std::string const &playerFaction = "")
+    : persistentId(id), name(playerName), level(playerLevel), userId(user), faction(playerFaction) {}
   PlayerView(PlayerView const &rhs) {
     *this = rhs;
   }

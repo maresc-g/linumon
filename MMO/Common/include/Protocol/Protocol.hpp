@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Tue Feb  4 10:40:53 2014 guillaume marescaux
+// Last update Tue Feb  4 13:50:01 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -82,7 +82,7 @@ private:
 bool				welcome(unsigned int const id);
 bool				check(unsigned int const id);
 bool				error(unsigned int const id, Error *error);
-bool				playerlist(unsigned int const id, Players *players);
+bool				playerlist(unsigned int const id, User *user);
 bool				initialize(unsigned int const id);
 bool				connection(unsigned int const id, std::string pseudo, std::string pass);
 bool				create(unsigned int const id, std::string const &name);

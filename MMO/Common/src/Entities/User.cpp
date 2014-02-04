@@ -5,11 +5,16 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:50 2013 alexis mestag
-// Last update Mon Feb  3 18:09:31 2014 alexis mestag
+// Last update Tue Feb  4 14:05:23 2014 laurent ansel
 //
 
+#include			<sstream>
 #include			<functional>
 #include			"Entities/User.hh"
+
+#ifdef SERVER
+#include			"Database/Repositories/PlayerViewRepository.hpp"
+#endif
 
 User::User() :
   Persistent(), _pseudo(""), _password("")
@@ -74,6 +79,58 @@ bool				User::addPlayer(Player &player)
 {
   _players.addPlayer(player);
   return (true);
+}
+
+bool				User::serialization(Trame &trame) const
+{
+#ifdef SERVER
+  Repository<PlayerView>	*rp = &Database::getRepository<PlayerView>();
+  std::list<PlayerView *>	*pvs = NULL;
+  int				i = 0;
+  std::ostringstream		str("PLAYER");
+
+  pvs = rp->getByUserId(this->getPersistentId());
+  if (pvs)
+    {
+      for (auto it = pvs->begin() ; it != pvs->end() ; ++it)
+	{
+	  str << i;
+	  trame[CONTENT]["PLAYERLIST"][str.str()]["IDPLAYER"] = static_cast<unsigned int>((*it)->persistentId);
+	  trame[CONTENT]["PLAYERLIST"][str.str()]["NAME"] = (*it)->name;
+	  trame[CONTENT]["PLAYERLIST"][str.str()]["LEVEL"] = (*it)->level;
+	  trame[CONTENT]["PLAYERLIST"][str.str()]["FACTION"] = (*it)->faction;
+	  trame[CONTENT]["PLAYERLIST"][str.str()]["USERID"] = static_cast<unsigned int>((*it)->userId);
+	  str.str("PLAYER");
+	  i++;
+	}
+      return (true);
+    }
+  else
+    trame[CONTENT]["PLAYERLIST"];
+#else
+  (void)trame;
+#endif
+  return (false);
+}
+
+std::list<PlayerView *>		*User::deserialization(Trame const &trame)
+{
+  std::list<PlayerView *>	*pvs = NULL;
+  Trame				tmp;
+
+  if (trame[CONTENT].isMember("PLAYERLIST"))
+    {
+      pvs = new std::list<PlayerView *>;
+
+      auto			members = trame.getMemberNames();
+
+      for (auto it = members.begin() ; it != members.end() ; ++it)
+	{
+	  tmp = trame(trame[CONTENT]["PLAYERLIST"][(*it)]);
+	  pvs->push_back(new PlayerView(tmp["IDPLAYER"].asInt(), tmp["NAME"].asString(), tmp["LEVEL"].asInt(), tmp["USERID"].asInt(), tmp["FACTION"].asString()));
+	}
+    }
+  return (pvs);
 }
 
 /*
