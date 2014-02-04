@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Mon Feb  3 13:35:53 2014 laurent ansel
+// Last update Tue Feb  4 15:00:03 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -42,6 +42,7 @@ public:
   bool				addPlayer(std::string const &name, Faction *faction);
   void				sendListPlayers();
   void				choosePlayer(unsigned int const idPlayer, bool const send);
+  bool				sameUser(User *user) const;
 };
 
 #endif

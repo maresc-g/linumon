@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Mon Feb  3 16:49:03 2014 laurent ansel
+// Last update Tue Feb  4 15:12:41 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -268,6 +268,30 @@ void				ClientManager::run()
   this->_mutex->unlock();
 }
 
+bool				ClientManager::userAlreadyConnected(FD const fd, User *user) const
+{
+  bool				ret = false;
+  Error				*error = NULL;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !ret ; ++it)
+    if ((*it).first && (*it).second)
+      ret = (*it).first->userAlreadyConnected(user);
+  if (ret)
+    {
+      if (ObjectPoolManager::getInstance()->setObject(error, "error"))
+	{
+	  error->setType(Error::USERCONNECTED);
+	  this->_mutex->unlock();
+	  Server::getInstance()->callProtocol<Error *>("ERROR", fd, error);
+	  this->_mutex->lock();
+	  delete error;
+	}
+    }
+  this->_mutex->unlock();
+  return (ret);
+}
+
 bool				ClientManager::connectionUser(Trame *trame)
 {
   bool				ret = false;
@@ -278,6 +302,10 @@ bool				ClientManager::connectionUser(Trame *trame)
     {
       User			*user = Database::getRepository<User>().getByPseudo((*trame)[CONTENT]["CONNECTION"]["PSEUDO"].asString());
 
+      this->_mutex->unlock();
+      if (user && this->userAlreadyConnected((*trame)[HEADER]["IDCLIENT"].asUInt(), user))
+	return (false);
+      this->_mutex->lock();
       if (user && user->getPassword() == (*trame)[CONTENT]["CONNECTION"]["PASS"].asString())
 	{
 	  this->_mutex->unlock();
@@ -288,7 +316,6 @@ bool				ClientManager::connectionUser(Trame *trame)
 	}
       else
 	{
-
 	  if (ObjectPoolManager::getInstance()->setObject(error, "error"))
 	    {
 	      error->setType(Error::USER);

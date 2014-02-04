@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Feb  4 13:50:27 2014 laurent ansel
+// Last update Tue Feb  4 14:59:45 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -148,4 +148,11 @@ void				Client::sendListPlayers()
 void				Client::choosePlayer(unsigned int const, bool const)
 {
 
+}
+
+bool				Client::sameUser(User *user) const
+{
+  if (user == _user)
+    return (true);
+  return (false);
 }
