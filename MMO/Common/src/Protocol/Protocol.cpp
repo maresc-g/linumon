@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb  4 16:01:02 2014 laurent ansel
+// Last update Tue Feb  4 16:09:31 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -213,7 +213,7 @@ bool                    playerlist(unsigned int const id, User *user)
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("TCP");
-  if (header->serialization(*trame) && user->serialization(*trame))
+  if (user && header->serialization(*trame) && user->serialization(*trame))
     {
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);

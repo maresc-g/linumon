@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Feb  4 15:56:57 2014 laurent ansel
+// Last update Tue Feb  4 16:10:41 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -28,7 +28,7 @@ Client::~Client()
   delete (*_sockets)["UDP"];
   delete (*_sockets)["TCP"];
   delete _sockets;
-  delete _user;
+  //  delete _user;
   delete _player;
 }
 
@@ -123,8 +123,8 @@ unsigned int			Client::getNbTrame() const
 
 void				Client::addUser(User *user)
 {
-  if (user)
-    delete user;
+  // if (user)
+  //   delete user;
   this->_user = user;
 }
 
