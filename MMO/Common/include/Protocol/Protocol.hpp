@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Mon Feb  3 16:37:17 2014 guillaume marescaux
+// Last update Tue Feb  4 10:40:53 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -77,9 +77,6 @@ private:
   bool				dswitch(unsigned int const id, void *param);
   bool				deadMob(unsigned int const id, void *param);
   bool				endBattle(unsigned int const id, void *param);
-  bool				connection(unsigned int const id, std::string const &pseudo, std::string const &pass);
-  bool				create(unsigned int const id, void *param);
-  bool				choosePlayer(unsigned int const id, int playerId);
 };
 
 bool				welcome(unsigned int const id);
@@ -87,5 +84,8 @@ bool				check(unsigned int const id);
 bool				error(unsigned int const id, Error *error);
 bool				playerlist(unsigned int const id, Players *players);
 bool				initialize(unsigned int const id);
+bool				connection(unsigned int const id, std::string pseudo, std::string pass);
+bool				create(unsigned int const id, std::string const &name);
+bool				choosePlayer(unsigned int const id, int playerId);
 
 #endif

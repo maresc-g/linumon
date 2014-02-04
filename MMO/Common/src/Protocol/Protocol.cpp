@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Feb  3 16:37:36 2014 guillaume marescaux
+// Last update Tue Feb  4 10:40:44 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -40,11 +40,10 @@ Protocol::Protocol(bool const server):
   else
     {
       this->_container->load<unsigned int>("INITIALIZE", &initialize);
-      // (*this->_container)["INITIALIZE"] = &Protocol::initialize;
-      // (*this->_container)["CONNECTION"] = &Protocol::connection;
-      // (*this->_container)["ERROR"] = &Protocol::error;
-      // (*this->_container)["CREATE"] = &Protocol::create;
-      // (*this->_container)["CHOOSEPLAYER"] = &Protocol::choosePlayer;
+      this->_container->load<unsigned int, std::string, std::string>("CONNECTION", &connection);
+      this->_container->load<unsigned int, Error *>("ERROR", &error);
+      this->_container->load<unsigned int, std::string const &>("CREATE", &create);
+      this->_container->load<unsigned int, int>("CHOOSEPLAYER", &choosePlayer);
     }
 }
 
@@ -141,7 +140,7 @@ bool		         initialize(unsigned int const id)
   return (false);
 }
 
-bool			connection(unsigned int const id, std::string const &pseudo, std::string const &pass)
+bool			connection(unsigned int const id, std::string pseudo, std::string pass)
 {
   Trame			*trame;
   Header		*header;
@@ -161,11 +160,10 @@ bool			connection(unsigned int const id, std::string const &pseudo, std::string 
   return (false);
 }
 
-bool			Protocol::create(unsigned int const id, void *param)
+bool			create(unsigned int const id, std::string const &name)
 {
   Trame                 *trame;
   Header                *header;
-  CreateInfos           *infos = reinterpret_cast<CreateInfos *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -173,8 +171,8 @@ bool			Protocol::create(unsigned int const id, void *param)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["CREATE"]["NAME"] = infos->name;
-      (*trame)[CONTENT]["CREATE"]["FACTION"] = infos->faction;
+      (*trame)[CONTENT]["CREATE"]["NAME"] = name;
+      (*trame)[CONTENT]["CREATE"]["FACTION"] = 0;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
