@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Mon Feb  3 15:58:51 2014 guillaume marescaux
+// Last update Tue Feb  4 11:16:24 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -15,7 +15,7 @@
 #include		<string>
 #include		"Trame/Trame.hh"
 #include		"Socket/Socket.hpp"
-#include		"Entities/Players.hh"
+#include		"Entities/Views/PlayerView.hh"
 #include		"Poll/Poll.hpp"
 #include		"Protocol/Protocol.hpp"
 #include		"Thread/Thread.hpp"
@@ -54,13 +54,13 @@ private:
   MutexVar<bool>			*_running;
   MutexVar<eState>			*_state;
   MutexVar<Player *>			*_player;
-  MutexVar<Players *>			*_players;
+  MutexVar<std::list<PlayerView *> *>			*_players;
   ErrorHandler				*_handler;
 
 public:
 
   // Ctor / Dtor
-  Core(MutexVar<eState> *state, MutexVar<Player *> *player, MutexVar<Players *> *players);
+  Core(MutexVar<eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players);
   virtual ~Core();
 
   // Methods
@@ -68,7 +68,7 @@ public:
   void			read(int const timeout, bool const setTimeout);
   void			write();
   void			connection(std::string const &pseudo, std::string const &pass);
-  void			choosePlayer(int id);
+  void			choosePlayer(PlayerView const &player);
   void			run(void);
   void			loop(void);
   void			quit(void);
