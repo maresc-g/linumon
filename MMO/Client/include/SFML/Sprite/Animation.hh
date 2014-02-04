@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:08:20 2014 cyril jourdain
-// Last update Wed Jan 29 12:45:45 2014 cyril jourdain
+// Last update Tue Feb  4 12:49:15 2014 cyril jourdain
 //
 
 #ifndef 		__ANIMATION_HH__
@@ -28,12 +28,13 @@ private /* attributs */ :
 
 public /* class specific */ :
   Animation();
+  Animation(Animation const &);
   virtual ~Animation();
 
 public /* methods */ :
   void			update(sf::Clock &);
   sf::IntRect		*getCurrentCoord() const;
-
+  void			addSprite(sf::IntRect const &coord);
 };
 
 #endif

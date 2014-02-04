@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 15:53:16 2013 alexis mestag
-// Last update Mon Feb  3 15:23:41 2014 alexis mestag
+// Last update Tue Feb  4 12:50:13 2014 laurent ansel
 //
 
 #ifndef			__PLAYERS_HH__
@@ -13,11 +13,10 @@
 
 # include		<odb/core.hxx>
 # include		<list>
-# include		"Utility/ISerialization.hh"
 
 class			Player;
 
-class			Players : public ISerialization
+class			Players
 {
   friend class		odb::access;
 
@@ -35,7 +34,6 @@ public:
 
   void			addPlayer(Player &player);
   void			deletePlayers();
-  virtual bool		serialization(Trame &trame) const;
 };
 
 # include		"Entities/Player.hh"

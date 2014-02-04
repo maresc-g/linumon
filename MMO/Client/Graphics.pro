@@ -37,6 +37,7 @@ SOURCES +=      src/main.cpp \
                 src/SFML/SFMLView.cpp \
                 src/SFML/Sprite/Sprite.cpp \
                 src/SFML/Sprite/Animation.cpp \
+                src/SFML/Sprite/SpriteManager.cpp \
                 src/Client.cpp \
                 src/Core/Core.cpp \
                 src/Core/ErrorHandler.cpp \

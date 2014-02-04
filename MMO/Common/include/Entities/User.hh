@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:16 2013 alexis mestag
-// Last update Mon Feb  3 14:19:43 2014 alexis mestag
+// Last update Tue Feb  4 14:04:26 2014 laurent ansel
 //
 
 #ifndef			__USER_HH__
@@ -15,8 +15,11 @@
 # include		<string>
 # include		"Database/Persistent.hh"
 # include		"Entities/Players.hh"
+# include		"Utility/ISerialization.hh"
 
-class			User : public Persistent
+class			PlayerView;
+
+class			User : public Persistent, public ISerialization
 {
   friend class		odb::access;
 
@@ -41,7 +44,12 @@ public:
 
   Players const		&getPlayers() const;
   bool			addPlayer(Player &player);
+
+  virtual bool		serialization(Trame &trame) const;
+  static std::list<PlayerView *>	*deserialization(Trame const &trame);
 };
+
+# include		"Entities/Views/PlayerView.hh"
 
 # ifdef	ODB_COMPILER
 #  pragma db object(User)

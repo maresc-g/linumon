@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 13:41:58 2013 cyril jourdain
-// Last update Wed Jan 29 14:49:47 2014 cyril jourdain
+// Last update Tue Feb  4 13:55:12 2014 cyril jourdain
 //
 
 #ifndef 		__QSFMLWIDGET_HPP__
@@ -22,7 +22,7 @@ private:
   bool                  _initialized;
 
 public:
-  QSFMLWidget(QWidget *, const QPoint &, const QSize &, unsigned int frameTime = 50);
+  QSFMLWidget(QWidget *, const QPoint &, const QSize &, unsigned int frameTime = 60);
   virtual       ~QSFMLWidget();
   
 private:

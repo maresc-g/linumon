@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Wed Jan 29 14:38:24 2014 cyril jourdain
+// Last update Tue Feb  4 12:32:53 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -14,6 +14,7 @@
 #include		"Qt/QSFMLWidget.hpp"
 #include		"Qt/WindowManager.hh"
 
+#include		"SFML/Sprite/SpriteManager.hh"
 #include		"SFML/Sprite/Sprite.hh"
 
 class WindowManager;
@@ -22,9 +23,10 @@ class			SFMLView : public QSFMLWidget
 {
 private:
   WindowManager		*_wMan;
-Sprite		*_sprite;
-sf::Texture		*_texture;
-sf::Clock		*_clock;
+  SpriteManager		*_sMan;
+  Sprite		*_sprite;
+  sf::Texture		*_texture;
+  sf::Clock		*_clock;
   /* Here the attributes of the class */
 
 public:

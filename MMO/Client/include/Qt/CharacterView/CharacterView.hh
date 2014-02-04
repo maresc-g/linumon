@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:02:41 2013 cyril jourdain
-// Last update Tue Jan 28 10:54:00 2014 cyril jourdain
+// Last update Tue Feb  4 14:12:01 2014 guillaume marescaux
 //
 
 #ifndef 		__CHARACTERVIEW_HH__
@@ -44,6 +44,9 @@ public: /* ATTRIBUTES */
 public:
   CharacterView(QWidget *, WindowManager *wMan = NULL);
   virtual ~CharacterView();
+
+  void			clear();
+  void			setPlayers(std::list<PlayerView *> const &players);
 
 private:
   Ui::CharacterView	ui;

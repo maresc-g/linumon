@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Mon Feb  3 13:08:56 2014 laurent ansel
+// Last update Tue Feb  4 15:08:37 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -319,6 +319,20 @@ bool				ClientUpdater::search(FD const fd) const
     }
   this->_mutex->unlock();
   return (false);
+}
+
+bool				ClientUpdater::userAlreadyConnected(User *user) const
+{
+  bool				ret = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() && !ret; ++it)
+    {
+      if ((*it).first->isUse())
+	ret = (*it).first->sameUser(user);
+    }
+  this->_mutex->unlock();
+  return (ret);
 }
 
 void				ClientUpdater::getClients(std::list<FD> &list) const

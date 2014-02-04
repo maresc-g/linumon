@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Fri Jan 31 11:14:47 2014 laurent ansel
+// Last update Tue Feb  4 15:10:23 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -44,6 +44,7 @@ public:
   bool				search(FD const fd) const;
   void				getClients(std::list<FD> &list) const;
   unsigned int			getNbTrame(FD const fd) const;
+  bool				userAlreadyConnected(User *user) const;
 private:
   void				readTrame(Client *client, std::string const &protocole) const;
   void				writeTrame(Client *client, std::string const &protocole) const;

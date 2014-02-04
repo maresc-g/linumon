@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb  4 11:16:30 2014 guillaume marescaux
+// Last update Tue Feb  4 14:15:54 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -14,6 +14,7 @@
 #include			"Core/Core.hh"
 #include			"Crypto/Crypto.hh"
 #include			"Map/Map.hh"
+#include			"Entities/User.hh"
 
 static void			*runThread(void *data)
 {
@@ -159,10 +160,10 @@ bool				Core::handleError(Trame *trame)
   return (true);
 }
 
-bool				Core::playerlist(Trame *)
+bool				Core::playerlist(Trame *trame)
 {
   *_state = CHOOSE_PLAYER;
-  // *_players = std::list<PlayerView *>
+  *_players = User::deserialization(*trame);
   return (true);
 }
 

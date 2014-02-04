@@ -5,13 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:05:10 2013 cyril jourdain
-// Last update Tue Jan 28 12:37:58 2014 cyril jourdain
+// Last update Tue Feb  4 14:11:07 2014 guillaume marescaux
 //
 
 #include		"Qt/CharacterView/CharacterView.hh"
 #include		<iostream>
 #include		<unistd.h>
 #include		<QMessageBox>
+#include		<QLayoutItem>
 
 CharacterView::CharacterView(QWidget *parent, WindowManager *man) :
   QWidget(parent), _wMan(man), _layout(new QGridLayout) ,
@@ -34,19 +35,15 @@ CharacterView::CharacterView(QWidget *parent, WindowManager *man) :
   _scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   _scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-  _charList->push_back(new CharDescription(this));
-  _charList->push_back(new CharDescription(this));
-  _charList->push_back(new CharDescription(this));
-  _charList->push_back(new CharDescription(this));
-  _charList->push_back(new CharDescription(this));
-  _charList->push_back(new CharDescription(this));
-
-  _charContainer->resize((*_charList)[0]->size().width() * _charList->size(),412);
   _charContainer->setLayout(_charLayout);
-  _scrollArea->setMaximumSize((*_charList)[0]->size().width(), 412);
 
-  for (auto it = _charList->begin(); it != _charList->end(); it++)
-    _charLayout->addWidget(*it);
+  // _charList->push_back(new CharDescription(this));
+  // _charList->push_back(new CharDescription(this));
+  // _charList->push_back(new CharDescription(this));
+  // _charList->push_back(new CharDescription(this));
+  // _charList->push_back(new CharDescription(this));
+  // _charList->push_back(new CharDescription(this));
+
 
   _prev->move(35, 500);
   _next->move(435, 500);
@@ -62,6 +59,32 @@ CharacterView::CharacterView(QWidget *parent, WindowManager *man) :
 
 CharacterView::~CharacterView()
 {
+}
+
+void		CharacterView::clear()
+{
+  for (auto it = _charList->begin() ; it != _charList->end() ; it++)
+    delete *it;
+  _charList->clear();
+  QLayoutItem *item;
+  while ((item = _charLayout->takeAt(0)))
+    {
+      delete item->widget();
+      delete item;
+    }
+}
+
+void		CharacterView::setPlayers(std::list<PlayerView *> const &players)
+{
+  for (auto it = players.begin() ; it != players.end() ; it++)
+    _charList->push_back(new CharDescription(this, **it));
+  _charContainer->resize((*_charList)[0]->size().width() * _charList->size(),412);
+  _scrollArea->setMaximumSize((*_charList)[0]->size().width(), 412);
+
+  for (auto it = _charList->begin(); it != _charList->end(); it++)
+    {
+      _charLayout->addWidget(*it);
+    }
 }
 
 void		CharacterView::paintEvent(QPaintEvent *)
