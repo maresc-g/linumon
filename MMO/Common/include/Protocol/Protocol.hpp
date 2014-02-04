@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Tue Feb  4 16:00:54 2014 laurent ansel
+// Last update Tue Feb  4 16:34:59 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -73,5 +73,6 @@ bool				connection(unsigned int const id, std::string pseudo, std::string pass);
 bool				create(unsigned int const id, std::string name, Faction faction);
 bool				choosePlayer(unsigned int const id, int playerId);
 bool				player(unsigned int const id, Player *player);
+bool				map(unsigned int const id, Zone *zone);
 
 #endif

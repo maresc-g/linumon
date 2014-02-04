@@ -5,11 +5,12 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Feb  4 16:10:41 2014 laurent ansel
+// Last update Tue Feb  4 16:31:36 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
 #include			"Server/Server.hh"
+#include			"Map/Map.hh"
 
 Client::Client():
   _use(false),
@@ -135,7 +136,8 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
       Player			*player = new Player(name);
 
       player->setFaction(*faction);
-      this->_user->addPlayer(*player);
+      //      this->_user->addPlayer(*player);
+      return (true);
     }
   return (false);
 }
@@ -157,6 +159,9 @@ void				Client::choosePlayer(unsigned int const id, bool const send)
   if (this->_player && send)
     {
       Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player, false);
+      this->_trame++;
+      Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()), false);
+      this->_trame++;
     }
 }
 

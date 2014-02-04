@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Tue Feb  4 15:12:41 2014 laurent ansel
+// Last update Tue Feb  4 16:16:52 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -338,9 +338,12 @@ bool				ClientManager::createPlayer(Trame *trame)
   this->_mutex->lock();
   if ((*trame)[CONTENT].isMember("CREATE"))
     {
-      Faction			*faction = Faction::deserialization((*trame)((*trame)[CONTENT]["CREATE"]["FACTION"]));
 
+      Faction			*faction = Faction::deserialization((*trame)((*trame)[CONTENT]["CREATE"]));
+
+      this->_mutex->unlock();
       this->setInfoClient((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["CREATE"]["NAME"].asString(), faction, ret);
+      this->_mutex->lock();
       if (ret)
       	{
 	  this->_mutex->unlock();
