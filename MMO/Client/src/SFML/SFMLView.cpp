@@ -5,17 +5,16 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Jan 29 14:42:08 2014 cyril jourdain
+// Last update Tue Feb  4 13:56:00 2014 cyril jourdain
 //
 
 #include		"SFML/SFMLView.hpp"
 
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
-  QSFMLWidget(parent, position, size), _wMan(w)
+  QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager())
 {
-  _texture = new sf::Texture();
-  _sprite = new Sprite();
   _clock = new sf::Clock();
+  _sprite = NULL;
 }
 
 SFMLView::~SFMLView()
@@ -25,20 +24,31 @@ SFMLView::~SFMLView()
 void			SFMLView::onInit()
 {
   /* Stuff needed when loading the view */
-
-  _texture->loadFromFile("./res/back_button.png");
-  if (!_texture)
-    exit(-1);
-  _sprite->setTexture(_texture);
   _clock->restart();
-  //std::cout << _sprite1->getTexture() << std::endl;
+  _sMan->loadTextures("./Res/textureList.json");
+  _sMan->loadAnimations("./Res/perso1.json");
+  _sprite = _sMan->copySprite("perso1");
 }
 
 void			SFMLView::onUpdate()
 {
-  clear(sf::Color(99, 99, 30));
+  _sprite->play("down");
+  clear(sf::Color(15, 150, 30));
   /* Draw stuff here */
-  _sprite->update(*_clock);
-  _clock->restart();
-  draw(*_sprite);
+  if (_sprite) {
+    _sprite->update(*_clock);
+    _clock->restart();
+    draw(*_sprite);
+  }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    _sprite->move(0,10);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    _sprite->move(0,-10);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    _sprite->move(-10,0);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    _sprite->move(10,0);
+  /* This is only for test purpose. But remember to add  :
+     x pixels by loop (check loop time)
+   */
 }

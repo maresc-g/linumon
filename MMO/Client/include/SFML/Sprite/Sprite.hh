@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 13:38:44 2014 cyril jourdain
-// Last update Thu Jan 30 11:07:51 2014 cyril jourdain
+// Last update Tue Feb  4 12:52:36 2014 cyril jourdain
 //
 
 #ifndef 		__SPRITE_HH__
@@ -24,9 +24,12 @@ private /* attributs */:
   std::map<std::string, Animation *>	*_anim;
   sf::Vertex		*_vertex;
   std::string		_current;
+  bool			_playing;
 
 public /* class specific */ :
   Sprite();
+  Sprite(Sprite const &);
+  Animation		*operator[](std::string const &id);
   virtual ~Sprite();
 
 public /* inherited functions */ :
@@ -36,6 +39,12 @@ public /* inherited functions */ :
 public /* methods */ :
   void			setTexture(sf::Texture *);
   void			loadFromFile(std::string const path);
+  void			addAnim(std::string const &name);
+  void			play(std::string const &name);
+  void			play();
+  void			stop();
+  void			pause();
+  void			print();
 };
 
 #endif
