@@ -5,10 +5,16 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:31:07 2013 alexis mestag
-// Last update Thu Jan 30 16:25:35 2014 laurent ansel
+// Last update Tue Feb  4 15:21:52 2014 guillaume marescaux
 //
 
 #include			"Entities/Faction.hh"
+
+Faction::Faction() :
+  Persistent(), Nameable()
+{
+
+}
 
 Faction::Faction(std::string const &name) :
   Persistent(), Nameable(name)

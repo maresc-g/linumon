@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Tue Feb  4 11:16:24 2014 guillaume marescaux
+// Last update Tue Feb  4 15:14:35 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -22,6 +22,7 @@
 #include		"Mutex/MutexVar.hpp"
 #include		"eState.hh"
 #include		"ErrorHandler.hh"
+#include		"Entities/Faction.hh"
 
 # define		CONNECT_FILE	"Res/Connection.json"
 
@@ -69,6 +70,7 @@ public:
   void			write();
   void			connection(std::string const &pseudo, std::string const &pass);
   void			choosePlayer(PlayerView const &player);
+  void			createPlayer(std::string const &name, std::string const &faction);
   void			run(void);
   void			loop(void);
   void			quit(void);

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:28:40 2013 alexis mestag
-// Last update Tue Feb  4 12:31:37 2014 guillaume marescaux
+// Last update Tue Feb  4 15:21:10 2014 guillaume marescaux
 //
 
 #ifndef			__FACTION_HH__
@@ -23,7 +23,10 @@ class			Faction : public Persistent, public Nameable, public ISerialization
   friend class		odb::access;
 
 private:
-  Faction(std::string const &name = "");
+  Faction();
+
+public:
+  Faction(std::string const &name);
   Faction(Faction const &rhs);
 
   Faction		&operator=(Faction const &rhs);
