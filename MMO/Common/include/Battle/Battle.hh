@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Thu Jan 30 16:56:52 2014 antoine maitre
+// Last update Mon Feb  3 18:04:51 2014 antoine maitre
 //
 
 #ifndef				__BATTLE_HH__
@@ -14,7 +14,7 @@
 # include			<string>
 # include			"Entities/Player.hh"
 
-class				Battle
+class				Battle 
 {
 public:
   enum				eBattle
@@ -35,6 +35,9 @@ public:
   ~Battle();
   unsigned int			getID() const;
   eBattle 			getType() const;
+  bool				dswitch(unsigned int const, unsigned int const);
+  bool				capture(unsigned int const);
+  bool				spell(unsigned int const, Spell *);
 };
 
 #endif

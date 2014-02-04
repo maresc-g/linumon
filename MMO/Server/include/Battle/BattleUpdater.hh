@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:25:25 2014 antoine maitre
-// Last update Thu Jan 30 16:48:59 2014 antoine maitre
+// Last update Mon Feb  3 15:37:15 2014 antoine maitre
 //
 
 #ifndef					__BATTLEUPDATER_HH__
@@ -28,7 +28,9 @@ public:
   virtual ~BattleUpdater();
   std::list<Battle *>			*_battles;
   bool					newBattle(Player*, Player*);
+  bool					spell(Trame *);
   bool					capture(Trame *);
+  bool					dswitch(Trame *);
 };
 
 #endif
