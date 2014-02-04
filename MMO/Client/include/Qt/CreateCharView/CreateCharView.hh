@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec 10 16:14:25 2013 cyril jourdain
-// Last update Tue Jan 28 10:40:51 2014 cyril jourdain
+// Last update Tue Feb  4 15:29:54 2014 cyril jourdain
 //
 
 #ifndef 		__CREATECHARVIEW_HH__
@@ -14,11 +14,6 @@
 #include		<QWidget>
 #include		<Qt/qpainter.h>
 #include		"ui_createchar.h"
-
-enum CharType {
-  MALE,
-  FEMALE
-};
 
 class			CreateCharView : public QWidget
 {
@@ -30,7 +25,7 @@ public:
 
 private:
   Ui::CreateCharView	ui;
-  CharType		_charType;
+  std::string		_charType;
 
 private:
   virtual void		paintEvent(QPaintEvent *);
