@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:50 2013 alexis mestag
-// Last update Tue Feb  4 14:09:48 2014 laurent ansel
+// Last update Tue Feb  4 14:17:17 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -122,7 +122,7 @@ std::list<PlayerView *>		*User::deserialization(Trame const &trame)
     {
       pvs = new std::list<PlayerView *>;
 
-      auto			members = trame.getMemberNames();
+      auto			members = trame[CONTENT]["PLAYERLIST"].getMemberNames();
 
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	{
