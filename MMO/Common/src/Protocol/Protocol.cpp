@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb  4 15:34:27 2014 guillaume marescaux
+// Last update Tue Feb  4 16:01:02 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -27,6 +27,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("CHECK", &check);
       this->_container->load<unsigned int, Error *>("ERROR", &error);
       this->_container->load<unsigned int, User *>("PLAYERLIST", &playerlist);
+      this->_container->load<unsigned int, Player *>("PLAYER", &player);
 
       this->_container->load<unsigned int, unsigned int, Player const *>("LAUNCHBATTLE", &launchBattle);
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
@@ -213,6 +214,24 @@ bool                    playerlist(unsigned int const id, User *user)
   header->setIdClient(id);
   header->setProtocole("TCP");
   if (header->serialization(*trame) && user->serialization(*trame))
+    {
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool                    player(unsigned int const id, Player *player)
+{
+  Trame                 *trame;
+  Header                *header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame) && player->serialization((*trame)((*trame)[CONTENT])))
     {
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);

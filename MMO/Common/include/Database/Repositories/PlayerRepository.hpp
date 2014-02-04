@@ -5,11 +5,15 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 17:41:44 2014 alexis mestag
-// Last update Mon Feb  3 17:43:53 2014 alexis mestag
+// Last update Tue Feb  4 15:47:56 2014 laurent ansel
 //
 
 #ifndef				__PLAYERREPOSITORY_HPP__
 # define			__PLAYERREPOSITORY_HPP__
+
+# include			"Database/Database.hpp"
+# include			"Database/Repositories/Repository.hpp"
+# include			"Entities/Player-odb.hxx"
 
 template<>
 class				Repository<Player> : public BaseRepository<Player>
