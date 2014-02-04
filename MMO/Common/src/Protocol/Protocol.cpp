@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb  4 16:09:31 2014 laurent ansel
+// Last update Tue Feb  4 16:27:06 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -196,7 +196,7 @@ bool                    choosePlayer(unsigned int const id, int playerId)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["CHOOSEPLAYER"]["ID"] = playerId;
+      (*trame)[CONTENT]["CHOOSEPLAYER"] = playerId;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }

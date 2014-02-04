@@ -5,12 +5,13 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec 10 16:16:06 2013 cyril jourdain
-// Last update Tue Feb  4 15:40:55 2014 cyril jourdain
+// Last update Tue Feb  4 16:05:49 2014 guillaume marescaux
 //
 
 #include		"Qt/CreateCharView/CreateCharView.hh"
 #include		"Entities/Faction.hh"
 #include		<QMessageBox>
+#include		"Client.hh"
 
 CreateCharView::CreateCharView(QWidget *parent) :
   QWidget(parent)
@@ -56,6 +57,7 @@ void		CreateCharView::on_b_validate_clicked()
     }
   else
     {
+      Client::getInstance()->create(ui.le_name->text().toStdString(), _charType);
       // _wMan->create();
       this->close();
       // Need connexions, add to players list, etc ...

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:05:10 2013 cyril jourdain
-// Last update Tue Feb  4 15:56:38 2014 cyril jourdain
+// Last update Tue Feb  4 16:23:25 2014 guillaume marescaux
 //
 
 #include		"Qt/CharacterView/CharacterView.hh"
@@ -163,6 +163,7 @@ void		CharacterView::on_b_new_clicked()
 
 void		CharacterView::on_b_play_clicked()
 {
+  Client::getInstance()->choosePlayer((*_charList)[_charNumber]->getPlayer());
   _wMan->hideCharacter();
   _wMan->showSfmlView();
 }
