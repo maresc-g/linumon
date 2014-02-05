@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Feb  5 13:25:48 2014 laurent ansel
+// Last update Wed Feb  5 14:14:05 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -257,7 +257,9 @@ bool                    map(unsigned int const id, Zone *zone)
       if (header->serialization(*trame) && zone->serialization((*trame)))
 	{
 	  trame->setEnd(true);
+	  std::cout << "totototototototot" << std::endl;
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+	  std::cout << "totototototototot" << std::endl;
 	}
       delete header;
     }

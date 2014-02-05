@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Feb  5 13:59:02 2014 laurent ansel
+// Last update Wed Feb  5 14:06:59 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -163,8 +163,8 @@ void				Client::choosePlayer(unsigned int const id, bool const send)
     {
       Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player, false);
       this->_trame++;
-      // Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()), false);
-      // this->_trame++;
+      Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()), false);
+      this->_trame++;
     }
 }
 
@@ -179,6 +179,7 @@ void				Client::move(Player::PlayerCoordinate *coord)
 {
   if (this->_player && coord)
     this->_player->setCoord(*coord);
+
   /*
   ** random battle
   */
