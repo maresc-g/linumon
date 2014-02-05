@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Feb  5 11:20:29 2014 laurent ansel
+// Last update Wed Feb  5 13:59:02 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -30,6 +30,7 @@ Client::~Client()
   delete (*_sockets)["TCP"];
   delete _sockets;
   //  delete _user;
+  //_user->setId(0);
   delete _player;
 }
 
@@ -42,6 +43,7 @@ void				Client::clear()
   _id = 0;
   _trame = 0;
   _use = false;
+  _user->setId(0);
   //  delete _user;
   _user = NULL;
   delete _player;
@@ -124,9 +126,10 @@ unsigned int			Client::getNbTrame() const
 
 void				Client::addUser(User *user)
 {
-  // if (user)
-  //   delete user;
+  // if (_user)
+  //    delete _user;
   this->_user = user;
+  this->_user->setId(this->_id);
 }
 
 bool				Client::addPlayer(std::string const &name, Faction *faction)
@@ -160,8 +163,8 @@ void				Client::choosePlayer(unsigned int const id, bool const send)
     {
       Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player, false);
       this->_trame++;
-      Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()), false);
-      this->_trame++;
+      // Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()), false);
+      // this->_trame++;
     }
 }
 
@@ -170,4 +173,13 @@ bool				Client::sameUser(User *user) const
   if (user == _user)
     return (true);
   return (false);
+}
+
+void				Client::move(Player::PlayerCoordinate *coord)
+{
+  if (this->_player && coord)
+    this->_player->setCoord(*coord);
+  /*
+  ** random battle
+  */
 }

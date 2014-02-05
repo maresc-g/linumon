@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Tue Feb  4 15:45:25 2014 laurent ansel
+// Last update Wed Feb  5 13:56:38 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -45,6 +45,7 @@ public:
   void				sendListPlayers();
   void				choosePlayer(unsigned int const idPlayer, bool const send);
   bool				sameUser(User *user) const;
+  void				move(Player::PlayerCoordinate *coord);
 };
 
 #endif

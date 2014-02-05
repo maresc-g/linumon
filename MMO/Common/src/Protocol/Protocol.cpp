@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Feb  5 11:18:58 2014 laurent ansel
+// Last update Wed Feb  5 13:25:48 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -29,6 +29,8 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, User *>("PLAYERLIST", &playerlist);
       this->_container->load<unsigned int, Player *>("PLAYER", &player);
       this->_container->load<unsigned int, Zone *>("MAP", &map);
+      this->_container->load<unsigned int, Trame *, Zone *>("SENDTOALLCLIENT", &sendToAllClient);
+
 
       this->_container->load<unsigned int, unsigned int, Player const *>("LAUNCHBATTLE", &launchBattle);
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
@@ -258,6 +260,35 @@ bool                    map(unsigned int const id, Zone *zone)
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 	}
       delete header;
+    }
+  return (false);
+}
+
+bool                    sendToAllClient(unsigned int const id, Trame *trame, Zone *zone)
+{
+  std::list<AEntity *>	list;
+  unsigned int		idClient;
+  Trame			*tmp = NULL;;
+
+  if (trame && zone)
+    {
+      list = zone->getPlayers();
+      for (auto ip = list.begin() ; ip != list.end() ; ++ip)
+	{
+	  if ((*ip))
+	    {
+	      if ((idClient = reinterpret_cast<Player *>(*ip)->getUser().getId()))
+		{
+		  ObjectPoolManager::getInstance()->setObject(tmp, "trame");
+		  *tmp = *trame;
+		  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+		  tmp = NULL;
+		}
+	    }
+	}
+      (*trame)[HEADER]["IDCLIENT"] = id;
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      return (true);
     }
   return (false);
 }

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Tue Feb  4 16:16:52 2014 laurent ansel
+// Last update Wed Feb  5 13:59:54 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -23,16 +23,8 @@ ClientManager::ClientManager():
 {
   _mutex->init();
   _mutex->lock();
-  std::function<bool (Trame *)> func;
 
-  func = std::bind1st(std::mem_fun(&ClientManager::connectionUser), this);
-  Server::getInstance()->addFuncProtocol("CONNECTION", func);
-
-  func = std::bind1st(std::mem_fun(&ClientManager::createPlayer), this);
-  Server::getInstance()->addFuncProtocol("CREATE", func);
-
-  func = std::bind1st(std::mem_fun(&ClientManager::choosePlayer), this);
-  Server::getInstance()->addFuncProtocol("CHOOSEPLAYER", func);
+  this->initializeProtocolFunction();
 
   for (int i = 0 ; i < CLIENT_THREAD_MIN ; ++i)
     {
@@ -192,6 +184,20 @@ void				ClientManager::setInfoClient(FD const fd, User *user) const
   this->_mutex->unlock();
 }
 
+void				ClientManager::setInfoClient(FD const fd, Player::PlayerCoordinate *coord) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second && (*it).first->search(fd))
+      {
+	(*it).first->setInfo(fd, coord);
+	set = true;
+      }
+  this->_mutex->unlock();
+}
+
 void				ClientManager::sendListPlayers(FD const fd) const
 {
   bool				set = false;
@@ -249,36 +255,15 @@ void				ClientManager::newTrameToWrite(FD const fd, unsigned int const nbTrame) 
   this->_mutex->unlock();
 }
 
-void				ClientManager::run()
-{
-  int				size;
-
-  this->_mutex->lock();
-  while (!_quit)
-    {
-      this->_mutex->unlock();
-      this->findWrite();
-      this->_mutex->lock();
-      if (!(size = this->_updaters->size()))
-	size = 1;
-      this->_mutex->unlock();
-      usleep(1000000 / size);
-      this->_mutex->lock();
-    }
-  this->_mutex->unlock();
-}
-
 bool				ClientManager::userAlreadyConnected(FD const fd, User *user) const
 {
   bool				ret = false;
   Error				*error = NULL;
 
   this->_mutex->lock();
-  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !ret ; ++it)
-    if ((*it).first && (*it).second)
-      ret = (*it).first->userAlreadyConnected(user);
-  if (ret)
+  if (user && user->getId() != 0)
     {
+      ret = true;
       if (ObjectPoolManager::getInstance()->setObject(error, "error"))
 	{
 	  error->setType(Error::USERCONNECTED);
@@ -288,8 +273,44 @@ bool				ClientManager::userAlreadyConnected(FD const fd, User *user) const
 	  delete error;
 	}
     }
+  else
+    ret = false;
   this->_mutex->unlock();
   return (ret);
+}
+
+/*
+** Protocol
+*/
+
+void				ClientManager::initializeProtocolFunction() const
+{
+  std::function<bool (Trame *)> func;
+
+  func = std::bind1st(std::mem_fun(&ClientManager::connectionUser), this);
+  Server::getInstance()->addFuncProtocol("CONNECTION", func);
+
+  func = std::bind1st(std::mem_fun(&ClientManager::createPlayer), this);
+  Server::getInstance()->addFuncProtocol("CREATE", func);
+
+  func = std::bind1st(std::mem_fun(&ClientManager::choosePlayer), this);
+  Server::getInstance()->addFuncProtocol("CHOOSEPLAYER", func);
+
+  func = std::bind1st(std::mem_fun(&ClientManager::moveEntity), this);
+  Server::getInstance()->addFuncProtocol("ENTITY", func);
+}
+
+bool				ClientManager::moveEntity(Trame *trame)
+{
+  Player::PlayerCoordinate	*coord = NULL;
+
+  if ((*trame)[CONTENT].isMember("ENTITY"))
+    {
+      coord = Player::PlayerCoordinate::deserialization((*trame)((*trame)[CONTENT]["ENTITY"]));
+      this->setInfoClient((*trame)[HEADER]["IDCLIENT"].asInt(), coord);
+      return (true);
+    }
+  return (false);
 }
 
 bool				ClientManager::connectionUser(Trame *trame)
@@ -304,8 +325,9 @@ bool				ClientManager::connectionUser(Trame *trame)
 
       this->_mutex->unlock();
       if (user && this->userAlreadyConnected((*trame)[HEADER]["IDCLIENT"].asUInt(), user))
-	return (false);
+      	return (false);
       this->_mutex->lock();
+
       if (user && user->getPassword() == (*trame)[CONTENT]["CONNECTION"]["PASS"].asString())
 	{
 	  this->_mutex->unlock();
@@ -375,6 +397,11 @@ bool				ClientManager::choosePlayer(Trame *trame)
   return (false);
 }
 
+
+/*
+** Thread
+*/
+
 void				*runClientManager(void *data)
 {
   if (data)
@@ -384,4 +411,23 @@ void				*runClientManager(void *data)
       manager->run();
     }
   return (NULL);
+}
+
+void				ClientManager::run()
+{
+  int				size;
+
+  this->_mutex->lock();
+  while (!_quit)
+    {
+      this->_mutex->unlock();
+      this->findWrite();
+      this->_mutex->lock();
+      if (!(size = this->_updaters->size()))
+	size = 1;
+      this->_mutex->unlock();
+      usleep(1000000 / size);
+      this->_mutex->lock();
+    }
+  this->_mutex->unlock();
 }

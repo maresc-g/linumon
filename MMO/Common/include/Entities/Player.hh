@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Feb  4 11:07:53 2014 antoine maitre
+// Last update Wed Feb  5 13:51:42 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -36,6 +36,7 @@ class			Player : public Persistent, public ACharacter, public ISerialization
   // typedef Coordinate<Whatever>	PlayerCoordinate;
   // /!\ There's no need to change any getter or setter !!
   // If you are scared, please refer to mestag_a
+public:
   typedef iCoordinate	PlayerCoordinate;
 
 private:
@@ -76,6 +77,8 @@ public:
 
   ZONE::eZone		getZone() const;
   void			setZone(ZONE::eZone const zone);
+
+  User const		&getUser() const;
 
   void				capture(Mob const &mob);
   virtual bool			serialization(Trame &trame) const;

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 16:59:07 2013 alexis mestag
-// Last update Tue Jan 28 12:34:57 2014 laurent ansel
+// Last update Wed Feb  5 13:58:11 2014 laurent ansel
 //
 
 #ifndef			__COORDINATE_HPP__
@@ -53,11 +53,6 @@ public:
   void			setY(T const &y) {
     _y = y;
   }
-
-  /*
-  ** EXCEPTION !!!!!
-  ** trame => trame[CONTENT]["PLAYER" or "CASE" or ...]
-  */
 
   bool			serialization(Trame &trame) const
   {
