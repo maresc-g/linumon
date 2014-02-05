@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Wed Feb  5 11:27:34 2014 guillaume marescaux
+// Last update Wed Feb  5 12:58:33 2014 guillaume marescaux
 //
 
 #include	"Qt/WindowManager.hh"
@@ -30,13 +30,9 @@ WindowManager::WindowManager(int ac, char **av, MutexVar<CLIENT::eState> *state,
   //_mainLayout->addWidget(_sfmlView);
   _mainFrame->setLayout(_mainLayout);
   _mainLayout->setMargin(0);
-  //hideCharacter();
   hideSfmlView();
-  showLogin();
-  showCharacter();
-  showCharacter();
-  //hideLogin();
   hideCharacter();
+  showLogin();
 }
 
 WindowManager::~WindowManager()
@@ -70,7 +66,7 @@ void			WindowManager::hideLogin()
 void			WindowManager::showCharacter()
 {
   _characterView->clear();
-  if (**_players)
+  if (**_players && (**_players)->size() > 0)
     _characterView->setPlayers(***_players);
   _characterView->show();
 }
