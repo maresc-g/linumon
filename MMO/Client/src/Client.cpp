@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Tue Feb  4 15:35:46 2014 guillaume marescaux
+// Last update Wed Feb  5 11:27:56 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -13,7 +13,7 @@
 //-----------------------------------BEGIN CTOR / DTOR-----------------------------------------
 
 Client::Client():
-  _state(new MutexVar<eState>(LOGIN)),
+  _state(new MutexVar<CLIENT::eState>(CLIENT::LOGIN)),
   _player(new MutexVar<Player *>(NULL)),
   _players(new MutexVar<std::list<PlayerView *> *>(new std::list<PlayerView *>)),
   _core(new Core(_state, _player, _players)),

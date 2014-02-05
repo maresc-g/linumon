@@ -22,7 +22,8 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/SFML/Sprite/Sprite.hh \
                 include/SFML/Sprite/Animation.hh \
                 include/Client.hh \
-                include/eState.hh \
+                include/Common/eState.hh \
+                include/Common/eDirection.hh \
                 include/Core/Core.hh \
                 include/Core/ErrorHandler.hh \
                 include/Map/Map.hh
