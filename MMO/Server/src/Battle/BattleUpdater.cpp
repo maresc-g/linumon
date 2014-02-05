@@ -5,26 +5,20 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Tue Feb  4 14:24:08 2014 antoine maitre
+// Last update Wed Feb  5 12:21:51 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
 #include			"Server/Server.hh"
 
 BattleUpdater::BattleUpdater()
+  : _quit(false), _mutex(new Mutex)
 {
+  this->_mutex->init();
   // Trame				*trame = NULL;
 
   // for (int i = 0 ; i < DEFAULT_STORAGE_BATTLE ; ++i)
   //   _msg->push_back(std::make_pair(false, trame));
-  std::function<bool (Trame *)> func;
-
-  func = std::bind1st(std::mem_fun(& BattleUpdater::capture), this);
-  Server::getInstance()->addFuncProtocol("CAPTURE", func);
-  func = std::bind1st(std::mem_fun(& BattleUpdater::spell), this);
-  Server::getInstance()->addFuncProtocol("SPELL", func);
-  func = std::bind1st(std::mem_fun(& BattleUpdater::dswitch), this);
-  Server::getInstance()->addFuncProtocol("SWITCH", func);
 }
 
 BattleUpdater::~BattleUpdater()
@@ -41,15 +35,21 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2)
       if ((*it)->getID() != id)
 	{
 	  // if (player2->getType() == IA || player1->getType() == IA)
+	  //   {
 	  new Battle(id, Battle::PVE, 1, player1, player2);
-	  Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", player1->getId(), id, player2);
 	  Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", player2->getId(), id, player1);
-	    // else
-	    //   new Battle(id, Battle::PVP, 1, player1, player2);
+	  Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", player1->getId(), id, player2);
+	    // }
+	  // else
+	  //   {
+	  //     new Battle(id, Battle::PVP, 1, player1, player2);
+	  //     Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", player1->getId(), id, player2);
+	  //   }
 	}
     }
   return (true);
 }
+
 
 bool				BattleUpdater::spell(Trame *trame)
 {
@@ -62,13 +62,13 @@ bool				BattleUpdater::capture(Trame *trame)
   if ((*trame)["CAPTURE"].isMember("IDBATTLE") && (*trame)["CAPTURE"].isMember("TARGET"))
     {
       for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
-	{
-	  if ((*it)->getID() == (*trame)["CAPTURE"]["IDBATTLE"].asUInt())
-	    {
-	      (*it)->capture((*trame)["CAPTURE"]["TARGET"].asInt());
-	      return (true);
-	    }
-	}
+      	{
+      	  if ((*it)->getID() == (*trame)["CAPTURE"]["IDBATTLE"].asUInt())
+      	    {
+      	      (*it)->capture((*trame)["CAPTURE"]["TARGET"].asInt());
+      	      return (true);
+      	    }
+      	}
       return (false);
     }
   return (false);
@@ -76,17 +76,14 @@ bool				BattleUpdater::capture(Trame *trame)
 
 bool				BattleUpdater::dswitch(Trame *trame)
 {
-  if ((*trame)["SWITCH"].isMember("IDBATTLE") && (*trame)["SWITCH"].isMember("TARGET") && (*trame)["SWITCH"].isMember("NEWMOB"))
+  for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     {
-      for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
+      if ((*it)->getID() == (*trame)["SWITCH"]["IDBATTLE"].asUInt())
 	{
-	  if ((*it)->getID() == (*trame)["SWITCH"]["IDBATTLE"].asUInt())
-	    {
-	      (*it)->dswitch((*trame)["SWITCH"]["TARGET"].asInt(), (*trame)["SWITCH"]["NEWMOB"].asInt());
-	      return (true);
-	    }
+	  (*it)->dswitch((*trame)["SWITCH"]["TARGET"].asInt(), (*trame)["SWITCH"]["NEWMOB"].asInt());
+	  return (true);
 	}
-      return (false);
     }
   return (false);
 }
+
