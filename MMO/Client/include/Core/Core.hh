@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Wed Feb  5 11:25:28 2014 guillaume marescaux
+// Last update Wed Feb  5 13:21:53 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -21,6 +21,7 @@
 #include		"Thread/Thread.hpp"
 #include		"Mutex/MutexVar.hpp"
 #include		"Common/eState.hh"
+#include		"Common/eDirection.hh"
 #include		"ErrorHandler.hh"
 #include		"Entities/Faction.hh"
 
@@ -53,9 +54,9 @@ private:
   int					_id;
   MutexVar<bool>			*_initialized;
   MutexVar<bool>			*_running;
-  MutexVar<CLIENT::eState>			*_state;
+  MutexVar<CLIENT::eState>		*_state;
   MutexVar<Player *>			*_player;
-  MutexVar<std::list<PlayerView *> *>			*_players;
+  MutexVar<std::list<PlayerView *> *>	*_players;
   ErrorHandler				*_handler;
 
 public:
@@ -74,7 +75,7 @@ public:
   void			run(void);
   void			loop(void);
   void			quit(void);
-  void			move(void);
+  void			move(CLIENT::eDirection dir);
 
 private:
 
