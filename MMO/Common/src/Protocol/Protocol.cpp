@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Feb  5 15:52:21 2014 laurent ansel
+// Last update Wed Feb  5 16:01:03 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -31,7 +31,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, User *>("PLAYERLIST", &playerlist);
       this->_container->load<unsigned int, Player *>("PLAYER", &player);
       this->_container->load<unsigned int, Zone *>("MAP", &map);
-      this->_container->load<unsigned int, Trame *, Zone *>("SENDTOALLCLIENT", &sendToAllClient);
+      this->_container->load<unsigned int, Trame *, Zone *, bool>("SENDTOALLCLIENT", &sendToAllClient);
 
 
       this->_container->load<unsigned int, unsigned int, Player const *>("LAUNCHBATTLE", &launchBattle);
@@ -42,7 +42,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, unsigned int>("DEADMOB", &deadMob);
       this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, std::list<AItem *>*>("ENDBATTLE", &endBattle);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate>("ENTITY", &entity);
-      this->_container->load<unsigned int, int>("REMOVEENTITY", &removeEntity);
+      this->_container->load<unsigned int, int, Zone *>("REMOVEENTITY", &removeEntity);
       // (*this->_container)["CAPTUREEFFECT"] = &Protocol::captureEffect;
       // (*this->_container)["SWITCH"] = &Protocol::dswitch;
       // (*this->_container)["DEADMOB"] = &Protocol::deadMob;
@@ -172,7 +172,7 @@ bool		         entity(unsigned int const id, int playerId, Player::PlayerCoordin
   return (false);
 }
 
-bool		         removeEntity(unsigned int const id, int entityId)
+bool		         removeEntity(unsigned int const id, int entityId, Zone *zone)
 {
   Trame                 *trame;
   Header                *header;
@@ -185,7 +185,7 @@ bool		         removeEntity(unsigned int const id, int entityId)
     {
       (*trame)[CONTENT]["ID"] = entityId;
       trame->setEnd(true);
-      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      sendToAllClient(id, trame, zone, false);
     }
   delete header;
   return (false);
@@ -308,7 +308,7 @@ bool                    map(unsigned int const id, Zone *zone)
   return (false);
 }
 
-bool                    sendToAllClient(unsigned int const id, Trame *trame, Zone *zone)
+bool                    sendToAllClient(unsigned int const id, Trame *trame, Zone *zone, bool const send)
 {
   std::list<AEntity *>	list;
   unsigned int		idClient;
@@ -330,8 +330,11 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
 		}
 	    }
 	}
-      (*trame)[HEADER]["IDCLIENT"] = id;
-      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      if (send)
+	{
+	  (*trame)[HEADER]["IDCLIENT"] = id;
+	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+	}
       return (true);
     }
   return (false);

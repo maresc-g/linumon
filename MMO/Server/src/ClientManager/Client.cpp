@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Feb  5 15:45:01 2014 laurent ansel
+// Last update Wed Feb  5 16:00:22 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -36,6 +36,7 @@ Client::~Client()
 
 void				Client::clear()
 {
+  Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()), false);
   delete (*_sockets)["UDP"];
   delete (*_sockets)["TCP"];
   (*_sockets)["UDP"] = NULL;
