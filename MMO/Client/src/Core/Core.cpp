@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb  4 15:31:03 2014 guillaume marescaux
+// Last update Wed Feb  5 10:56:36 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -153,7 +153,6 @@ bool				Core::handleError(Trame *trame)
 {
   Error				*error;
 
-  std::cout << "ERROR" << std::endl;
   error = Error::deserialization(*trame);
   _handler->handleError(*error, _state);
   delete error;
@@ -182,6 +181,7 @@ bool				Core::map(Trame *trame)
 
 bool				Core::launchBattle(Trame *)
 {
+  *_state = BATTLE;
   return (true);
 }
 
@@ -212,6 +212,7 @@ bool				Core::deadMob(Trame *)
 
 bool				Core::endBattle(Trame *)
 {
+  *_state = PLAYING;
   return (true);
 }
 
@@ -247,6 +248,7 @@ bool				Core::objectEffect(Trame *)
 
 bool				Core::launchTrade(Trame *)
 {
+  *_state = TRADE;
   return (true);
 }
 
