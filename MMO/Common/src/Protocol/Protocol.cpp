@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Feb  5 15:09:57 2014 laurent ansel
+// Last update Wed Feb  5 15:25:07 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -20,6 +20,8 @@ Protocol::Protocol(bool const server):
 {
   ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
   ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
+  ObjectPoolManager::getInstance()->runObjectPool<Coordinate<int>>("coordinateint");
+  ObjectPoolManager::getInstance()->runObjectPool<Coordinate<double>>("coordinatedouble");
 
   if (server)
     {
@@ -258,6 +260,7 @@ bool                    player(unsigned int const id, Player *player)
   header->setProtocole("TCP");
   if (header->serialization(*trame) && player->serialization((*trame)((*trame)[CONTENT])))
     {
+      Player::deserialization(*trame);
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
