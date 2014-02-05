@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Feb  3 17:54:30 2014 alexis mestag
+// Last update Wed Feb  5 15:33:36 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -77,6 +77,8 @@ public:
   ZONE::eZone		getZone() const;
   void			setZone(ZONE::eZone const zone);
 
+  std::list<Talent *> const	&getTalents() const;
+
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);
 };
@@ -84,7 +86,7 @@ public:
 # include			"Entities/User.hh"
 
 # ifdef	ODB_COMPILER
-#  pragma db object(Player)
+#  pragma db object(Player) session(false)
 #  pragma db member(Player::_zone)
 #  pragma db member(Player::_coord) transient
 #  pragma db member(Player::_x) virtual(Player::PlayerCoordinate::type) get(_coord->getX()) set(_coord->setX(?))

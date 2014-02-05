@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Feb  3 18:00:15 2014 alexis mestag
+// Last update Wed Feb  5 15:34:28 2014 alexis mestag
 //
 
 #include			<functional>
@@ -148,4 +148,9 @@ void				Player::deleteTalents()
   };
 
   _talents.remove_if(talentsDeleter);
+}
+
+std::list<Talent *> const	&Player::getTalents() const
+{
+  return (_talents);
 }

@@ -5,49 +5,64 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Jan 30 12:41:57 2014 alexis mestag
-// Last update Fri Jan 31 11:13:05 2014 alexis mestag
+// Last update Wed Feb  5 13:48:24 2014 alexis mestag
 //
 
 #include			"Effects/EffectLib.hh"
 
 EffectLib::EffectLib() :
-  Persistent(), Nameable(), _file(new FileSystem::File(""))
+  Persistent(), Nameable(), _dl(new DynamicLibrary(""))
 {
 
 }
 
 EffectLib::EffectLib(std::string const &name, std::string const &path) :
-  Persistent(), Nameable(name), _file(new FileSystem::File(path))
+  Persistent(), Nameable(name), _dl(new DynamicLibrary(path))
 {
 
 }
 
 EffectLib::EffectLib(EffectLib const &rhs) :
-  Persistent(rhs), Nameable(rhs), _file(new FileSystem::File(""))
+  Persistent(rhs), Nameable(rhs), _dl(new DynamicLibrary(""))
 {
   *this = rhs;
 }
 
 EffectLib::~EffectLib()
 {
-  delete _file;
+  delete _dl;
 }
 
 EffectLib			&EffectLib::operator=(EffectLib const &rhs)
 {
   if (this != &rhs)
     {
-      this->setFile(rhs.getFile());
+      this->setPath(rhs.getPath());
     }
   return (*this);
 }
 
-FileSystem::File const		&EffectLib::getFile() const
+std::string const		&EffectLib::getPath() const
 {
-  return (*_file);
+  return (_dl->getPath());
 }
 
-void				EffectLib::setFile(FileSystem::File const &file)
+void				EffectLib::setPath(std::string const &path)
 {
-  *_file = file;
+  _dl->setPath(path);
+}
+
+IEffect				*EffectLib::getEffect()
+{
+  static IEffect		*(*symbol)() = NULL;
+  IEffect			*ret = NULL;
+
+  if (!symbol || !_dl->isLoaded())
+    {
+      if (_dl->load())
+	symbol = reinterpret_cast<IEffect *(*)()>(_dl->getSymbol(""));
+    }
+  if (symbol)
+    ret = symbol();
+  return (ret);
 }
