@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb  3 11:17:06 2014 guillaume marescaux
-// Last update Mon Feb  3 12:43:40 2014 guillaume marescaux
+// Last update Wed Feb  5 14:11:42 2014 guillaume marescaux
 //
 
 #include			"Map/Map.hh"
@@ -27,4 +27,19 @@ void				Map::setZone(Zone *zone)
 {
   if (zone)
     _zone = zone;
+}
+
+void				Map::lock(void)
+{
+  _mutex->lock();
+}
+
+void				Map::unlock(void)
+{
+  _mutex->unlock();
+}
+
+Zone const			&Map::getZone(void) const
+{
+  return (*_zone);
 }

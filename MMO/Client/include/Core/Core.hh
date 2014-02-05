@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Tue Feb  4 11:16:24 2014 guillaume marescaux
+// Last update Wed Feb  5 13:21:53 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -20,8 +20,10 @@
 #include		"Protocol/Protocol.hpp"
 #include		"Thread/Thread.hpp"
 #include		"Mutex/MutexVar.hpp"
-#include		"eState.hh"
+#include		"Common/eState.hh"
+#include		"Common/eDirection.hh"
 #include		"ErrorHandler.hh"
+#include		"Entities/Faction.hh"
 
 # define		CONNECT_FILE	"Res/Connection.json"
 
@@ -52,15 +54,15 @@ private:
   int					_id;
   MutexVar<bool>			*_initialized;
   MutexVar<bool>			*_running;
-  MutexVar<eState>			*_state;
+  MutexVar<CLIENT::eState>		*_state;
   MutexVar<Player *>			*_player;
-  MutexVar<std::list<PlayerView *> *>			*_players;
+  MutexVar<std::list<PlayerView *> *>	*_players;
   ErrorHandler				*_handler;
 
 public:
 
   // Ctor / Dtor
-  Core(MutexVar<eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players);
+  Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players);
   virtual ~Core();
 
   // Methods
@@ -69,9 +71,11 @@ public:
   void			write();
   void			connection(std::string const &pseudo, std::string const &pass);
   void			choosePlayer(PlayerView const &player);
+  void			createPlayer(std::string const &name, std::string const &faction);
   void			run(void);
   void			loop(void);
   void			quit(void);
+  void			move(CLIENT::eDirection dir);
 
 private:
 

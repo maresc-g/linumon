@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 17:41:44 2014 alexis mestag
-// Last update Wed Feb  5 15:24:37 2014 alexis mestag
+// Last update Wed Feb  5 15:42:03 2014 alexis mestag
 //
 
 #ifndef				__PLAYERREPOSITORY_HPP__

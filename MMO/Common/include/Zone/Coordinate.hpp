@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 16:59:07 2013 alexis mestag
-// Last update Tue Jan 28 12:34:57 2014 laurent ansel
+// Last update Wed Feb  5 15:24:06 2014 laurent ansel
 //
 
 #ifndef			__COORDINATE_HPP__
@@ -54,11 +54,6 @@ public:
     _y = y;
   }
 
-  /*
-  ** EXCEPTION !!!!!
-  ** trame => trame[CONTENT]["PLAYER" or "CASE" or ...]
-  */
-
   bool			serialization(Trame &trame) const
   {
     bool		ret = true;
@@ -78,7 +73,7 @@ public:
 	  ObjectPoolManager::getInstance()->setObject(coord, "coordinateint");
 	else if (typeid(T) == typeid(double))
 	  ObjectPoolManager::getInstance()->setObject(coord, "coordinatedouble");
-	if (trame["COORDINATE"].isMember("X") && trame["COORDINATE"].isMember("X"))
+	if (coord && trame["COORDINATE"].isMember("X") && trame["COORDINATE"].isMember("X"))
 	  {
 	    coord->setX(trame["COORDINATE"]["X"].isDouble());
 	    coord->setY(trame["COORDINATE"]["Y"].isDouble());

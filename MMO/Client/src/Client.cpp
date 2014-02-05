@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Tue Feb  4 13:12:55 2014 guillaume marescaux
+// Last update Wed Feb  5 12:56:09 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -13,19 +13,12 @@
 //-----------------------------------BEGIN CTOR / DTOR-----------------------------------------
 
 Client::Client():
-  _state(new MutexVar<eState>(LOGIN)),
+  _state(new MutexVar<CLIENT::eState>(CLIENT::LOGIN)),
   _player(new MutexVar<Player *>(NULL)),
   _players(new MutexVar<std::list<PlayerView *> *>(new std::list<PlayerView *>)),
   _core(new Core(_state, _player, _players)),
   _manager(NULL)
 {
-  PlayerView			*pv = new PlayerView;
-
-  pv->persistentId = 0;
-  pv->name = "toto";
-  pv->level = 10;
-  pv->userId = 0;
-  (**_players)->push_back(pv);
 }
 
 
@@ -53,4 +46,9 @@ void				Client::connection(std::string const &pseudo, std::string const &pass)
 void				Client::choosePlayer(PlayerView const &player)
 {
   _core->choosePlayer(player);
+}
+
+void				Client::create(std::string const &name, std::string const &faction)
+{
+  _core->createPlayer(name, faction);
 }

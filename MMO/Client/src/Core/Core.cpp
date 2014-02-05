@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb  4 14:15:54 2014 guillaume marescaux
+// Last update Wed Feb  5 14:17:33 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -29,7 +29,7 @@ static void			*runThread(void *data)
 
 //-----------------------------------BEGIN CTOR / DTOR-----------------------------------------
 
-Core::Core(MutexVar<eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players):
+Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
@@ -153,7 +153,6 @@ bool				Core::handleError(Trame *trame)
 {
   Error				*error;
 
-  std::cout << "ERROR" << std::endl;
   error = Error::deserialization(*trame);
   _handler->handleError(*error, _state);
   delete error;
@@ -162,14 +161,14 @@ bool				Core::handleError(Trame *trame)
 
 bool				Core::playerlist(Trame *trame)
 {
-  *_state = CHOOSE_PLAYER;
+  *_state = CLIENT::CHOOSE_PLAYER;
   *_players = User::deserialization(*trame);
   return (true);
 }
 
 bool				Core::player(Trame *trame)
 {
-  *_state = PLAYING;
+  *_state = CLIENT::PLAYING;
   *_player = Player::deserialization(*trame);
   return (true);
 }
@@ -182,6 +181,7 @@ bool				Core::map(Trame *trame)
 
 bool				Core::launchBattle(Trame *)
 {
+  *_state = CLIENT::BATTLE;
   return (true);
 }
 
@@ -212,6 +212,7 @@ bool				Core::deadMob(Trame *)
 
 bool				Core::endBattle(Trame *)
 {
+  *_state = CLIENT::PLAYING;
   return (true);
 }
 
@@ -247,6 +248,7 @@ bool				Core::objectEffect(Trame *)
 
 bool				Core::launchTrade(Trame *)
 {
+  *_state = CLIENT::TRADE;
   return (true);
 }
 
@@ -345,6 +347,25 @@ void				Core::read(int const timeout, bool const setTimeout)
   this->readFromSocket(Core::UDP);  
 }
 
+void				Core::move(CLIENT::eDirection dir)
+{
+  Map				*map = Map::getInstance();
+  Player::PlayerCoordinate::type	newX;
+  Player::PlayerCoordinate::type	newY;
+
+  newX = (**_player)->getX() + (dir == CLIENT::LEFT ? -1 : (dir == CLIENT::RIGHT ? 1 : 0));
+  newY = (**_player)->getY() + (dir == CLIENT::UP ? -1 : (dir == CLIENT::DOWN ? 1 : 0));
+  map->lock();
+  map->unlock();
+  // entities = 
+  if (map->getZone().getCase(newX, newY)->getEntities()->size() == 0)
+    {
+      (**_player)->setCoord(newX, newY);
+      (*_proto).operator()<unsigned int const, int, Player::PlayerCoordinate>("ENTITY", _id, (**_player)->getId(),
+									      (**_player)->getCoord());
+    }
+}
+
 void				Core::connection(std::string const &pseudo, std::string const &pass)
 {
   (*_proto).operator()<unsigned int const, std::string, std::string>("CONNECTION", _id, pseudo, pass);
@@ -353,6 +374,13 @@ void				Core::connection(std::string const &pseudo, std::string const &pass)
 void				Core::choosePlayer(PlayerView const &player)
 {
   (*_proto).operator()<unsigned int const, int>("CHOOSEPLAYER", _id, player.persistentId);
+}
+
+void				Core::createPlayer(std::string const &name, std::string const &faction)
+{
+  Faction			*tmp = new Faction(faction);
+
+  (*_proto).operator()<unsigned int const, std::string, Faction>("CREATE", _id, name, *tmp);
 }
 
 void				Core::init(void)

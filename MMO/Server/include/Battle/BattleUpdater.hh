@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:25:25 2014 antoine maitre
-// Last update Thu Jan 30 16:48:59 2014 antoine maitre
+// Last update Wed Feb  5 12:23:31 2014 antoine maitre
 //
 
 #ifndef					__BATTLEUPDATER_HH__
@@ -19,16 +19,20 @@
 # include				"Trame/Trame.hh"
 # include				"Entities/Spell.hh"
 
-# define				DEFAULT_STORAGE_BATTLE	100
-
 class					BattleUpdater : public Thread
 {
+private:
+  bool			                  _quit;
+  Mutex		                        *_mutex;
+  std::list<Trame *>			_trames;
 public:
   BattleUpdater();
   virtual ~BattleUpdater();
   std::list<Battle *>			*_battles;
   bool					newBattle(Player*, Player*);
+  bool					spell(Trame *);
   bool					capture(Trame *);
+  bool					dswitch(Trame *);
 };
 
 #endif

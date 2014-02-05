@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:13:43 2013 laurent ansel
-// Last update Mon Dec  9 19:11:47 2013 laurent ansel
+// Last update Wed Feb  5 14:32:50 2014 laurent ansel
 //
 
 #include			"Socket/ISocketClient.hh"
@@ -37,15 +37,16 @@ void				CircularBuffer::pushTrame(Trame *trame, bool const write)
 	  if ((*(*it))[HEADER] == (*trame)[HEADER])
 	    {
 	      if (write && (*trame)[CONTENT].asString().size() + (*(*it))[CONTENT].asString().size() <= SIZE_BUFFER)
-		{
-		  (*(*it))[CONTENT].append((*trame)[CONTENT]);
-		  append = true;
-		}
+			//	      if (write && (*trame)((*trame)[CONTENT]).toString().size() + (*(*it))((*(*it))[CONTENT]).toString().size() <= SIZE_BUFFER)
+	      	{
+	      	  (*(*it))[CONTENT].append((*trame)[CONTENT]);
+	      	  append = true;
+	      	}
 	      else if (!write)
-		{
-		  (*(*it))[CONTENT].append((*trame)[CONTENT]);
-		  append = true;
-		}
+	      	{
+	      	  (*(*it))[CONTENT].append((*trame)[CONTENT]);
+	      	  append = true;
+	      	}
 	    }
 	}
       if (!append)

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Jan 25 14:45:20 2014 laurent ansel
-// Last update Mon Feb  3 13:35:13 2014 guillaume marescaux
+// Last update Tue Feb  4 15:04:46 2014 laurent ansel
 //
 
 #ifndef			__ERROR_HPP__
@@ -20,6 +20,7 @@ public:
   enum			eError
     {
       USER,
+      USERCONNECTED,
       CREATEPLAYER,
       NOTHING
     };
@@ -73,6 +74,7 @@ public:
     static std::map<enum eError, std::string> map =
       {
 	{USER,		"bad username or pass"},
+	{USERCONNECTED,	"user already connected"},
 	{CREATEPLAYER,	"name already exist"}
       };
     _msg = "Error  : " + map[_type];

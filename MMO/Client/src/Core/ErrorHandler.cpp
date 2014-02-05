@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb  3 13:06:46 2014 guillaume marescaux
-// Last update Tue Feb  4 11:01:43 2014 guillaume marescaux
+// Last update Wed Feb  5 11:28:56 2014 guillaume marescaux
 //
 
 #include			"Core/ErrorHandler.hh"
@@ -24,25 +24,31 @@ ErrorHandler::~ErrorHandler()
 
 //---------------------------------BEGIN PRIVATE METHODS---------------------------------------
 
-void				ErrorHandler::badUsernamePass(MutexVar<eState> *state)
+void				ErrorHandler::badUsernamePass(MutexVar<CLIENT::eState> *state)
 {
-  *state = NONE;
+  *state = CLIENT::NONE;
 }
 
-void				ErrorHandler::nameExists(MutexVar<eState> *state)
+void				ErrorHandler::userConnected(MutexVar<CLIENT::eState> *state)
 {
-  *state = CHOOSE_PLAYER;
+  *state = CLIENT::NONE;
+}
+
+void				ErrorHandler::nameExists(MutexVar<CLIENT::eState> *state)
+{
+  *state = CLIENT::CHOOSE_PLAYER;
 }
 
 //----------------------------------END PRIVATE METHODS----------------------------------------
 
 //-------------------------------------BEGIN METHODS-------------------------------------------
 
-void				ErrorHandler::handleError(Error const &error, MutexVar<eState> *state)
+void				ErrorHandler::handleError(Error const &error, MutexVar<CLIENT::eState> *state)
 {
-  static std::map<Error::eError, void (ErrorHandler::*)(MutexVar<eState> *)>	ptrs =
+  static std::map<Error::eError, void (ErrorHandler::*)(MutexVar<CLIENT::eState> *)>	ptrs =
     {
       { Error::USER, &ErrorHandler::badUsernamePass },
+      { Error::USERCONNECTED, &ErrorHandler::userConnected },
       { Error::CREATEPLAYER, &ErrorHandler::nameExists }
     };
 

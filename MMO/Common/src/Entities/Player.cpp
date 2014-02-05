@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Feb  5 15:34:28 2014 alexis mestag
+// Last update Wed Feb  5 15:41:06 2014 alexis mestag
 //
 
 #include			<functional>
@@ -109,8 +109,8 @@ bool				Player::serialization(Trame &trame) const
   trame["PLAYER"]["TYPE"] = this->getStatEntityType();
   this->_coord->serialization(trame(trame["PLAYER"]));
   this->_faction->serialization(trame(trame["PLAYER"]));
-  this->_digitaliser.serialization(trame);
-  this->getLevel().serialization(trame);
+  this->_digitaliser.serialization(trame(trame["PLAYER"]));
+  this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
   return (ret);
 }
@@ -140,6 +140,11 @@ void				Player::setZone(ZONE::eZone const zone)
   _zone = zone;
 }
 
+User const			&Player::getUser() const
+{
+  return (*this->_user);
+}
+
 void				Player::deleteTalents()
 {
   static std::function<bool(Talent *)>	talentsDeleter = [](Talent *t) {
@@ -150,7 +155,13 @@ void				Player::deleteTalents()
   _talents.remove_if(talentsDeleter);
 }
 
+<<<<<<< HEAD
 std::list<Talent *> const	&Player::getTalents() const
 {
   return (_talents);
+=======
+void				Player::capture(Mob const &mob)
+{
+  this->_digitaliser.addMob(mob);
+>>>>>>> b2a69c9138a7cf59c35f17c3ced807b795b7d19f
 }

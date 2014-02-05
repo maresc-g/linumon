@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Tue Feb  4 11:16:43 2014 guillaume marescaux
+// Last update Wed Feb  5 11:25:18 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -13,7 +13,7 @@
 
 #include			"Utility/Singleton.hpp"
 #include			"Mutex/MutexVar.hpp"
-#include			"eState.hh"
+#include			"Common/eState.hh"
 #include			"Core/Core.hh"
 #include		        "SFML/SFMLView.hpp"
 #include		        "Qt/WindowManager.hh"
@@ -32,7 +32,7 @@ class				Client : public Singleton<Client>
 private:
 
   // Attributes
-  MutexVar<eState>		*_state;
+  MutexVar<CLIENT::eState>	*_state;
   MutexVar<Player *>		*_player;
   MutexVar<std::list<PlayerView *> *>		*_players;
   Core				*_core;
@@ -49,6 +49,7 @@ public:
   void				init(int ac, char **av);
   void				connection(std::string const &pseudo, std::string const &pass);
   void				choosePlayer(PlayerView const &player);
+  void				create(std::string const &name, std::string const &faction);
 };
 
 #endif

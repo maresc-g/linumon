@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb  4 13:49:41 2014 laurent ansel
+// Last update Wed Feb  5 15:25:07 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -20,6 +20,8 @@ Protocol::Protocol(bool const server):
 {
   ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
   ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
+  ObjectPoolManager::getInstance()->runObjectPool<Coordinate<int>>("coordinateint");
+  ObjectPoolManager::getInstance()->runObjectPool<Coordinate<double>>("coordinatedouble");
 
   if (server)
     {
@@ -27,10 +29,19 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("CHECK", &check);
       this->_container->load<unsigned int, Error *>("ERROR", &error);
       this->_container->load<unsigned int, User *>("PLAYERLIST", &playerlist);
+      this->_container->load<unsigned int, Player *>("PLAYER", &player);
+      this->_container->load<unsigned int, Zone *>("MAP", &map);
+      this->_container->load<unsigned int, Trame *, Zone *>("SENDTOALLCLIENT", &sendToAllClient);
 
-      // (*this->_container)["LAUNCHBATTLE"] = &Protocol::launchBattle;
-      // (*this->_container)["SPELL"] = &Protocol::spell;
-      // (*this->_container)["SPELLEFFECT"] = &Protocol::spellEffect;
+
+      this->_container->load<unsigned int, unsigned int, Player const *>("LAUNCHBATTLE", &launchBattle);
+      this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
+      this->_container->load<unsigned int, unsigned int, int, unsigned int>("SPELLEFFECT", &spellEffect);
+      this->_container->load<unsigned int, unsigned int, bool>("CAPTUREEFFECT", &captureEffect);
+      this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
+      this->_container->load<unsigned int, unsigned int, unsigned int>("DEADMOB", &deadMob);
+      this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, std::list<AItem *>*>("ENDBATTLE", &endBattle);
+      this->_container->load<unsigned int, int, Player::PlayerCoordinate>("ENTITY", &entity);
       // (*this->_container)["CAPTUREEFFECT"] = &Protocol::captureEffect;
       // (*this->_container)["SWITCH"] = &Protocol::dswitch;
       // (*this->_container)["DEADMOB"] = &Protocol::deadMob;
@@ -42,8 +53,9 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("INITIALIZE", &initialize);
       this->_container->load<unsigned int, std::string, std::string>("CONNECTION", &connection);
       this->_container->load<unsigned int, Error *>("ERROR", &error);
-      this->_container->load<unsigned int, std::string const &>("CREATE", &create);
+      this->_container->load<unsigned int, std::string, Faction>("CREATE", &create);
       this->_container->load<unsigned int, int>("CHOOSEPLAYER", &choosePlayer);
+      this->_container->load<unsigned int, int, Player::PlayerCoordinate>("ENTITY", &entity);
     }
 }
 
@@ -140,6 +152,26 @@ bool		         initialize(unsigned int const id)
   return (false);
 }
 
+bool		         entity(unsigned int const id, int playerId, Player::PlayerCoordinate coord)
+{
+  Trame                 *trame;
+  Header                *header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("UDP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["ID"] = playerId;
+      (*trame)[CONTENT]["COORD"] = coord.serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
 bool			connection(unsigned int const id, std::string pseudo, std::string pass)
 {
   Trame			*trame;
@@ -160,7 +192,7 @@ bool			connection(unsigned int const id, std::string pseudo, std::string pass)
   return (false);
 }
 
-bool			create(unsigned int const id, std::string const &name)
+bool			create(unsigned int const id, std::string name, Faction faction)
 {
   Trame                 *trame;
   Header                *header;
@@ -172,7 +204,7 @@ bool			create(unsigned int const id, std::string const &name)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["CREATE"]["NAME"] = name;
-      (*trame)[CONTENT]["CREATE"]["FACTION"] = 0;
+      faction.serialization((*trame)((*trame)[CONTENT]["CREATE"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -191,7 +223,7 @@ bool                    choosePlayer(unsigned int const id, int playerId)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["CHOOSEPLAYER"]["ID"] = playerId;
+      (*trame)[CONTENT]["CHOOSEPLAYER"] = playerId;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -208,7 +240,7 @@ bool                    playerlist(unsigned int const id, User *user)
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("TCP");
-  if (header->serialization(*trame) && user->serialization(*trame))
+  if (user && header->serialization(*trame) && user->serialization(*trame))
     {
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
@@ -217,33 +249,81 @@ bool                    playerlist(unsigned int const id, User *user)
   return (false);
 }
 
-bool			Protocol::launchBattle(unsigned int const id, void *param)
+bool                    player(unsigned int const id, Player *player)
 {
-  Trame			*trame;
-  Header		*header;
-  auto			params = reinterpret_cast<std::tuple<unsigned int const, Player const> *>(param);
+  Trame                 *trame;
+  Header                *header;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("TCP");
-  if (header->serialization(*trame))
+  if (header->serialization(*trame) && player->serialization((*trame)((*trame)[CONTENT])))
     {
-      (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"] = std::get<0>(*params);
-      // (*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"] = std::get<1>(*params)->;
+      Player::deserialization(*trame);
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
   delete header;
-  delete params;
   return (false);
 }
 
-bool			Protocol::spell(unsigned int const id, void *param)
+bool                    map(unsigned int const id, Zone *zone)
+{
+  Trame                 *trame;
+  Header                *header;
+
+  if (zone)
+    {
+      ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+      ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+      header->setIdClient(id);
+      header->setProtocole("TCP");
+      if (header->serialization(*trame) && zone->serialization((*trame)))
+	{
+	  trame->setEnd(true);
+	  std::cout << "totototototototot" << std::endl;
+	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+	  std::cout << "totototototototot" << std::endl;
+	}
+      delete header;
+    }
+  return (false);
+}
+
+bool                    sendToAllClient(unsigned int const id, Trame *trame, Zone *zone)
+{
+  std::list<AEntity *>	list;
+  unsigned int		idClient;
+  Trame			*tmp = NULL;;
+
+  if (trame && zone)
+    {
+      list = zone->getPlayers();
+      for (auto ip = list.begin() ; ip != list.end() ; ++ip)
+	{
+	  if ((*ip))
+	    {
+	      if ((idClient = reinterpret_cast<Player *>(*ip)->getUser().getId()))
+		{
+		  ObjectPoolManager::getInstance()->setObject(tmp, "trame");
+		  *tmp = *trame;
+		  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+		  tmp = NULL;
+		}
+	    }
+	}
+      (*trame)[HEADER]["IDCLIENT"] = id;
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      return (true);
+    }
+  return (false);
+}
+
+bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player const *player)
 {
   Trame			*trame;
   Header		*header;
-  auto			params = reinterpret_cast<std::tuple<unsigned int const, Spell const, unsigned int const> *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -251,22 +331,22 @@ bool			Protocol::spell(unsigned int const id, void *param)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["SPELL"]["IDBATTLE"] = std::get<0>(*params);
-      // (*trame)[CONTENT]["SPELL"]["SPELL"] = std::get<1>(*params)->;
-      (*trame)[CONTENT]["SPELL"]["TARGET"] = std::get<2>(*params);
+      (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"] = idBattle;
+      (*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"] = player->serialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
   delete header;
-  delete params;
   return (false);
 }
 
-bool			Protocol::spellEffect(unsigned int const id, void *param)
+bool			spell(unsigned int const id,
+			      unsigned int const idBattle,
+			      Spell const *spell,
+			      unsigned int const target)
 {
   Trame			*trame;
   Header		*header;
-  auto			params = reinterpret_cast<std::tuple<unsigned int const, int const, unsigned int const> *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -274,22 +354,23 @@ bool			Protocol::spellEffect(unsigned int const id, void *param)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["SPELLEFFECT"]["IDBATTLE"] = std::get<0>(*params);
-      (*trame)[CONTENT]["SPELLEFFECT"]["HPCHANGE"] = std::get<1>(*params);
-      (*trame)[CONTENT]["SPELLEFFECT"]["TARGET"] = std::get<2>(*params);
+      (*trame)[CONTENT]["SPELL"]["IDBATTLE"] = idBattle;
+      (*trame)[CONTENT]["SPELL"]["SPELL"] = spell->serialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
+      (*trame)[CONTENT]["SPELL"]["TARGET"] = target;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
   delete header;
-  delete params;
   return (false);
 }
 
-bool			Protocol::captureEffect(unsigned int const id, void *param)
+bool			spellEffect(unsigned int const id, 
+				    unsigned int const idBattle, 
+				    int const hpChange, 
+				    unsigned int const target)
 {
   Trame			*trame;
   Header		*header;
-  auto			params = reinterpret_cast<std::tuple<unsigned int const, bool> *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -297,21 +378,20 @@ bool			Protocol::captureEffect(unsigned int const id, void *param)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["CAPTUREEFFECT"]["IDBATTLE"] = std::get<0>(*params);
-      (*trame)[CONTENT]["CAPTUREEFFECT"]["SUCCESS"] = std::get<1>(*params);
+      (*trame)[CONTENT]["SPELLEFFECT"]["IDBATTLE"] = idBattle;
+      (*trame)[CONTENT]["SPELLEFFECT"]["HPCHANGE"] = hpChange;
+      (*trame)[CONTENT]["SPELLEFFECT"]["TARGET"] = target;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
   delete header;
-  delete params;
   return (false);
 }
 
-bool			Protocol::dswitch(unsigned int const id, void *param)
+bool			captureEffect(unsigned int const id, unsigned int const idBattle, bool success)
 {
   Trame			*trame;
   Header		*header;
-  auto			params = reinterpret_cast<std::tuple<unsigned int const, unsigned int const, unsigned int const> *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -319,22 +399,22 @@ bool			Protocol::dswitch(unsigned int const id, void *param)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["SwITCH"]["IDBATTLE"] = std::get<0>(*params);
-      (*trame)[CONTENT]["SWITCH"]["TARGET"] = std::get<1>(*params);
-      (*trame)[CONTENT]["SWITCH"]["NEWMOB"] = std::get<2>(*params);
+      (*trame)[CONTENT]["CAPTUREEFFECT"]["IDBATTLE"] = idBattle;
+      (*trame)[CONTENT]["CAPTUREEFFECT"]["SUCCESS"] = success;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
-  delete params;
   delete header;
   return (false);
 }
 
-bool			Protocol::deadMob(unsigned int const id, void *param)
+bool			dswitch(unsigned int const id, 
+					  unsigned int const idBattle, 
+					  unsigned int const target, 
+					  unsigned int const newMob)
 {
   Trame			*trame;
   Header		*header;
-  auto			params = reinterpret_cast<std::tuple<unsigned int const, unsigned int const> *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -342,21 +422,20 @@ bool			Protocol::deadMob(unsigned int const id, void *param)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["DEADMOB"]["IDBATTLE"] = std::get<0>(*params);
-      (*trame)[CONTENT]["DEADMOB"]["ID"] = std::get<1>(*params);
+      (*trame)[CONTENT]["SwITCH"]["IDBATTLE"] = idBattle;
+      (*trame)[CONTENT]["SWITCH"]["TARGET"] = target;
+      (*trame)[CONTENT]["SWITCH"]["NEWMOB"] = newMob;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
-  delete params;
   delete header;
   return (false);
 }
 
-bool			Protocol::endBattle(unsigned int const id, void *param)
+bool			deadMob(unsigned int const id, unsigned int const idBattle, unsigned int const idMob)
 {
   Trame			*trame;
   Header		*header;
-  auto			params = reinterpret_cast<std::tuple<unsigned int const, bool, unsigned int const, unsigned int const, std::list<AItem *>> *>(param);
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -364,15 +443,40 @@ bool			Protocol::endBattle(unsigned int const id, void *param)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["ENDBATTLE"]["IDBATTLE"] = std::get<0>(*params);
-      (*trame)[CONTENT]["ENDBATTLE"]["WIN"] = std::get<1>(*params);
-      (*trame)[CONTENT]["ENDBATTLE"]["MONEY"] = std::get<2>(*params);
-      (*trame)[CONTENT]["ENDBATTLE"]["EXP"] = std::get<3>(*params);
+      (*trame)[CONTENT]["DEADMOB"]["IDBATTLE"] = idBattle;
+      (*trame)[CONTENT]["DEADMOB"]["ID"] = idMob;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			endBattle(unsigned int const id, 
+					    unsigned int const idBattle,
+					    bool win, 
+					    unsigned int const money, 
+					    unsigned int const exp, 
+					    std::list<AItem *> *items)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["ENDBATTLE"]["IDBATTLE"] = idBattle;
+      (*trame)[CONTENT]["ENDBATTLE"]["WIN"] = win;
+      (*trame)[CONTENT]["ENDBATTLE"]["MONEY"] = money;
+      (*trame)[CONTENT]["ENDBATTLE"]["EXP"] = exp;
+      (void) items;
       // (*trame)[CONTENT]["ENDBATTLE"]["ITEMS"] = std::get<1>(*params);
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
-  delete params;
   delete header;
   return (false);
 }

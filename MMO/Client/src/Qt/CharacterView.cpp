@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:05:10 2013 cyril jourdain
-// Last update Tue Feb  4 14:11:07 2014 guillaume marescaux
+// Last update Wed Feb  5 11:06:46 2014 guillaume marescaux
 //
 
 #include		"Qt/CharacterView/CharacterView.hh"
@@ -20,7 +20,7 @@ CharacterView::CharacterView(QWidget *parent, WindowManager *man) :
   _prev(new QPushButton(this)), _next(new QPushButton(this)),
   _scrollArea(new QScrollArea), _charContainer(new QFrame(this)),
   _charLayout(new QHBoxLayout), _createCharView(new CreateCharView(this)),
-  _charNumber(1)
+  _charNumber(0)
 {
   ui.setupUi(this);
   _prev->setObjectName("b_prev");
@@ -36,14 +36,6 @@ CharacterView::CharacterView(QWidget *parent, WindowManager *man) :
   _scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
   _charContainer->setLayout(_charLayout);
-
-  // _charList->push_back(new CharDescription(this));
-  // _charList->push_back(new CharDescription(this));
-  // _charList->push_back(new CharDescription(this));
-  // _charList->push_back(new CharDescription(this));
-  // _charList->push_back(new CharDescription(this));
-  // _charList->push_back(new CharDescription(this));
-
 
   _prev->move(35, 500);
   _next->move(435, 500);
@@ -75,7 +67,7 @@ void		CharacterView::clear()
 }
 
 void		CharacterView::setPlayers(std::list<PlayerView *> const &players)
-{
+{ 
   for (auto it = players.begin() ; it != players.end() ; it++)
     _charList->push_back(new CharDescription(this, **it));
   _charContainer->resize((*_charList)[0]->size().width() * _charList->size(),412);
@@ -105,7 +97,7 @@ void		CharacterView::b_next_clicked()
       int move = (*_charList)[0]->size().width();
       float offset = ((*_charList)[0]->size().width()) / 10.0;
 
-      if (_charNumber < _charList->size())
+      if (_charNumber < _charList->size() - 1)
 	{
 	  while (move >= 0)
 	    {
@@ -114,8 +106,9 @@ void		CharacterView::b_next_clicked()
 	      _charContainer->move(oldx - offset, oldy);
 	      repaint();
 	    }
-	  _charContainer->move(-(_charContainer->pos().x() + ((*_charList)[1]->pos().x() - _charContainer->pos().x())), oldy);
 	  _charNumber++;
+	  _charContainer->move(-(_charContainer->pos().x() + ((*_charList)[_charNumber]->pos().x() - _charContainer->pos().x())), oldy);
+	  std::cout << _charNumber << std::endl;
 	}
     }
 }
@@ -130,7 +123,7 @@ void		CharacterView::b_prev_clicked()
       int move = (*_charList)[0]->size().width();
       float offset = ((*_charList)[0]->size().width()) / 10.0;
 
-      if (_charNumber > 1)
+      if (_charNumber > 0)
 	{
 	  while (move >= 0)
 	    {
@@ -139,8 +132,9 @@ void		CharacterView::b_prev_clicked()
 	      _charContainer->move(oldx + offset, oldy);
 	      repaint();
 	    }
-	  _charContainer->move(-(_charContainer->pos().x() + ((*_charList)[1]->pos().x() - _charContainer->pos().x())), oldy);
 	  _charNumber--;
+	  _charContainer->move(-(_charContainer->pos().x() + ((*_charList)[_charNumber]->pos().x() - _charContainer->pos().x())), oldy);
+	  std::cout << _charNumber << std::endl;
 	}
     }
 }
@@ -158,6 +152,7 @@ void		CharacterView::on_b_new_clicked()
 
 void		CharacterView::on_b_play_clicked()
 {
+  Client::getInstance()->choosePlayer((*_charList)[_charNumber]->getPlayer());
   _wMan->hideCharacter();
   _wMan->showSfmlView();
 }
