@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb  3 12:55:31 2014 guillaume marescaux
-// Last update Mon Feb  3 13:27:07 2014 guillaume marescaux
+// Last update Wed Feb  5 10:59:35 2014 guillaume marescaux
 //
 
 #ifndef 		__ERRORHANDLER_HH__
@@ -37,6 +37,7 @@ private:
 
   // Private Methods
   void			badUsernamePass(MutexVar<eState> *state);
+  void			userConnected(MutexVar<eState> *state);
   void			nameExists(MutexVar<eState> *state);
 };
 

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Feb  4 11:08:49 2014 antoine maitre
+// Last update Tue Feb  4 16:30:52 2014 laurent ansel
 //
 
 #include			<functional>
@@ -109,8 +109,8 @@ bool				Player::serialization(Trame &trame) const
   trame["PLAYER"]["TYPE"] = this->getStatEntityType();
   this->_coord->serialization(trame(trame["PLAYER"]));
   this->_faction->serialization(trame(trame["PLAYER"]));
-  this->_digitaliser.serialization(trame);
-  this->getLevel().serialization(trame);
+  this->_digitaliser.serialization(trame(trame["PLAYER"]));
+  this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
   return (ret);
 }

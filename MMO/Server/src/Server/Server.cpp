@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Mon Feb  3 16:48:33 2014 laurent ansel
+// Last update Wed Feb  5 11:10:40 2014 laurent ansel
 //
 
 #include			<list>
@@ -17,6 +17,7 @@
 #include			"CircularBufferManager/CircularBufferManager.hh"
 #include			"Error/Error.hpp"
 #include			"Chat/Chat.hh"
+#include			"Map/Map.hh"
 
 bool				quit = false;
 
@@ -64,6 +65,7 @@ Server::~Server()
   CircularBufferManager::deleteInstance();
   ClientManager::deleteInstance();
   Chat::deleteInstance();
+  Map::deleteInstance();
   delete _codeBreaker;
   Crypto::deleteInstance();
   delete _protocol;
@@ -97,6 +99,7 @@ void				Server::init(int const port)
   Chat::getInstance();
   Crypto::getInstance();
   CircularBufferManager::getInstance();
+  Map::getInstance();
   _codeBreaker->start();
   this->debug("Initialization protocol ...");
 

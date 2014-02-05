@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb  3 13:06:46 2014 guillaume marescaux
-// Last update Tue Feb  4 11:01:43 2014 guillaume marescaux
+// Last update Wed Feb  5 10:59:16 2014 guillaume marescaux
 //
 
 #include			"Core/ErrorHandler.hh"
@@ -29,6 +29,11 @@ void				ErrorHandler::badUsernamePass(MutexVar<eState> *state)
   *state = NONE;
 }
 
+void				ErrorHandler::userConnected(MutexVar<eState> *state)
+{
+  *state = NONE;
+}
+
 void				ErrorHandler::nameExists(MutexVar<eState> *state)
 {
   *state = CHOOSE_PLAYER;
@@ -43,6 +48,7 @@ void				ErrorHandler::handleError(Error const &error, MutexVar<eState> *state)
   static std::map<Error::eError, void (ErrorHandler::*)(MutexVar<eState> *)>	ptrs =
     {
       { Error::USER, &ErrorHandler::badUsernamePass },
+      { Error::USERCONNECTED, &ErrorHandler::userConnected },
       { Error::CREATEPLAYER, &ErrorHandler::nameExists }
     };
 

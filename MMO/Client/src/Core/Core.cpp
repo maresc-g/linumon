@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb  4 14:15:54 2014 guillaume marescaux
+// Last update Wed Feb  5 10:56:36 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -153,7 +153,6 @@ bool				Core::handleError(Trame *trame)
 {
   Error				*error;
 
-  std::cout << "ERROR" << std::endl;
   error = Error::deserialization(*trame);
   _handler->handleError(*error, _state);
   delete error;
@@ -182,6 +181,7 @@ bool				Core::map(Trame *trame)
 
 bool				Core::launchBattle(Trame *)
 {
+  *_state = BATTLE;
   return (true);
 }
 
@@ -212,6 +212,7 @@ bool				Core::deadMob(Trame *)
 
 bool				Core::endBattle(Trame *)
 {
+  *_state = PLAYING;
   return (true);
 }
 
@@ -247,6 +248,7 @@ bool				Core::objectEffect(Trame *)
 
 bool				Core::launchTrade(Trame *)
 {
+  *_state = TRADE;
   return (true);
 }
 
@@ -353,6 +355,13 @@ void				Core::connection(std::string const &pseudo, std::string const &pass)
 void				Core::choosePlayer(PlayerView const &player)
 {
   (*_proto).operator()<unsigned int const, int>("CHOOSEPLAYER", _id, player.persistentId);
+}
+
+void				Core::createPlayer(std::string const &name, std::string const &faction)
+{
+  Faction			*tmp = new Faction(faction);
+
+  (*_proto).operator()<unsigned int const, std::string, Faction>("CREATE", _id, name, *tmp);
 }
 
 void				Core::init(void)

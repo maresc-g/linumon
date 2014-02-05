@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:02:41 2013 cyril jourdain
-// Last update Tue Feb  4 14:12:01 2014 guillaume marescaux
+// Last update Tue Feb  4 14:47:31 2014 guillaume marescaux
 //
 
 #ifndef 		__CHARACTERVIEW_HH__

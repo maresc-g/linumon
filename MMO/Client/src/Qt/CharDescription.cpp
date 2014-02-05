@@ -5,13 +5,13 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 15:47:27 2013 cyril jourdain
-// Last update Tue Feb  4 14:20:12 2014 guillaume marescaux
+// Last update Tue Feb  4 16:25:27 2014 guillaume marescaux
 //
 
 #include		"Qt/CharDescription/CharDescription.hh"
 
 CharDescription::CharDescription(QWidget *parent, PlayerView const &player) :
-  QWidget(parent)
+  QWidget(parent), _player(new PlayerView(player))
 {
   ui.setupUi(this);
   ui.l_name->setText(player.name.c_str());
@@ -20,6 +20,7 @@ CharDescription::CharDescription(QWidget *parent, PlayerView const &player) :
 
 CharDescription::~CharDescription()
 {
+  delete _player;
 }
 
 void		CharDescription::paintEvent(QPaintEvent *)
@@ -29,4 +30,9 @@ void		CharDescription::paintEvent(QPaintEvent *)
 
   opt.init(this);
   style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+
+PlayerView const	&CharDescription::getPlayer(void) const
+{
+  return (*_player);
 }

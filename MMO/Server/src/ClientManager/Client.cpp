@@ -5,18 +5,20 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Feb  4 14:59:45 2014 laurent ansel
+// Last update Wed Feb  5 11:20:29 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
 #include			"Server/Server.hh"
+#include			"Map/Map.hh"
 
 Client::Client():
   _use(false),
   _id(0),
   _sockets(new std::map<std::string, ISocketClient *>),
   _trame(0),
-  _user(NULL)
+  _user(NULL),
+  _player(NULL)
 {
   (*_sockets)["UDP"] = NULL;
   (*_sockets)["TCP"] = NULL;
@@ -27,7 +29,8 @@ Client::~Client()
   delete (*_sockets)["UDP"];
   delete (*_sockets)["TCP"];
   delete _sockets;
-  delete _user;
+  //  delete _user;
+  delete _player;
 }
 
 void				Client::clear()
@@ -41,6 +44,8 @@ void				Client::clear()
   _use = false;
   //  delete _user;
   _user = NULL;
+  delete _player;
+  _player = NULL;
 }
 
 bool				Client::isUse() const
@@ -131,7 +136,8 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
       Player			*player = new Player(name);
 
       player->setFaction(*faction);
-      this->_user->addPlayer(*player);
+      //      this->_user->addPlayer(*player);
+      return (true);
     }
   return (false);
 }
@@ -145,9 +151,18 @@ void				Client::sendListPlayers()
     }
 }
 
-void				Client::choosePlayer(unsigned int const, bool const)
+void				Client::choosePlayer(unsigned int const id, bool const send)
 {
+  Repository<Player>		*rp = &Database::getRepository<Player>();
 
+  this->_player = rp->getById(id);
+  if (this->_player && send)
+    {
+      Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player, false);
+      this->_trame++;
+      Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()), false);
+      this->_trame++;
+    }
 }
 
 bool				Client::sameUser(User *user) const

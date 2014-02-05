@@ -99,6 +99,32 @@
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="l_faction1">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>140</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Faction1</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="l_faction2">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>140</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Faction2</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
