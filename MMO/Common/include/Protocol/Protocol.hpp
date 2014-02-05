@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Wed Feb  5 13:21:13 2014 laurent ansel
+// Last update Wed Feb  5 14:14:01 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -75,5 +75,5 @@ bool				choosePlayer(unsigned int const id, int playerId);
 bool				player(unsigned int const id, Player *player);
 bool				map(unsigned int const id, Zone *zone);
 bool				sendToAllClient(unsigned int const id, Trame *trame, Zone *zone);
-
+bool				entity(unsigned int const id, int playerId, Player::PlayerCoordinate coord);
 #endif
