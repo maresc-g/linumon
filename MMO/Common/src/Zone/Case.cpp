@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Wed Feb  5 14:55:46 2014 antoine maitre
+// Last update Wed Feb  5 16:13:27 2014 antoine maitre
 //
 
 #include		"Zone/Case.hh"
@@ -20,7 +20,7 @@ Case::Case(int const x, int const y, bool const safe) :
 
 Case::~Case()
 {
-
+  
 }
 
 bool			Case::getSafe() const
