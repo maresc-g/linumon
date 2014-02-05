@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Mon Feb  3 14:52:22 2014 antoine maitre
+// Last update Wed Feb  5 14:30:50 2014 antoine maitre
 //
 
 #ifndef			__ZONE_HH__
@@ -48,8 +48,8 @@ public:
   std::list<AEntity*>	&getPlayers() const;
   void			addCase(Case *);
   void			delCase(Case *);
-  Case			*getCase(int const, int const);
-  std::list<Case *>	&getCases() const;
+  Case			*getCase(int const, int const) const;
+  std::list<Case *>	*getCases() const;
   virtual bool		serialization(Trame &trame) const;
   static Zone		*deserialization(Trame const &trame);
 };

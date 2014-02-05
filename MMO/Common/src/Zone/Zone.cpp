@@ -5,7 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
+<<<<<<< HEAD
 // Last update Wed Feb  5 12:44:49 2014 laurent ansel
+=======
+// Last update Wed Feb  5 14:48:31 2014 antoine maitre
+>>>>>>> 8fbd58d6d28a80f055902836b879447ebb915360
 //
 
 #include			<iostream>
@@ -40,7 +44,7 @@ Zone::Zone(Json::Value const topography):
 }
 
 Zone::Zone(int const x, int const y, ZONE::eZone const type)
-  : _sizeX(x), _sizeY(y), _type(type)
+  : _sizeX(x), _sizeY(y), _type(type), _cases(new std::list<Case*>)
 {
   
 }
@@ -80,7 +84,7 @@ void				Zone::delCase(Case *cas)
   this->_cases->remove(cas);
 }
 
-Case				*Zone::getCase(int const x, int const y)
+Case				*Zone::getCase(int const x, int const y) const
 {
   Case				*tmp;
 
@@ -91,9 +95,9 @@ Case				*Zone::getCase(int const x, int const y)
   return (tmp);
 }
 
-std::list<Case *>		&Zone::getCases() const
+std::list<Case *>		*Zone::getCases() const
 {
-  return (*this->_cases);
+  return (this->_cases);
 }
 
 bool				sameValue(Case *case1, Case *case2)
@@ -120,7 +124,7 @@ bool				Zone::serialization(Trame &trame) const
   std::ostringstream		oss;
   std::ostringstream		ossb;
 
-  oss << "ZONE" << this->_type;
+  oss << "ZONE" ;
   trame[CONTENT][oss.str()]["TYPE"] = this->_type;
   trame[CONTENT][oss.str()]["SIZEX"] = this->_sizeX;
   trame[CONTENT][oss.str()]["SIZEY"] = this->_sizeY;
@@ -132,8 +136,14 @@ bool				Zone::serialization(Trame &trame) const
       ossb.str("");
       i++;
     }
+  i = 0;
   for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
-    (*it)->serialization(trame(trame[CONTENT][oss.str()]));
+    {
+      ossb << "CASE" << i;
+      (*it)->serialization(trame(trame[CONTENT][oss.str()][ossb.str()]));
+      ossb.str("");
+      i++;
+    }
   return (true);
 }
 
@@ -153,10 +163,10 @@ Zone				*Zone::deserialization(Trame const &trame)
 	      for (int i = 0; i == 0 || trame[CONTENT]["ZONE"].isMember(oss.str()); i++)
 		{
 		  oss.str("");
-		  oss << "ENTITIES" << i;
+		  oss << "CASE" << i;
 		  if (trame[CONTENT]["ZONE"].isMember(oss.str()))
 		    ret->addCase(Case::deserialization(trame(trame[CONTENT]["ZONE"][oss.str()])));
 		}
 	  }
-      return (ret);
+  return (ret);
 }

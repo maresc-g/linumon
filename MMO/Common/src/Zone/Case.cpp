@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Tue Feb  4 14:17:58 2014 antoine maitre
+// Last update Wed Feb  5 14:55:46 2014 antoine maitre
 //
 
 #include		"Zone/Case.hh"
@@ -33,6 +33,11 @@ const Coordinate<int>	&Case::getCoord() const
   return (*this->_coord);
 }
 
+std::list<AEntity *>	*Case::getEntities() const
+{
+  return (this->_entities);
+}
+
 void			Case::addAEntity(AEntity *entity)
 {
   this->_entities->push_back(entity);
@@ -47,20 +52,19 @@ bool			Case::serialization(Trame &trame) const
 {
   std::ostringstream	oss;
 
-  oss << "CASE" << this->_coord->getX() << this->_coord->getY();
-  if (this->_coord->serialization(trame(trame[oss.str()])))
+  if (this->_coord->serialization(trame))
     {
       int i = 0;
       std::ostringstream	ossb;
       for (auto it = this->_entities->begin(); it != this->_entities->end(); it++)
       	{
       	  ossb << "ENTITIES" << i;
-	  (*it)->serialization(trame(trame[oss.str()][ossb.str()]));
+	  (*it)->serialization(trame(trame[ossb.str()]));
 	  // trame[oss.str()][ossb.str()]["TYPE"] = (*it)->getEntityType();
       	  ossb.str("");
 	  i++;
       	}
-      trame[oss.str()]["SAFE"] = this->_safe;
+      trame["SAFE"] = this->_safe;
       return (true);
     }
   return (false);
