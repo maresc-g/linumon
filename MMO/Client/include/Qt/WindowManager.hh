@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:15:41 2013 cyril jourdain
-// Last update Tue Feb  4 13:05:59 2014 guillaume marescaux
+// Last update Wed Feb  5 11:26:10 2014 guillaume marescaux
 //
 
 #ifndef 		__WINDOWMANAGER_HH__
@@ -21,7 +21,6 @@
 #include	"SFML/SFMLView.hpp"
 #include	"Client.hh"
 
-
 class	LoginView;
 class	CharacterView;
 class	SFMLView;
@@ -32,14 +31,14 @@ private:
   QApplication		*_app;
   QGridLayout		*_mainLayout;
   QFrame		*_mainFrame;
-  MutexVar<eState>	*_state;
+  MutexVar<CLIENT::eState>	*_state;
   MutexVar<std::list<PlayerView *> *>	*_players;
   LoginView		*_loginView;
   CharacterView		*_characterView;
   SFMLView		*_sfmlView;
 
 public:
-  WindowManager(int, char **, MutexVar<eState> *, MutexVar<std::list<PlayerView *> *> *);
+  WindowManager(int, char **, MutexVar<CLIENT::eState> *, MutexVar<std::list<PlayerView *> *> *);
   virtual ~WindowManager();
 
 public:
@@ -50,7 +49,7 @@ public:
   void			hideCharacter();
   void			showSfmlView();
   void			hideSfmlView();
-  MutexVar<eState>	*getState();
+  MutexVar<CLIENT::eState>	*getState();
 };
 
 #endif

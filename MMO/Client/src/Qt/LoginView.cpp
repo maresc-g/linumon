@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Oct 18 11:04:31 2013 cyril jourdain
-// Last update Tue Feb  4 11:01:26 2014 guillaume marescaux
+// Last update Wed Feb  5 11:27:08 2014 guillaume marescaux
 //
 
 #include	<iostream>
@@ -41,15 +41,15 @@ void	LoginView::on_bConnect_clicked()
     std::string		pseudo = ui.le_Login->text().toStdString();
     std::string		pass = ui.le_Pass->text().toStdString();
     Client::getInstance()->connection(pseudo, pass);
-    while (**(_wMan->getState()) == LOGIN)
+    while (**(_wMan->getState()) == CLIENT::LOGIN)
       usleep(1000);
-    if (**(_wMan->getState()) == CHOOSE_PLAYER) {
+    if (**(_wMan->getState()) == CLIENT::CHOOSE_PLAYER) {
       _wMan->hideLogin();
       _wMan->showCharacter();
     }
     else {
       QMessageBox::critical(this, "Error", "Unable to connect");
-      *(_wMan->getState()) = LOGIN;
+      *(_wMan->getState()) = CLIENT::LOGIN;
     }
   }
 }

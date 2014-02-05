@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Feb  5 10:56:36 2014 guillaume marescaux
+// Last update Wed Feb  5 11:28:33 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -29,7 +29,7 @@ static void			*runThread(void *data)
 
 //-----------------------------------BEGIN CTOR / DTOR-----------------------------------------
 
-Core::Core(MutexVar<eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players):
+Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
@@ -161,14 +161,14 @@ bool				Core::handleError(Trame *trame)
 
 bool				Core::playerlist(Trame *trame)
 {
-  *_state = CHOOSE_PLAYER;
+  *_state = CLIENT::CHOOSE_PLAYER;
   *_players = User::deserialization(*trame);
   return (true);
 }
 
 bool				Core::player(Trame *trame)
 {
-  *_state = PLAYING;
+  *_state = CLIENT::PLAYING;
   *_player = Player::deserialization(*trame);
   return (true);
 }
@@ -181,7 +181,7 @@ bool				Core::map(Trame *trame)
 
 bool				Core::launchBattle(Trame *)
 {
-  *_state = BATTLE;
+  *_state = CLIENT::BATTLE;
   return (true);
 }
 
@@ -212,7 +212,7 @@ bool				Core::deadMob(Trame *)
 
 bool				Core::endBattle(Trame *)
 {
-  *_state = PLAYING;
+  *_state = CLIENT::PLAYING;
   return (true);
 }
 
@@ -248,7 +248,7 @@ bool				Core::objectEffect(Trame *)
 
 bool				Core::launchTrade(Trame *)
 {
-  *_state = TRADE;
+  *_state = CLIENT::TRADE;
   return (true);
 }
 
@@ -345,6 +345,10 @@ void				Core::read(int const timeout, bool const setTimeout)
   _poll->runPoll(setTimeout);
   this->readFromSocket(Core::TCP);
   this->readFromSocket(Core::UDP);  
+}
+
+void				Core::move()
+{
 }
 
 void				Core::connection(std::string const &pseudo, std::string const &pass)
