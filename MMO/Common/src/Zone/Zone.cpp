@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Wed Feb  5 14:48:31 2014 antoine maitre
+// Last update Wed Feb  5 14:01:45 2014 laurent ansel
 //
 
 #include			<iostream>

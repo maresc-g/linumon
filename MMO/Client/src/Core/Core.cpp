@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Feb  5 12:43:43 2014 guillaume marescaux
+// Last update Wed Feb  5 14:17:33 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -347,8 +347,23 @@ void				Core::read(int const timeout, bool const setTimeout)
   this->readFromSocket(Core::UDP);  
 }
 
-void				Core::move()
+void				Core::move(CLIENT::eDirection dir)
 {
+  Map				*map = Map::getInstance();
+  Player::PlayerCoordinate::type	newX;
+  Player::PlayerCoordinate::type	newY;
+
+  newX = (**_player)->getX() + (dir == CLIENT::LEFT ? -1 : (dir == CLIENT::RIGHT ? 1 : 0));
+  newY = (**_player)->getY() + (dir == CLIENT::UP ? -1 : (dir == CLIENT::DOWN ? 1 : 0));
+  map->lock();
+  map->unlock();
+  // entities = 
+  if (map->getZone().getCase(newX, newY)->getEntities()->size() == 0)
+    {
+      (**_player)->setCoord(newX, newY);
+      (*_proto).operator()<unsigned int const, int, Player::PlayerCoordinate>("ENTITY", _id, (**_player)->getId(),
+									      (**_player)->getCoord());
+    }
 }
 
 void				Core::connection(std::string const &pseudo, std::string const &pass)

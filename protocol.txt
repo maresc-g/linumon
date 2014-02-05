@@ -23,7 +23,8 @@
 
 
 			# action
-			CHAT : {Zone : idZone, Message (pseudo + msg)} -> server / client
+			CHAT : {Zone : idZone, Message (pseudo + msg)} -> client
+			CHAT : {Message (pseudo + msg)} -> server
 
 			#  battle
 			LAUNCHBATTLE : {idBattle: int, enemy : APlayer} -> server

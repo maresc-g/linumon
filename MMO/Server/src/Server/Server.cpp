@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Wed Feb  5 11:10:40 2014 laurent ansel
+// Last update Wed Feb  5 15:02:13 2014 laurent ansel
 //
 
 #include			<list>
@@ -65,7 +65,7 @@ Server::~Server()
   CircularBufferManager::deleteInstance();
   ClientManager::deleteInstance();
   Chat::deleteInstance();
-  Map::deleteInstance();
+  // Map::deleteInstance();
   delete _codeBreaker;
   Crypto::deleteInstance();
   delete _protocol;
@@ -99,7 +99,7 @@ void				Server::init(int const port)
   Chat::getInstance();
   Crypto::getInstance();
   CircularBufferManager::getInstance();
-  Map::getInstance();
+  // Map::getInstance();
   _codeBreaker->start();
   this->debug("Initialization protocol ...");
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Jan 28 13:21:19 2014 laurent ansel
-// Last update Mon Feb  3 14:56:48 2014 antoine maitre
+// Last update Wed Feb  5 13:28:51 2014 laurent ansel
 //
 
 # include			"Chat/Chat.hh"
@@ -66,21 +66,7 @@ void				Chat::run()
 	    {
 	      (*it).first = false;
 	      if ((zone = Map::getInstance()->getZone(static_cast<ZONE::eZone>((*trame)["CHAT"]["ZONE"].asInt()))))
-		{
-		  list = zone->getPlayers();
-		  for (auto ip = list.begin() ; ip != list.end() ; ++ip)
-		    {
-		      ObjectPoolManager::getInstance()->setObject(trame, "trame");
-		      if (trame)
-			{
-			  /*
-			  ** setIdClient avec player -> get client
-			  ** push trame
-			  */
-			}
-		      trame = NULL;
-		    }
-		}
+		Server::getInstance()->callProtocol<Trame *, Zone *>("SENDTOALLCLIENT", (*trame)[HEADER]["IDCLIENT"].asUInt(), (*it).second, zone);
 	    }
 	}
       _mutex->unlock();

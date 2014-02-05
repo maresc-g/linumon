@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Feb  5 11:18:58 2014 laurent ansel
+// Last update Wed Feb  5 15:09:57 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -29,6 +29,8 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, User *>("PLAYERLIST", &playerlist);
       this->_container->load<unsigned int, Player *>("PLAYER", &player);
       this->_container->load<unsigned int, Zone *>("MAP", &map);
+      this->_container->load<unsigned int, Trame *, Zone *>("SENDTOALLCLIENT", &sendToAllClient);
+
 
       this->_container->load<unsigned int, unsigned int, Player const *>("LAUNCHBATTLE", &launchBattle);
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
@@ -37,6 +39,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, unsigned int>("DEADMOB", &deadMob);
       this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, std::list<AItem *>*>("ENDBATTLE", &endBattle);
+      this->_container->load<unsigned int, int, Player::PlayerCoordinate>("ENTITY", &entity);
       // (*this->_container)["CAPTUREEFFECT"] = &Protocol::captureEffect;
       // (*this->_container)["SWITCH"] = &Protocol::dswitch;
       // (*this->_container)["DEADMOB"] = &Protocol::deadMob;
@@ -50,6 +53,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, Error *>("ERROR", &error);
       this->_container->load<unsigned int, std::string, Faction>("CREATE", &create);
       this->_container->load<unsigned int, int>("CHOOSEPLAYER", &choosePlayer);
+      this->_container->load<unsigned int, int, Player::PlayerCoordinate>("ENTITY", &entity);
     }
 }
 
@@ -139,6 +143,26 @@ bool		         initialize(unsigned int const id)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["INITIALIZE"];
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool		         entity(unsigned int const id, int playerId, Player::PlayerCoordinate coord)
+{
+  Trame                 *trame;
+  Header                *header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("UDP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["ID"] = playerId;
+      (*trame)[CONTENT]["COORD"] = coord.serialization(*trame);
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -255,9 +279,40 @@ bool                    map(unsigned int const id, Zone *zone)
       if (header->serialization(*trame) && zone->serialization((*trame)))
 	{
 	  trame->setEnd(true);
+	  std::cout << "totototototototot" << std::endl;
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+	  std::cout << "totototototototot" << std::endl;
 	}
       delete header;
+    }
+  return (false);
+}
+
+bool                    sendToAllClient(unsigned int const id, Trame *trame, Zone *zone)
+{
+  std::list<AEntity *>	list;
+  unsigned int		idClient;
+  Trame			*tmp = NULL;;
+
+  if (trame && zone)
+    {
+      list = zone->getPlayers();
+      for (auto ip = list.begin() ; ip != list.end() ; ++ip)
+	{
+	  if ((*ip))
+	    {
+	      if ((idClient = reinterpret_cast<Player *>(*ip)->getUser().getId()))
+		{
+		  ObjectPoolManager::getInstance()->setObject(tmp, "trame");
+		  *tmp = *trame;
+		  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+		  tmp = NULL;
+		}
+	    }
+	}
+      (*trame)[HEADER]["IDCLIENT"] = id;
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      return (true);
     }
   return (false);
 }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:50 2013 alexis mestag
-// Last update Tue Feb  4 15:34:56 2014 laurent ansel
+// Last update Wed Feb  5 15:08:38 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -17,13 +17,13 @@
 #endif
 
 User::User() :
-  Persistent(), _pseudo(""), _password("")
+  Persistent(), _pseudo(""), _password(""), _id(0)
 {
 
 }
 
 User::User(std::string const &pseudo, std::string const &password) :
-  Persistent(), _pseudo(pseudo), _password(password)
+  Persistent(), _pseudo(pseudo), _password(password), _id(0)
 {
 
 }
@@ -81,6 +81,16 @@ bool				User::addPlayer(Player &player)
   return (true);
 }
 
+unsigned int			User::getId() const
+{
+  return (this->_id);
+}
+
+void				User::setId(unsigned int const id)
+{
+  this->_id = id;
+}
+
 bool				User::serialization(Trame &trame) const
 {
 #ifdef SERVER
@@ -116,7 +126,7 @@ bool				User::serialization(Trame &trame) const
 std::list<PlayerView *>		*User::deserialization(Trame const &trame)
 {
   std::list<PlayerView *>	*pvs = NULL;
-  Trame				tmp;
+  Trame	const			*tmp;
 
   if (trame[CONTENT].isMember("PLAYERLIST"))
     {
@@ -126,8 +136,8 @@ std::list<PlayerView *>		*User::deserialization(Trame const &trame)
 
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	{
-	  tmp = trame(trame[CONTENT]["PLAYERLIST"][(*it)]);
-	  pvs->push_back(new PlayerView(tmp["IDPLAYER"].asInt(), tmp["NAME"].asString(), tmp["LEVEL"].asInt(), tmp["USERID"].asInt(), tmp["FACTION"].asString()));
+	  tmp = &trame(trame[CONTENT]["PLAYERLIST"][(*it)]);
+	  pvs->push_back(new PlayerView((*tmp)["IDPLAYER"].asInt(), (*tmp)["NAME"].asString(), (*tmp)["LEVEL"].asInt(), (*tmp)["USERID"].asInt(), (*tmp)["FACTION"].asString()));
 	}
     }
   return (pvs);

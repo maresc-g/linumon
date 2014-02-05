@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:16 2013 alexis mestag
-// Last update Tue Feb  4 15:34:46 2014 laurent ansel
+// Last update Wed Feb  5 13:16:36 2014 laurent ansel
 //
 
 #ifndef			__USER_HH__
@@ -27,6 +27,7 @@ private:
   std::string		_pseudo;
   std::string		_password;
   Players		_players;
+  unsigned int		_id;
 
   User();
   User(User const &rhs);
@@ -45,6 +46,9 @@ public:
   Players const		&getPlayers() const;
   bool			addPlayer(Player &player);
 
+  unsigned int		getId() const;
+  void			setId(unsigned int const id);
+
   virtual bool		serialization(Trame &trame) const;
   static std::list<PlayerView *>	*deserialization(Trame const &trame);
 };
@@ -56,6 +60,7 @@ public:
 #  pragma db member(User::_pseudo)
 #  pragma db member(User::_password)
 #  pragma db member(User::_players) inverse(_user)
+#  pragma db member(User::_id) transient
 # endif
 
 #endif
