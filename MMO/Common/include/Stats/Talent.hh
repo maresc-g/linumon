@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 14:34:15 2014 alexis mestag
-// Last update Mon Feb  3 12:58:31 2014 laurent ansel
+// Last update Wed Feb  5 15:36:26 2014 alexis mestag
 //
 
 #ifndef				__TALENT_HH__
@@ -44,7 +44,7 @@ public:
 };
 
 # ifdef	ODB_COMPILER
-#  pragma db object(Talent)
+#  pragma db object(Talent) session(false)
 # endif
 
 #endif

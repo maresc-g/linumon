@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:32:05 2013 alexis mestag
-// Last update Thu Jan 30 14:46:59 2014 alexis mestag
+// Last update Wed Feb  5 14:49:50 2014 alexis mestag
 //
 
 #ifndef			__SPELL_HH__
@@ -24,6 +24,7 @@ private:
   Type const		*_type;
   int			_power;
   int			_useLimit;
+  // EffectLib		*_effectLib;
 
 private:
   Spell();

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Feb  5 15:09:57 2014 laurent ansel
+// Last update Wed Feb  5 15:52:21 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -20,6 +20,8 @@ Protocol::Protocol(bool const server):
 {
   ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
   ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
+  ObjectPoolManager::getInstance()->runObjectPool<Coordinate<int>>("coordinateint");
+  ObjectPoolManager::getInstance()->runObjectPool<Coordinate<double>>("coordinatedouble");
 
   if (server)
     {
@@ -40,6 +42,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, unsigned int>("DEADMOB", &deadMob);
       this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, std::list<AItem *>*>("ENDBATTLE", &endBattle);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate>("ENTITY", &entity);
+      this->_container->load<unsigned int, int>("REMOVEENTITY", &removeEntity);
       // (*this->_container)["CAPTUREEFFECT"] = &Protocol::captureEffect;
       // (*this->_container)["SWITCH"] = &Protocol::dswitch;
       // (*this->_container)["DEADMOB"] = &Protocol::deadMob;
@@ -159,10 +162,28 @@ bool		         entity(unsigned int const id, int playerId, Player::PlayerCoordin
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("UDP");
-  if (header->serialization(*trame))
+  if (header->serialization(*trame) && coord.serialization(*trame))
     {
       (*trame)[CONTENT]["ID"] = playerId;
-      (*trame)[CONTENT]["COORD"] = coord.serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool		         removeEntity(unsigned int const id, int entityId)
+{
+  Trame                 *trame;
+  Header                *header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("UDP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["ID"] = entityId;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -258,6 +279,7 @@ bool                    player(unsigned int const id, Player *player)
   header->setProtocole("TCP");
   if (header->serialization(*trame) && player->serialization((*trame)((*trame)[CONTENT])))
     {
+      Player::deserialization(*trame);
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -279,9 +301,7 @@ bool                    map(unsigned int const id, Zone *zone)
       if (header->serialization(*trame) && zone->serialization((*trame)))
 	{
 	  trame->setEnd(true);
-	  std::cout << "totototototototot" << std::endl;
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
-	  std::cout << "totototototototot" << std::endl;
 	}
       delete header;
     }

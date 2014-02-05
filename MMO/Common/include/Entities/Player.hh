@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Wed Feb  5 13:51:42 2014 laurent ansel
+// Last update Wed Feb  5 15:44:10 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -78,6 +78,8 @@ public:
   ZONE::eZone		getZone() const;
   void			setZone(ZONE::eZone const zone);
 
+  std::list<Talent *> const	&getTalents() const;
+
   User const		&getUser() const;
 
   void				capture(Mob const &mob);
@@ -88,7 +90,7 @@ public:
 # include			"Entities/User.hh"
 
 # ifdef	ODB_COMPILER
-#  pragma db object(Player)
+#  pragma db object(Player) session(false)
 #  pragma db member(Player::_zone)
 #  pragma db member(Player::_coord) transient
 #  pragma db member(Player::_x) virtual(Player::PlayerCoordinate::type) get(_coord->getX()) set(_coord->setX(?))

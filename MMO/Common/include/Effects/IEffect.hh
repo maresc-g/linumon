@@ -5,21 +5,20 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 16:06:44 2014 alexis mestag
-// Last update Thu Jan 30 13:59:42 2014 alexis mestag
+// Last update Wed Feb  5 14:12:59 2014 alexis mestag
 //
 
-#ifndef			__AEFFECT_HH__
-# define		__AEFFECT_HH__
+#ifndef			__IEFFECT_HH__
+# define		__IEFFECT_HH__
 
 # include		"Entities/ACharacter.hh"
 
-class			AEffect
+class			IEffect
 {
 protected:
-  AEffect();
-  virtual ~AEffect();
+  virtual ~IEffect() {}
 
-  virtual void		apply(ACharacter &character) const = 0;
+  virtual bool		apply(ACharacter &character) = 0;
 };
 
 #endif

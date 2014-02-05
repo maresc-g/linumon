@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Feb  5 14:58:32 2014 laurent ansel
+// Last update Wed Feb  5 15:45:01 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -31,7 +31,7 @@ Client::~Client()
   delete _sockets;
   //  delete _user;
   //_user->setId(0);
-  delete _player;
+  //delete _player;
 }
 
 void				Client::clear()
@@ -46,7 +46,7 @@ void				Client::clear()
   _user->setId(0);
   //  delete _user;
   _user = NULL;
-  //  delete _player;
+  delete _player;
   _player = NULL;
 }
 

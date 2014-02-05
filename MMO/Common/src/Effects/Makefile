@@ -5,11 +5,10 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Thu Jan 30 13:56:42 2014 alexis mestag
-## Last update Thu Jan 30 13:57:26 2014 alexis mestag
+## Last update Wed Feb  5 13:33:00 2014 alexis mestag
 ##
 
-EFFECTS_SRC=		AEffect.cpp	\
-			EffectLib.cpp
+EFFECTS_SRC=		EffectLib.cpp
 
 EFFECTS_SRC:=		$(addprefix $(EFFECTS)/,$(EFFECTS_SRC))
 
