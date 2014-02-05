@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Jan 30 11:16:58 2014 laurent ansel
-// Last update Thu Jan 30 12:34:24 2014 laurent ansel
+// Last update Wed Feb  5 13:50:25 2014 antoine maitre
 //
 
 #ifndef 			__JSONFILE_HH__
