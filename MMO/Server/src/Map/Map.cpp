@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Wed Feb  5 13:35:42 2014 antoine maitre
+// Last update Wed Feb  5 16:19:00 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -34,7 +34,8 @@ Map::Map()
 
 Map::~Map()
 {
-
+  for (auto it = this->_map.begin(); it != this->_map.end(); it++)
+    delete (*it).second;
 }
 
 Zone				*Map::getZone(ZONE::eZone const type)
