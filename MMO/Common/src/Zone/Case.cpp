@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Wed Feb  5 14:48:36 2014 antoine maitre
+// Last update Wed Feb  5 14:55:46 2014 antoine maitre
 //
 
 #include		"Zone/Case.hh"
@@ -31,6 +31,11 @@ bool			Case::getSafe() const
 const Coordinate<int>	&Case::getCoord() const
 {
   return (*this->_coord);
+}
+
+std::list<AEntity *>	*Case::getEntities() const
+{
+  return (this->_entities);
 }
 
 void			Case::addAEntity(AEntity *entity)
