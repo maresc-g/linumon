@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Wed Feb  5 12:21:51 2014 antoine maitre
+// Last update Wed Feb  5 16:35:54 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -14,11 +14,10 @@
 BattleUpdater::BattleUpdater()
   : _quit(false), _mutex(new Mutex)
 {
-  this->_mutex->init();
-  // Trame				*trame = NULL;
-
-  // for (int i = 0 ; i < DEFAULT_STORAGE_BATTLE ; ++i)
-  //   _msg->push_back(std::make_pair(false, trame));
+  // this->_mutex->init();
+  // _mutex->lock();
+  // this->create(&newBattle, this);
+  // this->start();
 }
 
 BattleUpdater::~BattleUpdater()

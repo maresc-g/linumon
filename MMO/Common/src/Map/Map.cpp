@@ -5,12 +5,13 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Wed Feb  5 16:19:00 2014 antoine maitre
+// Last update Wed Feb  5 16:52:43 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
 
 Map::Map()
+  : _mutex(new Mutex)
 {
   std::string			fileConf = "Res/Map.json";
   JsonFile			file;
@@ -18,6 +19,7 @@ Map::Map()
   std::ostringstream		terr;
   
 
+  this->_mutex->init();
   JsonFile::readFile(tram, fileConf);
   for (int i = 1; i; i++)
     {
@@ -36,6 +38,7 @@ Map::~Map()
 {
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
     delete (*it).second;
+  delete _mutex;
 }
 
 Zone				*Map::getZone(ZONE::eZone const type)
@@ -43,3 +46,12 @@ Zone				*Map::getZone(ZONE::eZone const type)
   return (this->_map[type]);
 }
 
+void				Map::lock() const
+{
+  this->_mutex->lock();
+}
+
+void				Map::unlock() const
+{
+  this->_mutex->lock();
+}

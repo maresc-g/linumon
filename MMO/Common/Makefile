@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Thu Nov 28 16:47:21 2013 laurent ansel
-## Last update Tue Feb  4 15:32:14 2014 alexis mestag
+## Last update Wed Feb  5 16:58:24 2014 antoine maitre
 ##
 
 COMMON_INCLUDES=	-I $(COMMON)/include
@@ -30,6 +30,7 @@ ZONE=		$(COMMON_SRC)/Zone
 PROTOCOL=	$(COMMON_SRC)/Protocol
 BATTLE=		$(COMMON_SRC)/Battle
 JSON=		$(COMMON_SRC)/JsonFile
+MAP=		$(COMMON_SRC)/Map
 
 # Needed for odb
 ODB_CLASSES=
@@ -55,6 +56,7 @@ include		$(ZONE)/Makefile
 include		$(PROTOCOL)/Makefile
 include		$(BATTLE)/Makefile
 include		$(JSON)/Makefile
+include		$(MAP)/Makefile
 
 ODB_OPTIONS:=	$(addprefix --options-file ,$(ODB_OPTIONS))
 
