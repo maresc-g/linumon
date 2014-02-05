@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Feb  5 14:31:13 2014 laurent ansel
+// Last update Wed Feb  5 14:58:32 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -46,7 +46,7 @@ void				Client::clear()
   _user->setId(0);
   //  delete _user;
   _user = NULL;
-  delete _player;
+  //  delete _player;
   _player = NULL;
 }
 
@@ -177,8 +177,13 @@ bool				Client::sameUser(User *user) const
 
 void				Client::move(Player::PlayerCoordinate *coord)
 {
+  Trame				*trame = NULL;
+
   if (this->_player && coord)
     this->_player->setCoord(*coord);
+  ObjectPoolManager::getInstance()->setObject(trame, "trame");
+  Server::getInstance()->callProtocol<Trame *, Zone *>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), false);
+  this->_trame++;
 
   /*
   ** random battle

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:55:14 2013 laurent ansel
-// Last update Wed Feb  5 14:13:40 2014 laurent ansel
+// Last update Wed Feb  5 14:53:55 2014 laurent ansel
 //
 
 #include		<sstream>
@@ -59,7 +59,6 @@ bool			Trame::toString(std::string &content) const
   size_t		pos;
   std::string		str(CONTENT + std::string(" : "));
 
-  std::cout << "ototo" << std::endl;
   content = writer->write(*this);
   delete writer;
   if ((pos = content.find(str)) != std::string::npos)
