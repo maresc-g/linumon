@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:25:25 2014 antoine maitre
-// Last update Tue Feb  4 17:34:07 2014 antoine maitre
+// Last update Wed Feb  5 12:23:31 2014 antoine maitre
 //
 
 #ifndef					__BATTLEUPDATER_HH__
@@ -22,9 +22,9 @@
 class					BattleUpdater : public Thread
 {
 private:
-  bool                          _quit;
-  Mutex                         *_mutex;
-  std::list<Trame *>		_trames;
+  bool			                  _quit;
+  Mutex		                        *_mutex;
+  std::list<Trame *>			_trames;
 public:
   BattleUpdater();
   virtual ~BattleUpdater();
