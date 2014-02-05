@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Feb  5 15:41:06 2014 alexis mestag
+// Last update Wed Feb  5 15:44:40 2014 laurent ansel
 //
 
 #include			<functional>
@@ -155,13 +155,12 @@ void				Player::deleteTalents()
   _talents.remove_if(talentsDeleter);
 }
 
-<<<<<<< HEAD
 std::list<Talent *> const	&Player::getTalents() const
 {
   return (_talents);
-=======
+}
+
 void				Player::capture(Mob const &mob)
 {
   this->_digitaliser.addMob(mob);
->>>>>>> b2a69c9138a7cf59c35f17c3ced807b795b7d19f
 }

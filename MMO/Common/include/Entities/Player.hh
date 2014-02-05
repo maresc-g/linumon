@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Wed Feb  5 15:41:20 2014 alexis mestag
+// Last update Wed Feb  5 15:44:10 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -78,14 +78,11 @@ public:
   ZONE::eZone		getZone() const;
   void			setZone(ZONE::eZone const zone);
 
-<<<<<<< HEAD
   std::list<Talent *> const	&getTalents() const;
 
-=======
   User const		&getUser() const;
 
   void				capture(Mob const &mob);
->>>>>>> b2a69c9138a7cf59c35f17c3ced807b795b7d19f
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);
 };
