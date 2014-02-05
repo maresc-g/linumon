@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:05:10 2013 cyril jourdain
-// Last update Tue Feb  4 16:23:25 2014 guillaume marescaux
+// Last update Wed Feb  5 11:06:46 2014 guillaume marescaux
 //
 
 #include		"Qt/CharacterView/CharacterView.hh"
@@ -36,14 +36,6 @@ CharacterView::CharacterView(QWidget *parent, WindowManager *man) :
   _scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
   _charContainer->setLayout(_charLayout);
-
-  // _charList->push_back(new CharDescription(this));
-  // _charList->push_back(new CharDescription(this));
-  // _charList->push_back(new CharDescription(this));
-  // _charList->push_back(new CharDescription(this));
-  // _charList->push_back(new CharDescription(this));
-  // _charList->push_back(new CharDescription(this));
-
 
   _prev->move(35, 500);
   _next->move(435, 500);
@@ -81,13 +73,10 @@ void		CharacterView::setPlayers(std::list<PlayerView *> const &players)
   _charContainer->resize((*_charList)[0]->size().width() * _charList->size(),412);
   _scrollArea->setMaximumSize((*_charList)[0]->size().width(), 412);
 
-  float oldy = (*_charList)[0]->pos().y();
-
   for (auto it = _charList->begin(); it != _charList->end(); it++)
     {
       _charLayout->addWidget(*it);
     }
-  //_charContainer->setGeometry(0,0, _charContainer->width(), _charContainer->height());
 }
 
 void		CharacterView::paintEvent(QPaintEvent *)
