@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb  4 16:34:14 2014 laurent ansel
+// Last update Wed Feb  5 11:18:58 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -246,16 +246,19 @@ bool                    map(unsigned int const id, Zone *zone)
   Trame                 *trame;
   Header                *header;
 
-  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
-  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
-  header->setIdClient(id);
-  header->setProtocole("TCP");
-  if (header->serialization(*trame) && zone->serialization((*trame)))
+  if (zone)
     {
-      trame->setEnd(true);
-      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+      ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+      header->setIdClient(id);
+      header->setProtocole("TCP");
+      if (header->serialization(*trame) && zone->serialization((*trame)))
+	{
+	  trame->setEnd(true);
+	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+	}
+      delete header;
     }
-  delete header;
   return (false);
 }
 
