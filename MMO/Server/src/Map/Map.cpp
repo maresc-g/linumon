@@ -5,22 +5,27 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Mon Feb  3 14:51:09 2014 antoine maitre
+// Last update Wed Feb  5 13:35:42 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
 
 Map::Map()
 {
-  std::string			fileConf;
+  std::string			fileConf = "Res/Map.json";
+  JsonFile			file;
   Trame				tram;
   std::ostringstream		terr;
+  
 
+  JsonFile::readFile(tram, fileConf);
   for (int i = 1; i; i++)
     {
       terr << "Territory" << i;
       if (tram.isMember(terr.str()))
-	_map.insert(std::make_pair(static_cast<const ZONE::eZone>(tram[terr.str()]["Type"].asInt()), new Zone(tram[terr.str()])));
+	{
+	  _map.insert(std::make_pair(static_cast<const ZONE::eZone>(tram[terr.str()]["Type"].asInt()), new Zone(tram[terr.str()])));
+	}
       else
 	break;
       terr.str("");

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:45:53 2013 laurent ansel
-// Last update Fri Dec 13 17:30:29 2013 laurent ansel
+// Last update Wed Feb  5 13:35:57 2014 antoine maitre
 //
 
 #include		<string>
@@ -17,6 +17,7 @@
 #include		"Server/Server.hh"
 #include		"Error/SocketError.hpp"
 #include		"CodeBreaker/CodeBreaker.hh"
+#include		"Map/Map.hh"
 
 int			main(int argc, char **argv)
 {
