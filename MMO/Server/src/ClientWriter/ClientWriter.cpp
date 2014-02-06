@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 12:45:02 2014 laurent ansel
-// Last update Thu Feb  6 13:18:50 2014 laurent ansel
+// Last update Thu Feb  6 15:20:51 2014 laurent ansel
 //
 
 #include			"ClientWriter/ClientWriter.hh"
@@ -31,12 +31,19 @@ ClientWriter::~ClientWriter()
 
 void				ClientWriter::run()
 {
+  FD				tmp = 0;
+
   _mutex->lock();
   while (!_quit)
     {
       for (auto it = this->_write->begin() ; it != this->_write->end() ; ++it)
 	if (it->second > 0)
-	  Server::getInstance()->detectWrite(it->first);
+	  {
+	    tmp = it->first;
+	    _mutex->unlock();
+	    Server::getInstance()->detectWrite(tmp);
+	    _mutex->lock();
+	  }
       _mutex->unlock();
       usleep(50000);
       _mutex->lock();
