@@ -5,11 +5,12 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Wed Feb  5 13:55:46 2014 laurent ansel
+// Last update Thu Feb  6 13:40:48 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
 #include			"Server/Server.hh"
+#include			"ClientWriter/ClientWriter.hh"
 
 ClientUpdater::ClientUpdater(unsigned int const nbClient):
   Thread(),
@@ -100,6 +101,7 @@ bool				ClientUpdater::newClient(Header const &header, ISocketClient *client)
 	  std::cout << "createUpdater" << std::endl;
 	  (*it).first->use(header.getIdClient());
 	  (*it).first->setSocket(client, header.getProtocole());
+	  ClientWriter::getInstance()->newClient(header.getIdClient());
 	  this->_mutex->unlock();
 	  return (true);
 	}
@@ -132,22 +134,7 @@ bool				ClientUpdater::setInfo(FD const fd, bool const disconnect) const
       if (fd == (*it).first->getId() && (*it).first->isUse() && disconnect)
 	{
 	  (*it).first->clear();
-	  this->_mutex->unlock();
-	  return (true);
-	}
-    }
-  this->_mutex->unlock();
-  return (false);
-}
-
-bool				ClientUpdater::setInfo(FD const fd, unsigned int const nbTrame) const
-{
-  this->_mutex->lock();
-  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
-    {
-      if (fd == (*it).first->getId() && (*it).first->isUse())
-	{
-	  (*it).first->addTrame(nbTrame);
+	  ClientWriter::getInstance()->deleteClient(fd);
 	  this->_mutex->unlock();
 	  return (true);
 	}
@@ -247,7 +234,7 @@ void				ClientUpdater::readTrame(Client *client, std::string const &protocole) c
       if (client->readTrame(str, protocole))
 	{
 	  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
-	  std::cout << "RET = " << Trame::toTrame(*trame, str) << std::endl;
+	  Trame::toTrame(*trame, str);
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
 	}
     }
@@ -337,20 +324,6 @@ bool				ClientUpdater::search(FD const fd) const
   return (false);
 }
 
-bool				ClientUpdater::userAlreadyConnected(User *user) const
-{
-  bool				ret = false;
-
-  this->_mutex->lock();
-  for (auto it = this->_action->begin() ; it != this->_action->end() && !ret; ++it)
-    {
-      if ((*it).first->isUse())
-	ret = (*it).first->sameUser(user);
-    }
-  this->_mutex->unlock();
-  return (ret);
-}
-
 void				ClientUpdater::getClients(std::list<FD> &list) const
 {
   this->_mutex->lock();
@@ -360,24 +333,6 @@ void				ClientUpdater::getClients(std::list<FD> &list) const
 	list.push_back((*it).first->getId());
     }
   this->_mutex->unlock();
-}
-
-unsigned int			ClientUpdater::getNbTrame(FD const fd) const
-{
-  unsigned int			nb = 0;
-
-  this->_mutex->lock();
-  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
-    {
-      if (fd == (*it).first->getId() && (*it).first->isUse())
-	{
-	  nb = (*it).first->getNbTrame();
-	  this->_mutex->unlock();
-	  return (nb);
-	}
-    }
-  this->_mutex->unlock();
-  return (nb);
 }
 
 void				*runClientUpdater(void *data)

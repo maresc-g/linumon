@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Feb  5 15:44:40 2014 laurent ansel
+// Last update Thu Feb  6 12:37:25 2014 laurent ansel
 //
 
 #include			<functional>
@@ -112,6 +112,7 @@ bool				Player::serialization(Trame &trame) const
   this->_digitaliser.serialization(trame(trame["PLAYER"]));
   this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
+  trame["PLAYER"]["ZONE"] = this->getZone();
   return (ret);
 }
 
@@ -126,6 +127,8 @@ Player				*Player::deserialization(Trame const &trame)
       player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));
       player->setFaction(*Faction::deserialization(trame(trame["PLAYER"])));
       player->setLevel(*Level::deserialization(trame(trame["PLAYER"])));
+      player->setCurrentExp(trame["PLAYER"]["CURRENTEXP"].asInt());
+      player->setZone(static_cast<ZONE::eZone>(trame["PLAYER"]["ZONE"].asInt()));
     }
   return (player);
 }
