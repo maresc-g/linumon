@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Thu Feb  6 13:41:20 2014 laurent ansel
+// Last update Thu Feb  6 13:57:39 2014 laurent ansel
 //
 
 #include			<list>
@@ -30,7 +30,7 @@ void				ctrl_c(int)
 #endif
 }
 
-Server::Server(/*int const port*/):
+Server::Server():
   _socket(new std::map<std::string, Socket *>),
   _poll(new Poll),
   _actionServer(new std::map<FD, std::pair<bool, bool> >),
@@ -43,8 +43,6 @@ Server::Server(/*int const port*/):
 
 Server::~Server()
 {
-  // ClientManager::getInstance()->setQuit(true);
-  // ClientManager::getInstance()->join();
   Chat::getInstance()->setQuit(true);
   Chat::getInstance()->join();
   ClientWriter::getInstance()->setQuit(true);
@@ -69,7 +67,7 @@ Server::~Server()
   ClientManager::deleteInstance();
   ClientWriter::deleteInstance();
   Chat::deleteInstance();
-  // Map::deleteInstance();
+  Map::deleteInstance();
   delete _codeBreaker;
   Crypto::deleteInstance();
   delete _protocol;
@@ -104,7 +102,7 @@ void				Server::init(int const port)
   Crypto::getInstance();
   CircularBufferManager::getInstance();
   ClientWriter::getInstance();
-  // Map::getInstance();
+  Map::getInstance();
   _codeBreaker->start();
   this->debug("Starting ObjectPoolManager ...");
   ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
@@ -231,7 +229,6 @@ void				Server::actionServer()
   {
     {IPoll::READ,		&Server::acceptNewClient},
     {IPoll::READ,		&Server::recvUdp},
-    // {IPoll::DISCONNECT,		&Server::disconnect},
   };
   static unsigned int		size = sizeof(tab) / sizeof(*tab);
 
@@ -249,17 +246,14 @@ void				Server::actionServer()
 
 bool				Server::readSomething(std::map<FD, std::pair<bool, bool> >::iterator &it)
 {
-  //  this->debug("read ...");
   this->_mutex->lock();
   ClientManager::getInstance()->setInfoClient(it->first, "TCP", true);
   this->_mutex->unlock();
-  //  this->debug("Done");
   return (true);
 }
 
 bool				Server::writeSomething(std::map<FD, std::pair<bool, bool> >::iterator &it)
 {
-  //  this->debug("write ...");
   this->_mutex->lock();
   if (this->_actionServer->find(it->first) != this->_actionServer->end())
     {
@@ -268,7 +262,6 @@ bool				Server::writeSomething(std::map<FD, std::pair<bool, bool> >::iterator &i
       this->_poll->pushFd(it->first, IPoll::RDDC);
     }
   this->_mutex->unlock();
-  //  this->debug("Done");
   return (true);
 }
 

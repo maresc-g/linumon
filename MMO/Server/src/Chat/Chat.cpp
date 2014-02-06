@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Jan 28 13:21:19 2014 laurent ansel
-// Last update Wed Feb  5 16:03:05 2014 laurent ansel
+// Last update Thu Feb  6 13:56:43 2014 laurent ansel
 //
 
 # include			"Chat/Chat.hh"
@@ -70,7 +70,7 @@ void				Chat::run()
 	    }
 	}
       _mutex->unlock();
-      usleep(50000); //calculer le temps
+      usleep(50000);
       _mutex->lock();
     }
   _mutex->unlock();

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Feb  6 14:19:49 2014 guillaume marescaux
+// Last update Thu Feb  6 14:35:30 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -321,6 +321,7 @@ bool                    map(unsigned int const id, Zone *zone)
       header->setProtocole("TCP");
       if (header->serialization(*trame) && zone->serialization((*trame)))
 	{
+	  std::cout << trame->toString() << std::endl;
 	  trame->setEnd(true);
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 	}
