@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Feb  5 14:17:33 2014 guillaume marescaux
+// Last update Thu Feb  6 11:07:44 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -161,21 +161,22 @@ bool				Core::handleError(Trame *trame)
 
 bool				Core::playerlist(Trame *trame)
 {
-  *_state = CLIENT::CHOOSE_PLAYER;
   *_players = User::deserialization(*trame);
+  *_state = CLIENT::CHOOSE_PLAYER;
   return (true);
 }
 
 bool				Core::player(Trame *trame)
 {
+  *_player = Player::deserialization((*trame)((*trame)[CONTENT]));
   *_state = CLIENT::PLAYING;
-  *_player = Player::deserialization(*trame);
   return (true);
 }
 
-bool				Core::map(Trame *trame)
+bool				Core::map(Trame *)
 {
-  Map::getInstance()->setZone(Zone::deserialization(trame));
+  Map::getInstance();
+  // Zone::deserialization(trame);
   return (true);
 }
 
@@ -352,18 +353,19 @@ void				Core::move(CLIENT::eDirection dir)
   Map				*map = Map::getInstance();
   Player::PlayerCoordinate::type	newX;
   Player::PlayerCoordinate::type	newY;
+  Zone				*zone;
 
   newX = (**_player)->getX() + (dir == CLIENT::LEFT ? -1 : (dir == CLIENT::RIGHT ? 1 : 0));
   newY = (**_player)->getY() + (dir == CLIENT::UP ? -1 : (dir == CLIENT::DOWN ? 1 : 0));
   map->lock();
-  map->unlock();
-  // entities = 
-  if (map->getZone().getCase(newX, newY)->getEntities()->size() == 0)
+  zone = map->getZone((**_player)->getZone());
+  if (zone && zone->getCase(newX, newY)->getEntities()->size() == 0)
     {
       (**_player)->setCoord(newX, newY);
       (*_proto).operator()<unsigned int const, int, Player::PlayerCoordinate>("ENTITY", _id, (**_player)->getId(),
-									      (**_player)->getCoord());
+  									      (**_player)->getCoord());
     }
+  map->unlock();
 }
 
 void				Core::connection(std::string const &pseudo, std::string const &pass)

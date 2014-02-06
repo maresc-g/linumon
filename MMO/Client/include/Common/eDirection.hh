@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Feb  5 11:20:07 2014 guillaume marescaux
-// Last update Wed Feb  5 11:24:48 2014 guillaume marescaux
+// Last update Wed Feb  5 14:58:21 2014 guillaume marescaux
 //
 
 #ifndef 		__EDIRECTION_HH__
@@ -18,7 +18,7 @@ namespace		CLIENT
       LEFT,
       RIGHT,
       UP,
-      DOWN
+      DOWN,
     };
 }
 #endif

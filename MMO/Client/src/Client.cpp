@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Wed Feb  5 12:56:09 2014 guillaume marescaux
+// Last update Wed Feb  5 14:55:33 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -51,4 +51,9 @@ void				Client::choosePlayer(PlayerView const &player)
 void				Client::create(std::string const &name, std::string const &faction)
 {
   _core->createPlayer(name, faction);
+}
+
+void				Client::move(CLIENT::eDirection dir)
+{
+  _core->move(dir);
 }
