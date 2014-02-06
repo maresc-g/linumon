@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Feb  6 13:18:05 2014 guillaume marescaux
+// Last update Thu Feb  6 13:46:12 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -175,8 +175,6 @@ bool				Core::player(Trame *trame)
 {
   *_player = Player::deserialization((*trame)((*trame)[CONTENT]));
   *_state = CLIENT::PLAYING;
-  std::cout << "X = " << (**_player)->getX() << std::endl;
-  std::cout << "NAME = " << (**_player)->getName() << std::endl;
   return (true);
 }
 
