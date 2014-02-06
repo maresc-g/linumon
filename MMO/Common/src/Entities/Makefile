@@ -5,11 +5,12 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Mon Feb  3 10:22:41 2014 alexis mestag
+## Last update Thu Feb  6 16:23:12 2014 laurent ansel
 ##
 
 ENTITIES_SRC=		User.cpp		\
 			AEntity.cpp		\
+			AItem.cpp		\
 			AStatEntity.cpp		\
 			ACharacter.cpp		\
 			Player.cpp		\
@@ -22,7 +23,8 @@ ENTITIES_SRC=		User.cpp		\
 			TypeRelations.cpp	\
 			Faction.cpp		\
 			Digitaliser.cpp		\
-			Level.cpp
+			Level.cpp		\
+			Stuff.cpp
 
 ENTITIES_SRC:=		$(addprefix $(ENTITIES)/, $(ENTITIES_SRC))
 
