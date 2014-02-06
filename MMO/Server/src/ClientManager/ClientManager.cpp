@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Wed Feb  5 13:59:54 2014 laurent ansel
+// Last update Thu Feb  6 13:32:55 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -17,8 +17,6 @@
 
 ClientManager::ClientManager():
   _updaters(new std::vector<std::pair<ClientUpdater *, bool> >),
-  _serverWriteFunc(NULL),
-  _quit(false),
   _mutex(new Mutex)
 {
   _mutex->init();
@@ -31,8 +29,6 @@ ClientManager::ClientManager():
       _updaters->push_back(std::make_pair(new ClientUpdater(NB_CLIENTS_PER_THREAD), false));
     }
   _mutex->unlock();
-  this->create(&runClientManager, this);
-  this->start();
 }
 
 ClientManager::~ClientManager()
@@ -55,18 +51,6 @@ ClientManager::~ClientManager()
   delete _mutex;
   std::cout << "." << std::flush;
   std::cout << std::endl << "Done" << std::endl;
-}
-
-void				ClientManager::setWriteFunction(function *writeFunc)
-{
-  _serverWriteFunc = writeFunc;
-}
-
-void				ClientManager::setQuit(bool const quit)
-{
-  _mutex->lock();
-  _quit = quit;
-  _mutex->unlock();
 }
 
 void				ClientManager::newClient(Header const &header, ISocketClient *tcp)
@@ -212,49 +196,6 @@ void				ClientManager::sendListPlayers(FD const fd) const
   this->_mutex->unlock();
 }
 
-void				ClientManager::findWrite() const
-{
-  std::list<FD>			list;
-
-  this->_mutex->lock();
-  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() ; ++it)
-    if ((*it).first && (*it).second)
-      {
-	(*it).first->getClients(list);
-	this->_mutex->unlock();
-	for (auto itClient = list.begin() ; itClient != list.end() ; ++itClient)
-	  {
-	    this->_mutex->lock();
-	    if ((*it).first->getNbTrame((*itClient)) > 0)
-	      {
-		// this->_mutex->unlock();
-		if (this->_serverWriteFunc)
-		  {
-		    (*this->_serverWriteFunc)(*itClient);
-		  }
-		// this->_mutex->lock();
-	      }
-	    this->_mutex->unlock();
-	  }
-	this->_mutex->lock();
-      }
-  this->_mutex->unlock();
-}
-
-void				ClientManager::newTrameToWrite(FD const fd, unsigned int const nbTrame) const
-{
-  bool				set = false;
-
-  this->_mutex->lock();
-  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
-    if ((*it).first && (*it).second && (*it).first->search(fd))
-      {
-	(*it).first->setInfo(fd, nbTrame);
-	set = true;
-      }
-  this->_mutex->unlock();
-}
-
 bool				ClientManager::userAlreadyConnected(FD const fd, User *user) const
 {
   bool				ret = false;
@@ -395,39 +336,4 @@ bool				ClientManager::choosePlayer(Trame *trame)
   if ((*trame)[CONTENT].isMember("CHOOSEPLAYER"))
     this->setInfoClient((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["CHOOSEPLAYER"].asUInt());
   return (false);
-}
-
-
-/*
-** Thread
-*/
-
-void				*runClientManager(void *data)
-{
-  if (data)
-    {
-      ClientManager		*manager = reinterpret_cast<ClientManager *>(data);
-
-      manager->run();
-    }
-  return (NULL);
-}
-
-void				ClientManager::run()
-{
-  int				size;
-
-  this->_mutex->lock();
-  while (!_quit)
-    {
-      this->_mutex->unlock();
-      this->findWrite();
-      this->_mutex->lock();
-      if (!(size = this->_updaters->size()))
-	size = 1;
-      this->_mutex->unlock();
-      usleep(1000000 / size);
-      this->_mutex->lock();
-    }
-  this->_mutex->unlock();
 }

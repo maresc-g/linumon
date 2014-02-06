@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:53:28 2013 alexis mestag
-// Last update Tue Dec  3 11:08:47 2013 alexis mestag
+// Last update Thu Feb  6 15:00:38 2014 antoine maitre
 //
 
 #include			"Entities/AEntity.hh"
@@ -42,7 +42,7 @@ AEntity				&AEntity::operator=(AEntity const &rhs)
   return (*this);
 }
 
-AEntity::eEntity			AEntity::getEntityType() const
+AEntity::eEntity		AEntity::getEntityType() const
 {
   return (_entityType);
 }
@@ -50,4 +50,15 @@ AEntity::eEntity			AEntity::getEntityType() const
 void				AEntity::setEntityType(AEntity::eEntity const entityType)
 {
   _entityType = entityType;
+}
+
+#include "Entities/Player.hh"
+
+AEntity				*AEntity::deserialization(Trame  const &trame)
+{
+  if (trame.isMember("PLAYER"))
+    {
+      return (reinterpret_cast<AEntity *>(Player::deserialization(trame)));
+    }
+  return (NULL);
 }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Feb  6 14:35:18 2014 alexis mestag
+// Last update Thu Feb  6 16:12:37 2014 alexis mestag
 //
 
 #include			<functional>
@@ -105,6 +105,7 @@ bool				Player::serialization(Trame &trame) const
 {
   bool				ret = true;
 
+  trame["PLAYER"]["ID"] = static_cast<int>(this->getId());
   trame["PLAYER"]["NAME"] = this->getName();
   trame["PLAYER"]["TYPE"] = this->getStatEntityType();
   this->_coord->serialization(trame(trame["PLAYER"]));
@@ -112,6 +113,7 @@ bool				Player::serialization(Trame &trame) const
   this->_digitaliser.serialization(trame(trame["PLAYER"]));
   this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
+  trame["PLAYER"]["ZONE"] = this->getZone();
   return (ret);
 }
 
@@ -122,10 +124,13 @@ Player				*Player::deserialization(Trame const &trame)
   if (trame.isMember("PLAYER"))
     {
       player = new Player(trame["PLAYER"]["NAME"].asString());
+      player->setId(trame["PLAYER"]["ID"].asUInt());
       player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame["PLAYER"]["TYPE"].asInt()));
       player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));
       player->setFaction(*Faction::deserialization(trame(trame["PLAYER"])));
       player->setLevel(*Level::deserialization(trame(trame["PLAYER"])));
+      player->setCurrentExp(trame["PLAYER"]["CURRENTEXP"].asInt());
+      player->setZone(static_cast<ZONE::eZone>(trame["PLAYER"]["ZONE"].asInt()));
     }
   return (player);
 }

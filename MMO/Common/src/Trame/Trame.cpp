@@ -5,12 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:55:14 2013 laurent ansel
-// Last update Wed Feb  5 14:53:55 2014 laurent ansel
+// Last update Thu Feb  6 15:17:15 2014 laurent ansel
 //
 
 #include		<sstream>
 #include		<fstream>
 #include		"Trame/Trame.hh"
+#include		"ObjectPool/ObjectPoolManager.hpp"
 
 Trame::Trame(bool const end):
   JsonFile(),
@@ -55,7 +56,7 @@ void			Trame::setSize(size_t const size)
 
 bool			Trame::toString(std::string &content) const
 {
-  Json::StyledWriter	*writer = new Json::StyledWriter;
+  Json::FastWriter	*writer = new Json::FastWriter;
   size_t		pos;
   std::string		str(CONTENT + std::string(" : "));
 
@@ -72,7 +73,7 @@ bool			Trame::toString(std::string &content) const
 std::string		Trame::toString() const
 {
   std::string		content;
-  Json::StyledWriter	*writer = new Json::StyledWriter;
+  Json::FastWriter	*writer = new Json::FastWriter;
   size_t		pos;
   std::string		str(CONTENT + std::string(" : "));
 
@@ -126,6 +127,32 @@ int			Trame::toTrame(Trame &trame, std::string const &str)
   if (!ret)
     return (-1);
   if (result.size() < str.size())
-    return (1);
+    return (result.size());
   return (0);
+}
+
+std::list<Trame *>	*Trame::toTrame(std::string const &str)
+{
+  std::list<Trame *>	*trame = new std::list<Trame *>;
+  Trame			*tmp = NULL;
+  int			i = 0;
+  int			deca = 0;
+
+  for (bool ret = true ; ret && i >= 0;)
+    {
+      ObjectPoolManager::getInstance()->setObject(tmp, "trame");
+      if (tmp)
+	{
+	  i = Trame::toTrame(*tmp, str.c_str() + deca);
+	  if (i != -1)
+	    {
+	      trame->push_back(tmp);
+	      deca += i;
+	    }
+	  if (i == 0)
+	    ret = false;
+	}
+      tmp = NULL;
+    }
+  return (trame);
 }

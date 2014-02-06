@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Feb  6 13:09:17 2014 guillaume marescaux
+// Last update Thu Feb  6 14:35:30 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -183,9 +183,9 @@ bool		         entity(unsigned int const id, int playerId, Player::PlayerCoordin
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("UDP");
-  if (header->serialization(*trame) && coord.serialization(*trame))
+  if (header->serialization(*trame) && coord.serialization((*trame)((*trame)["ENTITY"])))
     {
-      (*trame)[CONTENT]["ID"] = playerId;
+      (*trame)[CONTENT]["ENTITY"]["ID"] = playerId;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -321,6 +321,7 @@ bool                    map(unsigned int const id, Zone *zone)
       header->setProtocole("TCP");
       if (header->serialization(*trame) && zone->serialization((*trame)))
 	{
+	  std::cout << trame->toString() << std::endl;
 	  trame->setEnd(true);
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 	}
