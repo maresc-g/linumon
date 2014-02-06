@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Wed Feb  5 16:27:18 2014 antoine maitre
+// Last update Thu Feb  6 15:23:21 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -33,7 +33,8 @@ BattleManager::~BattleManager()
 
 bool				BattleManager::spell(Trame *trame)
 {
-  
+  (void)trame;
+  return (true);
 }
 
 bool				BattleManager::capture(Trame *trame)

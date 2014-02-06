@@ -5,12 +5,13 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:48:29 2013 alexis mestag
-// Last update Fri Jan 31 15:49:50 2014 antoine maitre
+// Last update Thu Feb  6 15:00:44 2014 antoine maitre
 //
 
 #ifndef			__AENTITY_HH__
 # define		__AENTITY_HH__
 
+# include		<functional>
 # include		"Utility/Id.hh"
 # include		"Utility/Nameable.hh"
 # include		"Utility/ISerialization.hh"
@@ -22,9 +23,9 @@ public:
     {
       NONE,
       ITEM,
-      STATENTITY
+      STATENTITY,
+      RESSOURCE
     }			eEntity;
-
 private:
   eEntity		_entityType;
 
@@ -42,6 +43,8 @@ public:
 
   eEntity		getEntityType() const;
   virtual bool		serialization(Trame &trame) const = 0;
+
+  static AEntity	*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

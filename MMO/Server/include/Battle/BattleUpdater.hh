@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:25:25 2014 antoine maitre
-// Last update Wed Feb  5 16:28:27 2014 antoine maitre
+// Last update Thu Feb  6 11:33:31 2014 antoine maitre
 //
 
 #ifndef					__BATTLEUPDATER_HH__
@@ -18,6 +18,7 @@
 # include				"Thread/Thread.hpp"
 # include				"Trame/Trame.hh"
 # include				"Entities/Spell.hh"
+# include				"Utility/GenericSerialization.hpp"
 
 class					BattleUpdater : public Thread
 {

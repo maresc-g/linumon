@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Wed Feb  5 15:51:30 2014 laurent ansel
+// Last update Thu Feb  6 15:20:25 2014 antoine maitre
 //
 
 #ifndef 			__PROTOCOL_HPP__

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:39:46 2014 antoine maitre
-// Last update Wed Feb  5 14:56:41 2014 antoine maitre
+// Last update Thu Feb  6 15:08:20 2014 antoine maitre
 //
 
 #ifndef				__CASE_HH__
@@ -17,6 +17,7 @@
 # include			"Coordinate.hpp"
 # include			"Entities/Player.hh"
 # include			"Utility/ISerialization.hh"
+# include			"Utility/GenericSerialization.hpp"
 
 class				Player;
 
@@ -37,7 +38,7 @@ public:
   void				delAEntity(AEntity*);
   std::list<AEntity *>		*getEntities() const;
   virtual bool			serialization(Trame &trame) const;
-  static Case			*deserialization(Trame const &trame);
+  void				deserialization(Trame const &trame);
 };
 
 #endif
