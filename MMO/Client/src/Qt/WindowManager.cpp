@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Thu Feb  6 11:04:39 2014 cyril jourdain
+// Last update Thu Feb  6 11:14:00 2014 cyril jourdain
 //
 
 #include	"Qt/WindowManager.hh"

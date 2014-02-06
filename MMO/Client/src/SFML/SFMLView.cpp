@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Thu Feb  6 11:03:41 2014 cyril jourdain
+// Last update Thu Feb  6 11:15:39 2014 cyril jourdain
 //
 
 #include		"SFML/SFMLView.hpp"
@@ -32,9 +32,6 @@ void			SFMLView::onInit()
 
 void			SFMLView::onUpdate()
 {
-  sf::Event event;
-  while (pollEvent(event))
-    ;
   clear(sf::Color(15, 150, 30));
   drawView();
   checkKeys();
@@ -43,7 +40,7 @@ void			SFMLView::onUpdate()
 
 void			SFMLView::onResize(QResizeEvent *e)
 {
-  setSize(sf::Vector2u(e->size().width(), e->size().height()));
+  // setSize(sf::Vector2u(e->size().width(), e->size().height()));
 }
 
 void			SFMLView::drawView()
@@ -57,17 +54,17 @@ void			SFMLView::drawView()
 
 void			SFMLView::checkKeys()
 {
-  float time = _clock->getElapsedTime().asMicroseconds();
-  float px = time * PX_PER_SECOND / 1000000;
+  // float time = _clock->getElapsedTime().asMicroseconds();
+  // float px = time * PX_PER_SECOND / 1000000;
 
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-    _mainPerso->move(0,px);
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-    _mainPerso->move(0,-px);
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-    _mainPerso->move(-px,0);
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    _mainPerso->move(px,0);
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-    _mainPerso->play("down");
+  // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+  //   //_mainView->move(0,px);
+  // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+  //   _mainPerso->move(0,-px);
+  // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+  //   _mainPerso->move(-px,0);
+  // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+  //   _mainPerso->move(px,0);
+  // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+  //   _mainPerso->play("down");
 }
