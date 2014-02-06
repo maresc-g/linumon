@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:08:26 2014 cyril jourdain
-// Last update Tue Feb  4 13:13:53 2014 cyril jourdain
+// Last update Wed Feb  5 16:28:05 2014 cyril jourdain
 //
 
 #include		"SFML/Sprite/Animation.hh"
@@ -43,7 +43,9 @@ Animation::~Animation()
 void			Animation::update(sf::Clock &clock)
 {
   // Update frame
-  // if (_playing){
+  if (_frameCount == 1 && !_playing)
+    _playing = true;
+  if (_playing){
     float time = clock.getElapsedTime().asMicroseconds();
     _cFrameTime += time;
     if (_cFrameTime >= _frameLenght)
@@ -51,11 +53,11 @@ void			Animation::update(sf::Clock &clock)
 	// Frame over
 	_currentId++;
 	_currentId %= _frameCount;
-	if (!_loopPlay && _currentId == 0)
+	if (!_loopPlay && _currentId == 0 && _frameCount > 1)
 	    _playing = false;
 	_cFrameTime = 0;
       }
-  // }
+  }
 }
 
 sf::IntRect		*Animation::getCurrentCoord() const
@@ -66,6 +68,10 @@ sf::IntRect		*Animation::getCurrentCoord() const
 void			Animation::addSprite(sf::IntRect const &coord)
 {
   _spriteList->push_back(new sf::IntRect(coord));
-  // std::cout << "pushed " << coord.left << " " << coord.top << " " << coord.width << " " << coord.height << std::endl;
   _frameCount++;
+}
+
+void			Animation::play(bool p)
+{
+  _playing = p;
 }

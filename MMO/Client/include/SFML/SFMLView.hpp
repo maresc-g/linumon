@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Tue Feb  4 12:32:53 2014 cyril jourdain
+// Last update Wed Feb  5 18:15:11 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -24,9 +24,9 @@ class			SFMLView : public QSFMLWidget
 private:
   WindowManager		*_wMan;
   SpriteManager		*_sMan;
-  Sprite		*_sprite;
-  sf::Texture		*_texture;
+  Sprite		*_mainPerso;
   sf::Clock		*_clock;
+  sf::View		*_view;
   /* Here the attributes of the class */
 
 public:
@@ -36,6 +36,9 @@ public:
 private :
   virtual void			onInit();
   virtual void			onUpdate();
+  virtual void			onResize(QResizeEvent *);
+  void				drawView();
+  void				checkKeys();
 };
 
 #endif
