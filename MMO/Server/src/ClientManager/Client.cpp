@@ -5,18 +5,18 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Feb  5 16:00:22 2014 laurent ansel
+// Last update Thu Feb  6 13:46:13 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
 #include			"Server/Server.hh"
 #include			"Map/Map.hh"
+#include			"ClientWriter/ClientWriter.hh"
 
 Client::Client():
   _use(false),
   _id(0),
   _sockets(new std::map<std::string, ISocketClient *>),
-  _trame(0),
   _user(NULL),
   _player(NULL)
 {
@@ -29,23 +29,20 @@ Client::~Client()
   delete (*_sockets)["UDP"];
   delete (*_sockets)["TCP"];
   delete _sockets;
-  //  delete _user;
-  //_user->setId(0);
-  //delete _player;
 }
 
 void				Client::clear()
 {
-  Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()), false);
+  if (_player)
+    Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
   delete (*_sockets)["UDP"];
   delete (*_sockets)["TCP"];
   (*_sockets)["UDP"] = NULL;
   (*_sockets)["TCP"] = NULL;
   _id = 0;
-  _trame = 0;
   _use = false;
-  _user->setId(0);
-  //  delete _user;
+  if (_user)
+    _user->setId(0);
   _user = NULL;
   delete _player;
   _player = NULL;
@@ -82,16 +79,16 @@ bool				Client::writeTrame(Trame *trame, std::string const &proto)
 
   if (trame && trame->toString(str))
     {
-      //      Crypto::getInstance()->encryption(str, tmp);
-      //      ret = (*this->_sockets)[proto]->writeSocket(const_cast<char *>(tmp.c_str()), tmp.size());
+      // //      Crypto::getInstance()->encryption(str, tmp);
+      // //      ret = (*this->_sockets)[proto]->writeSocket(const_cast<char *>(tmp.c_str()), tmp.size());
       ret = (*this->_sockets)[proto]->writeSocket(const_cast<char *>(str.c_str()), str.size());
-      //      if (ret < tmp.size())
+      // //      if (ret < tmp.size())
       if (ret < str.size())
 	{
 	  trame->setSize(ret);
 	  return (false);
 	}
-      this->_trame--;
+      ClientWriter::getInstance()->addNewTrame(_id, -1);
       return (true);
     }
   return (false);
@@ -105,30 +102,16 @@ bool				Client::readTrame(std::string &str, std::string const &proto)
 
   if (ret > 0)
     {
-      std::cout << "RETREAD = " << ret << std::endl;
       str.append(tmp, ret);
-      // decrypt.append(tmp, ret);
-      // if (Crypto::getInstance()->decryption(decrypt, str))
+      // // decrypt.append(tmp, ret);
+      // // if (Crypto::getInstance()->decryption(decrypt, str))
       return (true);
     }
   return (false);
 }
 
-void				Client::addTrame(unsigned int const nb)
-{
-  this->_trame += nb;
-  std::cout << "TRAME = " << nb << std::endl;
-}
-
-unsigned int			Client::getNbTrame() const
-{
-  return (this->_trame);
-}
-
 void				Client::addUser(User *user)
 {
-  // if (_user)
-  //    delete _user;
   this->_user = user;
   this->_user->setId(this->_id);
 }
@@ -140,7 +123,7 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
       Player			*player = new Player(name);
 
       player->setFaction(*faction);
-      //      this->_user->addPlayer(*player);
+      // //      this->_user->addPlayer(*player);
       return (true);
     }
   return (false);
@@ -149,10 +132,7 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
 void				Client::sendListPlayers()
 {
   if (_user)
-    {
-      Server::getInstance()->callProtocol<User *>("PLAYERLIST", _id, _user, false);
-      this->_trame++;
-    }
+    Server::getInstance()->callProtocol<User *>("PLAYERLIST", _id, _user);
 }
 
 void				Client::choosePlayer(unsigned int const id, bool const send)
@@ -162,18 +142,9 @@ void				Client::choosePlayer(unsigned int const id, bool const send)
   this->_player = rp->getById(id);
   if (this->_player && send)
     {
-      Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player, false);
-      this->_trame++;
-      // Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()), false);
-      // this->_trame++;
+      Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
+      // // Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()), false);
     }
-}
-
-bool				Client::sameUser(User *user) const
-{
-  if (user == _user)
-    return (true);
-  return (false);
 }
 
 void				Client::move(Player::PlayerCoordinate *coord)
@@ -183,9 +154,7 @@ void				Client::move(Player::PlayerCoordinate *coord)
   if (this->_player && coord)
     this->_player->setCoord(*coord);
   ObjectPoolManager::getInstance()->setObject(trame, "trame");
-  Server::getInstance()->callProtocol<Trame *, Zone *>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), false);
-  this->_trame++;
-
+  Server::getInstance()->callProtocol<Trame *, Zone *>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()));
   /*
   ** random battle
   */

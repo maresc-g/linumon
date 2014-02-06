@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Jan 30 11:18:31 2014 laurent ansel
-// Last update Thu Jan 30 12:36:41 2014 laurent ansel
+// Last update Thu Feb  6 12:41:07 2014 laurent ansel
 //
 
 #include		<sstream>
@@ -24,7 +24,7 @@ JsonFile::~JsonFile()
 
 bool			JsonFile::toString(std::string &content) const
 {
-  Json::StyledWriter	*writer = new Json::StyledWriter;
+  Json::FastWriter	*writer = new Json::FastWriter;
   std::string		str(CONTENT + std::string(" : "));
 
   content = writer->write(*this);

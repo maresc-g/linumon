@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Mon Feb  3 16:48:11 2014 laurent ansel
+// Last update Thu Feb  6 13:42:14 2014 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -26,6 +26,7 @@
 #include			"Crypto/Crypto.hh"
 #include			"Utility/FunctorContainer.hpp"
 #include			"Mutex/MutexVar.hpp"
+#include			"ClientWriter/ClientWriter.hh"
 
 class				Server : public Singleton<Server>
 {
@@ -39,28 +40,30 @@ private:
   Mutex				*_protoMutex;
   CodeBreaker			*_codeBreaker;
   Protocol			*_protocol;
+
   Server(/*int const port*/);
   virtual ~Server();
+
 public:
   void				run();
   void				detectWrite(FD const fd);
   void				init(int const port);
 
   template<typename ... P>
-  bool				callProtocol(std::string const &key, unsigned int const id, P ... params, bool const write = true)
+  bool				callProtocol(std::string const &key, unsigned int const id, P ... params)
   {
     bool				ret = false;
 
     this->_protoMutex->lock();
     ret = this->_protocol->operator()<unsigned int const, P ...>(key, id, params ...);
-    if (write)
-      ClientManager::getInstance()->newTrameToWrite(id, 1);
+    ClientWriter::getInstance()->addNewTrame(id, 1);
     this->_protoMutex->unlock();
     return (ret);
   }
 
   bool				callProtocol(Trame *trame);
   bool				addFuncProtocol(std::string const &key, std::function<bool (Trame *)> func);
+
 private:
   void				initializePoll() const;
   void				runPoll() const;
@@ -74,8 +77,6 @@ private:
   bool			        disconnectClient(std::map<FD, std::pair<bool, bool> >::iterator &it);
   bool				recvUdp();
 };
-
-void				somethingWrite(FD const fd);
 
 template<typename T, typename R, typename... P>
 struct				s_func
