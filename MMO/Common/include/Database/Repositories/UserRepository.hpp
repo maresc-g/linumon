@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Feb  1 15:25:50 2014 alexis mestag
-// Last update Wed Feb  5 15:41:40 2014 alexis mestag
+// Last update Thu Feb  6 16:05:43 2014 alexis mestag
 //
 
 #ifndef				__USERREPOSITORY_HPP__
@@ -28,15 +28,10 @@ private:
 
 public:
   User				*getByPseudo(std::string const &pseudo) {
-    // static std::function<bool(User &)>	byPseudoFinder = [&](User &u) -> bool {
-    //   return (u.getPseudo() == pseudo);
-    // };
     Database::Transaction	t(Database::getInstance()->getDb()->begin());
     Database::Query<User>	query(Database::Query<User>::pseudo == pseudo);
     Database::Result<User>	result(Database::getInstance()->getDb()->query<User>(query));
     User			*ret = NULL;
-
-    // auto it = std::find_if(result.begin(), result.end(), byPseudoFinder);
 
     if (result.size())
       ret = result.begin().load();

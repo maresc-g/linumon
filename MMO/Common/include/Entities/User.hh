@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:16 2013 alexis mestag
-// Last update Wed Feb  5 13:16:36 2014 laurent ansel
+// Last update Thu Feb  6 14:45:07 2014 alexis mestag
 //
 
 #ifndef			__USER_HH__
@@ -26,7 +26,7 @@ class			User : public Persistent, public ISerialization
 private:
   std::string		_pseudo;
   std::string		_password;
-  Players		_players;
+  // Players		_players;
   unsigned int		_id;
 
   User();
@@ -43,7 +43,7 @@ public:
   std::string const	&getPassword() const;
   void			setPassword(std::string const &password);
 
-  Players const		&getPlayers() const;
+  // Players const		&getPlayers() const;
   bool			addPlayer(Player &player);
 
   unsigned int		getId() const;
@@ -59,7 +59,7 @@ public:
 #  pragma db object(User)
 #  pragma db member(User::_pseudo)
 #  pragma db member(User::_password)
-#  pragma db member(User::_players) inverse(_user)
+// #  pragma db member(User::_players) inverse(_user)
 #  pragma db member(User::_id) transient
 # endif
 

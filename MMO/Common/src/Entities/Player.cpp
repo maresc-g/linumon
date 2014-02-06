@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Feb  6 15:30:20 2014 laurent ansel
+// Last update Thu Feb  6 16:12:37 2014 alexis mestag
 //
 
 #include			<functional>
@@ -148,6 +148,11 @@ void				Player::setZone(ZONE::eZone const zone)
 User const			&Player::getUser() const
 {
   return (*this->_user);
+}
+
+void				Player::setUser(User const &user)
+{
+  _user = &user;
 }
 
 void				Player::deleteTalents()

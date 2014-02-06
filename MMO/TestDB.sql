@@ -42,12 +42,6 @@ INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `fact
 INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `zone`, `talentTree`, `user`, `x`, `y`) VALUES(3, 'WeshWeshCabillaud', 15, 5, 10, 2, 'ROCK', 1, 1, 10, 30);
 INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `zone`, `talentTree`, `user`, `x`, `y`) VALUES(4, 'EnThéorieCaDevraitMarcher', 584, 10, 10, 2, 'PLAIN', 2, 2, 20, 20);
 
-/* Assigning Players to Users */
-DELETE FROM `User_players_players`;
-
-INSERT INTO `User_players_players`(`object_id`, `index`, `value`) VALUES(1, 0, 1);
-INSERT INTO `User_players_players`(`object_id`, `index`, `value`) VALUES(2, 0, 2);
-
 /* Assigning Talents to Players */
 DELETE FROM `Player_talents`;
 

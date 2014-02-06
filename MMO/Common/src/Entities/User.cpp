@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:50 2013 alexis mestag
-// Last update Wed Feb  5 15:08:38 2014 laurent ansel
+// Last update Thu Feb  6 14:58:44 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -70,14 +70,14 @@ void				User::setPassword(std::string const &password)
   _password = password;
 }
 
-Players const			&User::getPlayers() const
-{
-  return (_players);
-}
+// Players const			&User::getPlayers() const
+// {
+//   return (_players);
+// }
 
 bool				User::addPlayer(Player &player)
 {
-  _players.addPlayer(player);
+  player.setUser(*this);
   return (true);
 }
 
