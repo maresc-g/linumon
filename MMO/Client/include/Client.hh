@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Wed Feb  5 14:56:04 2014 guillaume marescaux
+// Last update Thu Feb  6 13:03:44 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -24,6 +24,7 @@
 #include			<Qt/qfile.h>
 #include			<Qt/qgridlayout.h>
 #include			"Entities/Views/PlayerView.hh"
+#include			"Chat/Chat.hh"
 
 class				Client : public Singleton<Client>
 {
@@ -35,6 +36,7 @@ private:
   MutexVar<CLIENT::eState>	*_state;
   MutexVar<Player *>		*_player;
   MutexVar<std::list<PlayerView *> *>		*_players;
+  MutexVar<Chat *>		*_chat;
   Core				*_core;
   WindowManager			*_manager;
 
@@ -51,6 +53,7 @@ public:
   void				choosePlayer(PlayerView const &player);
   void				create(std::string const &name, std::string const &faction);
   void				move(CLIENT::eDirection dir);
+  void				sendChat(std::string const &msg);
 };
 
 #endif

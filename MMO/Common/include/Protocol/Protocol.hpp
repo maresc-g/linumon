@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Wed Feb  5 16:00:31 2014 laurent ansel
+// Last update Thu Feb  6 13:09:00 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -77,5 +77,6 @@ bool				map(unsigned int const id, Zone *zone);
 bool				sendToAllClient(unsigned int const id, Trame *trame, Zone *zone, bool const send);
 bool				entity(unsigned int const id, int playerId, Player::PlayerCoordinate coord);
 bool				removeEntity(unsigned int const id, int removeId, Zone *zone);
+bool				chat(unsigned int const id, int idZone, std::string msg);
 
 #endif

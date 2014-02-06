@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Feb  6 11:07:44 2014 guillaume marescaux
+// Last update Thu Feb  6 13:08:22 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -29,7 +29,9 @@ static void			*runThread(void *data)
 
 //-----------------------------------BEGIN CTOR / DTOR-----------------------------------------
 
-Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players):
+Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
+	   MutexVar<std::list<PlayerView *> *> *players,
+	   MutexVar<Chat *> *chat):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
@@ -42,6 +44,7 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar
   _state(state),
   _player(player),
   _players(players),
+  _chat(chat),
   _handler(new ErrorHandler)
 {
   std::function<bool (Trame *)> func;
@@ -57,6 +60,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar
   _proto->addFunc("PLAYER", func);
   func = std::bind1st(std::mem_fun(&Core::map), this);
   _proto->addFunc("MAP", func);
+  func = std::bind1st(std::mem_fun(&Core::getChat), this);
+  _proto->addFunc("CHAT", func);
 
   (*_sockets)[TCP] = new Socket;
   (*_sockets)[UDP] = new Socket;
@@ -170,6 +175,13 @@ bool				Core::player(Trame *trame)
 {
   *_player = Player::deserialization((*trame)((*trame)[CONTENT]));
   *_state = CLIENT::PLAYING;
+  sendChat("LOL");
+  return (true);
+}
+
+bool				Core::getChat(Trame *trame)
+{
+  (**_chat)->addMsg((*trame)[CONTENT]["MESSAGE"].asString());
   return (true);
 }
 
@@ -383,6 +395,12 @@ void				Core::createPlayer(std::string const &name, std::string const &faction)
   Faction			*tmp = new Faction(faction);
 
   (*_proto).operator()<unsigned int const, std::string, Faction>("CREATE", _id, name, *tmp);
+}
+
+void				Core::sendChat(std::string const &msg)
+{
+  (*_proto).operator()<unsigned int const, int, std::string>("CHAT", _id, static_cast<int>((**_player)->getZone()),
+							     (**_player)->getName() + ": " + msg);
 }
 
 void				Core::init(void)

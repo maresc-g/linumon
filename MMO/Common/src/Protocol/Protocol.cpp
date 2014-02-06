@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Feb  5 16:01:03 2014 laurent ansel
+// Last update Thu Feb  6 13:09:17 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -47,7 +47,6 @@ Protocol::Protocol(bool const server):
       // (*this->_container)["SWITCH"] = &Protocol::dswitch;
       // (*this->_container)["DEADMOB"] = &Protocol::deadMob;
       // (*this->_container)["ENDBATTLE"] = &Protocol::endBattle;
-
     }
   else
     {
@@ -57,6 +56,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, std::string, Faction>("CREATE", &create);
       this->_container->load<unsigned int, int>("CHOOSEPLAYER", &choosePlayer);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate>("ENTITY", &entity);
+      this->_container->load<unsigned int, int, std::string>("CHAT", &chat);
     }
 }
 
@@ -127,6 +127,27 @@ bool			check(unsigned int const id)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["CHECK"];
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+
+bool			chat(unsigned int const id, int idZone, std::string msg)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["IDZONE"] = idZone;
+      (*trame)[CONTENT]["MESSAGE"] = msg;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
