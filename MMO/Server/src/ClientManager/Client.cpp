@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Feb  6 15:16:49 2014 laurent ansel
+// Last update Thu Feb  6 15:23:13 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -154,7 +154,7 @@ void				Client::move(Player::PlayerCoordinate *coord)
   if (this->_player && coord)
     this->_player->setCoord(*coord);
   ObjectPoolManager::getInstance()->setObject(trame, "trame");
-  Server::getInstance()->callProtocol<Trame *, Zone *>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()));
+  Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), false);
   /*
   ** random battle
   */
