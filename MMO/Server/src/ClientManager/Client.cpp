@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Feb  5 16:00:22 2014 laurent ansel
+// Last update Thu Feb  6 16:08:15 2014 alexis mestag
 //
 
 #include			"ClientManager/Client.hh"
@@ -137,10 +137,12 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
 {
   if (this->_user)
     {
+      Repository<Player>	*rp = &Database::getRepository<Player>();
       Player			*player = new Player(name);
 
       player->setFaction(*faction);
-      //      this->_user->addPlayer(*player);
+      this->_user->addPlayer(*player);
+      rp->persist(*player);
       return (true);
     }
   return (false);
