@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Wed Feb  5 18:15:11 2014 cyril jourdain
+// Last update Thu Feb  6 12:25:41 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -27,6 +27,8 @@ private:
   Sprite		*_mainPerso;
   sf::Clock		*_clock;
   sf::View		*_view;
+  sf::Sprite		*_spriteTest;
+  sf::Texture		*_textureTest;
   /* Here the attributes of the class */
 
 public:
