@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 13:44:43 2013 cyril jourdain
-// Last update Thu Feb  6 11:16:45 2014 cyril jourdain
+// Last update Thu Feb  6 11:26:13 2014 cyril jourdain
 //
 
 #include		"Qt/QSFMLWidget.hpp"
