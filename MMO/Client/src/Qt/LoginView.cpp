@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Oct 18 11:04:31 2013 cyril jourdain
-// Last update Wed Feb  5 11:27:08 2014 guillaume marescaux
+// Last update Thu Feb  6 14:27:43 2014 cyril jourdain
 //
 
 #include	<iostream>
@@ -18,6 +18,8 @@ LoginView::LoginView(QWidget *parent, WindowManager *wMan) :
   QWidget(parent),  _wMan(wMan)
 {
   ui.setupUi(this);
+  ui.le_Login->setText("Laurent");
+  ui.le_Pass->setText("yolo");
 }
 
 LoginView::~LoginView()

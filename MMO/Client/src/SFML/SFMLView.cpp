@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Thu Feb  6 13:40:06 2014 cyril jourdain
+// Last update Thu Feb  6 14:25:58 2014 cyril jourdain
 //
 
 #include		"SFML/SFMLView.hpp"
@@ -22,6 +22,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _pos.y = WIN_H / 2;
   _deltaPos.x = 0;
   _deltaPos.y = 0;
+  _moving = false;
 }
 
 SFMLView::~SFMLView()
@@ -70,35 +71,36 @@ void			SFMLView::checkKeys()
   float time = _clock->getElapsedTime().asMicroseconds();
   float px = time * PX_PER_SECOND / 1000000;
 
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !_moving)
     {
-      // _mainView->move(0,px);
-      // _mainPerso->move(0,px);
       _pos.y += 50;
       _deltaPos.y = 50;
+      _moving = true;
+      Client::getInstance()->move(CLIENT::DOWN);
     }
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !_moving)
     {
-      // _mainView->move(0,-px);
-      // _mainPerso->move(0,-px);
       _pos.y -= 50;
       _deltaPos.y = -50;
+      _moving = true;
+      Client::getInstance()->move(CLIENT::UP);
     }
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !_moving)
     {
-      // _mainView->move(-px,0);
-      // _mainPerso->move(-px,0);
       _pos.x -= 50;
       _deltaPos.x = -50;
+      _moving = true;
+      Client::getInstance()->move(CLIENT::LEFT);
     }
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !_moving)
     {
-      // _mainView->move(px,0);
-      // _mainPerso->move(px,0);
       _pos.x += 50;
       _deltaPos.x = 50;
+      _moving = true;
+      Client::getInstance()->move(CLIENT::RIGHT);
     }
-  moveMainPerso(time);
+  if (_moving)
+    moveMainPerso(time);
   setView(*_mainView);
 }
 
@@ -113,9 +115,10 @@ void			SFMLView::moveMainPerso(float const elapsedTime)
       _deltaPos.y -= px;
       if (_deltaPos.y <= 0)
 	{
-	  _mainView->move(0, -_deltaPos.y);
-	  _mainPerso->move(0, -_deltaPos.y);
+	  _mainView->move(0, _deltaPos.y);
+	  _mainPerso->move(0, _deltaPos.y);
 	  _deltaPos.y = 0;
+	  _moving = false;
 	}
     }
   if (_deltaPos.y < 0)
@@ -128,6 +131,7 @@ void			SFMLView::moveMainPerso(float const elapsedTime)
 	  _mainView->move(0, _deltaPos.y);
 	  _mainPerso->move(0, _deltaPos.y);
 	  _deltaPos.y = 0;
+	  _moving = false;
 	}
     }
   if (_deltaPos.x > 0)
@@ -136,7 +140,12 @@ void			SFMLView::moveMainPerso(float const elapsedTime)
       _mainPerso->move(px, 0);
       _deltaPos.x -= px;
       if (_deltaPos.x <= 0)
-	_deltaPos.x = 0;
+	{
+	  _mainView->move(_deltaPos.x, 0);
+	  _mainPerso->move(_deltaPos.x, 0);
+	  _deltaPos.x = 0;
+	  _moving = false;
+	}
     }
   if (_deltaPos.x < 0)
     {
@@ -144,9 +153,14 @@ void			SFMLView::moveMainPerso(float const elapsedTime)
       _mainPerso->move(-px, 0);
       _deltaPos.x += px;
       if (_deltaPos.x >= 0)
-	_deltaPos.x = 0;
+	{
+	  _mainView->move(_deltaPos.x, 0);
+	  _mainPerso->move(_deltaPos.x, 0);
+	  _deltaPos.x = 0;
+	  _moving = false;
+	}
     }
-
-  if (_wMan->getMainPlayer())
-    std::cout << (**(_wMan->getMainPlayer()))->getX() << std::endl;
+  std::cout << _mainPerso->getPosition().x << "/" << _mainPerso->getPosition().y << std::endl;
+  // if (**(_wMan->getMainPlayer()))
+  //   std::cout << (**(_wMan->getMainPlayer()))->getX() << std::endl;
 }

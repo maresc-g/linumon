@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Thu Feb  6 13:20:54 2014 cyril jourdain
+// Last update Thu Feb  6 13:59:40 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -33,6 +33,7 @@ private:
 
   sf::Vector2f		_pos;
   sf::Vector2f		_deltaPos;
+  bool			_moving;
 
 public:
   SFMLView(QWidget *, QPoint const &, QSize const &, WindowManager *_wMan);
