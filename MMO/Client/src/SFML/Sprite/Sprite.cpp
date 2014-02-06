@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Tue Feb  4 13:08:33 2014 cyril jourdain
+// Last update Wed Feb  5 16:21:13 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -109,12 +109,18 @@ void			Sprite::play(std::string const &name)
 {
   _current = name;
   _playing = true;
+  if (_current != "")
+    (*_anim)[_current]->play(true);
+
 }
 
 void			Sprite::play()
 {
   if (_current != "")
-    _playing = true;
+    {
+      _playing = true;
+      (*_anim)[_current]->play(true);
+    }
 }
 
 void			Sprite::pause()
@@ -125,6 +131,8 @@ void			Sprite::pause()
 void			Sprite::stop()
 {
   _playing = false;
+  if (_current != "")
+    (*_anim)[_current]->play(false);
   _current = "";
 }
 
