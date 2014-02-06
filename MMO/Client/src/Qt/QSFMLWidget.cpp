@@ -5,22 +5,27 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 13:44:43 2013 cyril jourdain
-// Last update Wed Jan 29 14:04:04 2014 cyril jourdain
+// Last update Thu Feb  6 11:26:13 2014 cyril jourdain
 //
 
 #include		"Qt/QSFMLWidget.hpp"
 #include                <Qt/qx11info_x11.h>
 #include                <X11/Xlib.h>
 
+#include <iostream>
+
 QSFMLWidget::QSFMLWidget(QWidget *parent, QPoint const &position, QSize const &size,
 			 unsigned int frameTime) :
-  QWidget(parent), _timer(new QTimer), _initialized(false)
+  QWidget(parent), sf::RenderWindow(), _timer(new QTimer), _initialized(false),
+  _mainView(new sf::View(sf::FloatRect(0,0, WIN_W, WIN_H)))
 {
   setAttribute(Qt::WA_PaintOnScreen);
   setAttribute(Qt::WA_OpaquePaintEvent);
   setAttribute(Qt::WA_NoSystemBackground);
  
   setFocusPolicy(Qt::StrongFocus);
+
+  parent->installEventFilter(this);
 
   move(position);
   resize(size);
@@ -44,6 +49,8 @@ void			QSFMLWidget::showEvent(QShowEvent *)
   connect(_timer, SIGNAL(timeout()), this, SLOT(repaint()));
   _timer->start();
   _initialized = true;
+  _mainView->setViewport(sf::FloatRect(0,0,1,1));
+  setView(*_mainView);
 }
 
 QPaintEngine*		QSFMLWidget::paintEngine() const
@@ -55,4 +62,17 @@ void			QSFMLWidget::paintEvent(QPaintEvent*)
 {
   onUpdate();
   display();
+}
+
+bool			QSFMLWidget::eventFilter(QObject *w, QEvent *event)
+{
+  if (event->type() == QEvent::Resize)
+    {
+      QResizeEvent *e = static_cast<QResizeEvent*>(event);
+      onResize(e);
+      //_mainView->setSize(e->size().width(), e->size().height());
+      //std::cout << e->size().width() << " " << e->size().height() << std::endl;
+      // setView(*_mainView);
+    }
+  return false;
 }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Wed Feb  5 12:56:09 2014 guillaume marescaux
+// Last update Thu Feb  6 13:35:21 2014 cyril jourdain
 //
 
 #include			"Client.hh"
@@ -16,7 +16,8 @@ Client::Client():
   _state(new MutexVar<CLIENT::eState>(CLIENT::LOGIN)),
   _player(new MutexVar<Player *>(NULL)),
   _players(new MutexVar<std::list<PlayerView *> *>(new std::list<PlayerView *>)),
-  _core(new Core(_state, _player, _players)),
+  _chat(new MutexVar<Chat *>(new Chat)),
+  _core(new Core(_state, _player, _players, _chat)),
   _manager(NULL)
 {
 }
@@ -30,10 +31,12 @@ Client::~Client()
 
 //------------------------------------END CTOR / DTOR------------------------------------------
 
+//-------------------------------------BEGIN METHODS-------------------------------------------
+
 void				Client::init(int ac, char **av)
 {
   _core->init();
-  _manager = new WindowManager(ac, av, _state, _players);
+  _manager = new WindowManager(ac, av, _state, _players, _player);
   _manager->exec();
   _core->quit();
 }
@@ -52,3 +55,15 @@ void				Client::create(std::string const &name, std::string const &faction)
 {
   _core->createPlayer(name, faction);
 }
+
+void				Client::move(CLIENT::eDirection dir)
+{
+  _core->move(dir);
+}
+
+void				Client::sendChat(std::string const &msg)
+{
+  _core->sendChat(msg);
+}
+
+//--------------------------------------END METHODS--------------------------------------------

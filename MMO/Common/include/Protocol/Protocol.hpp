@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Thu Feb  6 15:20:25 2014 antoine maitre
+// Last update Thu Feb  6 15:30:06 2014 antoine maitre
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -74,8 +74,9 @@ bool				create(unsigned int const id, std::string name, Faction faction);
 bool				choosePlayer(unsigned int const id, int playerId);
 bool				player(unsigned int const id, Player *player);
 bool				map(unsigned int const id, Zone *zone);
-bool				sendToAllClient(unsigned int const id, Trame *trame, Zone *zone);
+bool				sendToAllClient(unsigned int const id, Trame *trame, Zone *zone, bool const send);
 bool				entity(unsigned int const id, int playerId, Player::PlayerCoordinate coord);
-bool				removeEntity(unsigned int const id, int removeId);
+bool				removeEntity(unsigned int const id, int removeId, Zone *zone);
+bool				chat(unsigned int const id, int idZone, std::string msg);
 
 #endif

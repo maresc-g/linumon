@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Wed Feb  5 13:54:17 2014 laurent ansel
+// Last update Thu Feb  6 13:35:22 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -22,23 +22,17 @@
 #define	NB_CLIENTS_PER_THREAD	200
 #define	CLIENT_THREAD_MIN	10
 
-//typedef /*boost*/std::function<void (FD const)> function;
-typedef void (function)(FD const);
-
-class				ClientManager : public Singleton<ClientManager>, public Thread
+class				ClientManager : public Singleton<ClientManager>
 {
   friend class			Singleton<ClientManager>;
 
 private:
   std::vector<std::pair<ClientUpdater *, bool> >	*_updaters;
-  function			*_serverWriteFunc;
-  bool				_quit;
   Mutex				*_mutex;
   ClientManager();
   virtual ~ClientManager();
+
 public:
-  void				run();
-  void				setQuit(bool const quit);
   void				newClient(Header const &header, ISocketClient *tcp);
   void				setInfoClient(FD const fd, ISocketClient const *socket, std::string const &proto) const;
   void				setInfoClient(FD const fd) const;
@@ -48,8 +42,7 @@ public:
   void				setInfoClient(FD const fd, User *user) const;
   void				setInfoClient(FD const fd, Player::PlayerCoordinate *coord) const;
   void				sendListPlayers(FD const fd) const;
-  void				setWriteFunction(function *writeFunc);
-  void				newTrameToWrite(FD const fd, unsigned int const nbTrame) const;
+
 private:
   void				findWrite() const;
   bool				moveEntity(Trame * trame);
@@ -59,7 +52,5 @@ private:
   bool				userAlreadyConnected(FD const fd, User *user) const;
   void				initializeProtocolFunction() const;
 };
-
-void				*runClientManager(void *data);
 
 #endif

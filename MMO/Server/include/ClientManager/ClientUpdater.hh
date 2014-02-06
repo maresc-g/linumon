@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Wed Feb  5 13:56:14 2014 laurent ansel
+// Last update Thu Feb  6 13:38:17 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -26,6 +26,7 @@ private:
   Mutex				*_mutex;
   bool				_quit;
   std::map<Client *, std::list<ReadWriteAction * > * >	*_action;
+
 public:
   ClientUpdater(unsigned int const nbClient);
   virtual ~ClientUpdater();
@@ -34,7 +35,6 @@ public:
   bool				newClient(Header const &header, ISocketClient *client);
   bool				setInfo(FD const fd, ISocketClient const *client, std::string const &proto) const;
   bool				setInfo(FD const fd, bool const disconnect) const;
-  bool				setInfo(FD const fd, unsigned int const nbTrame) const;
   bool				setInfo(FD const fd, std::string const &name, Faction *Faction, bool &ok) const;
   bool				setInfo(FD const fd, unsigned int const idPlayer, bool const send) const;
   bool				setInfo(FD const fd, User *user) const;
@@ -44,8 +44,7 @@ public:
   void				canWrite(FD const fd, std::string const &protocole);
   bool				search(FD const fd) const;
   void				getClients(std::list<FD> &list) const;
-  unsigned int			getNbTrame(FD const fd) const;
-  bool				userAlreadyConnected(User *user) const;
+
 private:
   void				readTrame(Client *client, std::string const &protocole) const;
   void				writeTrame(Client *client, std::string const &protocole) const;

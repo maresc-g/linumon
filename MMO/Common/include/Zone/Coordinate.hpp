@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 16:59:07 2013 alexis mestag
-// Last update Wed Feb  5 15:24:06 2014 laurent ansel
+// Last update Thu Feb  6 13:29:58 2014 guillaume marescaux
 //
 
 #ifndef			__COORDINATE_HPP__
@@ -73,10 +73,10 @@ public:
 	  ObjectPoolManager::getInstance()->setObject(coord, "coordinateint");
 	else if (typeid(T) == typeid(double))
 	  ObjectPoolManager::getInstance()->setObject(coord, "coordinatedouble");
-	if (coord && trame["COORDINATE"].isMember("X") && trame["COORDINATE"].isMember("X"))
+	if (coord && trame["COORDINATE"].isMember("X") && trame["COORDINATE"].isMember("Y"))
 	  {
-	    coord->setX(trame["COORDINATE"]["X"].isDouble());
-	    coord->setY(trame["COORDINATE"]["Y"].isDouble());
+	    coord->setX(trame["COORDINATE"]["X"].asDouble());
+	    coord->setY(trame["COORDINATE"]["Y"].asDouble());
 	  }
       }
     return (coord);

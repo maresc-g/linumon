@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Wed Feb  5 13:56:38 2014 laurent ansel
+// Last update Thu Feb  6 13:34:40 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -25,9 +25,9 @@ private:
   bool				_use;
   FD				_id;
   std::map<std::string, ISocketClient *>	*_sockets;
-  int				_trame;
   User				*_user;
   Player			*_player;
+
 public:
   Client();
   virtual ~Client();
@@ -38,13 +38,10 @@ public:
   void				setSocket(ISocketClient const *socket, std::string const &proto);
   bool				writeTrame(Trame *trame, std::string const &proto);
   bool				readTrame(std::string &str, std::string const &proto);
-  void				addTrame(unsigned int const nb);
-  unsigned int			getNbTrame() const;
   void				addUser(User *user);
   bool				addPlayer(std::string const &name, Faction *faction);
   void				sendListPlayers();
   void				choosePlayer(unsigned int const idPlayer, bool const send);
-  bool				sameUser(User *user) const;
   void				move(Player::PlayerCoordinate *coord);
 };
 

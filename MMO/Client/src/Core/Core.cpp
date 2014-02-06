@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Feb  5 14:17:33 2014 guillaume marescaux
+// Last update Thu Feb  6 13:46:12 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -29,7 +29,9 @@ static void			*runThread(void *data)
 
 //-----------------------------------BEGIN CTOR / DTOR-----------------------------------------
 
-Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players):
+Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
+	   MutexVar<std::list<PlayerView *> *> *players,
+	   MutexVar<Chat *> *chat):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
@@ -42,6 +44,7 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar
   _state(state),
   _player(player),
   _players(players),
+  _chat(chat),
   _handler(new ErrorHandler)
 {
   std::function<bool (Trame *)> func;
@@ -57,6 +60,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar
   _proto->addFunc("PLAYER", func);
   func = std::bind1st(std::mem_fun(&Core::map), this);
   _proto->addFunc("MAP", func);
+  func = std::bind1st(std::mem_fun(&Core::getChat), this);
+  _proto->addFunc("CHAT", func);
 
   (*_sockets)[TCP] = new Socket;
   (*_sockets)[UDP] = new Socket;
@@ -161,21 +166,28 @@ bool				Core::handleError(Trame *trame)
 
 bool				Core::playerlist(Trame *trame)
 {
-  *_state = CLIENT::CHOOSE_PLAYER;
   *_players = User::deserialization(*trame);
+  *_state = CLIENT::CHOOSE_PLAYER;
   return (true);
 }
 
 bool				Core::player(Trame *trame)
 {
+  *_player = Player::deserialization((*trame)((*trame)[CONTENT]));
   *_state = CLIENT::PLAYING;
-  *_player = Player::deserialization(*trame);
   return (true);
 }
 
-bool				Core::map(Trame *trame)
+bool				Core::getChat(Trame *trame)
 {
-  Map::getInstance()->setZone(Zone::deserialization(trame));
+  (**_chat)->addMsg((*trame)[CONTENT]["MESSAGE"].asString());
+  return (true);
+}
+
+bool				Core::map(Trame *)
+{
+  Map::getInstance();
+  // Zone::deserialization(trame);
   return (true);
 }
 
@@ -352,18 +364,19 @@ void				Core::move(CLIENT::eDirection dir)
   Map				*map = Map::getInstance();
   Player::PlayerCoordinate::type	newX;
   Player::PlayerCoordinate::type	newY;
+  Zone				*zone;
 
   newX = (**_player)->getX() + (dir == CLIENT::LEFT ? -1 : (dir == CLIENT::RIGHT ? 1 : 0));
   newY = (**_player)->getY() + (dir == CLIENT::UP ? -1 : (dir == CLIENT::DOWN ? 1 : 0));
   map->lock();
-  map->unlock();
-  // entities = 
-  if (map->getZone().getCase(newX, newY)->getEntities()->size() == 0)
+  zone = map->getZone((**_player)->getZone());
+  if (zone && zone->getCase(newX, newY)->getEntities()->size() == 0)
     {
       (**_player)->setCoord(newX, newY);
       (*_proto).operator()<unsigned int const, int, Player::PlayerCoordinate>("ENTITY", _id, (**_player)->getId(),
-									      (**_player)->getCoord());
+  									      (**_player)->getCoord());
     }
+  map->unlock();
 }
 
 void				Core::connection(std::string const &pseudo, std::string const &pass)
@@ -381,6 +394,12 @@ void				Core::createPlayer(std::string const &name, std::string const &faction)
   Faction			*tmp = new Faction(faction);
 
   (*_proto).operator()<unsigned int const, std::string, Faction>("CREATE", _id, name, *tmp);
+}
+
+void				Core::sendChat(std::string const &msg)
+{
+  (*_proto).operator()<unsigned int const, int, std::string>("CHAT", _id, static_cast<int>((**_player)->getZone()),
+							     (**_player)->getName() + ": " + msg);
 }
 
 void				Core::init(void)

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Jan 28 13:21:19 2014 laurent ansel
-// Last update Wed Feb  5 16:33:48 2014 antoine maitre
+// Last update Wed Feb  5 16:03:05 2014 laurent ansel
 //
 
 # include			"Chat/Chat.hh"
@@ -66,7 +66,7 @@ void				Chat::run()
 	    {
 	      (*it).first = false;
 	      if ((zone = Map::getInstance()->getZone(static_cast<ZONE::eZone>((*trame)["CHAT"]["ZONE"].asInt()))))
-		Server::getInstance()->callProtocol<Trame *, Zone *>("SENDTOALLCLIENT", (*trame)[HEADER]["IDCLIENT"].asUInt(), (*it).second, zone);
+		Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", (*trame)[HEADER]["IDCLIENT"].asUInt(), (*it).second, zone, true);
 	    }
 	}
       _mutex->unlock();

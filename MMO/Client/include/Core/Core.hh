@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Wed Feb  5 13:21:53 2014 guillaume marescaux
+// Last update Thu Feb  6 12:59:21 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -24,6 +24,7 @@
 #include		"Common/eDirection.hh"
 #include		"ErrorHandler.hh"
 #include		"Entities/Faction.hh"
+#include		"Chat/Chat.hh"
 
 # define		CONNECT_FILE	"Res/Connection.json"
 
@@ -57,12 +58,14 @@ private:
   MutexVar<CLIENT::eState>		*_state;
   MutexVar<Player *>			*_player;
   MutexVar<std::list<PlayerView *> *>	*_players;
+  MutexVar<Chat *>			*_chat;
   ErrorHandler				*_handler;
 
 public:
 
   // Ctor / Dtor
-  Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players);
+  Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players,
+       MutexVar<Chat *> *chat);
   virtual ~Core();
 
   // Methods
@@ -76,6 +79,7 @@ public:
   void			loop(void);
   void			quit(void);
   void			move(CLIENT::eDirection dir);
+  void			sendChat(std::string const &msg);
 
 private:
 
@@ -91,6 +95,7 @@ private:
   bool			playerlist(Trame *trame);
   bool			player(Trame *trame);
   bool			map(Trame *trame);
+  bool			getChat(Trame *trame);
   bool			launchBattle(Trame *);
   bool			spell(Trame *);
   bool			spellEffect(Trame *);

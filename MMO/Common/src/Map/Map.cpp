@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Wed Feb  5 16:52:43 2014 antoine maitre
+// Last update Thu Feb  6 11:07:23 2014 guillaume marescaux
 //
 
 #include			"Map/Map.hh"
@@ -53,5 +53,5 @@ void				Map::lock() const
 
 void				Map::unlock() const
 {
-  this->_mutex->lock();
+  this->_mutex->unlock();
 }

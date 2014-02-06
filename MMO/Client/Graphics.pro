@@ -26,7 +26,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Common/eDirection.hh \
                 include/Core/Core.hh \
                 include/Core/ErrorHandler.hh \
-                include/Map/Map.hh
+                include/Chat/Chat.hh \
 
 SOURCES +=      src/main.cpp \
                 src/Qt/QSFMLWidget.cpp \
@@ -40,9 +40,10 @@ SOURCES +=      src/main.cpp \
                 src/SFML/Sprite/Animation.cpp \
                 src/SFML/Sprite/SpriteManager.cpp \
                 src/Client.cpp \
+                src/Chat/Chat.cpp \
                 src/Core/Core.cpp \
                 src/Core/ErrorHandler.cpp \
-                src/Map/Map.cpp \
+                ../Common/src/Map/Map.cpp \
                 ../Common/src/Crypto/Crypto.cpp \ 
                 ../Common/src/Mutex/AMutex.cpp \ 
                 ../Common/src/Mutex/UnixMutex.cpp \ 

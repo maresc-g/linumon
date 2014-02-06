@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:55:14 2013 laurent ansel
-// Last update Wed Feb  5 14:53:55 2014 laurent ansel
+// Last update Thu Feb  6 12:41:01 2014 laurent ansel
 //
 
 #include		<sstream>
@@ -55,7 +55,7 @@ void			Trame::setSize(size_t const size)
 
 bool			Trame::toString(std::string &content) const
 {
-  Json::StyledWriter	*writer = new Json::StyledWriter;
+  Json::FastWriter	*writer = new Json::FastWriter;
   size_t		pos;
   std::string		str(CONTENT + std::string(" : "));
 
@@ -72,7 +72,7 @@ bool			Trame::toString(std::string &content) const
 std::string		Trame::toString() const
 {
   std::string		content;
-  Json::StyledWriter	*writer = new Json::StyledWriter;
+  Json::FastWriter	*writer = new Json::FastWriter;
   size_t		pos;
   std::string		str(CONTENT + std::string(" : "));
 

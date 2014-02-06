@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:08:20 2014 cyril jourdain
-// Last update Tue Feb  4 12:49:15 2014 cyril jourdain
+// Last update Wed Feb  5 16:38:58 2014 cyril jourdain
 //
 
 #ifndef 		__ANIMATION_HH__
@@ -14,6 +14,8 @@
 #include		<vector>
 #include		<SFML/Graphics.hpp>
 #include		<SFML/System.hpp>
+
+#define			PX_PER_SECOND 100
 
 class			Animation
 {
@@ -35,6 +37,7 @@ public /* methods */ :
   void			update(sf::Clock &);
   sf::IntRect		*getCurrentCoord() const;
   void			addSprite(sf::IntRect const &coord);
+  void			play(bool);
 };
 
 #endif
