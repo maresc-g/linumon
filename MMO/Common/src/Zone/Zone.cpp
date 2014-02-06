@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Thu Feb  6 15:20:00 2014 antoine maitre
+// Last update Thu Feb  6 15:46:40 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -117,17 +117,17 @@ bool				compareValue(Case *case1, Case *case2)
 
 bool				Zone::serialization(Trame &trame) const
 {
-  int				i = 0;
+  int				i = 1;
 
   for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
-    if ((*it)->serialization(trame(trame[CONTENT]["ZONE"][i])))
+    if ((*it)->serialization(trame(trame[CONTENT]["ZONE"][std::to_string(i)])))
       i++;
   return (true);
 }
 
 void				Zone::deserialization(Trame const &trame)
 {
-  for (int i = 0; trame[CONTENT]["ZONE"].isMember(std::to_string(i)); i++)
+  for (int i = 1; trame[CONTENT]["ZONE"].isMember(std::to_string(i)); i++)
     {
       this->getCase(trame[CONTENT]["ZONE"][i]["X"].asInt(), trame[CONTENT]["ZONE"][i]["Y"].asInt())->deserialization(trame);
     }
