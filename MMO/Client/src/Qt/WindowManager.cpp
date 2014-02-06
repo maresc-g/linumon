@@ -5,17 +5,20 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Thu Feb  6 12:27:05 2014 cyril jourdain
+// Last update Thu Feb  6 13:08:28 2014 cyril jourdain
 //
 
 #include	"Qt/WindowManager.hh"
 #include	<iostream>
 
-WindowManager::WindowManager(int ac, char **av, MutexVar<CLIENT::eState> *state, MutexVar<std::list<PlayerView *> *> *players) :
+WindowManager::WindowManager(int ac, char **av, MutexVar<CLIENT::eState> *state,
+			     MutexVar<std::list<PlayerView *> *> *players,
+			     MutexVar<Player*> *player) :
   _app(new QApplication(ac, av)),
   _mainLayout(new QGridLayout),
   _mainFrame(new QFrame),
   _state(state),
+  _mainPlayer(player),
   _players(players)
 {
   _mainFrame->setWindowTitle("Qt SFML");
@@ -30,9 +33,9 @@ WindowManager::WindowManager(int ac, char **av, MutexVar<CLIENT::eState> *state,
   //_mainLayout->addWidget(_sfmlView);
   _mainFrame->setLayout(_mainLayout);
   _mainLayout->setMargin(0);
-  showSfmlView();
+  hideSfmlView();
   hideCharacter();
-  hideLogin();
+  showLogin();
 }
 
 WindowManager::~WindowManager()
@@ -90,4 +93,9 @@ void			WindowManager::hideSfmlView()
 MutexVar<CLIENT::eState>	*WindowManager::getState()
 {
   return _state;
+}
+
+MutexVar<Player*>		*WindowManager::getMainPlayer()
+{
+  return _mainPlayer;
 }
