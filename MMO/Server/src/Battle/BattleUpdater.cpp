@@ -5,17 +5,17 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Wed Feb  5 16:35:54 2014 antoine maitre
+// Last update Fri Feb  7 11:26:36 2014 alexis mestag
 //
 
 #include			"Battle/BattleUpdater.hh"
 #include			"Server/Server.hh"
 
 BattleUpdater::BattleUpdater()
-  : _quit(false), _mutex(new Mutex)
+  : Thread(), _quit(false), _mutex(new Mutex)
 {
   // this->_mutex->init();
-  // _mutex->lock();
+  // this->_mutex->lock();
   // this->create(&newBattle, this);
   // this->start();
 }
@@ -48,7 +48,6 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2)
     }
   return (true);
 }
-
 
 bool				BattleUpdater::spell(Trame *trame)
 {

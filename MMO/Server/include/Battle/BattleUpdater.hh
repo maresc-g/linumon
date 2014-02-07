@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:25:25 2014 antoine maitre
-// Last update Thu Feb  6 11:33:31 2014 antoine maitre
+// Last update Fri Feb  7 11:22:33 2014 alexis mestag
 //
 
 #ifndef					__BATTLEUPDATER_HH__
@@ -27,6 +27,7 @@ private:
   Mutex		                        *_mutex;
   std::list<Trame *>			_trames;
   std::list<Battle *>			*_battles;
+
 public:
   BattleUpdater();
   virtual ~BattleUpdater();

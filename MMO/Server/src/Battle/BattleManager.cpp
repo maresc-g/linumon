@@ -5,30 +5,43 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Thu Feb  6 15:23:21 2014 antoine maitre
+// Last update Fri Feb  7 11:21:43 2014 alexis mestag
 //
 
 #include			"Battle/BattleManager.hh"
 #include			"Server/Server.hh"
 
 BattleManager::BattleManager()
-  : _quit(false), _mutex(new Mutex)
+  : Singleton<BattleManager>(), _mutex(new Mutex)
 {
   this->_mutex->init();
-  this->_mutex->lock();
   std::function<bool (Trame *)> func;
 
-  func = std::bind1st(std::mem_fun(& BattleManager::capture), this);
+  func = std::bind1st(std::mem_fun(&BattleManager::capture), this);
   Server::getInstance()->addFuncProtocol("CAPTURE", func);
-  func = std::bind1st(std::mem_fun(& BattleManager::spell), this);
+  func = std::bind1st(std::mem_fun(&BattleManager::spell), this);
   Server::getInstance()->addFuncProtocol("SPELL", func);
-  func = std::bind1st(std::mem_fun(& BattleManager::dswitch), this);
+  func = std::bind1st(std::mem_fun(&BattleManager::dswitch), this);
   Server::getInstance()->addFuncProtocol("SWITCH", func);
 }
 
 BattleManager::~BattleManager()
 {
+  this->deleteBattleUpdaters();
+  this->_mutex->destroy();
+  delete _mutex;
+}
 
+void				BattleManager::deleteBattleUpdaters()
+{
+  static std::function<bool(BattleUpdaters *)>	battleUpdaterDeleter = [](BattleUpdater *bu) -> bool {
+    delete *bu;
+    return (true);
+  };
+
+  this->_mutex->lock();
+  _battleUpdaters.remove_if(battleUpdaterDeleter);
+  this->_mutex->unlock();
 }
 
 bool				BattleManager::spell(Trame *trame)
@@ -39,7 +52,8 @@ bool				BattleManager::spell(Trame *trame)
 
 bool				BattleManager::capture(Trame *trame)
 {
-  if ((*trame)[CONTENT]["CAPTURE"].isMember("IDBATTLE") && (*trame)[CONTENT]["CAPTURE"].isMember("TARGET"))
+  if ((*trame)[CONTENT]["CAPTURE"].isMember("IDBATTLE") &&
+      (*trame)[CONTENT]["CAPTURE"].isMember("TARGET"))
     {
       return (false);
     }
@@ -48,7 +62,9 @@ bool				BattleManager::capture(Trame *trame)
 
 bool				BattleManager::dswitch(Trame *trame)
 {
-  if ((*trame)[CONTENT]["SWITCH"].isMember("IDBATTLE") && (*trame)[CONTENT]["SWITCH"].isMember("TARGET") && (*trame)[CONTENT]["SWITCH"].isMember("NEWMOB"))
+  if ((*trame)[CONTENT]["SWITCH"].isMember("IDBATTLE") &&
+      (*trame)[CONTENT]["SWITCH"].isMember("TARGET") &&
+      (*trame)[CONTENT]["SWITCH"].isMember("NEWMOB"))
     {
       return (false);
     }
