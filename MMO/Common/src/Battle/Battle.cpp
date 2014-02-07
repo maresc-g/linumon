@@ -5,10 +5,12 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Feb  4 16:25:19 2014 antoine maitre
+// Last update Fri Feb  7 12:50:50 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
+
+static int				target_bis = -1;
 
 Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, Player *player1, Player *player2)
   : _id(id), _type(type),
@@ -50,8 +52,20 @@ Battle::eBattle 			Battle::getType() const
   return (this->_type);
 }
 
-bool					Battle::spell(unsigned int const target, Spell *spell)
+bool					Battle::spell(unsigned int const target, Spell *spell) //, int id_lanceur
 {
+  // if (spell->getType() == SPELL DE MARESC QUI CASSE LES COUILLES)
+  //   target_bis = lanceur;
+  // else
+  //   {
+  //     if (target_bis != -1)
+  // 	target = target_bis;
+  //     for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
+  // 	{
+  // 	  if ((*it)->getId() == target)
+  // 	    (*it) << spell;
+  // 	}
+  //   }
   (void) spell;
   (void) target;
   return (true);

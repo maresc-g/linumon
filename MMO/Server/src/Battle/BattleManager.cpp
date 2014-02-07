@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Fri Feb  7 11:21:43 2014 alexis mestag
+// Last update Fri Feb  7 12:22:47 2014 alexis mestag
 //
 
 #include			"Battle/BattleManager.hh"
@@ -55,7 +55,13 @@ bool				BattleManager::capture(Trame *trame)
   if ((*trame)[CONTENT]["CAPTURE"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["CAPTURE"].isMember("TARGET"))
     {
-      return (false);
+      for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
+	{
+	  (*it)->lock();
+	  (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	  (*it)->unlock();
+	}
+      return (true);
     }
   return (false);
 }
@@ -66,6 +72,12 @@ bool				BattleManager::dswitch(Trame *trame)
       (*trame)[CONTENT]["SWITCH"].isMember("TARGET") &&
       (*trame)[CONTENT]["SWITCH"].isMember("NEWMOB"))
     {
+      for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
+	{
+	  (*it)->lock();
+	  (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	  (*it)->unlock();
+	}
       return (false);
     }
   return (false);
