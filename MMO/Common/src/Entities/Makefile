@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Thu Feb  6 16:37:48 2014 laurent ansel
+## Last update Fri Feb  7 14:21:18 2014 laurent ansel
 ##
 
 ENTITIES_SRC=		User.cpp		\
@@ -25,6 +25,11 @@ ENTITIES_SRC=		User.cpp		\
 			Digitaliser.cpp		\
 			Level.cpp		\
 			Equipment.cpp		\
+			Inventory.cpp		\
+			Jobs.cpp		\
+			Job.cpp			\
+			JobModel.cpp		\
+			Craft.cpp		\
 			Stuff.cpp
 
 ENTITIES_SRC:=		$(addprefix $(ENTITIES)/, $(ENTITIES_SRC))

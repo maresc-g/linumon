@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 13:39:52 2014 alexis mestag
-// Last update Mon Feb  3 17:29:55 2014 alexis mestag
+// Last update Fri Feb  7 10:51:18 2014 alexis mestag
 //
 
 #ifndef			__DATABASE_HPP__
@@ -14,6 +14,7 @@
 # include		<odb/session.hxx>
 # include		<odb/database.hxx>
 # include		<odb/mysql/database.hxx>
+# include		<odb/mysql/exceptions.hxx>
 # include		"Utility/Singleton.hpp"
 
 # define DB_USER	"odbLinumonUser"

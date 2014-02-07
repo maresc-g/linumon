@@ -5,10 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:18:02 2013 alexis mestag
-// Last update Thu Feb  6 16:10:15 2014 laurent ansel
+// Last update Fri Feb  7 12:47:03 2014 laurent ansel
 //
 
 #include			"Entities/AItem.hh"
+#include			"Entities/Stuff.hh"
 
 AItem::AItem() :
   AEntity("", eEntity::ITEM),
@@ -52,4 +53,13 @@ AItem::eItem			AItem::getItemType() const
 void				AItem::setItemType(AItem::eItem const item)
 {
   this->_itemType = item;
+}
+
+AItem				*AItem::deserialization(Trame const &trame)
+{
+  AItem				*item = NULL;
+
+  if (trame.isMember("STUFF"))
+    item = reinterpret_cast<Stuff *>(Stuff::deserialization(trame));
+  return (item);
 }

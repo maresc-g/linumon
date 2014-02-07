@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:25:25 2014 antoine maitre
-// Last update Thu Feb  6 11:33:31 2014 antoine maitre
+// Last update Fri Feb  7 12:23:29 2014 alexis mestag
 //
 
 #ifndef					__BATTLEUPDATER_HH__
@@ -20,6 +20,8 @@
 # include				"Entities/Spell.hh"
 # include				"Utility/GenericSerialization.hpp"
 
+typedef std::function <bool (Trame *)> funcBattle;
+
 class					BattleUpdater : public Thread
 {
 private:
@@ -27,13 +29,19 @@ private:
   Mutex		                        *_mutex;
   std::list<Trame *>			_trames;
   std::list<Battle *>			*_battles;
+  std::map<std::string, funcBattle>     *_funcs;
+
 public:
   BattleUpdater();
   virtual ~BattleUpdater();
-  bool					newBattle(Player*, Player*);
+  void					lock();
+  void					unlock();
+  void					launch();
+  bool					newBattle(Player *player1, Player *player2);
   bool					spell(Trame *);
   bool					capture(Trame *);
   bool					dswitch(Trame *);
+  void					addTrame(Trame );
 };
 
 #endif
