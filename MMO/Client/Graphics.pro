@@ -84,6 +84,8 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/User.cpp \ 
                 ../Common/src/Entities/AStatEntity.cpp \ 
                 ../Common/src/Entities/Player.cpp \ 
+                ../Common/src/Entities/Stuff.cpp \ 
+                ../Common/src/Entities/Inventory.cpp \ 
                 ../Common/src/Entities/Faction.cpp \ 
                 ../Common/src/Utility/Nameable.cpp \ 
                 ../Common/src/Utility/Id.cpp

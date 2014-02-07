@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Thu Feb  6 16:34:30 2014 laurent ansel
+// Last update Fri Feb  7 11:35:55 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -79,7 +79,7 @@ Digitaliser			*Digitaliser::deserialization(Trame const &trame)
       digit = new Digitaliser;
       mobs = new Mobs;
       str << "MOB" << nb;
-      for (; !trame.isMember(str.str()) ; ++nb)
+      for (; !trame["DIGITALISER"].isMember(str.str()) ; ++nb)
 	{
 	  mobs->push_back(Mob::deserialization(trame(trame["DIGITALISER"][str.str()])));
 	  str.str("");

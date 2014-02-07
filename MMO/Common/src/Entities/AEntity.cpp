@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:53:28 2013 alexis mestag
-// Last update Thu Feb  6 15:45:16 2014 laurent ansel
+// Last update Fri Feb  7 12:21:48 2014 laurent ansel
 //
 
 #include			"Entities/AEntity.hh"
@@ -52,7 +52,7 @@ void				AEntity::setEntityType(AEntity::eEntity const entityType)
   _entityType = entityType;
 }
 
-#include "Entities/Player.hh"
+#include			"Entities/Player.hh"
 
 AEntity				*AEntity::deserialization(Trame  const &trame)
 {

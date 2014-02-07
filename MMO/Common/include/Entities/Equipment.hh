@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:26:08 2014 laurent ansel
-// Last update Thu Feb  6 16:37:25 2014 laurent ansel
+// Last update Fri Feb  7 12:50:58 2014 laurent ansel
 //
 
 #ifndef 			__EQUIPMENT_HH__
@@ -18,7 +18,7 @@
 class				Equipment : public ISerialization
 {
 private:
-  std::list<Stuff *>		*_stuffs;
+  std::list<Stuff *>		_stuffs;
 
 public:
   Equipment();
