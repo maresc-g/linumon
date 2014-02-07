@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:15:41 2013 cyril jourdain
-// Last update Thu Feb  6 13:06:00 2014 cyril jourdain
+// Last update Fri Feb  7 11:33:58 2014 guillaume marescaux
 //
 
 #ifndef 		__WINDOWMANAGER_HH__
@@ -16,8 +16,8 @@
 #include	<Qt/qpushbutton.h>
 #include	<Qt/qfile.h>
 #include	<Qt/qgridlayout.h>
-#include	"Qt/LoginView/LoginView.hh"
-#include	"Qt/CharacterView/CharacterView.hh"
+#include	"Qt/Views/LoginView.hh"
+#include	"Qt/Views/CharacterView.hh"
 #include	"SFML/SFMLView.hpp"
 #include	"Client.hh"
 #include	"Entities/Views/PlayerView.hh"

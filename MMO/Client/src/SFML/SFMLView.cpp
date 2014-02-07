@@ -5,14 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Thu Feb  6 14:25:58 2014 cyril jourdain
+// Last update Thu Feb  6 15:49:41 2014 guillaume marescaux
 //
 
 #include		"SFML/SFMLView.hpp"
 
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()), _mainPerso(NULL),
-  _clock(new sf::Clock())
+  _clock(new sf::Clock()), _spellBar(new SpellBarView(this, w))
 {
   _textureTest = new sf::Texture();
   _textureTest->loadFromFile("./Res/test.png");
@@ -23,6 +23,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _deltaPos.x = 0;
   _deltaPos.y = 0;
   _moving = false;
+  _spellBar->show();
 }
 
 SFMLView::~SFMLView()

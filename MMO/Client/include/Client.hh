@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Thu Feb  6 13:03:44 2014 guillaume marescaux
+// Last update Fri Feb  7 11:36:13 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -17,7 +17,7 @@
 #include			"Core/Core.hh"
 #include		        "SFML/SFMLView.hpp"
 #include		        "Qt/WindowManager.hh"
-#include			"Qt/LoginView/LoginView.hh"
+#include			"Qt/Views/LoginView.hh"
 #include			<Qt/qapplication.h>
 #include			<Qt/qframe.h>
 #include			<Qt/qpushbutton.h>

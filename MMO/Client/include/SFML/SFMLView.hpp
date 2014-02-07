@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Thu Feb  6 13:59:40 2014 cyril jourdain
+// Last update Fri Feb  7 11:35:59 2014 guillaume marescaux
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -13,11 +13,14 @@
 
 #include		"Qt/QSFMLWidget.hpp"
 #include		"Qt/WindowManager.hh"
+#include		"Qt/Views/SpellBarView.hh"
 
 #include		"SFML/Sprite/SpriteManager.hh"
 #include		"SFML/Sprite/Sprite.hh"
 
+
 class WindowManager;
+class			SpellBarView;
 
 class			SFMLView : public QSFMLWidget
 {
@@ -34,6 +37,7 @@ private:
   sf::Vector2f		_pos;
   sf::Vector2f		_deltaPos;
   bool			_moving;
+  SpellBarView		*_spellBar;
 
 public:
   SFMLView(QWidget *, QPoint const &, QSize const &, WindowManager *_wMan);

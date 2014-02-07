@@ -5,10 +5,10 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec 10 16:16:06 2013 cyril jourdain
-// Last update Tue Feb  4 16:05:49 2014 guillaume marescaux
+// Last update Fri Feb  7 11:32:57 2014 guillaume marescaux
 //
 
-#include		"Qt/CreateCharView/CreateCharView.hh"
+#include		"Qt/Views/CreateCharView.hh"
 #include		"Entities/Faction.hh"
 #include		<QMessageBox>
 #include		"Client.hh"

@@ -5,10 +5,10 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:05:10 2013 cyril jourdain
-// Last update Wed Feb  5 11:06:46 2014 guillaume marescaux
+// Last update Fri Feb  7 11:32:52 2014 guillaume marescaux
 //
 
-#include		"Qt/CharacterView/CharacterView.hh"
+#include		"Qt/Views/CharacterView.hh"
 #include		<iostream>
 #include		<unistd.h>
 #include		<QMessageBox>
