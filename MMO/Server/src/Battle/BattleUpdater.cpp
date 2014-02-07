@@ -5,24 +5,58 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Wed Feb  5 16:35:54 2014 antoine maitre
+// Last update Fri Feb  7 13:12:30 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
 #include			"Server/Server.hh"
 
 BattleUpdater::BattleUpdater()
-  : _quit(false), _mutex(new Mutex)
+  : _quit(false), _mutex(new Mutex), _funcs(new std::map<std::string, funcBattle>)
 {
-  // this->_mutex->init();
-  // _mutex->lock();
-  // this->create(&newBattle, this);
+  std::string str = "CAPTURE";
+  this->_mutex->init();
+  // (*this->_funcs)[str] = std::bind1st(std::mem_fun(& BattleUpdater::capture), this);
+  // str = "SWITCH"
+  // (*this->_funcs)[str] = std::bind1st(std::mem_fun(& BattleUpdater::dswitch), this);
+  // str = "SPELL"
+  // (*this->_funcs)[str] = std::bind1st(std::mem_fun(& BattleUpdater::spell), this);
+  //  this->create(&launch, this);
   // this->start();
+  
 }
 
 BattleUpdater::~BattleUpdater()
 {
+  delete _mutex;
+}
 
+void				BattleUpdater::lock()
+{
+  this->_mutex->lock();
+}
+
+void				BattleUpdater::unlock()
+{
+  this->_mutex->unlock();
+}
+
+void				BattleUpdater::addTrame(Trame trame)
+{
+  this->_trames.push_back(&trame);
+}
+
+void				BattleUpdater::launch()
+{
+  while (!_quit)
+    {
+      this->_mutex->lock();
+      if (!this->_trames.empty())
+	{
+	}
+      this->_mutex->unlock();
+      usleep(1000);
+    }
 }
 
 bool				BattleUpdater::newBattle(Player *player1, Player *player2)

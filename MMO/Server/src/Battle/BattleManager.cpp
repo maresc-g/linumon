@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Thu Feb  6 15:23:21 2014 antoine maitre
+// Last update Thu Feb  6 17:04:58 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -14,8 +14,6 @@
 BattleManager::BattleManager()
   : _quit(false), _mutex(new Mutex)
 {
-  this->_mutex->init();
-  this->_mutex->lock();
   std::function<bool (Trame *)> func;
 
   func = std::bind1st(std::mem_fun(& BattleManager::capture), this);
@@ -41,7 +39,13 @@ bool				BattleManager::capture(Trame *trame)
 {
   if ((*trame)[CONTENT]["CAPTURE"].isMember("IDBATTLE") && (*trame)[CONTENT]["CAPTURE"].isMember("TARGET"))
     {
-      return (false);
+      for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
+	{
+	  (*it)->lock();
+	  (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	  (*it)->unlock();
+	}
+      return (true);
     }
   return (false);
 }
@@ -50,6 +54,12 @@ bool				BattleManager::dswitch(Trame *trame)
 {
   if ((*trame)[CONTENT]["SWITCH"].isMember("IDBATTLE") && (*trame)[CONTENT]["SWITCH"].isMember("TARGET") && (*trame)[CONTENT]["SWITCH"].isMember("NEWMOB"))
     {
+      for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
+	{
+	  (*it)->lock();
+	  (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	  (*it)->unlock();
+	}
       return (false);
     }
   return (false);
