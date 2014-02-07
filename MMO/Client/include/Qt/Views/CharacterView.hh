@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:02:41 2013 cyril jourdain
-// Last update Tue Feb  4 14:47:31 2014 guillaume marescaux
+// Last update Fri Feb  7 11:35:45 2014 guillaume marescaux
 //
 
 #ifndef 		__CHARACTERVIEW_HH__
@@ -16,7 +16,7 @@
 #include		"ui_characterview.h"
 #include		"Qt/WindowManager.hh"
 #include		"Qt/CharDescription/CharDescription.hh"
-#include		"Qt/CreateCharView/CreateCharView.hh"
+#include		"Qt/Views/CreateCharView.hh"
 #include		<QScrollArea>
 #include		<QFrame>
 #include		<vector>
@@ -27,7 +27,7 @@ class			CharacterView : public QWidget
 {
   Q_OBJECT
 
-public: /* QT WIDGETS */
+private: /* QT WIDGETS */
   WindowManager		*_wMan;
   QGridLayout		*_layout;
   std::vector<CharDescription *> *_charList;
@@ -38,7 +38,7 @@ public: /* QT WIDGETS */
   QHBoxLayout		*_charLayout;
   CreateCharView	*_createCharView;
 
-public: /* ATTRIBUTES */
+private: /* ATTRIBUTES */
   unsigned int		_charNumber;
 
 public:

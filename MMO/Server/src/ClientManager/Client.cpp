@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Feb  6 13:46:13 2014 laurent ansel
+// Last update Thu Feb  6 16:12:12 2014 alexis mestag
 //
 
 #include			"ClientManager/Client.hh"
@@ -120,10 +120,12 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
 {
   if (this->_user)
     {
+      Repository<Player>	*rp = &Database::getRepository<Player>();
       Player			*player = new Player(name);
 
       player->setFaction(*faction);
-      // //      this->_user->addPlayer(*player);
+      this->_user->addPlayer(*player);
+      rp->persist(*player);
       return (true);
     }
   return (false);
@@ -143,7 +145,7 @@ void				Client::choosePlayer(unsigned int const id, bool const send)
   if (this->_player && send)
     {
       Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
-      // // Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()), false);
+      Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()));
     }
 }
 
@@ -154,7 +156,7 @@ void				Client::move(Player::PlayerCoordinate *coord)
   if (this->_player && coord)
     this->_player->setCoord(*coord);
   ObjectPoolManager::getInstance()->setObject(trame, "trame");
-  Server::getInstance()->callProtocol<Trame *, Zone *>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()));
+  Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), false);
   /*
   ** random battle
   */

@@ -5,12 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:57:30 2013 laurent ansel
-// Last update Thu Jan 30 16:29:18 2014 laurent ansel
+// Last update Thu Feb  6 14:51:36 2014 laurent ansel
 //
 
 #ifndef 			__TRAME_HH__
 # define 			__TRAME_HH__
 
+#include			<list>
 #include			"JsonFile/JsonFile.hh"
 #include			"Utility/CommonDefine.hh"
 
@@ -42,6 +43,7 @@ public:
   ** renvoie 0 si tout est bon x)
   */
   static int			toTrame(Trame &trame, std::string const &content);
+  static std::list<Trame *>	*toTrame(std::string const &str);
 };
 
 #endif

@@ -5,12 +5,12 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Oct 18 11:04:31 2013 cyril jourdain
-// Last update Thu Feb  6 14:27:43 2014 cyril jourdain
+// Last update Fri Feb  7 11:33:03 2014 guillaume marescaux
 //
 
 #include	<iostream>
 #include	<QMessageBox>
-#include	"Qt/LoginView/LoginView.hh"
+#include	"Qt/Views/LoginView.hh"
 #include	<unistd.h>
 #include	"Client.hh"
 

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Feb  6 13:46:12 2014 guillaume marescaux
+// Last update Thu Feb  6 15:27:26 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -96,7 +96,7 @@ void				Core::readFromSocket(eSocket sock)
   static char			buff[SIZE_BUFFER];
   static std::string		tmp;
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
-  Trame				*tmpTrame;
+  //  Trame				*tmpTrame;
   int				size;
   // Crypto			*crypto = Crypto::getInstance();
   std::string			decrypted;
@@ -121,9 +121,13 @@ void				Core::readFromSocket(eSocket sock)
       	    }
       	}
       // Trame::toTrame(*tmpTrame, decrypted);
-      tmpTrame = new Trame;
-      Trame::toTrame(*tmpTrame, tmp);
-      manager->pushTrame(tmpTrame, CircularBufferManager::READ_BUFFER);
+      std::list<Trame *> *list = Trame::toTrame(tmp);
+      // tmpTrame = new Trame;
+      // Trame::toTrame(*tmpTrame, tmp);
+      for (auto it = list->begin() ; it != list->end() ; ++it)
+	if (*it)
+	  manager->pushTrame(*it, CircularBufferManager::READ_BUFFER);
+      delete list;
     }
 }
 
@@ -184,10 +188,9 @@ bool				Core::getChat(Trame *trame)
   return (true);
 }
 
-bool				Core::map(Trame *)
+bool				Core::map(Trame *trame)
 {
-  Map::getInstance();
-  // Zone::deserialization(trame);
+  Map::getInstance()->getZone((**_player)->getZone())->deserialization(*trame);
   return (true);
 }
 

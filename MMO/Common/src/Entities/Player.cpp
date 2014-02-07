@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Feb  6 12:37:25 2014 laurent ansel
+// Last update Thu Feb  6 16:12:37 2014 alexis mestag
 //
 
 #include			<functional>
@@ -105,6 +105,7 @@ bool				Player::serialization(Trame &trame) const
 {
   bool				ret = true;
 
+  trame["PLAYER"]["ID"] = static_cast<int>(this->getId());
   trame["PLAYER"]["NAME"] = this->getName();
   trame["PLAYER"]["TYPE"] = this->getStatEntityType();
   this->_coord->serialization(trame(trame["PLAYER"]));
@@ -123,6 +124,7 @@ Player				*Player::deserialization(Trame const &trame)
   if (trame.isMember("PLAYER"))
     {
       player = new Player(trame["PLAYER"]["NAME"].asString());
+      player->setId(trame["PLAYER"]["ID"].asUInt());
       player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame["PLAYER"]["TYPE"].asInt()));
       player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));
       player->setFaction(*Faction::deserialization(trame(trame["PLAYER"])));
@@ -146,6 +148,11 @@ void				Player::setZone(ZONE::eZone const zone)
 User const			&Player::getUser() const
 {
   return (*this->_user);
+}
+
+void				Player::setUser(User const &user)
+{
+  _user = &user;
 }
 
 void				Player::deleteTalents()

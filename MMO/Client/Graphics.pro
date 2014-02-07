@@ -6,18 +6,19 @@ TEMPLATE = app
 TARGET = ../pfa-client
 DEPENDPATH += . include src
 INCLUDEPATH += . include ../Common/include
-FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui
+FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbar.ui
 LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp
 QMAKE_CXXFLAGS += -std=c++0x
 OBJECTS_DIR = ./obj
 
 # Input
 HEADERS +=      include/Qt/QSFMLWidget.hpp \
-                include/Qt/LoginView/LoginView.hh \
-                include/Qt/CharacterView/CharacterView.hh \
+                include/Qt/Views/LoginView.hh \
+                include/Qt/Views/CharacterView.hh \
+                include/Qt/Views/CreateCharView.hh \
+                include/Qt/Views/SpellBarView.hh \
                 include/Qt/WindowManager.hh \
                 include/Qt/CharDescription/CharDescription.hh \
-                include/Qt/CreateCharView/CreateCharView.hh \
                 include/SFML/SFMLView.hpp \
                 include/SFML/Sprite/Sprite.hh \
                 include/SFML/Sprite/Animation.hh \
@@ -30,11 +31,12 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
 
 SOURCES +=      src/main.cpp \
                 src/Qt/QSFMLWidget.cpp \
-                src/Qt/LoginView.cpp \
-                src/Qt/CharacterView.cpp \
+                src/Qt/Views/LoginView.cpp \
+                src/Qt/Views/CharacterView.cpp \
+                src/Qt/Views/CreateCharView.cpp \
+                src/Qt/Views/SpellBarView.cpp \
                 src/Qt/WindowManager.cpp \
                 src/Qt/CharDescription.cpp \
-                src/Qt/CreateCharView.cpp \
                 src/SFML/SFMLView.cpp \
                 src/SFML/Sprite/Sprite.cpp \
                 src/SFML/Sprite/Animation.cpp \

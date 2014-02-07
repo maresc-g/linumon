@@ -99,3 +99,16 @@ CreateCharView QPushButton#b_spritePerso2
 {
 	border-image:url(./Res/char2.png)
 }
+
+SpellBarView QPushButton
+{
+	width:32px;
+	height:32px;
+	border-image:url(./Res/emptySpell.png);
+}
+
+SpellBarView
+{
+	border:2px solid black;
+	background-color: #505050;
+}

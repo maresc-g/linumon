@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Wed Feb  5 15:44:10 2014 laurent ansel
+// Last update Thu Feb  6 15:21:48 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -69,20 +69,22 @@ public:
   void				setX(PlayerCoordinate::type const &x);
   void				setY(PlayerCoordinate::type const &y);
 
-  Faction const		&getFaction() const;
-  void			setFaction(Faction const &faction);
+  Faction const			&getFaction() const;
+  void				setFaction(Faction const &faction);
 
-  Digitaliser const	&getDigitaliser() const;
+  Digitaliser const		&getDigitaliser() const;
   // No setter for this attribute
 
-  ZONE::eZone		getZone() const;
-  void			setZone(ZONE::eZone const zone);
+  ZONE::eZone			getZone() const;
+  void				setZone(ZONE::eZone const zone);
 
   std::list<Talent *> const	&getTalents() const;
 
-  User const		&getUser() const;
+  User const			&getUser() const;
+  void				setUser(User const &user);
 
   void				capture(Mob const &mob);
+
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);
 };
