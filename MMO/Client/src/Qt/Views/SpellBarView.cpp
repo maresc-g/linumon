@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb  6 15:42:00 2014 guillaume marescaux
-// Last update Fri Feb  7 11:33:09 2014 guillaume marescaux
+// Last update Fri Feb  7 12:20:17 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/SpellBarView.hh"
