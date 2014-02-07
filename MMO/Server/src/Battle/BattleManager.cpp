@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Fri Feb  7 12:22:47 2014 alexis mestag
+// Last update Fri Feb  7 12:37:13 2014 alexis mestag
 //
 
 #include			"Battle/BattleManager.hh"
@@ -34,8 +34,8 @@ BattleManager::~BattleManager()
 
 void				BattleManager::deleteBattleUpdaters()
 {
-  static std::function<bool(BattleUpdaters *)>	battleUpdaterDeleter = [](BattleUpdater *bu) -> bool {
-    delete *bu;
+  static std::function<bool(BattleUpdater *)>	battleUpdaterDeleter = [](BattleUpdater *bu) -> bool {
+    delete bu;
     return (true);
   };
 
