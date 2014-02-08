@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Thu Feb  6 13:57:39 2014 laurent ansel
+// Last update Sat Feb  8 18:21:49 2014 laurent ansel
 //
 
 #include			<list>
@@ -67,6 +67,7 @@ Server::~Server()
   ClientManager::deleteInstance();
   ClientWriter::deleteInstance();
   Chat::deleteInstance();
+  delete this->_gameProtocol;
   Map::deleteInstance();
   delete _codeBreaker;
   Crypto::deleteInstance();
@@ -104,6 +105,9 @@ void				Server::init(int const port)
   ClientWriter::getInstance();
   Map::getInstance();
   _codeBreaker->start();
+  this->debug("Initialing GameProtocol ...");
+  this->_gameProtocol = new GameProtocol;
+  this->debug("Done");
   this->debug("Starting ObjectPoolManager ...");
   ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
   ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
