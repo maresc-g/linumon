@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:59:30 2013 alexis mestag
-// Last update Fri Feb  7 14:41:50 2014 laurent ansel
+// Last update Sat Feb  8 16:28:16 2014 laurent ansel
 //
 
 #ifndef			__AITEM_HH__
@@ -40,7 +40,7 @@ protected:
 public:
   AItem			&operator=(AItem const &rhs);
 
-  virtual bool		serialization(Trame &trame) const = 0;
+  virtual bool		serialization(Trame &trame) const;
   static AItem		*deserialization(Trame const &trame);
 };
 
