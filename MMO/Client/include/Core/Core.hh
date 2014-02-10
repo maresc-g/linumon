@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Thu Feb  6 12:59:21 2014 guillaume marescaux
+// Last update Mon Feb 10 13:18:25 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -72,14 +72,32 @@ public:
   void			init(void);
   void			read(int const timeout, bool const setTimeout);
   void			write();
+
   void			connection(std::string const &pseudo, std::string const &pass);
   void			choosePlayer(PlayerView const &player);
   void			createPlayer(std::string const &name, std::string const &faction);
   void			run(void);
   void			loop(void);
   void			quit(void);
-  void			move(CLIENT::eDirection dir);
+  bool			move(CLIENT::eDirection dir);
   void			sendChat(std::string const &msg);
+  // void				spell(unsigned int idBattle, void *spell, unsigned int target); // Change void * to Spell
+  void			capture(unsigned int idBattle, unsigned int target);
+  void			sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob);
+  //  void			stuff(void *action);
+  // void			talents();
+  // void			craft();
+  // void			gather();
+  void			useObject(unsigned int target, AItem const &item);
+  // void			unsigned interaction();
+  void			putItem(AItem const &item);
+  void			getItem(AItem const &item);
+  void			putMoney(unsigned int money);
+  void			getMoney(unsigned int money);
+  void			accept(void);
+  void			refuse(void);
+  void			heal(void);
+  void			disconnect(void);
 
 private:
 

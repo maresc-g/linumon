@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:08:03 2014 guillaume marescaux
-// Last update Fri Feb  7 14:12:50 2014 guillaume marescaux
+// Last update Fri Feb  7 14:56:38 2014 guillaume marescaux
 //
 
 #ifndef 		__STUFFVIEW_HH__
@@ -15,6 +15,7 @@
 #include		<Qt/qpainter.h>
 #include		"ui_stuffview.h"
 #include		"Qt/WindowManager.hh"
+#include		"Qt/Views/ItemView.hh"
 
 class			WindowManager;
 

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Fri Feb  7 11:36:13 2014 guillaume marescaux
+// Last update Mon Feb 10 13:18:34 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -25,6 +25,7 @@
 #include			<Qt/qgridlayout.h>
 #include			"Entities/Views/PlayerView.hh"
 #include			"Chat/Chat.hh"
+#include			"Entities/AItem.hh"
 
 class				Client : public Singleton<Client>
 {
@@ -52,8 +53,26 @@ public:
   void				connection(std::string const &pseudo, std::string const &pass);
   void				choosePlayer(PlayerView const &player);
   void				create(std::string const &name, std::string const &faction);
-  void				move(CLIENT::eDirection dir);
+  bool				move(CLIENT::eDirection dir);
   void				sendChat(std::string const &msg);
+  // void				spell(int idBattle, void *spell, int target); // Change void * to Spell
+  void				capture(unsigned int idBattle, unsigned int target);
+  void				sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob);
+  //  void				stuff(void *action);
+  // void				talents();
+  // void				craft();
+  // void				gather();
+  void				useObject(unsigned int target, AItem const &item);
+  // void				unsigned interaction();
+  void				putItem(AItem const &item);
+  void				getItem(AItem const &item);
+  void				putMoney(unsigned int money);
+  void				getMoney(unsigned int money);
+  void				accept(void);
+  void				refuse(void);
+  void				quit(void);
+  void				heal(void);
+  void				disconnect(void);
 };
 
 #endif

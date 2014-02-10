@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Feb  6 15:27:26 2014 guillaume marescaux
+// Last update Mon Feb 10 13:29:53 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -362,24 +362,28 @@ void				Core::read(int const timeout, bool const setTimeout)
   this->readFromSocket(Core::UDP);  
 }
 
-void				Core::move(CLIENT::eDirection dir)
+bool				Core::move(CLIENT::eDirection dir)
 {
   Map				*map = Map::getInstance();
   Player::PlayerCoordinate::type	newX;
   Player::PlayerCoordinate::type	newY;
   Zone				*zone;
+  bool				ret = false;
 
   newX = (**_player)->getX() + (dir == CLIENT::LEFT ? -1 : (dir == CLIENT::RIGHT ? 1 : 0));
   newY = (**_player)->getY() + (dir == CLIENT::UP ? -1 : (dir == CLIENT::DOWN ? 1 : 0));
   map->lock();
   zone = map->getZone((**_player)->getZone());
-  if (zone && zone->getCase(newX, newY)->getEntities()->size() == 0)
+  if (zone && zone->getCase(newX, newY)->getEntities()->size() == 0
+      && newX >= 0 && newY >= 0 && newX < zone->getSizeX() && newY < zone->getSizeY())
     {
       (**_player)->setCoord(newX, newY);
-      (*_proto).operator()<unsigned int const, int, Player::PlayerCoordinate>("ENTITY", _id, (**_player)->getId(),
-  									      (**_player)->getCoord());
+      (*_proto).operator()<unsigned int const, int, Player::PlayerCoordinate const *>("ENTITY", _id, (**_player)->getId(),
+  									      &(**_player)->getCoord());
+      ret = true;
     }
   map->unlock();
+  return (ret);
 }
 
 void				Core::connection(std::string const &pseudo, std::string const &pass)
@@ -396,13 +400,77 @@ void				Core::createPlayer(std::string const &name, std::string const &faction)
 {
   Faction			*tmp = new Faction(faction);
 
-  (*_proto).operator()<unsigned int const, std::string, Faction>("CREATE", _id, name, *tmp);
+  (*_proto).operator()<unsigned int const, std::string, Faction const *>("CREATE", _id, name, tmp);
+  delete tmp;
 }
 
 void				Core::sendChat(std::string const &msg)
 {
   (*_proto).operator()<unsigned int const, int, std::string>("CHAT", _id, static_cast<int>((**_player)->getZone()),
 							     (**_player)->getName() + ": " + msg);
+}
+
+// void				spell(unsigned int idBattle, void *spell, unsigned int target); // Change void * to Spell
+void				Core::capture(unsigned int idBattle, unsigned int target)
+{
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("CAPTURE", _id, idBattle, target);
+}
+
+void				Core::sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob)
+{
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int, unsigned int>("SWITCH", _id, idBattle, target, newMob);
+}
+
+//  void				stuff(void *action);
+// void				talents();
+// void				craft();
+// void				gather();
+
+void				Core::useObject(unsigned int target, AItem const &item)
+{
+  (*_proto).operator()<unsigned int const, unsigned int, AItem const *>("USEOBJECT", _id, target, &item);  
+}
+
+// void				unsigned interaction();
+
+void				Core::putItem(AItem const &item)
+{
+  (*_proto).operator()<unsigned int const, AItem const *>("PUTITEM", _id, &item);  
+}
+
+void				Core::getItem(AItem const &item)
+{
+  (*_proto).operator()<unsigned int const, AItem const *>("GETITEM", _id, &item);  
+}
+
+void				Core::putMoney(unsigned int money)
+{
+  (*_proto).operator()<unsigned int const, unsigned int>("PUTMONEY", _id, money);  
+}
+
+void				Core::getMoney(unsigned int money)
+{
+  (*_proto).operator()<unsigned int const, unsigned int>("GETMONEY", _id, money);  
+}
+
+void				Core::accept(void)
+{
+  (*_proto).operator()<unsigned int const>("ACCEPT", _id);  
+}
+
+void				Core::refuse(void)
+{
+  (*_proto).operator()<unsigned int const>("REFUSE", _id);  
+}
+
+void				Core::heal(void)
+{
+  (*_proto).operator()<unsigned int const>("HEAL", _id);  
+}
+
+void				Core::disconnect(void)
+{
+  (*_proto).operator()<unsigned int const>("DISCONNECT", _id);  
 }
 
 void				Core::init(void)

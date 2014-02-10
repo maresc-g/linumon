@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Thu Feb  6 15:46:40 2014 antoine maitre
+// Last update Mon Feb 10 10:29:45 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -132,3 +132,6 @@ void				Zone::deserialization(Trame const &trame)
       this->getCase(trame[CONTENT]["ZONE"][i]["X"].asInt(), trame[CONTENT]["ZONE"][i]["Y"].asInt())->deserialization(trame);
     }
 }
+
+int				Zone::getSizeX() const { return (_sizeX); }
+int				Zone::getSizeY() const { return (_sizeY); }

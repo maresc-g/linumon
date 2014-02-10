@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Thu Feb  6 13:35:21 2014 cyril jourdain
+// Last update Mon Feb 10 13:18:50 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -42,28 +42,50 @@ void				Client::init(int ac, char **av)
 }
 
 void				Client::connection(std::string const &pseudo, std::string const &pass)
-{
-  _core->connection(pseudo, pass);
-}
+{ _core->connection(pseudo, pass); }
 
-void				Client::choosePlayer(PlayerView const &player)
-{
-  _core->choosePlayer(player);
-}
+void				Client::choosePlayer(PlayerView const &player) { _core->choosePlayer(player); }
 
 void				Client::create(std::string const &name, std::string const &faction)
-{
-  _core->createPlayer(name, faction);
-}
+{ _core->createPlayer(name, faction); }
 
-void				Client::move(CLIENT::eDirection dir)
-{
-  _core->move(dir);
-}
+bool				Client::move(CLIENT::eDirection dir) { return (_core->move(dir)); }
 
-void				Client::sendChat(std::string const &msg)
-{
-  _core->sendChat(msg);
-}
+void				Client::sendChat(std::string const &msg) { _core->sendChat(msg); }
+
+// void				Client::spell(unsigned int idBattle, Spell *spell, unsigned int target) {}
+
+void				Client::capture(unsigned int idBattle, unsigned int target) { _core->capture(idBattle, target); }
+
+void				Client::sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob)
+{ _core->sendSwitch(idBattle, target, newMob); }
+
+// void				Client::stuff();
+
+// void				Client::talents();
+
+// void				Client::craft();
+
+// void				Client::gather();
+
+void				Client::useObject(unsigned int target, AItem const &item) { _core->useObject(target, item); }
+
+// void				Client::unsigned interaction();
+
+void				Client::putItem(AItem const &item) { _core->putItem(item); }
+
+void				Client::getItem(AItem const &item) { _core->getItem(item); }
+
+void				Client::putMoney(unsigned int money) { _core->putMoney(money); }
+
+void				Client::getMoney(unsigned int money) { _core->getMoney(money); }
+
+void				Client::accept(void) { _core->accept(); }
+
+void				Client::refuse(void) { _core->refuse(); }
+
+void				Client::heal(void) { _core->heal(); }
+
+void				Client::disconnect(void) { _core->disconnect(); }
 
 //--------------------------------------END METHODS--------------------------------------------

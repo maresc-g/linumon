@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Thu Feb  6 15:30:06 2014 antoine maitre
+// Last update Mon Feb 10 13:33:24 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -70,13 +70,28 @@ bool				error(unsigned int const id, Error *error);
 bool				playerlist(unsigned int const id, User *user);
 bool				initialize(unsigned int const id);
 bool				connection(unsigned int const id, std::string pseudo, std::string pass);
-bool				create(unsigned int const id, std::string name, Faction faction);
+bool				create(unsigned int const id, std::string name, Faction const *faction);
 bool				choosePlayer(unsigned int const id, int playerId);
 bool				player(unsigned int const id, Player *player);
 bool				map(unsigned int const id, Zone *zone);
 bool				sendToAllClient(unsigned int const id, Trame *trame, Zone *zone, bool const send);
-bool				entity(unsigned int const id, int playerId, Player::PlayerCoordinate coord);
+bool				entity(unsigned int const id, int playerId, Player::PlayerCoordinate const *coord);
 bool				removeEntity(unsigned int const id, int removeId, Zone *zone);
 bool				chat(unsigned int const id, int idZone, std::string msg);
+bool				capture(unsigned int const id, unsigned int idBattle, unsigned int target);
+//  bool				stuff(void *action);
+  // bool				talents();
+  // bool				craft();
+  // bool				gather();
+bool				useObject(unsigned int const id, unsigned int target, AItem const *item);
+// bool				interaction();
+bool				putItem(unsigned int const id, AItem const *item);
+bool				getItem(unsigned int const id, AItem const *item);
+bool				putMoney(unsigned int const id, unsigned int money);
+bool				getMoney(unsigned int const id, unsigned int money);
+bool				accept(unsigned int const id);
+bool				refuse(unsigned int const id);
+bool				heal(unsigned int const id);
+bool				disconnect(unsigned int const id);
 
 #endif

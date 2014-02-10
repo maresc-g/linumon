@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Thu Feb  6 15:07:00 2014 antoine maitre
+// Last update Mon Feb 10 10:29:10 2014 guillaume marescaux
 //
 
 #ifndef			__ZONE_HH__
@@ -52,6 +52,8 @@ public:
   std::list<Case *>	*getCases() const;
   virtual bool		serialization(Trame &trame) const;
   void			deserialization(Trame const &trame);
+  int			getSizeX() const;
+  int			getSizeY() const;
 };
 
 bool			sameValue(Case *, Case *);
