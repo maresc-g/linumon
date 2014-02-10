@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Mon Feb 10 15:40:17 2014 antoine maitre
+// Last update Mon Feb 10 16:31:07 2014 alexis mestag
 //
 
 #include			<iostream>
@@ -17,6 +17,10 @@ Zone::Zone(Json::Value const topography):
   _sizeY(topography["Y"].asInt()),
   _players(new std::list<AEntity *>),
   _cases(new std::list<Case *>)
+
+# ifdef	SERVER
+  , _dbZone(NULL)
+# endif
 {
   std::ostringstream		zone;
 
@@ -37,6 +41,17 @@ Zone::Zone(Json::Value const topography):
     }
   this->_cases->sort(compareValue);
   this->_cases->unique(sameValue);
+
+# ifdef	SERVER
+  Repository<DBZone>		*rz = Repository<DBZone>::getInstance();
+  DBZone			*z = rz->getByName(this->getName());
+
+  if (!z) {
+    std::cerr << "Error : DBZone '" << this->getName() << "' doesn't exist" << std::endl;
+  }
+
+  _dbZone = z;
+# endif
 }
 
 Zone::Zone(int const x, int const y, std::string const type)
@@ -144,3 +159,15 @@ void				Zone::move(Player::PlayerCoordinate const &source, Player::PlayerCoordin
 
 int				Zone::getSizeX() const { return (_sizeX); }
 int				Zone::getSizeY() const { return (_sizeY); }
+
+#ifdef	SERVER
+DBZone const			&Zone::getDBZone() const
+{
+  return (*_dbZone);
+}
+
+void				Zone::setDBZone(DBZone const &dbZone)
+{
+  _dbZone = &dbZone;
+}
+#endif

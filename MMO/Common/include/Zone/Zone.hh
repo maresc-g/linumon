@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Mon Feb 10 15:42:34 2014 antoine maitre
+// Last update Mon Feb 10 15:41:32 2014 alexis mestag
 //
 
 #ifndef			__ZONE_HH__
@@ -17,18 +17,11 @@
 # include		"Utility/Nameable.hh"
 # include		"Utility/GenericSerialization.hpp"
 # include		"Entities/Player.hh"
-
-// namespace		ZONE
-// {
-//   enum			eZone
-//     {
-//       NONE,
-//       PLAIN,
-//       ROCK
-//     };
-// };
-
 # include		"Case.hh"
+
+# ifdef	SERVER
+#  include		"Database/Repositories/DBZoneRepository.hpp"
+# endif
 
 class			Case;
 class			Player;
@@ -41,6 +34,13 @@ private:
   std::list<AEntity *>	*_players;
   std::string const	_type;
   std::list<Case *>	*_cases;
+
+# ifdef	SERVER
+  DBZone const		*_dbZone;
+
+  void			setDBZone(DBZone const &zone);
+# endif
+
 public:
   Zone(Json::Value topography);
   Zone(int const, int const, std::string const);
@@ -57,6 +57,10 @@ public:
   void			move(Player::PlayerCoordinate const &source, Player::PlayerCoordinate const &dest, AEntity *entity);
   int			getSizeX() const;
   int			getSizeY() const;
+
+# ifdef	SERVER
+  DBZone const		&getDBZone() const;
+# endif
 };
 
 bool			sameValue(Case *, Case *);

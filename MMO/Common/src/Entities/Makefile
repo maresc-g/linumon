@@ -5,51 +5,57 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Fri Feb  7 14:21:18 2014 laurent ansel
+## Last update Mon Feb 10 14:35:09 2014 alexis mestag
 ##
 
-ENTITIES_SRC=		User.cpp		\
-			AEntity.cpp		\
+ENTITIES_SRC=		AEntity.cpp		\
 			AItem.cpp		\
 			AStatEntity.cpp		\
 			ACharacter.cpp		\
-			Player.cpp		\
-			Players.cpp		\
+			Craft.cpp		\
+			DBZone.cpp		\
+			Digitaliser.cpp		\
+			Equipment.cpp		\
+			Faction.cpp		\
+			Inventory.cpp		\
+			Job.cpp			\
+			Jobs.cpp		\
+			JobModel.cpp		\
+			Level.cpp		\
 			Mob.cpp			\
 			MobModel.cpp		\
+			Player.cpp		\
+			Players.cpp		\
 			Type.cpp		\
+			TypeRelations.cpp	\
 			Spell.cpp		\
 			Spells.cpp		\
-			TypeRelations.cpp	\
-			Faction.cpp		\
-			Digitaliser.cpp		\
-			Level.cpp		\
-			Equipment.cpp		\
-			Inventory.cpp		\
-			Jobs.cpp		\
-			Job.cpp			\
-			JobModel.cpp		\
-			Craft.cpp		\
-			Stuff.cpp
+			Stuff.cpp		\
+			User.cpp
 
 ENTITIES_SRC:=		$(addprefix $(ENTITIES)/, $(ENTITIES_SRC))
 
 SRCCOMMON+=		$(ENTITIES_SRC)
 
-ODB_ENTITIES+=		User.hh			\
-			Player.hh		\
-			Players.hh		\
+ODB_ENTITIES+=		ACharacter.hh		\
+			AEntity.hh		\
+			AItem.hh		\
+			AStatEntity.hh		\
+			Craft.hh		\
+			DBZone.hh		\
 			Digitaliser.hh		\
+			Faction.hh		\
+			Job.hh			\
+			JobModel.hh		\
+			Level.hh		\
 			Mob.hh			\
 			MobModel.hh		\
-			ACharacter.hh		\
-			AStatEntity.hh		\
-			AEntity.hh		\
-			Type.hh			\
+			Player.hh		\
+			Players.hh		\
 			Spell.hh		\
 			Spells.hh		\
-			Faction.hh		\
-			Level.hh		\
+			Type.hh			\
+			User.hh			\
 			Views/UserView.hh	\
 			Views/PlayerView.hh
 

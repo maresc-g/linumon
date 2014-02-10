@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Fri Feb  7 13:12:05 2014 laurent ansel
+// Last update Fri Feb  7 14:52:05 2014 alexis mestag
 //
 
 #ifndef 		__STUFF_HH__
@@ -52,7 +52,7 @@ public:
 };
 
 # ifdef	ODB_COMPILER
-
+#  pragma db object(Stuff)
 # endif
 
 #endif

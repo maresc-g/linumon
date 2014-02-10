@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Thu Feb  6 14:26:11 2014 alexis mestag
+// Last update Mon Feb 10 16:28:03 2014 alexis mestag
 //
 
 #include			"Entities/Mob.hh"
@@ -20,6 +20,13 @@ Mob::Mob(Mob const &rhs) :
   Persistent(rhs), ACharacter(rhs)
 {
   *this = rhs;
+}
+
+Mob::Mob(MobModel const &model, unsigned int const level) :
+  Persistent(), ACharacter(model.getName(), eCharacter::MOB)
+{
+  this->setModel(model);
+  this->setLevel(Level(level));
 }
 
 Mob::~Mob()

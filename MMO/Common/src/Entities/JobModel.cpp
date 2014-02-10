@@ -5,16 +5,15 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:53:29 2014 laurent ansel
-// Last update Fri Feb  7 14:39:42 2014 laurent ansel
+// Last update Mon Feb 10 10:55:42 2014 alexis mestag
 //
 
 #include			<sstream>
 #include			"Entities/JobModel.hh"
 
 JobModel::JobModel():
-  Nameable(""),
   Persistent(),
-  _typeJob(eJob::NONE)
+  Nameable()
 {
 }
 
@@ -23,8 +22,8 @@ JobModel::~JobModel()
 }
 
 JobModel::JobModel(JobModel const &rhs):
-  Nameable(""),
-  Persistent(rhs)
+  Persistent(rhs),
+  Nameable(rhs)
 {
   *this = rhs;
 }
@@ -33,7 +32,7 @@ JobModel			&JobModel::operator=(JobModel const &rhs)
 {
   if (this != &rhs)
     {
-
+      this->setCrafts(rhs.getCrafts());
     }
   return (*this);
 }
@@ -48,16 +47,6 @@ void				JobModel::setCrafts(std::list<Craft *> const &list)
   this->_crafts = list;
 }
 
-JobModel::eJob			JobModel::getTypeJob() const
-{
-  return (this->_typeJob);
-}
-
-void				JobModel::setTypeJob(JobModel::eJob const typeJob)
-{
-  this->_typeJob = typeJob;
-}
-
 bool				JobModel::serialization(Trame &trame) const
 {
   bool				ret = true;
@@ -65,7 +54,6 @@ bool				JobModel::serialization(Trame &trame) const
   std::ostringstream		str;
 
   trame["JOBMODEL"]["CRAFTS"];
-  trame["JOBMODEL"]["TYPE"] = this->_typeJob;;
   trame["JOBMODEL"]["NAME"] = this->getName();
   for (auto it = this->_crafts.begin() ; it != this->_crafts.end() && ret; ++it)
     {
@@ -87,7 +75,6 @@ JobModel			*JobModel::deserialization(Trame const &trame)
   if (trame.isMember("JOBMODEL"))
     {
       jobModel = new JobModel;
-      jobModel->setTypeJob(static_cast<JobModel::eJob>(trame["JOBMODEL"]["TYPE"].asUInt()));
       jobModel->setName(trame["NAME"].asString());
       crafts = new std::list<Craft *>;
       str << "CRAFT" << nb;
@@ -101,4 +88,3 @@ JobModel			*JobModel::deserialization(Trame const &trame)
     }
   return (jobModel);
 }
-
