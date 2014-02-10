@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Feb  6 16:12:37 2014 alexis mestag
+// Last update Mon Feb 10 14:59:03 2014 laurent ansel
 //
 
 #include			<functional>
@@ -114,12 +114,16 @@ bool				Player::serialization(Trame &trame) const
   this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
+  this->_talentTree->serialization(trame(trame["PLAYER"]));
+  for (auto it = this->_talents.begin() ; it != this->_talents.end() ; ++it)
+    (*it)->serialization(trame(trame["PLAYER"]["TALENTS"]));
   return (ret);
 }
 
 Player				*Player::deserialization(Trame const &trame)
 {
   Player			*player = NULL;
+  std::list<Talent *>		*talents = NULL;
 
   if (trame.isMember("PLAYER"))
     {
@@ -131,8 +135,31 @@ Player				*Player::deserialization(Trame const &trame)
       player->setLevel(*Level::deserialization(trame(trame["PLAYER"])));
       player->setCurrentExp(trame["PLAYER"]["CURRENTEXP"].asInt());
       player->setZone(static_cast<ZONE::eZone>(trame["PLAYER"]["ZONE"].asInt()));
+      player->setTalentTree(*TalentTree::deserialization(trame(trame["PLAYER"])));
+
+      auto			members = trame["PLAYER"]["TALENTS"].getMemberNames();
+
+      talents = new std::list<Talent *>;
+      for (auto it = members.begin() ; it != members.end() ; ++it)
+	talents->push_back(Talent::deserialization(trame(trame["PLAYER"]["TALENTS"][*it])));
+      player->setTalents(*talents);
     }
   return (player);
+}
+
+void				Player::addTalent(Talent *talent)
+{
+  this->_talents.push_back(talent);
+}
+
+void				Player::setTalentTree(TalentTree const &tree)
+{
+  this->_talentTree = &tree;
+}
+
+void				Player::setTalents(std::list<Talent *> const &list)
+{
+  this->_talents = list;
 }
 
 ZONE::eZone			Player::getZone() const

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 12:50:05 2014 alexis mestag
-// Last update Mon Feb  3 13:43:55 2014 laurent ansel
+// Last update Mon Feb 10 12:46:55 2014 laurent ansel
 //
 
 #include			"Stats/TalentTree.hh"
@@ -52,15 +52,22 @@ void				TalentTree::setTalent(TalentModel const &talent)
   _talent = &talent;
 }
 
-bool				TalentTree::serialization(Trame &) const
+bool				TalentTree::serialization(Trame &trame) const
 {
   bool				ret = true;
 
+  this->_talent->serialization(trame(trame["TALENTTREE"]));
   return (ret);
 }
 
-TalentTree			*TalentTree::deserialization(Trame const &)
+TalentTree			*TalentTree::deserialization(Trame const &trame)
 {
   TalentTree			*talentTree = NULL;
+
+  if (trame.isMember("TALENTTREE"))
+    {
+      talentTree = new TalentTree;
+      talentTree->setTalent(*TalentModel::deserialization(trame(trame["TALENTTREE"])));
+    }
   return (talentTree);
 }

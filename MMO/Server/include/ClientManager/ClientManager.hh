@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Thu Feb  6 13:35:22 2014 laurent ansel
+// Last update Mon Feb 10 14:22:36 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -42,6 +42,7 @@ public:
   void				setInfoClient(FD const fd, User *user) const;
   void				setInfoClient(FD const fd, Player::PlayerCoordinate *coord) const;
   void				sendListPlayers(FD const fd) const;
+  void				setPlayerTalents(Trame *trame) const;
 
 private:
   void				findWrite() const;
