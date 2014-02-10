@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Feb  6 16:12:12 2014 alexis mestag
+// Last update Mon Feb 10 15:17:17 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -160,4 +160,10 @@ void				Client::move(Player::PlayerCoordinate *coord)
   /*
   ** random battle
   */
+}
+
+void				Client::updateTalents(Trame *trame) const
+{
+  TalentManager::updateTalents(trame, _player);
+  Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
 }

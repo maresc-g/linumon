@@ -16,7 +16,7 @@ CXXFLAGS      = -pipe -std=c++0x -march=x86-64 -mtune=generic -O2 -pipe -fstack-
 INCPATH       = -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I. -Iinclude -I../Common/include -I. -I.
 LINK          = g++
 LFLAGS        = -Wl,-O1,--sort-common,--as-needed,-z,relro -Wl,-O1
-LIBS          = $(SUBLIBS)  -L/usr/lib -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp -lQtGui -lQtCore -lpthread 
+LIBS          = $(SUBLIBS)  -L/usr/lib -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp -ldl -lQtGui -lQtCore -lpthread 
 AR            = ar cqs
 RANLIB        = 
 QMAKE         = /usr/bin/qmake-qt4
@@ -83,8 +83,15 @@ SOURCES       = src/main.cpp \
 		../Common/src/Thread/PthreadCondition.cpp \
 		../Common/src/Thread/UnixThread.cpp \
 		../Common/src/Protocol/Protocol.cpp \
+		../Common/src/Effects/EffectLib.cpp \
+		../Common/src/DynamicLibrary/UnixDynamicLibrary.cpp \
+		../Common/src/DynamicLibrary/ADynamicLibrary.cpp \
+		../Common/src/DynamicLibrary/DynamicLibrary.cpp \
 		../Common/src/Stats/Stats.cpp \
 		../Common/src/Stats/Stat.cpp \
+		../Common/src/Stats/TalentTree.cpp \
+		../Common/src/Stats/Talent.cpp \
+		../Common/src/Stats/TalentModel.cpp \
 		../Common/src/Trame/Trame.cpp \
 		../Common/src/Header/Header.cpp \
 		../Common/src/Entities/Spells.cpp \
@@ -155,8 +162,15 @@ OBJECTS       = obj/main.o \
 		obj/PthreadCondition.o \
 		obj/UnixThread.o \
 		obj/Protocol.o \
+		obj/EffectLib.o \
+		obj/UnixDynamicLibrary.o \
+		obj/ADynamicLibrary.o \
+		obj/DynamicLibrary.o \
 		obj/Stats.o \
 		obj/Stat.o \
+		obj/TalentTree.o \
+		obj/Talent.o \
+		obj/TalentModel.o \
 		obj/Trame.o \
 		obj/Header.o \
 		obj/Spells.o \
@@ -1090,11 +1104,32 @@ obj/UnixThread.o: ../Common/src/Thread/UnixThread.cpp
 obj/Protocol.o: ../Common/src/Protocol/Protocol.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Protocol.o ../Common/src/Protocol/Protocol.cpp
 
+obj/EffectLib.o: ../Common/src/Effects/EffectLib.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/EffectLib.o ../Common/src/Effects/EffectLib.cpp
+
+obj/UnixDynamicLibrary.o: ../Common/src/DynamicLibrary/UnixDynamicLibrary.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/UnixDynamicLibrary.o ../Common/src/DynamicLibrary/UnixDynamicLibrary.cpp
+
+obj/ADynamicLibrary.o: ../Common/src/DynamicLibrary/ADynamicLibrary.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ADynamicLibrary.o ../Common/src/DynamicLibrary/ADynamicLibrary.cpp
+
+obj/DynamicLibrary.o: ../Common/src/DynamicLibrary/DynamicLibrary.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/DynamicLibrary.o ../Common/src/DynamicLibrary/DynamicLibrary.cpp
+
 obj/Stats.o: ../Common/src/Stats/Stats.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Stats.o ../Common/src/Stats/Stats.cpp
 
 obj/Stat.o: ../Common/src/Stats/Stat.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Stat.o ../Common/src/Stats/Stat.cpp
+
+obj/TalentTree.o: ../Common/src/Stats/TalentTree.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/TalentTree.o ../Common/src/Stats/TalentTree.cpp
+
+obj/Talent.o: ../Common/src/Stats/Talent.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Talent.o ../Common/src/Stats/Talent.cpp
+
+obj/TalentModel.o: ../Common/src/Stats/TalentModel.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/TalentModel.o ../Common/src/Stats/TalentModel.cpp
 
 obj/Trame.o: ../Common/src/Trame/Trame.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/Trame.o ../Common/src/Trame/Trame.cpp

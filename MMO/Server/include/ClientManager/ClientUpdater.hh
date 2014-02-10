@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Thu Feb  6 13:38:17 2014 laurent ansel
+// Last update Mon Feb 10 14:24:46 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -44,6 +44,7 @@ public:
   void				canWrite(FD const fd, std::string const &protocole);
   bool				search(FD const fd) const;
   void				getClients(std::list<FD> &list) const;
+  bool				setTalents(Trame *trame) const;
 
 private:
   void				readTrame(Client *client, std::string const &protocole) const;

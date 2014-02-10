@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Feb 10 15:42:44 2014 antoine maitre
+// Last update Mon Feb 10 15:20:06 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -76,7 +76,11 @@ public:
   std::string			getZone() const;
   void				setZone(std::string const zone);
 
+  void				addTalent(Talent *talent);
   std::list<Talent *> const	&getTalents() const;
+  void				setTalents(std::list<Talent *> const &list);
+
+  void				setTalentTree(TalentTree const &tree);
 
   User const			&getUser() const;
   void				setUser(User const &user);

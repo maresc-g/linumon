@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Jan 30 12:41:57 2014 alexis mestag
-// Last update Wed Feb  5 13:48:24 2014 alexis mestag
+// Last update Mon Feb 10 12:45:45 2014 laurent ansel
 //
 
 #include			"Effects/EffectLib.hh"
@@ -65,4 +65,18 @@ IEffect				*EffectLib::getEffect()
   if (symbol)
     ret = symbol();
   return (ret);
+}
+
+bool				EffectLib::serialization(Trame &) const
+{
+  bool				ret = true;
+
+  return (ret);
+}
+
+EffectLib			*EffectLib::deserialization(Trame const &)
+{
+  EffectLib			*effectLib = NULL;
+
+  return (effectLib);
 }

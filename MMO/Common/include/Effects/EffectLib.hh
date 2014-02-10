@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Jan 30 12:30:55 2014 alexis mestag
-// Last update Wed Feb  5 13:39:20 2014 alexis mestag
+// Last update Mon Feb 10 12:42:32 2014 laurent ansel
 //
 
 #ifndef				__EFFECTLIB_HH__
@@ -15,8 +15,9 @@
 # include			"Utility/Nameable.hh"
 # include			"Effects/IEffect.hh"
 # include			"DynamicLibrary/DynamicLibrary.hh"
+# include			"Utility/ISerialization.hh"
 
-class				EffectLib : public Persistent, public Nameable
+class				EffectLib : public Persistent, public Nameable, public ISerialization
 {
   friend class			odb::access;
 
@@ -37,6 +38,9 @@ public:
   void				setPath(std::string const &path);
 
   IEffect			*getEffect();
+
+  virtual bool			serialization(Trame &trame) const;
+  static EffectLib		*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER
