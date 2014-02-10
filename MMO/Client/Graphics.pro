@@ -6,13 +6,8 @@ TEMPLATE = app
 TARGET = ../pfa-client
 DEPENDPATH += . include src
 INCLUDEPATH += . include ../Common/include
-<<<<<<< HEAD
-FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbar.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui
-LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp -ldl
-=======
 FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbar.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui
-LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp
->>>>>>> df437ebf45c85122306dfd4569c8c02beb69263f
+LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp -ldl
 QMAKE_CXXFLAGS += -std=c++0x
 OBJECTS_DIR = ./obj
 
