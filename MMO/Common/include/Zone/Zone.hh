@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Mon Feb 10 15:32:32 2014 antoine maitre
+// Last update Mon Feb 10 15:42:34 2014 antoine maitre
 //
 
 #ifndef			__ZONE_HH__
@@ -16,6 +16,7 @@
 # include		"Trame/Trame.hh"
 # include		"Utility/Nameable.hh"
 # include		"Utility/GenericSerialization.hpp"
+# include		"Entities/Player.hh"
 
 // namespace		ZONE
 // {
@@ -30,6 +31,7 @@
 # include		"Case.hh"
 
 class			Case;
+class			Player;
 
 class			Zone : public ISerialization, public Nameable
 {
@@ -53,6 +55,8 @@ public:
   virtual bool		serialization(Trame &trame) const;
   void			deserialization(Trame const &trame);
   void			move(Player::PlayerCoordinate const &source, Player::PlayerCoordinate const &dest, AEntity *entity);
+  int			getSizeX() const;
+  int			getSizeY() const;
 };
 
 bool			sameValue(Case *, Case *);

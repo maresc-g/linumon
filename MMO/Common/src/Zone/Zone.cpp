@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Mon Feb 10 15:33:00 2014 antoine maitre
+// Last update Mon Feb 10 15:40:17 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -141,3 +141,6 @@ void				Zone::move(Player::PlayerCoordinate const &source, Player::PlayerCoordin
   cas = this->getCase(dest.getX(), dest.getY());
   cas->addAEntity(entity);
 }
+
+int				Zone::getSizeX() const { return (_sizeX); }
+int				Zone::getSizeY() const { return (_sizeY); }

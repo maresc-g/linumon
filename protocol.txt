@@ -58,12 +58,14 @@
 			GATHER : {ressource : Ressource} -> client
 			-INVENTORY : {inventory : Inventory} -> server
 			-JOB : {job : Job} -> server
-			-CASE : {entities : list of AEntity} -> server (all clients)						
+			-CASE : {entities : list of AEntity} -> server (all clients)
 			#  end
 
 			#  use object
 			USEOBJECT : {target : ACharacter, item : AItem} -> client
 			-OBJECTEFFECT : {target : ACharacter} -> server
+			-INVENTORY : {inventory : Inventory} -> server
+			DELETEOBJECT : {item : AItem} -> client
 			-INVENTORY : {inventory : Inventory} -> server
 			#  end
 			# end

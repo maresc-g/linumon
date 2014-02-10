@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Thu Feb  6 16:15:54 2014 laurent ansel
+// Last update Sat Feb  8 16:28:51 2014 laurent ansel
 //
 
 #include			"Entities/Stuff.hh"
@@ -56,6 +56,7 @@ void				Stuff::setStuffType(Stuff::eStuff const stuffType)
 
 bool				Stuff::serialization(Trame &trame) const
 {
+  AItem::serialization(trame(trame["STUFF"]));
   trame["STUFF"]["NAME"] = this->getName();
   trame["STUFF"]["ID"] = static_cast<unsigned int>(this->getId());
   trame["STUFF"]["TYPE"] = this->getStuffType();

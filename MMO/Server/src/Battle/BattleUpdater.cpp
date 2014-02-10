@@ -5,14 +5,14 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Mon Feb 10 13:29:37 2014 antoine maitre
+// Last update Mon Feb 10 15:36:45 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
 #include			"Server/Server.hh"
 
 BattleUpdater::BattleUpdater()
-  : _quit(false), _mutex(new Mutex), _funcs(new std::map<std::string, funcBattle>)
+  : Thread(), _quit(false), _mutex(new Mutex), _funcs(new std::map<std::string, funcBattle>)
 {
   std::string str = "CAPTURE";
   this->_mutex->init();
@@ -81,7 +81,6 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2)
     }
   return (true);
 }
-
 
 bool				BattleUpdater::spell(Trame *trame)
 {

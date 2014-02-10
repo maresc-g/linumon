@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>stuffview</class>
+ <widget class="QWidget" name="stuffview">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>157</width>
+    <height>457</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>7</x>
+     <y>6</y>
+     <width>140</width>
+     <height>494</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout" columnstretch="0,0">
+    <item row="0" column="0">
+     <widget class="QLabel" name="labelCasque">
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Casque</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QWidget" name="widgetAnneau" native="true"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="labelEpau">
+      <property name="text">
+       <string>Epaulettes</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLabel" name="labelAnneau">
+      <property name="text">
+       <string>Anneau</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QLabel" name="labelSac1">
+      <property name="text">
+       <string>Sac</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1">
+     <widget class="QLabel" name="labelSac2">
+      <property name="text">
+       <string>Sac</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="labelCape">
+      <property name="text">
+       <string>Cape</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QWidget" name="widgetAmu" native="true"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QWidget" name="widgetCasque" native="true"/>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="labelPlastron">
+      <property name="text">
+       <string>Plastron</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QWidget" name="widgetBottes" native="true"/>
+    </item>
+    <item row="7" column="0">
+     <widget class="QWidget" name="widgetCape" native="true"/>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="labelBottes">
+      <property name="text">
+       <string>Bottes</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLabel" name="labelArme">
+      <property name="text">
+       <string>Arme</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QWidget" name="widgetSac1" native="true"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QWidget" name="widgetEpau" native="true"/>
+    </item>
+    <item row="5" column="1">
+     <widget class="QWidget" name="widgetArme" native="true"/>
+    </item>
+    <item row="9" column="1">
+     <widget class="QWidget" name="widgetSac2" native="true"/>
+    </item>
+    <item row="5" column="0">
+     <widget class="QWidget" name="widgetPlastron" native="true"/>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="labelAmu">
+      <property name="text">
+       <string>Amulette</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 11:51:11 2014 antoine maitre
-// Last update Mon Feb 10 12:13:53 2014 antoine maitre
+// Last update Mon Feb 10 15:48:37 2014 antoine maitre
 //
 
 #ifndef				__BATTLEMANAGER_HH__
@@ -14,16 +14,21 @@
 # include			"Utility/Singleton.hpp"
 # include			"BattleUpdater.hh"
 
-class				BattleManager : public Thread
+class				BattleManager : public Singleton<BattleManager>
 {
+  friend class			Singleton<BattleManager>;
+
 private:
-  bool                          _quit;
   Mutex                         *_mutex;
   std::list<BattleUpdater *>	_battleUpdaters;
-public:
+
+private:
   BattleManager();
   virtual ~BattleManager();
-  
+
+  void				deleteBattleUpdaters();
+
+public:
   bool				spell(Trame *);
   bool				capture(Trame *);
   bool				dswitch(Trame *);

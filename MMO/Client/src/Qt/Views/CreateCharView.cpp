@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec 10 16:16:06 2013 cyril jourdain
-// Last update Fri Feb  7 11:32:57 2014 guillaume marescaux
+// Last update Mon Feb 10 14:32:10 2014 guillaume marescaux
 //
 
 #include		"Qt/Views/CreateCharView.hh"
@@ -13,13 +13,14 @@
 #include		<QMessageBox>
 #include		"Client.hh"
 
-CreateCharView::CreateCharView(QWidget *parent) :
+CreateCharView::CreateCharView(QWidget *parent, WindowManager *man) :
   QWidget(parent)
 {
   ui.setupUi(this);
   _charType = FACTION1;
   ui.l_faction1->setText(FACTION1);
   ui.l_faction2->setText(FACTION2);
+  _wMan = man;
 }
 
 CreateCharView::~CreateCharView()
@@ -58,8 +59,12 @@ void		CreateCharView::on_b_validate_clicked()
   else
     {
       Client::getInstance()->create(ui.le_name->text().toStdString(), _charType);
+      while (**(_wMan->getState()) == CLIENT::CREATE)
+	usleep(1000);
+      _wMan->showCharacter();
+      // Maybe add state if error
+
       // _wMan->create();
       this->close();
-      // Need connexions, add to players list, etc ...
     }
 }

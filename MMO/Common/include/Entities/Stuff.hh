@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Thu Feb  6 16:21:25 2014 laurent ansel
+// Last update Fri Feb  7 13:12:05 2014 laurent ansel
 //
 
 #ifndef 		__STUFF_HH__
@@ -13,9 +13,8 @@
 
 # include		<functional>
 # include		"Entities/AItem.hh"
-# include		"Utility/ISerialization.hh"
 
-class			Stuff : public AItem, public ISerialization
+class			Stuff : public AItem
 {
   friend class		odb::access;
 

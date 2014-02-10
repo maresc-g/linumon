@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Feb 10 13:43:55 2014 antoine maitre
+// Last update Mon Feb 10 15:42:44 2014 antoine maitre
 //
 
 #ifndef			__PLAYER_HH__
@@ -19,10 +19,8 @@
 # include		"Stats/TalentTree.hh"
 # include		"Stats/Talent.hh"
 # include		"Zone/Coordinate.hpp"
-# include		"Zone/Zone.hh"
 # include		"Utility/ISerialization.hh"
 
-class			Zone;
 class			User;
 
 class			Player : public Persistent, public ACharacter, public ISerialization

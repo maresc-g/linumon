@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:25:25 2014 antoine maitre
-// Last update Mon Feb 10 13:29:54 2014 antoine maitre
+// Last update Mon Feb 10 15:48:18 2014 antoine maitre
 //
 
 #ifndef					__BATTLEUPDATER_HH__
@@ -22,7 +22,6 @@
 
 typedef std::function <bool (Trame *)> funcBattle;
 
-
 class					BattleUpdater : public Thread
 {
 private:
@@ -31,6 +30,7 @@ private:
   std::list<Trame *>			_trames;
   std::list<Battle *>			*_battles;
   std::map<std::string, funcBattle>     *_funcs;
+
 public:
   BattleUpdater();
   virtual ~BattleUpdater();

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Feb  6 14:35:30 2014 laurent ansel
+// Last update Mon Feb 10 14:12:10 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -41,7 +41,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, unsigned int>("DEADMOB", &deadMob);
       this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, std::list<AItem *>*>("ENDBATTLE", &endBattle);
-      this->_container->load<unsigned int, int, Player::PlayerCoordinate>("ENTITY", &entity);
+      this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
       this->_container->load<unsigned int, int, Zone *>("REMOVEENTITY", &removeEntity);
       // (*this->_container)["CAPTUREEFFECT"] = &Protocol::captureEffect;
       // (*this->_container)["SWITCH"] = &Protocol::dswitch;
@@ -53,10 +53,22 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("INITIALIZE", &initialize);
       this->_container->load<unsigned int, std::string, std::string>("CONNECTION", &connection);
       this->_container->load<unsigned int, Error *>("ERROR", &error);
-      this->_container->load<unsigned int, std::string, Faction>("CREATE", &create);
+      this->_container->load<unsigned int, std::string, Faction const *>("CREATE", &create);
       this->_container->load<unsigned int, int>("CHOOSEPLAYER", &choosePlayer);
-      this->_container->load<unsigned int, int, Player::PlayerCoordinate>("ENTITY", &entity);
+      this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
       this->_container->load<unsigned int, int, std::string>("CHAT", &chat);
+      this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
+      this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
+      this->_container->load<unsigned int, unsigned int, AItem const *>("USEOBJECT", &useObject);
+      this->_container->load<unsigned int, AItem const *>("PUTITEM", &putItem);
+      this->_container->load<unsigned int, AItem const *>("GETITEM", &getItem);
+      this->_container->load<unsigned int, unsigned int>("PUTMONEY", &putMoney);
+      this->_container->load<unsigned int, unsigned int>("GETMONEY", &getMoney);
+      this->_container->load<unsigned int>("ACCEPT", &accept);
+      this->_container->load<unsigned int>("REFUSE", &refuse);
+      this->_container->load<unsigned int>("HEAL", &heal);
+      this->_container->load<unsigned int>("DISCONNECT", &disconnect);
+      this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
     }
 }
 
@@ -174,7 +186,7 @@ bool		         initialize(unsigned int const id)
   return (false);
 }
 
-bool		         entity(unsigned int const id, int playerId, Player::PlayerCoordinate coord)
+bool		         entity(unsigned int const id, int playerId, Player::PlayerCoordinate const *coord)
 {
   Trame                 *trame;
   Header                *header;
@@ -183,7 +195,7 @@ bool		         entity(unsigned int const id, int playerId, Player::PlayerCoordin
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("UDP");
-  if (header->serialization(*trame) && coord.serialization((*trame)((*trame)["ENTITY"])))
+  if (header->serialization(*trame) && coord->serialization((*trame)((*trame)["ENTITY"])))
     {
       (*trame)[CONTENT]["ENTITY"]["ID"] = playerId;
       trame->setEnd(true);
@@ -232,7 +244,7 @@ bool			connection(unsigned int const id, std::string pseudo, std::string pass)
   return (false);
 }
 
-bool			create(unsigned int const id, std::string name, Faction faction)
+bool			create(unsigned int const id, std::string name, Faction const *faction)
 {
   Trame                 *trame;
   Header                *header;
@@ -244,7 +256,7 @@ bool			create(unsigned int const id, std::string name, Faction faction)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["CREATE"]["NAME"] = name;
-      faction.serialization((*trame)((*trame)[CONTENT]["CREATE"]));
+      faction->serialization((*trame)((*trame)[CONTENT]["CREATE"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
@@ -516,6 +528,178 @@ bool			endBattle(unsigned int const id,
       (*trame)[CONTENT]["ENDBATTLE"]["EXP"] = exp;
       (void) items;
       // (*trame)[CONTENT]["ENDBATTLE"]["ITEMS"] = std::get<1>(*params);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			useObject(unsigned int const id, unsigned int target, AItem const *item)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["USEOBJECT"]["TARGET"] = target;
+      (*trame)[CONTENT]["USEOBJECT"]["ITEM"] = item->serialization((*trame)((*trame)[CONTENT]["USEOBJECT"]["ITEM"]));
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			putItem(unsigned int const id, AItem const *item)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["PUTITEM"] = item->serialization((*trame)((*trame)[CONTENT]["GETITEM"]));
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			getItem(unsigned int const id, AItem const *item)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["GETITEM"] = item->serialization((*trame)((*trame)[CONTENT]["GETITEM"]));
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			putMoney(unsigned int const id, unsigned int money)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["PUTMONEY"] = money;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			getMoney(unsigned int const id, unsigned int money)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["GETMONEY"] = money;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			accept(unsigned int const id)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["ACCEPT"];
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			refuse(unsigned int const id)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["REFUSE"];
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			heal(unsigned int const id)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["HEAL"];
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			disconnect(unsigned int const id)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["DISCONNECT"];
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }

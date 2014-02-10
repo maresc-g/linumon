@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:02:41 2013 cyril jourdain
-// Last update Fri Feb  7 11:35:45 2014 guillaume marescaux
+// Last update Mon Feb 10 14:22:06 2014 guillaume marescaux
 //
 
 #ifndef 		__CHARACTERVIEW_HH__
@@ -22,6 +22,7 @@
 #include		<vector>
 
 class			WindowManager;
+class			CreateCharView;
 
 class			CharacterView : public QWidget
 {

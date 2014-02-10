@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:59:30 2013 alexis mestag
-// Last update Thu Feb  6 16:20:57 2014 laurent ansel
+// Last update Sat Feb  8 16:28:16 2014 laurent ansel
 //
 
 #ifndef			__AITEM_HH__
@@ -13,8 +13,9 @@
 
 # include		<functional>
 # include		"Entities/AEntity.hh"
+# include		"Utility/ISerialization.hh"
 
-class			AItem : public AEntity
+class			AItem : public AEntity, public ISerialization
 {
   friend class		odb::access;
 
@@ -33,10 +34,14 @@ protected:
   AItem(AItem const &rhs);
   virtual ~AItem();
 
-  AItem			&operator=(AItem const &rhs);
-
   AItem::eItem		getItemType() const;
   void			setItemType(AItem::eItem const type);
+
+public:
+  AItem			&operator=(AItem const &rhs);
+
+  virtual bool		serialization(Trame &trame) const;
+  static AItem		*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

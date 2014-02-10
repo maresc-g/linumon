@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Thu Feb  6 13:42:14 2014 laurent ansel
+// Last update Sat Feb  8 18:17:49 2014 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -27,6 +27,7 @@
 #include			"Utility/FunctorContainer.hpp"
 #include			"Mutex/MutexVar.hpp"
 #include			"ClientWriter/ClientWriter.hh"
+#include			"GameProtocol/GameProtocol.hh"
 
 class				Server : public Singleton<Server>
 {
@@ -40,6 +41,7 @@ private:
   Mutex				*_protoMutex;
   CodeBreaker			*_codeBreaker;
   Protocol			*_protocol;
+  GameProtocol			*_gameProtocol;
 
   Server(/*int const port*/);
   virtual ~Server();

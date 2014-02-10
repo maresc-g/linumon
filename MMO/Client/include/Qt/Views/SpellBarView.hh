@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb  6 15:32:26 2014 guillaume marescaux
-// Last update Fri Feb  7 10:53:57 2014 guillaume marescaux
+// Last update Fri Feb  7 12:17:14 2014 guillaume marescaux
 //
 
 #ifndef 		__SPELLBARVIEW_HH__
