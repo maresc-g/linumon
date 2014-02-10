@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Feb  6 16:12:37 2014 alexis mestag
+// Last update Mon Feb 10 13:47:16 2014 antoine maitre
 //
 
 #include			<functional>
@@ -13,14 +13,14 @@
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _zone(ZONE::eZone::NONE), _talentTree(NULL)
+  _faction(NULL), _zone("NONE"), _talentTree(NULL)
 {
 
 }
 
 Player::Player(std::string const &name) :
   Persistent(), ACharacter(name, eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _zone(ZONE::eZone::NONE), _talentTree(NULL)
+  _faction(NULL), _zone("NONE"), _talentTree(NULL)
 {
 
 }
@@ -130,17 +130,17 @@ Player				*Player::deserialization(Trame const &trame)
       player->setFaction(*Faction::deserialization(trame(trame["PLAYER"])));
       player->setLevel(*Level::deserialization(trame(trame["PLAYER"])));
       player->setCurrentExp(trame["PLAYER"]["CURRENTEXP"].asInt());
-      player->setZone(static_cast<ZONE::eZone>(trame["PLAYER"]["ZONE"].asInt()));
+      player->setZone(trame["PLAYER"]["ZONE"].asString());
     }
   return (player);
 }
 
-ZONE::eZone			Player::getZone() const
+std::string			Player::getZone() const
 {
   return (_zone);
 }
 
-void				Player::setZone(ZONE::eZone const zone)
+void				Player::setZone(std::string const zone)
 {
   _zone = zone;
 }

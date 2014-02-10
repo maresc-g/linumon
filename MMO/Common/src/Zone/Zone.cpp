@@ -5,17 +5,17 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Thu Feb  6 15:46:40 2014 antoine maitre
+// Last update Mon Feb 10 15:33:00 2014 antoine maitre
 //
 
 #include			<iostream>
 #include			"Zone/Zone.hh"
 
 Zone::Zone(Json::Value const topography):
+  Nameable(topography["Type"].asString()),
   _sizeX(topography["X"].asInt()),
   _sizeY(topography["Y"].asInt()),
   _players(new std::list<AEntity *>),
-  _type(static_cast<const ZONE::eZone>(topography["Type"].asInt())),
   _cases(new std::list<Case *>)
 {
   std::ostringstream		zone;
@@ -39,7 +39,7 @@ Zone::Zone(Json::Value const topography):
   this->_cases->unique(sameValue);
 }
 
-Zone::Zone(int const x, int const y, ZONE::eZone const type)
+Zone::Zone(int const x, int const y, std::string const type)
   : _sizeX(x), _sizeY(y), _type(type), _cases(new std::list<Case*>)
 {
   
@@ -131,4 +131,13 @@ void				Zone::deserialization(Trame const &trame)
     {
       this->getCase(trame[CONTENT]["ZONE"][i]["X"].asInt(), trame[CONTENT]["ZONE"][i]["Y"].asInt())->deserialization(trame);
     }
+}
+
+void				Zone::move(Player::PlayerCoordinate const &source, Player::PlayerCoordinate const &dest, AEntity *entity)
+{
+  Case				*cas = this->getCase(source.getX(), source.getY());
+
+  cas->delAEntity(entity);
+  cas = this->getCase(dest.getX(), dest.getY());
+  cas->addAEntity(entity);
 }

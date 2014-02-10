@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Feb  6 15:21:48 2014 alexis mestag
+// Last update Mon Feb 10 13:43:55 2014 antoine maitre
 //
 
 #ifndef			__PLAYER_HH__
@@ -43,7 +43,7 @@ private:
   PlayerCoordinate		*_coord;
   Faction const			*_faction;
   Digitaliser			_digitaliser;
-  ZONE::eZone			_zone;
+  std::string			_zone;
   TalentTree const		*_talentTree;
   std::list<Talent *>		_talents;
   User const			*_user;
@@ -75,8 +75,8 @@ public:
   Digitaliser const		&getDigitaliser() const;
   // No setter for this attribute
 
-  ZONE::eZone			getZone() const;
-  void				setZone(ZONE::eZone const zone);
+  std::string			getZone() const;
+  void				setZone(std::string const zone);
 
   std::list<Talent *> const	&getTalents() const;
 

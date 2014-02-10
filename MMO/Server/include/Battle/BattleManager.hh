@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 11:51:11 2014 antoine maitre
-// Last update Thu Feb  6 17:04:33 2014 antoine maitre
+// Last update Mon Feb 10 12:13:53 2014 antoine maitre
 //
 
 #ifndef				__BATTLEMANAGER_HH__
