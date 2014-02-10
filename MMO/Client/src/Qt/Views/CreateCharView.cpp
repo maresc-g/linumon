@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec 10 16:16:06 2013 cyril jourdain
-// Last update Mon Feb 10 14:21:56 2014 cyril jourdain
+// Last update Mon Feb 10 14:32:10 2014 guillaume marescaux
 //
 
 #include		"Qt/Views/CreateCharView.hh"
@@ -61,6 +61,7 @@ void		CreateCharView::on_b_validate_clicked()
       Client::getInstance()->create(ui.le_name->text().toStdString(), _charType);
       while (**(_wMan->getState()) == CLIENT::CREATE)
 	usleep(1000);
+      _wMan->showCharacter();
       // Maybe add state if error
 
       // _wMan->create();

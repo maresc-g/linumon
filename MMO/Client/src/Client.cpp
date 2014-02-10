@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Mon Feb 10 13:18:50 2014 guillaume marescaux
+// Last update Mon Feb 10 14:11:33 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -53,7 +53,8 @@ bool				Client::move(CLIENT::eDirection dir) { return (_core->move(dir)); }
 
 void				Client::sendChat(std::string const &msg) { _core->sendChat(msg); }
 
-// void				Client::spell(unsigned int idBattle, Spell *spell, unsigned int target) {}
+void				Client::spell(unsigned int idBattle, Spell const &spell, unsigned int target)
+{ _core->spell(idBattle, spell, target); }
 
 void				Client::capture(unsigned int idBattle, unsigned int target) { _core->capture(idBattle, target); }
 

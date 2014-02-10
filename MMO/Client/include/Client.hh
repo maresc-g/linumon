@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Mon Feb 10 13:18:34 2014 guillaume marescaux
+// Last update Mon Feb 10 14:14:14 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -55,7 +55,7 @@ public:
   void				create(std::string const &name, std::string const &faction);
   bool				move(CLIENT::eDirection dir);
   void				sendChat(std::string const &msg);
-  // void				spell(int idBattle, void *spell, int target); // Change void * to Spell
+  void				spell(unsigned int idBattle, Spell const &spell, unsigned int target);
   void				capture(unsigned int idBattle, unsigned int target);
   void				sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob);
   //  void				stuff(void *action);

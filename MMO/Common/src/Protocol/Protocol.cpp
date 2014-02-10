@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Feb 10 13:28:12 2014 guillaume marescaux
+// Last update Mon Feb 10 14:12:10 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -68,6 +68,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("REFUSE", &refuse);
       this->_container->load<unsigned int>("HEAL", &heal);
       this->_container->load<unsigned int>("DISCONNECT", &disconnect);
+      this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
     }
 }
 

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Mon Feb 10 13:18:25 2014 guillaume marescaux
+// Last update Mon Feb 10 14:09:49 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -81,7 +81,7 @@ public:
   void			quit(void);
   bool			move(CLIENT::eDirection dir);
   void			sendChat(std::string const &msg);
-  // void				spell(unsigned int idBattle, void *spell, unsigned int target); // Change void * to Spell
+  void			spell(unsigned int idBattle, Spell const &spell, unsigned int target);
   void			capture(unsigned int idBattle, unsigned int target);
   void			sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob);
   //  void			stuff(void *action);

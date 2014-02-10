@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Feb 10 13:29:53 2014 guillaume marescaux
+// Last update Mon Feb 10 14:14:52 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -170,6 +170,7 @@ bool				Core::handleError(Trame *trame)
 
 bool				Core::playerlist(Trame *trame)
 {
+  std::cout << "PLAYERLIST" << std::endl;
   *_players = User::deserialization(*trame);
   *_state = CLIENT::CHOOSE_PLAYER;
   return (true);
@@ -400,6 +401,7 @@ void				Core::createPlayer(std::string const &name, std::string const &faction)
 {
   Faction			*tmp = new Faction(faction);
 
+  *_state = CLIENT::CREATE;
   (*_proto).operator()<unsigned int const, std::string, Faction const *>("CREATE", _id, name, tmp);
   delete tmp;
 }
@@ -410,7 +412,11 @@ void				Core::sendChat(std::string const &msg)
 							     (**_player)->getName() + ": " + msg);
 }
 
-// void				spell(unsigned int idBattle, void *spell, unsigned int target); // Change void * to Spell
+void				Core::spell(unsigned int idBattle, Spell const &spell, unsigned int target)
+{
+  (*_proto).operator()<unsigned int const, unsigned int, Spell const *, unsigned int>("SPELL", _id, idBattle, &spell, target);
+}
+
 void				Core::capture(unsigned int idBattle, unsigned int target)
 {
   (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("CAPTURE", _id, idBattle, target);
