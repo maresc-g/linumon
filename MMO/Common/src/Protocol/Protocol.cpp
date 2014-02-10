@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Feb 10 14:12:10 2014 guillaume marescaux
+// Last update Mon Feb 10 14:43:42 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -476,7 +476,7 @@ bool			dswitch(unsigned int const id,
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["SwITCH"]["IDBATTLE"] = idBattle;
+      (*trame)[CONTENT]["SWITCH"]["IDBATTLE"] = idBattle;
       (*trame)[CONTENT]["SWITCH"]["TARGET"] = target;
       (*trame)[CONTENT]["SWITCH"]["NEWMOB"] = newMob;
       trame->setEnd(true);
