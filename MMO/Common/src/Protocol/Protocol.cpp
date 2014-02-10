@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Feb 10 14:43:42 2014 guillaume marescaux
+// Last update Mon Feb 10 15:01:23 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -56,7 +56,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, std::string, Faction const *>("CREATE", &create);
       this->_container->load<unsigned int, int>("CHOOSEPLAYER", &choosePlayer);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
-      this->_container->load<unsigned int, int, std::string>("CHAT", &chat);
+      this->_container->load<unsigned int, std::string, std::string>("CHAT", &chat);
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, AItem const *>("USEOBJECT", &useObject);
@@ -147,7 +147,7 @@ bool			check(unsigned int const id)
 }
 
 
-bool			chat(unsigned int const id, int idZone, std::string msg)
+bool			chat(unsigned int const id, std::string idZone, std::string msg)
 {
   Trame			*trame;
   Header		*header;
