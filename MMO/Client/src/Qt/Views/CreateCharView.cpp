@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec 10 16:16:06 2013 cyril jourdain
-// Last update Mon Feb 10 14:12:16 2014 cyril jourdain
+// Last update Mon Feb 10 14:21:56 2014 cyril jourdain
 //
 
 #include		"Qt/Views/CreateCharView.hh"
@@ -13,13 +13,14 @@
 #include		<QMessageBox>
 #include		"Client.hh"
 
-CreateCharView::CreateCharView(QWidget *parent) :
+CreateCharView::CreateCharView(QWidget *parent, WindowManager *man) :
   QWidget(parent)
 {
   ui.setupUi(this);
   _charType = FACTION1;
   ui.l_faction1->setText(FACTION1);
   ui.l_faction2->setText(FACTION2);
+  _wMan = man;
 }
 
 CreateCharView::~CreateCharView()
