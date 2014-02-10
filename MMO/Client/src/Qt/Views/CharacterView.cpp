@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:05:10 2013 cyril jourdain
-// Last update Fri Feb  7 11:32:52 2014 guillaume marescaux
+// Last update Mon Feb 10 14:21:06 2014 cyril jourdain
 //
 
 #include		"Qt/Views/CharacterView.hh"
@@ -19,7 +19,7 @@ CharacterView::CharacterView(QWidget *parent, WindowManager *man) :
   _charList(new std::vector<CharDescription *>),
   _prev(new QPushButton(this)), _next(new QPushButton(this)),
   _scrollArea(new QScrollArea), _charContainer(new QFrame(this)),
-  _charLayout(new QHBoxLayout), _createCharView(new CreateCharView(this)),
+  _charLayout(new QHBoxLayout), _createCharView(new CreateCharView(this, man)),
   _charNumber(0)
 {
   ui.setupUi(this);

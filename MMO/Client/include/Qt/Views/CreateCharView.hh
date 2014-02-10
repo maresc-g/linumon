@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec 10 16:14:25 2013 cyril jourdain
-// Last update Tue Feb  4 15:29:54 2014 cyril jourdain
+// Last update Mon Feb 10 14:19:32 2014 cyril jourdain
 //
 
 #ifndef 		__CREATECHARVIEW_HH__
@@ -15,17 +15,20 @@
 #include		<Qt/qpainter.h>
 #include		"ui_createchar.h"
 
+class WindowManager;
+
 class			CreateCharView : public QWidget
 {
   Q_OBJECT
 
 public:
-  CreateCharView(QWidget *);
+  CreateCharView(QWidget *, WindowManager *);
   virtual ~CreateCharView();
 
 private:
   Ui::CreateCharView	ui;
   std::string		_charType;
+  WindowManager		*_wMan;
 
 private:
   virtual void		paintEvent(QPaintEvent *);

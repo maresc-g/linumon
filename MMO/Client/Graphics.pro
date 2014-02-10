@@ -6,8 +6,13 @@ TEMPLATE = app
 TARGET = ../pfa-client
 DEPENDPATH += . include src
 INCLUDEPATH += . include ../Common/include
+<<<<<<< HEAD
 FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbar.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui
 LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp -ldl
+=======
+FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbar.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui
+LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp
+>>>>>>> df437ebf45c85122306dfd4569c8c02beb69263f
 QMAKE_CXXFLAGS += -std=c++0x
 OBJECTS_DIR = ./obj
 
@@ -20,6 +25,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Qt/Views/InventoryView.hh \
                 include/Qt/Views/ItemView.hh \
                 include/Qt/Views/StuffView.hh \
+                include/Qt/Views/ChatView.hh \
                 include/Qt/WindowManager.hh \
                 include/Qt/CharDescription/CharDescription.hh \
                 include/SFML/SFMLView.hpp \
@@ -41,6 +47,7 @@ SOURCES +=      src/main.cpp \
                 src/Qt/Views/InventoryView.cpp \
                 src/Qt/Views/ItemView.cpp \
                 src/Qt/Views/StuffView.cpp \
+                src/Qt/Views/ChatView.cpp \
                 src/Qt/WindowManager.cpp \
                 src/Qt/CharDescription.cpp \
                 src/SFML/SFMLView.cpp \

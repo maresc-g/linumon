@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Feb 10 14:58:53 2014 laurent ansel
+// Last update Mon Feb 10 15:20:06 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -19,10 +19,8 @@
 # include		"Stats/TalentTree.hh"
 # include		"Stats/Talent.hh"
 # include		"Zone/Coordinate.hpp"
-# include		"Zone/Zone.hh"
 # include		"Utility/ISerialization.hh"
 
-class			Zone;
 class			User;
 
 class			Player : public Persistent, public ACharacter, public ISerialization
@@ -43,7 +41,7 @@ private:
   PlayerCoordinate		*_coord;
   Faction const			*_faction;
   Digitaliser			_digitaliser;
-  ZONE::eZone			_zone;
+  std::string			_zone;
   TalentTree const		*_talentTree;
   std::list<Talent *>		_talents;
   User const			*_user;
@@ -75,8 +73,8 @@ public:
   Digitaliser const		&getDigitaliser() const;
   // No setter for this attribute
 
-  ZONE::eZone			getZone() const;
-  void				setZone(ZONE::eZone const zone);
+  std::string			getZone() const;
+  void				setZone(std::string const zone);
 
   void				addTalent(Talent *talent);
   std::list<Talent *> const	&getTalents() const;

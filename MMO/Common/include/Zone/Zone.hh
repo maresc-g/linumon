@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Thu Feb  6 15:07:00 2014 antoine maitre
+// Last update Mon Feb 10 15:42:34 2014 antoine maitre
 //
 
 #ifndef			__ZONE_HH__
@@ -16,32 +16,34 @@
 # include		"Trame/Trame.hh"
 # include		"Utility/Nameable.hh"
 # include		"Utility/GenericSerialization.hpp"
+# include		"Entities/Player.hh"
 
-namespace		ZONE
-{
-  enum			eZone
-    {
-      NONE,
-      PLAIN,
-      ROCK
-    };
-};
+// namespace		ZONE
+// {
+//   enum			eZone
+//     {
+//       NONE,
+//       PLAIN,
+//       ROCK
+//     };
+// };
 
 # include		"Case.hh"
 
 class			Case;
+class			Player;
 
-class			Zone : public ISerialization
+class			Zone : public ISerialization, public Nameable
 {
 private:
   int const		_sizeX;
   int const		_sizeY;
   std::list<AEntity *>	*_players;
-  ZONE::eZone const	_type;
+  std::string const	_type;
   std::list<Case *>	*_cases;
 public:
   Zone(Json::Value topography);
-  Zone(int const, int const, ZONE::eZone const);
+  Zone(int const, int const, std::string const);
   virtual ~Zone();
   void			addPlayer(AEntity *);
   void			delPlayer(AEntity *);
@@ -52,6 +54,9 @@ public:
   std::list<Case *>	*getCases() const;
   virtual bool		serialization(Trame &trame) const;
   void			deserialization(Trame const &trame);
+  void			move(Player::PlayerCoordinate const &source, Player::PlayerCoordinate const &dest, AEntity *entity);
+  int			getSizeX() const;
+  int			getSizeY() const;
 };
 
 bool			sameValue(Case *, Case *);
