@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 13:41:58 2013 cyril jourdain
-// Last update Wed Feb  5 18:15:19 2014 cyril jourdain
+// Last update Mon Feb 10 13:28:03 2014 cyril jourdain
 //
 
 #ifndef 		__QSFMLWIDGET_HPP__
@@ -16,8 +16,8 @@
 #include		<Qt/qtimer.h>
 #include		<QResizeEvent>
 
-#define			WIN_W	1600
-#define			WIN_H	1200
+#define			WIN_W	1920
+#define			WIN_H	1000
 
 class			QSFMLWidget : public QWidget, public sf::RenderWindow
 {

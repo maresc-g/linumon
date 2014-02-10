@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Feb  7 14:23:38 2014 guillaume marescaux
+// Last update Mon Feb 10 13:26:37 2014 cyril jourdain
 //
 
 #include		"SFML/SFMLView.hpp"
@@ -13,7 +13,8 @@
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()), _mainPerso(NULL),
   _clock(new sf::Clock()), _spellBar(new SpellBarView(this, w)), _itemView(new ItemView(this, w)),
-  _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w))
+  _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
+  _chat(new ChatView(this, w))
 {
   _textureTest = new sf::Texture();
   _textureTest->loadFromFile("./Res/test.png");
@@ -27,6 +28,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _spellBar->hide();
   _itemView->hide();
   _inventory->hide();
+  _chat->move(0, WIN_H - _chat->size().height());
 }
 
 SFMLView::~SFMLView()

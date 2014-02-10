@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Fri Feb  7 12:47:56 2014 guillaume marescaux
+// Last update Mon Feb 10 13:17:28 2014 cyril jourdain
 //
 
 #include			"Qt/Views/ItemView.hh"
