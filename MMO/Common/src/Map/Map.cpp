@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Tue Feb 11 13:34:32 2014 antoine maitre
+// Last update Tue Feb 11 13:49:52 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -41,10 +41,10 @@ Map::~Map()
   delete _mutex;
 }
 
-Zone				*Map::getZone(std::string const name)
+Zone				*Map::getZone(std::string const zone)
 {
-  if (this->_map.find(name) != this->_map.end())
-    return (this->_map[name]);
+  if (this->_map.find(zone) != this->_map.end())
+    return (this->_map[zone]);
   else
     return (NULL);
 }
@@ -62,37 +62,49 @@ void				Map::unlock() const
 void				Map::delPlayer(std::string const &zone, AEntity *entity)
 {
   this->lock();
-  this->_map[zone]->delPlayer(entity);
+  if (this->_map.find(zone) != this->_map.end())
+    this->_map[zone]->delPlayer(entity);
   this->unlock();
 }
 
 void				Map::addEntity(std::string const &zone, AEntity *entity)
 {
   this->lock();
-  this->_map[zone]->addPlayer(entity);
+  if (this->_map.find(zone) != this->_map.end())
+    this->_map[zone]->addPlayer(entity);
   this->unlock();
 }
 
 std::list<AEntity *>		*Map::getPlayers(std::string const &zone)
 {
   this->lock();
-  std::list<AEntity*> *list = &this->_map[zone]->getPlayers();
-  this->unlock();
-  return (list);
+  if (this->_map.find(zone) != this->_map.end())
+    {
+      std::list<AEntity*> *list = &this->_map[zone]->getPlayers();
+      this->unlock();
+      return (list);
+    }
+  else
+    return (NULL);
 }
 
 void				Map::moveZone(std::string const &source, std::string const &dest, AEntity *entity)
 {
   this->lock();
-  this->_map[source]->delPlayer(entity);
-  this->_map[dest]->addPlayer(entity);
+  if (this->_map.find(source) != this->_map.end() &&
+      this->_map.find(dest) != this->_map.end())
+    {
+      this->_map[source]->delPlayer(entity);
+      this->_map[dest]->addPlayer(entity);
+    }
   this->unlock();
 }
 
 void				Map::moveCase(std::string const &zone, Player::PlayerCoordinate const &source, Player::PlayerCoordinate const &dest, AEntity *entity)
 {
   this->lock();
-  this->_map[zone]->move(source, dest, entity);
+  if (this->_map.find(zone) != this->_map.end())
+    this->_map[zone]->move(source, dest, entity);
   this->unlock();
 }
 
