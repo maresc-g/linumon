@@ -5,24 +5,27 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Tue Feb 11 14:13:03 2014 laurent ansel
+// Last update Tue Feb 11 15:59:41 2014 alexis mestag
 //
 
 #include			"Entities/Ressource.hh"
 
 Ressource::Ressource() :
+  Persistent(),
   AItem("", AItem::eItem::RESSOURCE)
 {
 
 }
 
 Ressource::Ressource(std::string const &name) :
+  Persistent(),
   AItem(name, AItem::eItem::RESSOURCE)
 {
 
 }
 
 Ressource::Ressource(Ressource const &rhs) :
+  Persistent(rhs),
   AItem(rhs.getName(), AItem::eItem::STUFF)
 {
   *this = rhs;
