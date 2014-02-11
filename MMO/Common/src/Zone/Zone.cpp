@@ -5,14 +5,14 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Tue Feb 11 11:40:52 2014 antoine maitre
+// Last update Tue Feb 11 14:31:17 2014 alexis mestag
 //
 
 #include			<iostream>
 #include			"Zone/Zone.hh"
 
 Zone::Zone(Json::Value const topography):
-  Nameable(topography["Type"].asString()),
+  Nameable(topography["Name"].asString()),
   _sizeX(topography["X"].asInt()),
   _sizeY(topography["Y"].asInt()),
   _players(new std::list<AEntity *>),
