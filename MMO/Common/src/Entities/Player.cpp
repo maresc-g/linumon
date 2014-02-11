@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Feb 11 14:17:33 2014 laurent ansel
+// Last update Tue Feb 11 15:18:18 2014 laurent ansel
 //
 
 #include			<functional>
@@ -160,12 +160,17 @@ Player				*Player::deserialization(Trame const &trame)
       player->setTalentTree(*TalentTree::deserialization(trame(trame["PLAYER"])));
       //      player->setInventory(Inventory::deserialization(trame(trame["PLAYER"])));
 
-      auto			members = trame["PLAYER"]["TALENTS"].getMemberNames();
+      if (!trame["PLAYER"]["TALENTS"].empty())
+	{
+	  auto			members = trame["PLAYER"]["TALENTS"].getMemberNames();
 
-      talents = new std::list<Talent *>;
-      for (auto it = members.begin() ; it != members.end() ; ++it)
-	talents->push_back(Talent::deserialization(trame(trame["PLAYER"]["TALENTS"][*it])));
-      player->setTalents(*talents);
+	  talents = new std::list<Talent *>;
+	  for (auto it = members.begin() ; it != members.end() ; ++it)
+	    {
+	      talents->push_back(Talent::deserialization(trame(trame["PLAYER"]["TALENTS"][*it])));
+	    }
+	  player->setTalents(*talents);
+	}
     }
   return (player);
 }
