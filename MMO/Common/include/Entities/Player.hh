@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Feb 11 14:16:42 2014 laurent ansel
+// Last update Tue Feb 11 16:00:58 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -103,6 +103,9 @@ public:
   void				setUser(User const &user);
 
   void				capture(Mob const &mob);
+
+  void				deleteItem(unsigned int const item);
+  void				addItem(AItem *item);
 
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);

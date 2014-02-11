@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Mon Feb 10 14:30:06 2014 laurent ansel
+// Last update Tue Feb 11 15:51:50 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -22,12 +22,22 @@
 
 class				Client
 {
+public:
+  typedef enum			eState
+    {
+      NONE,
+      GAME,
+      BATTLE,
+      TRADE
+    }				eState;
+
 private:
   bool				_use;
   FD				_id;
   std::map<std::string, ISocketClient *>	*_sockets;
   User				*_user;
   Player			*_player;
+  Client::eState		_state;
 
 public:
   Client();
@@ -45,6 +55,8 @@ public:
   void				choosePlayer(unsigned int const idPlayer, bool const send);
   void				move(Player::PlayerCoordinate *coord);
   void				updateTalents(Trame *trame) const;
+  void				useObject(unsigned int const target, unsigned int const item);
+  void				deleteObject(unsigned int const item);
 };
 
 #endif

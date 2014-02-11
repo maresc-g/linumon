@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Tue Feb 11 13:35:43 2014 laurent ansel
+// Last update Tue Feb 11 16:14:38 2014 laurent ansel
 //
 
 #ifndef 			__INVENTORY_HH__
@@ -49,6 +49,11 @@ public:
 
   unsigned int			getLimit() const;
   void				setLimit(unsigned int const limit);
+
+  void				deleteItem(unsigned int const id);
+  void				addItem(AItem *item);
+
+  AItem				*getItem(unsigned int const id) const;
 
   virtual bool			serialization(Trame &trame) const;
   static Inventory		*deserialization(Trame const &trame);
