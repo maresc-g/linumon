@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Tue Feb 11 12:24:46 2014 antoine maitre
+// Last update Tue Feb 11 13:35:00 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -46,7 +46,7 @@ void				BattleManager::deleteBattleUpdaters()
 bool				BattleManager::spell(Trame *trame)
 {
   std::list<Battle *>		*tmp;
-
+  
   if ((*trame)[CONTENT]["SPELL"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["SPELL"].isMember("SPELL") &&
       (*trame)[CONTENT]["SPELL"].isMember("TARGET"))
