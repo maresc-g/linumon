@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 13:50:49 2014 alexis mestag
-// Last update Fri Jan 31 12:08:48 2014 laurent ansel
+// Last update Mon Feb 10 16:06:08 2014 alexis mestag
 //
 
 #ifndef			__LEVEL_HH__
@@ -19,21 +19,22 @@ class			Level : public ISerialization
   friend class		odb::access;
 
 private:
-  int			_lvl;
-  int			_exp;
+  unsigned int		_lvl;
+  unsigned int		_exp;
 
 public:
   Level();
+  Level(unsigned int const lvl, unsigned int const exp = 0);
   Level(Level const &rhs);
   virtual ~Level();
 
   Level			&operator=(Level const &rhs);
 
-  int			getLevel() const;
-  void			setLevel(int const level);
+  unsigned int		getLevel() const;
+  void			setLevel(unsigned int const level);
 
-  int			getExp() const;
-  void			setExp(int const exp);
+  unsigned int		getExp() const;
+  void			setExp(unsigned int const exp);
 
   void			levelUp();
   virtual bool		serialization(Trame &trame) const;

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Thu Feb  6 13:34:40 2014 laurent ansel
+// Last update Mon Feb 10 14:30:06 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -18,6 +18,7 @@
 #include			"Crypto/Crypto.hh"
 #include			"Database/Repositories/PlayerRepository.hpp"
 #include			"Entities/User.hh"
+#include			"GameProtocol/TalentManager.hh"
 
 class				Client
 {
@@ -43,6 +44,7 @@ public:
   void				sendListPlayers();
   void				choosePlayer(unsigned int const idPlayer, bool const send);
   void				move(Player::PlayerCoordinate *coord);
+  void				updateTalents(Trame *trame) const;
 };
 
 #endif

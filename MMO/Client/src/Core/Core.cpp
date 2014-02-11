@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Feb 10 14:14:52 2014 guillaume marescaux
+// Last update Mon Feb 10 14:59:18 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -408,7 +408,7 @@ void				Core::createPlayer(std::string const &name, std::string const &faction)
 
 void				Core::sendChat(std::string const &msg)
 {
-  (*_proto).operator()<unsigned int const, int, std::string>("CHAT", _id, static_cast<int>((**_player)->getZone()),
+  (*_proto).operator()<unsigned int const, std::string, std::string>("CHAT", _id, (**_player)->getZone(),
 							     (**_player)->getName() + ": " + msg);
 }
 

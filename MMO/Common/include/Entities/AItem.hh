@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:59:30 2013 alexis mestag
-// Last update Sat Feb  8 16:28:16 2014 laurent ansel
+// Last update Mon Feb 10 12:48:04 2014 alexis mestag
 //
 
 #ifndef			__AITEM_HH__
@@ -45,7 +45,7 @@ public:
 };
 
 # ifdef	ODB_COMPILER
-// #  pragma db object(AItem) abstract
+// #  pragma db object(AItem)
 // #  pragma db member(AItem::_itemType) transient
 # endif
 

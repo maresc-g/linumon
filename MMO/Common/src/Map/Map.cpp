@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Mon Feb 10 15:34:03 2014 antoine maitre
+// Last update Tue Feb 11 13:34:32 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -43,7 +43,10 @@ Map::~Map()
 
 Zone				*Map::getZone(std::string const name)
 {
-  return (this->_map[name]);
+  if (this->_map.find(name) != this->_map.end())
+    return (this->_map[name]);
+  else
+    return (NULL);
 }
 
 void				Map::lock() const

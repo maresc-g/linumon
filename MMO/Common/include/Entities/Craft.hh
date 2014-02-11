@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:27:32 2014 laurent ansel
-// Last update Fri Feb  7 14:41:30 2014 laurent ansel
+// Last update Mon Feb 10 11:15:47 2014 alexis mestag
 //
 
 #ifndef 		__CRAFT_HH__
@@ -17,7 +17,7 @@
 #include		"Utility/ISerialization.hh"
 #include		"Utility/Nameable.hh"
 
-class			Craft : public ISerialization, public Nameable, public Persistent
+class			Craft : public Persistent, public Nameable, public ISerialization
 {
   friend class		odb::access;
 
@@ -34,16 +34,22 @@ private:
 
 public:
   Craft(Craft const &rhs);
-  Craft			&operator=(Craft const &rhs);
-
   virtual ~Craft();
 
-  Level const		&getLevel() const;
-  AItem const		&getResult() const;
+  Craft				&operator=(Craft const &rhs);
+
+  Level const			&getLevel() const;
+  AItem const			&getResult() const;
   std::list<AItem *> const	&getIngredients() const;
 
   virtual bool		serialization(Trame &trame) const;
   static Craft		*deserialization(Trame const &trame);
 };
+
+# ifdef	ODB_COMPILER
+#  pragma db object(Craft)
+#  pragma db member(Craft::_result) transient
+#  pragma db member(Craft::_ingredients) transient
+# endif
 
 #endif

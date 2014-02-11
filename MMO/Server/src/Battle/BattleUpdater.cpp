@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Mon Feb 10 15:36:45 2014 antoine maitre
+// Last update Tue Feb 11 12:22:54 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -84,38 +84,27 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2)
 
 bool				BattleUpdater::spell(Trame *trame)
 {
-  (void) trame;
+  Spell				*spell = Spell::deserialization((*trame)((*trame)["SPELL"]["SPELL"]));
+  for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
+    if ((*it)->getID() == (*trame)["SPELL"]["IDBATTLE"].asUInt())
+      (*it)->spell((*trame)["SPELL"]["TARGET"].asUInt(), spell);
   return (true);
 }
 
 bool				BattleUpdater::capture(Trame *trame)
 {
-  if ((*trame)["CAPTURE"].isMember("IDBATTLE") && (*trame)["CAPTURE"].isMember("TARGET"))
-    {
-      for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
-      	{
-      	  if ((*it)->getID() == (*trame)["CAPTURE"]["IDBATTLE"].asUInt())
-      	    {
-      	      (*it)->capture((*trame)["CAPTURE"]["TARGET"].asInt());
-      	      return (true);
-      	    }
-      	}
-      return (false);
-    }
-  return (false);
+  for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
+    if ((*it)->getID() == (*trame)["CAPTURE"]["IDBATTLE"].asUInt())
+      (*it)->capture((*trame)["CAPTURE"]["TARGET"].asInt());
+  return (true);
 }
 
 bool				BattleUpdater::dswitch(Trame *trame)
 {
   for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
-    {
-      if ((*it)->getID() == (*trame)["SWITCH"]["IDBATTLE"].asUInt())
-	{
-	  (*it)->dswitch((*trame)["SWITCH"]["TARGET"].asInt(), (*trame)["SWITCH"]["NEWMOB"].asInt());
-	  return (true);
-	}
-    }
-  return (false);
+    if ((*it)->getID() == (*trame)["SWITCH"]["IDBATTLE"].asUInt())
+      (*it)->dswitch((*trame)["SWITCH"]["TARGET"].asInt(), (*trame)["SWITCH"]["NEWMOB"].asInt());
+  return (true);
 }
 
 std::list<Battle *>		*BattleUpdater::getBattles() const

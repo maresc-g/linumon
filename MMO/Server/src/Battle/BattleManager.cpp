@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Tue Feb 11 11:39:10 2014 antoine maitre
+// Last update Tue Feb 11 12:24:46 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -38,7 +38,6 @@ void				BattleManager::deleteBattleUpdaters()
     delete bu;
     return (true);
   };
-
   this->_mutex->lock();
   _battleUpdaters.remove_if(battleUpdaterDeleter);
   this->_mutex->unlock();
@@ -46,8 +45,24 @@ void				BattleManager::deleteBattleUpdaters()
 
 bool				BattleManager::spell(Trame *trame)
 {
-  (void)trame;
-  return (true);
+  std::list<Battle *>		*tmp;
+
+  if ((*trame)[CONTENT]["SPELL"].isMember("IDBATTLE") &&
+      (*trame)[CONTENT]["SPELL"].isMember("SPELL") &&
+      (*trame)[CONTENT]["SPELL"].isMember("TARGET"))
+    {
+      for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
+	{
+	  (*it)->lock();
+	  tmp = (*it)->getBattles();
+	  for (auto itb = tmp->begin(); itb != tmp->end(); it++)
+	    if ((*itb)->getID() == (*trame)[CONTENT]["SPELL"]["IDBATTLE"].asUInt())
+	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	  (*it)->unlock();
+	}
+      return (true);
+    }
+  return (false);
 }
 
 bool				BattleManager::capture(Trame *trame)

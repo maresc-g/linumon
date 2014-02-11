@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Fri Feb  7 14:45:03 2014 laurent ansel
+// Last update Mon Feb 10 10:46:22 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -32,7 +32,9 @@ Job				&Job::operator=(Job const &rhs)
 {
   if (this != &rhs)
     {
-
+      this->setCurrentExp(rhs.getCurrentExp());
+      this->setLevel(rhs.getLevel());
+      this->setJobModel(rhs.getJobModel());
     }
   return (*this);
 }
@@ -42,11 +44,10 @@ unsigned int			Job::getCurrentExp() const
   return (this->_currentExp);
 }
 
-void				Job::setCurrentExp(unsigned int const exp)
+void				Job::setCurrentExp(unsigned int const currentExp)
 {
-  this->_currentExp = exp;
+  _currentExp = currentExp;
 }
-
 
 Level const			&Job::getLevel() const
 {
@@ -65,7 +66,7 @@ JobModel const			&Job::getJobModel() const
 
 void				Job::setJobModel(JobModel const &jobModel)
 {
-  *this->_jobModel = jobModel;
+  this->_jobModel = &jobModel;
 }
 
 bool				Job::serialization(Trame &trame) const

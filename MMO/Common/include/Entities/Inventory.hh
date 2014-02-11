@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Fri Feb  7 12:10:06 2014 laurent ansel
+// Last update Mon Feb 10 13:13:13 2014 alexis mestag
 //
 
 #ifndef 			__INVENTORY_HH__
@@ -25,10 +25,9 @@ private:
   unsigned int			_limit;
 
   Inventory();
-  Inventory(Inventory const &rhs);
 
 public:
-
+  Inventory(Inventory const &rhs);
   virtual ~Inventory();
 
   Inventory			&operator=(Inventory const &rhs);
