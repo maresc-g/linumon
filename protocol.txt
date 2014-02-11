@@ -35,7 +35,7 @@
 			SWITCH : {idBattle: int, target : int, new mob : int} -> client / server
 			DEADMOB : {idBattle: int, id : int} -> server
 			ENDBATTLE : {idBattle: int, win : bool, money : int, exp : int, items : list of AItem} -> server
-			TURNTO : {idBattle: int, idMob: int } -> server
+			TURNTO : {idBattle: int, id: int } -> server
 			#  end
 
 			#  stuff

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:39:46 2014 antoine maitre
-// Last update Mon Feb 10 13:54:58 2014 antoine maitre
+// Last update Tue Feb 11 16:41:15 2014 antoine maitre
 //
 
 #ifndef				__CASE_HH__
@@ -25,7 +25,7 @@ class				Case
 {
 private:
   std::list<AEntity *>		*_entities;
-  const Coordinate<int>		*_coord;
+  const Coordinate<int>		_coord;
   const bool			_safe;
 
 public:

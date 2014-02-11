@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Tue Feb 11 12:22:54 2014 antoine maitre
+// Last update Tue Feb 11 16:47:17 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -52,6 +52,14 @@ void				BattleUpdater::run()
       this->_mutex->lock();
       if (!this->_trames.empty())
 	{
+	  for (auto it = this->_funcs->begin(); it != this->_funcs->end(); it++)
+	    if (this->_trames.front()->isMember(it->first))
+	      {
+		auto tmp = this->_trames.front();
+		((*this->_funcs)[it->first])(tmp);
+		this->_trames.pop_front();
+		delete tmp;
+	      }
 	}
       this->_mutex->unlock();
       usleep(1000);
