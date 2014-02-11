@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Mon Feb 10 15:40:17 2014 antoine maitre
+// Last update Mon Feb 10 16:25:16 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -39,11 +39,11 @@ Zone::Zone(Json::Value const topography):
   this->_cases->unique(sameValue);
 }
 
-Zone::Zone(int const x, int const y, std::string const type)
-  : _sizeX(x), _sizeY(y), _type(type), _cases(new std::list<Case*>)
-{
+// Zone::Zone(int const x, int const y, std::string const type)
+//   : _sizeX(x), _sizeY(y), _type(type), _cases(new std::list<Case*>)
+// {
   
-}
+// }
 
 Zone::~Zone()
 {
