@@ -5,11 +5,13 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:18:02 2013 alexis mestag
-// Last update Sat Feb  8 16:29:56 2014 laurent ansel
+// Last update Tue Feb 11 14:12:18 2014 laurent ansel
 //
 
 #include			"Entities/AItem.hh"
 #include			"Entities/Stuff.hh"
+#include			"Entities/Consumable.hh"
+#include			"Entities/Ressource.hh"
 
 AItem::AItem() :
   AEntity("", eEntity::ITEM),
@@ -55,19 +57,12 @@ void				AItem::setItemType(AItem::eItem const item)
   this->_itemType = item;
 }
 
-bool				AItem::serialization(Trame &trame) const
-{
-  trame["TYPE"] = this->_itemType;
-  return (true);
-}
-
 AItem				*AItem::deserialization(Trame const &trame)
 {
   AItem				*item = NULL;
 
-  if (trame["TYPE"].asInt() == eItem::STUFF)
-    item = reinterpret_cast<Stuff *>(Stuff::deserialization(trame));
-  if (item)
-    item->setItemType(static_cast<AItem::eItem>(trame["TYPE"].asInt()));
+  if (!(item = reinterpret_cast<Stuff *>(Stuff::deserialization(trame))))
+    if (!(item = reinterpret_cast<Consumable *>(Consumable::deserialization(trame))))
+      item = reinterpret_cast<Ressource *>(Ressource::deserialization(trame));
   return (item);
 }

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Mon Feb 10 14:26:02 2014 laurent ansel
+// Last update Tue Feb 11 11:06:09 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -279,6 +279,7 @@ bool				ClientManager::connectionUser(Trame *trame)
       this->_mutex->unlock();
       if (user && this->userAlreadyConnected((*trame)[HEADER]["IDCLIENT"].asUInt(), user))
       	return (false);
+
       this->_mutex->lock();
 
       if (user && user->getPassword() == (*trame)[CONTENT]["CONNECTION"]["PASS"].asString())

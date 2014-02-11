@@ -34,22 +34,22 @@ DELETE FROM `TalentTree`;
 INSERT INTO `TalentTree`(`id`, `name`, `talent`) VALUES(1, 'BaseTree1', 1);
 INSERT INTO `TalentTree`(`id`, `name`, `talent`) VALUES(2, 'BaseTree2', 2);
 
+/* Inserting DBZones */
+DELETE FROM `DBZone`;
+
+INSERT INTO `DBZone`(`id`, `name`, `averageLevel`) VALUES(1, 'Plain', 10);
+INSERT INTO `DBZone`(`id`, `name`, `averageLevel`) VALUES(2, 'Rock', 40);
+
 /* Inserting Players */
 DELETE FROM Player;
 
-INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `zone`, `talentTree`, `user`, `x`, `y`) VALUES(1, 'Thinenus', 13, 4, 10, 1, 'PLAIN', 1, 1, 10, 30);
-INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `zone`, `talentTree`, `user`, `x`, `y`) VALUES(2, 'Sezu-Kho', 20, 6, 10, 1, 'ROCK', 2, 2, 20, 20);
-INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `zone`, `talentTree`, `user`, `x`, `y`) VALUES(3, 'WeshWeshCabillaud', 15, 5, 10, 2, 'ROCK', 1, 1, 10, 30);
-INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `zone`, `talentTree`, `user`, `x`, `y`) VALUES(4, 'EnThéorieCaDevraitMarcher', 584, 10, 10, 2, 'PLAIN', 2, 2, 20, 20);
+INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `dbZone`, `x`, `y`) VALUES(1, 'Thinenus', 13, 4, 10, 1, 1, 1, 1, 10, 30);
+INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `dbZone`, `x`, `y`) VALUES(2, 'Sezu-Kho', 20, 6, 10, 1, 2, 2, 1, 20, 20);
+INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `dbZone`, `x`, `y`) VALUES(3, 'WeshWeshCabillaud', 15, 5, 10, 2, 1, 1, 2, 10, 30);
+INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `dbZone`, `x`, `y`) VALUES(4, 'EnThéorieCaDevraitMarcher', 584, 10, 10, 2, 2, 2, 2, 20, 20);
 
 /* Assigning Talents to Players */
 DELETE FROM `Player_talents`;
 
 INSERT INTO `Player_talents`(`object_id`, `index`, `value`) VALUES(1, 0, 1);
 INSERT INTO `Player_talents`(`object_id`, `index`, `value`) VALUES(2, 0, 2);
-
-/* Inserting DBZones */
-DELETE FROM `DBZone`;
-
-INSERT INTO `DBZone`(`id`, `name`, `averageLevel`) VALUES(1, 'PLAIN', 10);
-INSERT INTO `DBZone`(`id`, `name`, `averageLevel`) VALUES(2, 'ROCK', 40);

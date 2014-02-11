@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Tue Feb 11 13:49:52 2014 antoine maitre
+// Last update Tue Feb 11 14:12:30 2014 alexis mestag
 //
 
 #include			"Map/Map.hh"
@@ -26,7 +26,7 @@ Map::Map()
       terr << "Territory" << i;
       if (tram.isMember(terr.str()))
 	{
-	  _map.insert(std::make_pair(tram[terr.str()]["Type"].asString(), new Zone(tram[terr.str()])));
+	  _map.insert(std::make_pair(tram[terr.str()]["Name"].asString(), new Zone(tram[terr.str()])));
 	}
       else
 	break;

@@ -5,22 +5,33 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Feb 10 15:19:34 2014 laurent ansel
+// Last update Tue Feb 11 14:17:33 2014 laurent ansel
 //
 
 #include			<functional>
 #include			"Entities/Player.hh"
+#include			"Map/Map.hh"
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _zone("NONE"), _talentTree(NULL)
+  _faction(NULL), _talentTree(NULL), _inventory(NULL)
+# ifndef	CLIENT_COMPILATION
+  , _dbZone(NULL)
+# else
+  , _zone("NONE")
+# endif
 {
 
 }
 
 Player::Player(std::string const &name) :
   Persistent(), ACharacter(name, eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _zone("NONE"), _talentTree(NULL)
+  _faction(NULL), _talentTree(NULL), _inventory(NULL)
+# ifndef	CLIENT_COMPILATION
+  , _dbZone(NULL)
+# else
+  , _zone("NONE")
+# endif
 {
 
 }
@@ -101,6 +112,16 @@ Digitaliser const		&Player::getDigitaliser() const
   return (_digitaliser);
 }
 
+Inventory const			&Player::getInventory() const
+{
+  return (*this->_inventory);
+}
+
+void				Player::setInventory(Inventory *inventory)
+{
+  this->_inventory = inventory;
+}
+
 bool				Player::serialization(Trame &trame) const
 {
   bool				ret = true;
@@ -114,6 +135,7 @@ bool				Player::serialization(Trame &trame) const
   this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
+  //  this->_inventory->serialization(trame(trame["PLAYER"]));
   this->_talentTree->serialization(trame(trame["PLAYER"]));
   for (auto it = this->_talents.begin() ; it != this->_talents.end() ; ++it)
     (*it)->serialization(trame(trame["PLAYER"]["TALENTS"]));
@@ -136,6 +158,7 @@ Player				*Player::deserialization(Trame const &trame)
       player->setCurrentExp(trame["PLAYER"]["CURRENTEXP"].asInt());
       player->setZone(trame["PLAYER"]["ZONE"].asString());
       player->setTalentTree(*TalentTree::deserialization(trame(trame["PLAYER"])));
+      //      player->setInventory(Inventory::deserialization(trame(trame["PLAYER"])));
 
       auto			members = trame["PLAYER"]["TALENTS"].getMemberNames();
 
@@ -162,14 +185,33 @@ void				Player::setTalents(std::list<Talent *> const &list)
   this->_talents = list;
 }
 
+#ifndef	CLIENT_COMPILATION
+DBZone const			&Player::getDBZone() const
+{
+  return (*_dbZone);
+}
+
+void				Player::setDBZone(DBZone const &dbZone)
+{
+  _dbZone = &dbZone;
+}
+#endif
 std::string			Player::getZone() const
 {
+  #ifndef	CLIENT_COMPILATION
+  return (_dbZone->getName());
+  #else
   return (_zone);
+  #endif
 }
 
 void				Player::setZone(std::string const zone)
 {
+  #ifndef	CLIENT_COMPILATION
+  _dbZone = &Map::getInstance()->getZone(zone)->getDBZone();
+  #else
   _zone = zone;
+  #endif
 }
 
 User const			&Player::getUser() const

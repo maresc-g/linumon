@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Mon Feb 10 15:01:04 2014 guillaume marescaux
+// Last update Mon Feb 10 16:18:37 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -94,5 +94,6 @@ bool				accept(unsigned int const id);
 bool				refuse(unsigned int const id);
 bool				heal(unsigned int const id);
 bool				disconnect(unsigned int const id);
+bool				sendTrameAlreadyReady(unsigned int const id, Trame *trame);
 
 #endif
