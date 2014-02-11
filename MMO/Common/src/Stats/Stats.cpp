@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Thu Feb  6 16:43:59 2014 alexis mestag
+// Last update Tue Feb 11 14:40:57 2014 antoine maitre
 //
 
 #include			<sstream>
@@ -51,6 +51,21 @@ void				Stats::setStats(std::list<Stat *> &stats)
 {
   this->deleteStats();
   _stats = stats;
+}
+
+int				Stats::getStat(Stat::eStat stat) const
+{
+  for (auto it = this->_stats.begin(); it != this->_stats.end(); it++)
+    if ((*it)->getStatType() == stat)
+      return ((*it)->getValue());
+  return (-1);
+}
+
+void				Stats::setStat(Stat::eStat stat, int const value)
+{
+  for (auto it = this->_stats.begin(); it != this->_stats.end(); it++)
+    if ((*it)->getStatType() == stat)
+      (*it)->setValue(value);
 }
 
 void				Stats::deleteStats()

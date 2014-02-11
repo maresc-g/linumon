@@ -5,13 +5,14 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Mon Feb  3 18:04:51 2014 antoine maitre
+// Last update Tue Feb 11 15:17:11 2014 antoine maitre
 //
 
 #ifndef				__BATTLE_HH__
 # define			__BATTLE_HH__
 
 # include			<string>
+# include			<tuple>
 # include			"Entities/Player.hh"
 
 class				Battle 
@@ -30,6 +31,7 @@ private:
   std::list<Mob *>		_mobs2;
   Player			*_player1;
   Player			*_player2;
+  std::list<std::tuple<int, int>>		_order;
 public:
   Battle(unsigned int const id, eBattle const type, int const mobNumber, Player *player1, Player *player2);
   ~Battle();

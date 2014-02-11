@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:08:36 2013 alexis mestag
-// Last update Fri Jan 31 13:53:46 2014 laurent ansel
+// Last update Tue Feb 11 14:41:53 2014 antoine maitre
 //
 
 #include			<sstream>
@@ -63,6 +63,8 @@ void				Stat::setStatType(Stat::eStat const statType)
 {
   _statType = statType;
 }
+
+
 
 bool		 		Stat::serialization(Trame &trame) const
 {

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Tue Feb 11 13:35:00 2014 antoine maitre
+// Last update Tue Feb 11 14:56:18 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -30,6 +30,36 @@ BattleManager::~BattleManager()
   this->deleteBattleUpdaters();
   this->_mutex->destroy();
   delete _mutex;
+}
+
+void				BattleManager::newBattle(Player *player1, Player *player2)
+{
+  int				i = 0;
+  int				j = 0;
+  int				tmp = -1;
+  
+    for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
+    {
+      (*it)->lock();
+      if ((*it)->getNumOfBattle() < tmp || tmp == -1)
+	{
+	  j = i;
+	  tmp = (*it)->getNumOfBattle();
+	}
+      (*it)->unlock();
+      i++;
+    }
+    i = 0;
+    for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
+    {
+      if (i == j)
+	{
+	  (*it)->lock();
+	  (*it)->newBattle(player1, player2);
+	  (*it)->unlock();
+	}
+      i++;
+    }
 }
 
 void				BattleManager::deleteBattleUpdaters()
