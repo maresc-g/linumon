@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Tue Feb 11 15:30:30 2014 antoine maitre
+// Last update Tue Feb 11 16:27:32 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -115,7 +115,10 @@ bool				sameValue(Case *case1, Case *case2)
 {
   if (case1->getCoord().getX() == case2->getCoord().getX() &&
       case1->getCoord().getY() == case2->getCoord().getY())
-    return (true);
+    {
+      delete case1;
+      return (true);
+    }
   return (false);
 }
 
