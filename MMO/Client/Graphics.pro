@@ -8,7 +8,7 @@ DEPENDPATH += . include src
 INCLUDEPATH += . include ../Common/include
 FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbar.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui
 LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp -ldl
-QMAKE_CXXFLAGS += -std=c++0x
+QMAKE_CXXFLAGS += -std=c++0x -DCLIENT_COMPILATION
 OBJECTS_DIR = ./obj
 
 # Input

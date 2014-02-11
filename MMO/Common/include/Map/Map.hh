@@ -1,4 +1,3 @@
-
 //
 // Map.hh for MAP in /home/maitre_c/work/linumon/MMO/Server/include/Map
 // 
@@ -6,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:31:09 2014 antoine maitre
-// Last update Mon Feb 10 15:34:42 2014 antoine maitre
+// Last update Tue Feb 11 12:45:04 2014 alexis mestag
 //
 
 #ifndef					__MAP_HH__
