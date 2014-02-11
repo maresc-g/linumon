@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Mon Feb 10 16:31:07 2014 alexis mestag
+// Last update Tue Feb 11 11:40:52 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -54,11 +54,11 @@ Zone::Zone(Json::Value const topography):
 # endif
 }
 
-Zone::Zone(int const x, int const y, std::string const type)
-  : _sizeX(x), _sizeY(y), _type(type), _cases(new std::list<Case*>)
-{
+// Zone::Zone(int const x, int const y, std::string const type)
+//   : _sizeX(x), _sizeY(y), _type(type), _cases(new std::list<Case*>)
+// {
   
-}
+// }
 
 Zone::~Zone()
 {

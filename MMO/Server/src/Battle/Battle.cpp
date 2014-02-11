@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Feb 10 11:46:28 2014 antoine maitre
+// Last update Tue Feb 11 13:33:44 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -52,41 +52,45 @@ Battle::eBattle 			Battle::getType() const
 
 bool					Battle::spell(unsigned int const target, Spell *spell) //, int id_lanceur
 {
-  (void) spell;
-  (void) target;
+  for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
+    if ((*it)->getId() == target)
+      {
+	(void)spell;
+      }
+  for (auto it = this->_mobs2.begin(); it != this->_mobs2.end(); it++)
+    if ((*it)->getId() == target)
+      {
+	(void)spell;
+      }
   return (true);
 }
 
 bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
 {
   for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
-    {
-      if ((*it)->getId() == target)
-	{
-	  std::list<Mob *> tmp = this->_player1->getDigitaliser().getMobs();
-	  for (auto itb = tmp.begin(); itb != tmp.end(); itb++)
-	    if ((*itb)->getId() == newmob)
-	      {
-		(*it) = (*itb);
-		return (true);
-	      }
-	  return (false);
-	}
-    }
+    if ((*it)->getId() == target)
+      {
+	std::list<Mob *> tmp = this->_player1->getDigitaliser().getMobs();
+	for (auto itb = tmp.begin(); itb != tmp.end(); itb++)
+	  if ((*itb)->getId() == newmob)
+	    {
+	      (*it) = (*itb);
+	      return (true);
+	    }
+	return (false);
+      }
   for (auto it = this->_mobs2.begin(); it != this->_mobs2.end(); it++)
-    {
-      if ((*it)->getId() == target)
-	{
-	  std::list<Mob *> tmp = this->_player2->getDigitaliser().getMobs();
-	  for (auto itb = tmp.begin(); itb != tmp.end(); itb++)
-	    if ((*itb)->getId() == newmob)
-	      {
-		(*it) = (*itb);
-		return (true);
-	      }
-	  return (false);
-	}
-    }
+    if ((*it)->getId() == target)
+      {
+	std::list<Mob *> tmp = this->_player2->getDigitaliser().getMobs();
+	for (auto itb = tmp.begin(); itb != tmp.end(); itb++)
+	  if ((*itb)->getId() == newmob)
+	    {
+	      (*it) = (*itb);
+	      return (true);
+	    }
+	return (false);
+      }
   return (false);
 }
 
