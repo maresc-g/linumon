@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb 11 11:27:43 2014 laurent ansel
+// Last update Tue Feb 11 15:39:38 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -60,7 +60,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, std::string, std::string>("CHAT", &chat);
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
-      this->_container->load<unsigned int, unsigned int, AItem const *>("USEOBJECT", &useObject);
+      this->_container->load<unsigned int, unsigned int, unsigned int>("USEOBJECT", &useObject);
       this->_container->load<unsigned int, AItem const *>("PUTITEM", &putItem);
       this->_container->load<unsigned int, AItem const *>("GETITEM", &getItem);
       this->_container->load<unsigned int, unsigned int>("PUTMONEY", &putMoney);
@@ -563,7 +563,7 @@ bool			endBattle(unsigned int const id,
   return (false);
 }
 
-bool			useObject(unsigned int const id, unsigned int target, AItem const *item)
+bool			useObject(unsigned int const id, unsigned int target, unsigned int idItem)
 {
   Trame			*trame;
   Header		*header;
@@ -575,7 +575,7 @@ bool			useObject(unsigned int const id, unsigned int target, AItem const *item)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["USEOBJECT"]["TARGET"] = target;
-      (*trame)[CONTENT]["USEOBJECT"]["ITEM"] = item->serialization((*trame)((*trame)[CONTENT]["USEOBJECT"]["ITEM"]));
+      (*trame)[CONTENT]["USEOBJECT"]["ITEM"] = idItem;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
