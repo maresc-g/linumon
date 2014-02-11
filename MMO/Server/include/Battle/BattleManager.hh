@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 11:51:11 2014 antoine maitre
-// Last update Mon Feb 10 15:48:37 2014 antoine maitre
+// Last update Tue Feb 11 14:54:38 2014 antoine maitre
 //
 
 #ifndef				__BATTLEMANAGER_HH__
@@ -29,6 +29,7 @@ private:
   void				deleteBattleUpdaters();
 
 public:
+  void				newBattle(Player *player1, Player *player2);
   bool				spell(Trame *);
   bool				capture(Trame *);
   bool				dswitch(Trame *);

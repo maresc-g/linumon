@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:31:31 2014 laurent ansel
-// Last update Tue Feb 11 13:10:43 2014 laurent ansel
+// Last update Tue Feb 11 14:30:28 2014 laurent ansel
 //
 
 #include			<functional>
@@ -32,7 +32,7 @@ bool				InventoryManager::useObject(Trame *trame)
 {
   if ((*trame)[CONTENT].isMember("USEOBJECT"))
     {
-
+      
       return (true);
     }
   return (false);

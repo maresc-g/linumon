@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:12:01 2013 laurent ansel
-// Last update Thu Nov 28 17:00:31 2013 laurent ansel
+// Last update Tue Feb 11 14:50:47 2014 laurent ansel
 //
 
 #include			"CircularBufferManager/CircularBufferManager.hh"

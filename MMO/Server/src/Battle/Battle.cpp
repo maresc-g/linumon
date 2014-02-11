@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Feb 11 13:33:44 2014 antoine maitre
+// Last update Tue Feb 11 15:20:57 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -23,6 +23,8 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
   for (auto it = tmp.begin(); it != tmp.end() && i < mobNumber; it++)
     {
       this->_mobs1.push_back((*it));
+      Stats stats = (*it)->getStats();
+      this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats.getStat(Stat::eStat::SPEED)));
       i++;
     }
   tmp = player2->getDigitaliser().getMobs();
@@ -30,8 +32,11 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
   for (auto it = tmp.begin(); it != tmp.end() && i < mobNumber; it++)
     {
       this->_mobs2.push_back((*it));
+      Stats stats = (*it)->getStats();
+      this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats.getStat(Stat::eStat::SPEED)));
       i++;
     }
+  
 }
 
 Battle::~Battle()
@@ -52,15 +57,18 @@ Battle::eBattle 			Battle::getType() const
 
 bool					Battle::spell(unsigned int const target, Spell *spell) //, int id_lanceur
 {
+  (void)spell;
   for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
     if ((*it)->getId() == target)
       {
-	(void)spell;
+	Stats statMob = (*it)->getStats();
+	statMob.setStat(Stat::eStat::HP, statMob.getStat(Stat::eStat::HP) - 10);
       }
   for (auto it = this->_mobs2.begin(); it != this->_mobs2.end(); it++)
     if ((*it)->getId() == target)
       {
-	(void)spell;
+	Stats statMob = (*it)->getStats();
+	statMob.setStat(Stat::eStat::HP, statMob.getStat(Stat::eStat::HP) - 10);
       }
   return (true);
 }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:58:39 2013 alexis mestag
-// Last update Fri Jan 31 15:38:16 2014 alexis mestag
+// Last update Tue Feb 11 14:41:20 2014 antoine maitre
 //
 
 #ifndef			__STATS_HH__
@@ -34,7 +34,8 @@ public:
 
   Stats			&operator=(Stats const &rhs);
   void			setStats(std::list<Stat *> &stats);
-
+  void			setStat(Stat::eStat const stat, int const value);
+  int			getStat(Stat::eStat const stat) const;
   virtual bool		serialization(Trame &trame) const;
   static Stats		*deserialization(Trame const &trame);
 };

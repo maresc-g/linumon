@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Tue Feb 11 14:28:18 2014 laurent ansel
+// Last update Tue Feb 11 14:52:11 2014 laurent ansel
 //
 
 #include			<list>
@@ -63,7 +63,6 @@ Server::~Server()
   delete _poll;
   this->_mutex->lock();
   delete this->_actionServer;
-  CircularBufferManager::deleteInstance();
   ClientManager::deleteInstance();
   ClientWriter::deleteInstance();
   Chat::deleteInstance();
@@ -73,6 +72,7 @@ Server::~Server()
   Crypto::deleteInstance();
   delete _protocol;
   ObjectPoolManager::deleteInstance();
+  CircularBufferManager::deleteInstance();
   this->_mutex->unlock();
   this->_mutex->destroy();
   this->_protoMutex->destroy();

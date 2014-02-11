@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 12:45:02 2014 laurent ansel
-// Last update Tue Feb 11 11:10:10 2014 laurent ansel
+// Last update Tue Feb 11 14:46:09 2014 laurent ansel
 //
 
 #include			"ClientWriter/ClientWriter.hh"
@@ -43,6 +43,8 @@ void				ClientWriter::run()
 	    _mutex->unlock();
 	    Server::getInstance()->detectWrite(tmp);
 	    _mutex->lock();
+	    if (this->_write->empty())
+	      break;
 	  }
       _mutex->unlock();
       usleep(50000);
