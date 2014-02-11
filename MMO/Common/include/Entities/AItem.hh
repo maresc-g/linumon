@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:59:30 2013 alexis mestag
-// Last update Mon Feb 10 12:48:04 2014 alexis mestag
+// Last update Tue Feb 11 14:12:31 2014 laurent ansel
 //
 
 #ifndef			__AITEM_HH__
@@ -23,7 +23,9 @@ public:
   typedef enum		eItem
     {
       NONE,
-      STUFF
+      STUFF,
+      RESSOURCE,
+      CONSUMABLE
     }			eItem;
 private:
   eItem			_itemType;
@@ -32,15 +34,16 @@ protected:
   AItem();
   AItem(std::string const &name, AItem::eItem const type);
   AItem(AItem const &rhs);
-  virtual ~AItem();
 
   AItem::eItem		getItemType() const;
   void			setItemType(AItem::eItem const type);
 
 public:
+  virtual ~AItem();
+
   AItem			&operator=(AItem const &rhs);
 
-  virtual bool		serialization(Trame &trame) const;
+  virtual bool		serialization(Trame &trame) const = 0;
   static AItem		*deserialization(Trame const &trame);
 };
 

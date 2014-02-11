@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Feb 10 15:20:06 2014 laurent ansel
+// Last update Tue Feb 11 12:41:29 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -20,6 +20,7 @@
 # include		"Stats/Talent.hh"
 # include		"Zone/Coordinate.hpp"
 # include		"Utility/ISerialization.hh"
+# include		"Entities/Inventory.hh"
 
 class			User;
 
@@ -45,6 +46,7 @@ private:
   TalentTree const		*_talentTree;
   std::list<Talent *>		_talents;
   User const			*_user;
+  Inventory			*_inventory;
 
 private:
   Player();
@@ -76,6 +78,9 @@ public:
   std::string			getZone() const;
   void				setZone(std::string const zone);
 
+  Inventory const		&getInventory() const;
+  void				setInventory(Inventory *inventory);
+
   void				addTalent(Talent *talent);
   std::list<Talent *> const	&getTalents() const;
   void				setTalents(std::list<Talent *> const &list);
@@ -101,6 +106,7 @@ public:
 #  pragma db member(Player::_y) virtual(Player::PlayerCoordinate::type) get(_coord->getY()) set(_coord->setY(?))
 #  pragma db member(Player::_faction) not_null
 #  pragma db member(Player::_digitaliser) value_not_null id_column("player_id") value_column("mob_id")
+#  pragma db member(Player::_inventory) transient
 # endif
 
 #endif

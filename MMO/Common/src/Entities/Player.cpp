@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Feb 10 15:19:34 2014 laurent ansel
+// Last update Tue Feb 11 13:12:52 2014 laurent ansel
 //
 
 #include			<functional>
@@ -13,14 +13,14 @@
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _zone("NONE"), _talentTree(NULL)
+  _faction(NULL), _zone("NONE"), _talentTree(NULL), _inventory(NULL)
 {
 
 }
 
 Player::Player(std::string const &name) :
   Persistent(), ACharacter(name, eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _zone("NONE"), _talentTree(NULL)
+  _faction(NULL), _zone("NONE"), _talentTree(NULL), _inventory(NULL)
 {
 
 }
@@ -101,6 +101,16 @@ Digitaliser const		&Player::getDigitaliser() const
   return (_digitaliser);
 }
 
+Inventory const			&Player::getInventory() const
+{
+  return (*this->_inventory);
+}
+
+void				Player::setInventory(Inventory *inventory)
+{
+  this->_inventory = inventory;
+}
+
 bool				Player::serialization(Trame &trame) const
 {
   bool				ret = true;
@@ -114,6 +124,7 @@ bool				Player::serialization(Trame &trame) const
   this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
+  //  this->_inventory->serialization(trame(trame["PLAYER"]));
   this->_talentTree->serialization(trame(trame["PLAYER"]));
   for (auto it = this->_talents.begin() ; it != this->_talents.end() ; ++it)
     (*it)->serialization(trame(trame["PLAYER"]["TALENTS"]));
@@ -136,6 +147,7 @@ Player				*Player::deserialization(Trame const &trame)
       player->setCurrentExp(trame["PLAYER"]["CURRENTEXP"].asInt());
       player->setZone(trame["PLAYER"]["ZONE"].asString());
       player->setTalentTree(*TalentTree::deserialization(trame(trame["PLAYER"])));
+      //      player->setInventory(Inventory::deserialization(trame(trame["PLAYER"])));
 
       auto			members = trame["PLAYER"]["TALENTS"].getMemberNames();
 

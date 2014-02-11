@@ -5,20 +5,25 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Fri Feb  7 13:08:26 2014 laurent ansel
+// Last update Tue Feb 11 13:47:53 2014 laurent ansel
 //
 
 #include			<sstream>
 #include			"Entities/Inventory.hh"
+#include			"ObjectPool/ObjectPoolManager.hpp"
 
 Inventory::Inventory():
+  Persistent(),
   _money(0),
-  _limit(0)
+  _limit(0),
+  _inventory(new std::list<AItem *>)
 {
 
 }
 
-Inventory::Inventory(Inventory const &rhs)
+Inventory::Inventory(Inventory const &rhs) :
+  Persistent(rhs),
+  _inventory(new std::list<AItem *>)
 {
   *this = rhs;
 }
@@ -33,16 +38,28 @@ Inventory			&Inventory::operator=(Inventory const &rhs)
     {
       this->_money = rhs.getMoney();
       this->_limit = rhs.getLimit();
+      this->setPath(rhs.getPath());
     }
   return (*this);
 }
 
-std::list<AItem *> const	&Inventory::getInventory() const
+std::string const		&Inventory::getPath() const
 {
-  return (_inventory);
+  return (this->_path);
 }
 
-void				Inventory::setInventory(std::list<AItem *> const &inventory)
+void				Inventory::setPath(std::string const &path)
+{
+  this->_path = path;
+  this->loadInventory();
+}
+
+std::list<AItem *> const	&Inventory::getInventory() const
+{
+  return (*_inventory);
+}
+
+void				Inventory::setInventory(std::list<AItem *> *inventory)
 {
   _inventory = inventory;
 }
@@ -67,6 +84,50 @@ void				Inventory::setLimit(unsigned int const limit)
   _limit = limit;
 }
 
+void				Inventory::loadInventory()
+{
+  Trame				*file;
+  int				nb = 0;
+  std::ostringstream		str;
+
+  ObjectPoolManager::getInstance()->setObject(file, "trame");
+  if (JsonFile::readFile(*file, this->_path))
+    {
+      for (auto it = this->_inventory->begin() ; it != this->_inventory->end() ; ++it)
+	delete *it;
+      this->_inventory->clear();
+
+      auto			members = file->getMemberNames();
+
+      for (auto it = members.begin() ; it != members.end() ; ++it)
+	{
+	  this->_inventory->push_back(AItem::deserialization((*file)((*file)[str.str()])));
+	  str.str("");
+	  str << "ITEM" << nb + 1;
+	}
+    }
+}
+
+void				Inventory::serializationInventory()
+{
+  Trame				*file;
+  int				nb = 0;
+  std::ostringstream		str;
+
+  if (!this->_path.empty())
+    {
+      ObjectPoolManager::getInstance()->setObject(file, "trame");
+      for (auto it = _inventory->begin() ; it != _inventory->end() ; ++it)
+	{
+	  str << "ITEM" << nb;
+	  (*it)->serialization((*file)((*file)[str.str()]));
+	  str.str("");
+	  nb++;
+	}
+      file->writeInFile(this->_path);
+    }
+}
+
 bool				Inventory::serialization(Trame &trame) const
 {
   bool				ret = true;
@@ -76,7 +137,7 @@ bool				Inventory::serialization(Trame &trame) const
   trame["INVENTORY"]["MONEY"] = this->getMoney();
   trame["INVENTORY"]["LIMIT"] = this->getLimit();
   trame["INVENTORY"]["ITEMS"];
-  for (auto it = _inventory.begin() ; it != _inventory.end() ; ++it)
+  for (auto it = _inventory->begin() ; it != _inventory->end() ; ++it)
     {
       str << "ITEM" << nb;
       ret = (*it)->serialization(trame(trame["INVENTORY"]["ITEMS"][str.str()]));
@@ -86,7 +147,7 @@ bool				Inventory::serialization(Trame &trame) const
   return (ret);
 }
 
-Inventory			*Inventory::deserializtion(Trame const &trame)
+Inventory			*Inventory::deserialization(Trame const &trame)
 {
   Inventory			*inventory = NULL;
   std::list<AItem *>		*items = NULL;
@@ -106,7 +167,7 @@ Inventory			*Inventory::deserializtion(Trame const &trame)
 	  str.str("");
 	  str << "ITEM" << nb + 1;
 	}
-      inventory->setInventory(*items);
+      inventory->setInventory(items);
     }
   return (inventory);
 }

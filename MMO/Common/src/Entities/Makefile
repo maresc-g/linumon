@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Mon Feb 10 14:35:09 2014 alexis mestag
+## Last update Tue Feb 11 14:10:58 2014 laurent ansel
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
@@ -31,6 +31,8 @@ ENTITIES_SRC=		AEntity.cpp		\
 			Spell.cpp		\
 			Spells.cpp		\
 			Stuff.cpp		\
+			Ressource.cpp		\
+			Consumable.cpp		\
 			User.cpp
 
 ENTITIES_SRC:=		$(addprefix $(ENTITIES)/, $(ENTITIES_SRC))

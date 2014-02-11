@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Sat Feb  8 18:17:49 2014 laurent ansel
+// Last update Tue Feb 11 11:15:25 2014 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -58,7 +58,8 @@ public:
 
     this->_protoMutex->lock();
     ret = this->_protocol->operator()<unsigned int const, P ...>(key, id, params ...);
-    ClientWriter::getInstance()->addNewTrame(id, 1);
+    if (ret)
+      ClientWriter::getInstance()->addNewTrame(id, 1);
     this->_protoMutex->unlock();
     return (ret);
   }
