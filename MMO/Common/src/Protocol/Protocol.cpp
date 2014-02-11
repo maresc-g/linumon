@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb 11 11:27:43 2014 laurent ansel
+// Last update Tue Feb 11 16:23:17 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -41,6 +41,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, bool>("CAPTUREEFFECT", &captureEffect);
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, unsigned int>("DEADMOB", &deadMob);
+      this->_container->load<unsigned int, unsigned int, unsigned int>("TURNTO", &turnTo);
       this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, std::list<AItem *>*>("ENDBATTLE", &endBattle);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
       this->_container->load<unsigned int, int, Zone *>("REMOVEENTITY", &removeEntity);
@@ -527,6 +528,26 @@ bool			deadMob(unsigned int const id, unsigned int const idBattle, unsigned int 
     {
       (*trame)[CONTENT]["DEADMOB"]["IDBATTLE"] = idBattle;
       (*trame)[CONTENT]["DEADMOB"]["ID"] = idMob;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			turnTo(unsigned int const id, unsigned int const idBattle, unsigned int const idMob)
+{
+    Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["TURNTO"]["IDBATTLE"] = idBattle;
+      (*trame)[CONTENT]["TURNTO"]["ID"] = idMob;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
