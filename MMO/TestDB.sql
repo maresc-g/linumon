@@ -47,3 +47,9 @@ DELETE FROM `Player_talents`;
 
 INSERT INTO `Player_talents`(`object_id`, `index`, `value`) VALUES(1, 0, 1);
 INSERT INTO `Player_talents`(`object_id`, `index`, `value`) VALUES(2, 0, 2);
+
+/* Inserting DBZones */
+DELETE FROM `DBZone`;
+
+INSERT INTO `DBZone`(`id`, `name`, `averageLevel`) VALUES(1, 'PLAIN', 10);
+INSERT INTO `DBZone`(`id`, `name`, `averageLevel`) VALUES(2, 'ROCK', 40);
