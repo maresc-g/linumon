@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Feb 11 15:20:57 2014 antoine maitre
+// Last update Tue Feb 11 17:04:37 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -36,7 +36,8 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
       this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats.getStat(Stat::eStat::SPEED)));
       i++;
     }
-  
+  this->_order.sort(compareSpeed);
+  this->next();
 }
 
 Battle::~Battle()
@@ -120,4 +121,20 @@ bool					Battle::capture(unsigned int const target)
 	}
       return (false);
     }
+}
+
+void					Battle::next()
+{
+  Server::getInstance()->callProtocol<unsigned int const, unsigned int const>("TURNTO", this->_player1->getId(), this->_id, std::get<0>(this->_order.front()));
+  auto tmp = this->_order.front();
+  this->_order.pop_front();
+  this->_order.push_back(tmp);
+}
+
+bool					compareSpeed(std::tuple<int, int> tuple1, std::tuple<int, int> tuple2)
+{
+  if (std::get<1>(tuple1) < std::get<1>(tuple2))
+    return (true);
+  else
+    return (false);
 }

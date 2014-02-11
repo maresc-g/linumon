@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb 11 15:20:41 2014 guillaume marescaux
+// Last update Tue Feb 11 15:37:32 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -375,8 +375,8 @@ bool				Core::move(CLIENT::eDirection dir)
   newY = (**_player)->getY() + (dir == CLIENT::UP ? -1 : (dir == CLIENT::DOWN ? 1 : 0));
   map->lock();
   zone = map->getZone((**_player)->getZone());
-  if (zone && zone->getCase(newX, newY)->getEntities()->size() == 0
-      && newX >= 0 && newY >= 0 && newX < zone->getSizeX() && newY < zone->getSizeY())
+  if (zone && newX >= 0 && newY >= 0 && newX < zone->getSizeX() && newY < zone->getSizeY()
+      && zone->getCase(newX, newY)->getEntities()->size() == 0)
     {
       (**_player)->setCoord(newX, newY);
       (*_proto).operator()<unsigned int const, int, Player::PlayerCoordinate const *>("ENTITY", _id, (**_player)->getId(),
@@ -434,7 +434,7 @@ void				Core::sendSwitch(unsigned int idBattle, unsigned int target, unsigned in
 
 void				Core::useObject(unsigned int target, AItem const &item)
 {
-  (*_proto).operator()<unsigned int const, unsigned int, AItem const *>("USEOBJECT", _id, target, &item);  
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("USEOBJECT", _id, target, item.getId());  
 }
 
 // void				unsigned interaction();

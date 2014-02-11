@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Tue Feb 11 15:17:11 2014 antoine maitre
+// Last update Tue Feb 11 17:01:35 2014 antoine maitre
 //
 
 #ifndef				__BATTLE_HH__
@@ -14,6 +14,7 @@
 # include			<string>
 # include			<tuple>
 # include			"Entities/Player.hh"
+# include			"Server/Server.hh"
 
 class				Battle 
 {
@@ -40,6 +41,9 @@ public:
   bool				dswitch(unsigned int const, unsigned int const);
   bool				capture(unsigned int const);
   bool				spell(unsigned int const, Spell *);
+  void				next();
 };
+
+bool				compareSpeed(std::tuple<int, int>, std::tuple<int, int>);
 
 #endif

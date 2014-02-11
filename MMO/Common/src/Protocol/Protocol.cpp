@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb 11 16:18:14 2014 laurent ansel
+// Last update Tue Feb 11 16:22:38 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -42,6 +42,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, bool>("CAPTUREEFFECT", &captureEffect);
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, unsigned int>("DEADMOB", &deadMob);
+      this->_container->load<unsigned int, unsigned int, unsigned int>("TURNTO", &turnTo);
       this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, std::list<AItem *>*>("ENDBATTLE", &endBattle);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
       this->_container->load<unsigned int, int, Zone *>("REMOVEENTITY", &removeEntity);
@@ -61,7 +62,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, std::string, std::string>("CHAT", &chat);
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
-      this->_container->load<unsigned int, unsigned int, AItem const *>("USEOBJECT", &useObject);
+      this->_container->load<unsigned int, unsigned int, unsigned int>("USEOBJECT", &useObject);
       this->_container->load<unsigned int, AItem const *>("PUTITEM", &putItem);
       this->_container->load<unsigned int, AItem const *>("GETITEM", &getItem);
       this->_container->load<unsigned int, unsigned int>("PUTMONEY", &putMoney);
@@ -559,6 +560,26 @@ bool			deadMob(unsigned int const id, unsigned int const idBattle, unsigned int 
   return (false);
 }
 
+bool			turnTo(unsigned int const id, unsigned int const idBattle, unsigned int const idMob)
+{
+    Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["TURNTO"]["IDBATTLE"] = idBattle;
+      (*trame)[CONTENT]["TURNTO"]["ID"] = idMob;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
 bool			endBattle(unsigned int const id, 
 					    unsigned int const idBattle,
 					    bool win, 
@@ -588,7 +609,7 @@ bool			endBattle(unsigned int const id,
   return (false);
 }
 
-bool			useObject(unsigned int const id, unsigned int target, AItem const *item)
+bool			useObject(unsigned int const id, unsigned int target, unsigned int idItem)
 {
   Trame			*trame;
   Header		*header;
@@ -600,7 +621,7 @@ bool			useObject(unsigned int const id, unsigned int target, AItem const *item)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["USEOBJECT"]["TARGET"] = target;
-      (*trame)[CONTENT]["USEOBJECT"]["ITEM"] = item->serialization((*trame)((*trame)[CONTENT]["USEOBJECT"]["ITEM"]));
+      (*trame)[CONTENT]["USEOBJECT"]["ITEM"] = idItem;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
