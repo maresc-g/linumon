@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:16:30 2014 guillaume marescaux
-// Last update Fri Feb  7 12:18:52 2014 guillaume marescaux
+// Last update Tue Feb 11 10:42:19 2014 guillaume marescaux
 //
 
 #ifndef 		__ITEMVIEW_HH__
@@ -16,6 +16,7 @@
 #include		<Qt/qpainter.h>
 #include		"ui_itemview.h"
 #include		"Qt/WindowManager.hh"
+#include		"Entities/AItem.hh"
 
 class			ItemView : public QWidget
 {
@@ -23,13 +24,14 @@ class			ItemView : public QWidget
 
 public:
 
-  ItemView(QWidget *, WindowManager *wMan = NULL);
+  ItemView(QWidget *, WindowManager *wMan, AItem *item = NULL);
   ~ItemView();
 
 private:
 
   Ui::itemview		ui;
   WindowManager		*_wMan;
+  AItem			*_item;
 
 private:
 
