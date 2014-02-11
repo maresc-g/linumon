@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Mon Feb 10 10:29:10 2014 guillaume marescaux
+// Last update Tue Feb 11 14:12:51 2014 alexis mestag
 //
 
 #ifndef			__ZONE_HH__
@@ -16,32 +16,33 @@
 # include		"Trame/Trame.hh"
 # include		"Utility/Nameable.hh"
 # include		"Utility/GenericSerialization.hpp"
-
-namespace		ZONE
-{
-  enum			eZone
-    {
-      NONE,
-      PLAIN,
-      ROCK
-    };
-};
-
+# include		"Entities/Player.hh"
 # include		"Case.hh"
 
-class			Case;
+# ifdef	SERVER
+#  include		"Database/Repositories/DBZoneRepository.hpp"
+# endif
 
-class			Zone : public ISerialization
+class			Case;
+class			Player;
+
+class			Zone : public ISerialization, public Nameable
 {
 private:
   int const		_sizeX;
   int const		_sizeY;
   std::list<AEntity *>	*_players;
-  ZONE::eZone const	_type;
   std::list<Case *>	*_cases;
+
+# ifdef	SERVER
+  DBZone const		*_dbZone;
+
+  void			setDBZone(DBZone const &zone);
+# endif
+
 public:
   Zone(Json::Value topography);
-  Zone(int const, int const, ZONE::eZone const);
+  //  Zone(int const, int const, std::string const);
   virtual ~Zone();
   void			addPlayer(AEntity *);
   void			delPlayer(AEntity *);
@@ -52,8 +53,13 @@ public:
   std::list<Case *>	*getCases() const;
   virtual bool		serialization(Trame &trame) const;
   void			deserialization(Trame const &trame);
+  void			move(Player::PlayerCoordinate const &source, Player::PlayerCoordinate const &dest, AEntity *entity);
   int			getSizeX() const;
   int			getSizeY() const;
+
+# ifdef	SERVER
+  DBZone const		&getDBZone() const;
+# endif
 };
 
 bool			sameValue(Case *, Case *);

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Feb 10 14:12:10 2014 guillaume marescaux
+// Last update Tue Feb 11 11:27:43 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -32,6 +32,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, Player *>("PLAYER", &player);
       this->_container->load<unsigned int, Zone *>("MAP", &map);
       this->_container->load<unsigned int, Trame *, Zone *, bool>("SENDTOALLCLIENT", &sendToAllClient);
+      this->_container->load<unsigned int, Trame *>("ALREADYREADY", &sendTrameAlreadyReady);
 
 
       this->_container->load<unsigned int, unsigned int, Player const *>("LAUNCHBATTLE", &launchBattle);
@@ -56,7 +57,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, std::string, Faction const *>("CREATE", &create);
       this->_container->load<unsigned int, int>("CHOOSEPLAYER", &choosePlayer);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
-      this->_container->load<unsigned int, int, std::string>("CHAT", &chat);
+      this->_container->load<unsigned int, std::string, std::string>("CHAT", &chat);
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, AItem const *>("USEOBJECT", &useObject);
@@ -94,6 +95,7 @@ bool			welcome(unsigned int const id)
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -104,15 +106,17 @@ bool			welcome(unsigned int const id)
       (*trame)[CONTENT]["WELCOME"];
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			error(unsigned int const id, Error *error)
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -122,15 +126,17 @@ bool			error(unsigned int const id, Error *error)
     {
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			check(unsigned int const id)
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -141,16 +147,18 @@ bool			check(unsigned int const id)
       (*trame)[CONTENT]["CHECK"];
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 
-bool			chat(unsigned int const id, int idZone, std::string msg)
+bool			chat(unsigned int const id, std::string idZone, std::string msg)
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -162,15 +170,17 @@ bool			chat(unsigned int const id, int idZone, std::string msg)
       (*trame)[CONTENT]["MESSAGE"] = msg;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool		         initialize(unsigned int const id)
 {
   Trame                 *trame;
   Header                *header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -181,15 +191,17 @@ bool		         initialize(unsigned int const id)
       (*trame)[CONTENT]["INITIALIZE"];
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool		         entity(unsigned int const id, int playerId, Player::PlayerCoordinate const *coord)
 {
   Trame                 *trame;
   Header                *header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -200,15 +212,17 @@ bool		         entity(unsigned int const id, int playerId, Player::PlayerCoordin
       (*trame)[CONTENT]["ENTITY"]["ID"] = playerId;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool		         removeEntity(unsigned int const id, int entityId, Zone *zone)
 {
   Trame                 *trame;
   Header                *header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -218,16 +232,17 @@ bool		         removeEntity(unsigned int const id, int entityId, Zone *zone)
     {
       (*trame)[CONTENT]["ID"] = entityId;
       trame->setEnd(true);
-      sendToAllClient(id, trame, zone, false);
+      ret = sendToAllClient(id, trame, zone, false);
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			connection(unsigned int const id, std::string pseudo, std::string pass)
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -239,15 +254,17 @@ bool			connection(unsigned int const id, std::string pseudo, std::string pass)
       (*trame)[CONTENT]["CONNECTION"]["PASS"] =pass;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			create(unsigned int const id, std::string name, Faction const *faction)
 {
   Trame                 *trame;
   Header                *header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -259,15 +276,17 @@ bool			create(unsigned int const id, std::string name, Faction const *faction)
       faction->serialization((*trame)((*trame)[CONTENT]["CREATE"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool                    choosePlayer(unsigned int const id, int playerId)
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -278,15 +297,17 @@ bool                    choosePlayer(unsigned int const id, int playerId)
       (*trame)[CONTENT]["CHOOSEPLAYER"] = playerId;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool                    playerlist(unsigned int const id, User *user)
 {
   Trame                 *trame;
   Header                *header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -296,15 +317,17 @@ bool                    playerlist(unsigned int const id, User *user)
     {
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool                    player(unsigned int const id, Player *player)
 {
   Trame                 *trame;
   Header                *header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -315,15 +338,17 @@ bool                    player(unsigned int const id, Player *player)
       Player::deserialization(*trame);
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool                    map(unsigned int const id, Zone *zone)
 {
   Trame                 *trame;
   Header                *header;
+  bool			ret = false;
 
   if (zone)
     {
@@ -336,10 +361,11 @@ bool                    map(unsigned int const id, Zone *zone)
 	  std::cout << trame->toString() << std::endl;
 	  trame->setEnd(true);
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+	  ret = true;
 	}
       delete header;
     }
-  return (false);
+  return (ret);
 }
 
 bool                    sendToAllClient(unsigned int const id, Trame *trame, Zone *zone, bool const send)
@@ -347,6 +373,7 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
   std::list<AEntity *>	list;
   unsigned int		idClient;
   Trame			*tmp = NULL;;
+  bool			ret = false;
 
   if (trame && zone)
     {
@@ -363,15 +390,16 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
 		  tmp = NULL;
 		}
 	    }
+	  ret = true;
 	}
       if (send)
 	{
 	  (*trame)[HEADER]["IDCLIENT"] = id;
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 	}
-      return (true);
+      return (ret);
     }
-  return (false);
+  return (ret);
 }
 
 bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player const *player)
@@ -476,7 +504,7 @@ bool			dswitch(unsigned int const id,
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["SwITCH"]["IDBATTLE"] = idBattle;
+      (*trame)[CONTENT]["SWITCH"]["IDBATTLE"] = idBattle;
       (*trame)[CONTENT]["SWITCH"]["TARGET"] = target;
       (*trame)[CONTENT]["SWITCH"]["NEWMOB"] = newMob;
       trame->setEnd(true);
@@ -705,6 +733,14 @@ bool			disconnect(unsigned int const id)
     }
   delete header;
   return (false);
+}
+
+bool			sendTrameAlreadyReady(unsigned int const id, Trame *trame)
+{
+  (*trame)[HEADER]["IDCLIENT"] = id;
+  trame->setEnd(true);
+  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+  return (true);
 }
 
 bool			Protocol::decodeTrame(Trame *trame)

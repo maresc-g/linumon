@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Fri Feb  7 12:37:13 2014 alexis mestag
+// Last update Tue Feb 11 13:35:00 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -38,7 +38,6 @@ void				BattleManager::deleteBattleUpdaters()
     delete bu;
     return (true);
   };
-
   this->_mutex->lock();
   _battleUpdaters.remove_if(battleUpdaterDeleter);
   this->_mutex->unlock();
@@ -46,19 +45,40 @@ void				BattleManager::deleteBattleUpdaters()
 
 bool				BattleManager::spell(Trame *trame)
 {
-  (void)trame;
-  return (true);
+  std::list<Battle *>		*tmp;
+  
+  if ((*trame)[CONTENT]["SPELL"].isMember("IDBATTLE") &&
+      (*trame)[CONTENT]["SPELL"].isMember("SPELL") &&
+      (*trame)[CONTENT]["SPELL"].isMember("TARGET"))
+    {
+      for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
+	{
+	  (*it)->lock();
+	  tmp = (*it)->getBattles();
+	  for (auto itb = tmp->begin(); itb != tmp->end(); it++)
+	    if ((*itb)->getID() == (*trame)[CONTENT]["SPELL"]["IDBATTLE"].asUInt())
+	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	  (*it)->unlock();
+	}
+      return (true);
+    }
+  return (false);
 }
 
 bool				BattleManager::capture(Trame *trame)
 {
+  std::list<Battle *>		*tmp;
+
   if ((*trame)[CONTENT]["CAPTURE"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["CAPTURE"].isMember("TARGET"))
     {
       for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
 	{
 	  (*it)->lock();
-	  (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	  tmp = (*it)->getBattles();
+	  for (auto itb = tmp->begin(); itb != tmp->end(); it++)
+	    if ((*itb)->getID() == (*trame)[CONTENT]["CAPTURE"]["IDBATTLE"].asUInt())
+	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
 	  (*it)->unlock();
 	}
       return (true);
@@ -68,6 +88,8 @@ bool				BattleManager::capture(Trame *trame)
 
 bool				BattleManager::dswitch(Trame *trame)
 {
+  std::list<Battle *>		*tmp;
+
   if ((*trame)[CONTENT]["SWITCH"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["SWITCH"].isMember("TARGET") &&
       (*trame)[CONTENT]["SWITCH"].isMember("NEWMOB"))
@@ -75,10 +97,14 @@ bool				BattleManager::dswitch(Trame *trame)
       for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
 	{
 	  (*it)->lock();
-	  (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	  tmp = (*it)->getBattles();
+	  for (auto itb = tmp->begin(); itb != tmp->end(); it++)
+	    if ((*itb)->getID() == (*trame)[CONTENT]["SWITCH"]["IDBATTLE"].asUInt())
+	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
 	  (*it)->unlock();
 	}
-      return (false);
+      return (true);
     }
   return (false);
 }
+

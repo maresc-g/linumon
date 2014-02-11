@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Sat Nov  2 18:00:02 2013 alexis mestag
-## Last update Tue Feb  4 15:36:14 2014 alexis mestag
+## Last update Mon Feb 10 13:40:07 2014 laurent ansel
 ##
 
 SRCCOMMON +=	$(DYNAMICLIBRARY)/UnixDynamicLibrary.cpp	\

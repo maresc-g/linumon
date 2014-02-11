@@ -7,8 +7,8 @@ TARGET = ../pfa-client
 DEPENDPATH += . include src
 INCLUDEPATH += . include ../Common/include
 FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbar.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui
-LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp
-QMAKE_CXXFLAGS += -std=c++0x
+LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp -ldl
+QMAKE_CXXFLAGS += -std=c++0x -DCLIENT_COMPILATION
 OBJECTS_DIR = ./obj
 
 # Input
@@ -74,8 +74,15 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Thread/PthreadCondition.cpp \ 
                 ../Common/src/Thread/UnixThread.cpp \ 
                 ../Common/src/Protocol/Protocol.cpp \ 
+                ../Common/src/Effects/EffectLib.cpp \ 
+                ../Common/src/DynamicLibrary/UnixDynamicLibrary.cpp \
+		../Common/src/DynamicLibrary/ADynamicLibrary.cpp \
+		../Common/src/DynamicLibrary/DynamicLibrary.cpp \
                 ../Common/src/Stats/Stats.cpp \ 
                 ../Common/src/Stats/Stat.cpp \ 
+                ../Common/src/Stats/TalentTree.cpp \ 
+                ../Common/src/Stats/Talent.cpp \ 
+                ../Common/src/Stats/TalentModel.cpp \ 
                 ../Common/src/Trame/Trame.cpp \ 
                 ../Common/src/Header/Header.cpp \ 
                 ../Common/src/Entities/Spells.cpp \ 
@@ -94,6 +101,8 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/AStatEntity.cpp \ 
                 ../Common/src/Entities/Player.cpp \ 
                 ../Common/src/Entities/Stuff.cpp \ 
+                ../Common/src/Entities/Ressource.cpp \ 
+                ../Common/src/Entities/Consumable.cpp \ 
                 ../Common/src/Entities/Inventory.cpp \ 
                 ../Common/src/Entities/Faction.cpp \ 
                 ../Common/src/Utility/Nameable.cpp \ 

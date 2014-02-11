@@ -5,18 +5,22 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Mon Feb 10 10:29:45 2014 guillaume marescaux
+// Last update Tue Feb 11 11:40:52 2014 antoine maitre
 //
 
 #include			<iostream>
 #include			"Zone/Zone.hh"
 
 Zone::Zone(Json::Value const topography):
+  Nameable(topography["Type"].asString()),
   _sizeX(topography["X"].asInt()),
   _sizeY(topography["Y"].asInt()),
   _players(new std::list<AEntity *>),
-  _type(static_cast<const ZONE::eZone>(topography["Type"].asInt())),
   _cases(new std::list<Case *>)
+
+# ifdef	SERVER
+  , _dbZone(NULL)
+# endif
 {
   std::ostringstream		zone;
 
@@ -37,13 +41,24 @@ Zone::Zone(Json::Value const topography):
     }
   this->_cases->sort(compareValue);
   this->_cases->unique(sameValue);
+
+# ifdef	SERVER
+  Repository<DBZone>		*rz = Repository<DBZone>::getInstance();
+  DBZone			*z = rz->getByName(this->getName());
+
+  if (!z) {
+    std::cerr << "Error : DBZone '" << this->getName() << "' doesn't exist" << std::endl;
+  }
+
+  _dbZone = z;
+# endif
 }
 
-Zone::Zone(int const x, int const y, ZONE::eZone const type)
-  : _sizeX(x), _sizeY(y), _type(type), _cases(new std::list<Case*>)
-{
+// Zone::Zone(int const x, int const y, std::string const type)
+//   : _sizeX(x), _sizeY(y), _type(type), _cases(new std::list<Case*>)
+// {
   
-}
+// }
 
 Zone::~Zone()
 {
@@ -133,5 +148,26 @@ void				Zone::deserialization(Trame const &trame)
     }
 }
 
+void				Zone::move(Player::PlayerCoordinate const &source, Player::PlayerCoordinate const &dest, AEntity *entity)
+{
+  Case				*cas = this->getCase(source.getX(), source.getY());
+
+  cas->delAEntity(entity);
+  cas = this->getCase(dest.getX(), dest.getY());
+  cas->addAEntity(entity);
+}
+
 int				Zone::getSizeX() const { return (_sizeX); }
 int				Zone::getSizeY() const { return (_sizeY); }
+
+#ifdef	SERVER
+DBZone const			&Zone::getDBZone() const
+{
+  return (*_dbZone);
+}
+
+void				Zone::setDBZone(DBZone const &dbZone)
+{
+  _dbZone = &dbZone;
+}
+#endif

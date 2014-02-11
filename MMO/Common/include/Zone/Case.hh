@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:39:46 2014 antoine maitre
-// Last update Thu Feb  6 15:08:20 2014 antoine maitre
+// Last update Mon Feb 10 13:54:58 2014 antoine maitre
 //
 
 #ifndef				__CASE_HH__

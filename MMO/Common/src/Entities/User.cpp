@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:50 2013 alexis mestag
-// Last update Thu Feb  6 14:58:44 2014 alexis mestag
+// Last update Tue Feb 11 11:28:29 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -113,14 +113,14 @@ bool				User::serialization(Trame &trame) const
 	  str.str("");
 	  i++;
 	}
-      return (true);
     }
   else
     trame[CONTENT]["PLAYERLIST"];
 #else
   (void)trame;
-#endif
   return (false);
+#endif
+  return (true);
 }
 
 std::list<PlayerView *>		*User::deserialization(Trame const &trame)

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Fri Feb  7 12:10:06 2014 laurent ansel
+// Last update Tue Feb 11 13:35:43 2014 laurent ansel
 //
 
 #ifndef 			__INVENTORY_HH__
@@ -14,27 +14,35 @@
 #include			<list>
 #include			"Utility/ISerialization.hh"
 #include			"Entities/AItem.hh"
+#include			"Database/Persistent.hh"
+#include			"JsonFile/JsonFile.hh"
 
-class				Inventory : public ISerialization
+class				Inventory : public Persistent, public ISerialization
 {
-  friend class		odb::access;
+  friend class			odb::access;
 
 private:
-  std::list<AItem *>		_inventory;
+  std::string			_path;
   unsigned int			_money;
   unsigned int			_limit;
+  std::list<AItem *>		*_inventory;
 
   Inventory();
-  Inventory(Inventory const &rhs);
+  void				loadInventory();
 
 public:
-
+  Inventory(Inventory const &rhs);
   virtual ~Inventory();
 
   Inventory			&operator=(Inventory const &rhs);
 
+  void				serializationInventory();
+
+  std::string const		&getPath() const;
+  void				setPath(std::string const &path);
+
   std::list<AItem *> const	&getInventory() const;
-  void				setInventory(std::list<AItem *> const &inventory);
+  void				setInventory(std::list<AItem *> *inventory);
 
   unsigned int			getMoney() const;
   void				setMoney(unsigned int const money);
@@ -43,7 +51,7 @@ public:
   void				setLimit(unsigned int const limit);
 
   virtual bool			serialization(Trame &trame) const;
-  static Inventory		*deserializtion(Trame const &trame);
+  static Inventory		*deserialization(Trame const &trame);
 };
 
 #endif

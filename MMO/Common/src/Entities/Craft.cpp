@@ -5,15 +5,15 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:40:15 2014 laurent ansel
-// Last update Fri Feb  7 14:42:28 2014 laurent ansel
+// Last update Mon Feb 10 11:09:21 2014 alexis mestag
 //
 
 #include			<sstream>
 #include			"Entities/Craft.hh"
 
 Craft::Craft():
-  Nameable(""),
   Persistent(),
+  Nameable(),
   _result(NULL)
 {
 }
@@ -23,8 +23,8 @@ Craft::~Craft()
 }
 
 Craft::Craft(Craft const &rhs):
-  Nameable(""),
-  Persistent(rhs)
+  Persistent(rhs),
+  Nameable(rhs)
 {
   *this = rhs;
 }
@@ -33,7 +33,7 @@ Craft				&Craft::operator=(Craft const &rhs)
 {
   if (this != &rhs)
     {
-
+      this->setLevel(rhs.getLevel());
     }
   return (*this);
 }

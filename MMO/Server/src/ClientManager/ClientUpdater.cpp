@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Thu Feb  6 13:40:48 2014 laurent ansel
+// Last update Tue Feb 11 11:14:05 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -333,6 +333,25 @@ void				ClientUpdater::getClients(std::list<FD> &list) const
 	list.push_back((*it).first->getId());
     }
   this->_mutex->unlock();
+}
+
+bool				ClientUpdater::setTalents(Trame *trame) const
+{
+  FD				fd;
+
+  this->_mutex->lock();
+  fd = (*trame)[HEADER]["IDCLIENT"].asUInt();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  (*it).first->updateTalents(trame);
+	  this->_mutex->unlock();
+	  return (true);
+	}
+    }
+  this->_mutex->unlock();
+  return (false);
 }
 
 void				*runClientUpdater(void *data)

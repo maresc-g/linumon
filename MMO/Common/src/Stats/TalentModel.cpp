@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:18:40 2014 alexis mestag
-// Last update Mon Feb  3 13:43:44 2014 laurent ansel
+// Last update Mon Feb 10 14:53:38 2014 laurent ansel
 //
 
 #include			<functional>
@@ -92,15 +92,33 @@ void				TalentModel::setTalents(TalentModel const &talent)
     }
 }
 
-bool				TalentModel::serialization(Trame &) const
+bool				TalentModel::serialization(Trame &trame) const
 {
   bool				ret = true;
 
+  trame[this->getName()]["PTS"] = this->_maxPoints;
+  this->_effectLib->serialization(trame(trame[this->getName()]));
+  for (auto it = this->_talents.begin() ; it != this->_talents.end() ; ++it)
+    (*it)->serialization(trame(trame[this->getName()]));
   return (ret);
 }
 
-TalentModel			*TalentModel::deserialization(Trame const &)
+TalentModel			*TalentModel::deserialization(Trame const &trame)
 {
   TalentModel			*talentModel = NULL;
+  auto				members = trame.getMemberNames();
+
+  for (auto it = members.begin() ; it != members.end() ; ++it)
+    {
+      talentModel = new TalentModel;
+      talentModel->setName(*it);
+      talentModel->setMaxPoints(trame[*it]["PTS"].asInt());
+      talentModel->setEffectLib(*EffectLib::deserialization(trame(trame[*it])));
+
+      auto			otherMembers = trame[(*it)].getMemberNames();
+
+      for (auto other = otherMembers.begin() ; other != otherMembers.end() ; ++other)
+	talentModel->addTalent(*TalentModel::deserialization(trame(trame[*it])));
+    }
   return (talentModel);
 }

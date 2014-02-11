@@ -5,13 +5,17 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Feb  1 15:22:57 2014 alexis mestag
-// Last update Thu Feb  6 16:02:20 2014 alexis mestag
+// Last update Mon Feb 10 15:47:45 2014 alexis mestag
 //
 
 #ifndef				__REPOSITORY_HPP__
 # define			__REPOSITORY_HPP__
 
 # include			"Utility/Singleton.hpp"
+# include			"Database/Database.hpp"
+
+template<typename T>
+class				Repository;
 
 template<typename T>
 class				BaseRepository : public Singleton<Repository<T> >

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Mon Feb 10 13:33:24 2014 guillaume marescaux
+// Last update Mon Feb 10 16:18:37 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -23,6 +23,7 @@
 #include			"Utility/FunctorContainer.hpp"
 #include			"Error/Error.hpp"
 #include			"Entities/Players.hh"
+#include			"Zone/Zone.hh"
 
 class				Protocol;
 
@@ -77,7 +78,7 @@ bool				map(unsigned int const id, Zone *zone);
 bool				sendToAllClient(unsigned int const id, Trame *trame, Zone *zone, bool const send);
 bool				entity(unsigned int const id, int playerId, Player::PlayerCoordinate const *coord);
 bool				removeEntity(unsigned int const id, int removeId, Zone *zone);
-bool				chat(unsigned int const id, int idZone, std::string msg);
+bool				chat(unsigned int const id, std::string idZone, std::string msg);
 bool				capture(unsigned int const id, unsigned int idBattle, unsigned int target);
 //  bool				stuff(void *action);
   // bool				talents();
@@ -93,5 +94,6 @@ bool				accept(unsigned int const id);
 bool				refuse(unsigned int const id);
 bool				heal(unsigned int const id);
 bool				disconnect(unsigned int const id);
+bool				sendTrameAlreadyReady(unsigned int const id, Trame *trame);
 
 #endif

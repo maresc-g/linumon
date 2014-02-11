@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Sat Feb  8 16:38:50 2014 laurent ansel
+// Last update Tue Feb 11 11:06:09 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -196,6 +196,18 @@ void				ClientManager::sendListPlayers(FD const fd) const
   this->_mutex->unlock();
 }
 
+void				ClientManager::setPlayerTalents(Trame *trame) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->setTalents(trame);
+  this->_mutex->unlock();
+
+}
+
 bool				ClientManager::userAlreadyConnected(FD const fd, User *user) const
 {
   bool				ret = false;
@@ -267,6 +279,7 @@ bool				ClientManager::connectionUser(Trame *trame)
       this->_mutex->unlock();
       if (user && this->userAlreadyConnected((*trame)[HEADER]["IDCLIENT"].asUInt(), user))
       	return (false);
+
       this->_mutex->lock();
 
       if (user && user->getPassword() == (*trame)[CONTENT]["CONNECTION"]["PASS"].asString())

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:31:31 2014 laurent ansel
-// Last update Sat Feb  8 17:48:31 2014 laurent ansel
+// Last update Tue Feb 11 13:10:43 2014 laurent ansel
 //
 
 #include			<functional>
@@ -28,14 +28,21 @@ InventoryManager::~InventoryManager()
 
 }
 
-bool				InventoryManager::useObject(Trame *)
+bool				InventoryManager::useObject(Trame *trame)
 {
+  if ((*trame)[CONTENT].isMember("USEOBJECT"))
+    {
 
+      return (true);
+    }
   return (false);
 }
 
-bool				InventoryManager::deleteObject(Trame *)
+bool				InventoryManager::deleteObject(Trame *trame)
 {
-
+  if ((*trame)[CONTENT].isMember("DELETEOBJECT"))
+    {
+      return (true);
+    }
   return (false);
 }
