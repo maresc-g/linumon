@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Tue Feb 11 14:25:57 2014 laurent ansel
+// Last update Tue Feb 11 14:28:18 2014 laurent ansel
 //
 
 #include			<list>
@@ -67,7 +67,7 @@ Server::~Server()
   ClientManager::deleteInstance();
   ClientWriter::deleteInstance();
   Chat::deleteInstance();
-  // delete this->_gameProtocol;
+  delete this->_gameProtocol;
   Map::deleteInstance();
   delete _codeBreaker;
   Crypto::deleteInstance();
