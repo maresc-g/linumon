@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Jan 30 12:41:57 2014 alexis mestag
-// Last update Mon Feb 10 12:45:45 2014 laurent ansel
+// Last update Tue Feb 11 15:02:46 2014 laurent ansel
 //
 
 #include			"Effects/EffectLib.hh"
@@ -70,6 +70,7 @@ IEffect				*EffectLib::getEffect()
 bool				EffectLib::serialization(Trame &) const
 {
   bool				ret = true;
+
 
   return (ret);
 }
