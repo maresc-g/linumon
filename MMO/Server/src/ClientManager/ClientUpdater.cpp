@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Tue Feb 11 11:14:05 2014 laurent ansel
+// Last update Tue Feb 11 16:02:54 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -346,6 +346,38 @@ bool				ClientUpdater::setTalents(Trame *trame) const
       if (fd == (*it).first->getId() && (*it).first->isUse())
 	{
 	  (*it).first->updateTalents(trame);
+	  this->_mutex->unlock();
+	  return (true);
+	}
+    }
+  this->_mutex->unlock();
+  return (false);
+}
+
+bool				ClientUpdater::playerObject(FD const fd, unsigned int const target, unsigned int const item) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  (*it).first->useObject(target, item);
+	  this->_mutex->unlock();
+	  return (true);
+	}
+    }
+  this->_mutex->unlock();
+  return (false);
+}
+
+bool				ClientUpdater::playerObject(FD const fd, unsigned int const item) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  (*it).first->deleteObject(item);
 	  this->_mutex->unlock();
 	  return (true);
 	}

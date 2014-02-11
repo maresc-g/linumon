@@ -5,14 +5,14 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Thu Feb  6 15:18:13 2014 antoine maitre
+// Last update Tue Feb 11 16:42:19 2014 antoine maitre
 //
 
 #include		"Zone/Case.hh"
 
 Case::Case(int const x, int const y, bool const safe) :
   _entities(new std::list<AEntity *>),
-  _coord(new Coordinate<int>(x, y)),
+  _coord(x, y),
   _safe(safe)
 {
 
@@ -30,7 +30,7 @@ bool			Case::getSafe() const
 
 const Coordinate<int>	&Case::getCoord() const
 {
-  return (*this->_coord);
+  return (this->_coord);
 }
 
 std::list<AEntity *>	*Case::getEntities() const
@@ -52,8 +52,8 @@ bool			Case::serialization(Trame &trame) const
 {
   if (!this->_entities->empty())
     {
-      trame["X"] = this->_coord->getX();
-      trame["Y"] = this->_coord->getY();
+      trame["X"] = this->_coord.getX();
+      trame["Y"] = this->_coord.getY();
       serialList(trame, *(this->_entities));
       return (true);
     }

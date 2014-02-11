@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Mon Feb 10 16:18:37 2014 laurent ansel
+// Last update Tue Feb 11 16:22:27 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -63,7 +63,7 @@ bool				captureEffect(unsigned int const id, unsigned int const idBattle, bool s
 bool				dswitch(unsigned int const id, unsigned int const idBattle, unsigned int const target, unsigned int const newMob);
 bool				deadMob(unsigned int const id, unsigned int const idBattle, unsigned int const idMob);
 bool				endBattle(unsigned int const id, unsigned int const idBattle, bool win, unsigned int const money, unsigned int const exp, std::list<AItem *> *items);
-
+bool				turnTo(unsigned int const id, unsigned int const idBattle, unsigned int const idMob);
 
 bool				welcome(unsigned int const id);
 bool				check(unsigned int const id);
@@ -84,7 +84,8 @@ bool				capture(unsigned int const id, unsigned int idBattle, unsigned int targe
   // bool				talents();
   // bool				craft();
   // bool				gather();
-bool				useObject(unsigned int const id, unsigned int target, AItem const *item);
+bool				objectEffect(unsigned int const id, Stats *stats);
+bool				useObject(unsigned int const id, unsigned int target, unsigned int idItem);
 // bool				interaction();
 bool				putItem(unsigned int const id, AItem const *item);
 bool				getItem(unsigned int const id, AItem const *item);

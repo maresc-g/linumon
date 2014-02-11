@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Feb 11 15:18:18 2014 laurent ansel
+// Last update Tue Feb 11 16:02:21 2014 laurent ansel
 //
 
 #include			<functional>
@@ -121,6 +121,17 @@ void				Player::setInventory(Inventory *inventory)
 {
   this->_inventory = inventory;
 }
+
+void				Player::deleteItem(unsigned int const item)
+{
+  this->_inventory->deleteItem(item);
+}
+
+void				Player::addItem(AItem *item)
+{
+  this->_inventory->addItem(item);
+}
+
 
 bool				Player::serialization(Trame &trame) const
 {

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Tue Feb 11 15:47:19 2014 alexis mestag
+// Last update Tue Feb 11 16:25:25 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -82,6 +82,34 @@ unsigned int			Inventory::getLimit() const
 void				Inventory::setLimit(unsigned int const limit)
 {
   _limit = limit;
+}
+
+void				Inventory::deleteItem(unsigned int const id)
+{
+  auto				it = this->_inventory->begin();
+
+  for ( ; it != this->_inventory->end() && (*it)->getId() != id ; ++it);
+  if (it != this->_inventory->end() && (*it)->getId() == id)
+    {
+      this->_inventory->erase(it);
+      delete *it;
+    }
+}
+
+void				Inventory::addItem(AItem *item)
+{
+  if (item)
+    this->_inventory->push_back(item);
+}
+
+AItem				*Inventory::getItem(unsigned int const id) const
+{
+  auto				it = this->_inventory->begin();
+
+  for ( ; it != this->_inventory->end() && (*it)->getId() != id ; ++it);
+  if (it != this->_inventory->end() && (*it)->getId() == id)
+    return (*it);
+  return (NULL);
 }
 
 void				Inventory::loadInventory()
