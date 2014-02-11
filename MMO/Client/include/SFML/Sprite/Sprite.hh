@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 13:38:44 2014 cyril jourdain
-// Last update Tue Feb  4 12:52:36 2014 cyril jourdain
+// Last update Tue Feb 11 13:56:18 2014 cyril jourdain
 //
 
 #ifndef 		__SPRITE_HH__
@@ -19,12 +19,14 @@
 
 class			Sprite : public sf::Drawable, public sf::Transformable
 {
+
 private /* attributs */:
   sf::Texture		*_texture;
   std::map<std::string, Animation *>	*_anim;
   sf::Vertex		*_vertex;
   std::string		_current;
   bool			_playing;
+  
 
 public /* class specific */ :
   Sprite();
@@ -45,6 +47,7 @@ public /* methods */ :
   void			stop();
   void			pause();
   void			print();
+  std::string		getLastPlayed();
 };
 
 #endif

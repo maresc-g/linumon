@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:08:26 2014 cyril jourdain
-// Last update Wed Feb  5 16:28:05 2014 cyril jourdain
+// Last update Tue Feb 11 14:16:58 2014 cyril jourdain
 //
 
 #include		"SFML/Sprite/Animation.hh"
@@ -13,7 +13,7 @@
 
 Animation::Animation() :
   _spriteList(new std::vector<sf::IntRect*>), _currentId(0), _frameCount(0),
-  _frameLenght(100000), _cFrameTime(0), _playing(false), _loopPlay(false)
+  _frameLenght(120000), _cFrameTime(0), _playing(false), _loopPlay(true)
 {
   //_spriteList->push_back(new sf::IntRect(0,0,100,100));
   // _spriteList->push_back(new sf::IntRect(20,0,100,100));

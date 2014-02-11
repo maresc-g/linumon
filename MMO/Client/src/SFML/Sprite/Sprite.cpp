@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Wed Feb  5 16:21:13 2014 cyril jourdain
+// Last update Tue Feb 11 13:41:37 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -103,6 +103,7 @@ void			Sprite::loadFromFile(std::string const path)
 void			Sprite::addAnim(std::string const &name)
 {
   _anim->insert(std::pair<std::string, Animation*>(name, new Animation()));
+  std::cout << name << std::endl;
 }
 
 void			Sprite::play(std::string const &name)
@@ -142,4 +143,9 @@ void			Sprite::print()
     {
       std::cout << "{" << it->first << "}" << std::endl;
     }
+}
+
+std::string		Sprite::getLastPlayed()
+{
+  return _current;
 }

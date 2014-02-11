@@ -1,3 +1,4 @@
 {
-    "perso1" : "./Res/perso1.png"
+    "perso1" : "./Res/perso1.png",
+    "textures" : "./Res/textures.png"
 }

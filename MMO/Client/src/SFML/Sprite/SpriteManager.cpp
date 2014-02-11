@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Feb  4 11:04:13 2014 cyril jourdain
-// Last update Tue Feb  4 13:22:15 2014 cyril jourdain
+// Last update Tue Feb 11 13:31:32 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -69,9 +69,7 @@ void		SpriteManager::loadAnimations(std::string const &jsonPath)
 				      size,
 				      size));
 	    }
-	  j++;
 	}
-      i++;
     }
 }
 
@@ -80,7 +78,7 @@ Sprite		*SpriteManager::getSprite(std::string const &anim) const
   try {
     return _anims->at(anim);
   } catch (std::out_of_range const &e) {
-    std::cerr << "operator[] in Sprite. No animation named" << anim << std::endl;
+    std::cerr << "operator[] in Sprite. No animation named " << anim << std::endl;
   }
 }
 
@@ -89,6 +87,6 @@ Sprite		*SpriteManager::copySprite(std::string const &anim)
   try {
     return new Sprite(*(_anims->at(anim)));
   } catch (std::out_of_range const &e) {
-    std::cerr << "operator[] in Sprite. No sprite named" << anim << std::endl;
+    std::cerr << "operator[] in Sprite. No sprite named " << anim << std::endl;
   }
 }

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:05:10 2013 cyril jourdain
-// Last update Mon Feb 10 14:21:06 2014 cyril jourdain
+// Last update Mon Feb 10 17:59:47 2014 cyril jourdain
 //
 
 #include		"Qt/Views/CharacterView.hh"

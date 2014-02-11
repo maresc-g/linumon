@@ -5,11 +5,13 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Mon Feb 10 13:12:27 2014 cyril jourdain
+// Last update Tue Feb 11 13:56:12 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
 # define 		__SFMLVIEW_HPP__
+
+#include		<map>
 
 #include		"Qt/QSFMLWidget.hpp"
 #include		"Qt/WindowManager.hh"
@@ -22,6 +24,8 @@
 #include		"SFML/Sprite/SpriteManager.hh"
 #include		"SFML/Sprite/Sprite.hh"
 
+#include		"SFML/GraphicEntities.hh"
+
 
 class			WindowManager;
 class			SpellBarView;
@@ -33,18 +37,32 @@ class			ChatView;
 class			SFMLView : public QSFMLWidget
 {
 private:
+  enum	eDir
+    {
+      LEFT,
+      DOWN,
+      RIGHT,
+      UP,
+      NONE
+    };
+
+private:
+  typedef std::map<int, std::map<int, Sprite *>> SpriteMap;
   WindowManager		*_wMan;
   SpriteManager		*_sMan;
   Sprite		*_mainPerso;
   sf::Clock		*_clock;
+  std::list<GraphicPlayer*> _players;
+  SpriteMap		*_sprites;
   sf::View		*_view;
   sf::Sprite		*_spriteTest;
   sf::Texture		*_textureTest;
-  /* Here the attributes of the class */
-
   sf::Vector2f		_pos;
   sf::Vector2f		_deltaPos;
   bool			_moving;
+  eDir			_dir;
+
+  /* Child Views */
   SpellBarView		*_spellBar;
   ItemView		*_itemView;
   InventoryView		*_inventory;
@@ -62,6 +80,8 @@ private :
   void				drawView();
   void				checkKeys();
   void				moveMainPerso(float const elapsedTime);
+  void				loadPlayerList();
+  void				loadMap();
 };
 
 #endif
