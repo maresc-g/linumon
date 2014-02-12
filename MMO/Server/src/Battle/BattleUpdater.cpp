@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Tue Feb 11 16:47:17 2014 antoine maitre
+// Last update Wed Feb 12 19:06:30 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -77,8 +77,6 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2)
 	  // if (player2->getType() == IA || player1->getType() == IA)
 	  //   {
 	  new Battle(id, Battle::PVE, 1, player1, player2);
-	  Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", player2->getId(), id, player1);
-	  Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", player1->getId(), id, player2);
 	    // }
 	  // else
 	  //   {
@@ -93,9 +91,17 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2)
 bool				BattleUpdater::spell(Trame *trame)
 {
   Spell				*spell = Spell::deserialization((*trame)((*trame)["SPELL"]["SPELL"]));
+  Battle			*tmp = NULL;
+
   for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     if ((*it)->getID() == (*trame)["SPELL"]["IDBATTLE"].asUInt())
-      (*it)->spell((*trame)["SPELL"]["TARGET"].asUInt(), spell);
+      if ((*it)->spell((*trame)["SPELL"]["LAUNCHER"].asUInt(), (*trame)["SPELL"]["TARGET"].asUInt(), spell))
+	tmp = (*it);
+  if (tmp)
+    {
+      this->_battles->remove(tmp);
+      delete tmp;
+    }
   return (true);
 }
 

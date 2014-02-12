@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Feb 11 17:04:37 2014 antoine maitre
+// Last update Wed Feb 12 19:07:38 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -36,6 +36,8 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
       this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats.getStat(Stat::eStat::SPEED)));
       i++;
     }
+  Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", _player2->getId(), id, _player1);
+  Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", _player1->getId(), id, _player2);
   this->_order.sort(compareSpeed);
   this->next();
 }
@@ -44,7 +46,6 @@ Battle::~Battle()
 {
   
 }
-
 
 unsigned int				Battle::getID() const
 {
@@ -56,22 +57,62 @@ Battle::eBattle 			Battle::getType() const
   return (this->_type);
 }
 
-bool					Battle::spell(unsigned int const target, Spell *spell) //, int id_lanceur
+bool					Battle::checkEnd()
 {
+  int					i = 0;
+
+  for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
+    {
+      Stats statMob = (*it)->getStats();
+      if (statMob.getStat(Stat::eStat::HP) == 0)
+	i++;
+    }
+  if (i == 0)
+    return (true);
+  i = 0;
+  for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
+    {
+      Stats statMob = (*it)->getStats();
+      if (statMob.getStat(Stat::eStat::HP) == 0)
+	i++;
+    }
+  if (i == 0)
+    return (true);
+  else
+    return (false);
+}
+
+bool					Battle::spell(unsigned int const launcher, unsigned int const target, Spell *spell) //, int id_lanceur
+{
+  (void)launcher;
   (void)spell;
   for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
     if ((*it)->getId() == target)
       {
 	Stats statMob = (*it)->getStats();
 	statMob.setStat(Stat::eStat::HP, statMob.getStat(Stat::eStat::HP) - 10);
+	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player1->getId(), this->_id, 10, target);
+	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player2->getId(), this->_id, 10, target);
+	if (statMob.getStat(Stat::eStat::HP) <= 0)
+	  {
+	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player2->getId(), this->_id, 10, target);
+	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player1->getId(), this->_id, 10, target);
+	  }
       }
   for (auto it = this->_mobs2.begin(); it != this->_mobs2.end(); it++)
     if ((*it)->getId() == target)
       {
 	Stats statMob = (*it)->getStats();
 	statMob.setStat(Stat::eStat::HP, statMob.getStat(Stat::eStat::HP) - 10);
+	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player1->getId(), this->_id, 10, target);
+	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player2->getId(), this->_id, 10, target);
+	if (statMob.getStat(Stat::eStat::HP) <= 0)
+	  {
+	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player2->getId(), this->_id, 10, target);
+	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player1->getId(), this->_id, 10, target);
+	  }
       }
-  return (true);
+  return (this->checkEnd());
 }
 
 bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
@@ -84,6 +125,7 @@ bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
 	  if ((*itb)->getId() == newmob)
 	    {
 	      (*it) = (*itb);
+	      Server::getInstance()->callProtocol<unsigned int, unsigned int, unsigned int>("SWITCH", this->_player2->getId(), this->_id, target, newmob);
 	      return (true);
 	    }
 	return (false);
@@ -96,6 +138,7 @@ bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
 	  if ((*itb)->getId() == newmob)
 	    {
 	      (*it) = (*itb);
+	      Server::getInstance()->callProtocol<unsigned int, unsigned int, unsigned int>("SWITCH", this->_player1->getId(), this->_id, target, newmob);
 	      return (true);
 	    }
 	return (false);
@@ -116,6 +159,7 @@ bool					Battle::capture(unsigned int const target)
 	      this->_player1->capture(*(*it));
 	      this->_mobs2.erase(it);
 	      delete *it;
+	      Server::getInstance()->callProtocol<unsigned int, bool>("CAPTUREEFFECT", this->_player1->getId(), this->_id, true);
 	      return (true);
 	    }
 	}

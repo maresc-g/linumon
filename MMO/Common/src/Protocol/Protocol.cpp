@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb 11 16:44:43 2014 antoine maitre
+// Last update Wed Feb 12 18:01:35 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -59,7 +59,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, int>("CHOOSEPLAYER", &choosePlayer);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
       this->_container->load<unsigned int, std::string, std::string>("CHAT", &chat);
-      this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
+      this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int, unsigned int>("SPELL", &spell);
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, unsigned int>("USEOBJECT", &useObject);
       this->_container->load<unsigned int, AItem const *>("PUTITEM", &putItem);
@@ -426,6 +426,7 @@ bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player c
 bool			spell(unsigned int const id,
 			      unsigned int const idBattle,
 			      Spell const *spell,
+			      unsigned int const launcher,
 			      unsigned int const target)
 {
   Trame			*trame;
@@ -439,6 +440,7 @@ bool			spell(unsigned int const id,
     {
       (*trame)[CONTENT]["SPELL"]["IDBATTLE"] = idBattle;
       (*trame)[CONTENT]["SPELL"]["SPELL"] = spell->serialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
+      (*trame)[CONTENT]["SPELL"]["LAUNCHER"] = launcher;
       (*trame)[CONTENT]["SPELL"]["TARGET"] = target;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
