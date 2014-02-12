@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 14:20:20 2014 laurent ansel
-// Last update Sat Feb  8 17:56:52 2014 laurent ansel
+// Last update Wed Feb 12 20:37:56 2014 laurent ansel
 //
 
 #include			"GameProtocol/GameProtocol.hh"
@@ -16,8 +16,7 @@ GameProtocol::GameProtocol():
   _job(new JobManager),
   _other(new OtherCommand),
   _stuff(new StuffActions),
-  _talent(new TalentManager),
-  _trade(new Trade)
+  _talent(new TalentManager)
 {
 }
 
@@ -29,5 +28,4 @@ GameProtocol::~GameProtocol()
   delete _other;
   delete _stuff;
   delete _talent;
-  delete _trade;
 }

@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Thu Nov 28 16:47:21 2013 laurent ansel
-## Last update Mon Feb 10 11:42:35 2014 antoine maitre
+## Last update Wed Feb 12 14:24:16 2014 laurent ansel
 ##
 
 COMMON_INCLUDES=	-I $(COMMON)/include
@@ -24,7 +24,6 @@ ENTITIES=	$(COMMON_SRC)/Entities
 DATABASE=	$(COMMON_SRC)/Database
 UTILITY=	$(COMMON_SRC)/Utility
 STATS=		$(COMMON_SRC)/Stats
-INITIALIZECONNECTION=		$(COMMON_SRC)/InitializeConnection
 CRYPTO=		$(COMMON_SRC)/Crypto
 ZONE=		$(COMMON_SRC)/Zone
 PROTOCOL=	$(COMMON_SRC)/Protocol
@@ -49,7 +48,6 @@ include		$(ENTITIES)/Makefile
 include		$(DATABASE)/Makefile
 include		$(UTILITY)/Makefile
 include		$(STATS)/Makefile
-include		$(INITIALIZECONNECTION)/Makefile
 include		$(CRYPTO)/Makefile
 include		$(ZONE)/Makefile
 include		$(PROTOCOL)/Makefile

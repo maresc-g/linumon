@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Tue Feb 11 15:45:46 2014 laurent ansel
+// Last update Wed Feb 12 19:51:25 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -45,6 +45,11 @@ public:
   void				setPlayerTalents(Trame *trame) const;
   void				playerObject(FD const fd, unsigned int const target, unsigned int const item) const;
   void				playerObject(FD const fd, unsigned int const item) const;
+
+  void				startBattle(FD const fd) const;
+  void				endBattle(FD const fd) const;
+  void				startTrade(FD const fd) const;
+  void				endTrade(FD const fd) const;
 
 private:
   void				findWrite() const;

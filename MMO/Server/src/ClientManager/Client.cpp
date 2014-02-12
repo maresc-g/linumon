@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Feb 11 16:21:12 2014 laurent ansel
+// Last update Wed Feb 12 14:31:09 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -34,6 +34,7 @@ Client::~Client()
 
 void				Client::clear()
 {
+  _state = NONE;
   if (_player)
     Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
   delete (*_sockets)["UDP"];
@@ -61,6 +62,7 @@ FD				Client::getId() const
 
 void				Client::use(FD const id)
 {
+  _state = GAME;
   this->_id = id;
   this->_use = true;
 }
@@ -183,4 +185,24 @@ void				Client::deleteObject(unsigned int const item)
 {
   if (_player)
     _player->deleteItem(item);
+}
+
+void				Client::startBattle()
+{
+  _state = BATTLE;
+}
+
+void				Client::endBattle()
+{
+  _state = GAME;
+}
+
+void				Client::startTrade()
+{
+  _state = TRADE;
+}
+
+void				Client::endTrade()
+{
+  _state = GAME;
 }

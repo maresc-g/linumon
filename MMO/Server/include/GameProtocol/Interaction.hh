@@ -5,13 +5,14 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:36:31 2014 laurent ansel
-// Last update Sat Feb  8 17:56:37 2014 laurent ansel
+// Last update Wed Feb 12 20:32:37 2014 laurent ansel
 //
 
 #ifndef 			__INTERACTION_HH__
 # define 			__INTERACTION_HH__
 
 #include			"Trame/Trame.hh"
+#include			"Trade/TradeManager.hh"
 
 class				Interaction
 {
