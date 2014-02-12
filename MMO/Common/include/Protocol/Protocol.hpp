@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Wed Feb 12 17:58:36 2014 antoine maitre
+// Last update Wed Feb 12 19:11:36 2014 antoine maitre
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -84,6 +84,7 @@ bool				capture(unsigned int const id, unsigned int idBattle, unsigned int targe
   // bool				talents();
   // bool				craft();
   // bool				gather();
+bool				objectEffect(unsigned int const id, Stats *stats);
 bool				useObject(unsigned int const id, unsigned int target, unsigned int idItem);
 // bool				interaction();
 bool				putItem(unsigned int const id, AItem const *item);

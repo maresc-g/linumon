@@ -5,16 +5,17 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Fri Feb  7 14:52:05 2014 alexis mestag
+// Last update Tue Feb 11 16:07:55 2014 alexis mestag
 //
 
 #ifndef 		__STUFF_HH__
 # define 		__STUFF_HH__
 
 # include		<functional>
+# include		"Database/Persistent.hh"
 # include		"Entities/AItem.hh"
 
-class			Stuff : public AItem
+class			Stuff : public Persistent, public AItem
 {
   friend class		odb::access;
 
@@ -28,7 +29,7 @@ public:
       NECKLACE,
       BOOTS,
       CLOAK,
-      BREATSPLATE,
+      BREASTPLATE,
       BELT
     }			eStuff;
 private:

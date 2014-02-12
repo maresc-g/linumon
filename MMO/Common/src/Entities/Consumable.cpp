@@ -5,12 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Tue Feb 11 14:10:31 2014 laurent ansel
+// Last update Tue Feb 11 15:55:16 2014 alexis mestag
 //
 
 #include			"Entities/Consumable.hh"
 
 Consumable::Consumable() :
+  Persistent(),
   AItem("", AItem::eItem::CONSUMABLE),
   _consumableType(eConsumable::NONE)
 {
@@ -18,6 +19,7 @@ Consumable::Consumable() :
 }
 
 Consumable::Consumable(std::string const &name, eConsumable const type) :
+  Persistent(),
   AItem(name, AItem::eItem::CONSUMABLE),
   _consumableType(type)
 {
@@ -25,6 +27,7 @@ Consumable::Consumable(std::string const &name, eConsumable const type) :
 }
 
 Consumable::Consumable(Consumable const &rhs) :
+  Persistent(rhs),
   AItem(rhs.getName(), AItem::eItem::CONSUMABLE)
 {
   *this = rhs;

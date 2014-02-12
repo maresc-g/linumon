@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Tue Feb 11 13:47:53 2014 laurent ansel
+// Last update Tue Feb 11 16:25:25 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -84,11 +84,37 @@ void				Inventory::setLimit(unsigned int const limit)
   _limit = limit;
 }
 
+void				Inventory::deleteItem(unsigned int const id)
+{
+  auto				it = this->_inventory->begin();
+
+  for ( ; it != this->_inventory->end() && (*it)->getId() != id ; ++it);
+  if (it != this->_inventory->end() && (*it)->getId() == id)
+    {
+      this->_inventory->erase(it);
+      delete *it;
+    }
+}
+
+void				Inventory::addItem(AItem *item)
+{
+  if (item)
+    this->_inventory->push_back(item);
+}
+
+AItem				*Inventory::getItem(unsigned int const id) const
+{
+  auto				it = this->_inventory->begin();
+
+  for ( ; it != this->_inventory->end() && (*it)->getId() != id ; ++it);
+  if (it != this->_inventory->end() && (*it)->getId() == id)
+    return (*it);
+  return (NULL);
+}
+
 void				Inventory::loadInventory()
 {
   Trame				*file;
-  int				nb = 0;
-  std::ostringstream		str;
 
   ObjectPoolManager::getInstance()->setObject(file, "trame");
   if (JsonFile::readFile(*file, this->_path))
@@ -98,12 +124,13 @@ void				Inventory::loadInventory()
       this->_inventory->clear();
 
       auto			members = file->getMemberNames();
+      AItem			*toPush;
 
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	{
-	  this->_inventory->push_back(AItem::deserialization((*file)((*file)[str.str()])));
-	  str.str("");
-	  str << "ITEM" << nb + 1;
+	  toPush = AItem::deserialization((*file)((*file)[*it]));
+	  if (toPush)
+	    this->_inventory->push_back(toPush);
 	}
     }
 }

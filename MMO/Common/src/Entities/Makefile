@@ -5,13 +5,14 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Tue Feb 11 14:10:58 2014 laurent ansel
+## Last update Tue Feb 11 16:04:58 2014 alexis mestag
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
 			AItem.cpp		\
 			AStatEntity.cpp		\
 			ACharacter.cpp		\
+			Consumable.cpp		\
 			Craft.cpp		\
 			DBZone.cpp		\
 			Digitaliser.cpp		\
@@ -26,13 +27,12 @@ ENTITIES_SRC=		AEntity.cpp		\
 			MobModel.cpp		\
 			Player.cpp		\
 			Players.cpp		\
-			Type.cpp		\
-			TypeRelations.cpp	\
+			Ressource.cpp		\
 			Spell.cpp		\
 			Spells.cpp		\
 			Stuff.cpp		\
-			Ressource.cpp		\
-			Consumable.cpp		\
+			Type.cpp		\
+			TypeRelations.cpp	\
 			User.cpp
 
 ENTITIES_SRC:=		$(addprefix $(ENTITIES)/, $(ENTITIES_SRC))
@@ -44,9 +44,11 @@ ODB_ENTITIES+=		ACharacter.hh		\
 			AItem.hh		\
 			AStatEntity.hh		\
 			Craft.hh		\
+			Consumable.hh		\
 			DBZone.hh		\
 			Digitaliser.hh		\
 			Faction.hh		\
+			Inventory.hh		\
 			Job.hh			\
 			JobModel.hh		\
 			Level.hh		\
@@ -54,8 +56,10 @@ ODB_ENTITIES+=		ACharacter.hh		\
 			MobModel.hh		\
 			Player.hh		\
 			Players.hh		\
+			Ressource.hh		\
 			Spell.hh		\
 			Spells.hh		\
+			Stuff.hh		\
 			Type.hh			\
 			User.hh			\
 			Views/UserView.hh	\

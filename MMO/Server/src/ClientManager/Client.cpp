@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Feb 11 14:55:40 2014 laurent ansel
+// Last update Tue Feb 11 16:21:12 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -18,7 +18,8 @@ Client::Client():
   _id(0),
   _sockets(new std::map<std::string, ISocketClient *>),
   _user(NULL),
-  _player(NULL)
+  _player(NULL),
+  _state(NONE)
 {
   (*_sockets)["UDP"] = NULL;
   (*_sockets)["TCP"] = NULL;
@@ -33,8 +34,8 @@ Client::~Client()
 
 void				Client::clear()
 {
-  // if (_player)
-  //   Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+  if (_player)
+    Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
   delete (*_sockets)["UDP"];
   delete (*_sockets)["TCP"];
   (*_sockets)["UDP"] = NULL;
@@ -167,4 +168,19 @@ void				Client::updateTalents(Trame *trame) const
 {
   TalentManager::updateTalents(trame, _player);
   Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
+}
+
+void				Client::useObject(unsigned int const, unsigned int const)
+{
+  if (_player)
+    {
+      /*USE OBJECT*/
+      Server::getInstance()->callProtocol<Stats const *>("OBJECTEFFECT", _id, &_player->getStats());
+    }
+}
+
+void				Client::deleteObject(unsigned int const item)
+{
+  if (_player)
+    _player->deleteItem(item);
 }
