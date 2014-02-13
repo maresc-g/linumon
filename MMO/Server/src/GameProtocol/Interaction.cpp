@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:34:41 2014 laurent ansel
-// Last update Sat Feb  8 17:57:35 2014 laurent ansel
+// Last update Wed Feb 12 20:32:58 2014 laurent ansel
 //
 
 #include			<functional>
@@ -52,6 +52,5 @@ bool				Interaction::agro(Trame *)
 
 bool				Interaction::trade(Trame *)
 {
-
   return (false);
 }

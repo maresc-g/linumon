@@ -5,12 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Tue Feb 11 14:10:09 2014 laurent ansel
+// Last update Tue Feb 11 16:03:45 2014 alexis mestag
 //
 
 #include			"Entities/Stuff.hh"
 
 Stuff::Stuff() :
+  Persistent(),
   AItem("", AItem::eItem::STUFF),
   _stuffType(eStuff::NONE)
 {
@@ -18,6 +19,7 @@ Stuff::Stuff() :
 }
 
 Stuff::Stuff(std::string const &name, eStuff const type) :
+  Persistent(),
   AItem(name, AItem::eItem::STUFF),
   _stuffType(type)
 {
@@ -25,6 +27,7 @@ Stuff::Stuff(std::string const &name, eStuff const type) :
 }
 
 Stuff::Stuff(Stuff const &rhs) :
+  Persistent(rhs),
   AItem(rhs.getName(), AItem::eItem::STUFF)
 {
   *this = rhs;

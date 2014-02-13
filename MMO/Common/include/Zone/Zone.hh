@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Tue Feb 11 14:12:51 2014 alexis mestag
+// Last update Tue Feb 11 17:14:32 2014 antoine maitre
 //
 
 #ifndef			__ZONE_HH__
@@ -56,7 +56,6 @@ public:
   void			move(Player::PlayerCoordinate const &source, Player::PlayerCoordinate const &dest, AEntity *entity);
   int			getSizeX() const;
   int			getSizeY() const;
-
 # ifdef	SERVER
   DBZone const		&getDBZone() const;
 # endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Tue Feb 11 11:06:09 2014 laurent ansel
+// Last update Wed Feb 12 19:53:18 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -205,8 +205,77 @@ void				ClientManager::setPlayerTalents(Trame *trame) const
     if ((*it).first && (*it).second)
       set = (*it).first->setTalents(trame);
   this->_mutex->unlock();
-
 }
+
+void				ClientManager::playerObject(FD const fd, unsigned int const target, unsigned int const item) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->playerObject(fd, target, item);
+  this->_mutex->unlock();
+}
+
+void				ClientManager::playerObject(FD const fd, unsigned int const item) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->playerObject(fd, item);
+  this->_mutex->unlock();
+}
+
+void				ClientManager::startBattle(FD const fd) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->stateBattle(fd, true, false);
+  this->_mutex->unlock();
+}
+
+void				ClientManager::endBattle(FD const fd) const
+{
+
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->stateBattle(fd, false, true);
+  this->_mutex->unlock();
+}
+
+void				ClientManager::startTrade(FD const fd) const
+{
+
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->stateTrade(fd, true, false);
+  this->_mutex->unlock();
+}
+
+void				ClientManager::endTrade(FD const fd) const
+{
+
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->stateTrade(fd, false, true);
+  this->_mutex->unlock();
+}
+
 
 bool				ClientManager::userAlreadyConnected(FD const fd, User *user) const
 {

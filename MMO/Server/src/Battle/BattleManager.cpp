@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Tue Feb 11 14:56:18 2014 antoine maitre
+// Last update Wed Feb 12 18:08:43 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -79,7 +79,8 @@ bool				BattleManager::spell(Trame *trame)
   
   if ((*trame)[CONTENT]["SPELL"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["SPELL"].isMember("SPELL") &&
-      (*trame)[CONTENT]["SPELL"].isMember("TARGET"))
+      (*trame)[CONTENT]["SPELL"].isMember("TARGET") &&
+      (*trame)[CONTENT]["SPELL"].isMember("LAUNCHER"))
     {
       for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
 	{

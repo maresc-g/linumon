@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb 11 16:44:43 2014 antoine maitre
+// Last update Wed Feb 12 19:11:11 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -33,6 +33,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, Zone *>("MAP", &map);
       this->_container->load<unsigned int, Trame *, Zone *, bool>("SENDTOALLCLIENT", &sendToAllClient);
       this->_container->load<unsigned int, Trame *>("ALREADYREADY", &sendTrameAlreadyReady);
+      this->_container->load<unsigned int, Stats *>("OBJECTEFFECT", &objectEffect);
 
 
       this->_container->load<unsigned int, unsigned int, Player const *>("LAUNCHBATTLE", &launchBattle);
@@ -59,7 +60,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, int>("CHOOSEPLAYER", &choosePlayer);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
       this->_container->load<unsigned int, std::string, std::string>("CHAT", &chat);
-      this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
+      this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int, unsigned int>("SPELL", &spell);
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, unsigned int>("USEOBJECT", &useObject);
       this->_container->load<unsigned int, AItem const *>("PUTITEM", &putItem);
@@ -369,6 +370,29 @@ bool                    map(unsigned int const id, Zone *zone)
   return (ret);
 }
 
+bool                    objectEffect(unsigned int const id, Stats *stats)
+{
+  Trame                 *trame;
+  Header                *header;
+  bool			ret = false;
+
+  if (stats)
+    {
+      ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+      ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+      header->setIdClient(id);
+      header->setProtocole("TCP");
+      if (header->serialization(*trame) && stats->serialization((*trame)))
+	{
+	  trame->setEnd(true);
+	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+	  ret = true;
+	}
+      delete header;
+    }
+  return (ret);
+}
+
 bool                    sendToAllClient(unsigned int const id, Trame *trame, Zone *zone, bool const send)
 {
   std::list<AEntity *>	list;
@@ -387,7 +411,8 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
 		{
 		  ObjectPoolManager::getInstance()->setObject(tmp, "trame");
 		  *tmp = *trame;
-		  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+		  (*tmp)[HEADER]["IDCLIENT"] = idClient;
+		  CircularBufferManager::getInstance()->pushTrame(tmp, CircularBufferManager::WRITE_BUFFER);
 		  tmp = NULL;
 		}
 	    }
@@ -426,6 +451,7 @@ bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player c
 bool			spell(unsigned int const id,
 			      unsigned int const idBattle,
 			      Spell const *spell,
+			      unsigned int const launcher,
 			      unsigned int const target)
 {
   Trame			*trame;
@@ -439,6 +465,7 @@ bool			spell(unsigned int const id,
     {
       (*trame)[CONTENT]["SPELL"]["IDBATTLE"] = idBattle;
       (*trame)[CONTENT]["SPELL"]["SPELL"] = spell->serialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
+      (*trame)[CONTENT]["SPELL"]["LAUNCHER"] = launcher;
       (*trame)[CONTENT]["SPELL"]["TARGET"] = target;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);

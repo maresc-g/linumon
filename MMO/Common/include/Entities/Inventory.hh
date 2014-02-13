@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Tue Feb 11 13:35:43 2014 laurent ansel
+// Last update Tue Feb 11 16:25:47 2014 alexis mestag
 //
 
 #ifndef 			__INVENTORY_HH__
@@ -19,18 +19,16 @@
 
 class				Inventory : public Persistent, public ISerialization
 {
-  friend class			odb::access;
-
 private:
   std::string			_path;
   unsigned int			_money;
   unsigned int			_limit;
   std::list<AItem *>		*_inventory;
 
-  Inventory();
   void				loadInventory();
 
 public:
+  Inventory();
   Inventory(Inventory const &rhs);
   virtual ~Inventory();
 
@@ -50,8 +48,21 @@ public:
   unsigned int			getLimit() const;
   void				setLimit(unsigned int const limit);
 
+  void				deleteItem(unsigned int const id);
+  void				addItem(AItem *item);
+
+  AItem				*getItem(unsigned int const id) const;
+
   virtual bool			serialization(Trame &trame) const;
   static Inventory		*deserialization(Trame const &trame);
 };
+
+# ifdef	ODB_COMPILER
+#  pragma db object(Inventory) session(false)
+#  pragma db member(Inventory::_path) get(getPath()) set(setPath(?))
+#  pragma db member(Inventory::_money) get(getMoney()) set(setMoney(?))
+#  pragma db member(Inventory::_limit) get(getLimit()) set(setLimit(?))
+#  pragma db member(Inventory::_inventory) transient
+# endif
 
 #endif

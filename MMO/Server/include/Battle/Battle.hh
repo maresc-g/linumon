@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Tue Feb 11 17:01:35 2014 antoine maitre
+// Last update Wed Feb 12 18:41:30 2014 antoine maitre
 //
 
 #ifndef				__BATTLE_HH__
@@ -40,7 +40,8 @@ public:
   eBattle 			getType() const;
   bool				dswitch(unsigned int const, unsigned int const);
   bool				capture(unsigned int const);
-  bool				spell(unsigned int const, Spell *);
+  bool				spell(unsigned int const, unsigned int const, Spell *);
+  bool				checkEnd();
   void				next();
 };
 

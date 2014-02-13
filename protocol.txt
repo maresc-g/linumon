@@ -28,7 +28,7 @@
 
 			#  battle
 			LAUNCHBATTLE : {idBattle: int, enemy : APlayer} -> server
-			SPELL : {idBattle: int, spell : Spell, target : int} -> client / server
+			SPELL : {idBattle: int, spell : Spell, launcher : int, target : int} -> client / server
 			SPELLEFFECT : {idBattle: int, hpChange : int, target : int} -> server
 			CAPTURE : {idBattle: int, target : int} -> client
 			CAPTUREEFFECT : {idBattle: int, success : bool} -> server

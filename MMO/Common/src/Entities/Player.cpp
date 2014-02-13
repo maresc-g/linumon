@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Feb 11 15:18:18 2014 laurent ansel
+// Last update Wed Feb 12 14:30:42 2014 laurent ansel
 //
 
 #include			<functional>
@@ -122,6 +122,17 @@ void				Player::setInventory(Inventory *inventory)
   this->_inventory = inventory;
 }
 
+void				Player::deleteItem(unsigned int const item)
+{
+  this->_inventory->deleteItem(item);
+}
+
+void				Player::addItem(AItem *item)
+{
+  this->_inventory->addItem(item);
+}
+
+
 bool				Player::serialization(Trame &trame) const
 {
   bool				ret = true;
@@ -135,7 +146,7 @@ bool				Player::serialization(Trame &trame) const
   this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
-  //  this->_inventory->serialization(trame(trame["PLAYER"]));
+  this->_inventory->serialization(trame(trame["PLAYER"]));
   this->_talentTree->serialization(trame(trame["PLAYER"]));
   for (auto it = this->_talents.begin() ; it != this->_talents.end() ; ++it)
     (*it)->serialization(trame(trame["PLAYER"]["TALENTS"]));
@@ -158,7 +169,7 @@ Player				*Player::deserialization(Trame const &trame)
       player->setCurrentExp(trame["PLAYER"]["CURRENTEXP"].asInt());
       player->setZone(trame["PLAYER"]["ZONE"].asString());
       player->setTalentTree(*TalentTree::deserialization(trame(trame["PLAYER"])));
-      //      player->setInventory(Inventory::deserialization(trame(trame["PLAYER"])));
+      player->setInventory(Inventory::deserialization(trame(trame["PLAYER"])));
 
       if (!trame["PLAYER"]["TALENTS"].empty())
 	{

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Mon Feb 10 14:24:46 2014 laurent ansel
+// Last update Wed Feb 12 19:54:30 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -45,6 +45,10 @@ public:
   bool				search(FD const fd) const;
   void				getClients(std::list<FD> &list) const;
   bool				setTalents(Trame *trame) const;
+  bool				playerObject(FD const fd, unsigned int const target, unsigned int const item) const;
+  bool				playerObject(FD const fd, unsigned int const item) const;
+  bool				stateBattle(FD const fd, bool const start, bool const end) const;
+  bool				stateTrade(FD const fd, bool const start, bool const end) const;
 
 private:
   void				readTrame(Client *client, std::string const &protocole) const;

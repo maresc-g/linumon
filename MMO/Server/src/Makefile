@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Thu Nov 28 19:36:25 2013 laurent ansel
-## Last update Mon Feb 10 11:43:15 2014 antoine maitre
+## Last update Wed Feb 12 20:31:51 2014 laurent ansel
 ##
 
 SOURCESERVER=		$(SERVER_SRC)/Server
@@ -14,6 +14,7 @@ CLIENTMANAGER=		$(SERVER_SRC)/ClientManager
 CLIENTWRITER=		$(SERVER_SRC)/ClientWriter
 CHAT=			$(SERVER_SRC)/Chat
 BATTLE=			$(SERVER_SRC)/Battle
+TRADE=			$(SERVER_SRC)/Trade
 GAMEPROTOCOL=		$(SERVER_SRC)/GameProtocol
 
 include			$(SOURCESERVER)/Makefile
@@ -23,3 +24,4 @@ include			$(CHAT)/Makefile
 include			$(BATTLE)/Makefile
 include			$(CLIENTWRITER)/Makefile
 include			$(GAMEPROTOCOL)/Makefile
+include			$(TRADE)/Makefile
