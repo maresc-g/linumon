@@ -5,8 +5,21 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Tue Feb 11 14:28:10 2014 cyril jourdain
+// Last update Thu Feb 13 19:06:28 2014 cyril jourdain
 //
+
+/*
+
+  Need to :	Add bubble when getting message (using player pos ?)
+		Add border on map
+		Other entities
+		
+		Test loading another map
+
+
+
+ */
+
 
 #include		"SFML/SFMLView.hpp"
 #include		"Map/Map.hh"
@@ -27,9 +40,15 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _moving = false;
   _spellBar->hide();
   _itemView->hide();
+  _stuff->hide();
   _inventory->hide();
   _chat->move(0, WIN_H - _chat->size().height());
   _dir = NONE;
+  _winTexture = new sf::RenderTexture();
+  _winTexture->create(100*50, 100*50);
+  _winSprite = new sf::Sprite();
+  _changed = false;
+  _mainPName = new sf::Text();
 }
 
 SFMLView::~SFMLView()
@@ -39,6 +58,12 @@ SFMLView::~SFMLView()
 void			SFMLView::onInit()
 {
   /* Stuff needed when loading the view */
+  if (!_nameFont.loadFromFile("./Res/arial.ttf"))
+    std::cout << "Error while loading font" << std::endl;
+  //_mainPName("", _nameFont, 14);
+  _mainPName->setFont(_nameFont);
+  _mainPName->setCharacterSize(14);
+  _mainPName->setString(sf::String("toto"));
   _clock->restart();
   _sMan->loadTextures("./Res/textureList.json");
   _sMan->loadAnimations("./Res/perso1.json");
@@ -49,11 +74,13 @@ void			SFMLView::onInit()
   sleep(1);
   loadMap();
   _mainPerso->play("default_down");
+  _mainPName->setPosition(sf::Vector2f(_mainPerso->getPosition().x, _mainPerso->getPosition().y - 15));
 }
 
 void			SFMLView::onUpdate()
 {
   sf::Event event;
+
   while (pollEvent(event))
     ; /* Not used here but SFML need it to handle internal events */
 
@@ -70,25 +97,29 @@ void			SFMLView::onResize(QResizeEvent *e)
 
 void			SFMLView::drawView()
 {
-  for (int y = 0; y != _sprites->size() - 1; ++y)
-    {
-      for (int x = 0; x != (*_sprites)[y].size() - 1; ++x)
-      	{
-      	  (*_sprites)[y][x]->setPosition(x * 50, y * 50);
-  	  (*_sprites)[y][x]->update(*_clock);
-  	  //std::cout << x << "/" << y << std::endl;
-      	  draw(*((*_sprites)[y][x]));
-      	}
-    }
+  if (!_changed){
+    _winTexture->clear(sf::Color(0,0,0));
+    for (int y = 0; y != _sprites->size() - 1; ++y)
+      {
+	for (int x = 0; x != (*_sprites)[y].size() - 1; ++x)
+	  {
+	    std::cout << x << "/" << y << std::endl;
+	    (*_sprites)[y][x]->setPosition(x * 50, y * 50);
+	    (*_sprites)[y][x]->update(*_clock);
+	    _winTexture->draw(*((*_sprites)[y][x]));
+	  }
+      }
+    _winTexture->display();
+    _changed = true;
+  }
+  _winSprite->setTexture(_winTexture->getTexture());
+  draw(*_winSprite);
   if (_mainPerso) {
     _mainPerso->update(*_clock);
     draw(*_spriteTest);
     draw(*_mainPerso);
+    draw(*_mainPName);
   }
-  // (*_sprites)[0][0]->play("down");
-  // (*_sprites)[0][0]->update(*_clock);;  
-  // (*_sprites)[0][0]->setPosition(_mainPerso->getPosition().x + 50, _mainPerso->getPosition().y + 50);
-  //std::cout << x << "/" << y << std::endl;
 }
 
 void			SFMLView::checkKeys()
@@ -96,6 +127,10 @@ void			SFMLView::checkKeys()
   float time = _clock->getElapsedTime().asMicroseconds();
   float px = time * PX_PER_SECOND / 1000000;
 
+  if (_keyPressDelay > 0)
+    _keyPressDelay -= time;
+  else
+    _keyPressDelay = 0;
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !_moving)
     {
       _pos.y += 50;
@@ -131,6 +166,18 @@ void			SFMLView::checkKeys()
       _dir = RIGHT;
       Client::getInstance()->move(CLIENT::RIGHT);
       _mainPerso->play("right");
+    }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::I) && _keyPressDelay <= 0 && !_chat->getFocused())
+    {
+      if (!_inventory->isVisible()){
+	_inventory->show();
+	std::cout << "show inventory" << std::endl;
+      }
+	else {
+	_inventory->hide();
+	std::cout << "hide inventory" << std::endl;
+      }
+	_keyPressDelay = 100000;
     }
   if (_moving)
     moveMainPerso(time);
@@ -209,6 +256,7 @@ void			SFMLView::moveMainPerso(float const elapsedTime)
 	  _mainPerso->play("default_left");
 	}
     }
+  _mainPName->setPosition(sf::Vector2f(_mainPerso->getPosition().x + 15, _mainPerso->getPosition().y - 15));
   // std::cout << _mainPerso->getPosition().x << "/" << _mainPerso->getPosition().y << std::endl;
   // if (**(_wMan->getMainPlayer()))
   //   std::cout << (**(_wMan->getMainPlayer()))->getX() << std::endl;

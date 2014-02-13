@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Feb  6 14:47:23 2014 cyril jourdain
-// Last update Mon Feb 10 13:15:45 2014 cyril jourdain
+// Last update Thu Feb 13 17:22:32 2014 cyril jourdain
 //
 
 #ifndef 		__CHATVIEW_HH__
@@ -22,16 +22,23 @@ class			ChatView : public QWidget
 {
   Q_OBJECT
 
+private:
+  Ui::ChatView	ui;
+  WindowManager *_wMan;
+  bool		_focused;
+  
 public:
   ChatView(QWidget *, WindowManager *);
   virtual ~ChatView();
 
 private:
-  Ui::ChatView	ui;
-  WindowManager *_wMan;
+  void			submitText();
+public:  
+  bool			getFocused() const;
 
 private:
   virtual void		paintEvent(QPaintEvent *);
+  bool			eventFilter(QObject *watched, QEvent *e);
 
 };
 

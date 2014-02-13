@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Tue Feb 11 13:56:12 2014 cyril jourdain
+// Last update Thu Feb 13 18:37:08 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -61,6 +61,12 @@ private:
   sf::Vector2f		_deltaPos;
   bool			_moving;
   eDir			_dir;
+  sf::RenderTexture	*_winTexture;
+  sf::Sprite		*_winSprite;
+  bool			_changed;
+  float			_keyPressDelay; // Check key fast repeat - millisecond
+  sf::Text		*_mainPName;
+  sf::Font		_nameFont;
 
   /* Child Views */
   SpellBarView		*_spellBar;
