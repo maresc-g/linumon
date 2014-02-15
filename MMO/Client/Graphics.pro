@@ -96,6 +96,7 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/Level.cpp \ 
                 ../Common/src/Entities/Digitaliser.cpp \ 
                 ../Common/src/Entities/Mob.cpp \ 
+                ../Common/src/Entities/Equipment.cpp \ 
                 ../Common/src/Entities/AEntity.cpp \ 
                 ../Common/src/Entities/User.cpp \ 
                 ../Common/src/Entities/AStatEntity.cpp \ 

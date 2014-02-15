@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Sat Feb 15 13:23:12 2014 laurent ansel
+// Last update Sat Feb 15 18:45:46 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -50,6 +50,7 @@ public:
   bool				stateBattle(FD const fd, bool const start, bool const end) const;
   bool				stateTrade(FD const fd, bool const start, bool const end, Player *&player) const;
 
+  bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;
 private:
   void				readTrame(Client *client, std::string const &protocole) const;
   void				writeTrame(Client *client, std::string const &protocole) const;

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 16:36:22 2014 laurent ansel
-// Last update Sat Feb  8 17:39:47 2014 laurent ansel
+// Last update Sat Feb 15 21:13:33 2014 laurent ansel
 //
 
 #include			<functional>
@@ -31,8 +31,7 @@ bool				StuffActions::stuffAction(Trame *trame)
   static std::map<StuffActions::eAction, std::function<bool (Trame *)> > map =
     {
       {StuffActions::eAction::GET,	std::bind1st(std::mem_fun(&StuffActions::getStuff), this)},
-      {StuffActions::eAction::PUT,	std::bind1st(std::mem_fun(&StuffActions::putStuff), this)},
-      {StuffActions::eAction::REMOVE,	std::bind1st(std::mem_fun(&StuffActions::deleteStuff), this)}
+      {StuffActions::eAction::PUT,	std::bind1st(std::mem_fun(&StuffActions::putStuff), this)}
     };
   eAction			type = NONE;
 
@@ -44,20 +43,22 @@ bool				StuffActions::stuffAction(Trame *trame)
   return (ret);
 }
 
-bool				StuffActions::getStuff(Trame *)
+bool				StuffActions::getStuff(Trame *trame)
 {
+  bool				ret = false;
 
-  return (false);
+  ret = ClientManager::getInstance()->stuff((*trame)[HEADER]["IDCLIENT"].asInt(), false, (*trame)[CONTENT]["STUFF"]["IDITEM"].asUInt(), (*trame)[CONTENT]["STUFF"]["TARGET"].asUInt());
+  if (!ret)
+    ;//ERROR
+  return (ret);
 }
 
-bool				StuffActions::putStuff(Trame *)
+bool				StuffActions::putStuff(Trame *trame)
 {
+  bool				ret = false;
 
-  return (false);
-}
-
-bool				StuffActions::deleteStuff(Trame *)
-{
-
-  return (false);
+  ret = ClientManager::getInstance()->stuff((*trame)[HEADER]["IDCLIENT"].asInt(), true, (*trame)[CONTENT]["STUFF"]["IDITEM"].asUInt(), (*trame)[CONTENT]["STUFF"]["TARGET"].asUInt());
+  if (!ret)
+    ;//ERROR
+  return (ret);
 }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Fri Feb 14 12:11:30 2014 laurent ansel
+// Last update Sat Feb 15 21:12:07 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -109,6 +109,11 @@ public:
   AItem				*getAndDeleteItem(unsigned int const item) const;
 
   void				addMoney(int const money);
+
+  bool				getPlayerEquipment(unsigned int const idItem);
+  bool				getMobEquipment(unsigned int const idMod, unsigned int const idItem);
+  bool				putPlayerEquipment(unsigned int const idItem);
+  bool				putMobEquipment(unsigned int const idMod, unsigned int const idItem);
 
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);

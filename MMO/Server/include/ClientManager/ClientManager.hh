@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Sat Feb 15 13:47:27 2014 laurent ansel
+// Last update Sat Feb 15 18:43:59 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -50,6 +50,8 @@ public:
   void				endBattle(FD const fd) const;
   void				startTrade(FD const fd, Player *&player) const;
   void				endTrade(FD const fd) const;
+
+  bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;
 
 private:
   void				findWrite() const;

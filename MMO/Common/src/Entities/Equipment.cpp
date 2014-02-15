@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:28:56 2014 laurent ansel
-// Last update Fri Feb  7 13:41:13 2014 laurent ansel
+// Last update Sat Feb 15 20:44:15 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -33,14 +33,72 @@ Equipment			&Equipment::operator=(Equipment const &rhs)
   return (*this);
 }
 
-std::list<Stuff *> const	&Equipment::getStuffs() const
+std::map<Stuff::eStuff, Stuff *> const	&Equipment::getStuffs() const
 {
   return (this->_stuffs);
 }
 
-void				Equipment::setStuffs(std::list<Stuff *> const &list)
+void				Equipment::setStuffs(std::map<Stuff::eStuff, Stuff *> const &list)
 {
   this->_stuffs = list;
+}
+
+bool				Equipment::addStuff(Stuff *newStuff, Stuff *&oldStuff)
+{
+  bool				ret = false;
+  auto				it = this->_stuffs.begin();
+
+  if ((it = this->_stuffs.find(newStuff->getStuffType())) != this->_stuffs.end())
+    {
+      if (it->second)
+	{
+	  ret = true;
+	  oldStuff = it->second;
+	  it->second = newStuff;
+	}
+      else
+	ret = false;
+    }
+  else
+    ret = false;
+  return (ret);
+}
+
+bool				Equipment::addStuff(Stuff::eStuff const type, Stuff *&oldStuff)
+{
+  bool				ret = false;
+  auto				it = this->_stuffs.begin();
+
+  if ((it = this->_stuffs.find(type)) != this->_stuffs.end())
+    {
+      if (it->second)
+	{
+	  ret = true;
+	  oldStuff = it->second;
+	  it->second = NULL;
+	}
+      else
+	ret = false;
+    }
+  else
+    ret = false;
+  return (ret);
+}
+
+bool				Equipment::getStuff(Stuff *&oldStuff, unsigned int const idItem)
+{
+  bool				ret = false;
+
+  for (auto it = this->_stuffs.begin() ; it != this->_stuffs.end() && !ret ; ++it)
+    {
+      if (it->second && it->second->getId() == idItem)
+	{
+	  ret = true;
+	  oldStuff = it->second;
+	  it->second = NULL;
+	}
+    }
+  return (ret);
 }
 
 bool				Equipment::serialization(Trame &trame) const
@@ -52,8 +110,8 @@ bool				Equipment::serialization(Trame &trame) const
   trame["EQUIPMENT"];
   for (auto it = this->_stuffs.begin() ; it != this->_stuffs.end() && ret; ++it)
     {
-      str << "STUFF" << nb;
-      ret = (*it)->serialization(trame(trame["EQUIPMENT"][str.str()]));
+      str << it->first;
+      ret = it->second->serialization(trame(trame["EQUIPMENT"][str.str()]));
       str.str("");
       nb++;
     }
@@ -63,20 +121,20 @@ bool				Equipment::serialization(Trame &trame) const
 Equipment			*Equipment::deserialization(Trame const &trame)
 {
   Equipment			*equipment = NULL;
-  int				nb = 0;
-  std::ostringstream		str;
-  std::list<Stuff *>		*stuffs;
+  std::map<Stuff::eStuff, Stuff *>	*stuffs;
+  Stuff				*tmp;
 
   if (trame.isMember("EQUIPMENT"))
     {
       equipment = new Equipment;
-      stuffs = new std::list<Stuff *>;
-      str << "STUFF" << nb;
-      for (; !trame["EQUIPMENT"].isMember(str.str()) ; ++nb)
+      stuffs = new std::map<Stuff::eStuff, Stuff *>;
+      auto			members = trame["EQUIPMENT"].getMemberNames();
+
+      for (auto it = members.begin() ; it != members.end() ; ++it)
 	{
-	  stuffs->push_back(Stuff::deserialization(trame(trame["EQUIPMENT"][str.str()])));
-	  str.str("");
-	  str << "STUFF" << nb + 1;
+	  tmp = Stuff::deserialization(trame(trame["EQUIPMENT"][*it]));
+	  if (tmp)
+	    (*stuffs)[tmp->getStuffType()] = tmp;
 	}
       equipment->setStuffs(*stuffs);
     }
