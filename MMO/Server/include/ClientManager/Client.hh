@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Wed Feb 12 14:31:46 2014 laurent ansel
+// Last update Sat Feb 15 13:22:40 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -59,7 +59,7 @@ public:
   void				deleteObject(unsigned int const item);
   void				startBattle();
   void				endBattle();
-  void				startTrade();
+  void				startTrade(Player *&player);
   void				endTrade();
 };
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Feb 12 14:31:09 2014 laurent ansel
+// Last update Sat Feb 15 13:55:45 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -34,6 +34,8 @@ Client::~Client()
 
 void				Client::clear()
 {
+  if (_state == TRADE && _player)
+    TradeManager::getInstance()->disconnectPlayer(_player->getId());
   _state = NONE;
   if (_player)
     Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
@@ -197,9 +199,10 @@ void				Client::endBattle()
   _state = GAME;
 }
 
-void				Client::startTrade()
+void				Client::startTrade(Player *&player)
 {
   _state = TRADE;
+  player = _player;
 }
 
 void				Client::endTrade()

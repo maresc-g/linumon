@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Wed Feb 12 19:56:07 2014 laurent ansel
+// Last update Sat Feb 15 13:22:59 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -405,7 +405,7 @@ bool				ClientUpdater::stateBattle(FD const fd, bool const start, bool const end
   return (false);
 }
 
-bool				ClientUpdater::stateTrade(FD const fd, bool const start, bool const end) const
+bool				ClientUpdater::stateTrade(FD const fd, bool const start, bool const end, Player *&player) const
 {
   this->_mutex->lock();
   for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
@@ -413,7 +413,7 @@ bool				ClientUpdater::stateTrade(FD const fd, bool const start, bool const end)
       if (fd == (*it).first->getId() && (*it).first->isUse())
 	{
 	  if (start)
-	    (*it).first->startTrade();
+	    (*it).first->startTrade(player);
 	  if (end)
 	    (*it).first->endTrade();
 	  this->_mutex->unlock();

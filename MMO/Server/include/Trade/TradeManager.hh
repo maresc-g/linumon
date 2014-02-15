@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Feb 12 20:12:21 2014 laurent ansel
-// Last update Wed Feb 12 20:34:00 2014 laurent ansel
+// Last update Fri Feb 14 22:06:45 2014 laurent ansel
 //
 
 #ifndef 			__TRADEMANAGER_HH__
@@ -14,13 +14,17 @@
 #include			<list>
 #include			"Utility/Singleton.hpp"
 #include			"Trade/Trade.hh"
+#include			"Mutex/Mutex.hpp"
+
+#define	DEFAULT_TRADE		100
 
 class				TradeManager : public Singleton<TradeManager>
 {
   friend class			Singleton<TradeManager>;
 
 private:
-  std::list<Trade *>		*_list;
+  std::list<std::pair<bool, Trade *> >	*_list;
+  Mutex				*_mutex;
 
 private:
   bool				getItem(Trame *trame);
@@ -34,7 +38,8 @@ private:
   virtual ~TradeManager();
 
 public:
-  void				newTrade(unsigned int const id, unsigned int const idTarget);
+  void				newTrade(Player *player1, Player *player2);
+  bool				disconnectPlayer(unsigned int const idPlayer);
 };
 
 #endif

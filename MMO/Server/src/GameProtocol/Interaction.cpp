@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:34:41 2014 laurent ansel
-// Last update Wed Feb 12 20:32:58 2014 laurent ansel
+// Last update Sat Feb 15 13:50:57 2014 laurent ansel
 //
 
 #include			<functional>
@@ -46,11 +46,29 @@ bool				Interaction::interaction(Trame *trame)
 
 bool				Interaction::agro(Trame *)
 {
+  bool				ret = false;
 
-  return (false);
+
+  return (ret);
 }
 
-bool				Interaction::trade(Trame *)
+bool				Interaction::trade(Trame *trame)
 {
-  return (false);
+  bool				ret = false;
+  unsigned int			target = (*trame)[CONTENT]["INTERACTION"]["TARGETID"].asUInt();
+  Player			*player2;
+  Player			*player1;
+  unsigned int			id = (*trame)[HEADER]["IDCLIENT"].asUInt();
+  Repository<Player>		*rp = &Database::getRepository<Player>();
+
+  player2 = rp->getById(target);
+  if (player2)
+    {
+      target = player2->getUser().getId();
+      ClientManager::getInstance()->startTrade(id, player1);
+      ClientManager::getInstance()->startTrade(target, player2);
+      TradeManager::getInstance()->newTrade(player1, player2);
+      ret = true;
+    }
+  return (ret);
 }

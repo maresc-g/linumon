@@ -75,13 +75,13 @@
 			INTERACTION : {enum eInteraction, targetId } -> client
 
 			#  trade
-			LAUNCHTRADE : {id : int, name : string} -> server
-			PUTITEM : {item : AItem} -> client / server
-			GETITEM : {item : AItem} -> client / server
-			PUTMONEY : {money : int} -> client / server
-			GETMONEY : {money : int} -> client / server
-			ACCEPT : {} -> client / server
-			REFUSE : {} -> client / server
+			LAUNCHTRADE : {idTrade : int, namePlayer : string} -> server
+			PUTITEM : {idTrade : int, idItem : int} -> client / server
+			GETITEM : {idTrade : int, idItem : int} -> client / server
+			PUTMONEY : {idTrade : int, money : int} -> client / server
+			GETMONEY : {idTrade : int, money : int} -> client / server
+			ACCEPT : {idTrade : int} -> client / server
+			REFUSE : {idTrade : int} -> client / server
 			#  end
 			# end
 
