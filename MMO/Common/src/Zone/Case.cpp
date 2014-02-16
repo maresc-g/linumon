@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Tue Feb 11 16:42:19 2014 antoine maitre
+// Last update Sat Feb 15 14:25:59 2014 laurent ansel
 //
 
 #include		"Zone/Case.hh"

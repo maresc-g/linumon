@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Fri Feb  7 11:33:59 2014 laurent ansel
+// Last update Sat Feb 15 20:56:53 2014 laurent ansel
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -24,6 +24,7 @@ class			Digitaliser : public ISerialization
 
 private:
   Mobs			_mobs;
+  Mobs			_battleMobs;
 
 private:
   Digitaliser(Digitaliser const &rhs);
@@ -37,7 +38,16 @@ public:
   Mobs const		&getMobs() const;
   void			setMobs(Mobs const &mobs);
 
+  Mobs const		&getBattleMobs() const;
+  void			setBattleMobs(Mobs const &mobs);
+
+  Mob			*getMob(unsigned int const id) const;
+
   void			addMob(Mob const &mob);
+  void			addBattleMob(Mob const &mob);
+
+  void			battleMobtoMob(unsigned int const id);
+  void			mobtoBattleMob(unsigned int const id);
 
   virtual bool		serialization(Trame &trame) const;
   static Digitaliser	*deserialization(Trame const &trame);

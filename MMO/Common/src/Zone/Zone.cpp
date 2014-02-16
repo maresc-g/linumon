@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Tue Feb 11 17:14:28 2014 antoine maitre
+// Last update Sat Feb 15 14:27:51 2014 laurent ansel
 //
 
 #include			<iostream>
@@ -72,12 +72,34 @@ Zone::~Zone()
 
 void				Zone::addPlayer(AEntity *player)
 {
+  Case				*cas;
+  Player			*tmp = NULL;
+
   this->_players->push_back(player);
+  if (player->getEntityType() == AEntity::STATENTITY)
+    {
+      tmp = reinterpret_cast<Player *>(player);
+      cas = this->getCase(tmp->getX(), tmp->getY());
+      if (cas)
+	cas->addAEntity(player);
+      else
+	this->delPlayer(player); //case n'existe pas
+    }
 }
 
 void				Zone::delPlayer(AEntity *player)
 {
+  Case				*cas;
+  Player			*tmp = NULL;
+
   this->_players->remove(player);
+  if (player->getEntityType() == AEntity::STATENTITY)
+    {
+      tmp = reinterpret_cast<Player *>(player);
+      cas = this->getCase(tmp->getX(), tmp->getY());
+      if (cas)
+	cas->delAEntity(player);
+    }
 }
 
 std::list<AEntity *>		&Zone::getPlayers() const

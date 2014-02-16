@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Feb 12 14:31:09 2014 laurent ansel
+// Last update Sat Feb 15 21:13:53 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -34,6 +34,8 @@ Client::~Client()
 
 void				Client::clear()
 {
+  if (_state == TRADE && _player)
+    TradeManager::getInstance()->disconnectPlayer(_player->getId());
   _state = NONE;
   if (_player)
     Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
@@ -121,7 +123,7 @@ void				Client::addUser(User *user)
 
 bool				Client::addPlayer(std::string const &name, Faction *faction)
 {
-  if (this->_user)
+  if (this->_state == GAME && this->_user)
     {
       Repository<Player>	*rp = &Database::getRepository<Player>();
       Player			*player = new Player(name);
@@ -136,20 +138,23 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
 
 void				Client::sendListPlayers()
 {
-  if (_user)
+  if (_state == GAME && _user)
     Server::getInstance()->callProtocol<User *>("PLAYERLIST", _id, _user);
 }
 
 void				Client::choosePlayer(unsigned int const id, bool const send)
 {
-  Repository<Player>		*rp = &Database::getRepository<Player>();
-
-  this->_player = rp->getById(id);
-  if (this->_player && send)
+  if (_state == GAME)
     {
-      Map::getInstance()->addEntity(_player->getZone(), _player);
-      Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
-      Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()));
+      Repository<Player>		*rp = &Database::getRepository<Player>();
+
+      this->_player = rp->getById(id);
+      if (this->_player && send)
+	{
+	  Map::getInstance()->addEntity(_player->getZone(), _player);
+	  Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
+	  Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()));
+	}
     }
 }
 
@@ -157,24 +162,30 @@ void				Client::move(Player::PlayerCoordinate *coord)
 {
   Trame				*trame = NULL;
 
-  if (this->_player && coord)
-    this->_player->setCoord(*coord);
-  ObjectPoolManager::getInstance()->setObject(trame, "trame");
-  Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), false);
-  /*
-  ** random battle
-  */
+  if (_state == GAME)
+    {
+      if (this->_player && coord)
+	this->_player->setCoord(*coord);
+      ObjectPoolManager::getInstance()->setObject(trame, "trame");
+      Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), false);
+      /*
+      ** random battle
+      */
+    }
 }
 
 void				Client::updateTalents(Trame *trame) const
 {
-  TalentManager::updateTalents(trame, _player);
-  Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
+  if (_state == GAME)
+    {
+      TalentManager::updateTalents(trame, _player);
+      Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
+    }
 }
 
 void				Client::useObject(unsigned int const, unsigned int const)
 {
-  if (_player)
+  if (_state == GAME && _player)
     {
       /*USE OBJECT*/
       Server::getInstance()->callProtocol<Stats const *>("OBJECTEFFECT", _id, &_player->getStats());
@@ -183,7 +194,7 @@ void				Client::useObject(unsigned int const, unsigned int const)
 
 void				Client::deleteObject(unsigned int const item)
 {
-  if (_player)
+  if (_state == GAME && _player)
     _player->deleteItem(item);
 }
 
@@ -197,12 +208,38 @@ void				Client::endBattle()
   _state = GAME;
 }
 
-void				Client::startTrade()
+void				Client::startTrade(Player *&player)
 {
   _state = TRADE;
+  player = _player;
 }
 
 void				Client::endTrade()
 {
   _state = GAME;
+}
+
+bool				Client::stuff(bool const get, unsigned int const idItem, unsigned int const target)
+{
+  bool				ret = false;
+
+  if (_state == GAME)
+    {
+      if (get)
+	{
+	  if (target == _player->getId())
+	    ret = _player->getPlayerEquipment(idItem);
+	  else
+	    ret = _player->getMobEquipment(target, idItem);
+	}
+      else
+	{
+	  if (target == _player->getId())
+	    ret = _player->putPlayerEquipment(idItem);
+	  else
+	    ret = _player->putMobEquipment(target, idItem);
+	}
+    }
+  //send update
+  return (ret);
 }

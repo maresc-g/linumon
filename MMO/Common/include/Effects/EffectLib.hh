@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Jan 30 12:30:55 2014 alexis mestag
-// Last update Mon Feb 10 12:42:32 2014 laurent ansel
+// Last update Sat Feb 15 14:18:31 2014 alexis mestag
 //
 
 #ifndef				__EFFECTLIB_HH__
@@ -13,7 +13,7 @@
 
 # include			"Database/Persistent.hh"
 # include			"Utility/Nameable.hh"
-# include			"Effects/IEffect.hh"
+# include			"Effects/IEffect.hpp"
 # include			"DynamicLibrary/DynamicLibrary.hh"
 # include			"Utility/ISerialization.hh"
 

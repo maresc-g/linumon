@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Feb 13 15:40:20 2014 cyril jourdain
+// Last update Sat Feb 15 21:21:50 2014 laurent ansel
 //
 
 #include			<functional>
@@ -132,6 +132,83 @@ void				Player::addItem(AItem *item)
   this->_inventory->addItem(item);
 }
 
+AItem				*Player::getAndDeleteItem(unsigned int const item) const
+{
+  return (this->_inventory->getAndDeleteItem(item));
+}
+
+void				Player::addMoney(int const money)
+{
+  this->_inventory->addMoney(money);
+}
+
+bool				Player::getPlayerEquipment(unsigned int const idItem)
+{
+  bool				ret = false;
+  Stuff				*item;
+
+  ret = this->getStuff(item, idItem);
+  if (ret)
+    this->addItem(item);
+  return (ret);
+}
+
+bool				Player::getMobEquipment(unsigned int const idMod, unsigned int const idItem)
+{
+  bool				ret = false;
+  Mob				*mob;
+  Stuff				*item;
+
+  mob = this->_digitaliser.getMob(idMod);
+  if (mob)
+    {
+      ret = mob->getStuff(item, idItem);
+      if (ret)
+	this->addItem(item);
+    }
+  return (ret);
+}
+
+bool				Player::putPlayerEquipment(unsigned int const idItem)
+{
+  bool				ret = false;
+  AItem				*item;
+  Stuff				*old;
+
+  item = this->getAndDeleteItem(idItem);
+  if (item && item->getItemType() == AItem::STUFF)
+    {
+      ret = this->addStuff(reinterpret_cast<Stuff *>(item), old);
+      if (ret && old)
+	this->addItem(old);
+    }
+  else if (item)
+    this->addItem(item);
+  return (ret);
+}
+
+bool				Player::putMobEquipment(unsigned int const idMod,unsigned int const idItem)
+{
+  bool				ret = false;
+  AItem				*item;
+  Stuff				*old;
+  Mob				*mob;
+
+  mob = this->_digitaliser.getMob(idMod);
+  if (mob)
+    {
+      item = this->getAndDeleteItem(idItem);
+      if (item && item->getItemType() == AItem::STUFF)
+	{
+	  ret = mob->addStuff(reinterpret_cast<Stuff *>(item), old);
+	  if (ret && old)
+	    this->addItem(old);
+	}
+      else if (item)
+	this->addItem(item);
+    }
+  return (ret);
+}
 
 bool				Player::serialization(Trame &trame) const
 {
@@ -146,7 +223,7 @@ bool				Player::serialization(Trame &trame) const
   this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
-  // this->_inventory->serialization(trame(trame["PLAYER"]));
+  //  this->_inventory->serialization(trame(trame["PLAYER"]));
   this->_talentTree->serialization(trame(trame["PLAYER"]));
   for (auto it = this->_talents.begin() ; it != this->_talents.end() ; ++it)
     (*it)->serialization(trame(trame["PLAYER"]["TALENTS"]));

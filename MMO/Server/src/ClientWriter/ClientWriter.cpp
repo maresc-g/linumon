@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 12:45:02 2014 laurent ansel
-// Last update Tue Feb 11 14:46:09 2014 laurent ansel
+// Last update Sat Feb 15 14:02:03 2014 laurent ansel
 //
 
 #include			"ClientWriter/ClientWriter.hh"
@@ -62,12 +62,10 @@ void				ClientWriter::setQuit(bool const quit)
 
 void				ClientWriter::newClient(FD const fd)
 {
-  std::cout << "NEW1" << std::endl;
   _mutex->lock();
   if (this->_write->find(fd) == this->_write->end())
     (*this->_write)[fd] = 0;
   _mutex->unlock();
-  std::cout << "NEW2" << std::endl;
 }
 
 void				ClientWriter::deleteClient(FD const fd)
@@ -79,29 +77,24 @@ void				ClientWriter::deleteClient(FD const fd)
 
 unsigned int			ClientWriter::getNbTrame(FD const fd) const
 {
-  std::cout << "GET1" << std::endl;
   _mutex->lock();
   if (this->_write->find(fd) != this->_write->end())
     {
       _mutex->unlock();
-      std::cout << "GET2" << std::endl;
       return ((*this->_write)[fd]);
     }
   _mutex->unlock();
-  std::cout << "GET2.1" << std::endl;
   return (0);
 }
 
 void				ClientWriter::addNewTrame(FD const fd, unsigned int const nb)
 {
-  std::cout << "ADD1" << std::endl;
   _mutex->lock();
   if (this->_write->find(fd) != this->_write->end())
     (*this->_write)[fd] += nb;
   else
     (*this->_write)[fd] = nb;
   _mutex->unlock();
-  std::cout << "ADD2" << std::endl;
 }
 
 void				*runClientWriter(void *data)

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Tue Feb 11 16:07:55 2014 alexis mestag
+// Last update Sat Feb 15 19:21:12 2014 laurent ansel
 //
 
 #ifndef 		__STUFF_HH__
@@ -42,11 +42,12 @@ protected:
 
   Stuff			&operator=(Stuff const &rhs);
 
-  Stuff::eStuff		getStuffType() const;
   void			setStuffType(eStuff const stuffType);
 
 public:
   virtual ~Stuff();
+
+  Stuff::eStuff		getStuffType() const;
 
   virtual bool		serialization(Trame &trame) const;
   static Stuff		*deserialization(Trame const &trame);

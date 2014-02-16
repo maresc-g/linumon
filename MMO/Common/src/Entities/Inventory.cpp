@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Tue Feb 11 16:25:25 2014 alexis mestag
+// Last update Fri Feb 14 12:12:37 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -74,6 +74,11 @@ void				Inventory::setMoney(unsigned int const money)
   _money = money;
 }
 
+void				Inventory::addMoney(int const money)
+{
+  _money += money;
+}
+
 unsigned int			Inventory::getLimit() const
 {
   return (_limit);
@@ -109,6 +114,19 @@ AItem				*Inventory::getItem(unsigned int const id) const
   for ( ; it != this->_inventory->end() && (*it)->getId() != id ; ++it);
   if (it != this->_inventory->end() && (*it)->getId() == id)
     return (*it);
+  return (NULL);
+}
+
+AItem				*Inventory::getAndDeleteItem(unsigned int const id) const
+{
+  auto				it = this->_inventory->begin();
+
+  for ( ; it != this->_inventory->end() && (*it)->getId() != id ; ++it);
+  if (it != this->_inventory->end() && (*it)->getId() == id)
+    {
+      this->_inventory->erase(it);
+      return (*it);
+    }
   return (NULL);
 }
 

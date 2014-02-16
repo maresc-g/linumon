@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Wed Feb 12 19:53:18 2014 laurent ansel
+// Last update Sat Feb 15 21:18:55 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -242,7 +242,6 @@ void				ClientManager::startBattle(FD const fd) const
 
 void				ClientManager::endBattle(FD const fd) const
 {
-
   bool				set = false;
 
   this->_mutex->lock();
@@ -252,30 +251,40 @@ void				ClientManager::endBattle(FD const fd) const
   this->_mutex->unlock();
 }
 
-void				ClientManager::startTrade(FD const fd) const
+void				ClientManager::startTrade(FD const fd, Player *&player) const
 {
-
   bool				set = false;
 
   this->_mutex->lock();
   for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
     if ((*it).first && (*it).second)
-      set = (*it).first->stateTrade(fd, true, false);
+      set = (*it).first->stateTrade(fd, true, false, player);
   this->_mutex->unlock();
 }
 
 void				ClientManager::endTrade(FD const fd) const
 {
+  bool				set = false;
+  Player			*player;
 
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->stateTrade(fd, false, true, player);
+  this->_mutex->unlock();
+}
+
+bool				ClientManager::stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const
+{
   bool				set = false;
 
   this->_mutex->lock();
   for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
     if ((*it).first && (*it).second)
-      set = (*it).first->stateTrade(fd, false, true);
+      set = (*it).first->stuff(fd, get, idItem, target);
   this->_mutex->unlock();
+  return (set);
 }
-
 
 bool				ClientManager::userAlreadyConnected(FD const fd, User *user) const
 {

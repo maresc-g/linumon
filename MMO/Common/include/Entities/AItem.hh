@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:59:30 2013 alexis mestag
-// Last update Tue Feb 11 15:57:52 2014 alexis mestag
+// Last update Sat Feb 15 20:38:28 2014 laurent ansel
 //
 
 #ifndef			__AITEM_HH__
@@ -35,13 +35,13 @@ protected:
   AItem(std::string const &name, AItem::eItem const type);
   AItem(AItem const &rhs);
 
-  AItem::eItem		getItemType() const;
   void			setItemType(AItem::eItem const type);
 
 public:
   virtual ~AItem();
 
   AItem			&operator=(AItem const &rhs);
+  AItem::eItem		getItemType() const;
 
   virtual bool		serialization(Trame &trame) const = 0;
   static AItem		*deserialization(Trame const &trame);

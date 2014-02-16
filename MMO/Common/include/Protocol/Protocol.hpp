@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Wed Feb 12 19:11:36 2014 antoine maitre
+// Last update Sat Feb 15 12:54:00 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -87,12 +87,13 @@ bool				capture(unsigned int const id, unsigned int idBattle, unsigned int targe
 bool				objectEffect(unsigned int const id, Stats *stats);
 bool				useObject(unsigned int const id, unsigned int target, unsigned int idItem);
 // bool				interaction();
-bool				putItem(unsigned int const id, AItem const *item);
-bool				getItem(unsigned int const id, AItem const *item);
-bool				putMoney(unsigned int const id, unsigned int money);
-bool				getMoney(unsigned int const id, unsigned int money);
-bool				accept(unsigned int const id);
-bool				refuse(unsigned int const id);
+bool				launchTrade(unsigned int const id, unsigned int const idTrade, std::string namePlayer);
+bool				putItem(unsigned int const id, unsigned int const idTrade, AItem const *item);
+bool				getItem(unsigned int const id, unsigned int const idTrade, AItem const *item);
+bool				putMoney(unsigned int const id, unsigned int const idTrade, unsigned int const money);
+bool				getMoney(unsigned int const id, unsigned int const idTrade, unsigned int const money);
+bool				accept(unsigned int const id, unsigned int const idTrade);
+bool				refuse(unsigned int const id, unsigned int const idTrade);
 bool				heal(unsigned int const id);
 bool				disconnect(unsigned int const id);
 bool				sendTrameAlreadyReady(unsigned int const id, Trame *trame);
