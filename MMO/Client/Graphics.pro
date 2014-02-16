@@ -24,7 +24,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Qt/WindowManager.hh \
                 include/Qt/CharDescription/CharDescription.hh \
                 include/SFML/SFMLView.hpp \
-                include/SFML/GraphicEntities.hpp \
+                include/SFML/GraphicEntities.hh \
                 include/SFML/Sprite/Sprite.hh \
                 include/SFML/Sprite/Animation.hh \
                 include/Client.hh \

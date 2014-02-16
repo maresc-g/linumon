@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Thu Feb 13 18:37:08 2014 cyril jourdain
+// Last update Fri Feb 14 16:11:13 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -67,6 +67,7 @@ private:
   float			_keyPressDelay; // Check key fast repeat - millisecond
   sf::Text		*_mainPName;
   sf::Font		_nameFont;
+  sf::Vector2f		_nameOffset;
 
   /* Child Views */
   SpellBarView		*_spellBar;

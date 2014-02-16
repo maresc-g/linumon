@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:05:10 2013 cyril jourdain
-// Last update Mon Feb 10 17:59:47 2014 cyril jourdain
+// Last update Fri Feb 14 16:41:00 2014 cyril jourdain
 //
 
 #include		"Qt/Views/CharacterView.hh"
@@ -153,6 +153,12 @@ void		CharacterView::on_b_new_clicked()
 void		CharacterView::on_b_play_clicked()
 {
   Client::getInstance()->choosePlayer((*_charList)[_charNumber]->getPlayer());
-  _wMan->hideCharacter();
-  _wMan->showSfmlView();
+  while (**(_wMan->getState()) == CLIENT::CHOOSE_PLAYER)
+    usleep(100);
+  if (**(_wMan->getState()) == CLIENT::PLAYING) {
+    _wMan->hideCharacter();
+    _wMan->showSfmlView();
+  }
+  else
+    QMessageBox::information(this, "Error", "Unable to join the game");
 }

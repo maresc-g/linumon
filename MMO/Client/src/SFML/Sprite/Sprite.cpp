@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Tue Feb 11 13:41:37 2014 cyril jourdain
+// Last update Fri Feb 14 16:23:42 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -148,4 +148,11 @@ void			Sprite::print()
 std::string		Sprite::getLastPlayed()
 {
   return _current;
+}
+
+sf::IntRect		*Sprite::getCurrentBound()
+{
+  if (_current != "" && (*_anim)[_current] && _playing)
+    return ((*_anim)[_current]->getCurrentCoord());
+  return NULL;
 }

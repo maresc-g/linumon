@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Thu Feb 13 19:06:28 2014 cyril jourdain
+// Last update Fri Feb 14 16:53:10 2014 cyril jourdain
 //
 
 /*
@@ -63,7 +63,6 @@ void			SFMLView::onInit()
   //_mainPName("", _nameFont, 14);
   _mainPName->setFont(_nameFont);
   _mainPName->setCharacterSize(14);
-  _mainPName->setString(sf::String("toto"));
   _clock->restart();
   _sMan->loadTextures("./Res/textureList.json");
   _sMan->loadAnimations("./Res/perso1.json");
@@ -71,10 +70,14 @@ void			SFMLView::onInit()
   _mainPerso = _sMan->copySprite("perso1");
   _mainPerso->setPosition(WIN_W / 2, WIN_H / 2);
   loadPlayerList();
-  sleep(1);
   loadMap();
+  _mainPName->setColor(sf::Color(15,15,240));
+  _mainPName->setStyle(sf::Text::Bold);
+  _mainPName->setString(sf::String((**(_wMan->getMainPlayer()))->getName()));
   _mainPerso->play("default_down");
-  _mainPName->setPosition(sf::Vector2f(_mainPerso->getPosition().x, _mainPerso->getPosition().y - 15));
+  _nameOffset.x = _mainPerso->getCurrentBound()->width / 2 - _mainPName->getLocalBounds().width / 2;
+  _nameOffset.y = 15;
+  _mainPName->setPosition(sf::Vector2f(_mainPerso->getPosition().x + _nameOffset.x, _mainPerso->getPosition().y - _nameOffset.y));
 }
 
 void			SFMLView::onUpdate()
@@ -99,11 +102,11 @@ void			SFMLView::drawView()
 {
   if (!_changed){
     _winTexture->clear(sf::Color(0,0,0));
-    for (int y = 0; y != _sprites->size() - 1; ++y)
+    for (unsigned int y = 0; y != _sprites->size() - 1; ++y)
       {
-	for (int x = 0; x != (*_sprites)[y].size() - 1; ++x)
+	for (unsigned int x = 0; x != (*_sprites)[y].size() - 1; ++x)
 	  {
-	    std::cout << x << "/" << y << std::endl;
+	    // std::cout << x << "/" << y << std::endl;
 	    (*_sprites)[y][x]->setPosition(x * 50, y * 50);
 	    (*_sprites)[y][x]->update(*_clock);
 	    _winTexture->draw(*((*_sprites)[y][x]));
@@ -125,7 +128,6 @@ void			SFMLView::drawView()
 void			SFMLView::checkKeys()
 {
   float time = _clock->getElapsedTime().asMicroseconds();
-  float px = time * PX_PER_SECOND / 1000000;
 
   if (_keyPressDelay > 0)
     _keyPressDelay -= time;
@@ -256,7 +258,7 @@ void			SFMLView::moveMainPerso(float const elapsedTime)
 	  _mainPerso->play("default_left");
 	}
     }
-  _mainPName->setPosition(sf::Vector2f(_mainPerso->getPosition().x + 15, _mainPerso->getPosition().y - 15));
+  _mainPName->setPosition(sf::Vector2f(_mainPerso->getPosition().x + _nameOffset.x, _mainPerso->getPosition().y - _nameOffset.y));
   // std::cout << _mainPerso->getPosition().x << "/" << _mainPerso->getPosition().y << std::endl;
   // if (**(_wMan->getMainPlayer()))
   //   std::cout << (**(_wMan->getMainPlayer()))->getX() << std::endl;
@@ -267,16 +269,15 @@ void			SFMLView::loadPlayerList()
   // std::cout << " \nplayerList\n" << std::endl;
 
   // std::list<AEntity *>	list = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getPlayers();
-  // std::list<AEntity *>	list = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getPlayers();
+  std::list<AEntity *>	list = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getPlayers();
   
-  // std::cout << Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone()) << std::endl;
+  std::cout << "Zone name : " <<  Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getName() << std::endl;
+  std::cout << "Player number : " << list.size() << std::endl;
 
-  // std::cout << "get" << std::endl;
-
-  // for (auto it = list.begin(); it != list.end(); it++)
-  //   {
-  //     std::cout << (static_cast<Player*>(*it))->getX() << std::endl;
-  //   }
+  for (auto it = list.begin(); it != list.end(); it++)
+    {
+      std::cout << (static_cast<Player*>(*it))->getX() << std::endl;
+    }
 }
 
 void			SFMLView::loadMap()
