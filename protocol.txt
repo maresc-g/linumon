@@ -41,7 +41,7 @@
 			#  stuff
 			STUFF : {action : eActionStuff, item : AItem, target : ACharacter} -> client
 			[not equippable] = ERROR : {not equippable : eError} -> server
-			[else] = UPDATESTATS : {character : ACharacter} -> server
+			[else] = UPDATECHARACTER : {character : ACharacter} -> server
 			#  end
 
 			#  talents

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Jan 25 14:45:20 2014 laurent ansel
-// Last update Tue Feb  4 15:04:46 2014 laurent ansel
+// Last update Sun Feb 16 13:54:10 2014 laurent ansel
 //
 
 #ifndef			__ERROR_HPP__
@@ -22,6 +22,8 @@ public:
       USER,
       USERCONNECTED,
       CREATEPLAYER,
+      NOTEQUIPPABLE,
+      NOITEM,
       NOTHING
     };
 
@@ -75,7 +77,9 @@ public:
       {
 	{USER,		"bad username or pass"},
 	{USERCONNECTED,	"user already connected"},
-	{CREATEPLAYER,	"name already exist"}
+	{CREATEPLAYER,	"name already exist"},
+	{NOTEQUIPPABLE,	"not equippable"},
+	{NOITEM,	"no item"}
       };
     _msg = "Error  : " + map[_type];
   }

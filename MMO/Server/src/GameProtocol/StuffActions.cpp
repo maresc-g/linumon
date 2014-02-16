@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 16:36:22 2014 laurent ansel
-// Last update Sat Feb 15 21:13:33 2014 laurent ansel
+// Last update Sun Feb 16 13:53:35 2014 laurent ansel
 //
 
 #include			<functional>
@@ -46,19 +46,35 @@ bool				StuffActions::stuffAction(Trame *trame)
 bool				StuffActions::getStuff(Trame *trame)
 {
   bool				ret = false;
+  Error				*error = NULL;
 
   ret = ClientManager::getInstance()->stuff((*trame)[HEADER]["IDCLIENT"].asInt(), false, (*trame)[CONTENT]["STUFF"]["IDITEM"].asUInt(), (*trame)[CONTENT]["STUFF"]["TARGET"].asUInt());
   if (!ret)
-    ;//ERROR
+    {
+      if (ObjectPoolManager::getInstance()->setObject(error, "error"))
+	{
+	  error->setType(Error::NOITEM);
+	  Server::getInstance()->callProtocol<Error *>("ERROR", (*trame)[HEADER]["IDCLIENT"].asInt(), error);
+	  delete error;
+	}
+    }
   return (ret);
 }
 
 bool				StuffActions::putStuff(Trame *trame)
 {
   bool				ret = false;
+  Error				*error = NULL;
 
   ret = ClientManager::getInstance()->stuff((*trame)[HEADER]["IDCLIENT"].asInt(), true, (*trame)[CONTENT]["STUFF"]["IDITEM"].asUInt(), (*trame)[CONTENT]["STUFF"]["TARGET"].asUInt());
   if (!ret)
-    ;//ERROR
+    {
+      if (ObjectPoolManager::getInstance()->setObject(error, "error"))
+	{
+	  error->setType(Error::NOTEQUIPPABLE);
+	  Server::getInstance()->callProtocol<Error *>("ERROR", (*trame)[HEADER]["IDCLIENT"].asInt(), error);
+	  delete error;
+	}
+    }
   return (ret);
 }

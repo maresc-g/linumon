@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Sat Feb 15 21:13:53 2014 laurent ansel
+// Last update Sun Feb 16 14:16:01 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -38,7 +38,10 @@ void				Client::clear()
     TradeManager::getInstance()->disconnectPlayer(_player->getId());
   _state = NONE;
   if (_player)
-    Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+    {
+      Map::getInstance()->delPlayer(_player->getZone(), _player);
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+    }
   delete (*_sockets)["UDP"];
   delete (*_sockets)["TCP"];
   (*_sockets)["UDP"] = NULL;
@@ -239,7 +242,13 @@ bool				Client::stuff(bool const get, unsigned int const idItem, unsigned int co
 	  else
 	    ret = _player->putMobEquipment(target, idItem);
 	}
+      if (ret)
+	{
+	  if (target == _player->getId())
+	    Server::getInstance()->callProtocol<ACharacter const *>("UPDATECHARACTER", _id, _player);
+	  else
+	    Server::getInstance()->callProtocol<ACharacter const *>("UPDATECHARACTER", _id, &_player->getMob(target));
+	}
     }
-  //send update
   return (ret);
 }

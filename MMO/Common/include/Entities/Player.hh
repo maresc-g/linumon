@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Sat Feb 15 21:12:07 2014 laurent ansel
+// Last update Sun Feb 16 14:15:37 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -103,6 +103,8 @@ public:
   void				setUser(User const &user);
 
   void				capture(Mob const &mob);
+
+  Mob const			&getMob(unsigned int const id);
 
   void				deleteItem(unsigned int const item);
   void				addItem(AItem *item);

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Sat Feb 15 12:54:00 2014 laurent ansel
+// Last update Sun Feb 16 14:19:15 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -94,6 +94,7 @@ bool				putMoney(unsigned int const id, unsigned int const idTrade, unsigned int
 bool				getMoney(unsigned int const id, unsigned int const idTrade, unsigned int const money);
 bool				accept(unsigned int const id, unsigned int const idTrade);
 bool				refuse(unsigned int const id, unsigned int const idTrade);
+bool				updateCharacter(unsigned int const id, ACharacter const *character);
 bool				heal(unsigned int const id);
 bool				disconnect(unsigned int const id);
 bool				sendTrameAlreadyReady(unsigned int const id, Trame *trame);

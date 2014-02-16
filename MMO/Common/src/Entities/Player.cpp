@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Sat Feb 15 21:21:50 2014 laurent ansel
+// Last update Sun Feb 16 14:15:43 2014 laurent ansel
 //
 
 #include			<functional>
@@ -140,6 +140,11 @@ AItem				*Player::getAndDeleteItem(unsigned int const item) const
 void				Player::addMoney(int const money)
 {
   this->_inventory->addMoney(money);
+}
+
+Mob const			&Player::getMob(unsigned int const id)
+{
+  return (*this->_digitaliser.getMob(id));
 }
 
 bool				Player::getPlayerEquipment(unsigned int const idItem)
