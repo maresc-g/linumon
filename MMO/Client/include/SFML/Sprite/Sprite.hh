@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 13:38:44 2014 cyril jourdain
-// Last update Fri Feb 14 16:20:54 2014 cyril jourdain
+// Last update Sun Feb 16 03:41:07 2014 cyril jourdain
 //
 
 #ifndef 		__SPRITE_HH__
@@ -20,7 +20,7 @@
 class			Sprite : public sf::Drawable, public sf::Transformable
 {
 
-private /* attributs */:
+protected /* attributs */:
   sf::Texture		*_texture;
   std::map<std::string, Animation *>	*_anim;
   sf::Vertex		*_vertex;
@@ -31,6 +31,7 @@ private /* attributs */:
 public /* class specific */ :
   Sprite();
   Sprite(Sprite const &);
+  Sprite		&operator=(Sprite const &other);
   Animation		*operator[](std::string const &id);
   virtual ~Sprite();
 

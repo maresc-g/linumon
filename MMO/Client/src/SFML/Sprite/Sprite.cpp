@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Fri Feb 14 16:23:42 2014 cyril jourdain
+// Last update Sun Feb 16 04:03:06 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -45,7 +45,26 @@ Sprite::Sprite(Sprite const &other) :
   _vertex[3].color = sf::Color(255,255,255);
   _current = "";
   _playing = false;
+  _texture = other._texture;
   // Remember to add other things
+}
+
+Sprite			&Sprite::operator=(Sprite const &other)
+{
+  for (auto it = other._anim->begin(); it != other._anim->end(); it++)
+    {
+      _anim->insert(std::pair<std::string, Animation*>(it->first, new Animation(*(it->second))));
+    }
+  _vertex = new sf::Vertex[4]();
+  _vertex[0].color = sf::Color(255,255,255);
+  _vertex[1].color = sf::Color(255,255,255);
+  _vertex[2].color = sf::Color(255,255,255);
+  _vertex[3].color = sf::Color(255,255,255);
+  _current = other._current;
+  _playing = other._playing;
+  _texture = other._texture;
+  return *this;
+
 }
 
 Sprite::~Sprite()

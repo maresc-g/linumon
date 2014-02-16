@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Fri Feb 14 16:11:13 2014 cyril jourdain
+// Last update Sun Feb 16 04:15:47 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -25,6 +25,7 @@
 #include		"SFML/Sprite/Sprite.hh"
 
 #include		"SFML/GraphicEntities.hh"
+#include		"SFML/PlayerSprite.hh"
 
 
 class			WindowManager;
@@ -50,9 +51,9 @@ private:
   typedef std::map<int, std::map<int, Sprite *>> SpriteMap;
   WindowManager		*_wMan;
   SpriteManager		*_sMan;
-  Sprite		*_mainPerso;
+  PlayerSprite		*_mainPerso;
   sf::Clock		*_clock;
-  std::list<GraphicPlayer*> _players;
+  std::list<GraphicPlayer*> _players; // Might be useless, since players are PlayerSprite
   SpriteMap		*_sprites;
   sf::View		*_view;
   sf::Sprite		*_spriteTest;
@@ -65,9 +66,7 @@ private:
   sf::Sprite		*_winSprite;
   bool			_changed;
   float			_keyPressDelay; // Check key fast repeat - millisecond
-  sf::Text		*_mainPName;
-  sf::Font		_nameFont;
-  sf::Vector2f		_nameOffset;
+  sf::Font		*_textFont;
 
   /* Child Views */
   SpellBarView		*_spellBar;

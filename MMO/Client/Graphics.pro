@@ -4,7 +4,7 @@
 
 TEMPLATE = app
 TARGET = ../pfa-client
-DEPENDPATH += . include src
+DEPENDPATH += . src
 INCLUDEPATH += . include ../Common/include
 FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbar.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui
 LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp -ldl
@@ -24,6 +24,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Qt/WindowManager.hh \
                 include/Qt/CharDescription/CharDescription.hh \
                 include/SFML/SFMLView.hpp \
+                include/SFML/PlayerSprite.hh \
                 include/SFML/GraphicEntities.hh \
                 include/SFML/Sprite/Sprite.hh \
                 include/SFML/Sprite/Animation.hh \
@@ -47,6 +48,7 @@ SOURCES +=      src/main.cpp \
                 src/Qt/WindowManager.cpp \
                 src/Qt/CharDescription.cpp \
                 src/SFML/SFMLView.cpp \
+                src/SFML/PlayerSprite.cpp \
                 src/SFML/Sprite/Sprite.cpp \
                 src/SFML/Sprite/Animation.cpp \
                 src/SFML/Sprite/SpriteManager.cpp \

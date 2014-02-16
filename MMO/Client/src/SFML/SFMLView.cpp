@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Feb 14 16:53:10 2014 cyril jourdain
+// Last update Sun Feb 16 04:15:01 2014 cyril jourdain
 //
 
 /*
@@ -48,7 +48,10 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _winTexture->create(100*50, 100*50);
   _winSprite = new sf::Sprite();
   _changed = false;
-  _mainPName = new sf::Text();
+  // _mainPName = new sf::Text();
+  _textFont = new sf::Font();
+  if (!_textFont->loadFromFile("./Res/arial.ttf"))
+     std::cout << "Error while loading font" << std::endl;
 }
 
 SFMLView::~SFMLView()
@@ -58,26 +61,22 @@ SFMLView::~SFMLView()
 void			SFMLView::onInit()
 {
   /* Stuff needed when loading the view */
-  if (!_nameFont.loadFromFile("./Res/arial.ttf"))
-    std::cout << "Error while loading font" << std::endl;
-  //_mainPName("", _nameFont, 14);
-  _mainPName->setFont(_nameFont);
-  _mainPName->setCharacterSize(14);
-  _clock->restart();
   _sMan->loadTextures("./Res/textureList.json");
   _sMan->loadAnimations("./Res/perso1.json");
   _sMan->loadAnimations("./Res/textures.json");
-  _mainPerso = _sMan->copySprite("perso1");
-  _mainPerso->setPosition(WIN_W / 2, WIN_H / 2);
+  /* MUST be the first things to do */
+  _clock->restart();
   loadPlayerList();
   loadMap();
-  _mainPName->setColor(sf::Color(15,15,240));
-  _mainPName->setStyle(sf::Text::Bold);
-  _mainPName->setString(sf::String((**(_wMan->getMainPlayer()))->getName()));
+  _mainPerso = new PlayerSprite();
+  _sMan->copySprite("perso1", *_mainPerso);
+  _mainPerso->setFont(_textFont);
+  _mainPerso->setText(sf::String((**(_wMan->getMainPlayer()))->getName()));
+  _mainPerso->setPosition(WIN_W / 2, WIN_H / 2);
   _mainPerso->play("default_down");
-  _nameOffset.x = _mainPerso->getCurrentBound()->width / 2 - _mainPName->getLocalBounds().width / 2;
-  _nameOffset.y = 15;
-  _mainPName->setPosition(sf::Vector2f(_mainPerso->getPosition().x + _nameOffset.x, _mainPerso->getPosition().y - _nameOffset.y));
+  _mainPerso->generateOffset();
+  /* Theorically, generateOffset should be called everytime play() is called with another anim.
+   But as far as i know, they are all of the same size, so offsets are OK for eveyone */
 }
 
 void			SFMLView::onUpdate()
@@ -106,7 +105,6 @@ void			SFMLView::drawView()
       {
 	for (unsigned int x = 0; x != (*_sprites)[y].size() - 1; ++x)
 	  {
-	    // std::cout << x << "/" << y << std::endl;
 	    (*_sprites)[y][x]->setPosition(x * 50, y * 50);
 	    (*_sprites)[y][x]->update(*_clock);
 	    _winTexture->draw(*((*_sprites)[y][x]));
@@ -121,7 +119,6 @@ void			SFMLView::drawView()
     _mainPerso->update(*_clock);
     draw(*_spriteTest);
     draw(*_mainPerso);
-    draw(*_mainPName);
   }
 }
 
@@ -258,10 +255,6 @@ void			SFMLView::moveMainPerso(float const elapsedTime)
 	  _mainPerso->play("default_left");
 	}
     }
-  _mainPName->setPosition(sf::Vector2f(_mainPerso->getPosition().x + _nameOffset.x, _mainPerso->getPosition().y - _nameOffset.y));
-  // std::cout << _mainPerso->getPosition().x << "/" << _mainPerso->getPosition().y << std::endl;
-  // if (**(_wMan->getMainPlayer()))
-  //   std::cout << (**(_wMan->getMainPlayer()))->getX() << std::endl;
 }
 
 void			SFMLView::loadPlayerList()
