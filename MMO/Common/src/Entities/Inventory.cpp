@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Fri Feb 14 12:12:37 2014 laurent ansel
+// Last update Sun Feb 16 20:36:02 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -196,8 +196,6 @@ Inventory			*Inventory::deserialization(Trame const &trame)
 {
   Inventory			*inventory = NULL;
   std::list<AItem *>		*items = NULL;
-  int				nb = 0;
-  std::ostringstream		str;
 
   if (trame.isMember("INVENTORY"))
     {
@@ -205,12 +203,12 @@ Inventory			*Inventory::deserialization(Trame const &trame)
       items = new std::list<AItem *>;
       inventory->setMoney(trame["INVENTORY"]["MONEY"].asUInt());
       inventory->setLimit(trame["INVENTORY"]["LIMIT"].asUInt());
-      str << "ITEM" << nb;
-      for (; !trame["INVENTORY"]["ITEMS"].isMember(str.str()) ; ++nb)
+      if (trame["INVENTORY"].isMember("ITEMS"))
 	{
-	  items->push_back(AItem::deserialization(trame(trame["EQUIPMENT"]["ITEMS"][str.str()])));
-	  str.str("");
-	  str << "ITEM" << nb + 1;
+	  auto			members = trame["INVENTORY"]["ITEMS"].getMemberNames();
+
+	  for (auto it = members.begin() ; it != members.end() ; ++it)
+	    items->push_back(AItem::deserialization(trame(trame["EQUIPMENT"]["ITEMS"][*it])));
 	}
       inventory->setInventory(items);
     }
