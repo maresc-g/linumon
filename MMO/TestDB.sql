@@ -40,13 +40,21 @@ DELETE FROM `DBZone`;
 INSERT INTO `DBZone`(`id`, `name`, `averageLevel`) VALUES(1, 'Plain', 10);
 INSERT INTO `DBZone`(`id`, `name`, `averageLevel`) VALUES(2, 'Rock', 40);
 
+/* Inserting Inventories */
+DELETE FROM Inventory;
+
+INSERT INTO `Inventory`(`id`, `path`, `money`, `limit`) VALUES(1, 'Res/Inventories/Thinenus.json', 10000, 30);
+INSERT INTO `Inventory`(`id`, `path`, `money`, `limit`) VALUES(2, 'Res/Inventories/Sezu-Kho.json', 10000, 30);
+INSERT INTO `Inventory`(`id`, `path`, `money`, `limit`) VALUES(3, 'Res/Inventories/WeshWeshCabillaud.json', 20000, 20);
+INSERT INTO `Inventory`(`id`, `path`, `money`, `limit`) VALUES(4, 'Res/Inventories/EnThéorieCaDevraitMarcher.json', 20000, 20);
+
 /* Inserting Players */
 DELETE FROM Player;
 
-INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `dbZone`, `x`, `y`) VALUES(1, 'Thinenus', 13, 4, 10, 1, 1, 1, 1, 10, 30);
-INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `dbZone`, `x`, `y`) VALUES(2, 'Sezu-Kho', 20, 6, 10, 1, 2, 2, 1, 20, 20);
-INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `dbZone`, `x`, `y`) VALUES(3, 'WeshWeshCabillaud', 15, 5, 10, 2, 1, 1, 2, 10, 30);
-INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `dbZone`, `x`, `y`) VALUES(4, 'EnThéorieCaDevraitMarcher', 584, 10, 10, 2, 2, 2, 2, 20, 20);
+INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `inventory`, `dbZone`, `x`, `y`) VALUES(1, 'Thinenus', 13, 4, 10, 1, 1, 1, 1, 1, 10, 30);
+INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `inventory`, `dbZone`, `x`, `y`) VALUES(2, 'Sezu-Kho', 20, 6, 10, 1, 2, 2, 2, 1, 20, 20);
+INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `inventory`, `dbZone`, `x`, `y`) VALUES(3, 'WeshWeshCabillaud', 15, 5, 10, 2, 1, 1, 3, 2, 10, 30);
+INSERT INTO `Player`(`id`, `name`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `inventory`, `dbZone`, `x`, `y`) VALUES(4, 'EnThéorieCaDevraitMarcher', 584, 10, 10, 2, 2, 2, 4, 2, 20, 20);
 
 /* Assigning Talents to Players */
 DELETE FROM `Player_talents`;

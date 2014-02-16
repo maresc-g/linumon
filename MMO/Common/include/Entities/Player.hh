@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Sun Feb 16 14:15:37 2014 laurent ansel
+// Last update Sun Feb 16 16:08:39 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -130,7 +130,7 @@ public:
 #  pragma db member(Player::_y) virtual(Player::PlayerCoordinate::type) get(_coord->getY()) set(_coord->setY(?))
 #  pragma db member(Player::_faction) not_null
 #  pragma db member(Player::_digitaliser) value_not_null id_column("player_id") value_column("mob_id")
-#  pragma db member(Player::_inventory) transient
+#  pragma db member(Player::_inventory)
 #  pragma db member(Player::_dbZone)
 # endif
 
