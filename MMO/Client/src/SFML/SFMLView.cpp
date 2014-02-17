@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Sun Feb 16 04:15:01 2014 cyril jourdain
+// Last update Mon Feb 17 10:54:18 2014 guillaume marescaux
 //
 
 /*
@@ -26,7 +26,9 @@
 
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()), _mainPerso(NULL),
-  _clock(new sf::Clock()), _sprites(new SpriteMap), _spellBar(new SpellBarView(this, w)), _itemView(new ItemView(this, w)), _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
+  _clock(new sf::Clock()), _sprites(new SpriteMap),
+  _spellBar(new SpellBarView(this, w)), _itemView(new ItemView(this, w)),
+  _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
   _chat(new ChatView(this, w))
 {
   _textureTest = new sf::Texture();
@@ -75,6 +77,7 @@ void			SFMLView::onInit()
   _mainPerso->setPosition(WIN_W / 2, WIN_H / 2);
   _mainPerso->play("default_down");
   _mainPerso->generateOffset();
+  _inventory->initInventory();
   /* Theorically, generateOffset should be called everytime play() is called with another anim.
    But as far as i know, they are all of the same size, so offsets are OK for eveyone */
 }

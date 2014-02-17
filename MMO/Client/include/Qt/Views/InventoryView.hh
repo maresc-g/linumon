@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:46:00 2014 guillaume marescaux
-// Last update Thu Feb 13 14:34:01 2014 guillaume marescaux
+// Last update Mon Feb 17 10:53:49 2014 guillaume marescaux
 //
 
 #ifndef 		__INVENTORYVIEW_HH__
@@ -33,6 +33,10 @@ private:
 
 private:
   virtual void		paintEvent(QPaintEvent *);
+
+public:
+
+  void			initInventory(void);
 };
 
 #endif
