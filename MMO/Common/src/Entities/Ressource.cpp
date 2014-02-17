@@ -5,14 +5,15 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Tue Feb 11 15:59:41 2014 alexis mestag
+// Last update Mon Feb 17 14:46:32 2014 antoine maitre
 //
 
 #include			"Entities/Ressource.hh"
 
 Ressource::Ressource() :
   Persistent(),
-  AItem("", AItem::eItem::RESSOURCE)
+  AItem("", AItem::eItem::RESSOURCE),
+  _coord(new RessourceCoordinate)
 {
 
 }
@@ -43,6 +44,26 @@ Ressource			&Ressource::operator=(Ressource const &rhs)
 
     }
   return (*this);
+}
+
+int				Ressource::getX() const
+{
+  return (this->_coord->getX());
+}
+
+int				Ressource::getY() const
+{
+  return (this->_coord->getY());
+}
+
+void				Ressource::setX(int const x)
+{
+  this->_coord->setX(x);
+}
+
+void				Ressource::setY(int const y)
+{
+  this->_coord->setY(y);
 }
 
 bool				Ressource::serialization(Trame &trame) const

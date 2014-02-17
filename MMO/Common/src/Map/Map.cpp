@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Mon Feb 17 13:47:22 2014 antoine maitre
+// Last update Mon Feb 17 14:49:49 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -67,16 +67,27 @@ void				Map::delPlayer(std::string const &zone, AEntity *player)
   this->unlock();
 }
 
-void				Map::addEntity(std::string const &zone, AEntity *player)
+void				Map::addPlayer(std::string const &zone, AEntity *player)
 {
   this->lock();
   if (this->_map.find(zone) != this->_map.end())
-    {
-      std::cout << player->getName() << std::endl;
-      this->_map[zone]->addPlayer(player);
-    }
-  else
-    std::cout << "Bitchies" << std::endl;
+    this->_map[zone]->addPlayer(player);
+  this->unlock();
+}
+
+void				Map::addEntity(std::string const &zone, AEntity *entity)
+{
+  this->lock();
+  if (this->_map.find(zone) != this->_map.end())
+    this->_map[zone]->addEntity(entity);
+  this->unlock();
+}
+
+void				Map::delEntity(std::string const &zone, AEntity *entity)
+{
+  this->lock();
+  if (this->_map.find(zone) != this->_map.end())
+    this->_map[zone]->delEntity(entity);
   this->unlock();
 }
 

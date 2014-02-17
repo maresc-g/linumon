@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Sun Feb 16 14:16:01 2014 laurent ansel
+// Last update Mon Feb 17 14:11:16 2014 antoine maitre
 //
 
 #include			"ClientManager/Client.hh"
@@ -154,7 +154,7 @@ void				Client::choosePlayer(unsigned int const id, bool const send)
       this->_player = rp->getById(id);
       if (this->_player && send)
 	{
-	  Map::getInstance()->addEntity(_player->getZone(), _player);
+	  Map::getInstance()->addPlayer(_player->getZone(), _player);
 	  Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
 	  Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()));
 	}

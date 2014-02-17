@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:15:41 2013 cyril jourdain
-// Last update Fri Feb  7 11:33:58 2014 guillaume marescaux
+// Last update Mon Feb 17 14:08:50 2014 cyril jourdain
 //
 
 #ifndef 		__WINDOWMANAGER_HH__

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Sun Feb 16 04:15:47 2014 cyril jourdain
+// Last update Mon Feb 17 14:19:01 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -26,6 +26,7 @@
 
 #include		"SFML/GraphicEntities.hh"
 #include		"SFML/PlayerSprite.hh"
+#include		"SFML/KeyDelayer.hh"
 
 
 class			WindowManager;
@@ -55,13 +56,10 @@ private:
   sf::Clock		*_clock;
   std::list<GraphicPlayer*> _players; // Might be useless, since players are PlayerSprite
   SpriteMap		*_sprites;
+  KeyDelayer		*_keyDelayer;
   sf::View		*_view;
   sf::Sprite		*_spriteTest;
   sf::Texture		*_textureTest;
-  sf::Vector2f		_pos;
-  sf::Vector2f		_deltaPos;
-  bool			_moving;
-  eDir			_dir;
   sf::RenderTexture	*_winTexture;
   sf::Sprite		*_winSprite;
   bool			_changed;
@@ -85,7 +83,6 @@ private :
   virtual void			onResize(QResizeEvent *);
   void				drawView();
   void				checkKeys();
-  void				moveMainPerso(float const elapsedTime);
   void				loadPlayerList();
   void				loadMap();
 };

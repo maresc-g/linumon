@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Mon Feb 17 10:54:18 2014 guillaume marescaux
+// Last update Mon Feb 17 14:20:04 2014 cyril jourdain
 //
 
 /*
@@ -16,8 +16,6 @@
 		
 		Test loading another map
 
-
-
  */
 
 
@@ -26,7 +24,7 @@
 
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()), _mainPerso(NULL),
-  _clock(new sf::Clock()), _sprites(new SpriteMap),
+  _clock(new sf::Clock()), _sprites(new SpriteMap), _keyDelayer(new KeyDelayer()),
   _spellBar(new SpellBarView(this, w)), _itemView(new ItemView(this, w)),
   _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
   _chat(new ChatView(this, w))
@@ -35,17 +33,11 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _textureTest->loadFromFile("./Res/test.png");
   _spriteTest = new sf::Sprite(*_textureTest);
   _spriteTest->setScale(4,4);
-  _pos.x = WIN_W / 2;
-  _pos.y = WIN_H / 2;
-  _deltaPos.x = 0;
-  _deltaPos.y = 0;
-  _moving = false;
   _spellBar->hide();
   _itemView->hide();
   _stuff->hide();
   _inventory->hide();
   _chat->move(0, WIN_H - _chat->size().height());
-  _dir = NONE;
   _winTexture = new sf::RenderTexture();
   _winTexture->create(100*50, 100*50);
   _winSprite = new sf::Sprite();
@@ -127,137 +119,48 @@ void			SFMLView::drawView()
 
 void			SFMLView::checkKeys()
 {
-  float time = _clock->getElapsedTime().asMicroseconds();
-
-  if (_keyPressDelay > 0)
-    _keyPressDelay -= time;
-  else
-    _keyPressDelay = 0;
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !_moving)
+  _keyDelayer->update(_clock);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !_mainPerso->isMoving())
     {
-      _pos.y += 50;
-      _deltaPos.y = 50;
-      _moving = true;
-      _dir = DOWN;
+      _mainPerso->moveDown();
       Client::getInstance()->move(CLIENT::DOWN);
-      _mainPerso->play("down");
     }
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !_moving)
+  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !_mainPerso->isMoving())
     {
-      _pos.y -= 50;
-      _deltaPos.y = -50;
-      _moving = true;
-      _dir = UP;
+      _mainPerso->moveUp();
       Client::getInstance()->move(CLIENT::UP);
-      _mainPerso->play("up");
     }
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !_moving)
+  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !_mainPerso->isMoving())
     {
-      _pos.x -= 50;
-      _deltaPos.x = -50;
-      _moving = true;
-      _dir = LEFT;
+      _mainPerso->moveLeft();
       Client::getInstance()->move(CLIENT::LEFT);
-      _mainPerso->play("left");
     }
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !_moving)
+  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !_mainPerso->isMoving())
     {
-      _pos.x += 50;
-      _deltaPos.x = 50;
-      _moving = true;
-      _dir = RIGHT;
+      _mainPerso->moveRight();
       Client::getInstance()->move(CLIENT::RIGHT);
-      _mainPerso->play("right");
     }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::I) && _keyPressDelay <= 0 && !_chat->getFocused())
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::I) && _keyDelayer->isAvailable(sf::Keyboard::I) && !_chat->getFocused())
     {
-      if (!_inventory->isVisible()){
+      if (!_inventory->isVisible())
 	_inventory->show();
-	std::cout << "show inventory" << std::endl;
-      }
-	else {
+      else
 	_inventory->hide();
-	std::cout << "hide inventory" << std::endl;
-      }
-	_keyPressDelay = 100000;
+      _keyDelayer->addWatcher(sf::Keyboard::I, 100000);
     }
-  if (_moving)
-    moveMainPerso(time);
+
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) &&
+      _keyDelayer->isAvailable(sf::Keyboard::Return))
+    {
+      if (!_chat->getFocused())
+	_chat->setFocused(true);
+      else
+	_chat->submitText();
+      _keyDelayer->addWatcher(sf::Keyboard::Return, 100000);
+    }
+  if (_mainPerso->isMoving())
+    _mainPerso->updateMoves(_clock, _mainView);
   setView(*_mainView);
-}
-
-void			SFMLView::moveMainPerso(float const elapsedTime)
-{
-  float px = elapsedTime * PX_PER_SECOND / 1000000;
-
-  if (_dir == eDir::DOWN)
-    {
-      _mainView->move(0, px);
-      _mainPerso->move(0, px);
-      _deltaPos.y -= px;
-      if (_deltaPos.y < 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-	_deltaPos.y += 50;
-      if (_deltaPos.y <= 0 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-	{
-	  _mainView->move(0, _deltaPos.y);
-	  _mainPerso->move(0, _deltaPos.y);
-	  _deltaPos.y = 0;
-	  _moving = false;
-	  _dir = eDir::NONE;
-	  _mainPerso->play("default_down");
-	}
-    }
-  else if (_deltaPos.y < 0)
-    {
-      _mainView->move(0, -px);
-      _mainPerso->move(0, -px);
-      _deltaPos.y += px;
-      if (_deltaPos.y > 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-	_deltaPos.y -= 50;
-      if (_deltaPos.y >= 0 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-	{
-	  _mainView->move(0, _deltaPos.y);
-	  _mainPerso->move(0, _deltaPos.y);
-	  _deltaPos.y = 0;
-	  _moving = false;
-	  _dir = eDir::NONE;
-	  _mainPerso->play("default_up");
-	}
-    }
-  else if (_deltaPos.x > 0)
-    {
-      _mainView->move(px, 0);
-      _mainPerso->move(px, 0);
-      _deltaPos.x -= px;
-      if (_deltaPos.x < 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	_deltaPos.x += 50;
-      if (_deltaPos.x <= 0 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-	  _mainView->move(_deltaPos.x, 0);
-	  _mainPerso->move(_deltaPos.x, 0);
-	  _deltaPos.x = 0;
-	  _moving = false;
-	  _dir = eDir::NONE;
-	  _mainPerso->play("default_right");
-	}
-    }
-  else if (_deltaPos.x < 0)
-    {
-      _mainView->move(-px, 0);
-      _mainPerso->move(-px, 0);
-      _deltaPos.x += px;
-      if (_deltaPos.x > 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	_deltaPos.x -= 50;
-      if (_deltaPos.x >= 0 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-	  _mainView->move(_deltaPos.x, 0);
-	  _mainPerso->move(_deltaPos.x, 0);
-	  _deltaPos.x = 0;
-	  _moving = false;
-	  _dir = eDir::NONE;
-	  _mainPerso->play("default_left");
-	}
-    }
 }
 
 void			SFMLView::loadPlayerList()
