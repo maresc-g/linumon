@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:31:09 2014 antoine maitre
-// Last update Mon Feb 17 13:46:09 2014 antoine maitre
+// Last update Mon Feb 17 14:17:01 2014 antoine maitre
 //
 
 #ifndef					__MAP_HH__
@@ -28,6 +28,8 @@ private:
 public:
   Zone					*getZone(std::string const);
   void					delPlayer(std::string const &zone, AEntity *player);
+  void					addPlayer(std::string const &zone, AEntity *player);
+  void					delEntity(std::string const &zone, AEntity *player);
   void					addEntity(std::string const &zone, AEntity *player);
   // void					delEntity(std::string const &zone, AEntity *entity);
   // void					addEntity(std::string const &zone, AEntity *entity);

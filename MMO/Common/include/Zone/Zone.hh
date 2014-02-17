@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Mon Feb 17 12:05:51 2014 antoine maitre
+// Last update Mon Feb 17 14:40:46 2014 antoine maitre
 //
 
 #ifndef			__ZONE_HH__
@@ -17,6 +17,7 @@
 # include		"Utility/Nameable.hh"
 # include		"Utility/GenericSerialization.hpp"
 # include		"Entities/Player.hh"
+# include		"Entities/Ressource.hh"
 # include		"Case.hh"
 
 # ifdef	SERVER
@@ -46,6 +47,8 @@ public:
   virtual ~Zone();
   void			addPlayer(AEntity *);
   void			delPlayer(AEntity *);
+  void			addEntity(AEntity *entity);
+  void			delEntity(AEntity *entity);
   std::list<AEntity*>	&getPlayers() const;
   void			addCase(Case *);
   void			delCase(Case *);

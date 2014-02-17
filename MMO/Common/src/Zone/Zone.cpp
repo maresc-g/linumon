@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Mon Feb 17 13:51:46 2014 antoine maitre
+// Last update Mon Feb 17 14:41:29 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -100,6 +100,28 @@ void				Zone::delPlayer(AEntity *player)
       if (cas)
 	cas->delAEntity(player);
     }
+}
+
+void				Zone::addEntity(AEntity *entity)
+{
+  Case				*cas;
+  Ressource			*tmp;
+
+  tmp =  static_cast<Ressource *>(entity);
+  cas = this->getCase(tmp->getX(), tmp->getY());
+  if (cas)
+    cas->addAEntity(entity);
+}
+
+void				Zone::delEntity(AEntity *entity)
+{
+  Case				*cas;
+  Ressource			*tmp;
+
+  tmp =  static_cast<Ressource *>(entity);
+  cas = this->getCase(tmp->getX(), tmp->getY());
+  if (cas)
+    cas->delAEntity(entity);
 }
 
 std::list<AEntity *>		&Zone::getPlayers() const
