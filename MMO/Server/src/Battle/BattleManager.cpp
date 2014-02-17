@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Wed Feb 12 18:08:43 2014 antoine maitre
+// Last update Mon Feb 17 11:40:49 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -30,6 +30,17 @@ BattleManager::~BattleManager()
   this->deleteBattleUpdaters();
   this->_mutex->destroy();
   delete _mutex;
+}
+
+bool				BattleManager::inBattle(Player *player)
+{
+  if ((rand() % 100) > 74)
+    {
+      this->newBattle(player, player);
+      return (true);
+    }
+  else
+    return (false);
 }
 
 void				BattleManager::newBattle(Player *player1, Player *player2)

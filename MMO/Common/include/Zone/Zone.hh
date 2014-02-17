@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Tue Feb 11 17:14:32 2014 antoine maitre
+// Last update Mon Feb 17 12:05:51 2014 antoine maitre
 //
 
 #ifndef			__ZONE_HH__
@@ -58,6 +58,7 @@ public:
   int			getSizeY() const;
 # ifdef	SERVER
   DBZone const		&getDBZone() const;
+  
 # endif
 };
 

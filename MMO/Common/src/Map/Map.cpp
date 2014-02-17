@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Sat Feb 15 14:09:27 2014 laurent ansel
+// Last update Mon Feb 17 13:47:22 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -59,21 +59,42 @@ void				Map::unlock() const
   this->_mutex->unlock();
 }
 
-void				Map::delPlayer(std::string const &zone, AEntity *entity)
+void				Map::delPlayer(std::string const &zone, AEntity *player)
 {
   this->lock();
   if (this->_map.find(zone) != this->_map.end())
-    this->_map[zone]->delPlayer(entity);
+    this->_map[zone]->delPlayer(player);
   this->unlock();
 }
 
-void				Map::addEntity(std::string const &zone, AEntity *entity)
+void				Map::addEntity(std::string const &zone, AEntity *player)
 {
   this->lock();
   if (this->_map.find(zone) != this->_map.end())
-    this->_map[zone]->addPlayer(entity);
+    {
+      std::cout << player->getName() << std::endl;
+      this->_map[zone]->addPlayer(player);
+    }
+  else
+    std::cout << "Bitchies" << std::endl;
   this->unlock();
 }
+
+// void				Map::addEntity(std::string const &zone, AEntity *entity)
+// {
+//   this->lock();
+//   if (this->_map.find(zone) != this->_map.end())
+//     this->_map[zone]->addEntity(player);
+//   this->unlock();
+// }
+
+// void				Map::delEntity(std::string const &zone, AEntity *entity)
+// {
+//   this->lock();
+//   if (this->_map.find(zone) != this->_map.end())
+//     this->_map[zone]->delEntity(player);
+//   this->unlock();
+// }
 
 std::list<AEntity *>		*Map::getPlayers(std::string const &zone)
 {

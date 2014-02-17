@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Sat Feb 15 14:27:51 2014 laurent ansel
+// Last update Mon Feb 17 13:51:46 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -78,7 +78,7 @@ void				Zone::addPlayer(AEntity *player)
   this->_players->push_back(player);
   if (player->getEntityType() == AEntity::STATENTITY)
     {
-      tmp = reinterpret_cast<Player *>(player);
+      tmp = static_cast<Player *>(player);
       cas = this->getCase(tmp->getX(), tmp->getY());
       if (cas)
 	cas->addAEntity(player);
