@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Tue Feb 18 16:15:54 2014 antoine maitre
+// Last update Tue Feb 18 16:38:00 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -191,7 +191,7 @@ void				Zone::deserialization(Trame const &trame)
   std::cout << "ZONE BEGINNING" << std::endl;
   for (int i = 1; trame[CONTENT]["MAP"].isMember(std::to_string(i)); i++)
     {
-      this->getCase(trame[CONTENT]["MAP"][std::to_string(i)]["X"].asInt(), trame[CONTENT]["MAP"][std::to_string(i)]["Y"].asInt())->deserialization(trame);
+      this->getCase(trame[CONTENT]["MAP"][std::to_string(i)]["X"].asInt(), trame[CONTENT]["MAP"][std::to_string(i)]["Y"].asInt())->deserialization(trame(trame[CONTENT]["MAP"][std::to_string(i)]));
     }
 }
 
