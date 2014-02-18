@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Mon Feb 17 14:34:06 2014 guillaume marescaux
+// Last update Tue Feb 18 11:21:40 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/InventoryView.hh"
@@ -14,6 +14,15 @@ InventoryView::InventoryView(QWidget *parent, WindowManager *wMan):
   QWidget(parent), _wMan(wMan), _toolbar(new QToolBar(this))
 {
   ui.setupUi(this);
+  QPixmap			closepix("./Res/close-button.png");
+  QWidget* spacer = new QWidget(this);
+
+  spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  _toolbar->addWidget(spacer);
+
+  QAction			*action = _toolbar->addAction(closepix, "close");
+
+  connect(action, SIGNAL(triggered()), this, SLOT(hide()));
 }
 
 InventoryView::~InventoryView()

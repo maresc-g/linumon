@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Mon Feb 17 14:20:04 2014 cyril jourdain
+// Last update Tue Feb 18 11:55:00 2014 guillaume marescaux
 //
 
 /*
@@ -27,7 +27,8 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _clock(new sf::Clock()), _sprites(new SpriteMap), _keyDelayer(new KeyDelayer()),
   _spellBar(new SpellBarView(this, w)), _itemView(new ItemView(this, w)),
   _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
-  _chat(new ChatView(this, w))
+  _chat(new ChatView(this, w)), _menu(new MenuView(this, w))
+
 {
   _textureTest = new sf::Texture();
   _textureTest->loadFromFile("./Res/test.png");
@@ -37,6 +38,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _itemView->hide();
   _stuff->hide();
   _inventory->hide();
+  _menu->hide();
   _chat->move(0, WIN_H - _chat->size().height());
   _winTexture = new sf::RenderTexture();
   _winTexture->create(100*50, 100*50);
@@ -157,6 +159,14 @@ void			SFMLView::checkKeys()
       else
 	_chat->submitText();
       _keyDelayer->addWatcher(sf::Keyboard::Return, 100000);
+    }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && _keyDelayer->isAvailable(sf::Keyboard::Escape))
+    {
+      if (!_menu->isVisible())
+	_menu->show();
+      else
+	_menu->hide();
+      _keyDelayer->addWatcher(sf::Keyboard::Escape, 100000);
     }
   if (_mainPerso->isMoving())
     _mainPerso->updateMoves(_clock, _mainView);
