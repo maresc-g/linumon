@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Feb 17 14:29:34 2014 laurent ansel
-// Last update Tue Feb 18 13:28:32 2014 laurent ansel
+// Last update Tue Feb 18 15:30:37 2014 laurent ansel
 //
 
 #include			<ctime>
@@ -15,6 +15,10 @@
 #include			"RessourceManager/RessourceManager.hh"
 #include			"ObjectPool/ObjectPoolManager.hpp"
 #include			"Map/Map.hh"
+
+/****
+ ****PAS OUBLIER RESOURCES ENTITIES
+ ***/
 
 RessourceManager::RessourceManager():
   Thread(),

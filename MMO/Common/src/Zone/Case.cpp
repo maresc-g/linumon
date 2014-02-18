@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Tue Feb 18 15:21:09 2014 antoine maitre
+// Last update Tue Feb 18 16:18:22 2014 antoine maitre
 //
 
 #include		"Zone/Case.hh"
@@ -52,6 +52,8 @@ bool			Case::serialization(Trame &trame) const
 {
   if (!this->_entities->empty())
     {
+      trame["X"] = this->_coord.getX();
+      trame["Y"] = this->_coord.getY();
       int i = 0;
       for (auto it = this->_entities->begin(); it != this->_entities->end(); it++)
   	{
@@ -81,13 +83,19 @@ void			Case::deserialization(Trame const &trame)
 {
   for (int i = 0; trame.isMember(std::to_string(i)); i++)
     {
+      std::cout << "BEGINNING" << std::endl;
       if (trame[std::to_string(i)].isMember("PLAYER"))
 	{
+	  std::cout << "0" << std::endl;
 	  Player *player = new Player(trame[std::to_string(i)]["PLAYER"]["NAME"].asString());
+	  std::cout << "1" << std::endl;
 	  player->setId(trame[std::to_string(i)]["PLAYER"]["ID"].asUInt());
+	  std::cout << "2" << std::endl;
 	  //	  player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame[std::to_string(i)]["PLAYER"]["TYPE"].asInt()));
 	  player->setCoord(*Player::PlayerCoordinate::deserialization(trame(trame[std::to_string(i)]["PLAYER"])));
+	  std::cout << "3" << std::endl;
 	  player->setFaction(*Faction::deserialization(trame(trame[std::to_string(i)]["PLAYER"])));
+	  std::cout << "4" << std::endl;
 	  this->_entities->push_back(player);
 	}
       else

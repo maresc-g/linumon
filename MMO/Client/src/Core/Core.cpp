@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb 18 15:38:22 2014 antoine maitre
+// Last update Tue Feb 18 16:10:31 2014 antoine maitre
 //
 
 #include			<unistd.h>
@@ -59,7 +59,7 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   func = std::bind1st(std::mem_fun(&Core::player), this);
   _proto->addFunc("PLAYER", func);
   func = std::bind1st(std::mem_fun(&Core::map), this);
-  _proto->addFunc("ZONE", func);
+  _proto->addFunc("MAP", func);
   func = std::bind1st(std::mem_fun(&Core::getChat), this);
   _proto->addFunc("CHAT", func);
 
@@ -191,7 +191,7 @@ bool				Core::getChat(Trame *trame)
 
 bool				Core::map(Trame *trame)
 {
-  // Map::getInstance()->getZone((**_player)->getZone())->deserialization(*trame);
+  Map::getInstance()->getZone((**_player)->getZone())->deserialization(*trame);
   return (true);
 }
 

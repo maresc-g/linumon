@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Feb 18 15:37:57 2014 antoine maitre
+// Last update Tue Feb 18 15:21:52 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -24,6 +24,7 @@
 # include		"Zone/Coordinate.hpp"
 # include		"Utility/ISerialization.hh"
 # include		"Entities/Inventory.hh"
+# include		"Entities/Jobs.hh"
 
 class			User;
 
@@ -49,6 +50,7 @@ private:
   std::list<Talent *>		_talents;
   User const			*_user;
   Inventory			*_inventory;
+  Jobs				*_jobs;
 
 # ifndef	CLIENT_COMPILATION
   DBZone const			*_dbZone;
@@ -112,6 +114,8 @@ public:
 
   void				addMoney(int const money);
 
+  void				setJobs(Jobs *jobs);
+
   bool				getPlayerEquipment(unsigned int const idItem);
   bool				getMobEquipment(unsigned int const idMod, unsigned int const idItem);
   bool				putPlayerEquipment(unsigned int const idItem);
@@ -132,6 +136,7 @@ public:
 #  pragma db member(Player::_digitaliser) value_not_null id_column("player_id") value_column("mob_id")
 #  pragma db member(Player::_inventory)
 #  pragma db member(Player::_dbZone)
+#  pragma db member(Player::_jobs) transient
 # endif
 
 #endif
