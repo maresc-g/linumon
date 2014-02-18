@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Feb 17 14:02:56 2014 laurent ansel
+// Last update Tue Feb 18 14:09:37 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -213,7 +213,7 @@ bool		         entity(unsigned int const id, int playerId, Player::PlayerCoordin
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("UDP");
-  if (header->serialization(*trame) && coord->serialization((*trame)((*trame)["ENTITY"])))
+  if (header->serialization(*trame) && coord->serialization((*trame)((*trame)[CONTENT]["ENTITY"])))
     {
       (*trame)[CONTENT]["ENTITY"]["ID"] = playerId;
       trame->setEnd(true);
