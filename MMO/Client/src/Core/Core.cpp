@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb 18 15:38:22 2014 antoine maitre
+// Last update Tue Feb 18 15:59:49 2014 antoine maitre
 //
 
 #include			<unistd.h>
@@ -191,7 +191,7 @@ bool				Core::getChat(Trame *trame)
 
 bool				Core::map(Trame *trame)
 {
-  // Map::getInstance()->getZone((**_player)->getZone())->deserialization(*trame);
+  Map::getInstance()->getZone((**_player)->getZone())->deserialization(*trame);
   return (true);
 }
 
