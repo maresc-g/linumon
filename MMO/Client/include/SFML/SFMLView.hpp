@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Tue Feb 18 11:49:28 2014 guillaume marescaux
+// Last update Tue Feb 18 14:48:45 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -40,15 +40,6 @@ class			MenuView;
 
 class			SFMLView : public QSFMLWidget
 {
-private:
-  enum	eDir
-    {
-      LEFT,
-      DOWN,
-      RIGHT,
-      UP,
-      NONE
-    };
 
 private:
   typedef std::map<int, std::map<int, Sprite *>> SpriteMap;
@@ -56,16 +47,13 @@ private:
   SpriteManager		*_sMan;
   PlayerSprite		*_mainPerso;
   sf::Clock		*_clock;
-  std::list<GraphicPlayer*> _players; // Might be useless, since players are PlayerSprite
   SpriteMap		*_sprites;
   KeyDelayer		*_keyDelayer;
-  sf::View		*_view;
   sf::Sprite		*_spriteTest;
   sf::Texture		*_textureTest;
   sf::RenderTexture	*_winTexture;
   sf::Sprite		*_winSprite;
   bool			_changed;
-  float			_keyPressDelay; // Check key fast repeat - millisecond
   sf::Font		*_textFont;
 
   /* Child Views */
@@ -88,6 +76,7 @@ private :
   void				checkKeys();
   void				loadPlayerList();
   void				loadMap();
+  void                          reloadBackgroundSprite();
 };
 
 #endif

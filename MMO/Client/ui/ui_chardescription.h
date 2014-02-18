@@ -1,7 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'chardescription.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.5
+** Created: Tue Feb 18 14:54:20 2014
+**      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
