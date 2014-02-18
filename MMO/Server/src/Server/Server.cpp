@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Sun Feb 16 14:29:25 2014 laurent ansel
+// Last update Mon Feb 17 15:24:30 2014 laurent ansel
 //
 
 #include			<list>
@@ -19,6 +19,7 @@
 #include			"Chat/Chat.hh"
 #include			"Map/Map.hh"
 #include			"ClientWriter/ClientWriter.hh"
+#include			"RessourceManager/RessourceManager.hh"
 
 bool				quit = false;
 
@@ -47,6 +48,8 @@ Server::~Server()
   Chat::getInstance()->join();
   ClientWriter::getInstance()->setQuit(true);
   ClientWriter::getInstance()->join();
+  RessourceManager::getInstance()->setQuit(true);
+  RessourceManager::getInstance()->join();
   _codeBreaker->setQuit(true);
   _codeBreaker->join();
   if ((*this->_socket)["TCP"])
@@ -67,6 +70,7 @@ Server::~Server()
   ClientWriter::deleteInstance();
   Chat::deleteInstance();
   delete this->_gameProtocol;
+  RessourceManager::deleteInstance();
   Map::deleteInstance();
   delete _codeBreaker;
   Crypto::deleteInstance();
@@ -103,7 +107,12 @@ void				Server::init(int const port)
   Crypto::getInstance();
   CircularBufferManager::getInstance();
   ClientWriter::getInstance();
+  this->debug("Initialing Map ...");
   Map::getInstance();
+  this->debug("Done");
+  this->debug("Initialing RessourceManager ...");
+  RessourceManager::getInstance();
+  this->debug("Done");
   _codeBreaker->start();
   this->debug("Initialing GameProtocol ...");
   this->_gameProtocol = new GameProtocol;

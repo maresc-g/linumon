@@ -129,3 +129,8 @@ ChatView
 {
 	background-color: #FFFFFF;
 }
+
+MenuView
+{
+	background-color: #FFFFFF;
+}
