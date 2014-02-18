@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Sun Feb 16 16:08:39 2014 alexis mestag
+// Last update Mon Feb 17 16:14:46 2014 antoine maitre
 //
 
 #ifndef			__PLAYER_HH__
@@ -42,9 +42,9 @@ public:
   typedef iCoordinate	PlayerCoordinate;
 
 private:
-  PlayerCoordinate		*_coord;
-  Faction const			*_faction;
-  Digitaliser			_digitaliser;
+  PlayerCoordinate		*_coord; //1
+  Faction const			*_faction; //2
+  Digitaliser			_digitaliser; //3
   TalentTree const		*_talentTree;
   std::list<Talent *>		_talents;
   User const			*_user;
