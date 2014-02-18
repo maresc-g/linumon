@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Feb 17 14:25:54 2014 laurent ansel
-// Last update Tue Feb 18 10:53:19 2014 laurent ansel
+// Last update Tue Feb 18 15:30:15 2014 laurent ansel
 //
 
 #ifndef 			__RESSOURCEMANAGER_HH__
@@ -17,6 +17,7 @@
 # include			"Mutex/Mutex.hpp"
 # include			"JsonFile/JsonFile.hh"
 # include			"Entities/Ressource.hh"
+# include			"Entities/Ressources.hh"
 
 #define	PATH_RESSOURCES_FILE	"Res/ressources.json"
 #define	DEFAULT_TIME		10000000
