@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb 17 13:30:25 2014 guillaume marescaux
-// Last update Tue Feb 18 11:40:20 2014 guillaume marescaux
+// Last update Tue Feb 18 15:48:37 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/MenuView.hh"
@@ -29,20 +29,23 @@ void				MenuView::paintEvent(QPaintEvent *)
   style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
-void				MenuView::bSwitch_clicked()
+void				MenuView::on_bSwitch_clicked()
 {
+  // Client
 }
 
-void				MenuView::bLogout_clicked()
+void				MenuView::on_bLogout_clicked()
 {
+  std::cout << "TEST" << std::endl;
+  Client::getInstance()->disconnect();
 }
 
-void				MenuView::bQuit_clicked()
+void				MenuView::on_bQuit_clicked()
 {
   qApp->quit();
 }
 
-void				MenuView::bReturn_clicked()
+void				MenuView::on_bReturn_clicked()
 {
   this->hide();
 }
