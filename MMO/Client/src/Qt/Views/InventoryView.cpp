@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Tue Feb 18 11:21:40 2014 guillaume marescaux
+// Last update Wed Feb 19 12:42:11 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/InventoryView.hh"
@@ -61,7 +61,7 @@ void				InventoryView::initInventory()
       item->resize(50, 50);
     }
   ui.frame->resize(5 * 50 + 5, limit / 5 * 50);
-  ui.frame->move(5, 5 + 50);
-  this->resize(5 * 50 + 20, limit / 5 * 50 + 150);
-  ui.money->move(5 * 50 - 120, limit / 5 * 50 + 20 + 50);
+  ui.frame->move(5, 5 + 40);
+  this->resize(5 * 50 + 20, limit / 5 * 50 + 100);
+  ui.money->move(5 * 50 - 120, limit / 5 * 50 + 20 + 40);
 }

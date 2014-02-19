@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Mon Feb 10 14:14:14 2014 guillaume marescaux
+// Last update Wed Feb 19 12:53:58 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -73,6 +73,7 @@ public:
   void				quit(void);
   void				heal(void);
   void				disconnect(void);
+  void				switchPlayer(void);
 };
 
 #endif
