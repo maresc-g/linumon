@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Feb 18 14:08:23 2014 laurent ansel
+// Last update Wed Feb 19 13:08:36 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -53,6 +53,38 @@ void				Client::clear()
   _user = NULL;
   //  delete _player;
   _player = NULL;
+}
+
+void				Client::disconnectUser()
+{
+  if (_state == TRADE && _player)
+    TradeManager::getInstance()->disconnectPlayer(_player->getId());
+  _state = GAME;
+  if (_player)
+    {
+      Map::getInstance()->delPlayer(_player->getZone(), _player);
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+    }
+  if (_user)
+    _user->setId(0);
+  _user = NULL;
+  _player = NULL;
+  /*persist player*/
+}
+
+void				Client::disconnectPlayer()
+{
+  if (_state == TRADE && _player)
+    TradeManager::getInstance()->disconnectPlayer(_player->getId());
+  _state = GAME;
+  if (_player)
+    {
+      Map::getInstance()->delPlayer(_player->getZone(), _player);
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+    }
+  _player = NULL;
+  /*persist player*/
+  this->sendListPlayers();
 }
 
 bool				Client::isUse() const
@@ -168,23 +200,25 @@ void				Client::move(Player::PlayerCoordinate *coord)
   if (_state == GAME)
     {
       if (this->_player && coord)
-	this->_player->setCoord(*coord);
-      ObjectPoolManager::getInstance()->setObject(trame, "trame");
-      if (trame)
 	{
-	  coord->serialization((*trame)((*trame)[CONTENT]["ENTITY"]));
-	  (*trame)["ENTITY"]["ID"] = static_cast<unsigned int>(this->_player->getId());
-	  Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
-	  /*
-	  ** random battle
-	  */
+	  this->_player->setCoord(*coord);
+	  ObjectPoolManager::getInstance()->setObject(trame, "trame");
+	  if (trame)
+	    {
+	      coord->serialization((*trame)((*trame)[CONTENT]["ENTITY"]));
+	      (*trame)["ENTITY"]["ID"] = static_cast<unsigned int>(this->_player->getId());
+	      Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
+	      /*
+	      ** random battle
+	      */
+	    }
 	}
     }
 }
 
 void				Client::updateTalents(Trame *trame) const
 {
-  if (_state == GAME)
+  if (_state == GAME && _player)
     {
       TalentManager::updateTalents(trame, _player);
       Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
@@ -231,7 +265,7 @@ bool				Client::stuff(bool const get, unsigned int const idItem, unsigned int co
 {
   bool				ret = false;
 
-  if (_state == GAME)
+  if (_state == GAME && _player)
     {
       if (get)
 	{

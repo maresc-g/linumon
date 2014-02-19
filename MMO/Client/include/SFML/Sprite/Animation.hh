@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:08:20 2014 cyril jourdain
-// Last update Wed Feb  5 16:38:58 2014 cyril jourdain
+// Last update Wed Feb 19 14:07:03 2014 cyril jourdain
 //
 
 #ifndef 		__ANIMATION_HH__

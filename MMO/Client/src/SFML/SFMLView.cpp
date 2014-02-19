@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Tue Feb 18 16:01:56 2014 guillaume marescaux
+// Last update Wed Feb 19 14:44:23 2014 cyril jourdain
 //
 
 /*
@@ -16,6 +16,9 @@
 		
 		Test loading another map
 
+		TO DO FIRST :
+		get the player real position at start.
+		check if it can move (map border)
  */
 
 
@@ -41,7 +44,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _menu->hide();
   _chat->move(0, WIN_H - _chat->size().height());
   _winTexture = new sf::RenderTexture();
-  _winTexture->create(100*50, 100*50);
+  _winTexture->create(100*CASE_SIZE, 100*CASE_SIZE);
   _winSprite = new sf::Sprite();
   _changed = false;
   // _mainPName = new sf::Text();
@@ -68,9 +71,12 @@ void			SFMLView::onInit()
   _sMan->copySprite("perso1", *_mainPerso);
   _mainPerso->setFont(_textFont);
   _mainPerso->setText(sf::String((**(_wMan->getMainPlayer()))->getName()));
-  _mainPerso->setPosition(WIN_W / 2, WIN_H / 2);
   _mainPerso->play("default_down");
   _mainPerso->generateOffset();
+  _mainPerso->setPosition((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE,
+  			  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - _mainPerso->getCurrentBound()->height / 2 + 4);
+  _mainView->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
+  		  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
   _inventory->initInventory();
   /* Theorically, generateOffset should be called everytime play() is called with another anim.
    But as far as i know, they are all of the same size, so offsets are OK for eveyone */
@@ -87,6 +93,7 @@ void			SFMLView::onUpdate()
   drawView();
   checkKeys();
   _clock->restart();
+  _chat->update();
 }
 
 void			SFMLView::onResize(QResizeEvent *e)
@@ -113,24 +120,28 @@ void			SFMLView::checkKeys()
   _keyDelayer->update(_clock);
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !_mainPerso->isMoving())
     {
-      _mainPerso->moveDown();
-      Client::getInstance()->move(CLIENT::DOWN);
+      if (Client::getInstance()->move(CLIENT::DOWN))
+	_mainPerso->moveDown();
     }
   else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !_mainPerso->isMoving())
     {
-      _mainPerso->moveUp();
-      Client::getInstance()->move(CLIENT::UP);
+      if (Client::getInstance()->move(CLIENT::UP))
+	_mainPerso->moveUp();
     }
   else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !_mainPerso->isMoving())
     {
-      _mainPerso->moveLeft();
-      Client::getInstance()->move(CLIENT::LEFT);
+      if (Client::getInstance()->move(CLIENT::LEFT))
+	_mainPerso->moveLeft();
     }
   else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !_mainPerso->isMoving())
     {
-      _mainPerso->moveRight();
-      Client::getInstance()->move(CLIENT::RIGHT);
+      if (Client::getInstance()->move(CLIENT::RIGHT))
+	_mainPerso->moveRight();
     }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+    _mainPerso->setSpeed(PX_PER_SECOND + 100);
+  else
+    _mainPerso->setSpeed(PX_PER_SECOND);
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::I) && _keyDelayer->isAvailable(sf::Keyboard::I) && !_chat->getFocused())
     {
       if (!_inventory->isVisible())
@@ -198,11 +209,11 @@ void			SFMLView::loadMap()
 void			SFMLView::reloadBackgroundSprite()
 {
   _winTexture->clear(sf::Color(0,0,0));
-  for (unsigned int y = 0; y != _sprites->size() - 1; ++y)
+  for (unsigned int y = 0; y != _sprites->size(); ++y)
     {
-      for (unsigned int x = 0; x != (*_sprites)[y].size() - 1; ++x)
+      for (unsigned int x = 0; x != (*_sprites)[y].size(); ++x)
 	{
-	  (*_sprites)[y][x]->setPosition(x * 50, y * 50);
+	  (*_sprites)[y][x]->setPosition(x * CASE_SIZE, y * CASE_SIZE);
 	  (*_sprites)[y][x]->update(*_clock);
 	  _winTexture->draw(*((*_sprites)[y][x]));
 	}

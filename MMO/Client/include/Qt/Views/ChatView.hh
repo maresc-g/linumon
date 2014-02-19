@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Feb  6 14:47:23 2014 cyril jourdain
-// Last update Mon Feb 17 13:04:02 2014 cyril jourdain
+// Last update Wed Feb 19 14:43:01 2014 cyril jourdain
 //
 
 #ifndef 		__CHATVIEW_HH__
@@ -37,12 +37,11 @@ public:
   bool			getFocused() const;
   void			setFocused(bool);
   void			submitText();
+  void			update();
 
 
 private:
   virtual void		paintEvent(QPaintEvent *);
-  bool			eventFilter(QObject *watched, QEvent *e);
-
 };
 
 #endif

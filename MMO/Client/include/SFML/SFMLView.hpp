@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Tue Feb 18 14:48:45 2014 cyril jourdain
+// Last update Wed Feb 19 13:42:44 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -29,6 +29,7 @@
 #include		"SFML/PlayerSprite.hh"
 #include		"SFML/KeyDelayer.hh"
 
+#define			CASE_SIZE	64
 
 class			WindowManager;
 class			SpellBarView;

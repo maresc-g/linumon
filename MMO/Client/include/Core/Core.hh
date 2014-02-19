@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Mon Feb 10 14:09:49 2014 guillaume marescaux
+// Last update Wed Feb 19 12:54:15 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -98,6 +98,7 @@ public:
   void			refuse(void);
   void			heal(void);
   void			disconnect(void);
+  void			switchPlayer(void);
 
 private:
 

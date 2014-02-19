@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Mon Feb 10 14:11:33 2014 guillaume marescaux
+// Last update Wed Feb 19 15:10:26 2014 cyril jourdain
 //
 
 #include			"Client.hh"
@@ -52,6 +52,7 @@ void				Client::create(std::string const &name, std::string const &faction)
 bool				Client::move(CLIENT::eDirection dir) { return (_core->move(dir)); }
 
 void				Client::sendChat(std::string const &msg) { _core->sendChat(msg); }
+  MutexVar<Chat *>		*Client::getChat() {return _chat;}
 
 void				Client::spell(unsigned int idBattle, Spell const &spell, unsigned int target)
 { _core->spell(idBattle, spell, target); }
@@ -88,5 +89,7 @@ void				Client::refuse(void) { _core->refuse(); }
 void				Client::heal(void) { _core->heal(); }
 
 void				Client::disconnect(void) { _core->disconnect(); }
+
+void				Client::switchPlayer(void) { _core->switchPlayer(); }
 
 //--------------------------------------END METHODS--------------------------------------------

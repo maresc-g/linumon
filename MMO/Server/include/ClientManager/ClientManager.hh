@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Sat Feb 15 18:43:59 2014 laurent ansel
+// Last update Wed Feb 19 12:45:57 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -59,6 +59,8 @@ private:
   bool				connectionUser(Trame * trame);
   bool				createPlayer(Trame * trame);
   bool				choosePlayer(Trame * trame);
+  bool				disconnectUser(Trame * trame);
+  bool				disconnectPlayer(Trame * trame);
   bool				userAlreadyConnected(FD const fd, User *user) const;
   void				initializeProtocolFunction() const;
 };
