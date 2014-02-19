@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Tue Feb 11 15:55:16 2014 alexis mestag
+// Last update Wed Feb 19 15:16:28 2014 laurent ansel
 //
 
 #include			"Entities/Consumable.hh"
@@ -59,22 +59,19 @@ void				Consumable::setConsumableType(Consumable::eConsumable const consumableTy
 
 bool				Consumable::serialization(Trame &trame) const
 {
-  trame["CONSUMABLE"]["TYPE"] = this->getItemType();
-  trame["CONSUMABLE"]["NAME"] = this->getName();
-  trame["CONSUMABLE"]["ID"] = static_cast<unsigned int>(this->getId());
-  trame["CONSUMABLE"]["TYPE"] = this->getConsumableType();
-  return (false);
+  trame["TYPE"] = this->getItemType();
+  trame["NAME"] = this->getName();
+  trame["ID"] = static_cast<unsigned int>(this->getId());
+  trame["TYPE"] = this->getConsumableType();
+  return (true);
 }
 
 Consumable			*Consumable::deserialization(Trame const &trame)
 {
   Consumable			*consumable = NULL;
 
-  if (trame.isMember("CONSUMABLE"))
-    {
-      consumable = new Consumable(trame["CONSUMABLE"]["NAME"].asString(), static_cast<eConsumable>(trame["CONSUMABLE"]["TYPE"].asInt()));
-      consumable->setId(trame["CONSUMABLE"]["ID"].asUInt());
-      consumable->setItemType(static_cast<AItem::eItem>(trame["CONSUMABLE"]["TYPE"].asInt()));
-    }
+  consumable = new Consumable(trame["NAME"].asString(), static_cast<eConsumable>(trame["TYPE"].asInt()));
+  consumable->setId(trame["ID"].asUInt());
+  consumable->setItemType(static_cast<AItem::eItem>(trame["TYPE"].asInt()));
   return (consumable);
 }

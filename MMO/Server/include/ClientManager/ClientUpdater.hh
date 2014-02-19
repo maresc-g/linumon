@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Wed Feb 19 12:41:20 2014 laurent ansel
+// Last update Wed Feb 19 14:49:21 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -51,6 +51,8 @@ public:
   bool				stateTrade(FD const fd, bool const start, bool const end, Player *&player) const;
 
   bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;
+
+  bool				craftSomething(FD const fd, std::string const &craft, std::string const &job) const;
 
   bool				disconnectUser(FD const fd) const;
   bool				disconnectPlayer(FD const fd) const;

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:18:02 2013 alexis mestag
-// Last update Tue Feb 11 14:12:18 2014 laurent ansel
+// Last update Wed Feb 19 14:46:03 2014 laurent ansel
 //
 
 #include			"Entities/AItem.hh"

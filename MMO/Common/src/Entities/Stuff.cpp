@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Tue Feb 11 16:03:45 2014 alexis mestag
+// Last update Wed Feb 19 15:16:57 2014 laurent ansel
 //
 
 #include			"Entities/Stuff.hh"
@@ -59,10 +59,10 @@ void				Stuff::setStuffType(Stuff::eStuff const stuffType)
 
 bool				Stuff::serialization(Trame &trame) const
 {
-  trame["STUFF"]["TYPE"] = this->getItemType();
-  trame["STUFF"]["NAME"] = this->getName();
-  trame["STUFF"]["ID"] = static_cast<unsigned int>(this->getId());
-  trame["STUFF"]["TYPE"] = this->getStuffType();
+  trame["TYPE"] = this->getItemType();
+  trame["NAME"] = this->getName();
+  trame["ID"] = static_cast<unsigned int>(this->getId());
+  trame["TYPE"] = this->getStuffType();
   return (false);
 }
 
@@ -70,11 +70,8 @@ Stuff				*Stuff::deserialization(Trame const &trame)
 {
   Stuff				*stuff = NULL;
 
-  if (trame.isMember("STUFF"))
-    {
-      stuff = new Stuff(trame["STUFF"]["NAME"].asString(), static_cast<eStuff>(trame["STUFF"]["TYPE"].asInt()));
-      stuff->setId(trame["STUFF"]["ID"].asUInt());
-      stuff->setItemType(static_cast<AItem::eItem>(trame["STUFF"]["TYPE"].asInt()));
-    }
+  stuff = new Stuff(trame["NAME"].asString(), static_cast<eStuff>(trame["TYPE"].asInt()));
+  stuff->setId(trame["ID"].asUInt());
+  stuff->setItemType(static_cast<AItem::eItem>(trame["TYPE"].asInt()));
   return (stuff);
 }

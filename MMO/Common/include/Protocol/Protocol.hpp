@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Wed Feb 19 12:55:06 2014 guillaume marescaux
+// Last update Wed Feb 19 15:10:40 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -99,5 +99,9 @@ bool				heal(unsigned int const id);
 bool				disconnect(unsigned int const id);
 bool				switchPlayer(unsigned int const id);
 bool				sendTrameAlreadyReady(unsigned int const id, Trame *trame);
+
+bool				addToInventory(unsigned int const id, std::list<AItem *> *list);
+bool				deleteFromInventory(unsigned int const id, std::list<AItem *> *list);
+bool				job(unsigned int const id, Job const *job);
 
 #endif

@@ -105,6 +105,10 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/Level.cpp \ 
                 ../Common/src/Entities/Digitaliser.cpp \ 
                 ../Common/src/Entities/Mob.cpp \ 
+                ../Common/src/Entities/Jobs.cpp \ 
+                ../Common/src/Entities/JobModel.cpp \ 
+                ../Common/src/Entities/Craft.cpp \ 
+                ../Common/src/Entities/Job.cpp \ 
                 ../Common/src/Entities/Equipment.cpp \ 
                 ../Common/src/Entities/AEntity.cpp \ 
                 ../Common/src/Entities/User.cpp \ 

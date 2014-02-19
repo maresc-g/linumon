@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Feb 18 15:21:21 2014 laurent ansel
+// Last update Wed Feb 19 15:05:03 2014 laurent ansel
 //
 
 #include			<functional>
@@ -125,6 +125,16 @@ void				Player::setInventory(Inventory *inventory)
 void				Player::setJobs(Jobs *jobs)
 {
   this->_jobs = jobs;
+}
+
+Job				*Player::getJob(std::string const &name) const
+{
+  std::list<Job *>		list = this->_jobs->getJobs();
+
+  for (auto it = list.begin() ; it != list.end() ; ++it)
+    if ((*it)->getJobModel().getName() == name)
+      return (*it);
+  return (NULL);
 }
 
 void				Player::deleteItem(unsigned int const item)
@@ -347,4 +357,21 @@ std::list<Talent *> const	&Player::getTalents() const
 void				Player::capture(Mob const &mob)
 {
   this->_digitaliser.addMob(mob);
+}
+
+bool				Player::doCraft(std::string const &job, std::string const &craft, std::list<AItem *> &result, std::list<AItem *> &object)
+{
+  bool				ret = false;
+  Job				*tmp = NULL;
+
+  tmp = this->getJob(job);
+  if (tmp)
+    {
+      tmp->doCraft(craft, result, object);
+      for (auto it = result.begin() ; it != result.end() ; ++it)
+	this->addItem(*it);
+      for (auto it = object.begin() ; it != object.end() ; ++it)
+	this->deleteItem((*it)->getId());
+    }
+  return (ret);
 }

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Wed Feb 19 13:08:01 2014 laurent ansel
+// Last update Wed Feb 19 17:14:21 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -472,6 +472,24 @@ bool				ClientUpdater::disconnectPlayer(FD const fd) const
     }
   this->_mutex->unlock();
   return (false);
+}
+
+bool				ClientUpdater::craftSomething(FD const fd, std::string const &craft, std::string const &job) const
+{
+  bool				ret = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  ret = it->first->craft(craft, job);
+	  this->_mutex->unlock();
+	  return (ret);
+	}
+    }
+  this->_mutex->unlock();
+  return (ret);
 }
 
 void				*runClientUpdater(void *data)

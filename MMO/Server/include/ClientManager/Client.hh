@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Wed Feb 19 12:42:24 2014 laurent ansel
+// Last update Wed Feb 19 14:51:32 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -63,6 +63,7 @@ public:
   void				endBattle();
   void				startTrade(Player *&player);
   void				endTrade();
+  bool				craft(std::string const &craft, std::string const &job);
   bool				stuff(bool const get, unsigned int const idItem, unsigned int const target);
 };
 

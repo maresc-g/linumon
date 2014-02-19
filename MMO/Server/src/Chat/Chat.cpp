@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Jan 28 13:21:19 2014 laurent ansel
-// Last update Mon Feb 17 14:06:57 2014 laurent ansel
+// Last update Wed Feb 19 15:52:09 2014 laurent ansel
 //
 
 # include			"Chat/Chat.hh"
@@ -56,7 +56,6 @@ void				Chat::run()
   _mutex->lock();
   while (!_quit)
     {
-      std::list<AEntity *>	list;
       Zone			*zone = NULL;
 
       for (auto it = this->_msg->begin() ; it != this->_msg->end() ; ++it)

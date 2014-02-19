@@ -50,7 +50,7 @@
 			#  end
 
 			#  craft
-			CRAFT : {craft : Craft} -> client
+			CRAFT : {nameCraft : string, nameJob : string} -> client
 			-ADDTOINVENTORY : {items : std::list<AItem>} -> server
 			-DELETEFROMINVENTORY : {items : std::list<AItem>} -> server
 			-JOB : {job : Job} -> server
