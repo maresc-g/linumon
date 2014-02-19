@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Feb 19 14:44:23 2014 cyril jourdain
+// Last update Wed Feb 19 15:43:28 2014 cyril jourdain
 //
 
 /*
@@ -166,6 +166,14 @@ void			SFMLView::checkKeys()
       else
 	_chat->submitText();
       _keyDelayer->addWatcher(sf::Keyboard::Return, 100000);
+    }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && _keyDelayer->isAvailable(sf::Keyboard::S) && !_chat->getFocused())
+    {
+      if (!_stuff->isVisible())
+	_stuff->show();
+      else
+	_stuff->hide();
+      _keyDelayer->addWatcher(sf::Keyboard::S, 100000);
     }
   if (_mainPerso->isMoving())
     _mainPerso->updateMoves(_clock, _mainView);
