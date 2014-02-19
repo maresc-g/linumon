@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Tue Feb 18 15:18:22 2014 cyril jourdain
+// Last update Tue Feb 18 15:47:54 2014 cyril jourdain
 //
 
 /*
@@ -16,6 +16,9 @@
 		
 		Test loading another map
 
+		TO DO FIRST :
+		get the player real position at start.
+		check if it can move (map border)
  */
 
 
