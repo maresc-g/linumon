@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb 17 13:28:07 2014 guillaume marescaux
-// Last update Tue Feb 18 11:34:33 2014 guillaume marescaux
+// Last update Tue Feb 18 15:21:28 2014 guillaume marescaux
 //
 
 #ifndef 		__MENUVIEW_HH__
@@ -36,10 +36,10 @@ private:
 
 private slots:
 
-  void			bSwitch_clicked();
-  void			bLogout_clicked();
-  void			bQuit_clicked();
-  void			bReturn_clicked();
+  void			on_bSwitch_clicked();
+  void			on_bLogout_clicked();
+  void			on_bQuit_clicked();
+  void			on_bReturn_clicked();
 };
 
 #endif

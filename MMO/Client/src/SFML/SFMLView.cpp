@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Tue Feb 18 15:47:54 2014 cyril jourdain
+// Last update Wed Feb 19 12:25:49 2014 cyril jourdain
 //
 
 /*
@@ -40,6 +40,8 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _itemView->hide();
   _stuff->hide();
   _inventory->hide();
+  _menu->move(WIN_W / 2 - _menu->size().width() / 2, WIN_H / 2 - _menu->size().height() / 2);
+  _menu->hide();
   _chat->move(0, WIN_H - _chat->size().height());
   _winTexture = new sf::RenderTexture();
   _winTexture->create(100*50, 100*50);
@@ -139,6 +141,14 @@ void			SFMLView::checkKeys()
       else
 	_inventory->hide();
       _keyDelayer->addWatcher(sf::Keyboard::I, 100000);
+    }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && _keyDelayer->isAvailable(sf::Keyboard::Escape) && !_chat->getFocused())
+    {
+      if (!_menu->isVisible())
+	_menu->show();
+      else
+	_menu->hide();
+      _keyDelayer->addWatcher(sf::Keyboard::Escape, 100000);
     }
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) &&
       _keyDelayer->isAvailable(sf::Keyboard::Return))

@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Thu Nov 28 16:47:21 2013 laurent ansel
-## Last update Wed Feb 12 14:24:16 2014 laurent ansel
+## Last update Wed Feb 19 00:36:55 2014 alexis mestag
 ##
 
 COMMON_INCLUDES=	-I $(COMMON)/include
@@ -65,8 +65,7 @@ ODB_IXX=        $(ODB_CLASSES:.hh=-odb.ixx)
 ODB_SRC=        $(ODB_CXX) $(ODB_HXX) $(ODB_IXX) #$(ODB_SQL)
 ODB_OBJ=	$(ODB_CXX:.cxx=.o)
 
-ODB_FLAGS=	-d mysql --generate-query --generate-session --std c++11 \
-		$(COMMON_INCLUDES) $(ODB_OPTIONS)
+ODB_FLAGS=	-d mysql --generate-query --generate-session --hxx-prologue '\#include "Database/Session.hpp"' --session-type '::Session' --std c++11 $(COMMON_INCLUDES) $(ODB_OPTIONS)
 
 %-odb.cxx %-odb.hxx %-odb.ixx:	%.hh
 				$(ODB)  $(ODB_FLAGS) -o $(dir $<) $<
