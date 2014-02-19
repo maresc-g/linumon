@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Feb 19 12:46:42 2014 laurent ansel
+// Last update Wed Feb 19 12:59:48 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -200,23 +200,25 @@ void				Client::move(Player::PlayerCoordinate *coord)
   if (_state == GAME)
     {
       if (this->_player && coord)
-	this->_player->setCoord(*coord);
-      ObjectPoolManager::getInstance()->setObject(trame, "trame");
-      if (trame)
 	{
-	  coord->serialization((*trame)((*trame)[CONTENT]["ENTITY"]));
-	  (*trame)["ENTITY"]["ID"] = static_cast<unsigned int>(this->_player->getId());
-	  Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
-	  /*
-	  ** random battle
-	  */
+	  this->_player->setCoord(*coord);
+	  ObjectPoolManager::getInstance()->setObject(trame, "trame");
+	  if (trame)
+	    {
+	      coord->serialization((*trame)((*trame)[CONTENT]["ENTITY"]));
+	      (*trame)["ENTITY"]["ID"] = static_cast<unsigned int>(this->_player->getId());
+	      Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
+	      /*
+	      ** random battle
+	      */
+	    }
 	}
     }
 }
 
 void				Client::updateTalents(Trame *trame) const
 {
-  if (_state == GAME)
+  if (_state == GAME && _player)
     {
       TalentManager::updateTalents(trame, _player);
       Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
@@ -263,7 +265,7 @@ bool				Client::stuff(bool const get, unsigned int const idItem, unsigned int co
 {
   bool				ret = false;
 
-  if (_state == GAME)
+  if (_state == GAME && _player)
     {
       if (get)
 	{

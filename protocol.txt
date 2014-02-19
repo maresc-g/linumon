@@ -93,6 +93,6 @@
 			HEAL : {} -> client
 			DISCONNECT : {} -> client
 			SWITCHPLAYER : {} -> client
-			# end						
+			# end
 		}
 }
