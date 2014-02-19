@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Feb  1 15:25:50 2014 alexis mestag
-// Last update Mon Feb 17 13:36:25 2014 alexis mestag
+// Last update Wed Feb 19 14:07:25 2014 alexis mestag
 //
 
 #ifndef				__USERREPOSITORY_HPP__
@@ -37,7 +37,6 @@ public:
       ret = result.begin().load();
 
     t.commit();
-    std::cout << "/!\\ Repo sent : " << ret << " /!\\" << std::endl;
     return (ret);
   }
 };
