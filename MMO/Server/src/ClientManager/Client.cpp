@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Feb 19 12:59:48 2014 laurent ansel
+// Last update Wed Feb 19 13:08:36 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"

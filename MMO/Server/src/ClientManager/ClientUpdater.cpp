@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Wed Feb 19 12:41:09 2014 laurent ansel
+// Last update Wed Feb 19 13:08:01 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -465,7 +465,7 @@ bool				ClientUpdater::disconnectPlayer(FD const fd) const
     {
       if (fd == (*it).first->getId() && (*it).first->isUse())
 	{
-	  it->first->disconnectUser();
+	  it->first->disconnectPlayer();
 	  this->_mutex->unlock();
 	  return (true);
 	}
