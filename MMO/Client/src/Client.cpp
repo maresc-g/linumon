@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Wed Feb 19 14:41:29 2014 cyril jourdain
+// Last update Wed Feb 19 15:10:26 2014 cyril jourdain
 //
 
 #include			"Client.hh"
@@ -89,5 +89,7 @@ void				Client::refuse(void) { _core->refuse(); }
 void				Client::heal(void) { _core->heal(); }
 
 void				Client::disconnect(void) { _core->disconnect(); }
+
+void				Client::switchPlayer(void) { _core->switchPlayer(); }
 
 //--------------------------------------END METHODS--------------------------------------------

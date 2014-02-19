@@ -92,6 +92,7 @@
 			ENTITY : {id : int, coord : Coordinate} -> server/client
 			HEAL : {} -> client
 			DISCONNECT : {} -> client
-			# end						
+			SWITCHPLAYER : {} -> client
+			# end
 		}
 }

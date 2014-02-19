@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:06:15 2013 laurent ansel
-## Last update Tue Feb  4 14:01:18 2014 laurent ansel
+## Last update Wed Feb 19 14:08:41 2014 alexis mestag
 ##
 
 NAMESERVER=	pfa-server
@@ -19,6 +19,8 @@ COMMON_SRC=	$(COMMON)/src
 
 CLIENT=		Client
 
+EFFECT_LIBS=	EffectLibs
+
 SCHEMA=		schema.sql
 
 include		$(COMMON)/Makefile
@@ -29,13 +31,16 @@ OBJCLIENT=	$(SRCCLIENT:.cpp=.o)
 OBJCOMMON=	$(SRCCOMMON:.cpp=.o) $(ODB_OBJ)
 CPPFLAGS=	-W -Wall -Wextra $(SERVER_INCLUDES) $(CLIENT_INCLUDES) $(COMMON_INCLUDES) -std=c++0x -g  -D SERVER
 
-all:		$(ODB_SRC) $(OBJCOMMON) $(NAMESERVER) client
+all:		$(ODB_SRC) $(OBJCOMMON) $(NAMESERVER) effectLibs client
 
 client:
 		cd $(CLIENT) && make
 
 $(NAMESERVER):	$(OBJCOMMON) $(OBJSERVER)
 		g++ -o $(NAMESERVER) $(OBJCOMMON) $(OBJSERVER) $(LDFLAGS)
+
+effectLibs:
+		cd $(EFFECT_LIBS) && make
 
 $(NAMECLIENT):	$(OBJCOMMON) $(OBJCLIENT)
 		g++ -o $(NAMECLIENT) $(OBJCOMMON) $(OBJCLIENT) $(LDFLAGS)
@@ -46,10 +51,12 @@ $(SCHEMA):	$(ODB_CLASSES)
 clean:
 		rm -rf $(OBJSERVER) $(OBJCLIENT) $(OBJCOMMON) $(ODB_SRC) $(ODB_OBJ)
 		cd $(CLIENT) && make clean
+		cd $(EFFECT_LIBS) && make clean
 
 fclean:		clean
 		rm -rf $(NAMESERVER)
 		rm -rf $(NAMECLIENT)
 		rm -rf $(SCHEMA)
+		cd $(EFFECT_LIBS) && make fclean
 
 re:		fclean all

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb 17 13:30:25 2014 guillaume marescaux
-// Last update Tue Feb 18 15:48:37 2014 guillaume marescaux
+// Last update Wed Feb 19 12:56:14 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/MenuView.hh"
@@ -31,12 +31,11 @@ void				MenuView::paintEvent(QPaintEvent *)
 
 void				MenuView::on_bSwitch_clicked()
 {
-  // Client
+  Client::getInstance()->switchPlayer();
 }
 
 void				MenuView::on_bLogout_clicked()
 {
-  std::cout << "TEST" << std::endl;
   Client::getInstance()->disconnect();
 }
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:26:56 2014 laurent ansel
-// Last update Sat Feb  8 17:48:27 2014 laurent ansel
+// Last update Wed Feb 19 12:58:25 2014 laurent ansel
 //
 
 #include			<functional>
@@ -28,14 +28,16 @@ JobManager::~JobManager()
 
 }
 
-bool				JobManager::gather(Trame *)
+bool				JobManager::gather(Trame *trame)
 {
+  bool				ret = false;
 
-  return (false);
+  return (ret);
 }
 
-bool				JobManager::craft(Trame *)
+bool				JobManager::craft(Trame *trame)
 {
+  bool				ret = false;
 
-  return (false);
+  return (ret);
 }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Feb 19 15:02:04 2014 cyril jourdain
+// Last update Wed Feb 19 15:10:11 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -478,7 +478,14 @@ void				Core::heal(void)
 
 void				Core::disconnect(void)
 {
+  *_state = CLIENT::LOGIN;
   (*_proto).operator()<unsigned int const>("DISCONNECT", _id);  
+}
+
+void				Core::switchPlayer(void)
+{
+  *_state = CLIENT::CHOOSE_PLAYER;
+  (*_proto).operator()<unsigned int const>("SWITCHPLAYER", _id);  
 }
 
 void				Core::init(void)

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb 18 14:09:37 2014 laurent ansel
+// Last update Wed Feb 19 12:55:41 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -75,6 +75,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int>("REFUSE", &refuse);
       this->_container->load<unsigned int>("HEAL", &heal);
       this->_container->load<unsigned int>("DISCONNECT", &disconnect);
+      this->_container->load<unsigned int>("SWITCHPLAYER", &switchPlayer);
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
     }
 }
@@ -843,6 +844,25 @@ bool			disconnect(unsigned int const id)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["DISCONNECT"];
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			switchPlayer(unsigned int const id)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["SWITCHPLAYER"];
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }

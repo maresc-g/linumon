@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Mon Feb 17 14:46:37 2014 laurent ansel
+// Last update Wed Feb 19 13:08:01 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -436,6 +436,38 @@ bool				ClientUpdater::stuff(FD const fd, bool const get, unsigned int const idI
 	  ret = it->first->stuff(get, idItem, target);
 	  this->_mutex->unlock();
 	  return (ret);
+	}
+    }
+  this->_mutex->unlock();
+  return (false);
+}
+
+bool				ClientUpdater::disconnectUser(FD const fd) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  it->first->disconnectUser();
+	  this->_mutex->unlock();
+	  return (true);
+	}
+    }
+  this->_mutex->unlock();
+  return (false);
+}
+
+bool				ClientUpdater::disconnectPlayer(FD const fd) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  it->first->disconnectPlayer();
+	  this->_mutex->unlock();
+	  return (true);
 	}
     }
   this->_mutex->unlock();
