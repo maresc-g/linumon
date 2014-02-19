@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Wed Feb 12 18:41:30 2014 antoine maitre
+// Last update Wed Feb 19 16:29:06 2014 antoine maitre
 //
 
 #ifndef				__BATTLE_HH__
@@ -13,6 +13,7 @@
 
 # include			<string>
 # include			<tuple>
+# include			"AI/AI.hh"
 # include			"Entities/Player.hh"
 # include			"Server/Server.hh"
 

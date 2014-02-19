@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Feb 18 15:21:52 2014 laurent ansel
+// Last update Wed Feb 19 16:18:20 2014 antoine maitre
 //
 
 #ifndef			__PLAYER_HH__
@@ -42,10 +42,11 @@ class			Player : public Persistent, public ACharacter, public ISerialization
 public:
   typedef iCoordinate	PlayerCoordinate;
 
+protected:
+  Digitaliser			_digitaliser;
 private:
   PlayerCoordinate		*_coord; //1
   Faction const			*_faction; //2
-  Digitaliser			_digitaliser; //3
   TalentTree const		*_talentTree;
   std::list<Talent *>		_talents;
   User const			*_user;
