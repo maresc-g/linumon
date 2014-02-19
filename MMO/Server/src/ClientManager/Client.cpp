@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Feb 18 14:08:23 2014 laurent ansel
+// Last update Wed Feb 19 12:46:42 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -53,6 +53,38 @@ void				Client::clear()
   _user = NULL;
   //  delete _player;
   _player = NULL;
+}
+
+void				Client::disconnectUser()
+{
+  if (_state == TRADE && _player)
+    TradeManager::getInstance()->disconnectPlayer(_player->getId());
+  _state = GAME;
+  if (_player)
+    {
+      Map::getInstance()->delPlayer(_player->getZone(), _player);
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+    }
+  if (_user)
+    _user->setId(0);
+  _user = NULL;
+  _player = NULL;
+  /*persist player*/
+}
+
+void				Client::disconnectPlayer()
+{
+  if (_state == TRADE && _player)
+    TradeManager::getInstance()->disconnectPlayer(_player->getId());
+  _state = GAME;
+  if (_player)
+    {
+      Map::getInstance()->delPlayer(_player->getZone(), _player);
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+    }
+  _player = NULL;
+  /*persist player*/
+  this->sendListPlayers();
 }
 
 bool				Client::isUse() const

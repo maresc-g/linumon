@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Mon Feb 17 13:56:00 2014 laurent ansel
+// Last update Wed Feb 19 12:46:20 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -329,6 +329,12 @@ void				ClientManager::initializeProtocolFunction() const
 
   func = std::bind1st(std::mem_fun(&ClientManager::moveEntity), this);
   Server::getInstance()->addFuncProtocol("ENTITY", func);
+
+  func = std::bind1st(std::mem_fun(&ClientManager::disconnectUser), this);
+  Server::getInstance()->addFuncProtocol("DISCONNECT", func);
+
+  func = std::bind1st(std::mem_fun(&ClientManager::disconnectPlayer), this);
+  Server::getInstance()->addFuncProtocol("SWITCHPLAYER", func);
 }
 
 bool				ClientManager::moveEntity(Trame *trame)
@@ -425,6 +431,43 @@ bool				ClientManager::createPlayer(Trame *trame)
 bool				ClientManager::choosePlayer(Trame *trame)
 {
   if ((*trame)[CONTENT].isMember("CHOOSEPLAYER"))
-    this->setInfoClient((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["CHOOSEPLAYER"].asUInt());
+    {
+      this->setInfoClient((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["CHOOSEPLAYER"].asUInt());
+      return (true);
+    }
   return (false);
+}
+
+bool				ClientManager::disconnectUser(Trame *trame)
+{
+  FD				fd;
+  bool				set = false;
+
+  this->_mutex->lock();
+  if ((*trame)[CONTENT].isMember("DISCONNECT"))
+    {
+      fd = (*trame)[HEADER]["IDCLIENT"].asInt();
+      for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+	if ((*it).first && (*it).second)
+	  set = (*it).first->disconnectUser(fd);
+    }
+  this->_mutex->unlock();
+  return (set);
+}
+
+bool				ClientManager::disconnectPlayer(Trame *trame)
+{
+  FD				fd;
+  bool				set = false;
+
+  this->_mutex->lock();
+  if ((*trame)[CONTENT].isMember("SWITCHPLAYER"))
+    {
+      fd = (*trame)[HEADER]["IDCLIENT"].asInt();
+      for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+	if ((*it).first && (*it).second)
+	  set = (*it).first->disconnectPlayer(fd);
+    }
+  this->_mutex->unlock();
+  return (set);
 }
