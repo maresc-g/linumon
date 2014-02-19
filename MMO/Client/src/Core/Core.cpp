@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb 18 15:32:21 2014 guillaume marescaux
+// Last update Wed Feb 19 15:02:04 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -185,7 +185,8 @@ bool				Core::player(Trame *trame)
 
 bool				Core::getChat(Trame *trame)
 {
-  (**_chat)->addMsg((*trame)[CONTENT]["MESSAGE"].asString());
+  (**_chat)->addMsg((*trame)[CONTENT]["CHAT"]["MESSAGE"].asString());
+  (**_chat)->setNewMessage(true);
   return (true);
 }
 

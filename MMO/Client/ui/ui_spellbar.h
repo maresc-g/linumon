@@ -1,7 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'spellbar.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.5
+** Created: Wed Feb 19 14:00:46 2014
+**      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Feb 16 03:12:14 2014 cyril jourdain
-// Last update Mon Feb 17 14:11:05 2014 cyril jourdain
+// Last update Wed Feb 19 14:14:56 2014 cyril jourdain
 //
 
 #ifndef 		__PLAYERSPRITE_HH__
@@ -32,6 +32,7 @@ private:
   sf::Vector2f		_pos;
   sf::Vector2f		_deltaPos;
   eDir			_dir;
+  unsigned int		_speed;
 
 public:
   PlayerSprite();
@@ -50,6 +51,7 @@ public:
   void			moveRight();
   void			updateMoves(sf::Clock *, sf::View *);
   bool			isMoving() const;
+  void			setSpeed(unsigned int);
 };
 
 #endif

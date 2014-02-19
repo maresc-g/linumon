@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Mon Feb 10 14:14:14 2014 guillaume marescaux
+// Last update Wed Feb 19 14:41:32 2014 cyril jourdain
 //
 
 #ifndef				__CLIENT_HH__
@@ -55,6 +55,7 @@ public:
   void				create(std::string const &name, std::string const &faction);
   bool				move(CLIENT::eDirection dir);
   void				sendChat(std::string const &msg);
+  MutexVar<Chat *>		*getChat();
   void				spell(unsigned int idBattle, Spell const &spell, unsigned int target);
   void				capture(unsigned int idBattle, unsigned int target);
   void				sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob);
