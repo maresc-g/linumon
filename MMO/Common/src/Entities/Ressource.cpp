@@ -5,28 +5,31 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Tue Feb 11 15:59:41 2014 alexis mestag
+// Last update Tue Feb 18 15:02:58 2014 laurent ansel
 //
 
 #include			"Entities/Ressource.hh"
 
 Ressource::Ressource() :
   Persistent(),
-  AItem("", AItem::eItem::RESSOURCE)
+  AItem("", AItem::eItem::RESSOURCE),
+  _coord(new RessourceCoordinate)
 {
 
 }
 
 Ressource::Ressource(std::string const &name) :
   Persistent(),
-  AItem(name, AItem::eItem::RESSOURCE)
+  AItem(name, AItem::eItem::RESSOURCE),
+  _coord(new RessourceCoordinate)
 {
 
 }
 
 Ressource::Ressource(Ressource const &rhs) :
   Persistent(rhs),
-  AItem(rhs.getName(), AItem::eItem::STUFF)
+  AItem(rhs.getName(), AItem::eItem::RESSOURCE),
+  _coord(new RessourceCoordinate)
 {
   *this = rhs;
 }
@@ -40,9 +43,42 @@ Ressource			&Ressource::operator=(Ressource const &rhs)
 {
   if (this != &rhs)
     {
-
+      *this->_coord = rhs.getCoord();
+      this->setName(rhs.getName());
+      this->setItemType(rhs.getItemType());
     }
   return (*this);
+}
+
+Ressource::RessourceCoordinate const	&Ressource::getCoord() const
+{
+  return (*this->_coord);
+}
+
+void				Ressource::setCoord(RessourceCoordinate const &coord)
+{
+  *_coord = coord;
+}
+
+
+Ressource::RessourceCoordinate::type const	&Ressource::getX() const
+{
+  return (this->_coord->getX());
+}
+
+Ressource::RessourceCoordinate::type const	&Ressource::getY() const
+{
+  return (this->_coord->getY());
+}
+
+void				Ressource::setX(RessourceCoordinate::type const &x)
+{
+  this->_coord->setX(x);
+}
+
+void				Ressource::setY(RessourceCoordinate::type const &y)
+{
+  this->_coord->setY(y);
 }
 
 bool				Ressource::serialization(Trame &trame) const
@@ -50,6 +86,7 @@ bool				Ressource::serialization(Trame &trame) const
   trame["RESSOURCE"]["TYPE"] = this->getItemType();
   trame["RESSOURCE"]["NAME"] = this->getName();
   trame["RESSOURCE"]["ID"] = static_cast<unsigned int>(this->getId());
+  this->_coord->serialization(trame(trame["RESSOURCE"]));
   return (true);
 }
 
@@ -62,6 +99,7 @@ Ressource			*Ressource::deserialization(Trame const &trame)
       ressource = new Ressource(trame["RESSOURCE"]["NAME"].asString());
       ressource->setId(trame["RESSOURCE"]["ID"].asUInt());
       ressource->setItemType(static_cast<AItem::eItem>(trame["RESSOURCE"]["TYPE"].asInt()));
+      ressource->setCoord(*RessourceCoordinate::deserialization(trame(trame["RESSOURCE"])));
     }
   return (ressource);
 }

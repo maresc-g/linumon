@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:31:09 2014 antoine maitre
-// Last update Tue Feb 11 12:45:04 2014 alexis mestag
+// Last update Mon Feb 17 14:17:01 2014 antoine maitre
 //
 
 #ifndef					__MAP_HH__
@@ -27,8 +27,12 @@ private:
   virtual ~Map();
 public:
   Zone					*getZone(std::string const);
-  void					delPlayer(std::string const &zone, AEntity *entity);
-  void					addEntity(std::string const &zone, AEntity *entity);
+  void					delPlayer(std::string const &zone, AEntity *player);
+  void					addPlayer(std::string const &zone, AEntity *player);
+  void					delEntity(std::string const &zone, AEntity *player);
+  void					addEntity(std::string const &zone, AEntity *player);
+  // void					delEntity(std::string const &zone, AEntity *entity);
+  // void					addEntity(std::string const &zone, AEntity *entity);
   void					moveZone(std::string const &source, std::string const &dest, AEntity *);
   std::list<AEntity *>			*getPlayers(std::string const &zone);
   void					moveCase(std::string const &zone, Player::PlayerCoordinate const &x, Player::PlayerCoordinate const &y, AEntity *);

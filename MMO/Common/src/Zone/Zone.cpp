@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Sat Feb 15 14:27:51 2014 laurent ansel
+// Last update Tue Feb 18 17:26:10 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -78,7 +78,7 @@ void				Zone::addPlayer(AEntity *player)
   this->_players->push_back(player);
   if (player->getEntityType() == AEntity::STATENTITY)
     {
-      tmp = reinterpret_cast<Player *>(player);
+      tmp = static_cast<Player *>(player);
       cas = this->getCase(tmp->getX(), tmp->getY());
       if (cas)
 	cas->addAEntity(player);
@@ -100,6 +100,28 @@ void				Zone::delPlayer(AEntity *player)
       if (cas)
 	cas->delAEntity(player);
     }
+}
+
+void				Zone::addEntity(AEntity *entity)
+{
+  Case				*cas;
+  Ressource			*tmp;
+
+  tmp =  static_cast<Ressource *>(entity);
+  cas = this->getCase(tmp->getX(), tmp->getY());
+  if (cas)
+    cas->addAEntity(entity);
+}
+
+void				Zone::delEntity(AEntity *entity)
+{
+  Case				*cas;
+  Ressource			*tmp;
+
+  tmp =  static_cast<Ressource *>(entity);
+  cas = this->getCase(tmp->getX(), tmp->getY());
+  if (cas)
+    cas->delAEntity(entity);
 }
 
 std::list<AEntity *>		&Zone::getPlayers() const
@@ -159,16 +181,23 @@ bool				Zone::serialization(Trame &trame) const
   int				i = 1;
 
   for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
-    if ((*it)->serialization(trame(trame[CONTENT]["ZONE"][std::to_string(i)])))
+    if ((*it)->serialization(trame(trame[CONTENT]["MAP"][std::to_string(i)])))
       i++;
   return (true);
 }
 
 void				Zone::deserialization(Trame const &trame)
 {
-  for (int i = 1; trame[CONTENT]["ZONE"].isMember(std::to_string(i)); i++)
+  std::cout << "ZONE BEGINNING" << std::endl;
+  for (int i = 1; trame[CONTENT]["MAP"].isMember(std::to_string(i)); i++)
     {
-      this->getCase(trame[CONTENT]["ZONE"][i]["X"].asInt(), trame[CONTENT]["ZONE"][i]["Y"].asInt())->deserialization(trame);
+      auto tmp = this->getCase(trame[CONTENT]["MAP"][std::to_string(i)]["X"].asInt(), trame[CONTENT]["MAP"][std::to_string(i)]["Y"].asInt());
+      tmp->deserialization(trame(trame[CONTENT]["MAP"][std::to_string(i)]));
+      for (auto it = tmp->getEntities()->begin(); it != tmp->getEntities()->end(); it++)
+	{
+	  if ((*it)->getEntityType() == AEntity::STATENTITY)
+	    this->_players->push_back((*it));
+	}
     }
 }
 

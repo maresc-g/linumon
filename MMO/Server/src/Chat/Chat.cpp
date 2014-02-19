@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Jan 28 13:21:19 2014 laurent ansel
-// Last update Mon Feb 10 14:01:49 2014 antoine maitre
+// Last update Mon Feb 17 14:06:57 2014 laurent ansel
 //
 
 # include			"Chat/Chat.hh"
@@ -56,7 +56,6 @@ void				Chat::run()
   _mutex->lock();
   while (!_quit)
     {
-      Trame			*trame = NULL;
       std::list<AEntity *>	list;
       Zone			*zone = NULL;
 
@@ -64,9 +63,9 @@ void				Chat::run()
 	{
 	  if ((*it).first)
 	    {
+	      if ((zone = Map::getInstance()->getZone((*(it->second))[CONTENT]["CHAT"]["IDZONE"].asString())))
+		Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", (*(it->second))[HEADER]["IDCLIENT"].asUInt(), it->second, zone, true);
 	      (*it).first = false;
-	      if ((zone = Map::getInstance()->getZone((*trame)["CHAT"]["ZONE"].asString())))
-		Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", (*trame)[HEADER]["IDCLIENT"].asUInt(), (*it).second, zone, true);
 	    }
 	}
       _mutex->unlock();
@@ -85,9 +84,9 @@ void				Chat::setQuit(bool const quit)
 
 bool				Chat::newMsg(Trame *trame)
 {
-  if (trame->isMember("CHAT"))
+  if ((*trame)[CONTENT].isMember("CHAT"))
     {
-      if ((*trame)["CHAT"].isMember("MESSAGE") && (*trame)["CHAT"].isMember("FACTION"))
+      if ((*trame)[CONTENT]["CHAT"].isMember("MESSAGE") && (*trame)[CONTENT]["CHAT"].isMember("IDZONE"))
 	{
 	  _mutex->lock();
 	  auto it = this->_msg->begin();
@@ -101,16 +100,18 @@ bool				Chat::newMsg(Trame *trame)
 		{
 		  (*it).first = true;
 		  (*it).second->clear();
-		  *(*it).second = *static_cast<Trame *>(&(*trame)["CHAT"]);
+		  //		  *(*it).second = *static_cast<Trame *>(&(*trame)[CONTENT]["CHAT"]);
+		  *(*it).second = (*trame);
 		}
 	    }
 	  else
 	    {
-	      Trame		*trame = NULL;
+	      Trame		*tmp = NULL;
 
-	      ObjectPoolManager::getInstance()->setObject(trame, "trame");
-	      *trame = *static_cast<Trame *>(&(*trame)["CHAT"]);
-	      this->_msg->push_back(std::make_pair(true, trame));
+	      ObjectPoolManager::getInstance()->setObject(tmp, "trame");
+	      //	      *trame = *static_cast<Trame *>(&(*trame)[CONTENT]["CHAT"]);
+	      *tmp = (*trame);
+	      this->_msg->push_back(std::make_pair(true, tmp));
 	    }
 	  _mutex->unlock();
 	}

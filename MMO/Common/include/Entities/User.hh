@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:16 2013 alexis mestag
-// Last update Mon Feb 17 13:11:16 2014 alexis mestag
+// Last update Wed Feb 19 01:23:23 2014 alexis mestag
 //
 
 #ifndef			__USER_HH__
@@ -56,7 +56,7 @@ public:
 # include		"Entities/Views/PlayerView.hh"
 
 # ifdef	ODB_COMPILER
-#  pragma db object(User)
+#  pragma db object(User) session(true)
 #  pragma db member(User::_pseudo)
 #  pragma db member(User::_password)
 // #  pragma db member(User::_players) inverse(_user)

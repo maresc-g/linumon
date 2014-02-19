@@ -4,8 +4,8 @@
 // Made by cyril jourdain
 // Login   <jourda_c@epitech.net>
 // 
-// Started on  Thu Feb  6 14:49:44 2014 cyril jourdain
-
+// Started on  Mon Feb 17 12:55:28 2014 cyril jourdain
+// Last update Tue Feb 18 15:18:56 2014 cyril jourdain
 //
 
 #include		<QMessageBox>
@@ -15,7 +15,8 @@ ChatView::ChatView(QWidget *parent, WindowManager *man) :
   QWidget(parent), _wMan(man), _focused(false)
 {
   ui.setupUi(this);
-  ui.le_chatText->installEventFilter(this);
+  ui.le_chatText->clearFocus();
+  // ui.le_chatText->installEventFilter(this);
 }
 
 ChatView::~ChatView()
@@ -36,13 +37,10 @@ void		ChatView::submitText()
   if (ui.le_chatText->text() != ""){
     std::cout << "send : " << ui.le_chatText->text().toStdString() << std::endl;
     Client::getInstance()->sendChat(ui.le_chatText->text().toStdString());
-    ui.le_chatText->clear();
   }
-  else
-    {
-      ui.le_chatText->clearFocus();
-      _focused = false;
-    }
+  ui.le_chatText->clear();
+  ui.le_chatText->clearFocus();
+  _focused = false;
 }
 
 bool		ChatView::getFocused() const
@@ -50,8 +48,18 @@ bool		ChatView::getFocused() const
   return _focused;
 }
 
+void		ChatView::setFocused(bool f)
+{
+  _focused = f;
+  if (_focused)
+    ui.le_chatText->setFocus(Qt::OtherFocusReason);
+  else
+    ui.le_chatText->clearFocus();
+}
+
 bool		ChatView::eventFilter(QObject *watched, QEvent *e)
 {
+  std::cout << "wadafak" << std::endl;
   if (watched == ui.le_chatText)
     {
       if (e->type() == QEvent::KeyPress)
@@ -63,16 +71,17 @@ bool		ChatView::eventFilter(QObject *watched, QEvent *e)
 	      return true;
 	    }
 	}
-      else if (e->type() == QEvent::FocusIn)
-	{
-	    _focused = true;
-	    return true;
-	}
-      else if (e->type() == QEvent::FocusOut)
-	{
-	    _focused = true;
-	    return true;
-	}
+      // else if (e->type() == QEvent::FocusIn)
+      // 	{
+      // 	    _focused = true;
+      // 	    return true;
+      // 	}
+      // else if (e->type() == QEvent::FocusOut)
+      // 	{
+      // 	  std::cout << "test" << std::endl;
+      // 	  _focused = false;
+      // 	  return true;
+      // 	}
     }
   return QWidget::eventFilter(watched, e);
 }

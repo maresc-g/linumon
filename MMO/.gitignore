@@ -1,2 +1,4 @@
 *.o
 *-odb.[hci]xx
+moc_*
+ui_*

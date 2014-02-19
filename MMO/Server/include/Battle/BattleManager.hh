@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 11:51:11 2014 antoine maitre
-// Last update Tue Feb 11 14:54:38 2014 antoine maitre
+// Last update Mon Feb 17 11:41:07 2014 antoine maitre
 //
 
 #ifndef				__BATTLEMANAGER_HH__
@@ -33,6 +33,7 @@ public:
   bool				spell(Trame *);
   bool				capture(Trame *);
   bool				dswitch(Trame *);
+  bool				inBattle(Player *player);
 };
 
 #endif

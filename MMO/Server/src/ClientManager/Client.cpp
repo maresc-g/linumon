@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Sun Feb 16 14:16:01 2014 laurent ansel
+// Last update Tue Feb 18 14:08:23 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -154,7 +154,7 @@ void				Client::choosePlayer(unsigned int const id, bool const send)
       this->_player = rp->getById(id);
       if (this->_player && send)
 	{
-	  Map::getInstance()->addEntity(_player->getZone(), _player);
+	  Map::getInstance()->addPlayer(_player->getZone(), _player);
 	  Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
 	  Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()));
 	}
@@ -170,10 +170,15 @@ void				Client::move(Player::PlayerCoordinate *coord)
       if (this->_player && coord)
 	this->_player->setCoord(*coord);
       ObjectPoolManager::getInstance()->setObject(trame, "trame");
-      Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), false);
-      /*
-      ** random battle
-      */
+      if (trame)
+	{
+	  coord->serialization((*trame)((*trame)[CONTENT]["ENTITY"]));
+	  (*trame)["ENTITY"]["ID"] = static_cast<unsigned int>(this->_player->getId());
+	  Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
+	  /*
+	  ** random battle
+	  */
+	}
     }
 }
 

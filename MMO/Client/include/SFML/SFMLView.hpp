@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Sun Feb 16 04:15:47 2014 cyril jourdain
+// Last update Tue Feb 18 14:48:45 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -20,12 +20,14 @@
 #include		"Qt/Views/InventoryView.hh"
 #include		"Qt/Views/StuffView.hh"
 #include		"Qt/Views/ChatView.hh"
+#include		"Qt/Views/MenuView.hh"
 
 #include		"SFML/Sprite/SpriteManager.hh"
 #include		"SFML/Sprite/Sprite.hh"
 
 #include		"SFML/GraphicEntities.hh"
 #include		"SFML/PlayerSprite.hh"
+#include		"SFML/KeyDelayer.hh"
 
 
 class			WindowManager;
@@ -34,18 +36,10 @@ class			ItemView;
 class			InventoryView;
 class			StuffView;
 class			ChatView;
+class			MenuView;
 
 class			SFMLView : public QSFMLWidget
 {
-private:
-  enum	eDir
-    {
-      LEFT,
-      DOWN,
-      RIGHT,
-      UP,
-      NONE
-    };
 
 private:
   typedef std::map<int, std::map<int, Sprite *>> SpriteMap;
@@ -53,19 +47,13 @@ private:
   SpriteManager		*_sMan;
   PlayerSprite		*_mainPerso;
   sf::Clock		*_clock;
-  std::list<GraphicPlayer*> _players; // Might be useless, since players are PlayerSprite
   SpriteMap		*_sprites;
-  sf::View		*_view;
+  KeyDelayer		*_keyDelayer;
   sf::Sprite		*_spriteTest;
   sf::Texture		*_textureTest;
-  sf::Vector2f		_pos;
-  sf::Vector2f		_deltaPos;
-  bool			_moving;
-  eDir			_dir;
   sf::RenderTexture	*_winTexture;
   sf::Sprite		*_winSprite;
   bool			_changed;
-  float			_keyPressDelay; // Check key fast repeat - millisecond
   sf::Font		*_textFont;
 
   /* Child Views */
@@ -74,6 +62,7 @@ private:
   InventoryView		*_inventory;
   StuffView		*_stuff;
   ChatView		*_chat;
+  MenuView		*_menu;
 
 public:
   SFMLView(QWidget *, QPoint const &, QSize const &, WindowManager *_wMan);
@@ -85,9 +74,9 @@ private :
   virtual void			onResize(QResizeEvent *);
   void				drawView();
   void				checkKeys();
-  void				moveMainPerso(float const elapsedTime);
   void				loadPlayerList();
   void				loadMap();
+  void                          reloadBackgroundSprite();
 };
 
 #endif

@@ -5,12 +5,11 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:16:30 2014 guillaume marescaux
-// Last update Thu Feb 13 14:34:14 2014 guillaume marescaux
+// Last update Mon Feb 17 13:29:28 2014 guillaume marescaux
 //
 
 #ifndef 		__ITEMVIEW_HH__
 # define 		__ITEMVIEW_HH__
-
 
 #include		<Qt/qwidget.h>
 #include		<Qt/qpainter.h>
@@ -25,7 +24,7 @@ class			ItemView : public QWidget
 public:
 
   ItemView(QWidget *, WindowManager *wMan, AItem *item = NULL);
-  ~ItemView();
+  virtual ~ItemView();
 
 private:
 

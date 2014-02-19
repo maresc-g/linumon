@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Sun Feb 16 20:35:18 2014 laurent ansel
+// Last update Tue Feb 18 15:21:21 2014 laurent ansel
 //
 
 #include			<functional>
@@ -14,7 +14,7 @@
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _talentTree(NULL), _inventory(NULL)
+  _faction(NULL), _talentTree(NULL), _inventory(NULL), _jobs(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
@@ -26,7 +26,7 @@ Player::Player() :
 
 Player::Player(std::string const &name) :
   Persistent(), ACharacter(name, eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _talentTree(NULL), _inventory(NULL)
+  _faction(NULL), _talentTree(NULL), _inventory(NULL), _jobs(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
@@ -120,6 +120,11 @@ Inventory const			&Player::getInventory() const
 void				Player::setInventory(Inventory *inventory)
 {
   this->_inventory = inventory;
+}
+
+void				Player::setJobs(Jobs *jobs)
+{
+  this->_jobs = jobs;
 }
 
 void				Player::deleteItem(unsigned int const item)
@@ -232,6 +237,8 @@ bool				Player::serialization(Trame &trame) const
   this->_talentTree->serialization(trame(trame["PLAYER"]));
   for (auto it = this->_talents.begin() ; it != this->_talents.end() ; ++it)
     (*it)->serialization(trame(trame["PLAYER"]["TALENTS"]));
+  if (this->_jobs)
+    this->_jobs->serialization(trame(trame["PLAYER"]));
   return (ret);
 }
 

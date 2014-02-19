@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb 11 15:37:32 2014 guillaume marescaux
+// Last update Tue Feb 18 15:32:21 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -192,6 +192,7 @@ bool				Core::getChat(Trame *trame)
 bool				Core::map(Trame *trame)
 {
   Map::getInstance()->getZone((**_player)->getZone())->deserialization(*trame);
+  std::cout << "PLAYERS IN MAP = " << Map::getInstance()->getPlayers((**_player)->getZone())->size() << std::endl;
   return (true);
 }
 

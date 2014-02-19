@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sun Feb 16 14:22:36 2014 laurent ansel
+// Last update Tue Feb 18 14:09:37 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -213,7 +213,7 @@ bool		         entity(unsigned int const id, int playerId, Player::PlayerCoordin
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("UDP");
-  if (header->serialization(*trame) && coord->serialization((*trame)((*trame)["ENTITY"])))
+  if (header->serialization(*trame) && coord->serialization((*trame)((*trame)[CONTENT]["ENTITY"])))
     {
       (*trame)[CONTENT]["ENTITY"]["ID"] = playerId;
       trame->setEnd(true);
@@ -401,7 +401,7 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
 {
   std::list<AEntity *>	list;
   unsigned int		idClient;
-  Trame			*tmp = NULL;;
+  Trame			*tmp = NULL;
   bool			ret = false;
 
   if (trame && zone)
@@ -411,7 +411,7 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
 	{
 	  if ((*ip))
 	    {
-	      if ((idClient = reinterpret_cast<Player *>(*ip)->getUser().getId()))
+	      if ((idClient = static_cast<Player *>(*ip)->getUser().getId()))
 		{
 		  ObjectPoolManager::getInstance()->setObject(tmp, "trame");
 		  *tmp = *trame;
@@ -425,7 +425,9 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
       if (send)
 	{
 	  (*trame)[HEADER]["IDCLIENT"] = id;
-	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+	  ObjectPoolManager::getInstance()->setObject(tmp, "trame");
+	  *tmp = *trame;
+	  CircularBufferManager::getInstance()->pushTrame(tmp, CircularBufferManager::WRITE_BUFFER);
 	}
       return (ret);
     }
