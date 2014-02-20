@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Wed Feb 19 15:18:03 2014 laurent ansel
+// Last update Thu Feb 20 13:38:34 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -16,14 +16,14 @@ Inventory::Inventory():
   Persistent(),
   _money(0),
   _limit(0),
-  _inventory(new std::list<AItem *>)
+  _inventory(new std::list<std::pair<AItem *, unsigned int> >)
 {
 
 }
 
 Inventory::Inventory(Inventory const &rhs) :
   Persistent(rhs),
-  _inventory(new std::list<AItem *>)
+  _inventory(new std::list<std::pair<AItem *, unsigned int> >)
 {
   *this = rhs;
 }
@@ -54,12 +54,12 @@ void				Inventory::setPath(std::string const &path)
   this->loadInventory();
 }
 
-std::list<AItem *> const	&Inventory::getInventory() const
+std::list<std::pair<AItem *, unsigned int> > const	&Inventory::getInventory() const
 {
   return (*_inventory);
 }
 
-void				Inventory::setInventory(std::list<AItem *> *inventory)
+void				Inventory::setInventory(std::list<std::pair<AItem *, unsigned int> > *inventory)
 {
   _inventory = inventory;
 }
@@ -93,39 +93,68 @@ void				Inventory::deleteItem(unsigned int const id)
 {
   auto				it = this->_inventory->begin();
 
-  for ( ; it != this->_inventory->end() && (*it)->getId() != id ; ++it);
-  if (it != this->_inventory->end() && (*it)->getId() == id)
+  for ( ; it != this->_inventory->end() && it->first->getId() != id ; ++it);
+  if (it != this->_inventory->end() && it->first->getId() == id)
     {
-      this->_inventory->erase(it);
-      delete *it;
+      if (it->second == 1)
+	{
+	  this->_inventory->erase(it);
+	  delete it->first;
+	}
+      else
+	it->second--;
     }
 }
 
 void				Inventory::addItem(AItem *item)
 {
-  if (item)
-    this->_inventory->push_back(item);
+  bool				set = false;
+
+  for (auto it = this->_inventory->begin() ; !set && it != this->_inventory->end() ; ++it)
+    {
+      if (it->first->getName() == item->getName())
+	{
+	  if (it->second < 99)
+	    {
+	      it->second++;
+	      delete item;
+	    }
+	  else
+	    this->_inventory->push_back(std::make_pair(item, 1));
+	  set = true;
+	}
+    }
 }
 
 AItem				*Inventory::getItem(unsigned int const id) const
 {
   auto				it = this->_inventory->begin();
 
-  for ( ; it != this->_inventory->end() && (*it)->getId() != id ; ++it);
-  if (it != this->_inventory->end() && (*it)->getId() == id)
-    return (*it);
+  for ( ; it != this->_inventory->end() && it->first->getId() != id ; ++it);
+  if (it != this->_inventory->end() && it->first->getId() == id)
+    return (it->first);
   return (NULL);
 }
 
 AItem				*Inventory::getAndDeleteItem(unsigned int const id) const
 {
   auto				it = this->_inventory->begin();
+  AItem				*item;
 
-  for ( ; it != this->_inventory->end() && (*it)->getId() != id ; ++it);
-  if (it != this->_inventory->end() && (*it)->getId() == id)
+  for ( ; it != this->_inventory->end() && it->first->getId() != id ; ++it);
+  if (it != this->_inventory->end() && it->first->getId() == id)
     {
-      this->_inventory->erase(it);
-      return (*it);
+      if (it->second == 1)
+	{
+	  this->_inventory->erase(it);
+	  return (it->first);
+	}
+      else
+	{
+	  it->second--;
+	  item = AItem::createCopy(it->first);
+	  return (item);
+	}
     }
   return (NULL);
 }
@@ -138,7 +167,7 @@ void				Inventory::loadInventory()
   if (JsonFile::readFile(*file, this->_path))
     {
       for (auto it = this->_inventory->begin() ; it != this->_inventory->end() ; ++it)
-	delete *it;
+	delete it->first;
       this->_inventory->clear();
 
       auto			members = file->getMemberNames();
@@ -148,7 +177,7 @@ void				Inventory::loadInventory()
 	{
 	  toPush = AItem::deserialization((*file)((*file)[*it]));
 	  if (toPush)
-	    this->_inventory->push_back(toPush);
+	    this->addItem(toPush);
 	}
     }
 }
@@ -164,10 +193,13 @@ void				Inventory::serializationInventory()
       ObjectPoolManager::getInstance()->setObject(file, "trame");
       for (auto it = _inventory->begin() ; it != _inventory->end() ; ++it)
 	{
-	  str << "ITEM" << nb;
-	  (*it)->serialization((*file)((*file)[str.str()]));
-	  str.str("");
-	  nb++;
+	  for (unsigned int i = 0 ; i < it->second ; ++i)
+	    {
+	      str << "ITEM" << nb;
+	      it->first->serialization((*file)((*file)[str.str()]));
+	      str.str("");
+	      nb++;
+	    }
 	}
       file->writeInFile(this->_path);
     }
@@ -185,7 +217,8 @@ bool				Inventory::serialization(Trame &trame) const
   for (auto it = _inventory->begin() ; it != _inventory->end() ; ++it)
     {
       str << "ITEM" << nb;
-      ret = (*it)->serialization(trame(trame["INVENTORY"]["ITEMS"][str.str()]));
+      ret = it->first->serialization(trame(trame["INVENTORY"]["ITEMS"][str.str()]));
+      trame["INVENTORY"]["ITEMS"][str.str()]["NB"] = it->second;
       str.str("");
       nb++;
     }
@@ -195,22 +228,26 @@ bool				Inventory::serialization(Trame &trame) const
 Inventory			*Inventory::deserialization(Trame const &trame)
 {
   Inventory			*inventory = NULL;
-  std::list<AItem *>		*items = NULL;
+  std::list<std::pair<AItem *, unsigned int> >	*items = NULL;
 
   if (trame.isMember("INVENTORY"))
     {
       inventory = new Inventory;
-      items = new std::list<AItem *>;
+      items = new std::list<std::pair<AItem *, unsigned int> >;
       inventory->setMoney(trame["INVENTORY"]["MONEY"].asUInt());
       inventory->setLimit(trame["INVENTORY"]["LIMIT"].asUInt());
+      inventory->setInventory(items);
       if (trame["INVENTORY"].isMember("ITEMS"))
 	{
 	  auto			members = trame["INVENTORY"]["ITEMS"].getMemberNames();
 
 	  for (auto it = members.begin() ; it != members.end() ; ++it)
-	    items->push_back(AItem::deserialization(trame(trame["EQUIPMENT"]["ITEMS"][*it])));
+	    {
+	      for (unsigned int i = 0 ; i < trame["EQUIPMENT"]["ITEMS"][*it]["NB"].asUInt() ; ++i)
+		inventory->addItem(AItem::deserialization(trame(trame["EQUIPMENT"]["ITEMS"][*it])));
+	    }
+	    //	    items->push_back(AItem::deserialization(trame(trame["EQUIPMENT"]["ITEMS"][*it])));
 	}
-      inventory->setInventory(items);
     }
   return (inventory);
 }
