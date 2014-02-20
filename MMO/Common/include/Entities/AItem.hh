@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:59:30 2013 alexis mestag
-// Last update Sat Feb 15 20:38:28 2014 laurent ansel
+// Last update Thu Feb 20 13:28:51 2014 laurent ansel
 //
 
 #ifndef			__AITEM_HH__
@@ -45,6 +45,7 @@ public:
 
   virtual bool		serialization(Trame &trame) const = 0;
   static AItem		*deserialization(Trame const &trame);
+  static AItem		*createCopy(AItem *rhs);
 };
 
 # ifdef	ODB_COMPILER
