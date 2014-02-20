@@ -46,7 +46,7 @@ CharDescription QLabel#charPic
 	border-image:url(./Res/harpe.png);
 }
 
-CharDescription QLabel#l_name, QLabel#l_level
+CharDescription QLabel#l_name, CharDescription QLabel#l_level
 {
 	color:white;
 	font-weight:bold;
@@ -122,7 +122,7 @@ InventoryView
 StuffView
 {
 	border:2px solid black;
-	border-image:url(./Res/backgroundStuff.png);
+	background-color: #555555;
 }
 
 ChatView

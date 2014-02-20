@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec 10 16:16:06 2013 cyril jourdain
-// Last update Mon Feb 10 14:32:10 2014 guillaume marescaux
+// Last update Wed Feb 19 14:37:44 2014 guillaume marescaux
 //
 
 #include		"Qt/Views/CreateCharView.hh"
@@ -48,6 +48,12 @@ void		CreateCharView::on_b_spritePerso2_clicked()
   ui.b_spritePerso2->setStyleSheet("background-color:#0000FF");
   ui.b_spritePerso1->setStyleSheet("background-color:#FFFFFF");
   _charType = FACTION2;
+}
+
+void		CreateCharView::on_b_cancel_clicked()
+{
+  ui.le_name->clear();
+  this->hide();
 }
 
 void		CreateCharView::on_b_validate_clicked()

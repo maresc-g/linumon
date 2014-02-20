@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Wed Feb 19 12:42:11 2014 guillaume marescaux
+// Last update Thu Feb 20 10:50:01 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/InventoryView.hh"
