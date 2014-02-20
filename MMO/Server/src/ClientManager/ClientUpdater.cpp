@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Wed Feb 19 17:14:21 2014 laurent ansel
+// Last update Thu Feb 20 12:48:11 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -484,6 +484,24 @@ bool				ClientUpdater::craftSomething(FD const fd, std::string const &craft, std
       if (fd == (*it).first->getId() && (*it).first->isUse())
 	{
 	  ret = it->first->craft(craft, job);
+	  this->_mutex->unlock();
+	  return (ret);
+	}
+    }
+  this->_mutex->unlock();
+  return (ret);
+}
+
+bool				ClientUpdater::gatherSomething(FD const fd, std::string const &gather, std::string const &job, Ressource::RessourceCoordinate const &coord) const
+{
+  bool				ret = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  ret = it->first->gather(gather, job, coord);
 	  this->_mutex->unlock();
 	  return (ret);
 	}

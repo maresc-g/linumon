@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Wed Feb 19 14:59:28 2014 laurent ansel
+// Last update Thu Feb 20 12:41:00 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -118,6 +118,7 @@ public:
   Job				*getJob(std::string const &name) const;
 
   bool				doCraft(std::string const &job, std::string const &craft, std::list<AItem *> &result, std::list<AItem *> &object);
+  bool				doGather(std::string const &job, std::string const &ressource, std::list<AItem *> &result, unsigned int &idRessource);
 
   bool				getPlayerEquipment(unsigned int const idItem);
   bool				getMobEquipment(unsigned int const idMod, unsigned int const idItem);

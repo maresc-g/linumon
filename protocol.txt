@@ -57,7 +57,7 @@
 			#  end
 
 			#  gather
-			GATHER : {ressource : Ressource} -> client
+			GATHER : {nameRessource : string, nameJob : string, CoordinateRessource : coordinate} -> client
 			-ADDTOINVENTORY : {item : std::list<AItem>} -> server
 			-JOB : {job : Job} -> server
 			-CASE : {entities : list of AEntity} -> server (all clients)

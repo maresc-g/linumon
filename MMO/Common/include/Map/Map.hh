@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:31:09 2014 antoine maitre
-// Last update Mon Feb 17 14:17:01 2014 antoine maitre
+// Last update Thu Feb 20 12:29:36 2014 laurent ansel
 //
 
 #ifndef					__MAP_HH__
@@ -30,6 +30,7 @@ public:
   void					delPlayer(std::string const &zone, AEntity *player);
   void					addPlayer(std::string const &zone, AEntity *player);
   void					delEntity(std::string const &zone, AEntity *player);
+  void					delEntity(std::string const &zone, unsigned int const id, Ressource::RessourceCoordinate const &coord);
   void					addEntity(std::string const &zone, AEntity *player);
   // void					delEntity(std::string const &zone, AEntity *entity);
   // void					addEntity(std::string const &zone, AEntity *entity);

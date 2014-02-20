@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Feb 19 15:05:03 2014 laurent ansel
+// Last update Thu Feb 20 12:42:29 2014 laurent ansel
 //
 
 #include			<functional>
@@ -372,6 +372,21 @@ bool				Player::doCraft(std::string const &job, std::string const &craft, std::l
 	this->addItem(*it);
       for (auto it = object.begin() ; it != object.end() ; ++it)
 	this->deleteItem((*it)->getId());
+    }
+  return (ret);
+}
+
+bool				Player::doGather(std::string const &job, std::string const &res, std::list<AItem *> &result, unsigned int &idRessource)
+{
+  bool				ret = false;
+  Job				*tmp = NULL;
+
+  tmp = this->getJob(job);
+  if (tmp)
+    {
+      tmp->doGather(res, result, idRessource);
+      for (auto it = result.begin() ; it != result.end() ; ++it)
+	this->addItem(*it);
     }
   return (ret);
 }

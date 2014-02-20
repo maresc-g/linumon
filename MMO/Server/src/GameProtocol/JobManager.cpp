@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:26:56 2014 laurent ansel
-// Last update Wed Feb 19 13:54:35 2014 laurent ansel
+// Last update Thu Feb 20 12:52:01 2014 laurent ansel
 //
 
 #include			<functional>
@@ -31,11 +31,16 @@ JobManager::~JobManager()
 bool				JobManager::gather(Trame *trame)
 {
   bool				ret = false;
+  Ressource::RessourceCoordinate	*coord;
 
   if (trame && (*trame)[CONTENT].isMember("GATHER"))
     {
-
-      ret = true;
+      coord = Ressource::RessourceCoordinate::deserialization((*trame)((*trame)[CONTENT]["GATHER"]));
+      if (coord)
+	{
+	  ret = ClientManager::getInstance()->gatherSomething((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["GATHER"]["NAMEGATHER"].asString(), (*trame)[CONTENT]["GATHER"]["NAMEJOB"].asString(), *coord);
+	  delete coord;
+	}
     }
   return (ret);
 }
@@ -45,9 +50,6 @@ bool				JobManager::craft(Trame *trame)
   bool				ret = false;
 
   if (trame && (*trame)[CONTENT].isMember("CRAFT"))
-    {
-      ClientManager::getInstance()->craftSomething((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["CRAFT"]["NAMECRAFT"].asString(), (*trame)[CONTENT]["CRAFT"]["NAMEJOB"].asString());
-      ret = true;
-    }
+    ret = ClientManager::getInstance()->craftSomething((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["CRAFT"]["NAMECRAFT"].asString(), (*trame)[CONTENT]["CRAFT"]["NAMEJOB"].asString());
   return (ret);
 }

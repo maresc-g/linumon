@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Feb 19 16:54:03 2014 laurent ansel
+// Last update Thu Feb 20 10:36:17 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -411,6 +411,7 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
 
   if (trame && zone)
     {
+      trame->setEnd(true);
       list = zone->getPlayers();
       for (auto ip = list.begin() ; ip != list.end() ; ++ip)
 	{

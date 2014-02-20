@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Wed Feb 19 13:32:17 2014 antoine maitre
+// Last update Thu Feb 20 12:29:47 2014 laurent ansel
 //
 
 #include			"Map/Map.hh"
@@ -17,7 +17,6 @@ Map::Map()
   JsonFile			file;
   Trame				tram;
   std::ostringstream		terr;
-  
 
   this->_mutex->init();
   JsonFile::readFile(tram, fileConf);
@@ -91,6 +90,14 @@ void				Map::delEntity(std::string const &zone, AEntity *entity)
   this->lock();
   if (this->_map.find(zone) != this->_map.end())
     this->_map[zone]->delEntity(entity);
+  this->unlock();
+}
+
+void				Map::delEntity(std::string const &zone, unsigned int const id, Ressource::RessourceCoordinate const &coord)
+{
+  this->lock();
+  if (this->_map.find(zone) != this->_map.end())
+    this->_map[zone]->delEntity(id, coord);
   this->unlock();
 }
 

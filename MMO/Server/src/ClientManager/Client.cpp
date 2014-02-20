@@ -5,13 +5,14 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Feb 19 17:16:50 2014 laurent ansel
+// Last update Thu Feb 20 12:44:50 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
 #include			"Server/Server.hh"
 #include			"Map/Map.hh"
 #include			"ClientWriter/ClientWriter.hh"
+#include			"RessourceManager/RessourceManager.hh"
 
 Client::Client():
   _use(false),
@@ -267,7 +268,7 @@ void				Client::endTrade()
   _state = GAME;
 }
 
-bool				Client::craft(std::string const &craft, std::string const &job)
+bool				Client::craft(std::string const &craft, std::string const &job) const
 {
   bool				ret = false;
   std::list<AItem *>		result;
@@ -281,6 +282,27 @@ bool				Client::craft(std::string const &craft, std::string const &job)
 	  Server::getInstance()->callProtocol<std::list<AItem *> *>("ADDTOINVENTORY", _id, &result);
 	  Server::getInstance()->callProtocol<std::list<AItem *> *>("DELETEFROMINVENTORY", _id, &object);
 	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
+	}
+    }
+  return (ret);
+}
+
+bool				Client::gather(std::string const &ressource, std::string const &job, Ressource::RessourceCoordinate const &coord) const
+{
+  bool				ret = false;
+  std::list<AItem *>		result;
+  unsigned int			idRessource;
+
+  if (_state == GAME && _player && _user)
+    {
+      ret = _player->doGather(job, ressource, result, idRessource);
+      if (ret)
+	{
+	  Server::getInstance()->callProtocol<std::list<AItem *> *>("ADDTOINVENTORY", _id, &result);
+	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
+	  RessourceManager::getInstance()->needRessource(coord, _player->getZone());
+	  Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, idRessource, Map::getInstance()->getZone(_player->getZone()));
+	  Map::getInstance()->delEntity(_player->getZone(), idRessource, coord);
 	}
     }
   return (ret);

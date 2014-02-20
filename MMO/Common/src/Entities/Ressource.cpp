@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Tue Feb 18 15:02:58 2014 laurent ansel
+// Last update Thu Feb 20 11:08:50 2014 laurent ansel
 //
 
 #include			"Entities/Ressource.hh"
@@ -46,6 +46,7 @@ Ressource			&Ressource::operator=(Ressource const &rhs)
       *this->_coord = rhs.getCoord();
       this->setName(rhs.getName());
       this->setItemType(rhs.getItemType());
+      this->setLevel(rhs.getLevel());
     }
   return (*this);
 }
@@ -60,6 +61,15 @@ void				Ressource::setCoord(RessourceCoordinate const &coord)
   *_coord = coord;
 }
 
+void				Ressource::setLevel(Level const &level)
+{
+  _level = level;
+}
+
+Level const			&Ressource::getLevel() const
+{
+  return (this->_level);
+}
 
 Ressource::RessourceCoordinate::type const	&Ressource::getX() const
 {

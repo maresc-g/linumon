@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Wed Feb 19 15:04:34 2014 laurent ansel
+// Last update Thu Feb 20 12:42:06 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -77,7 +77,7 @@ bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, s
   unsigned int			exp = 0;
   AItem				*item;
 
-  for (auto it = this->getJobModel().getCrafts().begin() ; it != this->getJobModel().getCrafts().begin() && !ret; ++it)
+  for (auto it = this->getJobModel().getCrafts().begin() ; it != this->getJobModel().getCrafts().end() && !ret; ++it)
     if ((*it)->getName() == nameCraft)
       {
 	for (auto ic = (*it)->getIngredients().begin() ; ic != (*it)->getIngredients().end() ; ++ic)
@@ -88,6 +88,31 @@ bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, s
 	  item = new Consumable(static_cast<Consumable const &>((*it)->getResult()));
 	if (item)
 	  result.push_back(item);
+	exp = this->_currentExp + (*it)->getLevel().getExp();
+	while (this->_level.getExp() < exp)
+	  {
+	    this->_level.levelUp();
+	    exp -= this->_level.getExp();
+	  }
+	this->_currentExp = exp;
+	ret = true;
+      }
+  return (ret);
+}
+
+bool				Job::doGather(std::string const &nameRessource, std::list<AItem *> &result, unsigned int &idRessource)
+{
+  bool				ret = false;
+  unsigned int			exp = 0;
+
+  for (auto it = this->getJobModel().getGather().begin() ; it != this->getJobModel().getGather().end() && !ret; ++it)
+    if ((*it)->getName() == nameRessource)
+      {
+	int			i = rand() % 4 + 1;
+
+	idRessource = (*it)->getId();
+	for (auto nb = 0 ; nb < i ; ++nb)
+	  result.push_back(new Ressource(**it));
 	exp = this->_currentExp + (*it)->getLevel().getExp();
 	while (this->_level.getExp() < exp)
 	  {
