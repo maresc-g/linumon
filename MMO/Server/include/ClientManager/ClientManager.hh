@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Wed Feb 19 12:45:57 2014 laurent ansel
+// Last update Thu Feb 20 12:47:26 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -52,6 +52,9 @@ public:
   void				endTrade(FD const fd) const;
 
   bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;
+
+  bool				craftSomething(FD const fd, std::string const &craft, std::string const &job) const;
+  bool				gatherSomething(FD const fd, std::string const &gather, std::string const &job, Ressource::RessourceCoordinate const &coord) const;
 
 private:
   void				findWrite() const;

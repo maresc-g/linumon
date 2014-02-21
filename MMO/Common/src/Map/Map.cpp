@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Fri Feb 21 14:25:06 2014 antoine maitre
+// Last update Fri Feb 21 15:24:25 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -17,7 +17,6 @@ Map::Map()
   JsonFile			file;
   Trame				tram;
   std::ostringstream		terr;
-  
 
   this->_mutex->init();
   JsonFile::readFile(tram, fileConf);
@@ -91,6 +90,14 @@ void				Map::delEntity(std::string const &zone, AEntity *entity)
   this->unlock();
 }
 
+void				Map::delEntity(std::string const &zone, unsigned int const id, Ressource::RessourceCoordinate const &coord)
+{
+  this->lock();
+  if (this->_map.find(zone) != this->_map.end())
+    this->_map[zone]->delEntity(id, coord);
+  this->unlock();
+}
+
 // void				Map::addEntity(std::string const &zone, AEntity *entity)
 // {
 //   this->lock();
@@ -117,7 +124,24 @@ std::list<AEntity *>		*Map::getPlayers(std::string const &zone)
       return (list);
     }
   else
-    return (NULL);
+    {
+      this->unlock();
+      return (NULL);
+    }
+}
+
+Player				*Map::getPlayerById(unsigned int const id)
+{
+  this->lock();
+  for (auto it = this->_map.begin(); it != this->_map.end(); it++)
+    {
+      for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); it++)
+	{
+	  if ((*itb)->getId() == id)
+	    return (static_cast<Player *>(*itb));
+	}
+    }
+  return (NULL);
 }
 
 void				Map::changeZone(std::string const &source, std::string const &dest, AEntity *entity)
@@ -135,5 +159,6 @@ void				Map::changeZone(std::string const &source, std::string const &dest, AEnt
 void				Map::move(AEntity *entity)
 {
   this->lock();
+  this->_map[static_cast<Player *>(entity)->getZone()]->move(entity);
   this->unlock();
 }

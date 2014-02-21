@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 12:53:14 2014 laurent ansel
-// Last update Fri Feb  7 14:31:51 2014 laurent ansel
+// Last update Wed Feb 19 14:00:35 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -42,6 +42,11 @@ std::list<Job *> const		&Jobs::getJobs() const
 void				Jobs::setJobs(std::list<Job *> const &jobs)
 {
   this->_jobs = jobs;
+}
+
+void				Jobs::setJob(Job *job)
+{
+  this->_jobs.push_back(job);
 }
 
 bool				Jobs::serialization(Trame &trame) const

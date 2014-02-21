@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Feb 19 14:44:23 2014 cyril jourdain
+// Last update Thu Feb 20 10:50:36 2014 guillaume marescaux
 //
 
 /*
@@ -78,6 +78,7 @@ void			SFMLView::onInit()
   _mainView->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
   		  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
   _inventory->initInventory();
+  _stuff->initStuff();
   /* Theorically, generateOffset should be called everytime play() is called with another anim.
    But as far as i know, they are all of the same size, so offsets are OK for eveyone */
 }
@@ -166,6 +167,14 @@ void			SFMLView::checkKeys()
       else
 	_chat->submitText();
       _keyDelayer->addWatcher(sf::Keyboard::Return, 100000);
+    }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && _keyDelayer->isAvailable(sf::Keyboard::S) && !_chat->getFocused())
+    {
+      if (!_stuff->isVisible())
+	_stuff->show();
+      else
+	_stuff->hide();
+      _keyDelayer->addWatcher(sf::Keyboard::S, 100000);
     }
   if (_mainPerso->isMoving())
     _mainPerso->updateMoves(_clock, _mainView);

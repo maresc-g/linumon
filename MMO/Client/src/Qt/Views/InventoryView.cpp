@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Wed Feb 19 12:42:11 2014 guillaume marescaux
+// Last update Fri Feb 21 10:40:01 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/InventoryView.hh"
@@ -44,18 +44,18 @@ void				InventoryView::initInventory()
   Inventory const		inventory = (**player)->getInventory();
   ui.money->setText(std::to_string(inventory.getMoney()).c_str());
   unsigned int			limit = inventory.getLimit();
-  std::list<AItem *> const	items = inventory.getInventory();
+  std::list<std::pair<AItem *, unsigned int> > const	items = inventory.getInventory();
   auto				it = items.begin();
   ItemView			*item;
 
   for (unsigned int i = 0 ; i < limit ; i++)
     {
-      if (it != items.end())
-	{
-	  item = new ItemView(ui.frame, _wMan, *it);
-	  it++;
-	}
-      else
+      // if (it != items.end())
+      // 	{
+      // 	  item = new ItemView(ui.frame, _wMan, *it);
+      // 	  it++;
+      // 	}
+      // else
 	  item = new ItemView(ui.frame, _wMan);
       item->move(i % 5 * 50 + i % 5, i / 5 * 50);
       item->resize(50, 50);

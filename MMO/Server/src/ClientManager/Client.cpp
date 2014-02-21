@@ -5,13 +5,14 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Feb 19 13:08:36 2014 laurent ansel
+// Last update Thu Feb 20 13:23:30 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
 #include			"Server/Server.hh"
 #include			"Map/Map.hh"
 #include			"ClientWriter/ClientWriter.hh"
+#include			"RessourceManager/RessourceManager.hh"
 
 Client::Client():
   _use(false),
@@ -181,7 +182,7 @@ void				Client::choosePlayer(unsigned int const id, bool const send)
 {
   if (_state == GAME)
     {
-      Repository<Player>		*rp = &Database::getRepository<Player>();
+      Repository<Player>	*rp = &Database::getRepository<Player>();
 
       this->_player = rp->getById(id);
       if (this->_player && send)
@@ -196,6 +197,7 @@ void				Client::choosePlayer(unsigned int const id, bool const send)
 void				Client::move(Player::PlayerCoordinate *coord)
 {
   Trame				*trame = NULL;
+  Header			*header;
 
   if (_state == GAME)
     {
@@ -203,10 +205,15 @@ void				Client::move(Player::PlayerCoordinate *coord)
 	{
 	  this->_player->setCoord(*coord);
 	  ObjectPoolManager::getInstance()->setObject(trame, "trame");
+	  ObjectPoolManager::getInstance()->setObject(header, "header");
 	  if (trame)
 	    {
+	      header->setIdClient(_id);
+	      header->setProtocole("UDP");
+	      header->serialization(*trame);
 	      coord->serialization((*trame)((*trame)[CONTENT]["ENTITY"]));
-	      (*trame)["ENTITY"]["ID"] = static_cast<unsigned int>(this->_player->getId());
+	      trame->setEnd(true);
+	      (*trame)[CONTENT]["ENTITY"]["ID"] = static_cast<unsigned int>(this->_player->getId());
 	      Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
 	      /*
 	      ** random battle
@@ -259,6 +266,46 @@ void				Client::startTrade(Player *&player)
 void				Client::endTrade()
 {
   _state = GAME;
+}
+
+bool				Client::craft(std::string const &craft, std::string const &job) const
+{
+  bool				ret = false;
+  std::list<AItem *>		result;
+  std::list<AItem *>		object;
+
+  if (_state == GAME && _player && _user)
+    {
+      ret = _player->doCraft(job, craft, result, object);
+      if (ret)
+	{
+	  Server::getInstance()->callProtocol<std::list<AItem *> *>("ADDTOINVENTORY", _id, &result);
+	  Server::getInstance()->callProtocol<std::list<AItem *> *>("DELETEFROMINVENTORY", _id, &object);
+	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
+	}
+    }
+  return (ret);
+}
+
+bool				Client::gather(std::string const &ressource, std::string const &job, Ressource::RessourceCoordinate const &coord) const
+{
+  bool				ret = false;
+  std::list<AItem *>		result;
+  unsigned int			idRessource;
+
+  if (_state == GAME && _player && _user)
+    {
+      ret = _player->doGather(job, ressource, result, idRessource);
+      if (ret)
+	{
+	  Server::getInstance()->callProtocol<std::list<AItem *> *>("ADDTOINVENTORY", _id, &result);
+	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
+	  RessourceManager::getInstance()->needRessource(coord, _player->getZone());
+	  Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, idRessource, Map::getInstance()->getZone(_player->getZone()));
+	  Map::getInstance()->delEntity(_player->getZone(), idRessource, coord);
+	}
+    }
+  return (ret);
 }
 
 bool				Client::stuff(bool const get, unsigned int const idItem, unsigned int const target)

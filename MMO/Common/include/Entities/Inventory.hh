@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Fri Feb 14 12:11:10 2014 laurent ansel
+// Last update Thu Feb 20 13:37:30 2014 laurent ansel
 //
 
 #ifndef 			__INVENTORY_HH__
@@ -23,7 +23,7 @@ private:
   std::string			_path;
   unsigned int			_money;
   unsigned int			_limit;
-  std::list<AItem *>		*_inventory;
+  std::list<std::pair<AItem *, unsigned int> >	*_inventory;
 
   void				loadInventory();
 
@@ -39,8 +39,8 @@ public:
   std::string const		&getPath() const;
   void				setPath(std::string const &path);
 
-  std::list<AItem *> const	&getInventory() const;
-  void				setInventory(std::list<AItem *> *inventory);
+  std::list<std::pair<AItem *, unsigned int> > const	&getInventory() const;
+  void				setInventory(std::list<std::pair<AItem *, unsigned int> > *inventory);
 
   unsigned int			getMoney() const;
   void				setMoney(unsigned int const money);

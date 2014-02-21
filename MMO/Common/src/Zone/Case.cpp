@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Tue Feb 18 16:39:40 2014 antoine maitre
+// Last update Thu Feb 20 12:27:47 2014 laurent ansel
 //
 
 #include		"Zone/Case.hh"
@@ -48,6 +48,18 @@ void			Case::delAEntity(AEntity *entity)
   this->_entities->remove(entity);
 }
 
+void			Case::delAEntity(unsigned int const id)
+{
+  bool			set = false;
+
+  for (auto it = _entities->begin() ; !set && it != _entities->end() ; ++it)
+    if ((*it)->getId() == id)
+      {
+	it = _entities->erase(it);
+	set = true;
+      }
+}
+
 bool			Case::serialization(Trame &trame) const
 {
   if (!this->_entities->empty())
@@ -59,7 +71,7 @@ bool			Case::serialization(Trame &trame) const
   	{
 	  if ((*it)->getEntityType() == AEntity::STATENTITY)
 	    {
-	      auto tmp = static_cast<Player *>(*it); 
+	      auto tmp = static_cast<Player *>(*it);
 	      trame[std::to_string(i)]["PLAYER"]["ID"] = static_cast<int>(tmp->getId());
 	      trame[std::to_string(i)]["PLAYER"]["NAME"] = tmp->getName();
 	      trame[std::to_string(i)]["PLAYER"]["TYPE"] = tmp->getStatEntityType();

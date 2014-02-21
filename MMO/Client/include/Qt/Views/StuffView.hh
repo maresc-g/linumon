@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:08:03 2014 guillaume marescaux
-// Last update Fri Feb  7 14:56:38 2014 guillaume marescaux
+// Last update Thu Feb 20 10:49:49 2014 guillaume marescaux
 //
 
 #ifndef 		__STUFFVIEW_HH__
@@ -33,6 +33,9 @@ private:
 
 private:
   virtual void		paintEvent(QPaintEvent *);
+
+public:
+  void			initStuff(void);
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Feb 19 12:55:41 2014 guillaume marescaux
+// Last update Fri Feb 21 13:22:24 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -54,6 +54,10 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, std::list<AItem *>*>("ENDBATTLE", &endBattle);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
       this->_container->load<unsigned int, int, Zone *>("REMOVEENTITY", &removeEntity);
+
+      this->_container->load<unsigned int, std::list<AItem *> *>("ADDTOINVENTORY", &addToInventory);
+      this->_container->load<unsigned int, std::list<AItem *> *>("DELETEFROMINVENTORY", &deleteFromInventory);
+      this->_container->load<unsigned int, Job const *>("JOB", &job);
     }
   else
     {
@@ -407,12 +411,13 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
 
   if (trame && zone)
     {
+      trame->setEnd(true);
       list = zone->getPlayers();
       for (auto ip = list.begin() ; ip != list.end() ; ++ip)
 	{
 	  if ((*ip))
 	    {
-	      if ((idClient = static_cast<Player *>(*ip)->getUser().getId()))
+	      if ((idClient = static_cast<Player *>(*ip)->getUser().getId()) && idClient != id)
 		{
 		  ObjectPoolManager::getInstance()->setObject(tmp, "trame");
 		  *tmp = *trame;
@@ -430,7 +435,6 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
 	  *tmp = *trame;
 	  CircularBufferManager::getInstance()->pushTrame(tmp, CircularBufferManager::WRITE_BUFFER);
 	}
-      return (ret);
     }
   return (ret);
 }
@@ -810,6 +814,84 @@ bool			updateCharacter(unsigned int const id, ACharacter const *character)
 	}
       delete header;
     }
+  return (ret);
+}
+
+bool			addToInventory(unsigned int const id, std::list<AItem *> *list)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+  int			nb = 0;
+  std::ostringstream	str;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      for (auto it = list->begin() ; it != list->end() ; ++it)
+	{
+	  str << "ITEM" << nb;
+	  (*it)->serialization((*trame)((*trame)[CONTENT]["ADDTOINVENTORY"][str.str()]));
+	  str.str("");
+	  nb++;
+	}
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			deleteFromInventory(unsigned int const id, std::list<AItem *> *list)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+  int			nb = 0;
+  std::ostringstream	str;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      for (auto it = list->begin() ; it != list->end() ; ++it)
+	{
+	  str << "ITEM" << nb;
+	  (*it)->serialization((*trame)((*trame)[CONTENT]["DELETEFROMINVENTORY"][str.str()]));
+	  str.str("");
+	  nb++;
+	}
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			job(unsigned int const id, Job const *job)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame) && job->serialization((*trame)((*trame)[CONTENT]["JOB"])))
+    {
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
   return (ret);
 }
 

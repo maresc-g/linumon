@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Sat Feb 15 20:56:53 2014 laurent ansel
+// Last update Fri Feb 21 01:12:49 2014 alexis mestag
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -55,6 +55,7 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db value(Digitaliser)
+#  pragma db member(Digitaliser::_battleMobs) transient
 # endif
 
 #endif

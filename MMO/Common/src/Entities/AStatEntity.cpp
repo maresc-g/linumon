@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Fri Jan 24 21:59:17 2014 alexis mestag
+// Last update Fri Feb 21 13:12:26 2014 laurent ansel
 //
 
 #include			"Entities/AStatEntity.hh"
@@ -61,4 +61,9 @@ Stats const			&AStatEntity::getStats() const
 void				AStatEntity::setStats(Stats const &stats)
 {
   _stats = stats;
+}
+
+AuthorizedStatKeys const	&AStatEntity::getStatKeys() const
+{
+  return (_stats.getKeys());
 }

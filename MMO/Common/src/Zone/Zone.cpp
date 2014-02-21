@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Fri Feb 21 14:33:15 2014 antoine maitre
+// Last update Fri Feb 21 14:55:54 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -95,7 +95,7 @@ void				Zone::delPlayer(AEntity *player)
   this->_players->remove(player);
   if (player->getEntityType() == AEntity::STATENTITY)
     {
-      tmp = reinterpret_cast<Player *>(player);
+      tmp = static_cast<Player *>(player);
       cas = this->getCase(tmp->getX(), tmp->getY());
       if (cas)
 	cas->delAEntity(player);
@@ -107,7 +107,7 @@ void				Zone::addEntity(AEntity *entity)
   Case				*cas;
   Ressource			*tmp;
 
-  tmp =  static_cast<Ressource *>(entity);
+  tmp = static_cast<Ressource *>(entity);
   cas = this->getCase(tmp->getX(), tmp->getY());
   if (cas)
     cas->addAEntity(entity);
@@ -118,10 +118,19 @@ void				Zone::delEntity(AEntity *entity)
   Case				*cas;
   Ressource			*tmp;
 
-  tmp =  static_cast<Ressource *>(entity);
+  tmp = static_cast<Ressource *>(entity);
   cas = this->getCase(tmp->getX(), tmp->getY());
   if (cas)
     cas->delAEntity(entity);
+}
+
+void				Zone::delEntity(unsigned int const id, Ressource::RessourceCoordinate const &coord)
+{
+  Case				*cas;
+
+  cas = this->getCase(coord.getX(), coord.getY());
+  if (cas)
+    cas->delAEntity(id);
 }
 
 std::list<AEntity *>		&Zone::getPlayers() const

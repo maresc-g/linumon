@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:05:10 2013 cyril jourdain
-// Last update Fri Feb 14 16:41:00 2014 cyril jourdain
+// Last update Wed Feb 19 14:34:19 2014 guillaume marescaux
 //
 
 #include		"Qt/Views/CharacterView.hh"
@@ -45,7 +45,7 @@ CharacterView::CharacterView(QWidget *parent, WindowManager *man) :
   connect(_prev, SIGNAL(clicked()), this, SLOT(b_prev_clicked()));
   connect(_next, SIGNAL(clicked()), this, SLOT(b_next_clicked()));
   _scrollArea->setWidget(_charContainer);
-  _createCharView->move(600,400);  
+  _createCharView->move(WIN_W / 2 - _createCharView->size().width() / 2, WIN_H / 2 - _createCharView->size().height() / 2);
   _createCharView->hide();
 }
 

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:21:41 2013 alexis mestag
-// Last update Thu Feb  6 15:59:10 2014 laurent ansel
+// Last update Thu Feb 20 22:28:24 2014 alexis mestag
 //
 
 #ifndef			__ASTATENTITY_HH__
@@ -46,6 +46,8 @@ public:
   eStatEntity		getStatEntityType() const;
   Stats const		&getStats() const;
   void			setStats(Stats const &stats);
+
+  AuthorizedStatKeys const	&getStatKeys() const;
 };
 
 # ifdef	ODB_COMPILER

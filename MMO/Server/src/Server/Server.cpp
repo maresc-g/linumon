@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Mon Feb 17 15:24:30 2014 laurent ansel
+// Last update Wed Feb 19 17:10:05 2014 laurent ansel
 //
 
 #include			<list>
@@ -268,10 +268,11 @@ bool				Server::readSomething(std::map<FD, std::pair<bool, bool> >::iterator &it
 bool				Server::writeSomething(std::map<FD, std::pair<bool, bool> >::iterator &it)
 {
   this->_mutex->lock();
-  if (this->_actionServer->find(it->first) != this->_actionServer->end())
+  if (this->_actionServer->find(it->first) != this->_actionServer->end() && it->second.second)
     {
       it->second.second = false;
       ClientManager::getInstance()->setInfoClient(it->first, "TCP", false);
+      ClientManager::getInstance()->setInfoClient(it->first, "UDP", false);
       this->_poll->pushFd(it->first, IPoll::RDDC);
     }
   this->_mutex->unlock();

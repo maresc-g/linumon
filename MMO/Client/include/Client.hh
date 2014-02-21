@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Wed Feb 19 15:10:54 2014 cyril jourdain
+// Last update Thu Feb 20 13:22:30 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -67,8 +67,7 @@ public:
   // void				unsigned interaction();
   void				putItem(AItem const &item);
   void				getItem(AItem const &item);
-  void				putMoney(unsigned int money);
-  void				getMoney(unsigned int money);
+  void				sendMoney(unsigned int money);
   void				accept(void);
   void				refuse(void);
   void				quit(void);

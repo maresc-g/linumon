@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:39:46 2014 antoine maitre
-// Last update Tue Feb 18 15:01:58 2014 antoine maitre
+// Last update Thu Feb 20 12:25:31 2014 laurent ansel
 //
 
 #ifndef				__CASE_HH__
@@ -37,6 +37,7 @@ public:
   const Coordinate<int>		&getCoord() const;
   void				addAEntity(AEntity*);
   void				delAEntity(AEntity*);
+  void				delAEntity(unsigned int const id);
   std::list<AEntity *>		*getEntities() const;
   virtual bool			serialization(Trame &trame) const;
   void				deserialization(Trame const &trame);

@@ -5,13 +5,15 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Tue Dec  3 13:09:41 2013 alexis mestag
-## Last update Fri Jan 31 15:23:47 2014 alexis mestag
+## Last update Thu Feb 20 13:48:38 2014 alexis mestag
 ##
 
-STATS_SRC=		Stat.cpp	\
-			Stats.cpp	\
-			Talent.cpp	\
-			TalentModel.cpp	\
+STATS_SRC=		AuthorizedStatKeys.cpp	\
+			Stat.cpp		\
+			Stats.cpp		\
+			StatKey.cpp		\
+			Talent.cpp		\
+			TalentModel.cpp		\
 			TalentTree.cpp
 
 STATS_SRC:=		$(addprefix $(STATS)/,$(STATS_SRC))
@@ -24,10 +26,12 @@ ODB_STATS_OPTIONS=
 ODB_STATS_OPTIONS:=	$(addprefix $(STATS_H_DIR)/,$(ODB_STATS_OPTIONS))
 ODB_OPTIONS+=		$(ODB_STATS_OPTIONS)
 
-ODB_STATS=		Stat.hh		\
-			Stats.hh	\
-			Talent.hh	\
-			TalentModel.hh	\
+ODB_STATS=		AuthorizedStatKeys.hh	\
+			Stat.hh			\
+			Stats.hh		\
+			StatKey.hh		\
+			Talent.hh		\
+			TalentModel.hh		\
 			TalentTree.hh
 ODB_STATS:=		$(addprefix $(STATS_H_DIR)/,$(ODB_STATS))
 ODB_CLASSES+=		$(ODB_STATS)

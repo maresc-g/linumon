@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Mon Feb 10 16:28:03 2014 alexis mestag
+// Last update Fri Feb 21 13:25:25 2014 laurent ansel
 //
 
 #include			"Entities/Mob.hh"
@@ -60,6 +60,7 @@ bool				Mob::serialization(Trame &trame) const
   this->getStats().serialization(trame(trame["STATS"]));
   trame["NAME"] = this->getName();
   trame["ID"] = static_cast<unsigned int>(this->getId());
+  this->getLevel().serialization(trame(trame["LEVEL"]));
   this->getModel().serialization(trame);
   return (ret);
 }
@@ -69,6 +70,7 @@ Mob				*Mob::deserialization(Trame const &trame)
   Mob				*mob = new Mob;
 
   mob->setStats(*Stats::deserialization(trame(trame["STATS"])));
+  mob->setLevel(*Level::deserialization(trame(trame["LEVEL"])));
   mob->setName(trame["NAME"].asString());
   mob->setId(trame["ID"].asUInt());
   mob->setModel(*MobModel::deserialization(trame));

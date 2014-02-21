@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Fri Feb 21 14:25:24 2014 antoine maitre
+// Last update Fri Feb 21 14:56:03 2014 antoine maitre
 //
 
 #ifndef			__ZONE_HH__
@@ -49,6 +49,7 @@ public:
   void			delPlayer(AEntity *);
   void			addEntity(AEntity *entity);
   void			delEntity(AEntity *entity);
+  void			delEntity(unsigned int const id, Ressource::RessourceCoordinate const &coord);
   std::list<AEntity*>	&getPlayers() const;
   void			addCase(Case *);
   void			delCase(Case *);
@@ -61,7 +62,6 @@ public:
   int			getSizeY() const;
 # ifdef	SERVER
   DBZone const		&getDBZone() const;
-  
 # endif
 };
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Wed Feb 19 13:06:51 2014 laurent ansel
+// Last update Thu Feb 20 12:46:56 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -282,6 +282,30 @@ bool				ClientManager::stuff(FD const fd, bool const get, unsigned int const idI
   for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
     if ((*it).first && (*it).second)
       set = (*it).first->stuff(fd, get, idItem, target);
+  this->_mutex->unlock();
+  return (set);
+}
+
+bool				ClientManager::craftSomething(FD const fd, std::string const &craft, std::string const &job) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->craftSomething(fd, craft, job);
+  this->_mutex->unlock();
+  return (set);
+}
+
+bool				ClientManager::gatherSomething(FD const fd, std::string const &gather, std::string const &job, Ressource::RessourceCoordinate const &coord) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->gatherSomething(fd, gather, job, coord);
   this->_mutex->unlock();
   return (set);
 }

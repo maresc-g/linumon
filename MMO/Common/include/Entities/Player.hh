@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Wed Feb 19 16:18:20 2014 antoine maitre
+// Last update Fri Feb 21 14:45:09 2014 antoine maitre
 //
 
 #ifndef			__PLAYER_HH__
@@ -40,7 +40,8 @@ class			Player : public Persistent, public ACharacter, public ISerialization
   // /!\ There's no need to change any getter or setter !!
   // If you are scared, please refer to mestag_a
 public:
-  typedef iCoordinate	PlayerCoordinate;
+  typedef iCoordinate		PlayerCoordinate; // This one is kept for compatibility issues
+  typedef PlayerCoordinate	Coordinate;
 
 protected:
   Digitaliser			_digitaliser;
@@ -116,6 +117,10 @@ public:
   void				addMoney(int const money);
 
   void				setJobs(Jobs *jobs);
+  Job				*getJob(std::string const &name) const;
+
+  bool				doCraft(std::string const &job, std::string const &craft, std::list<AItem *> &result, std::list<AItem *> &object);
+  bool				doGather(std::string const &job, std::string const &ressource, std::list<AItem *> &result, unsigned int &idRessource);
 
   bool				getPlayerEquipment(unsigned int const idItem);
   bool				getMobEquipment(unsigned int const idMod, unsigned int const idItem);
@@ -131,8 +136,8 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(Player) session(false)
 #  pragma db member(Player::_coord) transient
-#  pragma db member(Player::_x) virtual(Player::PlayerCoordinate::type) get(_coord->getX()) set(_coord->setX(?))
-#  pragma db member(Player::_y) virtual(Player::PlayerCoordinate::type) get(_coord->getY()) set(_coord->setY(?))
+#  pragma db member(Player::_x) virtual(Player::Coordinate::type) get(_coord->getX()) set(_coord->setX(?))
+#  pragma db member(Player::_y) virtual(Player::Coordinate::type) get(_coord->getY()) set(_coord->setY(?))
 #  pragma db member(Player::_faction) not_null
 #  pragma db member(Player::_digitaliser) value_not_null id_column("player_id") value_column("mob_id")
 #  pragma db member(Player::_inventory)
