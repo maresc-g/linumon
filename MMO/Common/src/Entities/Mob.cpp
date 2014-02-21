@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Fri Feb 21 13:49:06 2014 laurent ansel
+// Last update Fri Feb 21 14:13:29 2014 laurent ansel
 //
 
 #include			"Entities/Mob.hh"
@@ -41,7 +41,7 @@ Mob				&Mob::operator=(Mob const &rhs)
       this->setModel(rhs.getModel());
       this->setLevel(rhs.getLevel());
       this->setId(rhs.getId());
-      this->setStats(rhs.getStats());
+      // this->setStats(rhs.getStats());
     }
   return (*this);
 }
@@ -60,7 +60,7 @@ bool				Mob::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  this->getStats().serialization(trame(trame["STATS"]));
+  // this->getStats().serialization(trame(trame["STATS"]));
   trame["NAME"] = this->getName();
   trame["ID"] = static_cast<unsigned int>(this->getId());
   this->getLevel().serialization(trame(trame["LEVEL"]));
@@ -72,7 +72,7 @@ Mob				*Mob::deserialization(Trame const &trame)
 {
   Mob				*mob = new Mob;
 
-  mob->setStats(*Stats::deserialization(trame(trame["STATS"])));
+  // mob->setStats(*Stats::deserialization(trame(trame["STATS"])));
   mob->setLevel(*Level::deserialization(trame(trame["LEVEL"])));
   mob->setName(trame["NAME"].asString());
   mob->setId(trame["ID"].asUInt());
