@@ -5,13 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Feb 16 03:12:14 2014 cyril jourdain
-// Last update Wed Feb 19 14:14:56 2014 cyril jourdain
+// Last update Fri Feb 21 13:37:25 2014 cyril jourdain
 //
 
 #ifndef 		__PLAYERSPRITE_HH__
 # define 		__PLAYERSPRITE_HH__
 
 #include		"SFML/Sprite/Sprite.hh"
+#include		"Entities/Player.hh"
 
 class			PlayerSprite : public Sprite
 {
@@ -33,6 +34,8 @@ private:
   sf::Vector2f		_deltaPos;
   eDir			_dir;
   unsigned int		_speed;
+  unsigned int		_playerId;
+  std::string		_playerZone;
 
 public:
   PlayerSprite();
@@ -43,8 +46,6 @@ public:
   void			setText(sf::String const &);
   void			setFont(sf::Font *);
   void			generateOffset();
-public:
-  virtual void		draw(sf::RenderTarget &, sf::RenderStates) const;
   void			moveUp();
   void			moveDown();
   void			moveLeft();
@@ -52,6 +53,11 @@ public:
   void			updateMoves(sf::Clock *, sf::View *);
   bool			isMoving() const;
   void			setSpeed(unsigned int);
+  void			setPlayerId(unsigned int);
+  void			setPlayerZone(std::string const &zone);
+
+public:
+  virtual void		draw(sf::RenderTarget &, sf::RenderStates) const;
 };
 
 #endif

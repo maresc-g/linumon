@@ -10,6 +10,7 @@
 
 #include		"SFML/PlayerSprite.hh"
 #include		"Client.hh"
+#include		"Map/Map.hh"
 
 
 PlayerSprite::PlayerSprite() :
@@ -82,7 +83,16 @@ void			PlayerSprite::draw(sf::RenderTarget &target, sf::RenderStates states) con
 
 void			PlayerSprite::moveUp()
 {
-  _pos.y -= CASE_SIZE;
+  std::cout << "move up" << std::endl;
+  // while (_pos.y == _playerPtr->getY())
+  //   {
+  // _pos.y -= (_pos.y - _playerPtr->getY()) * CASE_SIZE;
+    //   std::cout << _playerPtr->getY() << std::endl;
+    //   usleep(50000);
+    // }
+  // std::cout << _playerPtr->getY() << std::endl;
+
+  // Player pos is not updated. Y U DID DAT ?!
   _deltaPos.y = -CASE_SIZE;
   _dir = UP;
   play("up");
@@ -90,7 +100,7 @@ void			PlayerSprite::moveUp()
 
 void			PlayerSprite::moveDown()
 {
-  _pos.y += CASE_SIZE;
+  // _pos.y += (_pos.y - _playerPtr->getY()) * CASE_SIZE;
   _deltaPos.y = CASE_SIZE;
   _dir = DOWN;
   play("down");
@@ -213,4 +223,18 @@ bool			PlayerSprite::isMoving() const
 void			PlayerSprite::setSpeed(unsigned int speed)
 {
   _speed = speed;
+}
+
+void			PlayerSprite::setPlayerId(unsigned int id)
+{
+  _playerId = id;
+  Player *player = Map::getInstance()->getPlayerById(_playerId);
+
+  _pos.x = player->getX();
+  _pos.y = player->getY();
+}
+
+void			PlayerSprite::setPlayerZone(std::string const &zone)
+{
+  _playerZone = zone;
 }

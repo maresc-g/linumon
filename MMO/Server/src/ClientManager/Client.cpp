@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Feb 20 13:23:30 2014 laurent ansel
+// Last update Fri Feb 21 14:45:43 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -214,6 +214,7 @@ void				Client::move(Player::PlayerCoordinate *coord)
 	      coord->serialization((*trame)((*trame)[CONTENT]["ENTITY"]));
 	      trame->setEnd(true);
 	      (*trame)[CONTENT]["ENTITY"]["ID"] = static_cast<unsigned int>(this->_player->getId());
+	      Map::getInstance()->move(_player);
 	      Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
 	      /*
 	      ** random battle
