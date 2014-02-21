@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Fri Feb 21 13:25:25 2014 laurent ansel
+// Last update Fri Feb 21 13:49:06 2014 laurent ansel
 //
 
 #include			"Entities/Mob.hh"
@@ -39,6 +39,9 @@ Mob				&Mob::operator=(Mob const &rhs)
   if (this != &rhs)
     {
       this->setModel(rhs.getModel());
+      this->setLevel(rhs.getLevel());
+      this->setId(rhs.getId());
+      this->setStats(rhs.getStats());
     }
   return (*this);
 }
