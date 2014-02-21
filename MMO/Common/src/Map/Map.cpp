@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Fri Feb 21 15:11:15 2014 laurent ansel
+// Last update Fri Feb 21 15:20:12 2014 laurent ansel
 //
 
 #include			"Map/Map.hh"
@@ -103,22 +103,6 @@ void				Map::delEntity(std::string const &zone, unsigned int const id, Ressource
   this->unlock();
 }
 
-// void				Map::addEntity(std::string const &zone, AEntity *entity)
-// {
-//   this->lock();
-//   if (this->_map.find(zone) != this->_map.end())
-//     this->_map[zone]->addEntity(player);
-//   this->unlock();
-// }
-
-// void				Map::delEntity(std::string const &zone, AEntity *entity)
-// {
-//   this->lock();
-//   if (this->_map.find(zone) != this->_map.end())
-//     this->_map[zone]->delEntity(player);
-//   this->unlock();
-// }
-
 std::list<AEntity *>		*Map::getPlayers(std::string const &zone)
 {
   this->lock();
@@ -170,4 +154,20 @@ void				Map::move(AEntity *entity)
   this->lock();
   this->_map[static_cast<Player *>(entity)->getZone()]->move(entity);
   this->unlock();
+}
+
+bool				Map::exist(AEntity *entity) const
+{
+  this->lock();
+  for (auto it = this->_map.begin(); it != this->_map.end(); it++)
+    {
+      for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); itb++)
+	if ((*itb) == entity)
+	  {
+	    this->unlock();
+	    return (true);
+	  }
+    }
+  this->unlock();
+  return (false);
 }
