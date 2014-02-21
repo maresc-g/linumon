@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Fri Feb 21 15:35:12 2014 antoine maitre
+// Last update Fri Feb 21 16:07:24 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -135,7 +135,7 @@ Player				*Map::getPlayerById(unsigned int const id)
   this->lock();
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
     {
-      for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); it++)
+      for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); itb++)
 	{
 	  if ((*itb)->getId() == id)
 	    {
@@ -165,4 +165,20 @@ void				Map::move(AEntity *entity)
   this->lock();
   this->_map[static_cast<Player *>(entity)->getZone()]->move(entity);
   this->unlock();
+}
+
+bool				Map::exist(AEntity *entity) const
+{
+  this->lock();
+  for (auto it = this->_map.begin(); it != this->_map.end(); it++)
+    {
+      for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); itb++)
+	if ((*itb) == entity)
+	  {
+	    this->unlock();
+	    return (true);
+	  }
+    }
+  this->unlock();
+  return (false);
 }

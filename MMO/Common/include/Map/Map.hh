@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:31:09 2014 antoine maitre
-// Last update Fri Feb 21 15:24:04 2014 antoine maitre
+// Last update Fri Feb 21 16:07:22 2014 antoine maitre
 //
 
 #ifndef					__MAP_HH__
@@ -40,6 +40,7 @@ public:
   //  void					moveCase(std::string const &zone, Player::PlayerCoordinate const &source, Player::PlayerCoordinate const &dest, AEntity *);
   void					lock() const;
   void					unlock() const;
+  bool					exist(AEntity *entity) const;
   Player				*getPlayerById(unsigned int const id);
 };
 

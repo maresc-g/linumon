@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Thu Feb 20 12:27:47 2014 laurent ansel
+// Last update Fri Feb 21 16:09:29 2014 antoine maitre
 //
 
 #include		"Zone/Case.hh"
@@ -77,7 +77,6 @@ bool			Case::serialization(Trame &trame) const
 	      trame[std::to_string(i)]["PLAYER"]["TYPE"] = tmp->getStatEntityType();
 	      tmp->getCoord().serialization(trame(trame[std::to_string(i)]["PLAYER"]));
 	      tmp->getFaction().serialization(trame(trame[std::to_string(i)]["PLAYER"]));
-	      tmp->getDigitaliser().serialization(trame(trame[std::to_string(i)]["PLAYER"]));
 	    }
 	  else
 	    {
