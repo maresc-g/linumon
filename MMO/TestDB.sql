@@ -120,7 +120,6 @@ INSERT INTO `AuthorizedStatKeys_keys`(`object_id`, `index`, `value`) VALUES
 /* Inserting Players */
 DELETE FROM Player;
 
-<<<<<<< HEAD
 INSERT INTO `Player`(`id`, `name`, `stats_authKeys`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `inventory`, `dbZone`, `x`, `y`) VALUES
        (1, 'Thinenus', 1, 13, 4, 10, 1, 1, 1, 1, 1, 10, 30),
        (2, 'Sezu-Kho', 1, 20, 6, 10, 1, 2, 2, 2, 1, 20, 20),
