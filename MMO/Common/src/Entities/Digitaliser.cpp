@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Sat Feb 15 21:01:47 2014 laurent ansel
+// Last update Fri Feb 21 13:28:29 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -129,8 +129,6 @@ bool				Digitaliser::serialization(Trame &trame) const
 Digitaliser			*Digitaliser::deserialization(Trame const &trame)
 {
   Digitaliser			*digit = NULL;
-  int				nb = 0;
-  std::ostringstream		str;
   Mobs				*mobs;
   Mobs				*battle;
   Mob				*tmp;
@@ -142,26 +140,24 @@ Digitaliser			*Digitaliser::deserialization(Trame const &trame)
       battle = new Mobs;
       if (trame["DIGITALISER"].isMember("LIST"))
 	{
-	  str << "MOB" << nb;
-	  for (; !trame["DIGITALISER"]["LIST"].isMember(str.str()) ; ++nb)
+	  auto			membersList = trame["DIGITALISER"]["LIST"].getMemberNames();
+
+	  for (auto it = membersList.begin() ; it != membersList.end() ; ++it)
 	    {
-	      tmp = Mob::deserialization(trame(trame["DIGITALISER"]["LIST"][str.str()]));
+	      tmp = Mob::deserialization(trame(trame["DIGITALISER"]["LIST"][*it]));
 	      if (tmp)
 		mobs->push_back(tmp);
-	      str.str("");
-	      str << "MOB" << nb + 1;
 	    }
 	}
       if (trame["DIGITALISER"].isMember("BATTLE"))
 	{
-	  nb = 0;
-	  for (; !trame["DIGITALISER"]["BATTLE"].isMember(str.str()) ; ++nb)
+	  auto			membersBattle = trame["DIGITALISER"]["BATTLE"].getMemberNames();
+
+	  for (auto it = membersBattle.begin() ; it != membersBattle.end() ; ++it)
 	    {
-	      tmp = Mob::deserialization(trame(trame["DIGITALISER"]["BATTLE"][str.str()]));
+	      tmp = Mob::deserialization(trame(trame["DIGITALISER"]["BATTLE"][*it]));
 	      if (tmp)
-		battle->push_back(tmp);
-	      str.str("");
-	      str << "MOB" << nb + 1;
+		mobs->push_back(tmp);
 	    }
 	}
       digit->setMobs(*mobs);

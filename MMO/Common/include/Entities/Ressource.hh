@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Thu Feb 20 11:07:08 2014 laurent ansel
+// Last update Fri Feb 21 13:04:43 2014 laurent ansel
 //
 
 #ifndef 		__RESSOURCE_HH__

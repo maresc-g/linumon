@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Thu Feb 20 22:28:47 2014 alexis mestag
+// Last update Fri Feb 21 13:12:26 2014 laurent ansel
 //
 
 #include			"Entities/AStatEntity.hh"

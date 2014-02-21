@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:37:01 2013 alexis mestag
-// Last update Sat Feb 15 20:47:09 2014 laurent ansel
+// Last update Fri Feb 21 13:10:21 2014 laurent ansel
 //
 
 #include			"Entities/ACharacter.hh"
