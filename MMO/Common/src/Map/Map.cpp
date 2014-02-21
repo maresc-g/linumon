@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Fri Feb 21 14:59:01 2014 cyril jourdain
+// Last update Fri Feb 21 15:11:15 2014 laurent ansel
 //
 
 #include			"Map/Map.hh"
@@ -19,6 +19,7 @@ Map::Map()
   std::ostringstream		terr;
 
   this->_mutex->init();
+  this->_mutex->lock();
   JsonFile::readFile(tram, fileConf);
   for (int i = 1; i; i++)
     {
@@ -31,12 +32,16 @@ Map::Map()
 	break;
       terr.str("");
     }
+  this->_mutex->unlock();
 }
 
 Map::~Map()
 {
+  this->_mutex->lock();
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
     delete (*it).second;
+  this->_mutex->unlock();
+  _mutex->destroy();
   delete _mutex;
 }
 
