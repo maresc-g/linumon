@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Fri Feb 21 15:35:12 2014 antoine maitre
+// Last update Fri Feb 21 14:59:01 2014 cyril jourdain
 //
 
 #include			"Map/Map.hh"
@@ -135,7 +135,7 @@ Player				*Map::getPlayerById(unsigned int const id)
   this->lock();
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
     {
-      for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); it++)
+      for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); itb++)
 	{
 	  if ((*itb)->getId() == id)
 	    {

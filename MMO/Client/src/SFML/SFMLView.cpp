@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Thu Feb 20 10:50:36 2014 guillaume marescaux
+// Last update Fri Feb 21 15:00:24 2014 cyril jourdain
 //
 
 /*
@@ -28,6 +28,7 @@
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()), _mainPerso(NULL),
   _clock(new sf::Clock()), _sprites(new SpriteMap), _keyDelayer(new KeyDelayer()),
+  _playerList(new std::vector<PlayerSprite*>),
   _spellBar(new SpellBarView(this, w)), _itemView(new ItemView(this, w)),
   _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
   _chat(new ChatView(this, w)), _menu(new MenuView(this, w))
@@ -67,10 +68,13 @@ void			SFMLView::onInit()
   _clock->restart();
   loadPlayerList();
   loadMap();
-  _mainPerso = new PlayerSprite();
+  _mainPerso = new PlayerSprite(sf::String((**(_wMan->getMainPlayer()))->getName()), _textFont);
   _sMan->copySprite("perso1", *_mainPerso);
-  _mainPerso->setFont(_textFont);
-  _mainPerso->setText(sf::String((**(_wMan->getMainPlayer()))->getName()));
+  // _mainPerso->setFont(_textFont);
+  // _mainPerso->setText(sf::String((**(_wMan->getMainPlayer()))->getName()));
+  // _mainPerso = (*_playerList)[0];
+  _mainPerso->setPlayerZone(Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getName());
+  _mainPerso->setPlayerId((**(_wMan->getMainPlayer()))->getId());
   _mainPerso->play("default_down");
   _mainPerso->generateOffset();
   _mainPerso->setPosition((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE,
@@ -114,6 +118,11 @@ void			SFMLView::drawView()
     draw(*_spriteTest);
     draw(*_mainPerso);
   }
+  for (auto it = _playerList->begin() + 1; it != _playerList->end(); it++)
+    {
+      (*it)->update(*_clock);
+      draw(**it);
+    }
 }
 
 void			SFMLView::checkKeys()
@@ -183,16 +192,18 @@ void			SFMLView::checkKeys()
 
 void			SFMLView::loadPlayerList()
 {
-  // std::cout << " \nplayerList\n" << std::endl;
-
-  // std::list<AEntity *>	list = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getPlayers();
   std::list<AEntity *>	list = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getPlayers();
   
-  std::cout << "Zone name : " <<  Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getName() << std::endl;
-  std::cout << "Player number : " << list.size() << std::endl;
-
   for (auto it = list.begin(); it != list.end(); it++)
     {
+      _playerList->push_back(new PlayerSprite((static_cast<Player*>(*it))->getName(), _textFont));
+      _sMan->copySprite("perso1", *_playerList->back());
+      _playerList->back()->setPlayerZone(Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getName());
+      _playerList->back()->setPlayerId((static_cast<Player*>(*it))->getId());
+      _playerList->back()->play("default_down");
+      _playerList->back()->generateOffset();
+      _playerList->back()->setPosition((static_cast<Player*>(*it))->getX() * CASE_SIZE,
+				       (static_cast<Player*>(*it))->getY() * CASE_SIZE - _playerList->back()->getCurrentBound()->height / 2 + 4);
       std::cout << (static_cast<Player*>(*it))->getX() << std::endl;
     }
 }

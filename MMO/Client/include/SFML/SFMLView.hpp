@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Wed Feb 19 13:42:44 2014 cyril jourdain
+// Last update Thu Feb 20 16:45:27 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -50,6 +50,7 @@ private:
   sf::Clock		*_clock;
   SpriteMap		*_sprites;
   KeyDelayer		*_keyDelayer;
+  std::vector<PlayerSprite *> *_playerList;
   sf::Sprite		*_spriteTest;
   sf::Texture		*_textureTest;
   sf::RenderTexture	*_winTexture;

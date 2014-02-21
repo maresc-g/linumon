@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:06:15 2013 laurent ansel
-## Last update Wed Feb 19 14:08:41 2014 alexis mestag
+## Last update Thu Feb 20 14:54:37 2014 cyril jourdain
 ##
 
 NAMESERVER=	pfa-server
@@ -43,7 +43,7 @@ effectLibs:
 		cd $(EFFECT_LIBS) && make
 
 $(NAMECLIENT):	$(OBJCOMMON) $(OBJCLIENT)
-		g++ -o $(NAMECLIENT) $(OBJCOMMON) $(OBJCLIENT) $(LDFLAGS)
+		g++ -o $(NAMECLIENT) $(OBJCOMMON) $(OBJCLIENT) $(LDFLAGS) +
 
 $(SCHEMA):	$(ODB_CLASSES)
 		$(ODB) -d mysql --generate-schema-only --generate-query --at-once --std c++11 $(ODB_OPTIONS) --input-name $(SCHEMA) $(COMMON_INCLUDES) $(ODB_CLASSES)
