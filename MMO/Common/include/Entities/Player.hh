@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Fri Feb 21 14:45:09 2014 antoine maitre
+// Last update Fri Feb 21 15:27:17 2014 antoine maitre
 //
 
 #ifndef			__PLAYER_HH__
@@ -68,6 +68,8 @@ private:
 
   void			deleteTalents();
 
+  void			setDigitaliser(Digitaliser const &digit);
+
 public:
   Player(std::string const &name);
   virtual ~Player();
@@ -85,7 +87,6 @@ public:
   void				setFaction(Faction const &faction);
 
   Digitaliser const		&getDigitaliser() const;
-  // No setter for this attribute
 
 # ifndef	CLIENT_COMPILATION
   DBZone const			&getDBZone() const;

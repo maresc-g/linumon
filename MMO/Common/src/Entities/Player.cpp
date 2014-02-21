@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Feb 20 12:42:29 2014 laurent ansel
+// Last update Fri Feb 21 13:49:19 2014 laurent ansel
 //
 
 #include			<functional>
@@ -110,6 +110,11 @@ void				Player::setFaction(Faction const &faction)
 Digitaliser const		&Player::getDigitaliser() const
 {
   return (_digitaliser);
+}
+
+void				Player::setDigitaliser(Digitaliser const &digit)
+{
+  this->_digitaliser = digit;
 }
 
 Inventory const			&Player::getInventory() const
@@ -269,6 +274,7 @@ Player				*Player::deserialization(Trame const &trame)
       player->setZone(trame["PLAYER"]["ZONE"].asString());
       player->setTalentTree(*TalentTree::deserialization(trame(trame["PLAYER"])));
       player->setInventory(Inventory::deserialization(trame(trame["PLAYER"])));
+      player->setDigitaliser(*Digitaliser::deserialization(trame(trame["PLAYER"])));
 
       if (!trame["PLAYER"]["TALENTS"].empty())
 	{

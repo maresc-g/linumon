@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Fri Feb 21 01:07:03 2014 alexis mestag
+// Last update Fri Feb 21 14:09:27 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -132,7 +132,7 @@ bool				Stats::serialization(Trame &trame) const
 
   for (auto it = this->_stats.begin() ; it != this->_stats.end() ; ++it)
     {
-      (*it)->serialization(trame);
+      (*it)->serialization(trame(trame["STATS"]));
     }
   return (ret);
 }
@@ -140,14 +140,22 @@ bool				Stats::serialization(Trame &trame) const
 Stats				*Stats::deserialization(Trame const &trame)
 {
   Stats				*stats = NULL;
-  std::ostringstream		str;
   std::list<Stat *>		*stat;
-  auto				members = trame.getMemberNames();
+  Stat				*st;
 
-  stats = new Stats;
-  stat = new std::list<Stat *>;
-  for (auto it = members.begin() ; it != members.end() ; ++it)
-    stat->push_back(Stat::deserialization(trame(trame[*it])));
-  stats->setStats(*stat);
+  if (trame.isMember("STATS"))
+    {
+      auto				members = trame["STATS"].getMemberNames();
+
+      stats = new Stats;
+      stat = new std::list<Stat *>;
+      for (auto it = members.begin() ; it != members.end() ; ++it)
+	{
+	  st = Stat::deserialization(trame(trame["STATS"][*it]));
+	  if (st)
+	    stat->push_back(st);
+	}
+      stats->setStats(*stat);
+    }
   return (stats);
 }

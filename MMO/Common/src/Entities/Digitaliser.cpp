@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Fri Feb 21 13:28:29 2014 laurent ansel
+// Last update Fri Feb 21 13:48:19 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -30,7 +30,10 @@ Digitaliser			&Digitaliser::operator=(Digitaliser const &rhs)
 {
   if (this != &rhs)
     {
-      // I'm not going to copy the mobs'list :)
+      for (auto it = rhs.getMobs().begin() ; it != rhs.getMobs().end(); ++it)
+	this->_mobs.push_back(new Mob(**it));
+      for (auto it = rhs.getBattleMobs().begin() ; it != rhs.getBattleMobs().end(); ++it)
+	this->_battleMobs.push_back(new Mob(**it));
     }
   return (*this);
 }

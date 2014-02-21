@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Fri Feb 21 01:12:49 2014 alexis mestag
+// Last update Fri Feb 21 13:49:43 2014 laurent ansel
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -29,10 +29,11 @@ private:
 private:
   Digitaliser(Digitaliser const &rhs);
 
-  Digitaliser		&operator=(Digitaliser const &rhs);
-
 public:
   Digitaliser();
+
+  Digitaliser		&operator=(Digitaliser const &rhs);
+
   virtual ~Digitaliser();
 
   Mobs const		&getMobs() const;
