@@ -5,20 +5,20 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:08:36 2013 alexis mestag
-// Last update Tue Feb 11 14:41:53 2014 antoine maitre
+// Last update Thu Feb 20 12:46:35 2014 alexis mestag
 //
 
 #include			<sstream>
 #include			"Stats/Stat.hh"
 
 Stat::Stat() :
-  Persistent(), _statType(eStat::NONE), _value(0)
+  Persistent(), _key(NULL), _value(0)
 {
 
 }
 
-Stat::Stat(Stat::eStat const statType, int const value) :
-  Persistent(), _statType(statType), _value(value)
+Stat::Stat(StatKey const &key, value_type const value) :
+  Persistent(), _key(&key), _value(value)
 {
 
 }
@@ -38,42 +38,40 @@ Stat				&Stat::operator=(Stat const &rhs)
 {
   if (this != &rhs)
     {
-      this->setStatType(rhs.getStatType());
+      this->setKey(rhs.getKey());
       this->setValue(rhs.getValue());
     }
   return (*this);
 }
 
-int				Stat::getValue() const
+StatKey const			&Stat::getKey() const
+{
+  return (*_key);
+}
+
+void				Stat::setKey(StatKey const &key)
+{
+  _key = &key;
+}
+
+Stat::value_type		Stat::getValue() const
 {
   return (_value);
 }
 
-void				Stat::setValue(int const value)
+void				Stat::setValue(value_type const value)
 {
   _value = value;
 }
-
-Stat::eStat			Stat::getStatType() const
-{
-  return (_statType);
-}
-
-void				Stat::setStatType(Stat::eStat const statType)
-{
-  _statType = statType;
-}
-
-
 
 bool		 		Stat::serialization(Trame &trame) const
 {
   bool				ret = true;
   std::ostringstream		str;
 
-  str << "STAT" << this->getStatType();
+  str << "STAT" << this->getKey().getName();
+  trame[str.str()]["KEY"] = this->getKey().getName();
   trame[str.str()]["VALUE"] = this->getValue();
-  trame[str.str()]["TYPE"] = this->getStatType();
   return (ret);
 }
 
@@ -81,6 +79,6 @@ Stat				*Stat::deserialization(Trame const &trame)
 {
   Stat				*stat = NULL;
 
-  stat = new Stat(static_cast<eStat>(trame["TYPE"].asInt()), trame["VALUE"].asInt());
+  stat = new Stat(*new StatKey(trame["KEY"].asString()), trame["VALUE"].asInt());
   return (stat);
 }

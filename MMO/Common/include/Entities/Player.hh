@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Feb 18 15:21:52 2014 laurent ansel
+// Last update Wed Feb 19 14:44:01 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -40,7 +40,8 @@ class			Player : public Persistent, public ACharacter, public ISerialization
   // /!\ There's no need to change any getter or setter !!
   // If you are scared, please refer to mestag_a
 public:
-  typedef iCoordinate	PlayerCoordinate;
+  typedef iCoordinate		PlayerCoordinate; // This one is kept for compatibility issues
+  typedef PlayerCoordinate	Coordinate;
 
 private:
   PlayerCoordinate		*_coord; //1
@@ -130,8 +131,8 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(Player) session(false)
 #  pragma db member(Player::_coord) transient
-#  pragma db member(Player::_x) virtual(Player::PlayerCoordinate::type) get(_coord->getX()) set(_coord->setX(?))
-#  pragma db member(Player::_y) virtual(Player::PlayerCoordinate::type) get(_coord->getY()) set(_coord->setY(?))
+#  pragma db member(Player::_x) virtual(Player::Coordinate::type) get(_coord->getX()) set(_coord->setX(?))
+#  pragma db member(Player::_y) virtual(Player::Coordinate::type) get(_coord->getY()) set(_coord->setY(?))
 #  pragma db member(Player::_faction) not_null
 #  pragma db member(Player::_digitaliser) value_not_null id_column("player_id") value_column("mob_id")
 #  pragma db member(Player::_inventory)

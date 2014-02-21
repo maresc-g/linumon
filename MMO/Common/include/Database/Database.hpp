@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 13:39:52 2014 alexis mestag
-// Last update Wed Feb 19 00:33:54 2014 alexis mestag
+// Last update Fri Feb 21 00:10:06 2014 alexis mestag
 //
 
 #ifndef			__DATABASE_HPP__
@@ -15,6 +15,7 @@
 # include		<odb/database.hxx>
 # include		<odb/mysql/database.hxx>
 # include		<odb/mysql/exceptions.hxx>
+# include		"Database/Session.hpp"
 # include		"Utility/Singleton.hpp"
 
 # define DB_USER	"odbLinumonUser"
@@ -34,20 +35,18 @@ public:
   template<typename T>
   using Result = odb::result<T>;
   using Transaction = odb::transaction;
-
+  template<typename T>
+  using ObjectTraits = odb::object_traits<T>;
   typedef odb::mysql::database	DBType;
 
 private:
   DBType		*_db;
-  odb::session		*_s;
 
 private:
   Database() : Singleton(),
-	       _db(new DBType(DB_USER, DB_PASSWORD, DB_DATABASE)),
-	       _s(NULL) {}
-	       // _s(new odb::session) {}
+	       _db(new DBType(DB_USER, DB_PASSWORD, DB_DATABASE)) {}
   virtual ~Database() {
-    delete _s;
+    Session::deleteInstance();
     delete _db;
   }
 

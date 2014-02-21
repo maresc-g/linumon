@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Wed Feb 12 19:07:38 2014 antoine maitre
+// Last update Thu Feb 20 13:03:44 2014 alexis mestag
 //
 
 #include				"Battle/Battle.hh"
@@ -24,7 +24,7 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
     {
       this->_mobs1.push_back((*it));
       Stats stats = (*it)->getStats();
-      this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats.getStat(Stat::eStat::SPEED)));
+      this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats.getStat("Speed")));
       i++;
     }
   tmp = player2->getDigitaliser().getMobs();
@@ -33,7 +33,7 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
     {
       this->_mobs2.push_back((*it));
       Stats stats = (*it)->getStats();
-      this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats.getStat(Stat::eStat::SPEED)));
+      this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats.getStat("Speed")));
       i++;
     }
   Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", _player2->getId(), id, _player1);
@@ -64,7 +64,7 @@ bool					Battle::checkEnd()
   for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
     {
       Stats statMob = (*it)->getStats();
-      if (statMob.getStat(Stat::eStat::HP) == 0)
+      if (statMob.getStat("HP") == 0)
 	i++;
     }
   if (i == 0)
@@ -73,7 +73,7 @@ bool					Battle::checkEnd()
   for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
     {
       Stats statMob = (*it)->getStats();
-      if (statMob.getStat(Stat::eStat::HP) == 0)
+      if (statMob.getStat("HP") == 0)
 	i++;
     }
   if (i == 0)
@@ -90,10 +90,10 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
     if ((*it)->getId() == target)
       {
 	Stats statMob = (*it)->getStats();
-	statMob.setStat(Stat::eStat::HP, statMob.getStat(Stat::eStat::HP) - 10);
+	statMob.setStat("HP", statMob.getStat("HP") - 10);
 	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player1->getId(), this->_id, 10, target);
 	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player2->getId(), this->_id, 10, target);
-	if (statMob.getStat(Stat::eStat::HP) <= 0)
+	if (statMob.getStat("HP") <= 0)
 	  {
 	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player2->getId(), this->_id, 10, target);
 	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player1->getId(), this->_id, 10, target);
@@ -103,10 +103,10 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
     if ((*it)->getId() == target)
       {
 	Stats statMob = (*it)->getStats();
-	statMob.setStat(Stat::eStat::HP, statMob.getStat(Stat::eStat::HP) - 10);
+	statMob.setStat("HP", statMob.getStat("HP") - 10);
 	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player1->getId(), this->_id, 10, target);
 	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player2->getId(), this->_id, 10, target);
-	if (statMob.getStat(Stat::eStat::HP) <= 0)
+	if (statMob.getStat("HP") <= 0)
 	  {
 	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player2->getId(), this->_id, 10, target);
 	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player1->getId(), this->_id, 10, target);

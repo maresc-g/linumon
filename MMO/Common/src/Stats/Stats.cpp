@@ -5,11 +5,12 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Tue Feb 11 14:40:57 2014 antoine maitre
+// Last update Fri Feb 21 01:07:03 2014 alexis mestag
 //
 
 #include			<sstream>
 #include			<functional>
+#include			<algorithm>
 #include			"Stats/Stats.hh"
 
 Stats::Stats()
@@ -36,7 +37,29 @@ Stats				&Stats::operator=(Stats const &rhs)
   return (*this);
 }
 
-std::list<Stat *>		&Stats::getStatsDeepCopy() const
+Stat::value_type		Stats::operator[](StatKey const &key) const
+{
+  static std::function<bool(Stat *)>	statSeeker = [&](Stat *s) -> bool {
+    return (s->getKey() == key);
+  };
+  Stat::value_type			ret = Stat::value_type();
+
+  if (_authKeys->isAuthorized(key))
+    {
+      auto			it = std::find_if(_stats.begin(), _stats.end(), statSeeker);
+
+      if (it != _stats.end())
+	ret = (*it)->getValue();
+    }
+  return (ret);
+}
+
+Stat::value_type		Stats::operator[](std::string const &key) const
+{
+  return ((*this)[StatKey(key)]);
+}
+
+Stats::container_type		&Stats::getStatsDeepCopy() const
 {
   std::list<Stat *>		*ret = new std::list<Stat *>;
 
@@ -47,25 +70,50 @@ std::list<Stat *>		&Stats::getStatsDeepCopy() const
   return (*ret);
 }
 
-void				Stats::setStats(std::list<Stat *> &stats)
+void				Stats::setStats(container_type &stats)
 {
   this->deleteStats();
   _stats = stats;
 }
 
-int				Stats::getStat(Stat::eStat stat) const
+Stats::container_type const	&Stats::getStats() const
+{
+  return (_stats);
+}
+
+AuthorizedStatKeys const	&Stats::getKeys() const
+{
+  return (*_authKeys);
+}
+
+void				Stats::setKeys(AuthorizedStatKeys const &keys)
+{
+  _authKeys = &keys;
+}
+
+Stat::value_type		Stats::getStat(StatKey const &key) const
 {
   for (auto it = this->_stats.begin(); it != this->_stats.end(); it++)
-    if ((*it)->getStatType() == stat)
+    if ((*it)->getKey() == key)
       return ((*it)->getValue());
   return (-1);
 }
 
-void				Stats::setStat(Stat::eStat stat, int const value)
+Stat::value_type		Stats::getStat(std::string const &key) const
+{
+  return (this->getStat(StatKey(key)));
+}
+
+void				Stats::setStat(StatKey const &key, Stat::value_type const value)
 {
   for (auto it = this->_stats.begin(); it != this->_stats.end(); it++)
-    if ((*it)->getStatType() == stat)
+    if ((*it)->getKey() == key)
       (*it)->setValue(value);
+}
+
+void				Stats::setStat(std::string const &key, Stat::value_type const value)
+{
+  this->setStat(StatKey(key), value);
 }
 
 void				Stats::deleteStats()

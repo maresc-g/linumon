@@ -5,39 +5,57 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:58:39 2013 alexis mestag
-// Last update Tue Feb 11 14:41:20 2014 antoine maitre
+// Last update Fri Feb 21 01:06:31 2014 alexis mestag
 //
 
-#ifndef			__STATS_HH__
-# define		__STATS_HH__
+#ifndef				__STATS_HH__
+# define			__STATS_HH__
 
-# include		<odb/core.hxx>
-# include		<list>
-# include		"Stats/Stat.hh"
-# include		"Utility/ISerialization.hh"
+# include			<odb/core.hxx>
+# include			<list>
+# include			"Stats/Stat.hh"
+# include			"Utility/ISerialization.hh"
+# include			"Stats/AuthorizedStatKeys.hh"
+# include			"Stats/StatKey.hh"
 
-class			Stats
+class				Stats
 {
-  friend class		odb::access;
+  friend class			odb::access;
+
+public:
+  typedef std::list<Stat *>		container_type;
 
 private:
-  std::list<Stat *>	_stats;
+  AuthorizedStatKeys const	*_authKeys;
+  container_type		_stats;
 
 private:
-  std::list<Stat *>	&getStatsDeepCopy() const;
-  void			deleteStats();
+  container_type		&getStatsDeepCopy() const;
+  void				deleteStats();
 
 public:
   Stats();
   Stats(Stats const &rhs);
   virtual ~Stats();
 
-  Stats			&operator=(Stats const &rhs);
-  void			setStats(std::list<Stat *> &stats);
-  void			setStat(Stat::eStat const stat, int const value);
-  int			getStat(Stat::eStat const stat) const;
-  virtual bool		serialization(Trame &trame) const;
-  static Stats		*deserialization(Trame const &trame);
+  Stats				&operator=(Stats const &rhs);
+  Stat::value_type		operator[](StatKey const &key) const;
+  Stat::value_type		operator[](std::string const &key) const;
+
+  void				setStats(container_type &stats);
+  container_type const		&getStats() const;
+
+  AuthorizedStatKeys const	&getKeys() const;
+  void				setKeys(AuthorizedStatKeys const &keys);
+
+  Stat::value_type		getStat(StatKey const &key) const;
+  Stat::value_type		getStat(std::string const &key) const;
+
+  void				setStat(StatKey const &key, Stat::value_type const value);
+  void				setStat(std::string const &key, Stat::value_type const value);
+
+  virtual bool			serialization(Trame &trame) const;
+  static Stats			*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER
