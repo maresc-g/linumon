@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Thu Feb 20 10:58:07 2014 guillaume marescaux
+// Last update Fri Feb 21 14:18:15 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -41,11 +41,32 @@ void	StuffView::paintEvent(QPaintEvent *)
 void				StuffView::initStuff()
 {
   MutexVar<Player *>		*player = _wMan->getMainPlayer();
+  Digitaliser const		*digitaliser = &(**player)->getDigitaliser();
+  std::list<Mob *> const	mobs = digitaliser->getMobs();
+  Mob				*mob = mobs.back();
 
-  ui.l_name->setText((**player)->getName().c_str());
-  ui.l_faction->setText((**player)->getFaction().getName().c_str());
-  ui.l_guilde->setText("NO GUILDE");
-  ui.l_level->setText(std::to_string((**player)->getLevel().getLevel()).c_str());
-  ui.l_curExp->setText(std::to_string((**player)->getCurrentExp()).c_str());
-  ui.l_expToUp->setText(std::to_string((**player)->getLevel().getExp()).c_str());
+  std::cout << "LIST SIIIIIIIIIIIIZE = " << mobs.size() << std::endl;
+  // ui.l_name->setText((**player)->getName().c_str());
+  // ui.l_faction->setText((**player)->getFaction().getName().c_str());
+  // ui.l_guilde->setText("NO GUILDE");
+  // ui.l_level->setText(std::to_string((**player)->getLevel().getLevel()).c_str());
+  // ui.l_curExp->setText(std::to_string((**player)->getCurrentExp()).c_str());
+  // ui.l_expToUp->setText(std::to_string((**player)->getLevel().getExp()).c_str());
+
+  ui.l_name->setText(mob->getName().c_str());
+  ui.l_level->setText(std::to_string(mob->getLevel().getLevel()).c_str());
+  ui.l_curExp->setText(std::to_string(mob->getCurrentExp()).c_str());
+  ui.l_expToUp->setText(std::to_string(mob->getLevel().getExp()).c_str());
+  int i = 0;
+  auto it = (&(mob->getModel()))->getStats();
+  for (auto it = mob->getModel().getStats().getStats().begin() ; it != mob->getModel().getStats().getStats().end() ; it ++)
+    {
+      QLabel			*label = new QLabel(this);
+      label->setText((*it)->getKey().getName().c_str());
+      label->move(520, 160 + i * 30);
+      label = new QLabel(this);
+      label->setText(std::to_string((*it)->getValue()).c_str());
+      label->move(710, 160 + i * 30);
+      i++;
+    }
 }

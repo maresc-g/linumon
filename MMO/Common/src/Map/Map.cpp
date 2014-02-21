@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Fri Feb 21 16:11:33 2014 antoine maitre
+// Last update Fri Feb 21 15:54:32 2014 guillaume marescaux
 //
 
 #include			"Map/Map.hh"
@@ -147,22 +147,38 @@ void				Map::changeZone(std::string const &source, std::string const &dest, AEnt
 void				Map::move(AEntity *entity)
 {
   this->lock();
+  if (this->_map.find(static_cast<Player *>(entity)->getZone()) != this->_map.end())
+    std::cout << "ZONE FOUND = " << static_cast<Player *>(entity)->getZone() << std::endl;
+  else
+    std::cout << "ZONE NOT FOUND = " << static_cast<Player *>(entity)->getZone() << std::endl;
   this->_map[static_cast<Player *>(entity)->getZone()]->move(entity);
   this->unlock();
 }
 
-bool				Map::exist(AEntity *entity) const
+AEntity				*Map::getEntityById(std::string const &zone, unsigned int id)
 {
   this->lock();
-  for (auto it = this->_map.begin(); it != this->_map.end(); it++)
+  // for (auto it = this->_map.begin(); it != this->_map.end(); it++)
+  //   {
+  //     for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); itb++)
+  // 	if ((*itb)->getId() == id)
+  // 	  {
+  // 	    this->unlock();
+  // 	    return (true);
+  // 	  }
+  //   }
+
+  for (auto it = this->_map[zone]->getCases()->begin() ; it != this->_map[zone]->getCases()->end() ; it++)
     {
-      for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); itb++)
-	if ((*itb) == entity)
-	  {
-	    this->unlock();
-	    return (true);
-	  }
+      for (auto itb = (*it)->getEntities()->begin() ; itb != (*it)->getEntities()->end() ; itb++)
+  	{
+  	  if ((*itb)->getId() == id)
+  	    {
+  	      this->unlock();
+  	      return (*itb);
+  	    }
+  	}
     }
   this->unlock();
-  return (false);
+  return (NULL);
 }
