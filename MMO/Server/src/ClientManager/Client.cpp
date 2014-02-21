@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Fri Feb 21 14:45:43 2014 laurent ansel
+// Last update Fri Feb 21 16:21:00 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -190,6 +190,7 @@ void				Client::choosePlayer(unsigned int const id, bool const send)
 	  Map::getInstance()->addPlayer(_player->getZone(), _player);
 	  Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
 	  Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()));
+	  Server::getInstance()->callProtocol<Player *>("NEWPLAYER", _id, _player, Map::getInstance()->getZone(_player->getZone()));
 	}
     }
 }
