@@ -92,6 +92,7 @@
 			HEAL : {} -> client
 			DISCONNECT : {} -> client
 			SWITCHPLAYER : {} -> client
+			NEWZONE : {} -> server
 			# end
 		}
 }
