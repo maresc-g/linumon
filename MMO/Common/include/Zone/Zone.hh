@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Mon Feb 17 14:40:46 2014 antoine maitre
+// Last update Fri Feb 21 14:25:24 2014 antoine maitre
 //
 
 #ifndef			__ZONE_HH__
@@ -56,7 +56,7 @@ public:
   std::list<Case *>	*getCases() const;
   virtual bool		serialization(Trame &trame) const;
   void			deserialization(Trame const &trame);
-  void			move(Player::PlayerCoordinate const &source, Player::PlayerCoordinate const &dest, AEntity *entity);
+  void			move(AEntity *entity);
   int			getSizeX() const;
   int			getSizeY() const;
 # ifdef	SERVER

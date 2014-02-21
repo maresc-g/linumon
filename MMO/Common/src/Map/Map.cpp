@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Wed Feb 19 13:32:17 2014 antoine maitre
+// Last update Fri Feb 21 14:25:06 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -79,10 +79,7 @@ void				Map::addEntity(std::string const &zone, AEntity *entity)
 {
   this->lock();
   if (this->_map.find(zone) != this->_map.end())
-    {
-      this->_map[zone]->addEntity(entity);
-      this->delEntity(zone, entity);
-    }
+    this->_map[zone]->addEntity(entity);
   this->unlock();
 }
 
@@ -123,7 +120,7 @@ std::list<AEntity *>		*Map::getPlayers(std::string const &zone)
     return (NULL);
 }
 
-void				Map::moveZone(std::string const &source, std::string const &dest, AEntity *entity)
+void				Map::changeZone(std::string const &source, std::string const &dest, AEntity *entity)
 {
   this->lock();
   if (this->_map.find(source) != this->_map.end() &&
@@ -135,11 +132,8 @@ void				Map::moveZone(std::string const &source, std::string const &dest, AEntit
   this->unlock();
 }
 
-void				Map::moveCase(std::string const &zone, Player::PlayerCoordinate const &source, Player::PlayerCoordinate const &dest, AEntity *entity)
+void				Map::move(AEntity *entity)
 {
   this->lock();
-  if (this->_map.find(zone) != this->_map.end())
-    this->_map[zone]->move(source, dest, entity);
   this->unlock();
 }
-

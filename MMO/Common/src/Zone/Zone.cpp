@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Tue Feb 18 17:26:10 2014 antoine maitre
+// Last update Fri Feb 21 14:33:15 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -201,13 +201,11 @@ void				Zone::deserialization(Trame const &trame)
     }
 }
 
-void				Zone::move(Player::PlayerCoordinate const &source, Player::PlayerCoordinate const &dest, AEntity *entity)
+void				Zone::move(AEntity *entity)
 {
-  Case				*cas = this->getCase(source.getX(), source.getY());
-
-  cas->delAEntity(entity);
-  cas = this->getCase(dest.getX(), dest.getY());
-  cas->addAEntity(entity);
+  for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
+    (*it)->delAEntity(entity);
+  this->getCase(static_cast<Player *>(entity)->getX(), static_cast<Player *>(entity)->getY())->addAEntity(entity);
 }
 
 int				Zone::getSizeX() const { return (_sizeX); }

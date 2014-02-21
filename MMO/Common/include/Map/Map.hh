@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:31:09 2014 antoine maitre
-// Last update Mon Feb 17 14:17:01 2014 antoine maitre
+// Last update Fri Feb 21 14:36:54 2014 antoine maitre
 //
 
 #ifndef					__MAP_HH__
@@ -33,9 +33,9 @@ public:
   void					addEntity(std::string const &zone, AEntity *player);
   // void					delEntity(std::string const &zone, AEntity *entity);
   // void					addEntity(std::string const &zone, AEntity *entity);
-  void					moveZone(std::string const &source, std::string const &dest, AEntity *);
+  void					changeZone(std::string const &source, std::string const &dest, AEntity *);
   std::list<AEntity *>			*getPlayers(std::string const &zone);
-  void					moveCase(std::string const &zone, Player::PlayerCoordinate const &x, Player::PlayerCoordinate const &y, AEntity *);
+  void					move(AEntity *entity);
   void					lock() const;
   void					unlock() const;
 };
