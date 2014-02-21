@@ -50,17 +50,16 @@
 			#  end
 
 			#  craft
-			CRAFT : {craft : Craft} -> client
+			CRAFT : {nameCraft : string, nameJob : string} -> client
 			-ADDTOINVENTORY : {items : std::list<AItem>} -> server
 			-DELETEFROMINVENTORY : {items : std::list<AItem>} -> server
 			-JOB : {job : Job} -> server
 			#  end
 
 			#  gather
-			GATHER : {ressource : Ressource} -> client
+			GATHER : {nameRessource : string, nameJob : string, CoordinateRessource : coordinate} -> client
 			-ADDTOINVENTORY : {item : std::list<AItem>} -> server
 			-JOB : {job : Job} -> server
-			-CASE : {entities : list of AEntity} -> server (all clients)
 			#  end
 
 			#  use object

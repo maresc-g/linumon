@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb 17 12:55:28 2014 cyril jourdain
-// Last update Tue Feb 18 15:18:56 2014 cyril jourdain
+// Last update Wed Feb 19 15:04:38 2014 cyril jourdain
 //
 
 #include		<QMessageBox>
@@ -16,7 +16,6 @@ ChatView::ChatView(QWidget *parent, WindowManager *man) :
 {
   ui.setupUi(this);
   ui.le_chatText->clearFocus();
-  // ui.le_chatText->installEventFilter(this);
 }
 
 ChatView::~ChatView()
@@ -57,31 +56,14 @@ void		ChatView::setFocused(bool f)
     ui.le_chatText->clearFocus();
 }
 
-bool		ChatView::eventFilter(QObject *watched, QEvent *e)
+void			ChatView::update()
 {
-  std::cout << "wadafak" << std::endl;
-  if (watched == ui.le_chatText)
+  if ((**(Client::getInstance()->getChat()))->getNewMessage())
     {
-      if (e->type() == QEvent::KeyPress)
-	{
-	  QKeyEvent *k = static_cast<QKeyEvent *>(e);
-	  if (k->key() == Qt::Key_Enter || k->key() == Qt::Key_Return)
-	    {
-	      submitText();
-	      return true;
-	    }
-	}
-      // else if (e->type() == QEvent::FocusIn)
-      // 	{
-      // 	    _focused = true;
-      // 	    return true;
-      // 	}
-      // else if (e->type() == QEvent::FocusOut)
-      // 	{
-      // 	  std::cout << "test" << std::endl;
-      // 	  _focused = false;
-      // 	  return true;
-      // 	}
+      ui.tb_chat->clear();
+      std::list<std::string> text = (**(Client::getInstance()->getChat()))->getMsgs();
+      for (auto it = text.begin(); it != text.end(); ++it)
+	  ui.tb_chat->append(QString((*it).c_str()));
+      (**(Client::getInstance()->getChat()))->setNewMessage(false);
     }
-  return QWidget::eventFilter(watched, e);
 }

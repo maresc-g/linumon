@@ -21,6 +21,7 @@ PlayerSprite::PlayerSprite() :
   _name->setColor(sf::Color(15,15,240));
   _name->setStyle(sf::Text::Bold);
   _dir = NONE;
+  _speed = PX_PER_SECOND;
 }
 
 PlayerSprite::PlayerSprite(sf::String const &name, sf::Font *font) : 
@@ -81,32 +82,32 @@ void			PlayerSprite::draw(sf::RenderTarget &target, sf::RenderStates states) con
 
 void			PlayerSprite::moveUp()
 {
-  _pos.y -= 50;
-  _deltaPos.y = -50;
+  _pos.y -= CASE_SIZE;
+  _deltaPos.y = -CASE_SIZE;
   _dir = UP;
   play("up");
 }
 
 void			PlayerSprite::moveDown()
 {
-  _pos.y += 50;
-  _deltaPos.y = 50;
+  _pos.y += CASE_SIZE;
+  _deltaPos.y = CASE_SIZE;
   _dir = DOWN;
   play("down");
 }
 
 void			PlayerSprite::moveLeft()
 {
-  _pos.x -= 50;
-  _deltaPos.x = -50;
+  _pos.x -= CASE_SIZE;
+  _deltaPos.x = -CASE_SIZE;
   _dir = LEFT;
   play("left");
 }
 
 void			PlayerSprite::moveRight()
 {
-  _pos.x += 50;
-  _deltaPos.x = 50;
+  _pos.x += CASE_SIZE;
+  _deltaPos.x = CASE_SIZE;
   _dir = RIGHT;
   play("right");
 }
@@ -114,7 +115,7 @@ void			PlayerSprite::moveRight()
 void			PlayerSprite::updateMoves(sf::Clock *clock, sf::View *view)
 {
   float elapsedTime = clock->getElapsedTime().asMicroseconds();
-  float px = elapsedTime * PX_PER_SECOND / 1000000;
+  float px = elapsedTime * _speed / 1000000;
 
   if (_dir == eDir::DOWN)
     {
@@ -123,10 +124,12 @@ void			PlayerSprite::updateMoves(sf::Clock *clock, sf::View *view)
       _deltaPos.y -= px;
       if (_deltaPos.y < 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-	  _deltaPos.y += 50;
-	  Client::getInstance()->move(CLIENT::DOWN);
+	  if (Client::getInstance()->move(CLIENT::DOWN))
+	    _deltaPos.y += CASE_SIZE;
+	  else
+	    _dir = eDir::NONE;
 	}
-      if (_deltaPos.y <= 0 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+      if (_deltaPos.y <= 0)
 	{
 	  view->move(0, _deltaPos.y);
 	  move(0, _deltaPos.y);
@@ -135,17 +138,19 @@ void			PlayerSprite::updateMoves(sf::Clock *clock, sf::View *view)
 	  play("default_down");
 	}
     }
-  else if (_deltaPos.y < 0)
+  else if (_dir == eDir::UP)
     {
       view->move(0, -px);
       move(0, -px);
       _deltaPos.y += px;
       if (_deltaPos.y > 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-	  _deltaPos.y -= 50;
-	  Client::getInstance()->move(CLIENT::UP);
+	  if (Client::getInstance()->move(CLIENT::UP))
+	    _deltaPos.y -= CASE_SIZE;
+	  else
+	    _dir = eDir::NONE;
 	}
-      if (_deltaPos.y >= 0 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+       if (_deltaPos.y >= 0)
 	{
 	  view->move(0, _deltaPos.y);
 	  move(0, _deltaPos.y);
@@ -161,10 +166,12 @@ void			PlayerSprite::updateMoves(sf::Clock *clock, sf::View *view)
       _deltaPos.x -= px;
       if (_deltaPos.x < 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-	  _deltaPos.x += 50;
-	  Client::getInstance()->move(CLIENT::RIGHT);
+	  if (Client::getInstance()->move(CLIENT::RIGHT))
+	    _deltaPos.x += CASE_SIZE;
+	  else
+	    _dir = eDir::NONE;
 	}
-      if (_deltaPos.x <= 0 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+      if (_deltaPos.x <= 0)
 	{
 	  view->move(_deltaPos.x, 0);
 	  move(_deltaPos.x, 0);
@@ -180,10 +187,12 @@ void			PlayerSprite::updateMoves(sf::Clock *clock, sf::View *view)
       _deltaPos.x += px;
       if (_deltaPos.x > 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-	  _deltaPos.x -= 50;
-	  Client::getInstance()->move(CLIENT::LEFT);
+	  if (Client::getInstance()->move(CLIENT::LEFT))
+	    _deltaPos.x -= CASE_SIZE;
+	  else
+	    _dir = eDir::NONE;
 	}
-      if (_deltaPos.x >= 0 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+      if (_deltaPos.x >= 0)
 	{
 	  view->move(_deltaPos.x, 0);
 	  move(_deltaPos.x, 0);
@@ -199,4 +208,9 @@ bool			PlayerSprite::isMoving() const
   if (_dir == NONE)
     return false;
   return true;
+}
+
+void			PlayerSprite::setSpeed(unsigned int speed)
+{
+  _speed = speed;
 }

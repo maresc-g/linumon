@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Tue Feb 11 16:07:26 2014 alexis mestag
+// Last update Wed Feb 19 15:04:09 2014 laurent ansel
 //
 
 #ifndef 		__CONSUMABLE_HH__
@@ -31,7 +31,6 @@ private:
 protected:
   Consumable();
   Consumable(std::string const &name, eConsumable const consumableType);
-  Consumable(Consumable const &rhs);
 
   Consumable		&operator=(Consumable const &rhs);
 
@@ -39,6 +38,8 @@ protected:
   void			setConsumableType(eConsumable const consumableType);
 
 public:
+  Consumable(Consumable const &rhs);
+
   virtual ~Consumable();
 
   virtual bool		serialization(Trame &trame) const;

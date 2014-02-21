@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Sat Feb 15 19:21:12 2014 laurent ansel
+// Last update Wed Feb 19 15:03:22 2014 laurent ansel
 //
 
 #ifndef 		__STUFF_HH__
@@ -38,13 +38,14 @@ private:
 protected:
   Stuff();
   Stuff(std::string const &name, eStuff const stuffType);
-  Stuff(Stuff const &rhs);
 
   Stuff			&operator=(Stuff const &rhs);
 
   void			setStuffType(eStuff const stuffType);
 
 public:
+  Stuff(Stuff const &rhs);
+
   virtual ~Stuff();
 
   Stuff::eStuff		getStuffType() const;

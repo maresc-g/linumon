@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Wed Feb 19 12:54:15 2014 guillaume marescaux
+// Last update Thu Feb 20 13:22:16 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -92,8 +92,7 @@ public:
   // void			unsigned interaction();
   void			putItem(AItem const &item);
   void			getItem(AItem const &item);
-  void			putMoney(unsigned int money);
-  void			getMoney(unsigned int money);
+  void			sendMoney(unsigned int money);
   void			accept(void);
   void			refuse(void);
   void			heal(void);
@@ -131,7 +130,6 @@ private:
   bool			launchTrade(Trame *);
   bool			putItem(Trame *);
   bool			getItem(Trame *);
-  bool			putMoney(Trame *);
   bool			getMoney(Trame *);
   bool			accept(Trame *);
   bool			refuse(Trame *);

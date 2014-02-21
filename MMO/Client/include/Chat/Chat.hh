@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb  6 12:55:29 2014 guillaume marescaux
-// Last update Thu Feb  6 13:00:51 2014 guillaume marescaux
+// Last update Wed Feb 19 14:55:09 2014 cyril jourdain
 //
 
 #ifndef 			__CHAT_HH__
@@ -25,6 +25,7 @@ private:
 
   // Attributes
   std::list<std::string>	*_msgs;
+  bool				_newMessage;
 
 public:
 
@@ -35,6 +36,8 @@ public:
   // Methods
   void				addMsg(std::string const &msg);
   std::list<std::string> const	&getMsgs(void) const;
+  bool				getNewMessage() const;
+  void				setNewMessage(bool);
 };
 
 #endif

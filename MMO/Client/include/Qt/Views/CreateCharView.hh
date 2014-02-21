@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec 10 16:14:25 2013 cyril jourdain
-// Last update Mon Feb 10 14:19:32 2014 cyril jourdain
+// Last update Wed Feb 19 14:36:37 2014 guillaume marescaux
 //
 
 #ifndef 		__CREATECHARVIEW_HH__
@@ -36,8 +36,8 @@ private:
 public slots:
   void			on_b_spritePerso1_clicked();
   void			on_b_spritePerso2_clicked();
+  void			on_b_cancel_clicked();
   void			on_b_validate_clicked();
-
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Feb 19 12:57:17 2014 guillaume marescaux
+// Last update Thu Feb 20 13:24:23 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -185,7 +185,8 @@ bool				Core::player(Trame *trame)
 
 bool				Core::getChat(Trame *trame)
 {
-  (**_chat)->addMsg((*trame)[CONTENT]["MESSAGE"].asString());
+  (**_chat)->addMsg((*trame)[CONTENT]["CHAT"]["MESSAGE"].asString());
+  (**_chat)->setNewMessage(true);
   return (true);
 }
 
@@ -275,11 +276,6 @@ bool				Core::putItem(Trame *)
 }
 
 bool				Core::getItem(Trame *)
-{
-  return (true);
-}
-
-bool				Core::putMoney(Trame *)
 {
   return (true);
 }
@@ -450,14 +446,9 @@ void				Core::getItem(AItem const &item)
   (*_proto).operator()<unsigned int const, AItem const *>("GETITEM", _id, &item);  
 }
 
-void				Core::putMoney(unsigned int money)
+void				Core::sendMoney(unsigned int money)
 {
-  (*_proto).operator()<unsigned int const, unsigned int>("PUTMONEY", _id, money);  
-}
-
-void				Core::getMoney(unsigned int money)
-{
-  (*_proto).operator()<unsigned int const, unsigned int>("GETMONEY", _id, money);  
+  (*_proto).operator()<unsigned int const, unsigned int>("MONEY", _id, money);  
 }
 
 void				Core::accept(void)
