@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Feb 21 16:23:39 2014 guillaume marescaux
+// Last update Sat Feb 22 15:51:53 2014 laurent ansel
 //
 
 #include			<unistd.h>
@@ -334,7 +334,7 @@ bool				Core::entity(Trame *trame)
 
 bool				Core::newPlayer(Trame *trame)
 {
-  Player			*player = Player::deserialization(*trame);
+  Player			*player = Player::deserialization((*trame)((*trame)[CONTENT]["NEWPLAYER"]));
 
   Map::getInstance()->addPlayer((**_player)->getZone(), player);
   return (true);

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Feb 21 13:49:19 2014 laurent ansel
+// Last update Sat Feb 22 15:57:58 2014 laurent ansel
 //
 
 #include			<functional>
@@ -269,12 +269,26 @@ Player				*Player::deserialization(Trame const &trame)
       player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame["PLAYER"]["TYPE"].asInt()));
       player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));
       player->setFaction(*Faction::deserialization(trame(trame["PLAYER"])));
-      player->setLevel(*Level::deserialization(trame(trame["PLAYER"])));
-      player->setCurrentExp(trame["PLAYER"]["CURRENTEXP"].asInt());
       player->setZone(trame["PLAYER"]["ZONE"].asString());
-      player->setTalentTree(*TalentTree::deserialization(trame(trame["PLAYER"])));
-      player->setInventory(Inventory::deserialization(trame(trame["PLAYER"])));
-      player->setDigitaliser(*Digitaliser::deserialization(trame(trame["PLAYER"])));
+
+      Level			*lvl = Level::deserialization(trame(trame["PLAYER"]));
+      if (lvl)
+	player->setLevel(*lvl);
+
+      if (trame["PLAYER"].isMember("CURRENTEXP"))
+	player->setCurrentExp(trame["PLAYER"]["CURRENTEXP"].asInt());
+
+      TalentTree		*tree = TalentTree::deserialization(trame(trame["PLAYER"]));
+      if (tree)
+	player->setTalentTree(*tree);
+
+      Inventory			*inv = Inventory::deserialization(trame(trame["PLAYER"]));
+      if (inv)
+	player->setInventory(inv);
+
+      Digitaliser		*digit = Digitaliser::deserialization(trame(trame["PLAYER"]));
+      if (digit)
+	player->setDigitaliser(*digit);
 
       if (!trame["PLAYER"]["TALENTS"].empty())
 	{
