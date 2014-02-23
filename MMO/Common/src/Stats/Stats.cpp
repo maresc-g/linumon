@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Fri Feb 21 14:09:27 2014 laurent ansel
+// Last update Sun Feb 23 22:46:14 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -33,6 +33,7 @@ Stats				&Stats::operator=(Stats const &rhs)
   if (this != &rhs)
     {
       this->setStats(rhs.getStatsDeepCopy());
+      this->setKeys(rhs.getKeys());
     }
   return (*this);
 }

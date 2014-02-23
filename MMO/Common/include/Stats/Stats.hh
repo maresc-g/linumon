@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:58:39 2013 alexis mestag
-// Last update Fri Feb 21 01:06:31 2014 alexis mestag
+// Last update Sun Feb 23 22:46:52 2014 alexis mestag
 //
 
 #ifndef				__STATS_HH__
@@ -23,7 +23,7 @@ class				Stats
   friend class			odb::access;
 
 public:
-  typedef std::list<Stat *>		container_type;
+  typedef std::list<Stat *>	container_type;
 
 private:
   AuthorizedStatKeys const	*_authKeys;

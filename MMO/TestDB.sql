@@ -225,4 +225,37 @@ INSERT INTO `Player_digitaliser_mobs`(`object_id`, `index`, `value`) VALUES
 DROP VIEW IF EXISTS `StatView`;
 CREATE VIEW StatView AS SELECT Stat.id, StatKey.name, Stat.value FROM Stat, StatKey WHERE Stat.key = StatKey.id;
 
+DROP VIEW IF EXISTS `MobModelView`;
+CREATE VIEW MobModelView AS 
+       SELECT MobModel.id, MobModel.name AS model, Type.name AS type, StatView.name AS stat, StatView.value
+       	      FROM StatView, Type, MobModel_stats_stats, MobModel
+       	      WHERE MobModel_stats_stats.value = StatView.id
+       	      	    AND MobModel_stats_stats.object_id = MobModel.id
+	     	    AND MobModel.type = Type.id;
+
+DROP VIEW IF EXISTS `MobView`;
+CREATE VIEW `MobView` AS
+       SELECT Mob.id, Mob.name, Mob.level_lvl, MobModelView.model, MobModelView.type, MobModelView.stat, MobModelView.value AS modelValue
+       	      FROM Mob, MobModelView
+       	      WHERE Mob.model_id = MobModelView.id;
+
+DROP VIEW IF EXISTS `PlayerView`;
+CREATE VIEW `PlayerView` AS
+       SELECT Player.id, Player.name, User.pseudo AS user, Faction.name AS faction, Player.level_lvl, Player.currentExp, DBZone.name AS zone, Player.x, Player.y,
+       	      AuthorizedStatKeys.name AS statKeys, TalentTree.name AS talentTree
+       	      FROM Player, Faction, User, DBZone, AuthorizedStatKeys, TalentTree
+       	      WHERE Player.faction = Faction.id
+       	      	    AND Player.user = User.id
+	     	    AND Player.dbZone = DBZone.id
+		    AND Player.stats_authKeys = AuthorizedStatKeys.id
+		    AND Player.talentTree = TalentTree.id;
+
+DROP VIEW IF EXISTS `TypeView`;
+CREATE VIEW `TypeView` AS
+       SELECT Type.id, Type.name, OType.name AS other, Type_relations_relations.value_coeff AS coeff
+       	      FROM Type, Type AS OType, Type_relations_relations
+	      WHERE Type_relations_relations.object_id = Type.id
+	      	    AND Type_relations_relations.value_oType_id = OType.id
+	      ORDER BY Type.id, OType.id;
+
 COMMIT;
