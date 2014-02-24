@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:15:41 2013 cyril jourdain
-// Last update Mon Feb 17 14:08:50 2014 cyril jourdain
+// Last update Mon Feb 24 14:50:56 2014 guillaume marescaux
 //
 
 #ifndef 		__WINDOWMANAGER_HH__
@@ -21,6 +21,8 @@
 #include	"SFML/SFMLView.hpp"
 #include	"Client.hh"
 #include	"Entities/Views/PlayerView.hh"
+
+# define	ITEM_SIZE	50	
 
 class	LoginView;
 class	CharacterView;
