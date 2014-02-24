@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:31:09 2014 antoine maitre
-// Last update Fri Feb 21 16:07:22 2014 antoine maitre
+// Last update Mon Feb 24 12:19:40 2014 antoine maitre
 //
 
 #ifndef					__MAP_HH__
@@ -17,6 +17,8 @@
 # include				"Mutex/Mutex.hpp"
 # include				"Entities/AEntity.hh"
 
+class					Zone;
+
 class					Map : public Singleton<Map>
 {
   friend class				Singleton<Map>;
@@ -27,6 +29,7 @@ private:
   virtual ~Map();
 public:
   Zone					*getZone(std::string const);
+  Zone					*getZoneByPos(int const x, int const y);
   void					delPlayer(std::string const &zone, AEntity *player);
   void					addPlayer(std::string const &zone, AEntity *player);
   void					delEntity(std::string const &zone, AEntity *player);

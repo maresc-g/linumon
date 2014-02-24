@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Fri Feb 21 16:11:33 2014 antoine maitre
+// Last update Mon Feb 24 12:23:35 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -38,6 +38,16 @@ Map::~Map()
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
     delete (*it).second;
   delete _mutex;
+}
+
+Zone				*Map::getZoneByPos(int const x, int const y)
+{
+  for (auto it = this->_map.begin(); it != this->_map.end(); it++)
+    {
+      if ((*it).second->getPosX() == x && (*it).second->getPosY() == y)
+	return ((*it).second);
+    }
+  return (NULL);
 }
 
 Zone				*Map::getZone(std::string const zone)
@@ -134,14 +144,12 @@ Player				*Map::getPlayerById(unsigned int const id)
 
 void				Map::changeZone(std::string const &source, std::string const &dest, AEntity *entity)
 {
-  this->lock();
   if (this->_map.find(source) != this->_map.end() &&
       this->_map.find(dest) != this->_map.end())
     {
       this->_map[source]->delPlayer(entity);
       this->_map[dest]->addPlayer(entity);
     }
-  this->unlock();
 }
 
 void				Map::move(AEntity *entity)
