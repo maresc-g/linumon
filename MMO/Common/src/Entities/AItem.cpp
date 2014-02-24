@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:18:02 2013 alexis mestag
-// Last update Thu Feb 20 13:36:12 2014 laurent ansel
+// Last update Mon Feb 24 19:50:00 2014 laurent ansel
 //
 
 #include			"Entities/AItem.hh"
@@ -57,13 +57,13 @@ void				AItem::setItemType(AItem::eItem const item)
   this->_itemType = item;
 }
 
-AItem				*AItem::deserialization(Trame const &trame)
+AItem				*AItem::deserialization(Trame const &trame, bool const client)
 {
   AItem				*item = NULL;
 
-  if (!(item = reinterpret_cast<Stuff *>(Stuff::deserialization(trame))))
-    if (!(item = reinterpret_cast<Consumable *>(Consumable::deserialization(trame))))
-      item = reinterpret_cast<Ressource *>(Ressource::deserialization(trame));
+  if (!(item = reinterpret_cast<Stuff *>(Stuff::deserialization(trame, client))))
+    if (!(item = reinterpret_cast<Consumable *>(Consumable::deserialization(trame, client))))
+      item = reinterpret_cast<Ressource *>(Ressource::deserialization(trame, client));
   return (item);
 }
 

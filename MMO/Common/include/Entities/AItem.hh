@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:59:30 2013 alexis mestag
-// Last update Thu Feb 20 13:28:51 2014 laurent ansel
+// Last update Mon Feb 24 19:49:13 2014 laurent ansel
 //
 
 #ifndef			__AITEM_HH__
@@ -44,7 +44,7 @@ public:
   AItem::eItem		getItemType() const;
 
   virtual bool		serialization(Trame &trame) const = 0;
-  static AItem		*deserialization(Trame const &trame);
+  static AItem		*deserialization(Trame const &trame, bool const client = true);
   static AItem		*createCopy(AItem *rhs);
 };
 

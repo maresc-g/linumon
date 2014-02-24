@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Wed Feb 19 15:04:09 2014 laurent ansel
+// Last update Mon Feb 24 19:52:09 2014 laurent ansel
 //
 
 #ifndef 		__CONSUMABLE_HH__
@@ -43,7 +43,7 @@ public:
   virtual ~Consumable();
 
   virtual bool		serialization(Trame &trame) const;
-  static Consumable	*deserialization(Trame const &trame);
+  static Consumable	*deserialization(Trame const &trame, bool const client = true);
 };
 
 # ifdef	ODB_COMPILER

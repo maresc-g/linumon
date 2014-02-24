@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Feb 17 14:29:34 2014 laurent ansel
-// Last update Mon Feb 24 17:39:19 2014 laurent ansel
+// Last update Mon Feb 24 20:01:17 2014 laurent ansel
 //
 
 #include			<ctime>
@@ -83,7 +83,7 @@ void				RessourceManager::init()
 	  (*_ressources)[*it] = new std::list<Ressource *>;
 	  for (auto im = zoneMembers.begin() ; im != zoneMembers.end() ; ++im)
 	    {
-	      res = Ressource::deserialization((*file)((*file)[*it][*im]));
+	      res = Ressource::deserialization((*file)((*file)[*it][*im]), false);
 	      if (res)
 		{
 		  (*_ressources)[*it]->push_back(res);

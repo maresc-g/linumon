@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Mon Feb 24 11:07:18 2014 alexis mestag
+// Last update Mon Feb 24 19:49:00 2014 laurent ansel
 //
 
 #ifndef 		__STUFF_HH__
@@ -52,7 +52,7 @@ public:
   Stuff::eStuff		getStuffType() const;
 
   virtual bool		serialization(Trame &trame) const;
-  static Stuff		*deserialization(Trame const &trame);
+  static Stuff		*deserialization(Trame const &trame, bool const client = true);
 };
 
 # ifdef	ODB_COMPILER

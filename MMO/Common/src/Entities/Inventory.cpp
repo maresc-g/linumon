@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Mon Feb 24 14:14:07 2014 guillaume marescaux
+// Last update Mon Feb 24 19:58:03 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -177,7 +177,7 @@ void				Inventory::loadInventory()
 
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	{
-	  toPush = AItem::deserialization((*file)((*file)[*it]));
+	  toPush = AItem::deserialization((*file)((*file)[*it]), false);
 	  if (toPush)
 	    this->addItem(toPush);
 	}

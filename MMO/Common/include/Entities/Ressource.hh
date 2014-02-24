@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Mon Feb 24 17:17:30 2014 laurent ansel
+// Last update Mon Feb 24 19:51:57 2014 laurent ansel
 //
 
 #ifndef 		__RESSOURCE_HH__
@@ -52,7 +52,7 @@ public:
   Level const		&getLevel() const;
 
   virtual bool		serialization(Trame &trame) const;
-  static Ressource	*deserialization(Trame const &trame);
+  static Ressource	*deserialization(Trame const &trame, bool const client = true);
 };
 
 # ifdef	ODB_COMPILER
