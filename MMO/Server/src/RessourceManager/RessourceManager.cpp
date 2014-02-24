@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Feb 17 14:29:34 2014 laurent ansel
-// Last update Mon Feb 24 16:37:07 2014 laurent ansel
+// Last update Mon Feb 24 17:39:19 2014 laurent ansel
 //
 
 #include			<ctime>
@@ -43,6 +43,7 @@ RessourceManager::~RessourceManager()
   ObjectPoolManager::getInstance()->setObject(trame, "trame");
   for (auto it = _ressources->begin() ; it != _ressources->end() ; ++it)
     {
+      nb = 0;
       for (auto im = it->second->begin() ; im != it->second->end() ; ++im)
 	{
 	  str.str("");
@@ -54,7 +55,8 @@ RessourceManager::~RessourceManager()
       delete it->second;
     }
   delete _ressources;
-  trame->writeInFile(PATH_RESSOURCES_FILE);
+  if (nb)
+    trame->writeInFile(PATH_RESSOURCES_FILE);
   for (auto it = _action->begin() ; it != _action->end() ; ++it)
     delete it->second;
   delete _action;
@@ -129,9 +131,9 @@ double				RessourceManager::setRessource(std::list<std::pair<bool, RessourcePop 
   	  if (*res && (*res)->getX() == it->second->ressource->getCoord().getX() && (*res)->getY() == it->second->ressource->getCoord().getY())
 	    set = true;
   	}
-      if (!set)
-	(*this->_ressources)[it->second->zone]->push_back(it->second->ressource);
     }
+  if (!set)
+    this->addInRessources(it->second);
   if (it->first && it->second->time <= 0)
     {
       it->first = false;
@@ -144,6 +146,15 @@ double				RessourceManager::setRessource(std::list<std::pair<bool, RessourcePop 
 
   std::chrono::duration<double, std::micro> time = std::chrono::duration_cast<std::chrono::duration<double, std::micro> >(end - start);
   return (time.count());
+}
+
+void				RessourceManager::addInRessources(RessourcePop *ressource)
+{
+  auto				ir = this->_ressources->begin();
+
+  if ((ir = this->_ressources->find(ressource->zone)) == this->_ressources->end())
+    (*_ressources)[ressource->zone] = new std::list<Ressource *>;
+  (*this->_ressources)[ressource->zone]->push_back(ressource->ressource);
 }
 
 void				RessourceManager::run()
@@ -167,6 +178,7 @@ void				RessourceManager::setQuit(bool const quit)
 void				RessourceManager::needRessource(std::string const &name, Ressource::RessourceCoordinate const &coord, std::string const &zone)
 {
   bool				set = false;
+  Ressource const		*res;
 
   this->_mutex->lock();
   for (auto it = _action->begin() ; it != _action->end() && !set ; ++it)
@@ -176,10 +188,17 @@ void				RessourceManager::needRessource(std::string const &name, Ressource::Ress
 	  it->second->name = name;
 	  it->second->time = DEFAULT_TIME;
 	  it->second->zone = zone;
-	  *it->second->ressource = *RessourceLoader::getInstance()->getRessource(it->second->name);
-	  it->second->ressource->setCoord(coord);
+	  ObjectPoolManager::getInstance()->setObject(it->second->ressource, "ressource");
+	  res = RessourceLoader::getInstance()->getRessource(it->second->name);
+	  if (res)
+	    {
+	      *it->second->ressource = *res;
+	      it->second->ressource->setCoord(coord);
+	      it->first = true;
+	    }
+	  else
+	    it->second->clear();
 	  set = true;
-	  it->first = true;
 	}
     }
   this->_mutex->unlock();

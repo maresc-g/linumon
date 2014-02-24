@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Fri Feb 21 13:04:43 2014 laurent ansel
+// Last update Mon Feb 24 17:17:30 2014 laurent ansel
 //
 
 #ifndef 		__RESSOURCE_HH__
@@ -29,10 +29,11 @@ private:
   Level			_level;
 
 protected:
-  Ressource();
   Ressource(std::string const &name);
 
 public:
+  Ressource();
+
   Ressource(Ressource const &rhs);
 
   virtual ~Ressource();

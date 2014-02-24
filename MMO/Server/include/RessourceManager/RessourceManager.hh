@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Feb 17 14:25:54 2014 laurent ansel
-// Last update Mon Feb 24 16:18:51 2014 laurent ansel
+// Last update Mon Feb 24 17:40:00 2014 laurent ansel
 //
 
 #ifndef 			__RESSOURCEMANAGER_HH__
@@ -20,7 +20,7 @@
 # include			"Database/Loaders/RessourceLoader.hh"
 
 #define	PATH_RESSOURCES_FILE	"Res/ressources.json"
-#define	DEFAULT_TIME		10000000
+#define	DEFAULT_TIME		1000000
 #define	DEFAULT_ACTION		100
 
 struct				RessourcePop
@@ -53,7 +53,7 @@ private:
   void				init();
   double			setRessource(std::list<std::pair<bool, RessourcePop *> >::iterator &it);
   void				newTime(double const microsecond);
-
+  void				addInRessources(RessourcePop *ressource);
 
 public:
   void				run();
