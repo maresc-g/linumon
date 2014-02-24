@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Feb 17 14:25:54 2014 laurent ansel
-// Last update Mon Feb 24 15:46:56 2014 laurent ansel
+// Last update Mon Feb 24 16:18:51 2014 laurent ansel
 //
 
 #ifndef 			__RESSOURCEMANAGER_HH__
@@ -26,9 +26,9 @@
 struct				RessourcePop
 {
 public:
+  std::string			name;
   double			time;
   std::string			zone;
-  Ressource::RessourceCoordinate	coord;
   Ressource			*ressource;
 
 public:
@@ -54,10 +54,11 @@ private:
   double			setRessource(std::list<std::pair<bool, RessourcePop *> >::iterator &it);
   void				newTime(double const microsecond);
 
+
 public:
   void				run();
   void				setQuit(bool const quit);
-  void				needRessource(Ressource::RessourceCoordinate const &coord, std::string const &zone);
+  void				needRessource(std::string const &name, Ressource::RessourceCoordinate const &coord, std::string const &zone);
 
 };
 
