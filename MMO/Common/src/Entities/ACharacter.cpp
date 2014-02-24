@@ -5,21 +5,20 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:37:01 2013 alexis mestag
-// Last update Fri Feb 21 13:10:21 2014 laurent ansel
+// Last update Mon Feb 24 14:33:26 2014 alexis mestag
 //
 
 #include			"Entities/ACharacter.hh"
 
 ACharacter::ACharacter() :
   AStatEntity("", eStatEntity::CHARACTER), _characterType(eCharacter::NONE),
-  _currentExp(0), _equipment(NULL)
+  _currentExp(0)
 {
 
 }
 
 ACharacter::ACharacter(std::string const &name, ACharacter::eCharacter const characterType) :
-  AStatEntity(name, eStatEntity::CHARACTER), _characterType(characterType), _currentExp(0),
-  _equipment(NULL)
+  AStatEntity(name, eStatEntity::CHARACTER), _characterType(characterType), _currentExp(0)
 {
 
 }
@@ -42,6 +41,7 @@ ACharacter			&ACharacter::operator=(ACharacter const &rhs)
       this->setCharacterType(rhs.getCharacterType());
       this->setCurrentExp(rhs.getCurrentExp());
       this->setLevel(rhs.getLevel());
+      this->setEquipment(rhs.getEquipment());
     }
   return (*this);
 }
@@ -83,25 +83,31 @@ void				ACharacter::levelUp()
 
 Equipment const			&ACharacter::getEquipment() const
 {
-  return (*this->_equipment);
+  return (this->_equipment);
 }
 
 void				ACharacter::setEquipment(Equipment *equipment)
 {
+  this->_equipment = *equipment;
+  delete equipment;
+}
+
+void				ACharacter::setEquipment(Equipment const &equipment)
+{
   this->_equipment = equipment;
 }
 
-bool				ACharacter::addStuff(Stuff *item, Stuff *&old) const
+bool				ACharacter::addStuff(Stuff *item, Stuff *&old)
 {
-  return (this->_equipment->addStuff(item, old));
+  return (this->_equipment.addStuff(item, old));
 }
 
-bool				ACharacter::addStuff(Stuff::eStuff const item, Stuff *&old) const
+bool				ACharacter::addStuff(Stuff::eStuff const item, Stuff *&old)
 {
-  return (this->_equipment->addStuff(item, old));
+  return (this->_equipment.addStuff(item, old));
 }
 
-bool				ACharacter::getStuff(Stuff *&old, unsigned int const item) const
+bool				ACharacter::getStuff(Stuff *&old, unsigned int const item)
 {
-  return (this->_equipment->getStuff(old, item));
+  return (this->_equipment.getStuff(old, item));
 }

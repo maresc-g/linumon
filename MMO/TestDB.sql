@@ -226,6 +226,19 @@ INSERT INTO `Stuff`(`id`, `name`, `stuffType`) VALUES
        (8, 'Ceinture Bouftou', 'BELT'),
        (9, 'Marteau Bouftou', 'WEAPON');
 
+/* Assigning Stuff to Players */
+DELETE FROM `Player_equipment_stuffs`;
+
+INSERT INTO `Player_equipment_stuffs`(`object_id`, `key`, `value`) VALUES
+       (1, 'HELMET', 1),
+       (1, 'BREASTPLATE', 6),
+       (1, 'SHOULDERS', 5),
+       (1, 'CLOAK', 2),
+       (2, 'WEAPON', 9),
+       (2, 'BELT', 8),
+       (2, 'RING', 7),
+       (2, 'BOOTS', 3);
+
 /* Adding some fancy views because it's quite swag */
 DROP VIEW IF EXISTS `StatView`;
 CREATE VIEW StatView AS SELECT Stat.id, StatKey.name, Stat.value FROM Stat, StatKey WHERE Stat.key = StatKey.id;

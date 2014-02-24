@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:28:56 2014 laurent ansel
-// Last update Sat Feb 15 20:44:15 2014 laurent ansel
+// Last update Mon Feb 24 14:25:37 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -28,7 +28,7 @@ Equipment			&Equipment::operator=(Equipment const &rhs)
 {
   if (this != &rhs)
     {
-      // I'm not going to copy the mobs'list :)
+      this->setStuffs(rhs.getStuffs());
     }
   return (*this);
 }
