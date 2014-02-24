@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:26:08 2014 laurent ansel
-// Last update Sat Feb 15 20:42:24 2014 laurent ansel
+// Last update Mon Feb 24 14:27:14 2014 alexis mestag
 //
 
 #ifndef 			__EQUIPMENT_HH__
@@ -37,5 +37,9 @@ public:
   virtual bool		serialization(Trame &trame) const;
   static Equipment	*deserialization(Trame const &trame);
 };
+
+# ifdef	ODB_COMPILER
+#  pragma db value(Equipment)
+# endif
 
 #endif
