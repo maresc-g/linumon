@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Sat Feb 22 15:51:53 2014 laurent ansel
+// Last update Mon Feb 24 14:39:28 2014 antoine maitre
 //
 
 #include			<unistd.h>
@@ -401,14 +401,14 @@ bool				Core::move(CLIENT::eDirection dir)
   newY = (**_player)->getY() + (dir == CLIENT::UP ? -1 : (dir == CLIENT::DOWN ? 1 : 0));
   map->lock();
   zone = map->getZone((**_player)->getZone());
-  if (zone && newX >= 0 && newY >= 0 && newX < zone->getSizeX() && newY < zone->getSizeY()
-      && zone->getCase(newX, newY)->getEntities()->size() == 0)
-    {
+  // if (zone && newX >= 0 && newY >= 0 && newX < zone->getSizeX() && newY < zone->getSizeY()
+  //     && zone->getCase(newX, newY)->getEntities()->size() == 0)
+  //   {
       (**_player)->setCoord(newX, newY);
       (*_proto).operator()<unsigned int const, int, Player::PlayerCoordinate const *>("ENTITY", _id, (**_player)->getId(),
   									      &(**_player)->getCoord());
       ret = true;
-    }
+    // }
   map->unlock();
   return (ret);
 }

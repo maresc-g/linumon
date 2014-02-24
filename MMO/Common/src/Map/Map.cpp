@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Fri Feb 21 16:25:29 2014 guillaume marescaux
+// Last update Mon Feb 24 15:37:14 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -20,7 +20,7 @@ Map::Map()
 
   this->_mutex->init();
   this->_mutex->lock();
-  JsonFile::readFile(tram, fileConf);
+  std::cout << JsonFile::readFile(tram, fileConf) << std::endl;
   for (int i = 1; i; i++)
     {
       terr << "Territory" << i;
@@ -43,6 +43,18 @@ Map::~Map()
   this->_mutex->unlock();
   _mutex->destroy();
   delete _mutex;
+}
+
+Zone				*Map::getZoneByPos(int const x, int const y)
+{
+  for (auto it = this->_map.begin(); it != this->_map.end(); it++)
+    {
+      std::cout << (*it).second->getPosX() << " " << (*it).second->getPosY() << std::endl;
+      if ((*it).second->getPosX() == x && (*it).second->getPosY() == y)
+	return ((*it).second);
+    }
+  std::cout << "Je suis un connard" << std::endl;
+  return (NULL);
 }
 
 Zone				*Map::getZone(std::string const zone)
@@ -139,25 +151,26 @@ Player				*Map::getPlayerById(unsigned int const id)
 
 void				Map::changeZone(std::string const &source, std::string const &dest, AEntity *entity)
 {
-  this->lock();
   if (this->_map.find(source) != this->_map.end() &&
       this->_map.find(dest) != this->_map.end())
     {
       this->_map[source]->delPlayer(entity);
       this->_map[dest]->addPlayer(entity);
     }
-  this->unlock();
 }
 
-void				Map::move(AEntity *entity)
+bool				Map::move(AEntity *entity)
 {
+  bool				ret;
+
   this->lock();
   if (this->_map.find(static_cast<Player *>(entity)->getZone()) != this->_map.end())
     std::cout << "ZONE FOUND = " << static_cast<Player *>(entity)->getZone() << std::endl;
   else
     std::cout << "ZONE NOT FOUND = " << static_cast<Player *>(entity)->getZone() << std::endl;
-  this->_map[static_cast<Player *>(entity)->getZone()]->move(entity);
+  ret = this->_map[static_cast<Player *>(entity)->getZone()]->move(entity);
   this->unlock();
+  return (ret);
 }
 
 AEntity				*Map::getEntityById(std::string const &zone, unsigned int id)
