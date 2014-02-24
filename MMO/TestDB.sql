@@ -49,15 +49,6 @@ INSERT INTO `DBZone`(`id`, `name`, `averageLevel`) VALUES
        (1, 'Plain', 10),
        (2, 'Rock', 40);
 
-/* Inserting Inventories */
-DELETE FROM Inventory;
-
-INSERT INTO `Inventory`(`id`, `path`, `money`, `limit`) VALUES
-       (1, 'Res/Inventories/Thinenus.json', 10000, 30),
-       (2, 'Res/Inventories/Sezu-Kho.json', 10000, 30),
-       (3, 'Res/Inventories/WeshWeshCabillaud.json', 20000, 20),
-       (4, 'Res/Inventories/EnThéorieCaDevraitMarcher.json', 20000, 20);
-
 /* Inserting Types */
 DELETE FROM `Type`;
 
@@ -120,11 +111,11 @@ INSERT INTO `AuthorizedStatKeys_keys`(`object_id`, `index`, `value`) VALUES
 /* Inserting Players */
 DELETE FROM Player;
 
-INSERT INTO `Player`(`id`, `name`, `stats_authKeys`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `inventory`, `dbZone`, `x`, `y`) VALUES
-       (1, 'Thinenus', 1, 13, 4, 10, 1, 1, 1, 1, 1, 10, 30),
-       (2, 'Sezu-Kho', 1, 20, 6, 10, 1, 2, 2, 2, 1, 20, 20),
-       (3, 'WeshWeshCabillaud', 1, 15, 5, 10, 2, 1, 1, 3, 2, 10, 30),
-       (4, 'EnThéorieCaDevraitMarcher', 1, 584, 10, 10, 2, 2, 2, 4, 2, 20, 20);
+INSERT INTO `Player`(`id`, `name`, `stats_authKeys`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`) VALUES
+       (1, 'Thinenus', 1, 13, 4, 10, 1, 1, 1, 1, 10, 30, 'Res/Inventories/Thinenus.json', 10000, 30),
+       (2, 'Sezu-Kho', 1, 20, 6, 10, 1, 2, 2, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30),
+       (3, 'WeshWeshCabillaud', 1, 15, 5, 10, 2, 1, 1, 2, 10, 30, 'Res/Inventories/WeshWeshCabillaud.json', 20000, 20),
+       (4, 'EnThéorieCaDevraitMarcher', 1, 584, 10, 10, 2, 2, 2, 2, 20, 20, 'Res/Inventories/EnThéorieCaDevraitMarcher.json', 20000, 20);
 
 /* Assigning Talents to Players */
 DELETE FROM `Player_talents`;
@@ -220,6 +211,20 @@ INSERT INTO `Player_digitaliser_mobs`(`object_id`, `index`, `value`) VALUES
        (2, 0, 4),
        (2, 1, 5),
        (2, 2, 6);
+
+/* Inserting Stuff */
+DELETE FROM `Stuff`;
+
+INSERT INTO `Stuff`(`id`, `name`, `stuffType`) VALUES
+       (1, 'Coiffe Bouftou', 'HELMET'),
+       (2, 'Cape Bouftou', 'CLOAK'),
+       (3, 'Bottes Bouftou', 'BOOTS'),
+       (4, 'Amulette Bouftou', 'NECKLACE'),
+       (5, 'Epaulettes Bouftou', 'SHOULDERS'),
+       (6, 'Plastron Bouftou', 'BREASTPLATE'),
+       (7, 'Anneau Bouftou', 'RING'),
+       (8, 'Ceinture Bouftou', 'BELT'),
+       (9, 'Marteau Bouftou', 'WEAPON');
 
 /* Adding some fancy views because it's quite swag */
 DROP VIEW IF EXISTS `StatView`;

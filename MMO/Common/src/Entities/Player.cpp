@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Sat Feb 22 15:57:58 2014 laurent ansel
+// Last update Mon Feb 24 11:15:44 2014 alexis mestag
 //
 
 #include			<functional>
@@ -14,7 +14,7 @@
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _talentTree(NULL), _inventory(NULL), _jobs(NULL)
+  _faction(NULL), _talentTree(NULL), _inventory(new Inventory), _jobs(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
@@ -26,7 +26,7 @@ Player::Player() :
 
 Player::Player(std::string const &name) :
   Persistent(), ACharacter(name, eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _talentTree(NULL), _inventory(NULL), _jobs(NULL)
+  _faction(NULL), _talentTree(NULL), _inventory(new Inventory), _jobs(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
