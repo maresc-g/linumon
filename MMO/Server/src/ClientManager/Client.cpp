@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Fri Feb 21 16:21:00 2014 laurent ansel
+// Last update Mon Feb 24 14:41:56 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -199,6 +199,8 @@ void				Client::move(Player::PlayerCoordinate *coord)
 {
   Trame				*trame = NULL;
   Header			*header;
+  bool				ret;
+  std::string			oldZone;
 
   if (_state == GAME)
     {
@@ -215,8 +217,16 @@ void				Client::move(Player::PlayerCoordinate *coord)
 	      coord->serialization((*trame)((*trame)[CONTENT]["ENTITY"]));
 	      trame->setEnd(true);
 	      (*trame)[CONTENT]["ENTITY"]["ID"] = static_cast<unsigned int>(this->_player->getId());
-	      Map::getInstance()->move(_player);
-	      Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
+	      oldZone = _player->getZone();
+	      ret = Map::getInstance()->move(_player);
+	      if (ret)
+		Server::getInstance()->callProtocol<Player * , Zone *, Zone *>("NEWZONE", _id, _player, Map::getInstance()->getZone(oldZone), Map::getInstance()->getZone(_player->getZone()));
+	      else
+		{
+		  Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
+		  delete trame;
+		  delete header;
+		}
 	      /*
 	      ** random battle
 	      */

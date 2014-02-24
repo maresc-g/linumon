@@ -93,7 +93,7 @@
 			HEAL : {} -> client
 			DISCONNECT : {} -> client
 			SWITCHPLAYER : {} -> client
-			NEWZONE : {} -> server
+			NEWZONE : {zone : string, coord : Coordinate} -> server
 			# end
 		}
 }
