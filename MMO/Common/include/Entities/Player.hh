@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Feb 24 11:15:02 2014 alexis mestag
+// Last update Mon Feb 24 12:33:21 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -144,8 +144,8 @@ public:
 #  pragma db member(Player::_dbZone)
 #  pragma db member(Player::_inventory) transient
 #  pragma db member(Player::_inventoryPath) virtual(std::string) get(_inventory->getPath()) set(_inventory->setPath(?))
-#  pragma db member(Player::_money) virtual(unsigned int) get(_inventory->getMoney()) set(_inventory->setPath(?))
-#  pragma db member(Player::_limit) virtual(unsigned int) get(_inventoty->getLimit()) set(_inventory->setLimit())
+#  pragma db member(Player::_money) virtual(unsigned int) get(_inventory->getMoney()) set(_inventory->setMoney(?))
+#  pragma db member(Player::_limit) virtual(unsigned int) get(_inventory->getLimit()) set(_inventory->setLimit(?))
 #  pragma db member(Player::_jobs) transient
 # endif
 
