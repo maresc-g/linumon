@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Thu Feb 20 13:38:34 2014 laurent ansel
+// Last update Mon Feb 24 13:38:29 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -124,6 +124,8 @@ void				Inventory::addItem(AItem *item)
 	  set = true;
 	}
     }
+  if (!set)
+    this->_inventory->push_back(std::make_pair(item, 1));
 }
 
 AItem				*Inventory::getItem(unsigned int const id) const

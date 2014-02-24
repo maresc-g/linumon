@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Mon Feb 24 13:06:55 2014 laurent ansel
+// Last update Mon Feb 24 13:32:28 2014 laurent ansel
 //
 
 #include			"Entities/Stuff.hh"

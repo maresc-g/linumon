@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Feb 24 11:15:44 2014 alexis mestag
+// Last update Mon Feb 24 13:48:16 2014 laurent ansel
 //
 
 #include			<functional>
@@ -235,6 +235,8 @@ bool				Player::putMobEquipment(unsigned int const idMod,unsigned int const idIt
   return (ret);
 }
 
+
+
 bool				Player::serialization(Trame &trame) const
 {
   bool				ret = true;
@@ -250,6 +252,7 @@ bool				Player::serialization(Trame &trame) const
   trame["PLAYER"]["ZONE"] = this->getZone();
   this->_inventory->serialization(trame(trame["PLAYER"]));
   this->_talentTree->serialization(trame(trame["PLAYER"]));
+  // this->getEquipment().serialization(trame(trame["PLAYER"]));
   for (auto it = this->_talents.begin() ; it != this->_talents.end() ; ++it)
     (*it)->serialization(trame(trame["PLAYER"]["TALENTS"]));
   if (this->_jobs)
@@ -289,6 +292,10 @@ Player				*Player::deserialization(Trame const &trame)
       Digitaliser		*digit = Digitaliser::deserialization(trame(trame["PLAYER"]));
       if (digit)
 	player->setDigitaliser(*digit);
+
+      Equipment			*equipment = Equipment::deserialization(trame(trame["PLAYER"]));
+      if (equipment)
+	player->setEquipment(equipment);
 
       if (!trame["PLAYER"]["TALENTS"].empty())
 	{

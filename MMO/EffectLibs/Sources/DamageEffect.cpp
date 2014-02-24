@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 19 13:51:52 2014 alexis mestag
-// Last update Sun Feb 23 22:53:18 2014 alexis mestag
+// Last update Mon Feb 24 13:36:49 2014 alexis mestag
 //
 
 #include			"DamageEffect.hpp"
@@ -25,5 +25,9 @@ bool				DamageEffect::apply(Mob &mob)
 {
   std::cout << "DamageEffect::apply(Mob &); (" << _damage << ")" << std::endl;
   std::cout << "\t ===> " << mob.getName() << std::endl;
+  for (auto it = mob.getStatKeys().getKeys().begin() ;
+       it != mob.getStatKeys().getKeys().end() ;
+       ++it)
+    std::cout << "\t\t" << (*it)->getName() << std::endl;
   return (true);
 }
