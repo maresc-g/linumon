@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>119</width>
-    <height>79</height>
+    <width>78</width>
+    <height>50</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,6 +19,22 @@
   <property name="statusTip">
    <string/>
   </property>
+  <widget class="QLabel" name="l_nb">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

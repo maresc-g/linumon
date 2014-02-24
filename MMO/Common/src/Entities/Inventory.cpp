@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Mon Feb 24 13:38:29 2014 laurent ansel
+// Last update Mon Feb 24 14:14:07 2014 guillaume marescaux
 //
 
 #include			<sstream>
@@ -245,8 +245,12 @@ Inventory			*Inventory::deserialization(Trame const &trame)
 
 	  for (auto it = members.begin() ; it != members.end() ; ++it)
 	    {
-	      for (unsigned int i = 0 ; i < trame["EQUIPMENT"]["ITEMS"][*it]["NB"].asUInt() ; ++i)
-		inventory->addItem(AItem::deserialization(trame(trame["EQUIPMENT"]["ITEMS"][*it])));
+	      for (unsigned int i = 0 ; i < trame["INVENTORY"]["ITEMS"][*it]["NB"].asUInt() ; ++i)
+		{
+		  std::cout << "IN FOR INVENTORY" << std::endl;
+		  inventory->addItem(AItem::deserialization(trame(trame["INVENTORY"]["ITEMS"][*it])));
+		  std::cout << "INVENTORY SIZE AFTER ADD " << inventory->getInventory().size() << std::endl;
+		}
 	    }
 	    //	    items->push_back(AItem::deserialization(trame(trame["EQUIPMENT"]["ITEMS"][*it])));
 	}

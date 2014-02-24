@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Feb 21 15:00:24 2014 cyril jourdain
+// Last update Mon Feb 24 15:46:21 2014 guillaume marescaux
 //
 
 /*
@@ -82,7 +82,8 @@ void			SFMLView::onInit()
   _mainView->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
   		  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
   _inventory->initInventory();
-  _stuff->initStuff();
+
+  _stuff->initStuff(***(_wMan->getMainPlayer()));
   /* Theorically, generateOffset should be called everytime play() is called with another anim.
    But as far as i know, they are all of the same size, so offsets are OK for eveyone */
 }

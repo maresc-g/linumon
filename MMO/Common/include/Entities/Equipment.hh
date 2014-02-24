@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:26:08 2014 laurent ansel
-// Last update Mon Feb 24 14:27:14 2014 alexis mestag
+// Last update Mon Feb 24 15:44:55 2014 guillaume marescaux
 //
 
 #ifndef 			__EQUIPMENT_HH__
@@ -33,6 +33,8 @@ public:
   bool			addStuff(Stuff *newStuff, Stuff *&oldStuff);
   bool			addStuff(Stuff::eStuff const type, Stuff *&oldStuff);
   bool			getStuff(Stuff *&oldStuff, unsigned int const idItem);
+  Stuff const		&getStuff(Stuff::eStuff const type) const;
+  bool			stuffExists(Stuff::eStuff const type) const;
 
   virtual bool		serialization(Trame &trame) const;
   static Equipment	*deserialization(Trame const &trame);

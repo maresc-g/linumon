@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:16:30 2014 guillaume marescaux
-// Last update Mon Feb 17 13:29:28 2014 guillaume marescaux
+// Last update Mon Feb 24 15:11:13 2014 guillaume marescaux
 //
 
 #ifndef 		__ITEMVIEW_HH__
@@ -23,7 +23,8 @@ class			ItemView : public QWidget
 
 public:
 
-  ItemView(QWidget *, WindowManager *wMan, AItem *item = NULL);
+  ItemView(QWidget *, WindowManager *wMan, unsigned int nb, AItem *item = NULL);
+  ItemView(QWidget *parent, WindowManager *wMan, AItem *item = NULL);
   virtual ~ItemView();
 
 private:
@@ -31,6 +32,7 @@ private:
   Ui::itemview		ui;
   WindowManager		*_wMan;
   AItem			*_item;
+  unsigned int		_nb;
 
 private:
 
