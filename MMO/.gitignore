@@ -2,3 +2,4 @@
 *-odb.[hci]xx
 moc_*
 ui_*
+EffectLibs/*.so
