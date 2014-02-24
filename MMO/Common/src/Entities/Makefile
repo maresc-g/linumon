@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Mon Feb 24 14:34:18 2014 alexis mestag
+## Last update Mon Feb 24 15:38:02 2014 alexis mestag
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
@@ -29,7 +29,6 @@ ENTITIES_SRC=		AEntity.cpp		\
 			Player.cpp		\
 			Players.cpp		\
 			Ressource.cpp		\
-			Ressources.cpp		\
 			Spell.cpp		\
 			Spells.cpp		\
 			Stuff.cpp		\
