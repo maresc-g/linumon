@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Wed Feb 19 15:16:57 2014 laurent ansel
+// Last update Mon Feb 24 13:06:55 2014 laurent ansel
 //
 
 #include			"Entities/Stuff.hh"
@@ -61,17 +61,17 @@ bool				Stuff::serialization(Trame &trame) const
 {
   trame["TYPE"] = this->getItemType();
   trame["NAME"] = this->getName();
-  trame["ID"] = static_cast<unsigned int>(this->getId());
-  trame["TYPE"] = this->getStuffType();
-  return (false);
+  // trame["ID"] = static_cast<unsigned int>(this->getId());
+  trame["STUFFTYPE"] = this->getStuffType();
+  return (true);
 }
 
 Stuff				*Stuff::deserialization(Trame const &trame)
 {
   Stuff				*stuff = NULL;
 
-  stuff = new Stuff(trame["NAME"].asString(), static_cast<eStuff>(trame["TYPE"].asInt()));
-  stuff->setId(trame["ID"].asUInt());
+  stuff = new Stuff(trame["NAME"].asString(), static_cast<eStuff>(trame["STUFFTYPE"].asInt()));
+  // stuff->setId(trame["ID"].asUInt());
   stuff->setItemType(static_cast<AItem::eItem>(trame["TYPE"].asInt()));
   return (stuff);
 }

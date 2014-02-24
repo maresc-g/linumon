@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Fri Feb 21 16:09:29 2014 antoine maitre
+// Last update Fri Feb 21 16:25:39 2014 guillaume marescaux
 //
 
 #include		"Zone/Case.hh"
@@ -75,6 +75,7 @@ bool			Case::serialization(Trame &trame) const
 	      trame[std::to_string(i)]["PLAYER"]["ID"] = static_cast<int>(tmp->getId());
 	      trame[std::to_string(i)]["PLAYER"]["NAME"] = tmp->getName();
 	      trame[std::to_string(i)]["PLAYER"]["TYPE"] = tmp->getStatEntityType();
+	      trame[std::to_string(i)]["PLAYER"]["ZONE"] = tmp->getZone();
 	      tmp->getCoord().serialization(trame(trame[std::to_string(i)]["PLAYER"]));
 	      tmp->getFaction().serialization(trame(trame[std::to_string(i)]["PLAYER"]));
 	    }
@@ -101,6 +102,7 @@ void			Case::deserialization(Trame const &trame)
 	  //	  player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame[std::to_string(i)]["PLAYER"]["TYPE"].asInt()));
 	  player->setCoord(*Player::PlayerCoordinate::deserialization(trame(trame[std::to_string(i)]["PLAYER"])));
 	  player->setFaction(*Faction::deserialization(trame(trame[std::to_string(i)]["PLAYER"])));
+	  player->setZone((trame[std::to_string(i)]["PLAYER"]["ZONE"].asString()));
 	  this->_entities->push_back(player);
 	}
       else

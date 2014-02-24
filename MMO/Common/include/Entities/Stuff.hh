@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Wed Feb 19 15:03:22 2014 laurent ansel
+// Last update Mon Feb 24 11:07:18 2014 alexis mestag
 //
 
 #ifndef 		__STUFF_HH__
@@ -30,7 +30,8 @@ public:
       BOOTS,
       CLOAK,
       BREASTPLATE,
-      BELT
+      BELT,
+      WEAPON
     }			eStuff;
 private:
   eStuff		_stuffType;

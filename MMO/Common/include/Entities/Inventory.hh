@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Thu Feb 20 13:37:30 2014 laurent ansel
+// Last update Mon Feb 24 11:17:59 2014 alexis mestag
 //
 
 #ifndef 			__INVENTORY_HH__
@@ -59,12 +59,12 @@ public:
   static Inventory		*deserialization(Trame const &trame);
 };
 
-# ifdef	ODB_COMPILER
-#  pragma db object(Inventory) session(false)
-#  pragma db member(Inventory::_path) get(getPath()) set(setPath(?))
-#  pragma db member(Inventory::_money) get(getMoney()) set(setMoney(?))
-#  pragma db member(Inventory::_limit) get(getLimit()) set(setLimit(?))
-#  pragma db member(Inventory::_inventory) transient
-# endif
+// # ifdef	ODB_COMPILER
+// #  pragma db object(Inventory) session(false)
+// #  pragma db member(Inventory::_path) get(getPath()) set(setPath(?))
+// #  pragma db member(Inventory::_money) get(getMoney()) set(setMoney(?))
+// #  pragma db member(Inventory::_limit) get(getLimit()) set(setLimit(?))
+// #  pragma db member(Inventory::_inventory) transient
+// # endif
 
 #endif

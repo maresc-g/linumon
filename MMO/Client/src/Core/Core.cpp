@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Feb 20 13:24:23 2014 guillaume marescaux
+// Last update Mon Feb 24 14:39:28 2014 antoine maitre
 //
 
 #include			<unistd.h>
@@ -62,6 +62,10 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("MAP", func);
   func = std::bind1st(std::mem_fun(&Core::getChat), this);
   _proto->addFunc("CHAT", func);
+  func = std::bind1st(std::mem_fun(&Core::entity), this);
+  _proto->addFunc("ENTITY", func);
+  func = std::bind1st(std::mem_fun(&Core::newPlayer), this);
+  _proto->addFunc("NEWPLAYER", func);
 
   (*_sockets)[TCP] = new Socket;
   (*_sockets)[UDP] = new Socket;
@@ -305,11 +309,36 @@ bool				Core::removeEntity(Trame *)
   return (true);
 }
 
-bool				Core::entity(Trame *)
+bool				Core::entity(Trame *trame)
 {
+  Map				*map = Map::getInstance();
+  AEntity			*entity = map->getEntityById((**_player)->getZone(),
+							     (*trame)[CONTENT]["ENTITY"]["ID"].asUInt());
+
+
+  if (entity)
+    {
+      std::cout << "ENTITY X = " << static_cast<Player *>(entity)->getX() << std::endl;
+      std::cout << "ENTITY Y = " << static_cast<Player *>(entity)->getY() << std::endl;
+      std::cout << "NAME = " << static_cast<Player *>(entity)->getName() << std::endl;
+      std::cout << "ZONE = " << static_cast<Player *>(entity)->getZone() << std::endl;
+      std::cout << "ZONE PLAYER = " << (**_player)->getZone() << std::endl;
+      static_cast<Player *>(entity)->setX((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["X"].asInt());
+      static_cast<Player *>(entity)->setY((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["Y"].asInt());
+      map->move(entity);
+    }
+  else
+    std::cout << "EEEEEENNNNNTITYY NULLLLLLLLLLLLLLLLLLLLLLLLLLLLl" << std::endl;
   return (true);
 }
 
+bool				Core::newPlayer(Trame *trame)
+{
+  Player			*player = Player::deserialization((*trame)((*trame)[CONTENT]["NEWPLAYER"]));
+
+  Map::getInstance()->addPlayer((**_player)->getZone(), player);
+  return (true);
+}
 
 //----------------------------------END PRIVATE METHODS----------------------------------------
 
@@ -372,14 +401,14 @@ bool				Core::move(CLIENT::eDirection dir)
   newY = (**_player)->getY() + (dir == CLIENT::UP ? -1 : (dir == CLIENT::DOWN ? 1 : 0));
   map->lock();
   zone = map->getZone((**_player)->getZone());
-  if (zone && newX >= 0 && newY >= 0 && newX < zone->getSizeX() && newY < zone->getSizeY()
-      && zone->getCase(newX, newY)->getEntities()->size() == 0)
-    {
+  // if (zone && newX >= 0 && newY >= 0 && newX < zone->getSizeX() && newY < zone->getSizeY()
+  //     && zone->getCase(newX, newY)->getEntities()->size() == 0)
+  //   {
       (**_player)->setCoord(newX, newY);
       (*_proto).operator()<unsigned int const, int, Player::PlayerCoordinate const *>("ENTITY", _id, (**_player)->getId(),
   									      &(**_player)->getCoord());
       ret = true;
-    }
+    // }
   map->unlock();
   return (ret);
 }

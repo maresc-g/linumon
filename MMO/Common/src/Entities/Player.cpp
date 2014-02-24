@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Feb 21 13:49:19 2014 laurent ansel
+// Last update Mon Feb 24 11:15:44 2014 alexis mestag
 //
 
 #include			<functional>
@@ -14,7 +14,7 @@
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _talentTree(NULL), _inventory(NULL), _jobs(NULL)
+  _faction(NULL), _talentTree(NULL), _inventory(new Inventory), _jobs(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
@@ -26,7 +26,7 @@ Player::Player() :
 
 Player::Player(std::string const &name) :
   Persistent(), ACharacter(name, eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _talentTree(NULL), _inventory(NULL), _jobs(NULL)
+  _faction(NULL), _talentTree(NULL), _inventory(new Inventory), _jobs(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
@@ -269,12 +269,26 @@ Player				*Player::deserialization(Trame const &trame)
       player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame["PLAYER"]["TYPE"].asInt()));
       player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));
       player->setFaction(*Faction::deserialization(trame(trame["PLAYER"])));
-      player->setLevel(*Level::deserialization(trame(trame["PLAYER"])));
-      player->setCurrentExp(trame["PLAYER"]["CURRENTEXP"].asInt());
       player->setZone(trame["PLAYER"]["ZONE"].asString());
-      player->setTalentTree(*TalentTree::deserialization(trame(trame["PLAYER"])));
-      player->setInventory(Inventory::deserialization(trame(trame["PLAYER"])));
-      player->setDigitaliser(*Digitaliser::deserialization(trame(trame["PLAYER"])));
+
+      Level			*lvl = Level::deserialization(trame(trame["PLAYER"]));
+      if (lvl)
+	player->setLevel(*lvl);
+
+      if (trame["PLAYER"].isMember("CURRENTEXP"))
+	player->setCurrentExp(trame["PLAYER"]["CURRENTEXP"].asInt());
+
+      TalentTree		*tree = TalentTree::deserialization(trame(trame["PLAYER"]));
+      if (tree)
+	player->setTalentTree(*tree);
+
+      Inventory			*inv = Inventory::deserialization(trame(trame["PLAYER"]));
+      if (inv)
+	player->setInventory(inv);
+
+      Digitaliser		*digit = Digitaliser::deserialization(trame(trame["PLAYER"]));
+      if (digit)
+	player->setDigitaliser(*digit);
 
       if (!trame["PLAYER"]["TALENTS"].empty())
 	{

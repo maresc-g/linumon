@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Mon Feb 24 12:18:05 2014 antoine maitre
+// Last update Mon Feb 24 15:36:36 2014 antoine maitre
 //
 
 #ifndef			__ZONE_HH__
@@ -61,7 +61,7 @@ public:
   std::list<Case *>	*getCases() const;
   virtual bool		serialization(Trame &trame) const;
   void			deserialization(Trame const &trame);
-  void			move(AEntity *entity);
+  bool			move(AEntity *entity);
   int			getSizeX() const;
   int			getSizeY() const;
   int			getPosX() const;

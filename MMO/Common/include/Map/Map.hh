@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:31:09 2014 antoine maitre
-// Last update Mon Feb 24 12:19:40 2014 antoine maitre
+// Last update Mon Feb 24 15:36:51 2014 antoine maitre
 //
 
 #ifndef					__MAP_HH__
@@ -39,11 +39,11 @@ public:
   // void					addEntity(std::string const &zone, AEntity *entity);
   void					changeZone(std::string const &source, std::string const &dest, AEntity *);
   std::list<AEntity *>			*getPlayers(std::string const &zone);
-  void					move(AEntity *entity);
+  bool					move(AEntity *entity);
   //  void					moveCase(std::string const &zone, Player::PlayerCoordinate const &source, Player::PlayerCoordinate const &dest, AEntity *);
   void					lock() const;
   void					unlock() const;
-  bool					exist(AEntity *entity) const;
+  AEntity				*getEntityById(std::string const &zone, unsigned int const id);
   Player				*getPlayerById(unsigned int const id);
 };
 

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Fri Feb 21 15:27:17 2014 antoine maitre
+// Last update Mon Feb 24 12:33:21 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -141,8 +141,11 @@ public:
 #  pragma db member(Player::_y) virtual(Player::Coordinate::type) get(_coord->getY()) set(_coord->setY(?))
 #  pragma db member(Player::_faction) not_null
 #  pragma db member(Player::_digitaliser) value_not_null id_column("player_id") value_column("mob_id")
-#  pragma db member(Player::_inventory)
 #  pragma db member(Player::_dbZone)
+#  pragma db member(Player::_inventory) transient
+#  pragma db member(Player::_inventoryPath) virtual(std::string) get(_inventory->getPath()) set(_inventory->setPath(?))
+#  pragma db member(Player::_money) virtual(unsigned int) get(_inventory->getMoney()) set(_inventory->setMoney(?))
+#  pragma db member(Player::_limit) virtual(unsigned int) get(_inventory->getLimit()) set(_inventory->setLimit(?))
 #  pragma db member(Player::_jobs) transient
 # endif
 

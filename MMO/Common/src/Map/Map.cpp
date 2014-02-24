@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Mon Feb 24 12:23:35 2014 antoine maitre
+// Last update Mon Feb 24 15:37:14 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -19,7 +19,8 @@ Map::Map()
   std::ostringstream		terr;
 
   this->_mutex->init();
-  JsonFile::readFile(tram, fileConf);
+  this->_mutex->lock();
+  std::cout << JsonFile::readFile(tram, fileConf) << std::endl;
   for (int i = 1; i; i++)
     {
       terr << "Territory" << i;
@@ -31,12 +32,16 @@ Map::Map()
 	break;
       terr.str("");
     }
+  this->_mutex->unlock();
 }
 
 Map::~Map()
 {
+  this->_mutex->lock();
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
     delete (*it).second;
+  this->_mutex->unlock();
+  _mutex->destroy();
   delete _mutex;
 }
 
@@ -44,9 +49,11 @@ Zone				*Map::getZoneByPos(int const x, int const y)
 {
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
     {
+      std::cout << (*it).second->getPosX() << " " << (*it).second->getPosY() << std::endl;
       if ((*it).second->getPosX() == x && (*it).second->getPosY() == y)
 	return ((*it).second);
     }
+  std::cout << "Je suis un connard" << std::endl;
   return (NULL);
 }
 
@@ -152,25 +159,44 @@ void				Map::changeZone(std::string const &source, std::string const &dest, AEnt
     }
 }
 
-void				Map::move(AEntity *entity)
+bool				Map::move(AEntity *entity)
 {
+  bool				ret;
+
   this->lock();
-  this->_map[static_cast<Player *>(entity)->getZone()]->move(entity);
+  if (this->_map.find(static_cast<Player *>(entity)->getZone()) != this->_map.end())
+    std::cout << "ZONE FOUND = " << static_cast<Player *>(entity)->getZone() << std::endl;
+  else
+    std::cout << "ZONE NOT FOUND = " << static_cast<Player *>(entity)->getZone() << std::endl;
+  ret = this->_map[static_cast<Player *>(entity)->getZone()]->move(entity);
   this->unlock();
+  return (ret);
 }
 
-bool				Map::exist(AEntity *entity) const
+AEntity				*Map::getEntityById(std::string const &zone, unsigned int id)
 {
   this->lock();
-  for (auto it = this->_map.begin(); it != this->_map.end(); it++)
+  // for (auto it = this->_map.begin(); it != this->_map.end(); it++)
+  //   {
+  //     for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); itb++)
+  // 	if ((*itb)->getId() == id)
+  // 	  {
+  // 	    this->unlock();
+  // 	    return (true);
+  // 	  }
+  //   }
+
+  for (auto it = this->_map[zone]->getCases()->begin() ; it != this->_map[zone]->getCases()->end() ; it++)
     {
-      for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); itb++)
-	if ((*itb) == entity)
-	  {
-	    this->unlock();
-	    return (true);
-	  }
+      for (auto itb = (*it)->getEntities()->begin() ; itb != (*it)->getEntities()->end() ; itb++)
+  	{
+  	  if ((*itb)->getId() == id)
+  	    {
+  	      this->unlock();
+  	      return (*itb);
+  	    }
+  	}
     }
   this->unlock();
-  return (false);
+  return (NULL);
 }

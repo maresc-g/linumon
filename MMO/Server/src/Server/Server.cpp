@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Wed Feb 19 17:10:05 2014 laurent ansel
+// Last update Fri Feb 21 15:25:11 2014 laurent ansel
 //
 
 #include			<list>
@@ -67,11 +67,21 @@ Server::~Server()
   this->_mutex->lock();
   delete this->_actionServer;
   ClientManager::deleteInstance();
+  this->debug("Deleting ClientWriter ...");
   ClientWriter::deleteInstance();
+  this->debug("Done");
+  this->debug("Deleting Chat ...");
   Chat::deleteInstance();
+  this->debug("Done");
+  this->debug("Deleting GameProtocol ...");
   delete this->_gameProtocol;
+  this->debug("Done");
+  this->debug("Deleting RessourceManager ...");
   RessourceManager::deleteInstance();
+  this->debug("Done");
+  this->debug("Deleting Map ...");
   Map::deleteInstance();
+  this->debug("Done");
   delete _codeBreaker;
   Crypto::deleteInstance();
   delete _protocol;

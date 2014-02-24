@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Feb 21 13:22:24 2014 laurent ansel
+// Last update Sat Feb 22 15:47:46 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -30,6 +30,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, Error *>("ERROR", &error);
       this->_container->load<unsigned int, User *>("PLAYERLIST", &playerlist);
       this->_container->load<unsigned int, Player *>("PLAYER", &player);
+      this->_container->load<unsigned int, Player *, Zone *>("NEWPLAYER", &newPlayer);
       this->_container->load<unsigned int, Zone *>("MAP", &map);
       this->_container->load<unsigned int, Trame *, Zone *, bool>("SENDTOALLCLIENT", &sendToAllClient);
       this->_container->load<unsigned int, Trame *>("ALREADYREADY", &sendTrameAlreadyReady);
@@ -238,10 +239,35 @@ bool		         removeEntity(unsigned int const id, int entityId, Zone *zone)
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
-  header->setProtocole("UDP");
+  header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["ID"] = entityId;
+      (*trame)[CONTENT]["REMOVEENTITY"]["ID"] = entityId;
+      trame->setEnd(true);
+      ret = sendToAllClient(id, trame, zone, false);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			newPlayer(unsigned int const id, Player *player, Zone *zone)
+{
+  Trame			*trame;
+  Header		*header;
+  bool			ret = false;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]["ID"] = static_cast<int>(player->getId());
+      (*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]["NAME"] = player->getName();
+      (*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]["TYPE"] = player->getStatEntityType();
+      (*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]["ZONE"] = player->getZone();
+      player->getCoord().serialization((*trame)((*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]));
+      player->getFaction().serialization((*trame)((*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]));
       trame->setEnd(true);
       ret = sendToAllClient(id, trame, zone, false);
     }

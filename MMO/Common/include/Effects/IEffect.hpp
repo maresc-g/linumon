@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 16:06:44 2014 alexis mestag
-// Last update Fri Feb 14 10:46:18 2014 alexis mestag
+// Last update Sun Feb 23 23:00:40 2014 alexis mestag
 //
 
 #ifndef			__IEFFECT_HPP__
@@ -42,9 +42,9 @@ private:
 
 protected:
   AEffect(Effect::eType const type = Effect::eType::NONE) : _type(type) {}
-  virtual ~AEffect() {}
 
 public:
+  virtual ~AEffect() {}
   Effect::eType		getType() const { return (_type); }
   virtual bool		apply(T &character) = 0;
 };

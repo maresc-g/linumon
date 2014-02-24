@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb 20 13:28:48 2014 guillaume marescaux
-// Last update Thu Feb 20 13:29:08 2014 guillaume marescaux
+// Last update Fri Feb 21 14:34:00 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/TradeView.hh"
@@ -27,4 +27,14 @@ void				TradeView::paintEvent(QPaintEvent *)
 
   opt.init(this);
   style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+
+void				TradeView::on_b_accept_clicked()
+{
+  Client::getInstance()->accept();
+}
+
+void				TradeView::on_b_cancel_clicked()
+{
+  Client::getInstance()->refuse();
 }
