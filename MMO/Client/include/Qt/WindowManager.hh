@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:15:41 2013 cyril jourdain
-// Last update Mon Feb 24 14:50:56 2014 guillaume marescaux
+// Last update Tue Feb 25 15:09:46 2014 guillaume marescaux
 //
 
 #ifndef 		__WINDOWMANAGER_HH__
@@ -37,13 +37,14 @@ private:
   MutexVar<CLIENT::eState>	*_state;
   MutexVar<Player*>	*_mainPlayer;
   MutexVar<std::list<PlayerView *> *>	*_players;
+  MutexVar<bool>	*_newPlayer;
   LoginView		*_loginView;
   CharacterView		*_characterView;
   SFMLView		*_sfmlView;
 
 public:
   WindowManager(int, char **, MutexVar<CLIENT::eState> *, MutexVar<std::list<PlayerView *> *> *,
-		MutexVar<Player *>*);
+		MutexVar<Player *>*, MutexVar<bool>*);
   virtual ~WindowManager();
 
 public:

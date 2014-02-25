@@ -5,10 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:53:28 2013 alexis mestag
-// Last update Fri Feb  7 12:21:48 2014 laurent ansel
+// Last update Tue Feb 25 14:23:30 2014 laurent ansel
 //
 
 #include			"Entities/AEntity.hh"
+#include			"Entities/Heal.hh"
 
 AEntity::AEntity() :
   Id(), Nameable(""), _entityType(eEntity::NONE)

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Feb 25 16:33:03 2014 antoine maitre
+// Last update Tue Feb 25 16:47:34 2014 antoine maitre
 //
 
 #include			"ClientManager/Client.hh"
@@ -225,17 +225,18 @@ void				Client::move(Player::PlayerCoordinate *coord)
 	      oldZone = _player->getZone();
 	      ret = Map::getInstance()->move(_player);
 	      if (ret)
-		Server::getInstance()->callProtocol<Player * , Zone *, Zone *>("NEWZONE", _id, _player, Map::getInstance()->getZone(oldZone), Map::getInstance()->getZone(_player->getZone()));
+		{
+		  Server::getInstance()->callProtocol<Player * , Zone *, Zone *>("NEWZONE", _id, _player, Map::getInstance()->getZone(oldZone), Map::getInstance()->getZone(_player->getZone()));
+		  delete trame;
+		  delete header;
+		}
 	      else
 		{
 		  Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
-		  delete trame;
 		  delete header;
-		  if (Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
-		    {
-		      if (BattleManager::getInstance()->inBattle(_player))
-			_state = BATTLE;
-		    }
+		  // if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
+		  //   if (BattleManager::getInstance()->inBattle(_player))
+		  //     _state = BATTLE;
 		}
 	    }
 	}

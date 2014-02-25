@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:21:41 2013 alexis mestag
-// Last update Thu Feb 20 22:28:24 2014 alexis mestag
+// Last update Tue Feb 25 14:39:19 2014 laurent ansel
 //
 
 #ifndef			__ASTATENTITY_HH__
@@ -46,6 +46,9 @@ public:
   eStatEntity		getStatEntityType() const;
   Stats const		&getStats() const;
   void			setStats(Stats const &stats);
+
+  Stats const		&getTmpStats() const;
+  void			setTmpStats(Stats const &stats);
 
   AuthorizedStatKeys const	&getStatKeys() const;
 };

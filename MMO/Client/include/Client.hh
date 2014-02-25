@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Thu Feb 20 13:22:30 2014 guillaume marescaux
+// Last update Tue Feb 25 15:04:20 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -38,6 +38,7 @@ private:
   MutexVar<Player *>		*_player;
   MutexVar<std::list<PlayerView *> *>		*_players;
   MutexVar<Chat *>		*_chat;
+  MutexVar<bool>		*_newPlayer;
   Core				*_core;
   WindowManager			*_manager;
 
