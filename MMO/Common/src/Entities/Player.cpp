@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Feb 25 16:24:07 2014 alexis mestag
+// Last update Tue Feb 25 17:02:58 2014 laurent ansel
 //
 
 #include			<functional>
@@ -276,9 +276,10 @@ bool				Player::serialization(Trame &trame) const
   trame["PLAYER"]["TYPE"] = this->getStatEntityType();
   this->_coord->serialization(trame(trame["PLAYER"]));
   this->_faction->serialization(trame(trame["PLAYER"]));
-  this->_guild->serialization(trame(trame["PLAYER"]));
+  if (this->_guild)
+    this->_guild->serialization(trame(trame["PLAYER"]));
   this->_digitaliser.serialization(trame(trame["PLAYER"]));
-  // this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
+  this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
   // this->getTmpStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
   this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
@@ -331,9 +332,9 @@ Player				*Player::deserialization(Trame const &trame)
       if (equipment)
 	player->setEquipment(equipment);
 
-      // Stats			*stats = Stats::deserialization(trame(trame["PLAYER"]));
-      // if (stats)
-      // 	player->setStats(*stats);
+      Stats			*stats = Stats::deserialization(trame(trame["PLAYER"]));
+      if (stats)
+      	player->setStats(*stats);
 
       // stats = Stats::deserialization(trame(trame["PLAYER"]));
       // if (stats)
