@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Fri Feb 21 13:19:55 2014 laurent ansel
+// Last update Mon Feb 24 19:50:55 2014 laurent ansel
 //
 
 #include			"Entities/Ressource.hh"
@@ -43,10 +43,10 @@ Ressource			&Ressource::operator=(Ressource const &rhs)
 {
   if (this != &rhs)
     {
-      *this->_coord = rhs.getCoord();
       this->setName(rhs.getName());
       this->setItemType(rhs.getItemType());
       this->setLevel(rhs.getLevel());
+      *this->_coord = rhs.getCoord();
     }
   return (*this);
 }
@@ -100,14 +100,15 @@ bool				Ressource::serialization(Trame &trame) const
   return (true);
 }
 
-Ressource			*Ressource::deserialization(Trame const &trame)
+Ressource			*Ressource::deserialization(Trame const &trame, bool const client)
 {
   Ressource			*ressource = NULL;
 
   if (trame.isMember("RESSOURCE"))
     {
       ressource = new Ressource(trame["RESSOURCE"]["NAME"].asString());
-      ressource->setId(trame["RESSOURCE"]["ID"].asUInt());
+      if (client)
+	ressource->setId(trame["RESSOURCE"]["ID"].asUInt());
       ressource->setItemType(static_cast<AItem::eItem>(trame["RESSOURCE"]["TYPE"].asInt()));
       ressource->setCoord(*RessourceCoordinate::deserialization(trame(trame["RESSOURCE"])));
     }

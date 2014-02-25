@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Feb 24 13:48:16 2014 laurent ansel
+// Last update Mon Feb 24 14:53:14 2014 laurent ansel
 //
 
 #include			<functional>
@@ -252,7 +252,7 @@ bool				Player::serialization(Trame &trame) const
   trame["PLAYER"]["ZONE"] = this->getZone();
   this->_inventory->serialization(trame(trame["PLAYER"]));
   this->_talentTree->serialization(trame(trame["PLAYER"]));
-  // this->getEquipment().serialization(trame(trame["PLAYER"]));
+  this->getEquipment().serialization(trame(trame["PLAYER"]));
   for (auto it = this->_talents.begin() ; it != this->_talents.end() ; ++it)
     (*it)->serialization(trame(trame["PLAYER"]["TALENTS"]));
   if (this->_jobs)

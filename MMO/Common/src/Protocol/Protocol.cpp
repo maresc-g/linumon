@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sat Feb 22 15:47:46 2014 laurent ansel
+// Last update Mon Feb 24 14:38:54 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -59,6 +59,8 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, std::list<AItem *> *>("ADDTOINVENTORY", &addToInventory);
       this->_container->load<unsigned int, std::list<AItem *> *>("DELETEFROMINVENTORY", &deleteFromInventory);
       this->_container->load<unsigned int, Job const *>("JOB", &job);
+
+      this->_container->load<unsigned int, Player *, Zone *, Zone *>("NEWZONE", &newZone);
     }
   else
     {
@@ -314,6 +316,30 @@ bool			create(unsigned int const id, std::string name, Faction const *faction)
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool                    newZone(unsigned int const id, Player *player, Zone *oldZone, Zone *zone)
+{
+  Trame			*trame;
+  Header		*header;
+  bool			ret = false;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["NEWZONE"]["ZONE"] = player->getZone();
+      player->getCoord().serialization((*trame)((*trame)[CONTENT]["NEWZONE"]));
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+      ret = newPlayer(id, player, zone);
+      ret = removeEntity(id, player->getId(), oldZone);
     }
   delete header;
   return (ret);

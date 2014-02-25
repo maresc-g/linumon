@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Feb 17 14:29:34 2014 laurent ansel
-// Last update Tue Feb 18 15:30:37 2014 laurent ansel
+// Last update Mon Feb 24 20:01:17 2014 laurent ansel
 //
 
 #include			<ctime>
@@ -15,10 +15,6 @@
 #include			"RessourceManager/RessourceManager.hh"
 #include			"ObjectPool/ObjectPoolManager.hpp"
 #include			"Map/Map.hh"
-
-/****
- ****PAS OUBLIER RESOURCES ENTITIES
- ***/
 
 RessourceManager::RessourceManager():
   Thread(),
@@ -40,13 +36,27 @@ RessourceManager::RessourceManager():
 RessourceManager::~RessourceManager()
 {
   _mutex->lock();
+  Trame				*trame = NULL;
+  unsigned int			nb = 0;
+  std::ostringstream		str;
+
+  ObjectPoolManager::getInstance()->setObject(trame, "trame");
   for (auto it = _ressources->begin() ; it != _ressources->end() ; ++it)
     {
+      nb = 0;
       for (auto im = it->second->begin() ; im != it->second->end() ; ++im)
-	delete *im;
+	{
+	  str.str("");
+	  str << "RES" << nb;
+	  (*im)->serialization((*trame)((*trame)[it->first][str.str()]));
+	  delete *im;
+	  nb++;
+	}
       delete it->second;
     }
   delete _ressources;
+  if (nb)
+    trame->writeInFile(PATH_RESSOURCES_FILE);
   for (auto it = _action->begin() ; it != _action->end() ; ++it)
     delete it->second;
   delete _action;
@@ -73,7 +83,7 @@ void				RessourceManager::init()
 	  (*_ressources)[*it] = new std::list<Ressource *>;
 	  for (auto im = zoneMembers.begin() ; im != zoneMembers.end() ; ++im)
 	    {
-	      res = Ressource::deserialization((*file)((*file)[*it][*im]));
+	      res = Ressource::deserialization((*file)((*file)[*it][*im]), false);
 	      if (res)
 		{
 		  (*_ressources)[*it]->push_back(res);
@@ -109,28 +119,42 @@ void				RessourceManager::newTime(double const microsecond)
 double				RessourceManager::setRessource(std::list<std::pair<bool, RessourcePop *> >::iterator &it)
 {
   std::chrono::system_clock::time_point	start = std::chrono::system_clock::now();
+  this->_mutex->lock();
   bool				set = false;
 
-  this->_mutex->lock();
-  auto			ir = this->_ressources->begin();
+  auto				ir = this->_ressources->begin();
 
   if ((ir = this->_ressources->find(it->second->zone)) != this->_ressources->end())
     {
       for (auto res = ir->second->begin() ; res != ir->second->end() && !set; ++res)
-	{
-	  if (*res && (*res)->getX() == it->second->coord.getX() && (*res)->getY() == it->second->coord.getY())
-	    {
-	      it->second->ressource = *res;
-	      it->first = true;
-	      set = true;
-	    }
-	}
+  	{
+  	  if (*res && (*res)->getX() == it->second->ressource->getCoord().getX() && (*res)->getY() == it->second->ressource->getCoord().getY())
+	    set = true;
+  	}
+    }
+  if (!set)
+    this->addInRessources(it->second);
+  if (it->first && it->second->time <= 0)
+    {
+      it->first = false;
+      Map::getInstance()->addEntity(it->second->zone, it->second->ressource);
+      it->second->clear();
     }
   this->_mutex->unlock();
+
   std::chrono::system_clock::time_point	end = std::chrono::system_clock::now();
 
   std::chrono::duration<double, std::micro> time = std::chrono::duration_cast<std::chrono::duration<double, std::micro> >(end - start);
   return (time.count());
+}
+
+void				RessourceManager::addInRessources(RessourcePop *ressource)
+{
+  auto				ir = this->_ressources->begin();
+
+  if ((ir = this->_ressources->find(ressource->zone)) == this->_ressources->end())
+    (*_ressources)[ressource->zone] = new std::list<Ressource *>;
+  (*this->_ressources)[ressource->zone]->push_back(ressource->ressource);
 }
 
 void				RessourceManager::run()
@@ -151,18 +175,29 @@ void				RessourceManager::setQuit(bool const quit)
   _quit = quit;
 }
 
-void				RessourceManager::needRessource(Ressource::RessourceCoordinate const &coord, std::string const &zone)
+void				RessourceManager::needRessource(std::string const &name, Ressource::RessourceCoordinate const &coord, std::string const &zone)
 {
   bool				set = false;
+  Ressource const		*res;
 
   this->_mutex->lock();
   for (auto it = _action->begin() ; it != _action->end() && !set ; ++it)
     {
       if (!it->first && it->second)
 	{
+	  it->second->name = name;
 	  it->second->time = DEFAULT_TIME;
 	  it->second->zone = zone;
-	  it->second->coord = coord;
+	  ObjectPoolManager::getInstance()->setObject(it->second->ressource, "ressource");
+	  res = RessourceLoader::getInstance()->getRessource(it->second->name);
+	  if (res)
+	    {
+	      *it->second->ressource = *res;
+	      it->second->ressource->setCoord(coord);
+	      it->first = true;
+	    }
+	  else
+	    it->second->clear();
 	  set = true;
 	}
     }
@@ -187,9 +222,9 @@ void				*runRessourceManager(void *data)
 */
 
 RessourcePop::RessourcePop():
+  name(""),
   time(0),
   zone(""),
-  coord(0, 0),
   ressource(NULL)
 {
 
@@ -201,9 +236,8 @@ RessourcePop::~RessourcePop()
 
 void				RessourcePop::clear()
 {
+  this->name = "";
   this->time = 0;
   this->zone = "";
-  this->coord.setX(0);
-  this->coord.setY(0);
   this->ressource = NULL;
 }

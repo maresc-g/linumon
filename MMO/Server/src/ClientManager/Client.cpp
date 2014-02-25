@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Fri Feb 21 16:21:00 2014 laurent ansel
+// Last update Tue Feb 25 10:37:57 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -13,6 +13,7 @@
 #include			"Map/Map.hh"
 #include			"ClientWriter/ClientWriter.hh"
 #include			"RessourceManager/RessourceManager.hh"
+#include			"Battle/BattleManager.hh"
 
 Client::Client():
   _use(false),
@@ -199,6 +200,8 @@ void				Client::move(Player::PlayerCoordinate *coord)
 {
   Trame				*trame = NULL;
   Header			*header;
+  bool				ret;
+  std::string			oldZone;
 
   if (_state == GAME)
     {
@@ -215,11 +218,19 @@ void				Client::move(Player::PlayerCoordinate *coord)
 	      coord->serialization((*trame)((*trame)[CONTENT]["ENTITY"]));
 	      trame->setEnd(true);
 	      (*trame)[CONTENT]["ENTITY"]["ID"] = static_cast<unsigned int>(this->_player->getId());
-	      Map::getInstance()->move(_player);
-	      Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
-	      /*
-	      ** random battle
-	      */
+	      oldZone = _player->getZone();
+	      ret = Map::getInstance()->move(_player);
+	      if (ret)
+		Server::getInstance()->callProtocol<Player * , Zone *, Zone *>("NEWZONE", _id, _player, Map::getInstance()->getZone(oldZone), Map::getInstance()->getZone(_player->getZone()));
+	      else
+		{
+		  Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
+		  delete trame;
+		  delete header;
+		}
+	      if (Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
+		if (BattleManager::getInstance()->inBattle(_player))
+		  _state = BATTLE;
 	    }
 	}
     }
@@ -249,9 +260,10 @@ void				Client::deleteObject(unsigned int const item)
     _player->deleteItem(item);
 }
 
-void				Client::startBattle()
+void				Client::startBattle(Player *&player)
 {
   _state = BATTLE;
+  player = _player;
 }
 
 void				Client::endBattle()
@@ -302,7 +314,7 @@ bool				Client::gather(std::string const &ressource, std::string const &job, Res
 	{
 	  Server::getInstance()->callProtocol<std::list<AItem *> *>("ADDTOINVENTORY", _id, &result);
 	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
-	  RessourceManager::getInstance()->needRessource(coord, _player->getZone());
+	  RessourceManager::getInstance()->needRessource(ressource, coord, _player->getZone());
 	  Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, idRessource, Map::getInstance()->getZone(_player->getZone()));
 	  Map::getInstance()->delEntity(_player->getZone(), idRessource, coord);
 	}

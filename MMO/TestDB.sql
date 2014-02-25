@@ -239,6 +239,13 @@ INSERT INTO `Player_equipment_stuffs`(`object_id`, `key`, `value`) VALUES
        (2, 'RING', 7),
        (2, 'BOOTS', 3);
 
+/* Inserting Ressources */
+DELETE FROM `Ressource`;
+
+INSERT INTO `Ressource`(`id`, `name`, `level_lvl`, `level_exp`) VALUES
+       (1, 'Orchidée', 10, 100),
+       (2, 'Peau de bouftou', 1, 10);
+
 /* Adding some fancy views because it's quite swag */
 DROP VIEW IF EXISTS `StatView`;
 CREATE VIEW StatView AS SELECT Stat.id, StatKey.name, Stat.value FROM Stat, StatKey WHERE Stat.key = StatKey.id;

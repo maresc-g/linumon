@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Fri Feb 21 15:25:11 2014 laurent ansel
+// Last update Mon Feb 24 17:38:06 2014 laurent ansel
 //
 
 #include			<list>
@@ -121,6 +121,7 @@ void				Server::init(int const port)
   Map::getInstance();
   this->debug("Done");
   this->debug("Initialing RessourceManager ...");
+  RessourceLoader::getInstance();
   RessourceManager::getInstance();
   this->debug("Done");
   _codeBreaker->start();
@@ -131,6 +132,7 @@ void				Server::init(int const port)
   ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
   ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
   ObjectPoolManager::getInstance()->runObjectPool<Error>("error");
+  ObjectPoolManager::getInstance()->runObjectPool<Ressource>("ressource");
   this->debug("Done");
 }
 

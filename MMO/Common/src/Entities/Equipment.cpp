@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:28:56 2014 laurent ansel
-// Last update Mon Feb 24 14:25:37 2014 alexis mestag
+// Last update Mon Feb 24 15:44:30 2014 guillaume marescaux
 //
 
 #include			<sstream>
@@ -100,6 +100,13 @@ bool				Equipment::getStuff(Stuff *&oldStuff, unsigned int const idItem)
     }
   return (ret);
 }
+
+bool				Equipment::stuffExists(Stuff::eStuff const type) const
+{
+  return (_stuffs.find(type) != _stuffs.end() ? true : false);
+}
+
+Stuff const			&Equipment::getStuff(Stuff::eStuff const type) const { return (*(_stuffs.find(type)->second)); }
 
 bool				Equipment::serialization(Trame &trame) const
 {

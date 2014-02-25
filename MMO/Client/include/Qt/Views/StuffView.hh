@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:08:03 2014 guillaume marescaux
-// Last update Thu Feb 20 10:49:49 2014 guillaume marescaux
+// Last update Mon Feb 24 12:44:40 2014 guillaume marescaux
 //
 
 #ifndef 		__STUFFVIEW_HH__
@@ -16,6 +16,7 @@
 #include		"ui_stuffview.h"
 #include		"Qt/WindowManager.hh"
 #include		"Qt/Views/ItemView.hh"
+#include		"Entities/Player.hh"
 
 class			WindowManager;
 
@@ -35,7 +36,8 @@ private:
   virtual void		paintEvent(QPaintEvent *);
 
 public:
-  void			initStuff(void);
+  void			initStuff(Player const &player);
+  void			initStuff(Mob const &mob);
 };
 
 #endif

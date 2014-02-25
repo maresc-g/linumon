@@ -4,5 +4,11 @@
         "NAME" : "Coiffe Bouftou",
         "TYPE" : 1,
         "STUFFTYPE" : 1
+    },
+    "ITEM1" :
+    {
+        "NAME" : "Plastron Bouftou",
+        "TYPE" : 1,
+        "STUFFTYPE" : 1
     }
 }

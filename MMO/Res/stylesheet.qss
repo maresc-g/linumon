@@ -134,3 +134,8 @@ MenuView
 {
 	background-color: #FFFFFF;
 }
+
+ItemView QLabel
+{
+	background-color: #FFFFFF;
+}

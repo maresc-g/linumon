@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Thu Feb 20 12:46:56 2014 laurent ansel
+// Last update Tue Feb 25 10:41:44 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -229,25 +229,26 @@ void				ClientManager::playerObject(FD const fd, unsigned int const item) const
   this->_mutex->unlock();
 }
 
-void				ClientManager::startBattle(FD const fd) const
+void				ClientManager::startBattle(FD const fd, Player *&player) const
 {
   bool				set = false;
 
   this->_mutex->lock();
   for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
     if ((*it).first && (*it).second)
-      set = (*it).first->stateBattle(fd, true, false);
+      set = (*it).first->stateBattle(fd, true, false, player);
   this->_mutex->unlock();
 }
 
 void				ClientManager::endBattle(FD const fd) const
 {
   bool				set = false;
+  Player			*player;
 
   this->_mutex->lock();
   for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
     if ((*it).first && (*it).second)
-      set = (*it).first->stateBattle(fd, false, true);
+      set = (*it).first->stateBattle(fd, false, true, player);
   this->_mutex->unlock();
 }
 

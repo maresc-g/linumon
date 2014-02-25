@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Wed Feb 19 15:16:28 2014 laurent ansel
+// Last update Mon Feb 24 19:50:27 2014 laurent ansel
 //
 
 #include			"Entities/Consumable.hh"
@@ -62,16 +62,17 @@ bool				Consumable::serialization(Trame &trame) const
   trame["TYPE"] = this->getItemType();
   trame["NAME"] = this->getName();
   trame["ID"] = static_cast<unsigned int>(this->getId());
-  trame["TYPE"] = this->getConsumableType();
+  trame["CONSUTYPE"] = this->getConsumableType();
   return (true);
 }
 
-Consumable			*Consumable::deserialization(Trame const &trame)
+Consumable			*Consumable::deserialization(Trame const &trame, bool const client)
 {
   Consumable			*consumable = NULL;
 
-  consumable = new Consumable(trame["NAME"].asString(), static_cast<eConsumable>(trame["TYPE"].asInt()));
-  consumable->setId(trame["ID"].asUInt());
+  consumable = new Consumable(trame["NAME"].asString(), static_cast<eConsumable>(trame["CONSUTYPE"].asInt()));
+  if (client)
+    consumable->setId(trame["ID"].asUInt());
   consumable->setItemType(static_cast<AItem::eItem>(trame["TYPE"].asInt()));
   return (consumable);
 }
