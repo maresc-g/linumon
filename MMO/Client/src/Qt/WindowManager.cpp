@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Tue Feb 25 15:08:03 2014 guillaume marescaux
+// Last update Tue Feb 25 16:06:32 2014 cyril jourdain
 //
 
 #include	"Qt/WindowManager.hh"
@@ -100,4 +100,9 @@ MutexVar<CLIENT::eState>	*WindowManager::getState()
 MutexVar<Player*>		*WindowManager::getMainPlayer()
 {
   return _mainPlayer;
+}
+
+MutexVar<bool>			*WindowManager::getNewPlayer()
+{
+  return _newPlayer;
 }
