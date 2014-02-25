@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Mon Feb 17 11:40:49 2014 antoine maitre
+// Last update Tue Feb 25 11:14:17 2014 laurent ansel
 //
 
 #include			"Battle/BattleManager.hh"
@@ -34,6 +34,7 @@ BattleManager::~BattleManager()
 
 bool				BattleManager::inBattle(Player *player)
 {
+  std::cout << "dkfjkdjfkdjfkdjfkdjfkdjfkdjfkjdkfjk" << std::endl;
   if ((rand() % 100) > 74)
     {
       this->newBattle(player, player);
@@ -48,8 +49,11 @@ void				BattleManager::newBattle(Player *player1, Player *player2)
   int				i = 0;
   int				j = 0;
   int				tmp = -1;
-  
-    for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
+
+  std::cout << "dkjfksjdfksjdfkjsdkfjskdfjskdfj" << std::endl;
+  this->_mutex->lock();
+  std::cout << "dkjfksjdfksjdfkjsdkfjskdfjskdfj" << std::endl;
+  for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
     {
       (*it)->lock();
       if ((*it)->getNumOfBattle() < tmp || tmp == -1)
@@ -60,8 +64,9 @@ void				BattleManager::newBattle(Player *player1, Player *player2)
       (*it)->unlock();
       i++;
     }
-    i = 0;
-    for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
+  i = 0;
+  std::cout << "dkjfksjdfksjdfkjsdkfjskdfjskdfj" << std::endl;
+  for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
     {
       if (i == j)
 	{
@@ -71,6 +76,7 @@ void				BattleManager::newBattle(Player *player1, Player *player2)
 	}
       i++;
     }
+  this->_mutex->unlock();
 }
 
 void				BattleManager::deleteBattleUpdaters()

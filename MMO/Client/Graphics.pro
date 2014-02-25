@@ -100,7 +100,8 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Stats/TalentModel.cpp \ 
                 ../Common/src/Trame/Trame.cpp \ 
                 ../Common/src/Header/Header.cpp \ 
-                ../Common/src/Entities/Spells.cpp \ 
+                ../Common/src/Entities/Guild.cpp \ 
+                ../Common/src/Entities/Spells.cpp \
                 ../Common/src/Entities/ACharacter.cpp \ 
                 ../Common/src/Entities/TypeRelations.cpp \ 
                 ../Common/src/Entities/MobModel.cpp \ 

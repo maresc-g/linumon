@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Feb 24 14:53:14 2014 laurent ansel
+// Last update Tue Feb 25 12:45:44 2014 laurent ansel
 //
 
 #include			<functional>
@@ -14,7 +14,7 @@
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _talentTree(NULL), _inventory(new Inventory), _jobs(NULL)
+  _faction(NULL), _talentTree(NULL), _inventory(new Inventory), _jobs(NULL), _guild(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
@@ -26,7 +26,7 @@ Player::Player() :
 
 Player::Player(std::string const &name) :
   Persistent(), ACharacter(name, eCharacter::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _talentTree(NULL), _inventory(new Inventory), _jobs(NULL)
+  _faction(NULL), _talentTree(NULL), _inventory(new Inventory), _jobs(NULL), _guild(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
@@ -55,6 +55,7 @@ Player				&Player::operator=(Player const &rhs)
     {
       this->setCoord(rhs.getCoord());
       this->setFaction(rhs.getFaction());
+      this->setGuild(rhs.getGuild());
       this->setZone(rhs.getZone());
     }
   return (*this);
@@ -105,6 +106,16 @@ Faction const			&Player::getFaction() const
 void				Player::setFaction(Faction const &faction)
 {
   _faction = &faction;
+}
+
+Guild const			&Player::getGuild() const
+{
+  return (*_guild);
+}
+
+void				Player::setGuild(Guild const &guild)
+{
+  _guild = &guild;
 }
 
 Digitaliser const		&Player::getDigitaliser() const
@@ -246,6 +257,7 @@ bool				Player::serialization(Trame &trame) const
   trame["PLAYER"]["TYPE"] = this->getStatEntityType();
   this->_coord->serialization(trame(trame["PLAYER"]));
   this->_faction->serialization(trame(trame["PLAYER"]));
+  this->_guild->serialization(trame(trame["PLAYER"]));
   this->_digitaliser.serialization(trame(trame["PLAYER"]));
   this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
@@ -272,6 +284,7 @@ Player				*Player::deserialization(Trame const &trame)
       player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame["PLAYER"]["TYPE"].asInt()));
       player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));
       player->setFaction(*Faction::deserialization(trame(trame["PLAYER"])));
+      player->setGuild(*Guild::deserialization(trame(trame["PLAYER"])));
       player->setZone(trame["PLAYER"]["ZONE"].asString());
 
       Level			*lvl = Level::deserialization(trame(trame["PLAYER"]));

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Wed Feb 12 19:06:30 2014 antoine maitre
+// Last update Tue Feb 25 11:09:56 2014 laurent ansel
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -27,6 +27,7 @@ BattleUpdater::BattleUpdater()
 
 BattleUpdater::~BattleUpdater()
 {
+  _mutex->destroy();
   delete _mutex;
 }
 
@@ -47,9 +48,9 @@ void				BattleUpdater::addTrame(Trame trame)
 
 void				BattleUpdater::run()
 {
+  this->_mutex->lock();
   while (!_quit)
     {
-      this->_mutex->lock();
       if (!this->_trames.empty())
 	{
 	  for (auto it = this->_funcs->begin(); it != this->_funcs->end(); it++)
@@ -63,7 +64,9 @@ void				BattleUpdater::run()
 	}
       this->_mutex->unlock();
       usleep(1000);
+      this->_mutex->lock();
     }
+  this->_mutex->unlock();
 }
 
 bool				BattleUpdater::newBattle(Player *player1, Player *player2)

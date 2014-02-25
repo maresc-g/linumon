@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Feb 24 14:38:54 2014 laurent ansel
+// Last update Tue Feb 25 12:58:21 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -270,6 +270,7 @@ bool			newPlayer(unsigned int const id, Player *player, Zone *zone)
       (*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]["ZONE"] = player->getZone();
       player->getCoord().serialization((*trame)((*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]));
       player->getFaction().serialization((*trame)((*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]));
+      player->getGuild().serialization((*trame)((*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]));
       trame->setEnd(true);
       ret = sendToAllClient(id, trame, zone, false);
     }
@@ -338,6 +339,7 @@ bool                    newZone(unsigned int const id, Player *player, Zone *old
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
+      ret = map(id, zone);
       ret = newPlayer(id, player, zone);
       ret = removeEntity(id, player->getId(), oldZone);
     }
@@ -421,7 +423,6 @@ bool                    map(unsigned int const id, Zone *zone)
       header->setProtocole("TCP");
       if (header->serialization(*trame) && zone->serialization((*trame)))
 	{
-	  std::cout << trame->toString() << std::endl;
 	  trame->setEnd(true);
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 	  ret = true;
