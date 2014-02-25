@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Feb 24 12:33:21 2014 alexis mestag
+// Last update Tue Feb 25 12:44:29 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -25,6 +25,7 @@
 # include		"Utility/ISerialization.hh"
 # include		"Entities/Inventory.hh"
 # include		"Entities/Jobs.hh"
+# include		"Entities/Guild.hh"
 
 class			User;
 
@@ -53,6 +54,7 @@ private:
   User const			*_user;
   Inventory			*_inventory;
   Jobs				*_jobs;
+  Guild const			*_guild;
 
 # ifndef	CLIENT_COMPILATION
   DBZone const			*_dbZone;
@@ -85,6 +87,9 @@ public:
 
   Faction const			&getFaction() const;
   void				setFaction(Faction const &faction);
+
+  Guild const			&getGuild() const;
+  void				setGuild(Guild const &guild);
 
   Digitaliser const		&getDigitaliser() const;
 

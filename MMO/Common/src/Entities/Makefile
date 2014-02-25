@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Mon Feb 24 15:38:02 2014 alexis mestag
+## Last update Tue Feb 25 12:48:00 2014 laurent ansel
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
@@ -21,6 +21,7 @@ ENTITIES_SRC=		AEntity.cpp		\
 			Heal.cpp		\
 			Inventory.cpp		\
 			Job.cpp			\
+			Guild.cpp		\
 			Jobs.cpp		\
 			JobModel.cpp		\
 			Level.cpp		\
@@ -54,6 +55,7 @@ ODB_ENTITIES+=		ACharacter.hh		\
 			Inventory.hh		\
 			Job.hh			\
 			JobModel.hh		\
+			Guild.hh		\
 			Level.hh		\
 			Mob.hh			\
 			MobModel.hh		\

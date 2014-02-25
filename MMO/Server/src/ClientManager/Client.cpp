@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Feb 25 10:37:57 2014 laurent ansel
+// Last update Tue Feb 25 13:00:37 2014 alexis mestag
 //
 
 #include			"ClientManager/Client.hh"
@@ -14,6 +14,8 @@
 #include			"ClientWriter/ClientWriter.hh"
 #include			"RessourceManager/RessourceManager.hh"
 #include			"Battle/BattleManager.hh"
+#include			"Database/Repositories/PlayerRepository.hpp"
+#include			"Database/Repositories/FactionRepository.hpp"
 
 Client::Client():
   _use(false),
@@ -163,9 +165,11 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
   if (this->_state == GAME && this->_user)
     {
       Repository<Player>	*rp = &Database::getRepository<Player>();
+      Repository<Faction>	*rf = &Database::getRepository<Faction>();
       Player			*player = new Player(name);
 
-      player->setFaction(*faction);
+      player->setFaction(*rf->getByName(faction->getName()));
+      delete faction;
       this->_user->addPlayer(*player);
       rp->persist(*player);
       return (true);
@@ -229,8 +233,10 @@ void				Client::move(Player::PlayerCoordinate *coord)
 		  delete header;
 		}
 	      if (Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
-		if (BattleManager::getInstance()->inBattle(_player))
-		  _state = BATTLE;
+		{
+		  // if (BattleManager::getInstance()->inBattle(_player))
+		  //   _state = BATTLE;
+		}
 	    }
 	}
     }

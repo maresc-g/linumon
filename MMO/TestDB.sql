@@ -108,14 +108,21 @@ INSERT INTO `AuthorizedStatKeys_keys`(`object_id`, `index`, `value`) VALUES
        (2, 6, 7),
        (2, 7, 8);
 
+/* Inserting Guilds */
+DELETE FROM `Guild`;
+
+INSERT INTO `Guild`(`id`, `name`) VALUES
+       (1, 'Folichon Babbage'),
+       (2, 'Les Rageux');
+
 /* Inserting Players */
 DELETE FROM Player;
 
-INSERT INTO `Player`(`id`, `name`, `stats_authKeys`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`) VALUES
-       (1, 'Thinenus', 1, 13, 4, 10, 1, 1, 1, 1, 10, 30, 'Res/Inventories/Thinenus.json', 10000, 30),
-       (2, 'Sezu-Kho', 1, 20, 6, 10, 1, 2, 2, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30),
-       (3, 'WeshWeshCabillaud', 1, 15, 5, 10, 2, 1, 1, 2, 10, 30, 'Res/Inventories/WeshWeshCabillaud.json', 20000, 20),
-       (4, 'EnThéorieCaDevraitMarcher', 1, 584, 10, 10, 2, 2, 2, 2, 20, 20, 'Res/Inventories/EnThéorieCaDevraitMarcher.json', 20000, 20);
+INSERT INTO `Player`(`id`, `name`, `stats_authKeys`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`) VALUES
+       (1, 'Thinenus', 1, 13, 4, 10, 1, 1, 1, 1, 1, 10, 30, 'Res/Inventories/Thinenus.json', 10000, 30),
+       (2, 'Sezu-Kho', 1, 20, 6, 10, 1, 2, 2, 1, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30),
+       (3, 'WeshWeshCabillaud', 1, 15, 5, 10, 2, 1, 1, 2, 2, 10, 30, 'Res/Inventories/WeshWeshCabillaud.json', 20000, 20),
+       (4, 'EnThéorieCaDevraitMarcher', 1, 584, 10, 10, 2, 2, 2, 2, 2, 20, 20, 'Res/Inventories/EnThéorieCaDevraitMarcher.json', 20000, 20);
 
 /* Assigning Talents to Players */
 DELETE FROM `Player_talents`;
@@ -159,7 +166,56 @@ INSERT INTO `Stat`(`id`, `key`, `value`) VALUES
        (21, 5, 100),
        (22, 6, 80),
        (23, 7, 100),
-       (24, 8, 100);
+       (24, 8, 100),
+
+       (25, 1, 551),
+       (26, 2, 54),
+       (27, 3, 84),
+       (28, 4, 98),
+       (29, 5, 684),
+       (30, 6, 68),
+       (31, 7, 68),
+       (32, 8, 963),
+       (33, 1, 7),
+       (34, 2, 5684),
+       (35, 3, 54),
+       (36, 4, 57),
+       (37, 5, 5864),
+       (38, 6, 574),
+       (39, 7, 47),
+       (40, 8, 1),
+       (41, 1, 681),
+       (42, 2, 5684),
+       (43, 3, 684),
+       (44, 4, 568),
+       (45, 5, 6871),
+       (46, 6, 51),
+       (47, 7, 867),
+       (48, 8, 68),
+       (49, 1, 68),
+       (50, 2, 41),
+       (51, 3, 856741),
+       (52, 4, 8),
+       (53, 5, 8671),
+       (54, 6, 58),
+       (55, 7, 6),
+       (56, 8, 7861),
+       (57, 1, 8671),
+       (58, 2, 85671),
+       (59, 3, 271),
+       (60, 4, 58),
+       (61, 5, 92),
+       (62, 6, 587),
+       (63, 7, 56),
+       (64, 8, 56),
+       (65, 1, 57),
+       (66, 2, 3084),
+       (67, 3, 5),
+       (68, 4, 684),
+       (69, 5, 5784),
+       (70, 6, 5),
+       (71, 7, 57),
+       (72, 8, 78);
 
 /* Assigning Stats to MobModels */
 DELETE FROM `MobModel_stats_stats`;
@@ -200,6 +256,59 @@ INSERT INTO `Mob`(`id`, `name`, `stats_authKeys`, `currentExp`, `level_lvl`, `le
        (4, 'MegaFist', 2, 15659, 12, 25000, 1),
        (5, 'SuperWet', 2, 11087, 11, 15000, 2),
        (6, 'UltraBushy', 2, 12, 1, 20, 3);
+
+/* Assigning Stats to Mobs */
+DELETE FROM `Mob_stats_stats`;
+
+INSERT INTO `Mob_stats_stats`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 25),
+       (1, 1, 26),
+       (1, 2, 27),
+       (1, 3, 28),
+       (1, 4, 29),
+       (1, 5, 30),
+       (1, 6, 31),
+       (1, 7, 32),
+       (2, 0, 33),
+       (2, 1, 34),
+       (2, 2, 35),
+       (2, 3, 36),
+       (2, 4, 37),
+       (2, 5, 38),
+       (2, 6, 39),
+       (2, 7, 40),
+       (3, 0, 41),
+       (3, 1, 42),
+       (3, 2, 43),
+       (3, 3, 44),
+       (3, 4, 45),
+       (3, 5, 46),
+       (3, 6, 47),
+       (3, 7, 48),
+       (4, 0, 49),
+       (4, 1, 50),
+       (4, 2, 51),
+       (4, 3, 52),
+       (4, 4, 53),
+       (4, 5, 54),
+       (4, 6, 55),
+       (4, 7, 56),
+       (5, 0, 57),
+       (5, 1, 58),
+       (5, 2, 59),
+       (5, 3, 60),
+       (5, 4, 61),
+       (5, 5, 62),
+       (5, 6, 63),
+       (5, 7, 64),
+       (6, 0, 65),
+       (6, 1, 66),
+       (6, 2, 67),
+       (6, 3, 68),
+       (6, 4, 69),
+       (6, 5, 70),
+       (6, 6, 71),
+       (6, 7, 72);
 
 /* Assigning Mobs to Players */
 DELETE FROM `Player_digitaliser_mobs`;

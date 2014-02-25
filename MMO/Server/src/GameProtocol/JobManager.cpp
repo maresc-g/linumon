@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:26:56 2014 laurent ansel
-// Last update Thu Feb 20 12:52:01 2014 laurent ansel
+// Last update Tue Feb 25 10:49:52 2014 laurent ansel
 //
 
 #include			<functional>
