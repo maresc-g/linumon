@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb 25 13:25:58 2014 guillaume marescaux
+// Last update Tue Feb 25 13:38:00 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -404,6 +404,7 @@ bool				Core::move(CLIENT::eDirection dir)
   // if (zone && newX >= 0 && newY >= 0 && newX < zone->getSizeX() && newY < zone->getSizeY()
   if ((zone->getCase(newX, newY) && zone->getCase(newX, newY)->getEntities()->size() == 0) || !zone->getCase(newX, newY))
     {
+      (**_player)->setCoord(newX, newY);
       Player::Coordinate	*coord = new Player::Coordinate(newX, newY);
       (*_proto).operator()<unsigned int const, int, Player::PlayerCoordinate const *>("ENTITY", _id, (**_player)->getId(),
   									      coord);
