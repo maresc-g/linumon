@@ -122,9 +122,9 @@ DELETE FROM Player;
 
 INSERT INTO `Player`(`id`, `name`, `stats_authKeys`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`) VALUES
        (1, 'Thinenus', 1, 13, 4, 10, 1, 1, 1, 1, 1, 10, 30, 'Res/Inventories/Thinenus.json', 10000, 30),
-       (2, 'Sezu-Kho', 1, 20, 6, 10, 1, 2, 2, 1, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30),
+       (2, 'Sezu-Kho', 1, 20, 6, 10, 1, 1, 2, 1, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30),
        (3, 'WeshWeshCabillaud', 1, 15, 5, 10, 2, 1, 1, 2, 2, 10, 30, 'Res/Inventories/WeshWeshCabillaud.json', 20000, 20),
-       (4, 'EnThéorieCaDevraitMarcher', 1, 584, 10, 10, 2, 2, 2, 2, 2, 20, 20, 'Res/Inventories/EnThéorieCaDevraitMarcher.json', 20000, 20);
+       (4, 'EnThéorieCaDevraitMarcher', 1, 584, 10, 10, 2, 1, 2, 2, 2, 20, 20, 'Res/Inventories/EnThéorieCaDevraitMarcher.json', 20000, 20);
 
 /* Assigning Talents to Players */
 DELETE FROM `Player_talents`;
