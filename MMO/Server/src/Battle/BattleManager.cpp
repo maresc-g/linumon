@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Tue Feb 25 11:14:17 2014 laurent ansel
+// Last update Tue Feb 25 16:07:24 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -34,7 +34,6 @@ BattleManager::~BattleManager()
 
 bool				BattleManager::inBattle(Player *player)
 {
-  std::cout << "dkfjkdjfkdjfkdjfkdjfkdjfkdjfkjdkfjk" << std::endl;
   if ((rand() % 100) > 74)
     {
       this->newBattle(player, player);

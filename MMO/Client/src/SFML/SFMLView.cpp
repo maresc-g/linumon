@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Tue Feb 25 14:59:00 2014 guillaume marescaux
+// Last update Tue Feb 25 16:07:16 2014 cyril jourdain
 //
 
 /*
@@ -21,14 +21,14 @@
 		check if it can move (map border)
  */
 
-
+#include		<stdexcept>
 #include		"SFML/SFMLView.hpp"
 #include		"Map/Map.hh"
 
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()), _mainPerso(NULL),
   _clock(new sf::Clock()), _sprites(new SpriteMap), _keyDelayer(new KeyDelayer()),
-  _playerList(new std::vector<PlayerSprite*>),
+  _playerList(new std::vector<OPlayerSprite*>), _keyMap(new KeyMap),
   _spellBar(new SpellBarView(this, w)), _itemView(new ItemView(this, w)),
   _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
   _chat(new ChatView(this, w)), _menu(new MenuView(this, w)), _jobMenu(new JobMenuView(this, w)),
@@ -56,6 +56,16 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _textFont = new sf::Font();
   if (!_textFont->loadFromFile("./Res/arial.ttf"))
      std::cout << "Error while loading font" << std::endl;
+
+  (*_keyMap)[sf::Keyboard::Up] = &SFMLView::keyUp;
+  (*_keyMap)[sf::Keyboard::Down] = &SFMLView::keyDown;
+  (*_keyMap)[sf::Keyboard::Left] = &SFMLView::keyLeft;
+  (*_keyMap)[sf::Keyboard::Right] = &SFMLView::keyRight;
+  (*_keyMap)[sf::Keyboard::I] = &SFMLView::keyI;
+  (*_keyMap)[sf::Keyboard::S] = &SFMLView::keyS;
+  (*_keyMap)[sf::Keyboard::J] = &SFMLView::keyJ;
+  (*_keyMap)[sf::Keyboard::Escape] = &SFMLView::keyEscape;
+  (*_keyMap)[sf::Keyboard::Return] = &SFMLView::keyReturn;
 }
 
 SFMLView::~SFMLView()
@@ -86,7 +96,6 @@ void			SFMLView::onInit()
   _mainView->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
   		  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
   _inventory->initInventory();
-
   _stuff->initStuff(***(_wMan->getMainPlayer()));
   /* Theorically, generateOffset should be called everytime play() is called with another anim.
    But as far as i know, they are all of the same size, so offsets are OK for eveyone */
@@ -97,11 +106,27 @@ void			SFMLView::onUpdate()
   sf::Event event;
 
   while (pollEvent(event))
-    ; /* Not used here but SFML need it to handle internal events */
+    {
+      if (event.type == sf::Event::KeyPressed)
+	{
+	  try {
+	    (this->*(_keyMap->at(event.key.code)))();
+	  }
+	  catch (std::out_of_range const &e) {
+	  }
+	}
+    }
+  /* Not used here but SFML need it to handle internal events */
 
+  if (**(_wMan->getNewPlayer()))
+    {
+      loadPlayerList();
+      *(_wMan->getNewPlayer()) = false;
+    }
   clear(sf::Color(0,0,0));
   drawView();
-  checkKeys();
+  _keyDelayer->update(_clock);
+  // checkKeys();
   _clock->restart();
   _chat->update();
 }
@@ -119,97 +144,43 @@ void			SFMLView::drawView()
   _winSprite->setTexture(_winTexture->getTexture());
   draw(*_winSprite);
   if (_mainPerso) {
+    _mainPerso->moveFromServer();
+    _mainPerso->updateMoves(_clock, _mainView);
     _mainPerso->update(*_clock);
     draw(*_spriteTest);
     draw(*_mainPerso);
   }
-  for (auto it = _playerList->begin() + 1; it != _playerList->end(); it++)
+  setView(*_mainView);
+  // std::cout << "drawView" << std::endl;
+  for (auto it = _playerList->begin(); it != _playerList->end(); it++)
     {
+      if ((**(_wMan->getMainPlayer()))->getId() == ((*it)->getPlayerId()))
+      	continue;
+      (*it)->moveFromServer();
+      (*it)->updateMoves(_clock, NULL);
       (*it)->update(*_clock);
       draw(**it);
     }
+  // std::cout << "end drawView" << std::endl;
 }
 
 void			SFMLView::checkKeys()
 {
-  _keyDelayer->update(_clock);
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !_mainPerso->isMoving())
-    {
-      if (Client::getInstance()->move(CLIENT::DOWN))
-	_mainPerso->moveDown();
-    }
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !_mainPerso->isMoving())
-    {
-      if (Client::getInstance()->move(CLIENT::UP))
-	_mainPerso->moveUp();
-    }
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !_mainPerso->isMoving())
-    {
-      if (Client::getInstance()->move(CLIENT::LEFT))
-	_mainPerso->moveLeft();
-    }
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !_mainPerso->isMoving())
-    {
-      if (Client::getInstance()->move(CLIENT::RIGHT))
-	_mainPerso->moveRight();
-    }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
-    _mainPerso->setSpeed(PX_PER_SECOND + 100);
-  else
-    _mainPerso->setSpeed(PX_PER_SECOND);
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::I) && _keyDelayer->isAvailable(sf::Keyboard::I) && !_chat->getFocused())
-    {
-      if (!_inventory->isVisible())
-	_inventory->show();
-      else
-	_inventory->hide();
-      _keyDelayer->addWatcher(sf::Keyboard::I, 100000);
-    }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && _keyDelayer->isAvailable(sf::Keyboard::Escape) && !_chat->getFocused())
-    {
-      if (!_menu->isVisible())
-	_menu->show();
-      else
-	_menu->hide();
-      _keyDelayer->addWatcher(sf::Keyboard::Escape, 100000);
-    }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) &&
-      _keyDelayer->isAvailable(sf::Keyboard::Return))
-    {
-      if (!_chat->getFocused())
-	_chat->setFocused(true);
-      else
-	_chat->submitText();
-      _keyDelayer->addWatcher(sf::Keyboard::Return, 100000);
-    }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && _keyDelayer->isAvailable(sf::Keyboard::S) && !_chat->getFocused())
-    {
-      if (!_stuff->isVisible())
-	_stuff->show();
-      else
-	_stuff->hide();
-      _keyDelayer->addWatcher(sf::Keyboard::S, 100000);
-    }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::J) && _keyDelayer->isAvailable(sf::Keyboard::J) && !_chat->getFocused())
-    {
-      if (!_jobMenu->isVisible())
-	_jobMenu->show();
-      else
-	_jobMenu->hide();
-      _keyDelayer->addWatcher(sf::Keyboard::J, 100000);
-    }
   if (_mainPerso->isMoving())
-    _mainPerso->updateMoves(_clock, _mainView);
+    _mainPerso->updateMoves(_clock, NULL);
   setView(*_mainView);
 }
 
 void			SFMLView::loadPlayerList()
 {
   std::list<AEntity *>	list = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getPlayers();
-  
+
+  for (auto it = _playerList->begin(); it != _playerList->end(); it++)
+    delete *it;
+  _playerList->clear();
   for (auto it = list.begin(); it != list.end(); it++)
     {
-      _playerList->push_back(new PlayerSprite((static_cast<Player*>(*it))->getName(), _textFont));
+      _playerList->push_back(new OPlayerSprite((static_cast<Player*>(*it))->getName(), _textFont));
       _sMan->copySprite("perso1", *_playerList->back());
       _playerList->back()->setPlayerZone(Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getName());
       _playerList->back()->setPlayerId((static_cast<Player*>(*it))->getId());
@@ -217,7 +188,6 @@ void			SFMLView::loadPlayerList()
       _playerList->back()->generateOffset();
       _playerList->back()->setPosition((static_cast<Player*>(*it))->getX() * CASE_SIZE,
 				       (static_cast<Player*>(*it))->getY() * CASE_SIZE - _playerList->back()->getCurrentBound()->height / 2 + 4);
-      std::cout << (static_cast<Player*>(*it))->getX() << std::endl;
     }
 }
 
@@ -253,4 +223,121 @@ void			SFMLView::reloadBackgroundSprite()
     }
   _winTexture->display();
   _changed = true;
+}
+
+void			SFMLView::keyUp()
+{
+  keyControl();
+  if (!_mainPerso->isMoving())
+    Client::getInstance()->move(CLIENT::UP);
+  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable())
+    {
+      _mainPerso->receivedInput();
+      Client::getInstance()->move(CLIENT::UP);
+    }
+
+}
+
+void			SFMLView::keyDown()
+{
+  keyControl();
+  if (!_mainPerso->isMoving())
+    Client::getInstance()->move(CLIENT::DOWN);
+  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable())
+    {
+      _mainPerso->receivedInput();
+      Client::getInstance()->move(CLIENT::DOWN);
+    }
+}
+
+void			SFMLView::keyLeft()
+{
+  keyControl();
+  if (!_mainPerso->isMoving())
+    Client::getInstance()->move(CLIENT::LEFT);
+  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable())
+    {
+      _mainPerso->receivedInput();
+      Client::getInstance()->move(CLIENT::LEFT);
+    }
+}
+
+void			SFMLView::keyRight()
+{
+  keyControl();
+  if (!_mainPerso->isMoving())
+    Client::getInstance()->move(CLIENT::RIGHT);
+  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable())
+    {
+      _mainPerso->receivedInput();
+      Client::getInstance()->move(CLIENT::RIGHT);
+    }
+}
+
+void			SFMLView::keyI()
+{
+  if (_keyDelayer->isAvailable(sf::Keyboard::I) && !_chat->getFocused())
+    {
+      if (!_inventory->isVisible())
+	_inventory->show();
+      else
+	_inventory->hide();
+      _keyDelayer->addWatcher(sf::Keyboard::I, 100000);
+    }
+}
+
+void			SFMLView::keyS()
+{
+  if (_keyDelayer->isAvailable(sf::Keyboard::S) && !_chat->getFocused())
+    {
+      if (!_stuff->isVisible())
+	_stuff->show();
+      else
+	_stuff->hide();
+      _keyDelayer->addWatcher(sf::Keyboard::S, 100000);
+    }
+}
+
+void			SFMLView::keyJ()
+{
+  if (_keyDelayer->isAvailable(sf::Keyboard::J) && !_chat->getFocused())
+    {
+      if (!_jobMenu->isVisible())
+	_jobMenu->show();
+      else
+	_jobMenu->hide();
+      _keyDelayer->addWatcher(sf::Keyboard::J, 100000);
+    }
+}
+
+void			SFMLView::keyEscape()
+{
+  if (_keyDelayer->isAvailable(sf::Keyboard::Escape) && !_chat->getFocused())
+    {
+      if (!_menu->isVisible())
+	_menu->show();
+      else
+	_menu->hide();
+      _keyDelayer->addWatcher(sf::Keyboard::Escape, 100000);
+    }
+}
+
+void			SFMLView::keyReturn()
+{
+  if (_keyDelayer->isAvailable(sf::Keyboard::Return))
+    {
+      if (!_chat->getFocused())
+	_chat->setFocused(true);
+      else
+	_chat->submitText();
+      _keyDelayer->addWatcher(sf::Keyboard::Return, 100000);
+    }
+}
+
+void			SFMLView::keyControl()
+{
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+    _mainPerso->setSpeed(PX_PER_SECOND + 100);
+  else
+    _mainPerso->setSpeed(PX_PER_SECOND);
 }

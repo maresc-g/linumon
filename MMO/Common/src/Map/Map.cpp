@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Mon Feb 24 15:37:14 2014 antoine maitre
+// Last update Tue Feb 25 16:27:04 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -47,6 +47,7 @@ Map::~Map()
 
 Zone				*Map::getZoneByPos(int const x, int const y)
 {
+  std::cout << x << " " << y << std::endl;
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
     {
       std::cout << (*it).second->getPosX() << " " << (*it).second->getPosY() << std::endl;

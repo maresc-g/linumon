@@ -23,6 +23,7 @@ PlayerSprite::PlayerSprite() :
   _name->setStyle(sf::Text::Bold);
   _dir = NONE;
   _speed = PX_PER_SECOND;
+  _isInputable = true;
 }
 
 PlayerSprite::PlayerSprite(sf::String const &name, sf::Font *font) : 
@@ -35,6 +36,8 @@ PlayerSprite::PlayerSprite(sf::String const &name, sf::Font *font) :
   _name->setColor(sf::Color(15,15,240));
   _name->setStyle(sf::Text::Bold);
   _dir = NONE;
+  _speed = PX_PER_SECOND;
+  _isInputable = true;
 }
 
 PlayerSprite::~PlayerSprite()
@@ -81,45 +84,137 @@ void			PlayerSprite::draw(sf::RenderTarget &target, sf::RenderStates states) con
   }
 }
 
-void			PlayerSprite::moveUp()
+void			PlayerSprite::moveUp(float px, sf::View *view)
 {
-  std::cout << "move up" << std::endl;
-  // while (_pos.y == _playerPtr->getY())
-  //   {
-  // _pos.y -= (_pos.y - _playerPtr->getY()) * CASE_SIZE;
-    //   std::cout << _playerPtr->getY() << std::endl;
-    //   usleep(50000);
-    // }
-  // std::cout << _playerPtr->getY() << std::endl;
-
-  // Player pos is not updated. Y U DID DAT ?!
-  _deltaPos.y = -CASE_SIZE;
-  _dir = UP;
   play("up");
+  if (view) view->move(0, -px);
+  move(0,-px);
+  _deltaPos.y += px;
+  if (_deltaPos.y <= CASE_SIZE - 10 && !_receivedInput)
+    _isInputable = false;
+  if (_deltaPos.y >= CASE_SIZE - 10 && !_receivedInput)
+    _isInputable = true;
+  else if (_deltaPos.y >= CASE_SIZE - 10 && _receivedInput)
+    _isInputable = false;
+  if (_deltaPos.y >= CASE_SIZE)
+    {
+      _pos.y -= 1;
+      _deltaPos.y -= CASE_SIZE;
+      if (!_receivedInput)
+	{
+	  _dir = NONE;
+	  move(0, _deltaPos.y);
+	  view->move(0, _deltaPos.y);
+	  _deltaPos.y = 0;
+	  play("default_up");
+	}
+      _receivedInput = false;
+      _isInputable = true;
+    }
 }
 
-void			PlayerSprite::moveDown()
+void			PlayerSprite::moveDown(float px, sf::View *view)
 {
-  // _pos.y += (_pos.y - _playerPtr->getY()) * CASE_SIZE;
-  _deltaPos.y = CASE_SIZE;
-  _dir = DOWN;
   play("down");
+  if (view) view->move(0, px);
+  move(0,px);
+  _deltaPos.y += px;
+  if (_deltaPos.y <= CASE_SIZE - 10 && !_receivedInput)
+    _isInputable = false;
+  if (_deltaPos.y >= CASE_SIZE - 10 && !_receivedInput)
+    _isInputable = true;
+  else if (_deltaPos.y >= CASE_SIZE - 10 && _receivedInput)
+    _isInputable = false;
+  if (_deltaPos.y >= CASE_SIZE)
+    {
+      _pos.y += 1;
+      _deltaPos.y -= CASE_SIZE;
+      if (!_receivedInput)
+	{
+	  _dir = NONE;
+	  move(0, -_deltaPos.y);
+	  view->move(0, -_deltaPos.y);
+	  _deltaPos.y = 0;
+	  play("default_down");
+	}
+      _receivedInput = false;
+      _isInputable = true;
+    }
 }
 
-void			PlayerSprite::moveLeft()
+void			PlayerSprite::moveLeft(float px, sf::View *view)
 {
-  _pos.x -= CASE_SIZE;
-  _deltaPos.x = -CASE_SIZE;
-  _dir = LEFT;
   play("left");
+  if (view) view->move(-px, 0);
+  move(-px,0);
+  _deltaPos.y += px;
+  if (_deltaPos.y <= CASE_SIZE - 10 && !_receivedInput)
+    _isInputable = false;
+  if (_deltaPos.y >= CASE_SIZE - 10 && !_receivedInput)
+    _isInputable = true;
+  else if (_deltaPos.y >= CASE_SIZE - 10 && _receivedInput)
+    _isInputable = false;
+  if (_deltaPos.y >= CASE_SIZE)
+    {
+      _pos.x -= 1;
+      _deltaPos.y -= CASE_SIZE;
+      if (!_receivedInput)
+	{
+	  _dir = NONE;
+	  move(_deltaPos.y, 0);
+	  view->move(_deltaPos.y,0);
+	  _deltaPos.y = 0;
+	  play("default_left");
+	}
+      _receivedInput = false;
+      _isInputable = true;
+    }
 }
 
-void			PlayerSprite::moveRight()
+void			PlayerSprite::moveRight(float px, sf::View *view)
 {
-  _pos.x += CASE_SIZE;
-  _deltaPos.x = CASE_SIZE;
-  _dir = RIGHT;
   play("right");
+  if (view) view->move(px, 0);
+  move(px,0);
+  _deltaPos.y += px;
+  if (_deltaPos.y <= CASE_SIZE - 10 && !_receivedInput)
+    _isInputable = false;
+  if (_deltaPos.y >= CASE_SIZE - 10 && !_receivedInput)
+    _isInputable = true;
+  else if (_deltaPos.y >= CASE_SIZE - 10 && _receivedInput)
+    _isInputable = false;
+  if (_deltaPos.y >= CASE_SIZE)
+    {
+      _pos.x += 1;
+      _deltaPos.y -= CASE_SIZE;
+      if (!_receivedInput)
+	{
+	  _dir = NONE;
+	  move(-_deltaPos.y, 0);
+	  view->move(-_deltaPos.y,0);
+	  _deltaPos.y = 0;
+	  play("default_right");
+	}
+      _receivedInput = false;
+      _isInputable = true;
+    }
+}
+
+void			PlayerSprite::moveFromServer()
+{
+  if (_dir == NONE || _dir == WAITING)
+    {
+      // std::cout << "Server player pos : " << Map::getInstance()->getPlayerById(_playerId)->getY() << std::endl;
+      _deltaPos.x = (_pos.x - Map::getInstance()->getPlayerById(_playerId)->getX()) * -CASE_SIZE;
+      _deltaPos.y = (_pos.y - Map::getInstance()->getPlayerById(_playerId)->getY()) * -CASE_SIZE;
+      if (_deltaPos.y != 0)
+	_dir = (_deltaPos.y < 0 ? UP : DOWN);
+      else if (_deltaPos.x != 0)
+	_dir = (_deltaPos.x < 0 ? LEFT : RIGHT);
+      _deltaPos.x = 0;
+      _deltaPos.y = 0;
+      // std::cout << (_dir == DOWN ? "dir = DOWN" : _dir == WAITING ? "dir = WAITING" : "NONE") << std::endl;
+    }
 }
 
 void			PlayerSprite::updateMoves(sf::Clock *clock, sf::View *view)
@@ -128,89 +223,138 @@ void			PlayerSprite::updateMoves(sf::Clock *clock, sf::View *view)
   float px = elapsedTime * _speed / 1000000;
 
   if (_dir == eDir::DOWN)
-    {
-      view->move(0, px);
-      move(0, px);
-      _deltaPos.y -= px;
-      if (_deltaPos.y < 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-	{
-	  if (Client::getInstance()->move(CLIENT::DOWN))
-	    _deltaPos.y += CASE_SIZE;
-	  else
-	    _dir = eDir::NONE;
-	}
-      if (_deltaPos.y <= 0)
-	{
-	  view->move(0, _deltaPos.y);
-	  move(0, _deltaPos.y);
-	  _deltaPos.y = 0;
-	  _dir = eDir::NONE;
-	  play("default_down");
-	}
-    }
+    moveDown(px, view);
   else if (_dir == eDir::UP)
-    {
-      view->move(0, -px);
-      move(0, -px);
-      _deltaPos.y += px;
-      if (_deltaPos.y > 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-	{
-	  if (Client::getInstance()->move(CLIENT::UP))
-	    _deltaPos.y -= CASE_SIZE;
-	  else
-	    _dir = eDir::NONE;
-	}
-       if (_deltaPos.y >= 0)
-	{
-	  view->move(0, _deltaPos.y);
-	  move(0, _deltaPos.y);
-	  _deltaPos.y = 0;
-	  _dir = eDir::NONE;
-	  play("default_up");
-	}
-    }
-  else if (_deltaPos.x > 0)
-    {
-      view->move(px, 0);
-      move(px, 0);
-      _deltaPos.x -= px;
-      if (_deltaPos.x < 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-	  if (Client::getInstance()->move(CLIENT::RIGHT))
-	    _deltaPos.x += CASE_SIZE;
-	  else
-	    _dir = eDir::NONE;
-	}
-      if (_deltaPos.x <= 0)
-	{
-	  view->move(_deltaPos.x, 0);
-	  move(_deltaPos.x, 0);
-	  _deltaPos.x = 0;
-	  _dir = eDir::NONE;
-	  play("default_right");
-	}
-    }
-  else if (_deltaPos.x < 0)
-    {
-      view->move(-px, 0);
-      move(-px, 0);
-      _deltaPos.x += px;
-      if (_deltaPos.x > 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-	  if (Client::getInstance()->move(CLIENT::LEFT))
-	    _deltaPos.x -= CASE_SIZE;
-	  else
-	    _dir = eDir::NONE;
-	}
-      if (_deltaPos.x >= 0)
-	{
-	  view->move(_deltaPos.x, 0);
-	  move(_deltaPos.x, 0);
-	  _deltaPos.x = 0;
-	  _dir = eDir::NONE;
-	  play("default_left");
-	}
-    }
+    moveUp(px, view);
+  else if (_dir == eDir::LEFT)
+    moveLeft(px, view);
+  else if (_dir == eDir::RIGHT)
+    moveRight(px, view);
+}
+
+
+void			PlayerSprite::updateMoves2(sf::Clock *clock, sf::View *view)
+{
+  // float elapsedTime = clock->getElapsedTime().asMicroseconds();
+  // float px = elapsedTime * _speed / 1000000;
+
+  // //this need to be fixed
+
+  // if (_dir == eDir::DOWN)
+  //   {
+  //     play("down");
+  //     if (view) view->move(0, px);
+  //     move(0, px);
+  //     _deltaPos.y -= px;
+  //     if (_deltaPos.y < 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+  // 	{
+  // 	  if (view && Client::getInstance()->move(CLIENT::DOWN)){
+  // 	    _deltaPos.y += CASE_SIZE;
+  // 	    _pos.y += 1;
+  // 	  }
+  // 	  // else if (!view)
+  // 	  //   moveFromServer();
+  // 	  else
+  // 	    _dir = eDir::NONE;
+  // 	}
+  //     if (_deltaPos.y <= 0)
+  // 	{
+  // 	  if (view) view->move(0, _deltaPos.y);
+  // 	  move(0, _deltaPos.y);
+  // 	  _deltaPos.y = 0;
+  // 	  _dir = eDir::NONE;
+  // 	  play("default_down");
+  // 	  _pos.y = Map::getInstance()->getPlayerById(_playerId)->getY();
+  // 	}
+  //   }
+  // else if (_dir == eDir::UP)
+  //   {
+  //     play("up");
+  //     if (view) view->move(0, -px);
+  //     move(0, -px);
+  //     _deltaPos.y += px;
+  //     if (_deltaPos.y > 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+  // 	{
+  // 	  if (Client::getInstance()->move(CLIENT::UP))
+  // 	    {
+  // 	      _deltaPos.y -= CASE_SIZE;
+  // 	      _pos.y -= 1;
+  // 	    }
+  // 	  // else if (!view)
+  // 	  //   moveFromServer();
+  // 	  else
+  // 	    _dir = eDir::NONE;
+  // 	}
+  //      if (_deltaPos.y >= 0)
+  // 	{
+  // 	  if (view) view->move(0, _deltaPos.y);
+  // 	  move(0, _deltaPos.y);
+  // 	  _deltaPos.y = 0;
+  // 	  _pos.y = Map::getInstance()->getPlayerById(_playerId)->getY();
+  // 	  _dir = eDir::NONE;
+  // 	  play("default_up");
+  // 	}
+  //   }
+  // else if (_dir == eDir::RIGHT)
+  //   {
+  //     play("right");
+  //     if (view) view->move(px, 0);
+  //     move(px, 0);
+  //     _deltaPos.x -= px;
+  //     if (_deltaPos.x < 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+  // 	{
+  // 	  if (Client::getInstance()->move(CLIENT::RIGHT))
+  // 	    {
+  // 	      _deltaPos.x += CASE_SIZE;
+  // 	      _pos.x += 1;
+  // 	    }
+  // 	  // else if (!view)
+  // 	  //   moveFromServer();
+  // 	  else
+  // 	    _dir = eDir::NONE;
+  // 	}
+  //     if (_deltaPos.x <= 0)
+  // 	{
+  // 	  if (view) view->move(_deltaPos.x, 0);
+  // 	  move(_deltaPos.x, 0);
+  // 	  _deltaPos.x = 0;
+  // 	  _pos.x = Map::getInstance()->getPlayerById(_playerId)->getX();
+  // 	  _dir = eDir::NONE;
+  // 	  play("default_right");
+  // 	}
+  //   }
+  // else if (_dir == eDir::LEFT)
+  //   {
+  //     play("left");
+  //     if (view) view->move(-px, 0);
+  //     move(-px, 0);
+  //     _deltaPos.x += px;
+  //     if (_deltaPos.x > 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+  // 	{
+  // 	  if (Client::getInstance()->move(CLIENT::LEFT))
+  // 	    {
+  // 	      _deltaPos.x -= CASE_SIZE;
+  // 	      _pos.x -= 1;
+  // 	    }
+  // 	  // else if (!view)
+  // 	  //   moveFromServer();
+  // 	  else
+  // 	    _dir = eDir::NONE;
+  // 	}
+  //     if (_deltaPos.x >= 0)
+  // 	{
+  // 	  if (view) view->move(_deltaPos.x, 0);
+  // 	  move(_deltaPos.x, 0);
+  // 	  _deltaPos.x = 0;
+  // 	  _pos.x = Map::getInstance()->getPlayerById(_playerId)->getX();
+  // 	  _dir = eDir::NONE;
+  // 	  play("default_left");
+  // 	}
+  //   }
+  // Remember :
+  // The end player pos is suppose to be the same as the _pos.
+  // No check are made actually
+  // The lag at input is because i wait until the server answered the new pos. Might be fixed later
 }
 
 bool			PlayerSprite::isMoving() const
@@ -234,7 +378,28 @@ void			PlayerSprite::setPlayerId(unsigned int id)
   _pos.y = player->getY();
 }
 
+unsigned int		PlayerSprite::getPlayerId() const
+{
+  return _playerId;
+}
+
 void			PlayerSprite::setPlayerZone(std::string const &zone)
 {
   _playerZone = zone;
+}
+
+void			PlayerSprite::setWaitingState()
+{
+  _dir = WAITING;
+}
+
+bool			PlayerSprite::isUserInputable()
+{
+  return _isInputable;
+}
+
+void			PlayerSprite::receivedInput()
+{
+  _isInputable = false;
+  _receivedInput = true;
 }
