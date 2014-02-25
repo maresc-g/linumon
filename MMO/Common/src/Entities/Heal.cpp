@@ -5,21 +5,19 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb 21 13:05:16 2014 laurent ansel
-// Last update Tue Feb 25 13:33:55 2014 laurent ansel
+// Last update Tue Feb 25 14:34:49 2014 laurent ansel
 //
 
 #include			"Entities/Heal.hh"
 
 Heal::Heal() :
-  AEntity("HEAL", eEntity::HEAL),
-  _coord(NULL)
+  PNJ("HEAL")
 {
 
 }
 
 Heal::Heal(Heal const &rhs) :
-  AEntity(rhs),
-  _coord(NULL)
+  PNJ(rhs)
 {
   *this = rhs;
 }
@@ -38,51 +36,27 @@ Heal				&Heal::operator=(Heal const &rhs)
   return (*this);
 }
 
-Heal::HealCoordinate const	&Heal::getCoord() const
+bool				Heal::action(Player *player)
 {
-  return (*this->_coord);
+  return (this->heal(player->getDigitaliser()));
 }
 
-void				Heal::setCoord(Heal::HealCoordinate const &coord)
+bool				Heal::heal(Digitaliser const &) const
 {
-  *this->_coord = coord;
-}
-
-Heal::HealCoordinate::type const	&Heal::getX() const
-{
-  return (this->_coord->getX());
-}
-
-Heal::HealCoordinate::type const	&Heal::getY() const
-{
-  return (this->_coord->getY());
-}
-
-void				Heal::setX(Heal::HealCoordinate::type const &x)
-{
-  this->_coord->setX(x);
-}
-
-void				Heal::setY(Heal::HealCoordinate::type const &y)
-{
-  this->_coord->setY(y);
-}
-
-void				Heal::heal(Digitaliser const &) const
-{
-
+  return (true);
 }
 
 bool				Heal::serialization(Trame &trame) const
 {
   trame["HEAL"]["TYPE"] = this->getEntityType();
+  trame["HEAL"]["PNJTYPE"] = this->getPNJType();
   trame["HEAL"]["NAME"] = this->getName();
   trame["HEAL"]["ID"] = static_cast<unsigned int>(this->getId());
-  this->_coord->serialization(trame(trame["HEAL"]));
+  this->getCoord().serialization(trame(trame["HEAL"]));
   return (true);
 }
 
-Heal				*Heal::deserialization(Trame const &trame)
+Heal				*Heal::deserialization(Trame const &trame, bool const client)
 {
   Heal				*heal = NULL;
 
@@ -90,9 +64,11 @@ Heal				*Heal::deserialization(Trame const &trame)
     {
       heal = new Heal();
       heal->setName(trame["HEAL"]["NAME"].asString());
-      heal->setId(trame["HEAL"]["ID"].asUInt());
+      if (client)
+	heal->setId(trame["HEAL"]["ID"].asUInt());
       heal->setEntityType(static_cast<AEntity::eEntity>(trame["HEAL"]["TYPE"].asInt()));
-      heal->setCoord(*HealCoordinate::deserialization(trame(trame["HEAL"])));
+      heal->setPNJType(static_cast<PNJ::ePnj>(trame["HEAL"]["PNJTYPE"].asInt()));
+      heal->setCoord(*PNJCoordinate::deserialization(trame(trame["HEAL"])));
     }
   return (heal);
 }

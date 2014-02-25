@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:53:28 2013 alexis mestag
-// Last update Tue Feb 25 13:22:17 2014 laurent ansel
+// Last update Tue Feb 25 14:23:30 2014 laurent ansel
 //
 
 #include			"Entities/AEntity.hh"
@@ -60,10 +60,6 @@ AEntity				*AEntity::deserialization(Trame  const &trame)
   if (trame.isMember("PLAYER"))
     {
       return (reinterpret_cast<AEntity *>(Player::deserialization(trame)));
-    }
-  if (trame.isMember("HEAL"))
-    {
-      return (reinterpret_cast<AEntity *>(Heal::deserialization(trame)));
     }
   return (NULL);
 }

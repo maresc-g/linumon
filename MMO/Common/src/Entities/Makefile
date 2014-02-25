@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Tue Feb 25 13:21:50 2014 laurent ansel
+## Last update Tue Feb 25 13:51:41 2014 laurent ansel
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
@@ -19,6 +19,7 @@ ENTITIES_SRC=		AEntity.cpp		\
 			Equipment.cpp		\
 			Faction.cpp		\
 			Heal.cpp		\
+			PNJ.cpp			\
 			Inventory.cpp		\
 			Job.cpp			\
 			Guild.cpp		\
