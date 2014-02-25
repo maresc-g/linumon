@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Tue Feb 25 16:07:24 2014 antoine maitre
+// Last update Tue Feb 25 16:51:05 2014 laurent ansel
 //
 
 #include			"Battle/BattleManager.hh"
@@ -49,9 +49,7 @@ void				BattleManager::newBattle(Player *player1, Player *player2)
   int				j = 0;
   int				tmp = -1;
 
-  std::cout << "dkjfksjdfksjdfkjsdkfjskdfjskdfj" << std::endl;
   this->_mutex->lock();
-  std::cout << "dkjfksjdfksjdfkjsdkfjskdfjskdfj" << std::endl;
   for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
     {
       (*it)->lock();
@@ -64,7 +62,6 @@ void				BattleManager::newBattle(Player *player1, Player *player2)
       i++;
     }
   i = 0;
-  std::cout << "dkjfksjdfksjdfkjsdkfjskdfjskdfj" << std::endl;
   for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
     {
       if (i == j)

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb 25 12:58:21 2014 laurent ansel
+// Last update Tue Feb 25 16:45:16 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -61,6 +61,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, Job const *>("JOB", &job);
 
       this->_container->load<unsigned int, Player *, Zone *, Zone *>("NEWZONE", &newZone);
+      this->_container->load<unsigned int, unsigned int, bool, Zone *>("VISIBLE", &visible);
     }
   else
     {
@@ -347,6 +348,27 @@ bool                    newZone(unsigned int const id, Player *player, Zone *old
   return (ret);
 }
 
+bool                    visible(unsigned int const id, unsigned int const idRessource, bool const visible, Zone *zone)
+{
+  Trame			*trame;
+  Header		*header;
+  bool			ret = false;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["VISIBLE"]["IS"] = visible;
+      (*trame)[CONTENT]["VISIBLE"]["ID"] = idRessource;
+      trame->setEnd(true);
+      ret = sendToAllClient(id, trame, zone, true);
+    }
+  delete header;
+  return (ret);
+}
+
 bool                    choosePlayer(unsigned int const id, int playerId)
 {
   Trame			*trame;
@@ -470,7 +492,7 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
 	{
 	  if ((*ip))
 	    {
-	      if ((idClient = static_cast<Player *>(*ip)->getUser().getId()) && idClient != id)
+	      if ((idClient = static_cast<Player *>(*ip)->getUser().getId()) && (idClient != id || id == 0))
 		{
 		  ObjectPoolManager::getInstance()->setObject(tmp, "trame");
 		  *tmp = *trame;
@@ -481,7 +503,7 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
 	    }
 	  ret = true;
 	}
-      if (send)
+      if (send && id != 0)
 	{
 	  (*trame)[HEADER]["IDCLIENT"] = id;
 	  ObjectPoolManager::getInstance()->setObject(tmp, "trame");

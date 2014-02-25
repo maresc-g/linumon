@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Feb 17 14:29:34 2014 laurent ansel
-// Last update Tue Feb 25 14:13:28 2014 laurent ansel
+// Last update Tue Feb 25 16:48:09 2014 laurent ansel
 //
 
 #include			<ctime>
@@ -15,6 +15,7 @@
 #include			"RessourceManager/RessourceManager.hh"
 #include			"ObjectPool/ObjectPoolManager.hpp"
 #include			"Map/Map.hh"
+#include			"Server/Server.hh"
 
 RessourceManager::RessourceManager():
   Thread(),
@@ -137,7 +138,8 @@ double				RessourceManager::setRessource(std::list<std::pair<bool, RessourcePop 
   if (it->first && it->second->time <= 0)
     {
       it->first = false;
-      Map::getInstance()->addEntity(it->second->zone, it->second->ressource);
+      it->second->ressource->setVisible(true);
+      Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("VISIBLE", 0, it->second->ressource->getId(), true, Map::getInstance()->getZone(it->second->zone));
       it->second->clear();
     }
   this->_mutex->unlock();
@@ -175,10 +177,9 @@ void				RessourceManager::setQuit(bool const quit)
   _quit = quit;
 }
 
-void				RessourceManager::needRessource(std::string const &name, Ressource::RessourceCoordinate const &coord, std::string const &zone)
+void				RessourceManager::needRessource(std::string const &name, std::string const &zone, Ressource *ressource)
 {
   bool				set = false;
-  Ressource const		*res;
 
   this->_mutex->lock();
   for (auto it = _action->begin() ; it != _action->end() && !set ; ++it)
@@ -188,16 +189,7 @@ void				RessourceManager::needRessource(std::string const &name, Ressource::Ress
 	  it->second->name = name;
 	  it->second->time = DEFAULT_TIME;
 	  it->second->zone = zone;
-	  ObjectPoolManager::getInstance()->setObject(it->second->ressource, "ressource");
-	  res = RessourceLoader::getInstance()->getRessource(it->second->name);
-	  if (res)
-	    {
-	      *it->second->ressource = *res;
-	      it->second->ressource->setCoord(coord);
-	      it->first = true;
-	    }
-	  else
-	    it->second->clear();
+	  it->second->ressource = ressource;
 	  set = true;
 	}
     }
