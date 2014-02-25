@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb 25 13:38:00 2014 guillaume marescaux
+// Last update Tue Feb 25 13:49:36 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -334,9 +334,11 @@ bool				Core::newPlayer(Trame *trame)
   return (true);
 }
 
-bool				Core::newZone(Trame *)
+bool				Core::newZone(Trame *trame)
 {
   *_state = CLIENT::LOADING;
+  (**_player)->setCoord((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asUInt(),
+			(*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asUInt());
   return (true);
 }
 
