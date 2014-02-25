@@ -139,3 +139,8 @@ ItemView QLabel
 {
 	background-color: #FFFFFF;
 }
+
+JobMenuView
+{
+	background-color: #FFFFFF;
+}
