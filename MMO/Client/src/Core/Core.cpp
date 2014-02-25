@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Feb 24 14:39:28 2014 antoine maitre
+// Last update Tue Feb 25 10:48:27 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -318,17 +318,10 @@ bool				Core::entity(Trame *trame)
 
   if (entity)
     {
-      std::cout << "ENTITY X = " << static_cast<Player *>(entity)->getX() << std::endl;
-      std::cout << "ENTITY Y = " << static_cast<Player *>(entity)->getY() << std::endl;
-      std::cout << "NAME = " << static_cast<Player *>(entity)->getName() << std::endl;
-      std::cout << "ZONE = " << static_cast<Player *>(entity)->getZone() << std::endl;
-      std::cout << "ZONE PLAYER = " << (**_player)->getZone() << std::endl;
       static_cast<Player *>(entity)->setX((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["X"].asInt());
       static_cast<Player *>(entity)->setY((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["Y"].asInt());
       map->move(entity);
     }
-  else
-    std::cout << "EEEEEENNNNNTITYY NULLLLLLLLLLLLLLLLLLLLLLLLLLLLl" << std::endl;
   return (true);
 }
 
@@ -402,13 +395,13 @@ bool				Core::move(CLIENT::eDirection dir)
   map->lock();
   zone = map->getZone((**_player)->getZone());
   // if (zone && newX >= 0 && newY >= 0 && newX < zone->getSizeX() && newY < zone->getSizeY()
-  //     && zone->getCase(newX, newY)->getEntities()->size() == 0)
-  //   {
+  if (zone->getCase(newX, newY)->getEntities()->size() == 0)
+    {
       (**_player)->setCoord(newX, newY);
       (*_proto).operator()<unsigned int const, int, Player::PlayerCoordinate const *>("ENTITY", _id, (**_player)->getId(),
   									      &(**_player)->getCoord());
       ret = true;
-    // }
+    }
   map->unlock();
   return (ret);
 }

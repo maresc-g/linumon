@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Mon Feb 24 16:32:50 2014 guillaume marescaux
+// Last update Tue Feb 25 11:10:31 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -78,12 +78,6 @@ void				StuffView::initStuff(Player const &player)
     {
       item = new ItemView(this, _wMan, new Stuff(equipment->getStuff(Stuff::BOOTS)));
       item->move(0, 470);
-      item->resize(120, 80);
-    }
-  if (equipment->stuffExists(Stuff::BELT))
-    {
-      item = new ItemView(this, _wMan, new Stuff(equipment->getStuff(Stuff::BELT)));
-      item->move(0, 570);
       item->resize(120, 80);
     }
   if (equipment->stuffExists(Stuff::NECKLACE))
