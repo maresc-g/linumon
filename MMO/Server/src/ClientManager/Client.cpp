@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Feb 25 10:37:57 2014 laurent ansel
+// Last update Tue Feb 25 11:21:55 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -229,8 +229,10 @@ void				Client::move(Player::PlayerCoordinate *coord)
 		  delete header;
 		}
 	      if (Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
-		if (BattleManager::getInstance()->inBattle(_player))
-		  _state = BATTLE;
+		{
+		  // if (BattleManager::getInstance()->inBattle(_player))
+		  //   _state = BATTLE;
+		}
 	    }
 	}
     }

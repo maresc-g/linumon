@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:46:12 2014 laurent ansel
-// Last update Thu Feb 20 12:59:56 2014 laurent ansel
+// Last update Tue Feb 25 10:53:40 2014 laurent ansel
 //
 
 #include			<functional>
@@ -25,8 +25,11 @@ OtherCommand::~OtherCommand()
 
 }
 
-bool				OtherCommand::heal(Trame *)
+bool				OtherCommand::heal(Trame *trame)
 {
-
+  if (trame && (*trame)[CONTENT].isMember("HEAL"))
+    {
+      return (true);
+    }
   return (false);
 }
