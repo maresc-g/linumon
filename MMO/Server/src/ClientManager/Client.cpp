@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Feb 25 11:21:55 2014 laurent ansel
+// Last update Tue Feb 25 12:41:34 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -162,12 +162,13 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
 {
   if (this->_state == GAME && this->_user)
     {
-      Repository<Player>	*rp = &Database::getRepository<Player>();
-      Player			*player = new Player(name);
+      // Repository<Player>	*rp = &Database::getRepository<Player>();
+      // Repository<Faction>	*rf = &Database::getRepository<Faction>();
+      // Player			*player = new Player(name);
 
-      player->setFaction(*faction);
-      this->_user->addPlayer(*player);
-      rp->persist(*player);
+      // player->setFaction(rf->getByName());
+      // this->_user->addPlayer(*player);
+      // rp->persist(*player);
       return (true);
     }
   return (false);

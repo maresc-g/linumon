@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:28:40 2013 alexis mestag
-// Last update Tue Feb  4 15:21:10 2014 guillaume marescaux
+// Last update Tue Feb 25 12:42:43 2014 laurent ansel
 //
 
 #ifndef			__FACTION_HH__
