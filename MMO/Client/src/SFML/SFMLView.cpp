@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Tue Feb 25 15:33:00 2014 cyril jourdain
+// Last update Tue Feb 25 16:07:16 2014 cyril jourdain
 //
 
 /*
@@ -118,6 +118,11 @@ void			SFMLView::onUpdate()
     }
   /* Not used here but SFML need it to handle internal events */
 
+  if (**(_wMan->getNewPlayer()))
+    {
+      loadPlayerList();
+      *(_wMan->getNewPlayer()) = false;
+    }
   clear(sf::Color(0,0,0));
   drawView();
   _keyDelayer->update(_clock);
@@ -169,7 +174,10 @@ void			SFMLView::checkKeys()
 void			SFMLView::loadPlayerList()
 {
   std::list<AEntity *>	list = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getPlayers();
-  
+
+  for (auto it = _playerList->begin(); it != _playerList->end(); it++)
+    delete *it;
+  _playerList->clear();
   for (auto it = list.begin(); it != list.end(); it++)
     {
       _playerList->push_back(new OPlayerSprite((static_cast<Player*>(*it))->getName(), _textFont));
