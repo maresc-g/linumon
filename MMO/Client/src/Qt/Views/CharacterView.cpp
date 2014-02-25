@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:05:10 2013 cyril jourdain
-// Last update Wed Feb 19 14:34:19 2014 guillaume marescaux
+// Last update Tue Feb 25 12:44:04 2014 guillaume marescaux
 //
 
 #include		"Qt/Views/CharacterView.hh"
@@ -153,7 +153,7 @@ void		CharacterView::on_b_new_clicked()
 void		CharacterView::on_b_play_clicked()
 {
   Client::getInstance()->choosePlayer((*_charList)[_charNumber]->getPlayer());
-  while (**(_wMan->getState()) == CLIENT::CHOOSE_PLAYER)
+  while (**(_wMan->getState()) == CLIENT::CHOOSE_PLAYER || **(_wMan->getState()) == CLIENT::LOADING)
     usleep(100);
   if (**(_wMan->getState()) == CLIENT::PLAYING) {
     _wMan->hideCharacter();

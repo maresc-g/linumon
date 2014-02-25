@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Fri Feb 21 16:22:14 2014 guillaume marescaux
+// Last update Tue Feb 25 11:21:09 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -137,6 +137,7 @@ private:
   bool			removeEntity(Trame *);
   bool			entity(Trame *);
   bool			newPlayer(Trame *);
+  bool			newZone(Trame *);
 };
 
 #endif
