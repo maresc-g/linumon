@@ -84,7 +84,8 @@ INSERT INTO `StatKey`(`id`, `name`) VALUES
        (7, 'Parade'),
        (8, 'Critic'),
        (9, 'Capture'),
-       (10, 'Limit mob');
+       (10, 'Limit mob'),
+       (11, 'Bag capacity');
 
 /* Inserting AuthorizedStatKeys */
 DELETE FROM `AuthorizedStatKeys`;
@@ -99,6 +100,7 @@ DELETE FROM `AuthorizedStatKeys_keys`;
 INSERT INTO `AuthorizedStatKeys_keys`(`object_id`, `index`, `value`) VALUES
        (1, 0, 9),
        (1, 1, 10),
+       (1, 2, 11),
        (2, 0, 1),
        (2, 1, 2),
        (2, 2, 3),
@@ -215,7 +217,20 @@ INSERT INTO `Stat`(`id`, `key`, `value`) VALUES
        (69, 5, 5784),
        (70, 6, 5),
        (71, 7, 57),
-       (72, 8, 78);
+       (72, 8, 78),
+
+       (73, 9, 10),
+       (74, 10, 12),
+       (75, 11, 40),
+       (76, 9, 20),
+       (77, 10, 22),
+       (78, 11, 50),
+       (79, 9, 30),
+       (80, 10, 32),
+       (81, 11, 60),
+       (82, 9, 40),
+       (83, 10, 42),
+       (84, 11, 70);
 
 /* Assigning Stats to MobModels */
 DELETE FROM `MobModel_stats_stats`;
@@ -348,6 +363,23 @@ INSERT INTO `Player_equipment_stuffs`(`object_id`, `key`, `value`) VALUES
        (2, 'RING', 7),
        (2, 'BOOTS', 3);
 
+/* Assigning Stats to Players */
+DELETE FROM `Player_stats_stats`;
+
+INSERT INTO `Player_stats_stats`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 73),
+       (1, 1, 74),
+       (1, 2, 75),
+       (2, 0, 76),
+       (2, 1, 77),
+       (2, 2, 78),
+       (3, 0, 79),
+       (3, 1, 80),
+       (3, 2, 81),
+       (4, 0, 82),
+       (4, 1, 83),
+       (4, 2, 84);
+
 /* Inserting Ressources */
 DELETE FROM `Ressource`;
 
@@ -369,20 +401,26 @@ CREATE VIEW MobModelView AS
 
 DROP VIEW IF EXISTS `MobView`;
 CREATE VIEW `MobView` AS
-       SELECT Mob.id, Mob.name, Mob.level_lvl, MobModelView.model, MobModelView.type, MobModelView.stat, MobModelView.value AS modelValue
-       	      FROM Mob, MobModelView
-       	      WHERE Mob.model_id = MobModelView.id;
+       SELECT Mob.id, Mob.name, Mob.level_lvl, MobModelView.model, MobModelView.type, MobModelView.stat, MobModelView.value AS modelValue, StatView.value AS mobValue
+       	      FROM Mob, MobModelView, Mob_stats_stats, StatView
+       	      WHERE Mob.model_id = MobModelView.id
+	      	    AND Mob_stats_stats.object_id = Mob.id
+	      	    AND StatView.id = Mob_stats_stats.value
+		    AND StatView.name = MobModelView.stat;
 
 DROP VIEW IF EXISTS `PlayerView`;
 CREATE VIEW `PlayerView` AS
        SELECT Player.id, Player.name, User.pseudo AS user, Faction.name AS faction, Player.level_lvl, Player.currentExp, DBZone.name AS zone, Player.x, Player.y,
-       	      AuthorizedStatKeys.name AS statKeys, TalentTree.name AS talentTree
-       	      FROM Player, Faction, User, DBZone, AuthorizedStatKeys, TalentTree
+       	      AuthorizedStatKeys.name AS statKeys, TalentTree.name AS talentTree, StatView.name AS stat, StatView.value
+       	      FROM Player, Faction, User, DBZone, AuthorizedStatKeys, TalentTree, StatView, Player_stats_stats
        	      WHERE Player.faction = Faction.id
        	      	    AND Player.user = User.id
 	     	    AND Player.dbZone = DBZone.id
 		    AND Player.stats_authKeys = AuthorizedStatKeys.id
-		    AND Player.talentTree = TalentTree.id;
+		    AND Player.talentTree = TalentTree.id
+		    AND Player_stats_stats.object_id = Player.id
+		    AND Player_stats_stats.value = StatView.id
+	      ORDER BY Player.id;
 
 DROP VIEW IF EXISTS `TypeView`;
 CREATE VIEW `TypeView` AS
