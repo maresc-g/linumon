@@ -5,12 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:34:41 2014 laurent ansel
-// Last update Sat Feb 15 13:50:57 2014 laurent ansel
+// Last update Tue Feb 25 10:36:35 2014 laurent ansel
 //
 
 #include			<functional>
 #include			"GameProtocol/Interaction.hh"
 #include			"Server/Server.hh"
+#include			"Battle/BattleManager.hh"
 
 Interaction::Interaction()
 {
@@ -44,11 +45,24 @@ bool				Interaction::interaction(Trame *trame)
 }
 
 
-bool				Interaction::agro(Trame *)
+bool				Interaction::agro(Trame *trame)
 {
   bool				ret = false;
+  unsigned int			target = (*trame)[CONTENT]["INTERACTION"]["TARGETID"].asUInt();
+  Player			*player2;
+  Player			*player1;
+  unsigned int			id = (*trame)[HEADER]["IDCLIENT"].asUInt();
+  Repository<Player>		*rp = &Database::getRepository<Player>();
 
-
+  player2 = rp->getById(target);
+  if (player2)
+    {
+      target = player2->getUser().getId();
+      ClientManager::getInstance()->startBattle(id, player1);
+      ClientManager::getInstance()->startBattle(target, player2);
+      BattleManager::getInstance()->newBattle(player1, player2);
+      ret = true;
+    }
   return (ret);
 }
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Thu Feb 20 12:48:33 2014 laurent ansel
+// Last update Tue Feb 25 10:39:42 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -47,7 +47,7 @@ public:
   bool				setTalents(Trame *trame) const;
   bool				playerObject(FD const fd, unsigned int const target, unsigned int const item) const;
   bool				playerObject(FD const fd, unsigned int const item) const;
-  bool				stateBattle(FD const fd, bool const start, bool const end) const;
+  bool				stateBattle(FD const fd, bool const start, bool const end, Player *&player) const;
   bool				stateTrade(FD const fd, bool const start, bool const end, Player *&player) const;
 
   bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;

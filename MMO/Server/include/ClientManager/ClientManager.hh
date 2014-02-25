@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Thu Feb 20 12:47:26 2014 laurent ansel
+// Last update Tue Feb 25 10:39:32 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -46,7 +46,7 @@ public:
   void				playerObject(FD const fd, unsigned int const target, unsigned int const item) const;
   void				playerObject(FD const fd, unsigned int const item) const;
 
-  void				startBattle(FD const fd) const;
+  void				startBattle(FD const fd, Player *&player) const;
   void				endBattle(FD const fd) const;
   void				startTrade(FD const fd, Player *&player) const;
   void				endTrade(FD const fd) const;

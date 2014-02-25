@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Thu Feb 20 12:48:11 2014 laurent ansel
+// Last update Tue Feb 25 10:39:06 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -386,7 +386,7 @@ bool				ClientUpdater::playerObject(FD const fd, unsigned int const item) const
   return (false);
 }
 
-bool				ClientUpdater::stateBattle(FD const fd, bool const start, bool const end) const
+bool				ClientUpdater::stateBattle(FD const fd, bool const start, bool const end, Player *&player) const
 {
   this->_mutex->lock();
   for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
@@ -394,7 +394,7 @@ bool				ClientUpdater::stateBattle(FD const fd, bool const start, bool const end
       if (fd == (*it).first->getId() && (*it).first->isUse())
 	{
 	  if (start)
-	    (*it).first->startBattle();
+	    (*it).first->startBattle(player);
 	  if (end)
 	    (*it).first->endBattle();
 	  this->_mutex->unlock();
