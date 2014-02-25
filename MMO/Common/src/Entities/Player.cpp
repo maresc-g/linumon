@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Feb 25 17:07:07 2014 laurent ansel
+// Last update Tue Feb 25 17:46:02 2014 laurent ansel
 //
 
 #include			<functional>
@@ -61,7 +61,7 @@ Player				&Player::operator=(Player const &rhs)
     {
       this->setCoord(rhs.getCoord());
       this->setFaction(rhs.getFaction());
-      this->setGuild(rhs.getGuild());
+      this->setGuild(*rhs.getGuild());
       this->setZone(rhs.getZone());
     }
   return (*this);
@@ -127,9 +127,9 @@ void				Player::setFaction(Faction const &faction)
   _faction = &faction;
 }
 
-Guild const			&Player::getGuild() const
+Guild const			*Player::getGuild() const
 {
-  return (*_guild);
+  return (_guild);
 }
 
 void				Player::setGuild(Guild const &guild)

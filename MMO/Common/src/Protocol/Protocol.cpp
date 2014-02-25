@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb 25 16:45:16 2014 laurent ansel
+// Last update Tue Feb 25 17:47:35 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -271,7 +271,8 @@ bool			newPlayer(unsigned int const id, Player *player, Zone *zone)
       (*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]["ZONE"] = player->getZone();
       player->getCoord().serialization((*trame)((*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]));
       player->getFaction().serialization((*trame)((*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]));
-      player->getGuild().serialization((*trame)((*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]));
+      if (player->getGuild())
+	player->getGuild()->serialization((*trame)((*trame)[CONTENT]["NEWPLAYER"]["PLAYER"]));
       trame->setEnd(true);
       ret = sendToAllClient(id, trame, zone, false);
     }
