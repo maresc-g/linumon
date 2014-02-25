@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:58:39 2013 alexis mestag
-// Last update Sun Feb 23 22:46:52 2014 alexis mestag
+// Last update Tue Feb 25 15:59:07 2014 alexis mestag
 //
 
 #ifndef				__STATS_HH__
@@ -41,6 +41,9 @@ public:
   Stats				&operator=(Stats const &rhs);
   Stat::value_type		operator[](StatKey const &key) const;
   Stat::value_type		operator[](std::string const &key) const;
+
+  // Do not assign if !Stat.isShortLived()
+  void				smartAssign(Stats const &rhs);
 
   void				setStats(container_type &stats);
   container_type const		&getStats() const;

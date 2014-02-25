@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Sun Feb 23 22:46:14 2014 alexis mestag
+// Last update Tue Feb 25 15:59:35 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -71,6 +71,16 @@ Stats::container_type		&Stats::getStatsDeepCopy() const
   return (*ret);
 }
 
+void				Stats::smartAssign(Stats const &rhs)
+{
+  this->setKeys(rhs.getKeys());
+  for (auto it = rhs.getStats().begin() ; it != rhs.getStats().end() ; ++it)
+    {
+      if ((*it)->isShortLived())
+	this->setStat((*it)->getKey(), (*it)->getValue());
+    }
+}
+
 void				Stats::setStats(container_type &stats)
 {
   this->deleteStats();
@@ -89,7 +99,14 @@ AuthorizedStatKeys const	&Stats::getKeys() const
 
 void				Stats::setKeys(AuthorizedStatKeys const &keys)
 {
+  static std::function<bool(Stat *)>	statRemover = [&](Stat *s) -> bool {
+    if (keys.isAuthorized(s->getKey()))
+      return (false);
+    return (true);
+  };
+
   _authKeys = &keys;
+  _stats.remove_if(statRemover);
 }
 
 Stat::value_type		Stats::getStat(StatKey const &key) const
@@ -133,7 +150,7 @@ bool				Stats::serialization(Trame &trame) const
 
   for (auto it = this->_stats.begin() ; it != this->_stats.end() ; ++it)
     {
-      (*it)->serialization(trame(trame["STATS"]));
+      (*it)->serialization(trame);
     }
   return (ret);
 }
@@ -153,6 +170,20 @@ Stats				*Stats::deserialization(Trame const &trame)
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	{
 	  st = Stat::deserialization(trame(trame["STATS"][*it]));
+	  if (st)
+	    stat->push_back(st);
+	}
+      stats->setStats(*stat);
+    }
+  else if (trame.isMember("TMPSTATS"))
+    {
+      auto				members = trame["TMPSTATS"].getMemberNames();
+
+      stats = new Stats;
+      stat = new std::list<Stat *>;
+      for (auto it = members.begin() ; it != members.end() ; ++it)
+	{
+	  st = Stat::deserialization(trame(trame["TMPSTATS"][*it]));
 	  if (st)
 	    stat->push_back(st);
 	}

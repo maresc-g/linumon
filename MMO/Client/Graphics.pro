@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = ../pfa-client
 DEPENDPATH += . src
 INCLUDEPATH += . include ../Common/include
-FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbar.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui
+FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbar.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui
 LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp -ldl
 QMAKE_CXXFLAGS += -std=c++0x -DCLIENT_COMPILATION -g
 OBJECTS_DIR = ./obj
@@ -27,6 +27,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Qt/Views/MenuView.hh \
                 include/Qt/Views/TradeView.hh \
                 include/Qt/Views/JobMenuView.hh \
+                include/Qt/Views/JobView.hh \
                 include/Qt/WindowManager.hh \
                 include/Qt/CharDescription/CharDescription.hh \
                 include/SFML/SFMLView.hpp \
@@ -54,6 +55,7 @@ SOURCES +=      src/main.cpp \
                 src/Qt/Views/ChatView.cpp \
                 src/Qt/Views/MenuView.cpp \
                 src/Qt/Views/JobMenuView.cpp \
+                src/Qt/Views/JobView.cpp \
                 src/Qt/Views/TradeView.cpp \
                 src/Qt/WindowManager.cpp \
                 src/Qt/CharDescription.cpp \
@@ -103,11 +105,13 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/Guild.cpp \ 
                 ../Common/src/Entities/Spells.cpp \
                 ../Common/src/Entities/ACharacter.cpp \ 
+                ../Common/src/Entities/Heal.cpp \ 
                 ../Common/src/Entities/TypeRelations.cpp \ 
                 ../Common/src/Entities/MobModel.cpp \ 
                 ../Common/src/Entities/Players.cpp \ 
                 ../Common/src/Entities/Type.cpp \ 
                 ../Common/src/Entities/AItem.cpp \ 
+                ../Common/src/Entities/PNJ.cpp \ 
                 ../Common/src/Entities/Spell.cpp \ 
                 ../Common/src/Entities/Level.cpp \ 
                 ../Common/src/Entities/Digitaliser.cpp \ 

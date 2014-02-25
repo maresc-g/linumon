@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:21:41 2013 alexis mestag
-// Last update Tue Feb 25 15:37:05 2014 alexis mestag
+// Last update Tue Feb 25 16:14:58 2014 alexis mestag
 //
 
 #ifndef			__ASTATENTITY_HH__
@@ -48,7 +48,12 @@ public:
   Stats const		&getStats() const;
   void			setStats(Stats const &stats);
 
+  Stats const		&getTmpStats() const;
+  void			setTmpStats(Stats const &stats);
+  void			reinitTmpStats();
+
   AuthorizedStatKeys const	&getStatKeys() const;
+  void				setStatKeys(AuthorizedStatKeys const &keys);
 };
 
 # ifdef	ODB_COMPILER

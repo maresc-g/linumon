@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb 25 13:49:36 2014 guillaume marescaux
+// Last update Tue Feb 25 15:11:37 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -31,7 +31,7 @@ static void			*runThread(void *data)
 
 Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
 	   MutexVar<std::list<PlayerView *> *> *players,
-	   MutexVar<Chat *> *chat):
+	   MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
@@ -45,6 +45,7 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _player(player),
   _players(players),
   _chat(chat),
+  _newPlayer(newPlayer),
   _handler(new ErrorHandler)
 {
   std::function<bool (Trame *)> func;
@@ -330,6 +331,7 @@ bool				Core::newPlayer(Trame *trame)
 {
   Player			*player = Player::deserialization((*trame)((*trame)[CONTENT]["NEWPLAYER"]));
 
+  *_newPlayer = true;
   Map::getInstance()->addPlayer((**_player)->getZone(), player);
   return (true);
 }

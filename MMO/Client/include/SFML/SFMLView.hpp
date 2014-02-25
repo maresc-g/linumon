@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Tue Feb 25 12:55:47 2014 guillaume marescaux
+// Last update Tue Feb 25 14:58:16 2014 guillaume marescaux
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -22,6 +22,7 @@
 #include		"Qt/Views/ChatView.hh"
 #include		"Qt/Views/MenuView.hh"
 #include		"Qt/Views/JobMenuView.hh"
+#include		"Qt/Views/JobView.hh"
 
 #include		"SFML/Sprite/SpriteManager.hh"
 #include		"SFML/Sprite/Sprite.hh"
@@ -40,6 +41,7 @@ class			StuffView;
 class			ChatView;
 class			MenuView;
 class			JobMenuView;
+class			JobView;
 
 class			SFMLView : public QSFMLWidget
 {
@@ -68,6 +70,7 @@ private:
   ChatView		*_chat;
   MenuView		*_menu;
   JobMenuView		*_jobMenu;
+  JobView		*_job;
 
 public:
   SFMLView(QWidget *, QPoint const &, QSize const &, WindowManager *_wMan);

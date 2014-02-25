@@ -74,18 +74,18 @@ INSERT INTO `Type_relations_relations`(`object_id`, `index`, `value_oType_id`, `
 /* Inserting StatKeys */
 DELETE FROM `StatKey`;
 
-INSERT INTO `StatKey`(`id`, `name`) VALUES
-       (1, 'HP'),
-       (2, 'Attack'),
-       (3, 'Defense'),
-       (4, 'Speed'),
-       (5, 'Precision'),
-       (6, 'Dodge'),
-       (7, 'Parade'),
-       (8, 'Critic'),
-       (9, 'Capture'),
-       (10, 'Limit mob'),
-       (11, 'Bag capacity');
+INSERT INTO `StatKey`(`id`, `name`, `shortLived`) VALUES
+       (1, 'HP', 0),
+       (2, 'Attack', 1),
+       (3, 'Defense', 1),
+       (4, 'Speed', 1),
+       (5, 'Precision', 1),
+       (6, 'Dodge', 1),
+       (7, 'Parade', 1),
+       (8, 'Critic', 1),
+       (9, 'Capture', 1),
+       (10, 'Limit mob', 1),
+       (11, 'Bag capacity', 1);
 
 /* Inserting AuthorizedStatKeys */
 DELETE FROM `AuthorizedStatKeys`;

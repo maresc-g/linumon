@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Feb 25 12:44:29 2014 laurent ansel
+// Last update Tue Feb 25 16:09:37 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -71,6 +71,10 @@ private:
   void			deleteTalents();
 
   void			setDigitaliser(Digitaliser const &digit);
+
+  # ifndef		CLIENT_COMPILATION
+  void			initConstPointersForNewPlayers();
+  # endif
 
 public:
   Player(std::string const &name);

@@ -5,12 +5,16 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Feb 25 12:45:44 2014 laurent ansel
+// Last update Tue Feb 25 16:24:07 2014 alexis mestag
 //
 
 #include			<functional>
 #include			"Entities/Player.hh"
 #include			"Map/Map.hh"
+#include			"Database/Repositories/Repository.hpp"
+#include			"Stats/TalentTree-odb.hxx"
+#include			"Stats/StatKey-odb.hxx"
+#include			"Entities/DBZone-odb.hxx"
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _coord(new PlayerCoordinate),
@@ -33,7 +37,9 @@ Player::Player(std::string const &name) :
   , _zone("NONE")
 # endif
 {
-
+  # ifndef	CLIENT_COMPILATION
+  this->initConstPointersForNewPlayers();
+  # endif
 }
 
 Player::Player(Player const &rhs) :
@@ -60,6 +66,19 @@ Player				&Player::operator=(Player const &rhs)
     }
   return (*this);
 }
+
+#ifndef		CLIENT_COMPILATION
+void					Player::initConstPointersForNewPlayers()
+{
+  Repository<TalentTree>		*rtt = &Database::getRepository<TalentTree>();
+  Repository<AuthorizedStatKeys>	*rask = &Database::getRepository<AuthorizedStatKeys>();
+  Repository<DBZone>			*rdbz = &Database::getRepository<DBZone>();
+
+  this->setTalentTree(*rtt->getById(1));
+  this->setStatKeys(*rask->getById(1));
+  this->setDBZone(*rdbz->getById(1));
+}
+#endif
 
 Player::PlayerCoordinate const		&Player::getCoord() const
 {
@@ -259,6 +278,8 @@ bool				Player::serialization(Trame &trame) const
   this->_faction->serialization(trame(trame["PLAYER"]));
   this->_guild->serialization(trame(trame["PLAYER"]));
   this->_digitaliser.serialization(trame(trame["PLAYER"]));
+  // this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
+  // this->getTmpStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
   this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
@@ -309,6 +330,14 @@ Player				*Player::deserialization(Trame const &trame)
       Equipment			*equipment = Equipment::deserialization(trame(trame["PLAYER"]));
       if (equipment)
 	player->setEquipment(equipment);
+
+      // Stats			*stats = Stats::deserialization(trame(trame["PLAYER"]));
+      // if (stats)
+      // 	player->setStats(*stats);
+
+      // stats = Stats::deserialization(trame(trame["PLAYER"]));
+      // if (stats)
+      // 	player->setTmpStats(*stats);
 
       if (!trame["PLAYER"]["TALENTS"].empty())
 	{

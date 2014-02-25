@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Fri Feb 21 13:12:26 2014 laurent ansel
+// Last update Tue Feb 25 16:25:22 2014 alexis mestag
 //
 
 #include			"Entities/AStatEntity.hh"
@@ -39,6 +39,7 @@ AStatEntity			&AStatEntity::operator=(AStatEntity const &rhs)
     {
       this->setStatEntityType(rhs.getStatEntityType());
       this->setStats(rhs.getStats());
+      this->setTmpStats(rhs.getTmpStats());
     }
   return (*this);
 }
@@ -63,7 +64,28 @@ void				AStatEntity::setStats(Stats const &stats)
   _stats = stats;
 }
 
+Stats const			&AStatEntity::getTmpStats() const
+{
+  return (_tmpStats);
+}
+
+void				AStatEntity::setTmpStats(Stats const &stats)
+{
+  _tmpStats = stats;
+}
+
+void				AStatEntity::reinitTmpStats()
+{
+  _tmpStats.smartAssign(_stats);
+}
+
 AuthorizedStatKeys const	&AStatEntity::getStatKeys() const
 {
   return (_stats.getKeys());
+}
+
+void				AStatEntity::setStatKeys(AuthorizedStatKeys const &keys)
+{
+  _stats.setKeys(keys);
+  _tmpStats.setKeys(keys);
 }

@@ -5,28 +5,23 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb 21 12:49:18 2014 laurent ansel
-// Last update Fri Feb 21 13:20:39 2014 laurent ansel
+// Last update Tue Feb 25 14:34:01 2014 laurent ansel
 //
 
 #ifndef 		__HEAL_HH__
 # define		__HEAL_HH__
 
 # include		"Database/Persistent.hh"
-# include		"Entities/AEntity.hh"
+# include		"Entities/PNJ.hh"
 # include		"Utility/ISerialization.hh"
-# include		"Zone/Coordinate.hpp"
-# include		"Utility/Id.hh"
+# include		"Entities/Digitaliser.hh"
 
-class			Heal : public AEntity, public ISerialization
+class			Heal : public PNJ
 {
-public:
-  typedef iCoordinate	HealCoordinate;
-
-private:
-  HealCoordinate	*_coord;
-
 private:
   Heal();
+
+  bool			heal(Digitaliser const &digitaliser) const;
 
 public:
   Heal(Heal const &rhs);
@@ -34,15 +29,10 @@ public:
 
   Heal			&operator=(Heal const &rhs);
 
-  HealCoordinate const	&getCoord() const;
-  void				setCoord(HealCoordinate const &coord);
-  HealCoordinate::type const	&getX() const;
-  HealCoordinate::type const	&getY() const;
-  void			setX(HealCoordinate::type const &x);
-  void			setY(HealCoordinate::type const &y);
+  virtual bool		action(Player *player);
 
   virtual bool		serialization(Trame &trame) const;
-  static Heal		*deserialization(Trame const &trame);
+  static Heal		*deserialization(Trame const &trame, bool const client = true);
 };
 
 #endif

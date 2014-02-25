@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:48:29 2013 alexis mestag
-// Last update Fri Feb 21 13:15:21 2014 laurent ansel
+// Last update Tue Feb 25 14:21:19 2014 laurent ansel
 //
 
 #ifndef			__AENTITY_HH__
@@ -24,7 +24,7 @@ public:
       NONE,
       ITEM,
       STATENTITY,
-      HEAL,
+      PNJ,
       RESSOURCE
     }			eEntity;
 private:
@@ -43,8 +43,8 @@ public:
   virtual ~AEntity();
 
   eEntity		getEntityType() const;
-  virtual bool		serialization(Trame &trame) const = 0;
 
+  virtual bool		serialization(Trame &trame) const = 0;
   static AEntity	*deserialization(Trame const &trame);
 };
 

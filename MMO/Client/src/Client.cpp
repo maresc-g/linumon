@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Thu Feb 20 13:22:46 2014 guillaume marescaux
+// Last update Tue Feb 25 15:10:13 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -17,7 +17,8 @@ Client::Client():
   _player(new MutexVar<Player *>(NULL)),
   _players(new MutexVar<std::list<PlayerView *> *>(new std::list<PlayerView *>)),
   _chat(new MutexVar<Chat *>(new Chat)),
-  _core(new Core(_state, _player, _players, _chat)),
+  _newPlayer(new MutexVar<bool>(false)),
+  _core(new Core(_state, _player, _players, _chat, _newPlayer)),
   _manager(NULL)
 {
 }
@@ -36,7 +37,7 @@ Client::~Client()
 void				Client::init(int ac, char **av)
 {
   _core->init();
-  _manager = new WindowManager(ac, av, _state, _players, _player);
+  _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer);
   _manager->exec();
   _core->quit();
 }
@@ -52,7 +53,7 @@ void				Client::create(std::string const &name, std::string const &faction)
 bool				Client::move(CLIENT::eDirection dir) { return (_core->move(dir)); }
 
 void				Client::sendChat(std::string const &msg) { _core->sendChat(msg); }
-  MutexVar<Chat *>		*Client::getChat() {return _chat;}
+MutexVar<Chat *>		*Client::getChat() {return _chat;}
 
 void				Client::spell(unsigned int idBattle, Spell const &spell, unsigned int target)
 { _core->spell(idBattle, spell, target); }
