@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Feb 25 11:53:49 2014 antoine maitre
+// Last update Tue Feb 25 16:13:15 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -18,6 +18,7 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
     _player1(player1),
     _player2(player2)
 {
+  std::cout << "a" << std::endl;
   std::list<Mob *> tmp = player1->getDigitaliser().getMobs();
   int i = 0;
   for (auto it = tmp.begin(); it != tmp.end() && i < mobNumber; it++)
@@ -27,6 +28,7 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
       this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats.getStat("Speed")));
       i++;
     }
+  std::cout << "b" << std::endl;
   tmp = player2->getDigitaliser().getMobs();
   i = 0;
   for (auto it = tmp.begin(); it != tmp.end() && i < mobNumber; it++)
@@ -36,8 +38,10 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
       this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats.getStat("Speed")));
       i++;
     }
+  std::cout << "c" << std::endl;
   Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", _player2->getId(), id, _player1);
   Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", _player1->getId(), id, _player2);
+  std::cout << "d" << std::endl;
   this->_order.sort(compareSpeed);
   this->next();
 }

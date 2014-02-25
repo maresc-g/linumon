@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Tue Feb 25 14:21:48 2014 antoine maitre
+// Last update Tue Feb 25 16:12:42 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -63,7 +63,7 @@ void				BattleUpdater::run()
 	      }
 	}
       this->_mutex->unlock();
-      usleep(1000);
+      usleep(10000);
       this->_mutex->lock();
     }
   this->_mutex->unlock();
