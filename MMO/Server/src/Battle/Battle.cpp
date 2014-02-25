@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Thu Feb 20 13:03:44 2014 alexis mestag
+// Last update Tue Feb 25 11:53:49 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -44,7 +44,9 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
 
 Battle::~Battle()
 {
-  
+  ClientManager::getInstance()->endBattle(this->_player1->getUser().getId());
+  if (this->_type == Battle::PVP)
+    ClientManager::getInstance()->endBattle(this->_player2->getUser().getId());
 }
 
 unsigned int				Battle::getID() const
