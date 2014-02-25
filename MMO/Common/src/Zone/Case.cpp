@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Tue Feb 25 12:47:08 2014 laurent ansel
+// Last update Tue Feb 25 17:43:36 2014 laurent ansel
 //
 
 #include		"Zone/Case.hh"
@@ -78,7 +78,8 @@ bool			Case::serialization(Trame &trame) const
 	      trame[std::to_string(i)]["PLAYER"]["ZONE"] = tmp->getZone();
 	      tmp->getCoord().serialization(trame(trame[std::to_string(i)]["PLAYER"]));
 	      tmp->getFaction().serialization(trame(trame[std::to_string(i)]["PLAYER"]));
-	      tmp->getGuild().serialization(trame(trame[std::to_string(i)]["PLAYER"]));
+	      if (tmp->getGuild())
+		tmp->getGuild()->serialization(trame(trame[std::to_string(i)]["PLAYER"]));
 	    }
 	  else
 	    {

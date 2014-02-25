@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Feb 25 16:47:34 2014 antoine maitre
+// Last update Tue Feb 25 16:49:22 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -234,9 +234,9 @@ void				Client::move(Player::PlayerCoordinate *coord)
 		{
 		  Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
 		  delete header;
-		  // if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
-		  //   if (BattleManager::getInstance()->inBattle(_player))
-		  //     _state = BATTLE;
+		  if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
+		    if (BattleManager::getInstance()->inBattle(_player))
+		      _state = BATTLE;
 		}
 	    }
 	}
@@ -308,11 +308,12 @@ bool				Client::craft(std::string const &craft, std::string const &job) const
   return (ret);
 }
 
-bool				Client::gather(std::string const &ressource, std::string const &job, Ressource::RessourceCoordinate const &coord) const
+bool				Client::gather(std::string const &ressource, std::string const &job, Ressource::RessourceCoordinate const &) const
 {
   bool				ret = false;
   std::list<AItem *>		result;
   unsigned int			idRessource;
+  AEntity			*entity;
 
   if (_state == GAME && _player && _user)
     {
@@ -321,9 +322,13 @@ bool				Client::gather(std::string const &ressource, std::string const &job, Res
 	{
 	  Server::getInstance()->callProtocol<std::list<AItem *> *>("ADDTOINVENTORY", _id, &result);
 	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
-	  RessourceManager::getInstance()->needRessource(ressource, coord, _player->getZone());
-	  Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, idRessource, Map::getInstance()->getZone(_player->getZone()));
-	  Map::getInstance()->delEntity(_player->getZone(), idRessource, coord);
+	  entity = Map::getInstance()->getEntityById(_player->getZone(), idRessource);
+	  if (entity)
+	    {
+	      static_cast<Ressource *>(entity)->setVisible(false);
+	      RessourceManager::getInstance()->needRessource(ressource, _player->getZone(), static_cast<Ressource *>(entity));
+	      Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("VISIBLE", _id, idRessource, false, Map::getInstance()->getZone(_player->getZone()));
+	    }
 	}
     }
   return (ret);

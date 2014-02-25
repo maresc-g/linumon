@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Mon Feb 24 19:51:57 2014 laurent ansel
+// Last update Tue Feb 25 16:32:52 2014 laurent ansel
 //
 
 #ifndef 		__RESSOURCE_HH__
@@ -27,6 +27,7 @@ public:
 private:
   RessourceCoordinate	*_coord;
   Level			_level;
+  bool			_visible;
 
 protected:
   Ressource(std::string const &name);
@@ -47,9 +48,11 @@ public:
   void			setX(RessourceCoordinate::type const &x);
   void			setY(RessourceCoordinate::type const &y);
 
-
   void			setLevel(Level const &level);
   Level const		&getLevel() const;
+
+  bool			isVisible() const;
+  void			setVisible(bool const visible);
 
   virtual bool		serialization(Trame &trame) const;
   static Ressource	*deserialization(Trame const &trame, bool const client = true);
@@ -58,6 +61,7 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(Ressource)
 #  pragma db member(Ressource::_coord) transient
+#  pragma db member(Ressource::_visible) transient
 # endif
 
 #endif

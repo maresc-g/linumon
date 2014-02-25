@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Feb 17 14:25:54 2014 laurent ansel
-// Last update Tue Feb 25 14:15:44 2014 laurent ansel
+// Last update Tue Feb 25 16:49:07 2014 laurent ansel
 //
 
 #ifndef 			__RESSOURCEMANAGER_HH__
@@ -58,7 +58,7 @@ private:
 public:
   void				run();
   void				setQuit(bool const quit);
-  void				needRessource(std::string const &name, Ressource::RessourceCoordinate const &coord, std::string const &zone);
+  void				needRessource(std::string const &name, std::string const &zone, Ressource *ressource);
 
 };
 

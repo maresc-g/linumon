@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Tue Feb 25 16:27:04 2014 antoine maitre
+// Last update Tue Feb 25 17:09:12 2014 laurent ansel
 //
 
 #include			"Map/Map.hh"
@@ -20,7 +20,7 @@ Map::Map()
 
   this->_mutex->init();
   this->_mutex->lock();
-  std::cout << JsonFile::readFile(tram, fileConf) << std::endl;
+  JsonFile::readFile(tram, fileConf);
   for (int i = 1; i; i++)
     {
       terr << "Territory" << i;

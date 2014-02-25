@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Tue Feb 25 15:59:35 2014 alexis mestag
+// Last update Tue Feb 25 16:57:11 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -106,7 +106,7 @@ void				Stats::setKeys(AuthorizedStatKeys const &keys)
   };
 
   _authKeys = &keys;
-  _stats.remove_if(statRemover);
+  //  _stats.remove_if(statRemover);
 }
 
 Stat::value_type		Stats::getStat(StatKey const &key) const
