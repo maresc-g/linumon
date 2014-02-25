@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Feb 25 16:24:07 2014 alexis mestag
+// Last update Tue Feb 25 16:44:04 2014 alexis mestag
 //
 
 #include			<functional>
@@ -357,6 +357,11 @@ Player				*Player::deserialization(Trame const &trame)
 void				Player::addTalent(Talent *talent)
 {
   this->_talents.push_back(talent);
+}
+
+TalentTree const		&Player::getTalentTree() const
+{
+  return (*_talentTree);
 }
 
 void				Player::setTalentTree(TalentTree const &tree)
