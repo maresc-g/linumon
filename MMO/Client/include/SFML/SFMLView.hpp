@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Tue Feb 25 15:30:39 2014 cyril jourdain
+// Last update Tue Feb 25 16:19:25 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -64,6 +64,7 @@ private:
   sf::Sprite		*_winSprite;
   bool			_changed;
   sf::Font		*_textFont;
+  sf::Keyboard::Key	_pressedKey;	
 
   /* Child Views */
   SpellBarView		*_spellBar;
