@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Tue Feb 25 14:58:16 2014 guillaume marescaux
+// Last update Tue Feb 25 15:30:39 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -21,8 +21,8 @@
 #include		"Qt/Views/StuffView.hh"
 #include		"Qt/Views/ChatView.hh"
 #include		"Qt/Views/MenuView.hh"
-#include		"Qt/Views/JobMenuView.hh"
-#include		"Qt/Views/JobView.hh"
+#include                "Qt/Views/JobMenuView.hh"
+#include                "Qt/Views/JobView.hh"
 
 #include		"SFML/Sprite/SpriteManager.hh"
 #include		"SFML/Sprite/Sprite.hh"
@@ -30,6 +30,7 @@
 #include		"SFML/GraphicEntities.hh"
 #include		"SFML/PlayerSprite.hh"
 #include		"SFML/KeyDelayer.hh"
+#include		"SFML/OPlayerSprite.hh"
 
 #define			CASE_SIZE	64
 
@@ -48,13 +49,15 @@ class			SFMLView : public QSFMLWidget
 
 private:
   typedef std::map<int, std::map<int, Sprite *>> SpriteMap;
+  typedef std::map<sf::Keyboard::Key, void (SFMLView::*)()> KeyMap;
   WindowManager		*_wMan;
   SpriteManager		*_sMan;
   PlayerSprite		*_mainPerso;
   sf::Clock		*_clock;
   SpriteMap		*_sprites;
   KeyDelayer		*_keyDelayer;
-  std::vector<PlayerSprite *> *_playerList;
+  std::vector<OPlayerSprite *> *_playerList;
+  KeyMap		*_keyMap;
   sf::Sprite		*_spriteTest;
   sf::Texture		*_textureTest;
   sf::RenderTexture	*_winTexture;
@@ -85,6 +88,18 @@ private :
   void				loadPlayerList();
   void				loadMap();
   void                          reloadBackgroundSprite();
+
+private:
+  void				keyUp();
+  void				keyDown();
+  void				keyLeft();
+  void				keyRight();
+  void				keyI();
+  void				keyS();
+  void				keyJ();
+  void				keyEscape();
+  void				keyReturn();
+  void				keyControl();
 };
 
 #endif
