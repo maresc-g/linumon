@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:30:54 2014 guillaume marescaux
-// Last update Mon Feb 10 14:05:55 2014 guillaume marescaux
+// Last update Tue Feb 25 12:37:17 2014 guillaume marescaux
 //
 
 #ifndef 		__ESTATE_HH__
@@ -17,6 +17,7 @@ namespace		CLIENT
     {
       LOGIN,
       CHOOSE_PLAYER,
+      LOADING,
       CREATE,
       PLAYING,
       BATTLE,

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Mon Feb 24 15:46:21 2014 guillaume marescaux
+// Last update Tue Feb 25 13:02:54 2014 guillaume marescaux
 //
 
 /*
@@ -31,7 +31,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _playerList(new std::vector<PlayerSprite*>),
   _spellBar(new SpellBarView(this, w)), _itemView(new ItemView(this, w)),
   _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
-  _chat(new ChatView(this, w)), _menu(new MenuView(this, w))
+  _chat(new ChatView(this, w)), _menu(new MenuView(this, w)), _jobMenu(new JobMenuView(this, w))
 {
   _textureTest = new sf::Texture();
   _textureTest->loadFromFile("./Res/test.png");
@@ -41,6 +41,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _itemView->hide();
   _stuff->hide();
   _inventory->hide();
+  _jobMenu->hide();
   _menu->move(WIN_W / 2 - _menu->size().width() / 2, WIN_H / 2 - _menu->size().height() / 2);
   _menu->hide();
   _chat->move(0, WIN_H - _chat->size().height());
@@ -185,6 +186,14 @@ void			SFMLView::checkKeys()
       else
 	_stuff->hide();
       _keyDelayer->addWatcher(sf::Keyboard::S, 100000);
+    }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::J) && _keyDelayer->isAvailable(sf::Keyboard::J) && !_chat->getFocused())
+    {
+      if (!_jobMenu->isVisible())
+	_jobMenu->show();
+      else
+	_jobMenu->hide();
+      _keyDelayer->addWatcher(sf::Keyboard::J, 100000);
     }
   if (_mainPerso->isMoving())
     _mainPerso->updateMoves(_clock, _mainView);
