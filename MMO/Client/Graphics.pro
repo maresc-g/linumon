@@ -101,6 +101,7 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/Guild.cpp \ 
                 ../Common/src/Entities/Spells.cpp \
                 ../Common/src/Entities/ACharacter.cpp \ 
+                ../Common/src/Entities/Heal.cpp \ 
                 ../Common/src/Entities/TypeRelations.cpp \ 
                 ../Common/src/Entities/MobModel.cpp \ 
                 ../Common/src/Entities/Players.cpp \ 

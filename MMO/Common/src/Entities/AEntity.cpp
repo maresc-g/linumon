@@ -5,10 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:53:28 2013 alexis mestag
-// Last update Fri Feb  7 12:21:48 2014 laurent ansel
+// Last update Tue Feb 25 13:22:17 2014 laurent ansel
 //
 
 #include			"Entities/AEntity.hh"
+#include			"Entities/Heal.hh"
 
 AEntity::AEntity() :
   Id(), Nameable(""), _entityType(eEntity::NONE)
@@ -59,6 +60,10 @@ AEntity				*AEntity::deserialization(Trame  const &trame)
   if (trame.isMember("PLAYER"))
     {
       return (reinterpret_cast<AEntity *>(Player::deserialization(trame)));
+    }
+  if (trame.isMember("HEAL"))
+    {
+      return (reinterpret_cast<AEntity *>(Heal::deserialization(trame)));
     }
   return (NULL);
 }

@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Tue Feb 25 12:48:00 2014 laurent ansel
+## Last update Tue Feb 25 13:21:50 2014 laurent ansel
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\

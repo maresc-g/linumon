@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb 21 13:05:16 2014 laurent ansel
-// Last update Fri Feb 21 13:29:44 2014 laurent ansel
+// Last update Tue Feb 25 13:33:55 2014 laurent ansel
 //
 
 #include			"Entities/Heal.hh"
@@ -66,6 +66,11 @@ void				Heal::setX(Heal::HealCoordinate::type const &x)
 void				Heal::setY(Heal::HealCoordinate::type const &y)
 {
   this->_coord->setY(y);
+}
+
+void				Heal::heal(Digitaliser const &) const
+{
+
 }
 
 bool				Heal::serialization(Trame &trame) const
