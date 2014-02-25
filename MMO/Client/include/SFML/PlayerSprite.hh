@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Feb 16 03:12:14 2014 cyril jourdain
-// Last update Fri Feb 21 13:37:25 2014 cyril jourdain
+// Last update Tue Feb 25 14:28:38 2014 cyril jourdain
 //
 
 #ifndef 		__PLAYERSPRITE_HH__
@@ -16,26 +16,32 @@
 
 class			PlayerSprite : public Sprite
 {
-private:
+protected:
   enum	eDir
     {
       LEFT,
       DOWN,
       RIGHT,
       UP,
-      NONE
+      NONE,
+      WAITING
     };
 
 private:
   sf::Text		*_name;
   sf::Font		*_textFont;
   sf::Vector2f		_nameOffset;
-  sf::Vector2f		_pos;
-  sf::Vector2f		_deltaPos;
-  eDir			_dir;
   unsigned int		_speed;
   unsigned int		_playerId;
   std::string		_playerZone;
+  bool			_isInputable;
+  bool			_receivedInput;
+
+protected:
+  sf::Vector2f		_pos;
+  sf::Vector2f		_deltaPos;
+  eDir			_dir;
+
 
 public:
   PlayerSprite();
@@ -46,18 +52,26 @@ public:
   void			setText(sf::String const &);
   void			setFont(sf::Font *);
   void			generateOffset();
-  void			moveUp();
-  void			moveDown();
-  void			moveLeft();
-  void			moveRight();
+  void			moveFromServer();
   void			updateMoves(sf::Clock *, sf::View *);
+  void			updateMoves2(sf::Clock *, sf::View *);
   bool			isMoving() const;
   void			setSpeed(unsigned int);
   void			setPlayerId(unsigned int);
+  unsigned int		getPlayerId() const;
   void			setPlayerZone(std::string const &zone);
+  void			setWaitingState();
+  bool			isUserInputable();
+  void			receivedInput();
 
 public:
   virtual void		draw(sf::RenderTarget &, sf::RenderStates) const;
+
+private:
+  virtual void			moveUp(float, sf::View *);
+  virtual void			moveDown(float, sf::View *);
+  virtual void			moveLeft(float, sf::View *);
+  virtual void			moveRight(float, sf::View *);
 };
 
 #endif
