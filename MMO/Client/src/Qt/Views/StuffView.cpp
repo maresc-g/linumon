@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Tue Feb 25 11:10:31 2014 guillaume marescaux
+// Last update Tue Feb 25 14:29:10 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -99,17 +99,17 @@ void				StuffView::initStuff(Player const &player)
       item->resize(120, 80);
     }
 
-  // auto it = (&(mob->getModel()))->getStats();
-  // for (auto it = mob->getModel().getStats().getStats().begin() ; it != mob->getModel().getStats().getStats().end() ; it ++)
-  //   {
-  //     QLabel			*label = new QLabel(this);
-  //     label->setText((*it)->getKey().getName().c_str());
-  //     label->move(520, 160 + i * 30);
-  //     label = new QLabel(this);
-  //     label->setText(std::to_string((*it)->getValue()).c_str());
-  //     label->move(710, 160 + i * 30);
-  //     i++;
-  //   }
+  unsigned int			i = 0;
+  for (auto it = player.getStats().getStats().begin() ; it != player.getStats().getStats().end() ; it ++)
+    {
+      QLabel			*label = new QLabel(this);
+      label->setText((*it)->getKey().getName().c_str());
+      label->move(520, 160 + i * 30);
+      label = new QLabel(this);
+      label->setText(std::to_string((*it)->getValue()).c_str());
+      label->move(710, 160 + i * 30);
+      i++;
+    }
 }
 
 void				StuffView::initStuff(Mob const &mob)
@@ -118,9 +118,8 @@ void				StuffView::initStuff(Mob const &mob)
   ui.l_level->setText(std::to_string(mob.getLevel().getLevel()).c_str());
   ui.l_curExp->setText(std::to_string(mob.getCurrentExp()).c_str());
   ui.l_expToUp->setText(std::to_string(mob.getLevel().getExp()).c_str());
-  int i = 0;
-  auto it = ((mob.getModel())).getStats();
-  for (auto it = mob.getModel().getStats().getStats().begin() ; it != mob.getModel().getStats().getStats().end() ; it ++)
+  unsigned int			i = 0;
+  for (auto it = mob.getStats().getStats().begin() ; it != mob.getStats().getStats().end() ; it ++)
     {
       QLabel			*label = new QLabel(this);
       label->setText((*it)->getKey().getName().c_str());

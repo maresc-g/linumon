@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Thu Feb  6 13:08:28 2014 cyril jourdain
+// Last update Tue Feb 25 15:08:03 2014 guillaume marescaux
 //
 
 #include	"Qt/WindowManager.hh"
@@ -13,13 +13,15 @@
 
 WindowManager::WindowManager(int ac, char **av, MutexVar<CLIENT::eState> *state,
 			     MutexVar<std::list<PlayerView *> *> *players,
-			     MutexVar<Player*> *player) :
+			     MutexVar<Player*> *player,
+			     MutexVar<bool> *newPlayer) :
   _app(new QApplication(ac, av)),
   _mainLayout(new QGridLayout),
   _mainFrame(new QFrame),
   _state(state),
   _mainPlayer(player),
-  _players(players)
+  _players(players),
+  _newPlayer(newPlayer)
 {
   _mainFrame->setWindowTitle("Qt SFML");
   _mainFrame->resize(WIN_W, WIN_H);
