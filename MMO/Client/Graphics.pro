@@ -105,11 +105,13 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/Guild.cpp \ 
                 ../Common/src/Entities/Spells.cpp \
                 ../Common/src/Entities/ACharacter.cpp \ 
+                ../Common/src/Entities/Heal.cpp \ 
                 ../Common/src/Entities/TypeRelations.cpp \ 
                 ../Common/src/Entities/MobModel.cpp \ 
                 ../Common/src/Entities/Players.cpp \ 
                 ../Common/src/Entities/Type.cpp \ 
                 ../Common/src/Entities/AItem.cpp \ 
+                ../Common/src/Entities/PNJ.cpp \ 
                 ../Common/src/Entities/Spell.cpp \ 
                 ../Common/src/Entities/Level.cpp \ 
                 ../Common/src/Entities/Digitaliser.cpp \ 

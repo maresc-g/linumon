@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Feb 17 14:49:07 2014 laurent ansel
-## Last update Tue Feb 18 11:19:38 2014 laurent ansel
+## Last update Tue Feb 25 14:27:24 2014 laurent ansel
 ##
 
 SRCSERVER +=	$(RESSOURCEMANAGER)/RessourceManager.cpp
