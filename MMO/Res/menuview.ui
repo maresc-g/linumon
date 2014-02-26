@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>140</width>
-    <height>180</height>
+    <width>354</width>
+    <height>432</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,53 +16,53 @@
   <widget class="QPushButton" name="bQuit">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>90</y>
-     <width>120</width>
-     <height>25</height>
+     <x>20</x>
+     <y>240</y>
+     <width>315</width>
+     <height>52</height>
     </rect>
    </property>
    <property name="text">
-    <string>Quit Game</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="bReturn">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>140</y>
-     <width>120</width>
-     <height>25</height>
+     <x>20</x>
+     <y>340</y>
+     <width>315</width>
+     <height>52</height>
     </rect>
    </property>
    <property name="text">
-    <string>Return to Game</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="bSwitch">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>120</width>
-     <height>25</height>
+     <x>20</x>
+     <y>40</y>
+     <width>315</width>
+     <height>52</height>
     </rect>
    </property>
    <property name="text">
-    <string>Switch Character</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="bLogout">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>50</y>
-     <width>120</width>
-     <height>25</height>
+     <x>20</x>
+     <y>140</y>
+     <width>315</width>
+     <height>52</height>
     </rect>
    </property>
    <property name="text">
-    <string>Logout</string>
+    <string/>
    </property>
   </widget>
  </widget>

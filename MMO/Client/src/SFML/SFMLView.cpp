@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Feb 26 14:00:31 2014 cyril jourdain
+// Last update Wed Feb 26 15:08:35 2014 cyril jourdain
 //
 
 /*
@@ -28,7 +28,7 @@
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()), _mainPerso(NULL),
   _clock(new sf::Clock()), _sprites(new SpriteMap), _keyDelayer(new KeyDelayer()),
-  _playerList(new std::vector<OPlayerSprite*>), _entities(new std::list<Sprite*>()), _keyMap(new KeyMap),
+  _playerList(new std::vector<OPlayerSprite*>), _entities(new std::list<RessourceSprite*>()), _keyMap(new KeyMap),
   _spellBar(new SpellBarView(this, w)), _itemView(new ItemView(this, w)),
   _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
   _chat(new ChatView(this, w)), _menu(new MenuView(this, w)), _jobMenu(new JobMenuView(this, w)),
@@ -218,15 +218,13 @@ void			SFMLView::loadMap()
 	    {
 	      for (auto it = list->begin(); it != list->end(); it++)
 		{
-		  std::cout << "Adding entitie : " << (*it)->getEntityType() << std::endl;
-		  if ((*it)->getEntityType() != AEntity::RESSOURCE)
-		    continue;
-		  std::cout << static_cast<Ressource*>(*it)->getName() << std::endl;
-		  _entities->push_back(new Sprite());
-		  _sMan->copySprite(static_cast<Ressource*>(*it)->getName(), *_entities->back());
-		  _entities->back()->play("default");
-		  _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
-						 static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
+		  if ((*it)->getEntityType() == AEntity::RESSOURCE) {
+		    _entities->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
+		    _sMan->copySprite(static_cast<Ressource*>(*it)->getName(), *_entities->back());
+		    _entities->back()->play("default");
+		    _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
+						   static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
+		  }
 		}
 	    }
 	}
@@ -258,15 +256,16 @@ void			SFMLView::keyUp()
   keyControl();
   if (!_mainPerso->isMoving())
     {
-      Client::getInstance()->move(CLIENT::UP);
-      _pressedKey = sf::Keyboard::Up;
-      _mainPerso->setWaitingState();
-      std::cout << "Not moving -> Key up" << std::endl;
+      _mainPerso->play("default_up");
+      if (Client::getInstance()->move(CLIENT::UP)){
+	  _pressedKey = sf::Keyboard::Up;
+	  _mainPerso->setWaitingState();
+      }
     }
   else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == sf::Keyboard::Up)
     {
-      _mainPerso->receivedInput();
-      Client::getInstance()->move(CLIENT::UP);
+      if (Client::getInstance()->move(CLIENT::UP))
+	_mainPerso->receivedInput();
     }
 
 }
@@ -276,15 +275,16 @@ void			SFMLView::keyDown()
   keyControl();
   if (!_mainPerso->isMoving())
     {
-      Client::getInstance()->move(CLIENT::DOWN);
-      _pressedKey = sf::Keyboard::Down;
-      _mainPerso->setWaitingState();
-      std::cout << "Not moving -> Key down" << std::endl;
+      _mainPerso->play("default_down");
+      if (Client::getInstance()->move(CLIENT::DOWN)){
+	_pressedKey = sf::Keyboard::Down;
+	_mainPerso->setWaitingState();
+      }
     }
   else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == sf::Keyboard::Down)
     {
-      _mainPerso->receivedInput();
-      Client::getInstance()->move(CLIENT::DOWN);
+      if (Client::getInstance()->move(CLIENT::DOWN))
+	_mainPerso->receivedInput();
     }
 }
 
@@ -293,14 +293,16 @@ void			SFMLView::keyLeft()
   keyControl();
   if (!_mainPerso->isMoving())
     {
-      Client::getInstance()->move(CLIENT::LEFT);
-      _pressedKey = sf::Keyboard::Left;
-      _mainPerso->setWaitingState();
+      _mainPerso->play("default_left");
+      if (Client::getInstance()->move(CLIENT::LEFT)){
+	_pressedKey = sf::Keyboard::Left;
+	_mainPerso->setWaitingState();
+      }
     }
   else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == sf::Keyboard::Left)
     {
-      _mainPerso->receivedInput();
-      Client::getInstance()->move(CLIENT::LEFT);
+      if (Client::getInstance()->move(CLIENT::LEFT))
+	_mainPerso->receivedInput();
     }
 }
 
@@ -309,14 +311,16 @@ void			SFMLView::keyRight()
   keyControl();
   if (!_mainPerso->isMoving())
     {
-      Client::getInstance()->move(CLIENT::RIGHT);
-      _pressedKey = sf::Keyboard::Right;
-      _mainPerso->setWaitingState();
+      _mainPerso->play("default_right");
+      if (Client::getInstance()->move(CLIENT::RIGHT)){
+	_pressedKey = sf::Keyboard::Right;
+	_mainPerso->setWaitingState();
+      }
     }
   else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == sf::Keyboard::Right)
     {
-      _mainPerso->receivedInput();
-      Client::getInstance()->move(CLIENT::RIGHT);
+      if (Client::getInstance()->move(CLIENT::RIGHT))
+	_mainPerso->receivedInput();
     }
 }
 
