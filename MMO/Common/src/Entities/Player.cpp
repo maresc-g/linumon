@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Feb 25 18:17:07 2014 alexis mestag
+// Last update Wed Feb 26 11:10:43 2014 laurent ansel
 //
 
 #include			<functional>
@@ -280,7 +280,7 @@ bool				Player::serialization(Trame &trame) const
     this->_guild->serialization(trame(trame["PLAYER"]));
   this->_digitaliser.serialization(trame(trame["PLAYER"]));
   this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
-  // this->getTmpStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
+  this->getTmpStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
   this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
@@ -336,9 +336,9 @@ Player				*Player::deserialization(Trame const &trame)
       if (stats)
       	player->setStats(*stats);
 
-      // stats = Stats::deserialization(trame(trame["PLAYER"]));
-      // if (stats)
-      // 	player->setTmpStats(*stats);
+      stats = Stats::deserialization(trame(trame["PLAYER"]));
+      if (stats)
+      	player->setTmpStats(*stats);
 
       if (!trame["PLAYER"]["TALENTS"].empty())
 	{

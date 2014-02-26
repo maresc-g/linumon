@@ -5,13 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:59:05 2013 laurent ansel
-// Last update Fri Feb 21 13:59:36 2014 guillaume marescaux
+// Last update Wed Feb 26 11:04:45 2014 laurent ansel
 //
 
 #ifndef 		__COMMONDEFINE_HH__
 # define 		__COMMONDEFINE_HH__
 
-#define	SIZE_BUFFER	10000
+#define	SIZE_BUFFER	20000
 
 #define HEADER		"1HEADER"
 #define	CONTENT		"2CONTENT"
