@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:53:29 2014 laurent ansel
-// Last update Thu Feb 20 10:55:30 2014 laurent ansel
+// Last update Wed Feb 26 16:34:01 2014 guillaume marescaux
 //
 
 #include			<sstream>
@@ -41,6 +41,16 @@ JobModel			&JobModel::operator=(JobModel const &rhs)
 std::list<Craft *> const	&JobModel::getCrafts() const
 {
   return (this->_crafts);
+}
+
+Craft const			*JobModel::getCraft(std::string const &name) const
+{
+  for (auto it = _crafts.begin() ; it != _crafts.end() ; it++)
+    {
+      if ((*it)->getName() == name)
+	return (*it);
+    }
+  return (NULL);
 }
 
 void				JobModel::setCrafts(std::list<Craft *> const &list)

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:21:21 2014 laurent ansel
-// Last update Thu Feb 20 10:48:26 2014 laurent ansel
+// Last update Wed Feb 26 16:33:31 2014 guillaume marescaux
 //
 
 #ifndef 		__JOBMODEL_HH__
@@ -36,6 +36,7 @@ public:
   JobModel			&operator=(JobModel const &rhs);
 
   std::list<Craft *> const	&getCrafts() const;
+  Craft const			*getCraft(std::string const &name) const;
   std::list<Ressource *> const	&getGather() const;
 
   virtual bool		serialization(Trame &trame) const;

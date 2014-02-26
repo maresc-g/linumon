@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Mon Feb 24 15:11:01 2014 guillaume marescaux
+// Last update Wed Feb 26 16:50:39 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/InventoryView.hh"
@@ -52,7 +52,6 @@ void				InventoryView::initInventory()
     {
       if (it != items.end())
       	{
-	  std::cout << "ITEM FOUND" << std::endl;
       	  item = new ItemView(ui.frame, _wMan, it->second, it->first);
       	  it++;
       	}
