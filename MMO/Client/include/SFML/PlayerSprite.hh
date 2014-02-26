@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Feb 16 03:12:14 2014 cyril jourdain
-// Last update Wed Feb 26 14:55:14 2014 cyril jourdain
+// Last update Thu Feb 27 00:00:35 2014 cyril jourdain
 //
 
 #ifndef 		__PLAYERSPRITE_HH__
@@ -24,7 +24,8 @@ protected:
       RIGHT,
       UP,
       NONE,
-      WAITING
+      WAITING,
+      END_MOVE
     };
 
 private:
@@ -52,7 +53,7 @@ public:
   void			setText(sf::String const &);
   void			setFont(sf::Font *);
   void			generateOffset();
-  void			moveFromServer();
+  void			moveFromServer(sf::View *v = NULL);
   void			updateMoves(sf::Clock *, sf::View *);
   void			updateMoves2(sf::Clock *, sf::View *);
   bool			isMoving() const;

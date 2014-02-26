@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Feb 26 15:08:35 2014 cyril jourdain
+// Last update Thu Feb 27 00:07:17 2014 cyril jourdain
 //
 
 /*
@@ -24,6 +24,7 @@
 #include		<stdexcept>
 #include		"SFML/SFMLView.hpp"
 #include		"Map/Map.hh"
+#include		"Common/eState.hh"
 
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()), _mainPerso(NULL),
@@ -57,6 +58,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   if (!_textFont->loadFromFile("./Res/arial.ttf"))
      std::cout << "Error while loading font" << std::endl;
   _pressedKey = sf::Keyboard::Unknown;
+  _reset = false;
 
   (*_keyMap)[sf::Keyboard::Up] = &SFMLView::keyUp;
   (*_keyMap)[sf::Keyboard::Down] = &SFMLView::keyDown;
@@ -67,6 +69,10 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   (*_keyMap)[sf::Keyboard::J] = &SFMLView::keyJ;
   (*_keyMap)[sf::Keyboard::Escape] = &SFMLView::keyEscape;
   (*_keyMap)[sf::Keyboard::Return] = &SFMLView::keyReturn;
+  _sMan->loadTextures("./Res/textureList.json");
+  _sMan->loadAnimations("./Res/perso1.json");
+  _sMan->loadAnimations("./Res/textures.json");
+
 }
 
 SFMLView::~SFMLView()
@@ -75,13 +81,16 @@ SFMLView::~SFMLView()
 
 void			SFMLView::onInit()
 {
+  std::cout << "-------------- INIT SFML -------------------" << std::endl;
   /* Stuff needed when loading the view */
-  _sMan->loadTextures("./Res/textureList.json");
-  _sMan->loadAnimations("./Res/perso1.json");
-  _sMan->loadAnimations("./Res/textures.json");
+  // _sMan->loadTextures("./Res/textureList.json");
+  // _sMan->loadAnimations("./Res/perso1.json");
+  // _sMan->loadAnimations("./Res/textures.json");
   /* MUST be the first things to do */
+  _mainView->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
+  _reset = false;
+  _changed = false;
   _clock->restart();
-  loadPlayerList();
   loadMap();
   _mainPerso = new PlayerSprite(sf::String((**(_wMan->getMainPlayer()))->getName()), _textFont);
   _sMan->copySprite("perso1", *_mainPerso);
@@ -90,12 +99,14 @@ void			SFMLView::onInit()
   // _mainPerso = (*_playerList)[0];
   _mainPerso->setPlayerZone(Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getName());
   _mainPerso->setPlayerId((**(_wMan->getMainPlayer()))->getId());
+  std::cout << "MAIN PLAYER HAS ID : " << (**(_wMan->getMainPlayer()))->getId() << std::endl;
   _mainPerso->play("default_down");
   _mainPerso->generateOffset();
   _mainPerso->setPosition((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE,
   			  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - _mainPerso->getCurrentBound()->height / 2 + 4);
   _mainView->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
   		  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
+  loadPlayerList();
   _inventory->initInventory();
   _stuff->initStuff(***(_wMan->getMainPlayer()));
   /* Theorically, generateOffset should be called everytime play() is called with another anim.
@@ -105,6 +116,12 @@ void			SFMLView::onInit()
 void			SFMLView::onUpdate()
 {
   sf::Event event;
+
+  if (_reset)
+    {
+      onInit();
+      _reset = false;
+    }
 
   while (pollEvent(event))
     {
@@ -119,6 +136,26 @@ void			SFMLView::onUpdate()
     }
   /* Not used here but SFML need it to handle internal events */
 
+  CLIENT::eState s = **(_wMan->getState());
+  if (s != CLIENT::PLAYING)
+    {
+      switch (s)
+  	{
+  	case CLIENT::CHOOSE_PLAYER:
+	  reset();
+  	  _wMan->hideSfmlView();
+	  _menu->hide();
+  	  _wMan->showCharacter();
+  	  break;
+  	case CLIENT::LOGIN:
+  	  _wMan->hideSfmlView();
+  	  _wMan->showLogin();
+  	  break;
+	default:
+	  break;
+  	}
+      // Need to : Destroy map, entites, etc ...
+    }
   if (**(_wMan->getNewPlayer()))
     {
       loadPlayerList();
@@ -141,6 +178,8 @@ void			SFMLView::onResize(QResizeEvent *e)
 
 void			SFMLView::drawView()
 {
+  if (_reset)
+    return;
   if (!_changed){
     reloadBackgroundSprite();
   }
@@ -153,7 +192,7 @@ void			SFMLView::drawView()
       draw(**it);
     }
   if (_mainPerso) {
-    _mainPerso->moveFromServer();
+    _mainPerso->moveFromServer(_mainView);
     _mainPerso->updateMoves(_clock, _mainView);
     _mainPerso->update(*_clock);
     draw(*_spriteTest);
@@ -188,6 +227,8 @@ void			SFMLView::loadPlayerList()
   _playerList->clear();
   for (auto it = list.begin(); it != list.end(); it++)
     {
+      if ((static_cast<Player*>(*it))->getId() == _mainPerso->getPlayerId())
+	continue;
       _playerList->push_back(new OPlayerSprite((static_cast<Player*>(*it))->getName(), _textFont));
       _sMan->copySprite("perso1", *_playerList->back());
       _playerList->back()->setPlayerZone(Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getName());
@@ -249,6 +290,25 @@ void			SFMLView::reloadBackgroundSprite()
     }
   _winTexture->display();
   _changed = true;
+}
+
+void			SFMLView::reset()
+{
+  _reset = true;
+  delete _mainPerso;
+  for (auto it = _entities->begin(); it != _entities->end(); ++it)
+    delete *it;
+  _entities->clear();
+  for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
+    delete *it;
+  _playerList->clear();
+  for (auto it = _sprites->begin(); it != _sprites->end(); it++)
+    {
+      for (auto it2 = it->second.begin(); it2 != it->second.end(); it2++)
+  	delete (it2->second);
+      it->second.clear();
+    }  
+  _sprites->clear();
 }
 
 void			SFMLView::keyUp()

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 13:41:58 2013 cyril jourdain
-// Last update Mon Feb 10 13:28:03 2014 cyril jourdain
+// Last update Wed Feb 26 23:07:10 2014 cyril jourdain
 //
 
 #ifndef 		__QSFMLWIDGET_HPP__
@@ -23,9 +23,9 @@ class			QSFMLWidget : public QWidget, public sf::RenderWindow
 {
 private:
   QTimer                *_timer;
-  bool                  _initialized;
 protected:
   sf::View		*_mainView;
+  bool                  _initialized;
 
 public:
   QSFMLWidget(QWidget *, const QPoint &, const QSize &, unsigned int frameTime = 60);
@@ -38,8 +38,7 @@ private:
   virtual QPaintEngine  *paintEngine() const;
   virtual void          showEvent(QShowEvent *);
   virtual void          paintEvent(QPaintEvent *);
-bool			eventFilter(QObject *w, QEvent *e);
-
+  bool			eventFilter(QObject *w, QEvent *e);
 };
 
 #endif

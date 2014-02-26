@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 13:44:43 2013 cyril jourdain
-// Last update Thu Feb  6 11:26:13 2014 cyril jourdain
+// Last update Wed Feb 26 23:17:26 2014 cyril jourdain
 //
 
 #include		"Qt/QSFMLWidget.hpp"
@@ -45,12 +45,12 @@ void			QSFMLWidget::showEvent(QShowEvent *)
 #endif
       Window::create(winId());
       onInit();
+      connect(_timer, SIGNAL(timeout()), this, SLOT(repaint()));
+      _timer->start();
+      _initialized = true;
+      _mainView->setViewport(sf::FloatRect(0,0,1,1));
+      setView(*_mainView);
     }
-  connect(_timer, SIGNAL(timeout()), this, SLOT(repaint()));
-  _timer->start();
-  _initialized = true;
-  _mainView->setViewport(sf::FloatRect(0,0,1,1));
-  setView(*_mainView);
 }
 
 QPaintEngine*		QSFMLWidget::paintEngine() const

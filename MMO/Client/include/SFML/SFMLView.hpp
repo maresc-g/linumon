@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Wed Feb 26 15:07:58 2014 cyril jourdain
+// Last update Wed Feb 26 16:53:37 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -67,6 +67,7 @@ private:
   bool			_changed;
   sf::Font		*_textFont;
   sf::Keyboard::Key	_pressedKey;
+  bool			_reset;
 
   /* Child Views */
   SpellBarView		*_spellBar;
@@ -94,6 +95,7 @@ private :
   void				loadPlayerList();
   void				loadMap();
   void                          reloadBackgroundSprite();
+  void				reset();
 
 private:
   void				keyUp();
