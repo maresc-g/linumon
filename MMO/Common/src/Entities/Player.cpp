@@ -5,12 +5,16 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Feb 25 15:05:17 2014 laurent ansel
+// Last update Tue Feb 25 18:17:07 2014 alexis mestag
 //
 
 #include			<functional>
 #include			"Entities/Player.hh"
 #include			"Map/Map.hh"
+#include			"Database/Repositories/Repository.hpp"
+#include			"Stats/TalentTree-odb.hxx"
+#include			"Stats/StatKey-odb.hxx"
+#include			"Entities/DBZone-odb.hxx"
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _coord(new PlayerCoordinate),
@@ -33,7 +37,9 @@ Player::Player(std::string const &name) :
   , _zone("NONE")
 # endif
 {
-
+  # ifndef	CLIENT_COMPILATION
+  this->initConstPointersForNewPlayers();
+  # endif
 }
 
 Player::Player(Player const &rhs) :
@@ -55,11 +61,24 @@ Player				&Player::operator=(Player const &rhs)
     {
       this->setCoord(rhs.getCoord());
       this->setFaction(rhs.getFaction());
-      this->setGuild(rhs.getGuild());
+      this->setGuild(*rhs.getGuild());
       this->setZone(rhs.getZone());
     }
   return (*this);
 }
+
+#ifndef		CLIENT_COMPILATION
+void					Player::initConstPointersForNewPlayers()
+{
+  Repository<TalentTree>		*rtt = &Database::getRepository<TalentTree>();
+  Repository<AuthorizedStatKeys>	*rask = &Database::getRepository<AuthorizedStatKeys>();
+  Repository<DBZone>			*rdbz = &Database::getRepository<DBZone>();
+
+  this->setTalentTree(*rtt->getById(1));
+  this->setStatKeys(*rask->getById(1));
+  this->setDBZone(*rdbz->getById(1));
+}
+#endif
 
 Player::PlayerCoordinate const		&Player::getCoord() const
 {
@@ -108,9 +127,9 @@ void				Player::setFaction(Faction const &faction)
   _faction = &faction;
 }
 
-Guild const			&Player::getGuild() const
+Guild const			*Player::getGuild() const
 {
-  return (*_guild);
+  return (_guild);
 }
 
 void				Player::setGuild(Guild const &guild)
@@ -257,9 +276,10 @@ bool				Player::serialization(Trame &trame) const
   trame["PLAYER"]["TYPE"] = this->getStatEntityType();
   this->_coord->serialization(trame(trame["PLAYER"]));
   this->_faction->serialization(trame(trame["PLAYER"]));
-  this->_guild->serialization(trame(trame["PLAYER"]));
+  if (this->_guild)
+    this->_guild->serialization(trame(trame["PLAYER"]));
   this->_digitaliser.serialization(trame(trame["PLAYER"]));
-  // this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
+  this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
   // this->getTmpStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
   this->getLevel().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CURRENTEXP"] = this->getCurrentExp();
@@ -312,9 +332,9 @@ Player				*Player::deserialization(Trame const &trame)
       if (equipment)
 	player->setEquipment(equipment);
 
-      // Stats			*stats = Stats::deserialization(trame(trame["PLAYER"]));
-      // if (stats)
-      // 	player->setStats(*stats);
+      Stats			*stats = Stats::deserialization(trame(trame["PLAYER"]));
+      if (stats)
+      	player->setStats(*stats);
 
       // stats = Stats::deserialization(trame(trame["PLAYER"]));
       // if (stats)
@@ -338,6 +358,11 @@ Player				*Player::deserialization(Trame const &trame)
 void				Player::addTalent(Talent *talent)
 {
   this->_talents.push_back(talent);
+}
+
+TalentTree const		&Player::getTalentTree() const
+{
+  return (*_talentTree);
 }
 
 void				Player::setTalentTree(TalentTree const &tree)

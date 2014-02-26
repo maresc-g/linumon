@@ -144,3 +144,8 @@ JobMenuView
 {
 	background-color: #FFFFFF;
 }
+
+JobView
+{
+	background-color: #FFFFFF;
+}

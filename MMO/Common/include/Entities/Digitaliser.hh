@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Fri Feb 21 13:49:43 2014 laurent ansel
+// Last update Tue Feb 25 15:04:26 2014 alexis mestag
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -20,6 +20,7 @@ class			Digitaliser : public ISerialization
 {
   friend class		odb::access;
 
+public:
   typedef std::list<Mob *>	Mobs;
 
 private:

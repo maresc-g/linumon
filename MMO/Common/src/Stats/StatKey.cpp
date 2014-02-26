@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 19 15:02:05 2014 alexis mestag
-// Last update Thu Feb 20 13:01:01 2014 alexis mestag
+// Last update Tue Feb 25 15:27:43 2014 alexis mestag
 //
 
 #include				"Stats/StatKey.hh"
@@ -16,8 +16,8 @@ StatKey::StatKey() :
 
 }
 
-StatKey::StatKey(std::string const &key) :
-  Persistent(), Nameable(key)
+StatKey::StatKey(std::string const &key, bool const shortLived) :
+  Persistent(), Nameable(key), _shortLived(shortLived)
 {
 
 }
@@ -37,7 +37,7 @@ StatKey					&StatKey::operator=(StatKey const &rhs)
 {
   if (this != &rhs)
     {
-
+      this->setShortLived(rhs.isShortLived());
     }
   return (*this);
 }
@@ -54,4 +54,14 @@ bool					StatKey::operator==(StatKey const &rhs) const
 bool					StatKey::operator!=(StatKey const &rhs) const
 {
   return (!(*this == rhs));
+}
+
+bool					StatKey::isShortLived() const
+{
+  return (_shortLived);
+}
+
+void					StatKey::setShortLived(bool const shortLived)
+{
+  _shortLived = shortLived;
 }

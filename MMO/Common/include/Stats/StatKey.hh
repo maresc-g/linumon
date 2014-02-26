@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 19 14:53:12 2014 alexis mestag
-// Last update Thu Feb 20 13:00:51 2014 alexis mestag
+// Last update Tue Feb 25 15:22:32 2014 alexis mestag
 //
 
 #ifndef				__STATKEY_HH__
@@ -19,16 +19,22 @@ class				StatKey : public Persistent, public Nameable
   friend class			odb::access;
 
 private:
+  bool				_shortLived;
+
+private:
   StatKey();
 
 public:
-  StatKey(std::string const &key);
+  StatKey(std::string const &key, bool const shortLived = true);
   StatKey(StatKey const &rhs);
   virtual ~StatKey();
 
   StatKey			&operator=(StatKey const &rhs);
   bool				operator==(StatKey const &rhs) const;
   bool				operator!=(StatKey const &rhs) const;
+
+  bool				isShortLived() const;
+  void				setShortLived(bool const shortLived);
 };
 
 # ifdef	ODB_COMPILER

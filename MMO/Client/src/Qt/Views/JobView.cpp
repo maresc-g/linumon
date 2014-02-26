@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:55:36 2014 guillaume marescaux
-// Last update Tue Feb 25 14:55:51 2014 guillaume marescaux
+// Last update Tue Feb 25 16:26:55 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/JobView.hh"
@@ -27,4 +27,13 @@ void				JobView::paintEvent(QPaintEvent *)
 
   opt.init(this);
   style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+
+void				JobView::setInfos(Job const &job)
+{
+  ui.l_name->setText(job.getJobModel().getName().c_str());
+}
+
+void				JobView::on_b_craft_clicked()
+{
 }

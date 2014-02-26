@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Feb 25 12:44:29 2014 laurent ansel
+// Last update Tue Feb 25 18:17:47 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -72,6 +72,10 @@ private:
 
   void			setDigitaliser(Digitaliser const &digit);
 
+  # ifndef		CLIENT_COMPILATION
+  void			initConstPointersForNewPlayers();
+  # endif
+
 public:
   Player(std::string const &name);
   virtual ~Player();
@@ -88,7 +92,7 @@ public:
   Faction const			&getFaction() const;
   void				setFaction(Faction const &faction);
 
-  Guild const			&getGuild() const;
+  Guild const			*getGuild() const;
   void				setGuild(Guild const &guild);
 
   Digitaliser const		&getDigitaliser() const;
@@ -107,6 +111,7 @@ public:
   std::list<Talent *> const	&getTalents() const;
   void				setTalents(std::list<Talent *> const &list);
 
+  TalentTree const		&getTalentTree() const;
   void				setTalentTree(TalentTree const &tree);
 
   User const			&getUser() const;

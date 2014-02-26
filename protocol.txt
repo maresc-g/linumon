@@ -87,6 +87,7 @@
 
 			# others
 			NEWPLAYER : {Id : int, name : string, faction : string, zone : string, coord : Coordinate} -> server
+			VISIBLE : { Is : bool, Id : int} -> server
 			QUIT : {} -> client / server
 			REMOVEENTITY : {id : int} -> server
 			ENTITY : {id : int, coord : Coordinate} -> server/client
