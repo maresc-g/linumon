@@ -5,10 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Feb 25 16:13:15 2014 antoine maitre
+// Last update Wed Feb 26 01:20:05 2014 alexis mestag
 //
 
 #include				"Battle/Battle.hh"
+#include				"Database/Repositories/StatKeyRepository.hpp"
 
 Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, Player *player1, Player *player2)
   : _id(id), _type(type),
@@ -18,24 +19,28 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
     _player1(player1),
     _player2(player2)
 {
+  static StatKey const			*speedKey = Database::getRepository<StatKey>().getByName("Speed");
+
   std::cout << "a" << std::endl;
-  std::list<Mob *> tmp = player1->getDigitaliser().getMobs();
+  std::list<Mob *> const *tmp = &player1->getDigitaliser().getMobs();
+  Stats const *stats;
+
   int i = 0;
-  for (auto it = tmp.begin(); it != tmp.end() && i < mobNumber; it++)
+  for (auto it = tmp->begin(); it != tmp->end() && i < mobNumber; it++)
     {
       this->_mobs1.push_back((*it));
-      Stats stats = (*it)->getStats();
-      this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats.getStat("Speed")));
+      stats = &(*it)->getStats();
+      this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats->getStat(*speedKey)));
       i++;
     }
   std::cout << "b" << std::endl;
-  tmp = player2->getDigitaliser().getMobs();
+  tmp = &player2->getDigitaliser().getMobs();
   i = 0;
-  for (auto it = tmp.begin(); it != tmp.end() && i < mobNumber; it++)
+  for (auto it = tmp->begin(); it != tmp->end() && i < mobNumber; it++)
     {
       this->_mobs2.push_back((*it));
-      Stats stats = (*it)->getStats();
-      this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats.getStat("Speed")));
+      stats = &(*it)->getStats();
+      this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats->getStat(*speedKey)));
       i++;
     }
   std::cout << "c" << std::endl;
@@ -65,12 +70,14 @@ Battle::eBattle 			Battle::getType() const
 
 bool					Battle::checkEnd()
 {
+  static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
+  Stats const				*statMob;
   int					i = 0;
 
   for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
     {
-      Stats statMob = (*it)->getStats();
-      if (statMob.getStat("HP") == 0)
+      statMob = &(*it)->getStats();
+      if (statMob->getStat(*hpKey) == 0)
 	i++;
     }
   if (i == 0)
@@ -78,8 +85,8 @@ bool					Battle::checkEnd()
   i = 0;
   for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
     {
-      Stats statMob = (*it)->getStats();
-      if (statMob.getStat("HP") == 0)
+      statMob = &(*it)->getStats();
+      if (statMob->getStat(*hpKey) == 0)
 	i++;
     }
   if (i == 0)
@@ -90,16 +97,18 @@ bool					Battle::checkEnd()
 
 bool					Battle::spell(unsigned int const launcher, unsigned int const target, Spell *spell) //, int id_lanceur
 {
+  static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
+
   (void)launcher;
   (void)spell;
   for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
     if ((*it)->getId() == target)
       {
 	Stats statMob = (*it)->getStats();
-	statMob.setStat("HP", statMob.getStat("HP") - 10);
+	statMob.setStat(*hpKey, statMob.getStat(*hpKey) - 10);
 	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player1->getId(), this->_id, 10, target);
 	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player2->getId(), this->_id, 10, target);
-	if (statMob.getStat("HP") <= 0)
+	if (statMob.getStat(*hpKey) <= 0)
 	  {
 	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player2->getId(), this->_id, 10, target);
 	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player1->getId(), this->_id, 10, target);
@@ -109,10 +118,10 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
     if ((*it)->getId() == target)
       {
 	Stats statMob = (*it)->getStats();
-	statMob.setStat("HP", statMob.getStat("HP") - 10);
+	statMob.setStat(*hpKey, statMob.getStat(*hpKey) - 10);
 	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player1->getId(), this->_id, 10, target);
 	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player2->getId(), this->_id, 10, target);
-	if (statMob.getStat("HP") <= 0)
+	if (statMob.getStat(*hpKey) <= 0)
 	  {
 	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player2->getId(), this->_id, 10, target);
 	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player1->getId(), this->_id, 10, target);
@@ -126,8 +135,8 @@ bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
   for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
     if ((*it)->getId() == target)
       {
-	std::list<Mob *> tmp = this->_player1->getDigitaliser().getMobs();
-	for (auto itb = tmp.begin(); itb != tmp.end(); itb++)
+	std::list<Mob *> const *tmp = &this->_player1->getDigitaliser().getMobs();
+	for (auto itb = tmp->begin(); itb != tmp->end(); itb++)
 	  if ((*itb)->getId() == newmob)
 	    {
 	      (*it) = (*itb);
@@ -139,8 +148,8 @@ bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
   for (auto it = this->_mobs2.begin(); it != this->_mobs2.end(); it++)
     if ((*it)->getId() == target)
       {
-	std::list<Mob *> tmp = this->_player2->getDigitaliser().getMobs();
-	for (auto itb = tmp.begin(); itb != tmp.end(); itb++)
+	std::list<Mob *> const *tmp = &this->_player2->getDigitaliser().getMobs();
+	for (auto itb = tmp->begin(); itb != tmp->end(); itb++)
 	  if ((*itb)->getId() == newmob)
 	    {
 	      (*it) = (*itb);

@@ -120,7 +120,7 @@ INSERT INTO `Guild`(`id`, `name`) VALUES
 /* Inserting Players */
 DELETE FROM Player;
 
-INSERT INTO `Player`(`id`, `name`, `stats_authKeys`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`) VALUES
+INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`) VALUES
        (1, 'Thinenus', 1, 13, 4, 10, 1, 1, 1, 1, 1, 10, 30, 'Res/Inventories/Thinenus.json', 10000, 30),
        (2, 'Sezu-Kho', 1, 20, 6, 10, 1, 1, 2, 1, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30),
        (3, 'WeshWeshCabillaud', 1, 15, 5, 10, 2, 1, 1, 2, 2, 10, 30, 'Res/Inventories/WeshWeshCabillaud.json', 20000, 20),
@@ -136,7 +136,7 @@ INSERT INTO `Player_talents`(`object_id`, `index`, `value`) VALUES
 /* Inserting MobModels */
 DELETE FROM `MobModel`;
 
-INSERT INTO `MobModel`(`id`, `name`, `stats_authKeys`, `type`) VALUES
+INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`) VALUES
        (1, 'Charizard', 2, 1),
        (2, 'Blastoise', 2, 2),
        (3, 'Venuzaur', 2, 3);
@@ -264,7 +264,7 @@ INSERT INTO `MobModel_stats_stats`(`object_id`, `index`, `value`) VALUES
 /* Inserting Mobs */
 DELETE FROM `Mob`;
 
-INSERT INTO `Mob`(`id`, `name`, `stats_authKeys`, `currentExp`, `level_lvl`, `level_exp`, `model_id`) VALUES
+INSERT INTO `Mob`(`id`, `name`, `authKeys`, `currentExp`, `level_lvl`, `level_exp`, `model_id`) VALUES
        (1, 'TinyLezard', 2, 412, 6, 500, 1),
        (2, 'BigTurtle', 2, 789, 7, 1000, 2),
        (3, 'VastFlowerPot', 2, 350, 5, 400, 3),
@@ -416,7 +416,7 @@ CREATE VIEW `PlayerView` AS
        	      WHERE Player.faction = Faction.id
        	      	    AND Player.user = User.id
 	     	    AND Player.dbZone = DBZone.id
-		    AND Player.stats_authKeys = AuthorizedStatKeys.id
+		    AND Player.authKeys = AuthorizedStatKeys.id
 		    AND Player.talentTree = TalentTree.id
 		    AND Player_stats_stats.object_id = Player.id
 		    AND Player_stats_stats.value = StatView.id

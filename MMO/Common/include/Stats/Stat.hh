@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:00:16 2013 alexis mestag
-// Last update Tue Feb 25 15:20:25 2014 alexis mestag
+// Last update Tue Feb 25 23:13:03 2014 alexis mestag
 //
 
 #ifndef			__STAT_HH__
@@ -30,7 +30,7 @@ private:
   Stat();
 
 public:
-  Stat(StatKey const &key, int const value = 0);
+  Stat(StatKey const &key, value_type const value = 0);
   Stat(Stat const &rhs);
   virtual ~Stat();
 

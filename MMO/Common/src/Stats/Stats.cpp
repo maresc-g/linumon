@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Tue Feb 25 16:57:11 2014 laurent ansel
+// Last update Wed Feb 26 01:08:48 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -33,31 +33,18 @@ Stats				&Stats::operator=(Stats const &rhs)
   if (this != &rhs)
     {
       this->setStats(rhs.getStatsDeepCopy());
-      this->setKeys(rhs.getKeys());
     }
   return (*this);
 }
 
 Stat::value_type		Stats::operator[](StatKey const &key) const
 {
-  static std::function<bool(Stat *)>	statSeeker = [&](Stat *s) -> bool {
-    return (s->getKey() == key);
-  };
-  Stat::value_type			ret = Stat::value_type();
-
-  if (_authKeys->isAuthorized(key))
-    {
-      auto			it = std::find_if(_stats.begin(), _stats.end(), statSeeker);
-
-      if (it != _stats.end())
-	ret = (*it)->getValue();
-    }
-  return (ret);
+  return (this->getStat(key));
 }
 
 Stat::value_type		Stats::operator[](std::string const &key) const
 {
-  return ((*this)[StatKey(key)]);
+  return (this->getStat(key));
 }
 
 Stats::container_type		&Stats::getStatsDeepCopy() const
@@ -71,14 +58,47 @@ Stats::container_type		&Stats::getStatsDeepCopy() const
   return (*ret);
 }
 
+Stat				*Stats::get(StatKey const &key) const
+{
+  return (this->get(key.getName()));
+}
+
+Stat				*Stats::get(std::string const &key) const
+{
+  /*
+  ** Warning :	the std::function below cannot be static, remember it !
+  **		It would be instanciated only ONE time so
+  **		it would screw up the comparison with the key parameter
+  */
+  std::function<bool(Stat *)>	statSeeker = [&](Stat *s) -> bool {
+    return (s->getKey().getName() == key);
+  };
+  auto				it = std::find_if(_stats.begin(), _stats.end(), statSeeker);
+
+  return (it != _stats.end() ? *it : NULL);  
+}
+
 void				Stats::smartAssign(Stats const &rhs)
 {
-  this->setKeys(rhs.getKeys());
   for (auto it = rhs.getStats().begin() ; it != rhs.getStats().end() ; ++it)
     {
-      if ((*it)->isShortLived())
-	this->setStat((*it)->getKey(), (*it)->getValue());
+      if ((*it)->isShortLived() || !this->get((*it)->getKey())) {
+	this->setStat((*it)->getKey(), (*it)->getValue(), true);
+      }
     }
+}
+
+void				Stats::removeShortLivedStats()
+{
+  static std::function<bool(Stat *)>	shortLivedStatSeeker = [](Stat *s) -> bool {
+    if (s->isShortLived()) {
+      delete s;
+      return (true);
+    }
+    return (false);
+  };
+
+  _stats.remove_if(shortLivedStatSeeker);
 }
 
 void				Stats::setStats(container_type &stats)
@@ -92,47 +112,47 @@ Stats::container_type const	&Stats::getStats() const
   return (_stats);
 }
 
-AuthorizedStatKeys const	&Stats::getKeys() const
-{
-  return (*_authKeys);
-}
-
-void				Stats::setKeys(AuthorizedStatKeys const &keys)
-{
-  static std::function<bool(Stat *)>	statRemover = [&](Stat *s) -> bool {
-    if (keys.isAuthorized(s->getKey()))
-      return (false);
-    return (true);
-  };
-
-  _authKeys = &keys;
-  //  _stats.remove_if(statRemover);
-}
-
 Stat::value_type		Stats::getStat(StatKey const &key) const
 {
-  for (auto it = this->_stats.begin(); it != this->_stats.end(); it++)
-    if ((*it)->getKey() == key)
-      return ((*it)->getValue());
-  return (-1);
+  return (this->getStat(key.getName()));
 }
 
 Stat::value_type		Stats::getStat(std::string const &key) const
 {
-  return (this->getStat(StatKey(key)));
+  Stat				*s = this->get(key);
+
+  return (s ? s->getValue() : Stat::value_type());
 }
 
-void				Stats::setStat(StatKey const &key, Stat::value_type const value)
+void				Stats::setStat(StatKey const &key, Stat::value_type const value,
+					       bool const add)
 {
-  for (auto it = this->_stats.begin(); it != this->_stats.end(); it++)
-    if ((*it)->getKey() == key)
-      (*it)->setValue(value);
+  Stat				*s = this->get(key);
+
+  if (s)
+    s->setValue(value);
+  else if (add) {
+    _stats.push_back(new Stat(key, value));
+  }
 }
 
-void				Stats::setStat(std::string const &key, Stat::value_type const value)
-{
-  this->setStat(StatKey(key), value);
-}
+/*
+** These 2 functions (above and below) are " duplicated " for persisting issues
+** The one above is very useful for the Stats::smartAssign method (for the server ONLY)
+** In fact, the one below should not be called at all
+*/
+
+// void				Stats::setStat(std::string const &key, Stat::value_type const value,
+// 					       bool const add)
+// {
+//   Stat				*s = this->get(key);
+
+//   if (s)
+//     s->setValue(value);
+//   else if (add)
+//     _stats.push_back(new Stat(StatKey(key), value));
+//   std::cout << "WARNING FROM MESTAG : Stats::setStat with string key parameter should not be called" << std::endl;
+// }
 
 void				Stats::deleteStats()
 {
