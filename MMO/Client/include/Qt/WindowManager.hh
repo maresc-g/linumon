@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:15:41 2013 cyril jourdain
-// Last update Tue Feb 25 15:09:46 2014 guillaume marescaux
+// Last update Tue Feb 25 15:49:02 2014 cyril jourdain
 //
 
 #ifndef 		__WINDOWMANAGER_HH__
@@ -57,7 +57,7 @@ public:
   void			hideSfmlView();
   MutexVar<CLIENT::eState>	*getState();
   MutexVar<Player*>		*getMainPlayer();
-
+  MutexVar<bool>		*getNewPlayer();
 };
 
 #endif

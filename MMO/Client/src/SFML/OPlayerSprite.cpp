@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Feb 25 14:25:26 2014 cyril jourdain
-// Last update Tue Feb 25 14:59:32 2014 cyril jourdain
+// Last update Tue Feb 25 16:04:31 2014 cyril jourdain
 //
 
 #include		"SFML/OPlayerSprite.hh"
@@ -84,7 +84,7 @@ void			OPlayerSprite::moveRight(float px, sf::View *)
       _pos.x += 1;
       _deltaPos.x -= CASE_SIZE;
       _dir = NONE;
-      move(_deltaPos.x, 0);
+      move(-_deltaPos.x, 0);
       _deltaPos.x = 0;
       play("default_right");
     }

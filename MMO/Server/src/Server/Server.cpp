@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Tue Feb 25 17:14:33 2014 antoine maitre
+// Last update Tue Feb 25 17:16:34 2014 antoine maitre
 //
 
 #include			<list>
@@ -20,6 +20,7 @@
 #include			"Map/Map.hh"
 #include			"ClientWriter/ClientWriter.hh"
 #include			"RessourceManager/RessourceManager.hh"
+#include			"Battle/BattleManager.hh"
 
 bool				quit = false;
 
@@ -127,6 +128,9 @@ void				Server::init(int const port)
   _codeBreaker->start();
   this->debug("Initialing GameProtocol ...");
   this->_gameProtocol = new GameProtocol;
+  this->debug("Done");
+  this->debug("Initialing BattleManager ...");
+  BattleManager::getInstance();
   this->debug("Done");
   this->debug("Starting ObjectPoolManager ...");
   ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
