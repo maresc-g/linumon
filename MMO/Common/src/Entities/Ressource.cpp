@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Mon Feb 24 19:50:55 2014 laurent ansel
+// Last update Tue Feb 25 16:20:18 2014 laurent ansel
 //
 
 #include			"Entities/Ressource.hh"
@@ -13,7 +13,8 @@
 Ressource::Ressource() :
   Persistent(),
   AItem("", AItem::eItem::RESSOURCE),
-  _coord(new RessourceCoordinate)
+  _coord(new RessourceCoordinate),
+  _visible(true)
 {
 
 }
@@ -21,7 +22,8 @@ Ressource::Ressource() :
 Ressource::Ressource(std::string const &name) :
   Persistent(),
   AItem(name, AItem::eItem::RESSOURCE),
-  _coord(new RessourceCoordinate)
+  _coord(new RessourceCoordinate),
+  _visible(true)
 {
 
 }
@@ -29,7 +31,8 @@ Ressource::Ressource(std::string const &name) :
 Ressource::Ressource(Ressource const &rhs) :
   Persistent(rhs),
   AItem(rhs.getName(), AItem::eItem::RESSOURCE),
-  _coord(new RessourceCoordinate)
+  _coord(new RessourceCoordinate),
+  _visible(true)
 {
   *this = rhs;
 }
@@ -47,6 +50,7 @@ Ressource			&Ressource::operator=(Ressource const &rhs)
       this->setItemType(rhs.getItemType());
       this->setLevel(rhs.getLevel());
       *this->_coord = rhs.getCoord();
+      this->setVisible(rhs.isVisible());
     }
   return (*this);
 }
@@ -91,9 +95,21 @@ void				Ressource::setY(RessourceCoordinate::type const &y)
   this->_coord->setY(y);
 }
 
+bool				Ressource::isVisible() const
+{
+  return (this->_visible);
+}
+
+
+void				Ressource::setVisible(bool const visible)
+{
+  this->_visible = visible;
+}
+
 bool				Ressource::serialization(Trame &trame) const
 {
   trame["RESSOURCE"]["TYPE"] = this->getItemType();
+  trame["RESSOURCE"]["VISIBLE"] = this->isVisible();
   trame["RESSOURCE"]["NAME"] = this->getName();
   trame["RESSOURCE"]["ID"] = static_cast<unsigned int>(this->getId());
   this->_coord->serialization(trame(trame["RESSOURCE"]));
@@ -111,6 +127,7 @@ Ressource			*Ressource::deserialization(Trame const &trame, bool const client)
 	ressource->setId(trame["RESSOURCE"]["ID"].asUInt());
       ressource->setItemType(static_cast<AItem::eItem>(trame["RESSOURCE"]["TYPE"].asInt()));
       ressource->setCoord(*RessourceCoordinate::deserialization(trame(trame["RESSOURCE"])));
+      ressource->setVisible(trame["RESSOURCE"]["VISIBLE"].asBool());
     }
   return (ressource);
 }

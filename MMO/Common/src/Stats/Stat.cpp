@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:08:36 2013 alexis mestag
-// Last update Thu Feb 20 12:46:35 2014 alexis mestag
+// Last update Tue Feb 25 15:20:59 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -62,6 +62,11 @@ Stat::value_type		Stat::getValue() const
 void				Stat::setValue(value_type const value)
 {
   _value = value;
+}
+
+bool				Stat::isShortLived() const
+{
+  return (_key->isShortLived());
 }
 
 bool		 		Stat::serialization(Trame &trame) const

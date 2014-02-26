@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Tue Feb 25 16:04:08 2014 guillaume marescaux
+// Last update Wed Feb 26 10:32:07 2014 guillaume marescaux
 //
 
 /*
@@ -56,6 +56,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _textFont = new sf::Font();
   if (!_textFont->loadFromFile("./Res/arial.ttf"))
      std::cout << "Error while loading font" << std::endl;
+  _pressedKey = sf::Keyboard::Unknown;
 
   (*_keyMap)[sf::Keyboard::Up] = &SFMLView::keyUp;
   (*_keyMap)[sf::Keyboard::Down] = &SFMLView::keyDown;
@@ -118,6 +119,13 @@ void			SFMLView::onUpdate()
     }
   /* Not used here but SFML need it to handle internal events */
 
+  if (**(_wMan->getNewPlayer()))
+    {
+      loadPlayerList();
+      *(_wMan->getNewPlayer()) = false;
+    }
+  if (!_mainPerso->isMoving())
+    _pressedKey = sf::Keyboard::Unknown;
   clear(sf::Color(0,0,0));
   drawView();
   _keyDelayer->update(_clock);
@@ -169,7 +177,10 @@ void			SFMLView::checkKeys()
 void			SFMLView::loadPlayerList()
 {
   std::list<AEntity *>	list = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getPlayers();
-  
+
+  for (auto it = _playerList->begin(); it != _playerList->end(); it++)
+    delete *it;
+  _playerList->clear();
   for (auto it = list.begin(); it != list.end(); it++)
     {
       _playerList->push_back(new OPlayerSprite((static_cast<Player*>(*it))->getName(), _textFont));
@@ -221,8 +232,13 @@ void			SFMLView::keyUp()
 {
   keyControl();
   if (!_mainPerso->isMoving())
-    Client::getInstance()->move(CLIENT::UP);
-  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable())
+    {
+      Client::getInstance()->move(CLIENT::UP);
+      _pressedKey = sf::Keyboard::Up;
+      _mainPerso->setWaitingState();
+      std::cout << "Not moving -> Key up" << std::endl;
+    }
+  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == sf::Keyboard::Up)
     {
       _mainPerso->receivedInput();
       Client::getInstance()->move(CLIENT::UP);
@@ -234,8 +250,13 @@ void			SFMLView::keyDown()
 {
   keyControl();
   if (!_mainPerso->isMoving())
-    Client::getInstance()->move(CLIENT::DOWN);
-  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable())
+    {
+      Client::getInstance()->move(CLIENT::DOWN);
+      _pressedKey = sf::Keyboard::Down;
+      _mainPerso->setWaitingState();
+      std::cout << "Not moving -> Key down" << std::endl;
+    }
+  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == sf::Keyboard::Down)
     {
       _mainPerso->receivedInput();
       Client::getInstance()->move(CLIENT::DOWN);
@@ -246,8 +267,12 @@ void			SFMLView::keyLeft()
 {
   keyControl();
   if (!_mainPerso->isMoving())
-    Client::getInstance()->move(CLIENT::LEFT);
-  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable())
+    {
+      Client::getInstance()->move(CLIENT::LEFT);
+      _pressedKey = sf::Keyboard::Left;
+      _mainPerso->setWaitingState();
+    }
+  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == sf::Keyboard::Left)
     {
       _mainPerso->receivedInput();
       Client::getInstance()->move(CLIENT::LEFT);
@@ -258,8 +283,12 @@ void			SFMLView::keyRight()
 {
   keyControl();
   if (!_mainPerso->isMoving())
-    Client::getInstance()->move(CLIENT::RIGHT);
-  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable())
+    {
+      Client::getInstance()->move(CLIENT::RIGHT);
+      _pressedKey = sf::Keyboard::Right;
+      _mainPerso->setWaitingState();
+    }
+  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == sf::Keyboard::Right)
     {
       _mainPerso->receivedInput();
       Client::getInstance()->move(CLIENT::RIGHT);

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:00:16 2013 alexis mestag
-// Last update Thu Feb 20 12:38:03 2014 alexis mestag
+// Last update Tue Feb 25 23:13:03 2014 alexis mestag
 //
 
 #ifndef			__STAT_HH__
@@ -30,7 +30,7 @@ private:
   Stat();
 
 public:
-  Stat(StatKey const &key, int const value = 0);
+  Stat(StatKey const &key, value_type const value = 0);
   Stat(Stat const &rhs);
   virtual ~Stat();
 
@@ -41,6 +41,8 @@ public:
 
   value_type		getValue() const;
   void			setValue(value_type const value);
+
+  bool			isShortLived() const;
 
   virtual bool		serialization(Trame &trame) const;
   static Stat		*deserialization(Trame const &trame);

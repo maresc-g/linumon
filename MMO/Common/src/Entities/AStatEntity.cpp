@@ -5,19 +5,21 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Tue Feb 25 14:41:44 2014 laurent ansel
+// Last update Wed Feb 26 00:34:59 2014 alexis mestag
 //
 
 #include			"Entities/AStatEntity.hh"
 
 AStatEntity::AStatEntity() :
-  AEntity("", eEntity::STATENTITY), _statEntityType(eStatEntity::NONE)
+  AEntity("", eEntity::STATENTITY), _statEntityType(eStatEntity::NONE),
+  _authKeys(NULL), _inBattle(false)
 {
 
 }
 
 AStatEntity::AStatEntity(std::string const &name, AStatEntity::eStatEntity const statEntityType) :
-  AEntity(name, eEntity::STATENTITY), _statEntityType(statEntityType)
+  AEntity(name, eEntity::STATENTITY), _statEntityType(statEntityType),
+  _authKeys(NULL), _inBattle(false)
 {
 
 }
@@ -38,7 +40,10 @@ AStatEntity			&AStatEntity::operator=(AStatEntity const &rhs)
   if (this != &rhs)
     {
       this->setStatEntityType(rhs.getStatEntityType());
+      this->setStatKeys(rhs.getStatKeys());
       this->setStats(rhs.getStats());
+      this->setTmpStats(rhs.getTmpStats());
+      this->setInBattle(rhs.isInBattle());
     }
   return (*this);
 }
@@ -57,7 +62,7 @@ Stats const			&AStatEntity::getStats() const
 {
   return (_stats);
 }
-
+#include			<iostream>
 void				AStatEntity::setStats(Stats const &stats)
 {
   _stats = stats;
@@ -73,7 +78,42 @@ void				AStatEntity::setTmpStats(Stats const &stats)
   _tmpStats = stats;
 }
 
+void				AStatEntity::initTmpStats()
+{
+  _tmpStats.smartAssign(_stats);
+}
+
+void				AStatEntity::endTmpStats()
+{
+  _tmpStats.removeShortLivedStats();
+}
+
 AuthorizedStatKeys const	&AStatEntity::getStatKeys() const
 {
-  return (_stats.getKeys());
+  return (*_authKeys);
+}
+
+void				AStatEntity::setStatKeys(AuthorizedStatKeys const &keys)
+{
+  _authKeys = &keys;
+}
+
+void				AStatEntity::enterBattle()
+{
+  this->initTmpStats();
+}
+
+void				AStatEntity::leaveBattle()
+{
+  this->endTmpStats();
+}
+
+bool				AStatEntity::isInBattle() const
+{
+  return (_inBattle);
+}
+
+void				AStatEntity::setInBattle(bool const inBattle)
+{
+  _inBattle = inBattle;
 }

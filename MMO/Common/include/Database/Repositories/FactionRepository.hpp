@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Feb 25 12:42:22 2014 alexis mestag
-// Last update Tue Feb 25 12:52:16 2014 alexis mestag
+// Last update Wed Feb 26 00:09:49 2014 alexis mestag
 //
 
 #ifndef				__FACTIONREPOSITORY_HPP__

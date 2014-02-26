@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:58:39 2013 alexis mestag
-// Last update Sun Feb 23 22:46:52 2014 alexis mestag
+// Last update Wed Feb 26 00:01:58 2014 alexis mestag
 //
 
 #ifndef				__STATS_HH__
@@ -26,7 +26,6 @@ public:
   typedef std::list<Stat *>	container_type;
 
 private:
-  AuthorizedStatKeys const	*_authKeys;
   container_type		_stats;
 
 private:
@@ -42,17 +41,24 @@ public:
   Stat::value_type		operator[](StatKey const &key) const;
   Stat::value_type		operator[](std::string const &key) const;
 
+  Stat				*get(StatKey const &key) const;
+  Stat				*get(std::string const &key) const;
+
+  // Do not assign if !Stat.isShortLived() sauf s'il n'y est pas
+  void				smartAssign(Stats const &rhs);
+  void				removeShortLivedStats();
+
   void				setStats(container_type &stats);
   container_type const		&getStats() const;
-
-  AuthorizedStatKeys const	&getKeys() const;
-  void				setKeys(AuthorizedStatKeys const &keys);
 
   Stat::value_type		getStat(StatKey const &key) const;
   Stat::value_type		getStat(std::string const &key) const;
 
-  void				setStat(StatKey const &key, Stat::value_type const value);
-  void				setStat(std::string const &key, Stat::value_type const value);
+  void				setStat(StatKey const &key, Stat::value_type const value,
+					bool const add = false);
+  // This one below should not be called
+  // void				setStat(std::string const &key, Stat::value_type const value,
+  // 					bool const add = false);
 
   virtual bool			serialization(Trame &trame) const;
   static Stats			*deserialization(Trame const &trame);
