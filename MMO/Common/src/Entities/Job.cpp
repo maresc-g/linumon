@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Thu Feb 20 13:26:50 2014 laurent ansel
+// Last update Wed Feb 26 16:47:08 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -81,7 +81,7 @@ bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, s
     if ((*it)->getName() == nameCraft)
       {
 	for (auto ic = (*it)->getIngredients().begin() ; ic != (*it)->getIngredients().end() ; ++ic)
-	  object.push_back(*ic);
+	  object.push_back(ic->first);
 	if ((*it)->getResult().getItemType() == AItem::STUFF)
 	  item = new Stuff(static_cast<Stuff const &>((*it)->getResult()));
 	else if ((*it)->getResult().getItemType() == AItem::CONSUMABLE)
