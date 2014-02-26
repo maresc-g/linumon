@@ -132,7 +132,27 @@ ChatView
 
 MenuView
 {
-	background-color: #FFFFFF;
+	border-image:url(./Res/base.png);
+}
+
+MenuView QPushButton#bLogout
+{
+	border-image:url(./Res/button3.png);
+}
+
+MenuView QPushButton#bSwitch
+{
+	border-image:url(./Res/button2.png);
+}
+
+MenuView QPushButton#bQuit
+{
+	border-image:url(./Res/button4.png);
+}
+
+MenuView QPushButton#bReturn
+{
+	border-image:url(./Res/button1.png);
 }
 
 ItemView QLabel

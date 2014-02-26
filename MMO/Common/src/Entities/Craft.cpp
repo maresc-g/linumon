@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:40:15 2014 laurent ansel
-// Last update Mon Feb 10 11:09:21 2014 alexis mestag
+// Last update Wed Feb 26 16:45:08 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -38,12 +38,12 @@ Craft				&Craft::operator=(Craft const &rhs)
   return (*this);
 }
 
-std::list<AItem *> const	&Craft::getIngredients() const
+std::list<std::pair<AItem *, unsigned int> > const	&Craft::getIngredients() const
 {
   return (this->_ingredients);
 }
 
-void				Craft::setIngredients(std::list<AItem *> const &list)
+void				Craft::setIngredients(std::list<std::pair<AItem *, unsigned int> > const &list)
 {
   this->_ingredients = list;
 }
@@ -80,7 +80,8 @@ bool				Craft::serialization(Trame &trame) const
   for (auto it = this->_ingredients.begin() ; it != this->_ingredients.end() && ret; ++it)
     {
       str << "ITEM" << nb;
-      ret = (*it)->serialization(trame(trame["CRAFT"]["INGREDIENTS"][str.str()]));
+      ret = it->first->serialization(trame(trame["CRAFT"]["INGREDIENTS"][str.str()]));
+      trame["CRAFT"]["INGREDIENTS"][str.str()]["NB"] = it->second;
       str.str("");
       nb++;
     }
@@ -92,18 +93,20 @@ Craft				*Craft::deserialization(Trame const &trame)
   Craft				*craft = NULL;
   int				nb = 0;
   std::ostringstream		str;
-  std::list<AItem *>		*ingredients;
+  std::list<std::pair<AItem *, unsigned int> >		*ingredients;
+  AItem				*item;
 
   if (trame.isMember("CRAFT"))
     {
       craft = new Craft;
       craft->setLevel(*Level::deserialization(trame(trame["CRAFT"])));
       craft->setResult(*AItem::deserialization(trame(trame["CRAFT"])));
-      ingredients = new std::list<AItem *>;
+      ingredients = new std::list<std::pair<AItem *, unsigned int> >;
       str << "ITEM" << nb;
       for (; !trame["CRAFT"]["INGREDIENTS"].isMember(str.str()) ; ++nb)
 	{
-	  ingredients->push_back(AItem::deserialization(trame(trame["CRAFT"]["INGREDIENTS"][str.str()])));
+	  if ((item = AItem::deserialization(trame(trame["CRAFT"]["INGREDIENTS"][str.str()]))))
+	    ingredients->push_back(std::make_pair(item, trame["CRAFT"]["INGREDIENTS"][str.str()]["NB"].asUInt()));
 	  str.str("");
 	  str << "ITEM" << nb + 1;
 	}

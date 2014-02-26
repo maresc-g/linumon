@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Wed Feb 26 11:20:20 2014 cyril jourdain
+// Last update Wed Feb 26 15:07:58 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -31,6 +31,7 @@
 #include		"SFML/PlayerSprite.hh"
 #include		"SFML/KeyDelayer.hh"
 #include		"SFML/OPlayerSprite.hh"
+#include		"SFML/RessourceSprite.hh"
 
 #define			CASE_SIZE	64
 
@@ -57,7 +58,7 @@ private:
   SpriteMap		*_sprites;
   KeyDelayer		*_keyDelayer;
   std::vector<OPlayerSprite *> *_playerList;
-  std::list<Sprite*>	*_entities;
+  std::list<RessourceSprite*>	*_entities;
   KeyMap		*_keyMap;
   sf::Sprite		*_spriteTest;
   sf::Texture		*_textureTest;
