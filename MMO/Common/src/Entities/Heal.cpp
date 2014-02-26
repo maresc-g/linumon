@@ -5,10 +5,14 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb 21 13:05:16 2014 laurent ansel
-// Last update Tue Feb 25 14:34:49 2014 laurent ansel
+// Last update Wed Feb 26 12:33:06 2014 laurent ansel
 //
 
 #include			"Entities/Heal.hh"
+#ifndef CLIENT_COMPILATION
+#include			"Database/Repositories/StatKeyRepository.hpp"
+#endif
+#include			"Entities/Digitaliser.hh"
 
 Heal::Heal() :
   PNJ("HEAL")
@@ -41,9 +45,21 @@ bool				Heal::action(Player *player)
   return (this->heal(player->getDigitaliser()));
 }
 
-bool				Heal::heal(Digitaliser const &) const
+
+bool				Heal::heal(Digitaliser const &digitaliser) const
 {
+#ifndef CLIENT_COMPILATION
+  Repository<StatKey>		*rsk = &Database::getRepository<StatKey>();
+  StatKey			*sk = rsk->getByName("HP");
+  Digitaliser::Mobs const	*mobs = &digitaliser.getBattleMobs();
+
+  for (auto it = mobs->begin() ; it !=mobs->end() ; ++it)
+    (*it)->setTmpStat(*sk, (*it)->getStat(*sk), true);
   return (true);
+#else
+(void)digitaliser;
+return (false);
+#endif
 }
 
 bool				Heal::serialization(Trame &trame) const

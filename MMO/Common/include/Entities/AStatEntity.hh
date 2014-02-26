@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:21:41 2013 alexis mestag
-// Last update Wed Feb 26 01:25:31 2014 alexis mestag
+// Last update Wed Feb 26 11:26:57 2014 alexis mestag
 //
 
 #ifndef			__ASTATENTITY_HH__
@@ -55,6 +55,13 @@ public:
 
   AuthorizedStatKeys const	&getStatKeys() const;
   void				setStatKeys(AuthorizedStatKeys const &keys);
+
+  Stat::value_type	getStat(StatKey const &key) const;
+  void			setStat(StatKey const &key, Stat::value_type const value,
+				bool const add = false);
+  Stat::value_type	getTmpStat(StatKey const &key) const;
+  void			setTmpStat(StatKey const &key, Stat::value_type const value,
+				   bool const add = false);
 
   bool			isInBattle() const;
 
