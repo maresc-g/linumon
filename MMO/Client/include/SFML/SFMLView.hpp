@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Wed Feb 26 10:31:55 2014 guillaume marescaux
+// Last update Wed Feb 26 11:20:20 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -57,6 +57,7 @@ private:
   SpriteMap		*_sprites;
   KeyDelayer		*_keyDelayer;
   std::vector<OPlayerSprite *> *_playerList;
+  std::list<Sprite*>	*_entities;
   KeyMap		*_keyMap;
   sf::Sprite		*_spriteTest;
   sf::Texture		*_textureTest;
@@ -64,7 +65,7 @@ private:
   sf::Sprite		*_winSprite;
   bool			_changed;
   sf::Font		*_textFont;
-  sf::Keyboard::Key	_pressedKey;	
+  sf::Keyboard::Key	_pressedKey;
 
   /* Child Views */
   SpellBarView		*_spellBar;
@@ -80,6 +81,7 @@ public:
   SFMLView(QWidget *, QPoint const &, QSize const &, WindowManager *_wMan);
   virtual ~SFMLView();
 
+public:
   JobView		*getJobView(void) const;
 
 private :

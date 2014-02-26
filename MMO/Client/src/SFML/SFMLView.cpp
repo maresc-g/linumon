@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Feb 26 10:32:07 2014 guillaume marescaux
+// Last update Wed Feb 26 14:00:31 2014 cyril jourdain
 //
 
 /*
@@ -28,7 +28,7 @@
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()), _mainPerso(NULL),
   _clock(new sf::Clock()), _sprites(new SpriteMap), _keyDelayer(new KeyDelayer()),
-  _playerList(new std::vector<OPlayerSprite*>), _keyMap(new KeyMap),
+  _playerList(new std::vector<OPlayerSprite*>), _entities(new std::list<Sprite*>()), _keyMap(new KeyMap),
   _spellBar(new SpellBarView(this, w)), _itemView(new ItemView(this, w)),
   _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
   _chat(new ChatView(this, w)), _menu(new MenuView(this, w)), _jobMenu(new JobMenuView(this, w)),
@@ -146,6 +146,12 @@ void			SFMLView::drawView()
   }
   _winSprite->setTexture(_winTexture->getTexture());
   draw(*_winSprite);
+  // std::cout << "drawView" << std::endl;
+  for (auto it = _entities->begin(); it != _entities->end(); ++it)
+    {
+      (*it)->update(*_clock);
+      draw(**it);
+    }
   if (_mainPerso) {
     _mainPerso->moveFromServer();
     _mainPerso->updateMoves(_clock, _mainView);
@@ -154,8 +160,7 @@ void			SFMLView::drawView()
     draw(*_mainPerso);
   }
   setView(*_mainView);
-  // std::cout << "drawView" << std::endl;
-  for (auto it = _playerList->begin(); it != _playerList->end(); it++)
+  for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
     {
       if ((**(_wMan->getMainPlayer()))->getId() == ((*it)->getPlayerId()))
       	continue;
@@ -197,13 +202,33 @@ void			SFMLView::loadPlayerList()
 void			SFMLView::loadMap()
 {
   Zone	*zone = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone());
+  std::list<AEntity*>	*list;
 
-  for (int y = 0; y != zone->getSizeX(); y++)
+  for (int y = 0; y < zone->getSizeY(); y++)
     {
-      for (int x = 0; x != zone->getSizeY(); x++)
+      for (int x = 0; x < zone->getSizeX(); x++)
 	{
-	  ((*_sprites)[y])[x] = _sMan->copySprite("grass");
+	  if (zone->getCase(x,y) && zone->getCase(x,y)->getSafe())
+	    ((*_sprites)[y])[x] = _sMan->copySprite("grass");
+	  else
+	    ((*_sprites)[y])[x] = _sMan->copySprite("grass"); // Play rock
 	  ((*_sprites)[y])[x]->play("default");
+	  list = zone->getCase(x,y)->getEntities();
+	  if (list && list->size() > 0)
+	    {
+	      for (auto it = list->begin(); it != list->end(); it++)
+		{
+		  std::cout << "Adding entitie : " << (*it)->getEntityType() << std::endl;
+		  if ((*it)->getEntityType() != AEntity::RESSOURCE)
+		    continue;
+		  std::cout << static_cast<Ressource*>(*it)->getName() << std::endl;
+		  _entities->push_back(new Sprite());
+		  _sMan->copySprite(static_cast<Ressource*>(*it)->getName(), *_entities->back());
+		  _entities->back()->play("default");
+		  _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
+						 static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
+		}
+	    }
 	}
     }
   // for (auto it = cases->begin(); it != cases->end(); ++it)
