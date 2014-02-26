@@ -5,9 +5,10 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 12:56:12 2014 guillaume marescaux
-// Last update Tue Feb 25 14:05:19 2014 guillaume marescaux
+// Last update Tue Feb 25 16:35:28 2014 guillaume marescaux
 //
 
+#include			"SFML/SFMLView.hpp"
 #include			"Qt/Views/JobMenuView.hh"
 
 JobMenuView::JobMenuView(QWidget *parent, WindowManager *wMan):
@@ -31,6 +32,10 @@ void				JobMenuView::paintEvent(QPaintEvent *)
 
 void			JobMenuView::on_b_alch_clicked()
 {
+  SFMLView		*sfml = static_cast<SFMLView *>(this->parentWidget());
+  JobView		*job = sfml->getJobView();
+  job->move(300, 100);
+  job->show();
 }
 
 void			JobMenuView::on_b_dev_clicked()

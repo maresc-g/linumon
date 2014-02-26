@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Tue Feb 25 15:30:39 2014 cyril jourdain
+// Last update Tue Feb 25 16:03:36 2014 guillaume marescaux
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -78,6 +78,8 @@ private:
 public:
   SFMLView(QWidget *, QPoint const &, QSize const &, WindowManager *_wMan);
   virtual ~SFMLView();
+
+  JobView		*getJobView(void) const;
 
 private :
   virtual void			onInit();

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:54:38 2014 guillaume marescaux
-// Last update Tue Feb 25 14:55:18 2014 guillaume marescaux
+// Last update Tue Feb 25 16:27:18 2014 guillaume marescaux
 //
 
 #ifndef 		__JOBVIEW_HH__
@@ -15,6 +15,7 @@
 #include		<Qt/qpainter.h>
 #include		"ui_jobview.h"
 #include		"Qt/WindowManager.hh"
+#include		"Entities/Job.hh"
 
 class			JobView : public QWidget
 {
@@ -25,6 +26,8 @@ public:
   JobView(QWidget *, WindowManager *wMan);
   virtual ~JobView();
 
+  void			setInfos(Job const &job);
+
 private:
 
   Ui::jobview		ui;
@@ -33,6 +36,10 @@ private:
 private:
 
   virtual void		paintEvent(QPaintEvent *);
+
+private slots:
+
+  void			on_b_craft_clicked();
 };
 
 #endif

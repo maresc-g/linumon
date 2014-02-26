@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Tue Feb 25 15:33:00 2014 cyril jourdain
+// Last update Tue Feb 25 16:04:08 2014 guillaume marescaux
 //
 
 /*
@@ -333,3 +333,5 @@ void			SFMLView::keyControl()
   else
     _mainPerso->setSpeed(PX_PER_SECOND);
 }
+
+JobView			*SFMLView::getJobView(void) const { return (_job); }
