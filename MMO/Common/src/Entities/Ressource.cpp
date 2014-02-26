@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Tue Feb 25 16:20:18 2014 laurent ansel
+// Last update Wed Feb 26 13:48:59 2014 laurent ansel
 //
 
 #include			"Entities/Ressource.hh"
@@ -48,6 +48,7 @@ Ressource			&Ressource::operator=(Ressource const &rhs)
     {
       this->setName(rhs.getName());
       this->setItemType(rhs.getItemType());
+      this->setEntityType(rhs.getEntityType());
       this->setLevel(rhs.getLevel());
       *this->_coord = rhs.getCoord();
       this->setVisible(rhs.isVisible());
@@ -109,6 +110,7 @@ void				Ressource::setVisible(bool const visible)
 bool				Ressource::serialization(Trame &trame) const
 {
   trame["RESSOURCE"]["TYPE"] = this->getItemType();
+  trame["RESSOURCE"]["ENTITYTYPE"] = this->getEntityType();
   trame["RESSOURCE"]["VISIBLE"] = this->isVisible();
   trame["RESSOURCE"]["NAME"] = this->getName();
   trame["RESSOURCE"]["ID"] = static_cast<unsigned int>(this->getId());
@@ -126,6 +128,7 @@ Ressource			*Ressource::deserialization(Trame const &trame, bool const client)
       if (client)
 	ressource->setId(trame["RESSOURCE"]["ID"].asUInt());
       ressource->setItemType(static_cast<AItem::eItem>(trame["RESSOURCE"]["TYPE"].asInt()));
+      ressource->setEntityType(static_cast<AEntity::eEntity>(trame["RESSOURCE"]["ENTITYTYPE"].asInt()));
       ressource->setCoord(*RessourceCoordinate::deserialization(trame(trame["RESSOURCE"])));
       ressource->setVisible(trame["RESSOURCE"]["VISIBLE"].asBool());
     }
