@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:45:53 2013 laurent ansel
-// Last update Wed Feb 26 01:27:06 2014 alexis mestag
+// Last update Wed Feb 26 01:35:50 2014 alexis mestag
 //
 
 #include		<string>
@@ -17,43 +17,6 @@
 #include		"Server/Server.hh"
 #include		"Error/SocketError.hpp"
 #include		"CodeBreaker/CodeBreaker.hh"
-
-// #include		"Database/Repositories/PlayerRepository.hpp"
-// #include		"Database/Repositories/UserRepository.hpp"
-// #include		"Database/Repositories/FactionRepository.hpp"
-
-// int			main()
-// {
-//   Repository<Mob>	*rm = &Database::getRepository<Mob>();
-//   Mob			*m = rm->getById(1);
-
-//   std::cout << "Mob : " << m->getName() << std::endl;
-//   std::cout << "  stats" << std::endl;
-//   for (auto jt = m->getStats().getStats().begin() ;
-//        jt != m->getStats().getStats().end() ; ++jt)
-//     {
-//       Stat		*s = *jt;
-      
-//       std::cout << "\t" << s->getKey().getName() << " : " << s->getValue() << std::endl;
-//     }
-
-//   m->enterBattle();
-
-//   for (int i = 0 ; i < 2 ; i++) {
-
-//     std::cout << "  tmpStats" << std::endl;
-//     for (auto jt = m->getTmpStats().getStats().begin() ;
-// 	 jt != m->getTmpStats().getStats().end() ; ++jt)
-//       {
-// 	Stat		*s = *jt;
-      
-// 	std::cout << "\t" << s->getKey().getName() << " : " << s->getValue() << std::endl;
-//       }
-
-//     m->leaveBattle();
-//   }
-//   return (0);
-// }
 
 int			main(int argc, char **argv)
 {
