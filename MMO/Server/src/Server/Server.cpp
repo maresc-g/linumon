@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Tue Feb 25 17:16:34 2014 antoine maitre
+// Last update Wed Feb 26 13:56:06 2014 laurent ansel
 //
 
 #include			<list>
@@ -136,7 +136,6 @@ void				Server::init(int const port)
   ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
   ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
   ObjectPoolManager::getInstance()->runObjectPool<Error>("error");
-  ObjectPoolManager::getInstance()->runObjectPool<Ressource>("ressource");
   this->debug("Done");
 }
 
