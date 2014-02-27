@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Feb 27 13:45:31 2014 laurent ansel
+// Last update Thu Feb 27 14:11:47 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -129,6 +129,8 @@ public:
   void				addMoney(int const money);
 
   void				setJobs(Jobs *jobs);
+  void				setJob(Job *job);
+  void				setJob(std::string const &name, Job *job);
   Job				*getJob(std::string const &name) const;
 
   bool				doCraft(std::string const &job, std::string const &craft, std::list<AItem *> &result, std::list<std::pair<unsigned int, unsigned int> > &object);

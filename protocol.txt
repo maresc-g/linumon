@@ -51,14 +51,14 @@
 
 			#  craft
 			CRAFT : {nameCraft : string, nameJob : string} -> client
-			-ADDTOINVENTORY : {items : std::list<AItem>} -> server
-			-DELETEFROMINVENTORY : {items : std::list<AItem>} -> server
+			-ADDTOINVENTORY : {items : list<pair<AItem, uint>>} -> server
+			-DELETEFROMINVENTORY : {items : list<pair<AItem, uint>>} -> server
 			-JOB : {job : Job} -> server
 			#  end
 
 			#  gather
 			GATHER : {nameRessource : string, nameJob : string, CoordinateRessource : coordinate} -> client
-			-ADDTOINVENTORY : {item : std::list<AItem>} -> server
+			-ADDTOINVENTORY : {item : list<pair<AItem, uint>>} -> server
 			-JOB : {job : Job} -> server
 			#  end
 

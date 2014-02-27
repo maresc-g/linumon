@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:54:38 2014 guillaume marescaux
-// Last update Wed Feb 26 16:25:04 2014 guillaume marescaux
+// Last update Thu Feb 27 13:12:56 2014 guillaume marescaux
 //
 
 #ifndef 		__JOBVIEW_HH__

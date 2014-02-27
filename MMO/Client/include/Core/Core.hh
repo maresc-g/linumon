@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Tue Feb 25 15:10:43 2014 guillaume marescaux
+// Last update Thu Feb 27 13:29:37 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -87,7 +87,7 @@ public:
   void			sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob);
   //  void			stuff(void *action);
   // void			talents();
-  // void			craft();
+  void			craft(std::string const &craftName, std::string const &jobName);
   // void			gather();
   void			useObject(unsigned int target, AItem const &item);
   // void			unsigned interaction();
@@ -124,7 +124,8 @@ private:
   bool			endBattle(Trame *);
   bool			upStats(Trame *);
   bool			upTalents(Trame *);
-  bool			inventory(Trame *);
+  bool			addToInventory(Trame *);
+  bool			deleteFromInventory(Trame *);
   bool			job(Trame *);
   bool			caseMap(Trame *);
   bool			objectEffect(Trame *);

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Feb 27 14:08:17 2014 laurent ansel
+// Last update Thu Feb 27 14:11:51 2014 laurent ansel
 //
 
 #include			<functional>
@@ -175,6 +175,16 @@ void				Player::setInventory(Inventory *inventory)
 void				Player::setJobs(Jobs *jobs)
 {
   this->_jobs = jobs;
+}
+
+void				Player::setJob(Job *job)
+{
+  this->_jobs->setJob(job);
+}
+
+void				Player::setJob(std::string const &name, Job *job)
+{
+  this->_jobs->setJob(name, job);
 }
 
 Job				*Player::getJob(std::string const &name) const

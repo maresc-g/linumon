@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Thu Feb 27 13:48:10 2014 laurent ansel
+// Last update Thu Feb 27 14:11:09 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -82,7 +82,7 @@ bool				chat(unsigned int const id, std::string idZone, std::string msg);
 bool				capture(unsigned int const id, unsigned int idBattle, unsigned int target);
 //  bool				stuff(void *action);
   // bool				talents();
-  // bool				craft();
+bool				craft(unsigned int const id, std::string craftName, std::string jobName);
   // bool				gather();
 bool				objectEffect(unsigned int const id, Stats *stats);
 bool				useObject(unsigned int const id, unsigned int target, unsigned int idItem);

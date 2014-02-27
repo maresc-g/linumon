@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 12:56:42 2014 guillaume marescaux
-// Last update Wed Feb 26 15:04:59 2014 guillaume marescaux
+// Last update Thu Feb 27 13:13:28 2014 guillaume marescaux
 //
 
 #ifndef 		__JOBMENUVIEW_HH__
@@ -32,6 +32,7 @@ private:
 
 private:
 
+  void			initJob(std::string const &name);
   virtual void		paintEvent(QPaintEvent *);
 
 private slots:
