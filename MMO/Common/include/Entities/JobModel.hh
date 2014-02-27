@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:21:21 2014 laurent ansel
-// Last update Thu Feb 27 13:15:12 2014 laurent ansel
+// Last update Thu Feb 27 14:15:42 2014 laurent ansel
 //
 
 #ifndef 		__JOBMODEL_HH__
@@ -53,6 +53,7 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(JobModel)
 #  pragma db member(JobModel::_crafts) transient
+#  pragma db member(JobModel::_path) get(getPath()) set(setPath(?))
 # endif
 
 #endif
