@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:27:32 2014 laurent ansel
-// Last update Mon Feb 10 11:15:47 2014 alexis mestag
+// Last update Wed Feb 26 16:42:09 2014 laurent ansel
 //
 
 #ifndef 		__CRAFT_HH__
@@ -24,13 +24,13 @@ class			Craft : public Persistent, public Nameable, public ISerialization
 private:
   Level			_level;
   AItem			*_result;
-  std::list<AItem *>	_ingredients;
+  std::list<std::pair<AItem *, unsigned int> >	_ingredients;
 
   Craft();
 
   void			setLevel(Level const &level);
   void			setResult(AItem const &item);
-  void			setIngredients(std::list<AItem *> const &items);
+  void			setIngredients(std::list<std::pair<AItem *, unsigned int> > const &items);
 
 public:
   Craft(Craft const &rhs);
@@ -40,7 +40,7 @@ public:
 
   Level const			&getLevel() const;
   AItem const			&getResult() const;
-  std::list<AItem *> const	&getIngredients() const;
+  std::list<std::pair<AItem *, unsigned int> > const	&getIngredients() const;
 
   virtual bool		serialization(Trame &trame) const;
   static Craft		*deserialization(Trame const &trame);

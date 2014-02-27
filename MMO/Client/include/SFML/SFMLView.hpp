@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Wed Feb 26 10:31:55 2014 guillaume marescaux
+// Last update Wed Feb 26 16:53:37 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -31,6 +31,7 @@
 #include		"SFML/PlayerSprite.hh"
 #include		"SFML/KeyDelayer.hh"
 #include		"SFML/OPlayerSprite.hh"
+#include		"SFML/RessourceSprite.hh"
 
 #define			CASE_SIZE	64
 
@@ -57,6 +58,7 @@ private:
   SpriteMap		*_sprites;
   KeyDelayer		*_keyDelayer;
   std::vector<OPlayerSprite *> *_playerList;
+  std::list<RessourceSprite*>	*_entities;
   KeyMap		*_keyMap;
   sf::Sprite		*_spriteTest;
   sf::Texture		*_textureTest;
@@ -64,7 +66,8 @@ private:
   sf::Sprite		*_winSprite;
   bool			_changed;
   sf::Font		*_textFont;
-  sf::Keyboard::Key	_pressedKey;	
+  sf::Keyboard::Key	_pressedKey;
+  bool			_reset;
 
   /* Child Views */
   SpellBarView		*_spellBar;
@@ -80,6 +83,7 @@ public:
   SFMLView(QWidget *, QPoint const &, QSize const &, WindowManager *_wMan);
   virtual ~SFMLView();
 
+public:
   JobView		*getJobView(void) const;
 
 private :
@@ -91,6 +95,7 @@ private :
   void				loadPlayerList();
   void				loadMap();
   void                          reloadBackgroundSprite();
+  void				reset();
 
 private:
   void				keyUp();

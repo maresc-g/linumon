@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Tue Feb 25 17:43:36 2014 laurent ansel
+// Last update Wed Feb 26 13:36:45 2014 antoine maitre
 //
 
 #include		"Zone/Case.hh"
@@ -81,9 +81,14 @@ bool			Case::serialization(Trame &trame) const
 	      if (tmp->getGuild())
 		tmp->getGuild()->serialization(trame(trame[std::to_string(i)]["PLAYER"]));
 	    }
+	  else if ((*it)->getEntityType() == AEntity::RESSOURCE)
+	    {
+	      auto tmp = static_cast<Ressource *>(*it);
+	      tmp->serialization(trame(trame[std::to_string(i)]));
+	    }
 	  else
 	    {
-	      auto tmp = static_cast<Ressource *>(*it); 
+	      auto tmp = static_cast<PNJ *>(*it);
 	      tmp->serialization(trame(trame[std::to_string(i)]));
 	    }
 	  i++;
@@ -108,7 +113,9 @@ void			Case::deserialization(Trame const &trame)
 	  player->setZone((trame[std::to_string(i)]["PLAYER"]["ZONE"].asString()));
 	  this->_entities->push_back(player);
 	}
-      else
+      else if (trame[std::to_string(i)].isMember("RESSOURCE"))
 	this->_entities->push_back(Ressource::deserialization(trame(trame[std::to_string(i)])));
+      else
+	this->_entities->push_back(PNJ::deserialization(trame(trame[std::to_string(i)])));
     }
 }

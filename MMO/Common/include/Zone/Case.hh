@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:39:46 2014 antoine maitre
-// Last update Thu Feb 20 12:25:31 2014 laurent ansel
+// Last update Wed Feb 26 13:34:53 2014 antoine maitre
 //
 
 #ifndef				__CASE_HH__
@@ -16,6 +16,7 @@
 # include			<list>
 # include			"Zone/Coordinate.hpp"
 # include			"Entities/Player.hh"
+# include			"Entities/PNJ.hh"
 # include			"Entities/Ressource.hh"
 # include			"Utility/ISerialization.hh"
 # include			"Utility/GenericSerialization.hpp"

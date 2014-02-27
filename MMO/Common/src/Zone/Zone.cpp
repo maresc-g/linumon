@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Mon Feb 24 15:38:08 2014 antoine maitre
+// Last update Wed Feb 26 13:45:52 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -54,17 +54,8 @@ Zone::Zone(Json::Value const topography):
 # endif
 }
 
-// Zone::Zone(int const x, int const y, std::string const type)
-//   : _sizeX(x), _sizeY(y), _type(type), _cases(new std::list<Case*>)
-// {
-  
-// }
-
 Zone::~Zone()
 {
-  // for (auto it = this->_players->begin() ; it != this->_players->end() ; ++it)
-  //   delete (*it);
-  // delete _players;
   for (auto it = this->_cases->begin() ; it != this->_cases->end() ; ++it)
     delete (*it);
   delete _cases;
@@ -106,9 +97,18 @@ void				Zone::addEntity(AEntity *entity)
 {
   Case				*cas;
   Ressource			*tmp;
+  PNJ				*tmp1;
 
-  tmp = static_cast<Ressource *>(entity);
-  cas = this->getCase(tmp->getX(), tmp->getY());
+  if (entity->getEntityType() == AEntity::RESSOURCE)
+    {
+      tmp = static_cast<Ressource *>(entity);
+      cas = this->getCase(tmp->getX(), tmp->getY());
+    }
+  else
+    {
+      tmp1 = static_cast<PNJ *>(entity);
+      cas = this->getCase(tmp1->getX(), tmp1->getY());
+    }
   if (cas)
     cas->addAEntity(entity);
 }
@@ -210,6 +210,12 @@ void				Zone::deserialization(Trame const &trame)
     }
 }
 
+
+int				Zone::getSizeX() const { return (_sizeX); }
+int				Zone::getSizeY() const { return (_sizeY); }
+int				Zone::getPosX() const { return (_posX); }
+int				Zone::getPosY() const { return (_posY); }
+
 bool				Zone::move(AEntity *entity)
 {
   for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
@@ -305,11 +311,6 @@ bool				Zone::move(AEntity *entity)
     this->getCase(static_cast<Player *>(entity)->getX(), static_cast<Player *>(entity)->getY())->addAEntity(entity);
   return (false);
 }
-
-int				Zone::getSizeX() const { return (_sizeX); }
-int				Zone::getSizeY() const { return (_sizeY); }
-int				Zone::getPosX() const { return (_posX); }
-int				Zone::getPosY() const { return (_posY); }
 
 #ifdef	SERVER
 DBZone const			&Zone::getDBZone() const
