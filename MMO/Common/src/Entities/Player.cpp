@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Feb 26 22:46:34 2014 alexis mestag
+// Last update Thu Feb 27 14:08:17 2014 laurent ansel
 //
 
 #include			<functional>
@@ -449,19 +449,29 @@ void				Player::capture(Mob const &mob)
   this->_digitaliser.addMob(mob);
 }
 
-bool				Player::doCraft(std::string const &job, std::string const &craft, std::list<AItem *> &result, std::list<AItem *> &object)
+bool				Player::doCraft(std::string const &job, std::string const &craft, std::list<AItem *> &result, std::list<std::pair<unsigned int, unsigned int> > &object)
 {
   bool				ret = false;
   Job				*tmp = NULL;
+  std::list<std::pair<std::string, unsigned int> >	tmpObject;
 
   tmp = this->getJob(job);
   if (tmp)
     {
-      tmp->doCraft(craft, result, object);
+      tmp->doCraft(craft, result, tmpObject);
       for (auto it = result.begin() ; it != result.end() ; ++it)
-	this->addItem(*it);
-      for (auto it = object.begin() ; it != object.end() ; ++it)
-	this->deleteItem((*it)->getId());
+	{
+	  unsigned int		id = _inventory->getIdItem((*it)->getName());
+	  if (id != 0)
+	    (*it)->setId(id);
+	  this->addItem(*it);
+	}
+      for (auto it = tmpObject.begin() ; it != tmpObject.end() ; ++it)
+	{
+	  object.push_back(std::make_pair(_inventory->getIdItem(it->first), it->second));
+	  for (unsigned int i = 0 ; i < it->second ; ++i)
+	    this->deleteItem(object.back().first);
+	}
     }
   return (ret);
 }
@@ -476,7 +486,12 @@ bool				Player::doGather(std::string const &job, std::string const &res, std::li
     {
       tmp->doGather(res, result, idRessource);
       for (auto it = result.begin() ; it != result.end() ; ++it)
-	this->addItem(*it);
+	{
+	  unsigned int		id = _inventory->getIdItem((*it)->getName());
+	  if (id != 0)
+	    (*it)->setId(id);
+	  this->addItem(*it);
+	}
     }
   return (ret);
 }

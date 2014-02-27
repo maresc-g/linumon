@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:40:15 2014 laurent ansel
-// Last update Wed Feb 26 16:45:08 2014 laurent ansel
+// Last update Thu Feb 27 13:22:48 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -34,6 +34,8 @@ Craft				&Craft::operator=(Craft const &rhs)
   if (this != &rhs)
     {
       this->setLevel(rhs.getLevel());
+      this->setIngredients(rhs.getIngredients());
+      this->setResult(rhs.getResult());
     }
   return (*this);
 }
@@ -74,6 +76,7 @@ bool				Craft::serialization(Trame &trame) const
   int				nb = 0;
   std::ostringstream		str;
 
+  trame["CRAFT"]["NAME"] = this->getName();
   trame["CRAFT"]["INGREDIENTS"];
   this->_level.serialization(trame(trame["CRAFT"]));
   this->_result->serialization(trame(trame["CRAFT"]));
@@ -99,6 +102,7 @@ Craft				*Craft::deserialization(Trame const &trame)
   if (trame.isMember("CRAFT"))
     {
       craft = new Craft;
+      craft->setName(trame["CRAFT"]["NAME"].asString());
       craft->setLevel(*Level::deserialization(trame(trame["CRAFT"])));
       craft->setResult(*AItem::deserialization(trame(trame["CRAFT"])));
       ingredients = new std::list<std::pair<AItem *, unsigned int> >;

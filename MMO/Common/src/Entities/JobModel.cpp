@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:53:29 2014 laurent ansel
-// Last update Wed Feb 26 16:34:01 2014 guillaume marescaux
+// Last update Thu Feb 27 13:20:30 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -13,17 +13,22 @@
 
 JobModel::JobModel():
   Persistent(),
-  Nameable()
+  Nameable(),
+  _crafts(new std::list<Craft *>)
 {
 }
 
 JobModel::~JobModel()
 {
+  for (auto it = this->_crafts->begin() ; it != this->_crafts->end() ; ++it)
+    delete *it;
+  delete _crafts;
 }
 
 JobModel::JobModel(JobModel const &rhs):
   Persistent(rhs),
-  Nameable(rhs)
+  Nameable(rhs),
+  _crafts(new std::list<Craft *>)
 {
   *this = rhs;
 }
@@ -38,14 +43,57 @@ JobModel			&JobModel::operator=(JobModel const &rhs)
   return (*this);
 }
 
+void				JobModel::loadCrafts()
+{
+  Trame				*file;
+
+  ObjectPoolManager::getInstance()->setObject(file, "trame");
+  if (JsonFile::readFile(*file, this->_path))
+    {
+      for (auto it = this->_crafts->begin() ; it != this->_crafts->end() ; ++it)
+	delete *it;
+      this->_crafts->clear();
+
+      auto			members = file->getMemberNames();
+      Craft			*toPush;
+
+      for (auto it = members.begin() ; it != members.end() ; ++it)
+	{
+	  toPush = Craft::deserialization((*file)((*file)[*it]));
+	  if (toPush)
+	    this->_crafts->push_back(toPush);
+	}
+    }
+}
+
+void				JobModel::serializationCrafts()
+{
+  Trame				*file;
+  int				nb = 0;
+  std::ostringstream		str;
+
+  if (!this->_path.empty())
+    {
+      ObjectPoolManager::getInstance()->setObject(file, "trame");
+      for (auto it = _crafts->begin() ; it != _crafts->end() ; ++it)
+	{
+	  str << nb;
+	  (*it)->serialization((*file)((*file)[str.str()]));
+	  str.str("");
+	  nb++;
+	}
+      file->writeInFile(this->_path);
+    }
+}
+
 std::list<Craft *> const	&JobModel::getCrafts() const
 {
-  return (this->_crafts);
+  return (*this->_crafts);
 }
 
 Craft const			*JobModel::getCraft(std::string const &name) const
 {
-  for (auto it = _crafts.begin() ; it != _crafts.end() ; it++)
+  for (auto it = _crafts->begin() ; it != _crafts->end() ; ++it)
     {
       if ((*it)->getName() == name)
 	return (*it);
@@ -55,7 +103,7 @@ Craft const			*JobModel::getCraft(std::string const &name) const
 
 void				JobModel::setCrafts(std::list<Craft *> const &list)
 {
-  this->_crafts = list;
+  *this->_crafts = list;
 }
 
 std::list<Ressource *> const	&JobModel::getGather() const
@@ -68,6 +116,16 @@ void				JobModel::setGather(std::list<Ressource *> const &list)
   this->_gather = list;
 }
 
+std::string const		&JobModel::getPath() const
+{
+  return (this->_path);
+}
+
+void				JobModel::setPath(std::string const &path)
+{
+  this->_path = path;
+}
+
 bool				JobModel::serialization(Trame &trame) const
 {
   bool				ret = true;
@@ -77,7 +135,7 @@ bool				JobModel::serialization(Trame &trame) const
   trame["JOBMODEL"]["CRAFTS"];
   trame["JOBMODEL"]["GATHER"];
   trame["JOBMODEL"]["NAME"] = this->getName();
-  for (auto it = this->_crafts.begin() ; it != this->_crafts.end() && ret; ++it)
+  for (auto it = this->_crafts->begin() ; it != this->_crafts->end() && ret; ++it)
     {
       str << "CRAFT" << nb;
       ret = (*it)->serialization(trame(trame["JOBMODEL"]["CRAFTS"][str.str()]));

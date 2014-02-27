@@ -332,14 +332,14 @@ INSERT INTO `Mob_stats_stats`(`object_id`, `index`, `value`) VALUES
 /* JobModel */
 DELETE FROM `JobModel`;
 
-INSERT INTO `JobModel`(`id`, `name`) VALUES
-        (1, 'Développeur'),
-        (2, 'Armurier'),
-        (3, 'Ingénieur'),
-        (4, 'Maitre des Potions'),
-	(5, 'Herboriste'),
-	(6, 'Mineur'),
-	(7, 'Trappeur');
+INSERT INTO `JobModel`(`id`, `name`, `path`) VALUES
+        (1, 'Developpeur', 'Res/JobCraft/developpeur.json'),
+        (2, 'Armurier', 'Res/JobCraft/armurier.json'),
+        (3, 'Ingenieur', 'Res/JobCraft/ingenieur.json'),
+        (4, 'Maitre des Potions', 'Res/JobCraft/potions.json'),
+	(5, 'Herboriste', 'Res/JobCraft/herboriste.json'),
+	(6, 'Mineur', 'Res/JobCraft/mineur.json'),
+	(7, 'Trappeur', 'Res/JobCraft/trappeur.json');
 
  /* crafts */
 /* DELETE FROM `Craft`;

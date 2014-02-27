@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb 25 17:47:35 2014 laurent ansel
+// Last update Thu Feb 27 13:49:02 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -57,7 +57,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, int, Zone *>("REMOVEENTITY", &removeEntity);
 
       this->_container->load<unsigned int, std::list<AItem *> *>("ADDTOINVENTORY", &addToInventory);
-      this->_container->load<unsigned int, std::list<AItem *> *>("DELETEFROMINVENTORY", &deleteFromInventory);
+      this->_container->load<unsigned int, std::list<std::pair<unsigned int, unsigned int> > *>("DELETEFROMINVENTORY", &deleteFromInventory);
       this->_container->load<unsigned int, Job const *>("JOB", &job);
 
       this->_container->load<unsigned int, Player *, Zone *, Zone *>("NEWZONE", &newZone);
@@ -922,7 +922,7 @@ bool			addToInventory(unsigned int const id, std::list<AItem *> *list)
   return (ret);
 }
 
-bool			deleteFromInventory(unsigned int const id, std::list<AItem *> *list)
+bool			deleteFromInventory(unsigned int const id, std::list<std::pair<unsigned int, unsigned int> > *list)
 {
   bool			ret = false;
   Trame			*trame;
@@ -939,7 +939,8 @@ bool			deleteFromInventory(unsigned int const id, std::list<AItem *> *list)
       for (auto it = list->begin() ; it != list->end() ; ++it)
 	{
 	  str << "ITEM" << nb;
-	  (*it)->serialization((*trame)((*trame)[CONTENT]["DELETEFROMINVENTORY"][str.str()]));
+	  (*trame)[CONTENT]["DELETEFROMINVENTORY"][str.str()]["ID"] = it->first;
+	  (*trame)[CONTENT]["DELETEFROMINVENTORY"][str.str()]["NB"] = it->second;
 	  str.str("");
 	  nb++;
 	}
