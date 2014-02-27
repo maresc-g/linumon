@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 20 13:36:32 2014 alexis mestag
-// Last update Thu Feb 20 22:25:45 2014 alexis mestag
+// Last update Wed Feb 26 15:32:44 2014 alexis mestag
 //
 
 #include				<algorithm>
@@ -39,7 +39,10 @@ AuthorizedStatKeys			&AuthorizedStatKeys::operator=(AuthorizedStatKeys const &rh
 
 bool					AuthorizedStatKeys::isAuthorized(StatKey const &key) const
 {
-  auto					it = std::find(_keys.cbegin(), _keys.cend(), &key);
+  std::function<bool(StatKey const *)>	statKeySeeker = [&](StatKey const *sk) -> bool {
+    return (*sk == key);
+  };
+  auto					it = std::find_if(_keys.cbegin(), _keys.cend(), statKeySeeker);
 
   return (it != _keys.cend() ? true : false);
 }

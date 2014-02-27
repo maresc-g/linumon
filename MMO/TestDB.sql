@@ -7,19 +7,21 @@ INSERT INTO `User`(`id`, `pseudo`, `password`) VALUES
        (1, 'Laurent', 'yolo'),
        (2, 'Cyril', 'swag');
 
-/* Inserting Factions */
-DELETE FROM `Faction`;
-
-INSERT INTO `Faction`(`id`, `name`) VALUES
-       (1, 'Hesode'),
-       (2, 'Celestia');
-
 /* Inserting EffectLibs */
 DELETE FROM `EffectLib`;
 
 INSERT INTO `EffectLib`(`id`, `name`, `path`) VALUES
        (1, 'Rugissement', 'EffectLibs/Rugissement.so'),
-       (2, 'Mimi-Queue', 'EffectLibs/Mimi-Queue.so');
+       (2, 'Mimi-Queue', 'EffectLibs/Mimi-Queue.so'),
+       (3, 'HesodeEffect', 'EffectLibs/HesodeEffect.so'),
+       (4, 'CelestiaEffect', 'EffectLibs/CelestiaEffect.so');
+
+/* Inserting Factions */
+DELETE FROM `Faction`;
+
+INSERT INTO `Faction`(`id`, `name`, `effectLib`) VALUES
+       (1, 'Hesode', 3),
+       (2, 'Celestia', 4);
 
 /* Inserting TalentModels */
 DELETE FROM `TalentModel`;
@@ -98,9 +100,11 @@ INSERT INTO `AuthorizedStatKeys`(`id`, `name`) VALUES
 DELETE FROM `AuthorizedStatKeys_keys`;
 
 INSERT INTO `AuthorizedStatKeys_keys`(`object_id`, `index`, `value`) VALUES
-       (1, 0, 9),
-       (1, 1, 10),
-       (1, 2, 11),
+       (1, 0, 2),
+       (1, 1, 3),
+       (1, 2, 9),
+       (1, 3, 10),
+       (1, 4, 11),
        (2, 0, 1),
        (2, 1, 2),
        (2, 2, 3),

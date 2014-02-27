@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Feb 25 18:17:47 2014 alexis mestag
+// Last update Wed Feb 26 16:48:12 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -18,7 +18,6 @@
 #  include		"Entities/DBZone.hh"
 # endif
 # include		"Entities/ACharacter.hh"
-# include		"Entities/Faction.hh"
 # include		"Stats/TalentTree.hh"
 # include		"Stats/Talent.hh"
 # include		"Zone/Coordinate.hpp"
@@ -28,6 +27,7 @@
 # include		"Entities/Guild.hh"
 
 class			User;
+class			Faction;
 
 class			Player : public Persistent, public ACharacter, public ISerialization
 {
@@ -74,10 +74,11 @@ private:
 
   # ifndef		CLIENT_COMPILATION
   void			initConstPointersForNewPlayers();
+  void			applyFactionEffect();
   # endif
 
 public:
-  Player(std::string const &name);
+  Player(std::string const &name, std::string const &factionName = "");
   virtual ~Player();
 
   PlayerCoordinate const	&getCoord() const;
@@ -143,6 +144,7 @@ public:
 };
 
 # include			"Entities/User.hh"
+# include			"Entities/Faction.hh"
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Player) session(false)

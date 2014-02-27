@@ -5,16 +5,19 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Feb 26 11:10:43 2014 laurent ansel
+// Last update Wed Feb 26 22:46:34 2014 alexis mestag
 //
 
 #include			<functional>
 #include			"Entities/Player.hh"
 #include			"Map/Map.hh"
-#include			"Database/Repositories/Repository.hpp"
-#include			"Stats/TalentTree-odb.hxx"
-#include			"Stats/StatKey-odb.hxx"
-#include			"Entities/DBZone-odb.hxx"
+#ifndef			CLIENT_COMPILATION
+# include			"Database/Repositories/Repository.hpp"
+# include			"Stats/TalentTree-odb.hxx"
+# include			"Stats/StatKey-odb.hxx"
+# include			"Entities/DBZone-odb.hxx"
+# include			"Database/Repositories/FactionRepository.hpp"
+#endif
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _coord(new PlayerCoordinate),
@@ -28,7 +31,7 @@ Player::Player() :
 
 }
 
-Player::Player(std::string const &name) :
+Player::Player(std::string const &name, std::string const &factionName) :
   Persistent(), ACharacter(name, eCharacter::PLAYER), _coord(new PlayerCoordinate),
   _faction(NULL), _talentTree(NULL), _inventory(new Inventory), _jobs(NULL), _guild(NULL)
 # ifndef	CLIENT_COMPILATION
@@ -39,6 +42,13 @@ Player::Player(std::string const &name) :
 {
   # ifndef	CLIENT_COMPILATION
   this->initConstPointersForNewPlayers();
+
+  Faction			*faction = Database::getRepository<Faction>().getByName(factionName);
+
+  if (faction) {
+    this->setFaction(*faction);
+    this->applyFactionEffect();
+  }
   # endif
 }
 
@@ -77,6 +87,11 @@ void					Player::initConstPointersForNewPlayers()
   this->setTalentTree(*rtt->getById(1));
   this->setStatKeys(*rask->getById(1));
   this->setDBZone(*rdbz->getById(1));
+}
+
+void					Player::applyFactionEffect()
+{
+  _faction->applyEffect(*this);
 }
 #endif
 
