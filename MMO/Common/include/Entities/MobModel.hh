@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:21:00 2014 alexis mestag
-// Last update Fri Jan 31 14:46:02 2014 laurent ansel
+// Last update Thu Feb 27 18:52:47 2014 alexis mestag
 //
 
 #ifndef			__MOBMODEL_HH__

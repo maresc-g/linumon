@@ -5,12 +5,14 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Thu Jan 30 13:56:42 2014 alexis mestag
-## Last update Wed Feb 26 13:44:52 2014 alexis mestag
+## Last update Thu Feb 27 16:57:18 2014 alexis mestag
 ##
 
 EFFECTS_SRC=		EffectLib.cpp			\
 			FactionEffect.cpp		\
-			MobEffect.cpp
+			MobEffect.cpp			\
+			PlayerEffect.cpp		\
+			SpellEffect.cpp
 
 EFFECTS_SRC:=		$(addprefix $(EFFECTS)/,$(EFFECTS_SRC))
 

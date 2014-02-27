@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Wed Feb 26 15:33:44 2014 alexis mestag
+// Last update Thu Feb 27 20:17:05 2014 alexis mestag
 //
 
 #include			"Entities/AStatEntity.hh"
@@ -107,9 +107,21 @@ bool				AStatEntity::isKeyAuthorized(StatKey const &key) const
   return (_authKeys->isAuthorized(key));
 }
 
+StatKey const			*AStatEntity::getKey(std::string const &key) const
+{
+  return (_authKeys->getKey(key));
+}
+
 Stat::value_type		AStatEntity::getStat(StatKey const &key) const
 {
   return (_stats.getStat(key));
+}
+
+Stat::value_type		AStatEntity::getStat(std::string const &key) const
+{
+  StatKey const			*sk = this->getKey(key);
+
+  return (sk ? this->getStat(*sk) : Stat::value_type());
 }
 
 bool				AStatEntity::setStat(StatKey const &key, Stat::value_type const value,
@@ -152,6 +164,13 @@ Stat::value_type		AStatEntity::getTmpStat(StatKey const &key) const
   return (_tmpStats.getStat(key));
 }
 
+Stat::value_type		AStatEntity::getTmpStat(std::string const &key) const
+{
+  StatKey const			*sk = this->getKey(key);
+
+  return (sk ? this->getTmpStat(*sk) : Stat::value_type());
+}
+
 bool				AStatEntity::setTmpStat(StatKey const &key,
 							Stat::value_type const value,
 							bool const add)
@@ -183,4 +202,18 @@ bool				AStatEntity::isInBattle() const
 void				AStatEntity::setInBattle(bool const inBattle)
 {
   _inBattle = inBattle;
+}
+
+#include			<iostream>
+
+void				AStatEntity::displayTmpStats() const
+{
+  std::cout << "Mob : " << this->getName() << std::endl;
+  for (auto it = this->getTmpStats().getStats().begin() ; it != this->getTmpStats().getStats().end() ;
+       ++it)
+    {
+      Stat			*s = *it;
+
+      std::cout << "\t" << s->getKey().getName() << " : " << s->getValue() << std::endl;
+    }
 }

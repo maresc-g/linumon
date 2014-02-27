@@ -5,14 +5,16 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:33:20 2014 alexis mestag
-// Last update Fri Feb  7 12:56:27 2014 laurent ansel
+// Last update Thu Feb 27 18:59:04 2014 alexis mestag
 //
 
 #ifndef			__SPELLS_HH__
 # define		__SPELLS_HH__
 
-# include		"Entities/Spell.hh"
+# include		"Database/Persistent.hh"
 # include		"Utility/ISerialization.hh"
+
+class			Spell;
 
 class			Spells : public ISerialization
 {
@@ -40,6 +42,8 @@ public:
   virtual bool		serialization(Trame &trame) const;
   static Spells		*deserialization(Trame const &trame);
 };
+
+# include		"Entities/Spell.hh"
 
 # ifdef	ODB_COMPILER
 #  pragma db value(Spells)

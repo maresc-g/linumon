@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 21:03:13 2013 alexis mestag
-// Last update Tue Jan 28 12:24:50 2014 laurent ansel
+// Last update Thu Feb 27 17:53:26 2014 alexis mestag
 //
 
 #ifndef			__TYPE_HH__
@@ -25,8 +25,10 @@ class			TypeRelations
 public:
   struct		Link
   {
+    typedef double	coeff_type;
+
     Type const		*type;
-    double		coeff;
+    coeff_type		coeff;
   };
 
   typedef std::list<Link>	Relations;
@@ -43,6 +45,8 @@ public:
   virtual ~TypeRelations();
 
   TypeRelations		&operator=(TypeRelations const &rhs);
+
+  Link::coeff_type	getCoeffOf(Type const &type) const;
 
   Relations const	&getRelations() const;
 };
@@ -69,6 +73,8 @@ public:
   bool			operator!=(Type const &rhs) const;
 
   TypeRelations const	&getRelations() const;
+
+  TypeRelations::Link::coeff_type	getCoeffAgainst(Type const &type) const;
 
   virtual bool		serialization(Trame &trame) const;
   static Type		*deserialization(Trame const &trame);

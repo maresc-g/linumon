@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 21:14:39 2013 alexis mestag
-// Last update Tue Jan 28 12:41:55 2014 laurent ansel
+// Last update Thu Feb 27 17:53:15 2014 alexis mestag
 //
 
 #include			"Entities/Type.hh"
@@ -60,6 +60,11 @@ TypeRelations const		&Type::getRelations() const
 void				Type::setRelations(TypeRelations const &relations)
 {
   _relations = relations;
+}
+
+TypeRelations::Link::coeff_type	Type::getCoeffAgainst(Type const &type) const
+{
+  return (this->getRelations().getCoeffOf(type));
 }
 
 bool				Type::serialization(Trame &trame) const

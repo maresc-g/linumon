@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 20 13:36:32 2014 alexis mestag
-// Last update Wed Feb 26 15:32:44 2014 alexis mestag
+// Last update Thu Feb 27 18:25:13 2014 alexis mestag
 //
 
 #include				<algorithm>
@@ -72,4 +72,19 @@ bool					AuthorizedStatKeys::removeKey(StatKey const &key)
 AuthorizedStatKeys::container_type const	&AuthorizedStatKeys::getKeys() const
 {
   return (_keys);
+}
+
+StatKey const					*AuthorizedStatKeys::getKey(std::string const &key) const
+{
+  std::function<bool(StatKey const *)>		statKeySeeker = [&](StatKey const *sk) {
+    return (sk->getName() == key);
+  };
+  StatKey const					*ret = NULL;
+  auto						it = std::find_if(this->getKeys().begin(),
+								  this->getKeys().end(),
+								  statKeySeeker);
+
+  if (it != this->getKeys().end())
+    ret = *it;
+  return (ret);
 }

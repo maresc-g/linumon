@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 20 13:26:38 2014 alexis mestag
-// Last update Thu Feb 20 22:29:19 2014 alexis mestag
+// Last update Thu Feb 27 18:17:45 2014 alexis mestag
 //
 
 #ifndef					__AUTHORIZEDSTATKEYS_HH__
@@ -39,6 +39,7 @@ public:
   bool					removeKey(StatKey const &key);
 
   container_type const			&getKeys() const;
+  StatKey const				*getKey(std::string const &key) const;
 };
 
 # ifdef	ODB_COMPILER

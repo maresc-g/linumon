@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Wed Feb 26 11:15:26 2014 laurent ansel
+// Last update Thu Feb 27 18:12:13 2014 alexis mestag
 //
 
 #include			"Entities/Mob.hh"
@@ -54,6 +54,11 @@ MobModel const			&Mob::getModel() const
 void				Mob::setModel(MobModel const &model)
 {
   _model = &model;
+}
+
+Type const			&Mob::getType() const
+{
+  return (this->getModel().getType());
 }
 
 bool				Mob::serialization(Trame &trame) const

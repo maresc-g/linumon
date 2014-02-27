@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Sun Feb 16 17:04:54 2014 alexis mestag
-## Last update Wed Feb 26 15:57:19 2014 alexis mestag
+## Last update Thu Feb 27 20:08:00 2014 alexis mestag
 ##
 
 EFFECT_CMN_DIR=		..
@@ -13,7 +13,8 @@ EFFECT_SRC_DIR=		Sources
 EFFECT_OBJ_DIR=		Objects
 
 EFFECT_SRC=		HesodeEffect.cpp			\
-			CelestiaEffect.cpp
+			CelestiaEffect.cpp			\
+			NormalEffect.cpp
 
 EFFECT_SRC:=		$(addprefix $(EFFECT_SRC_DIR)/,$(EFFECT_SRC))
 
@@ -24,19 +25,45 @@ EFFECT_CMN_SRC=		Common/src/Database/Persistent.cpp		\
 			Common/src/Effects/FactionEffect.cpp		\
 			Common/src/Effects/MobEffect.cpp		\
 			Common/src/Effects/PlayerEffect.cpp		\
+			Common/src/Effects/SpellEffect.cpp		\
 			Common/src/Entities/ACharacter.cpp		\
 			Common/src/Entities/AStatEntity.cpp		\
 			Common/src/Entities/AEntity.cpp			\
+			Common/src/Entities/Digitaliser.cpp		\
+			Common/src/Entities/DBZone.cpp			\
+			Common/src/Entities/Equipment.cpp		\
+			Common/src/Entities/Faction.cpp			\
+			Common/src/Entities/Player.cpp			\
+			Common/src/Entities/Level.cpp			\
+			Common/src/Entities/Mob.cpp			\
+			Common/src/Entities/MobModel.cpp		\
+			Common/src/Entities/Spell.cpp			\
+			Common/src/Entities/Spells.cpp			\
+			Common/src/Entities/Type.cpp			\
+			Common/src/Entities/TypeRelations.cpp		\
 			Common/src/Mutex/AMutex.cpp			\
 			Common/src/Mutex/UnixMutex.cpp			\
-			Common/src/Stats/Stats.cpp			\
 			Common/src/Stats/AuthorizedStatKeys.cpp		\
 			Common/src/Stats/Stat.cpp			\
+			Common/src/Stats/Stats.cpp			\
 			Common/src/Stats/StatKey.cpp			\
 			Common/src/Utility/Nameable.cpp			\
 			Common/src/Utility/Id.cpp			\
-			Common/include/Utility/Nameable-odb.cxx		\
 			Common/include/Database/Persistent-odb.cxx	\
+			Common/include/Entities/Faction-odb.cxx		\
+			Common/include/Entities/Digitaliser-odb.cxx	\
+			Common/include/Entities/DBZone-odb.cxx		\
+			Common/include/Entities/Equipment-odb.cxx	\
+			Common/include/Entities/Level-odb.cxx		\
+			Common/include/Entities/Mob-odb.cxx		\
+			Common/include/Entities/MobModel-odb.cxx	\
+			Common/include/Entities/Player-odb.cxx		\
+			Common/include/Entities/Spell-odb.cxx		\
+			Common/include/Entities/Spells-odb.cxx		\
+			Common/include/Entities/Type-odb.cxx		\
+			Common/include/Utility/Nameable-odb.cxx		\
+			Common/include/Stats/Stat-odb.cxx		\
+			Common/include/Stats/Stats-odb.cxx		\
 			Common/include/Stats/StatKey-odb.cxx
 
 EFFECT_CMN_SRC:=	$(addprefix $(EFFECT_CMN_DIR)/,$(EFFECT_CMN_SRC))

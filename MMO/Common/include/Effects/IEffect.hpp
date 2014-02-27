@@ -5,12 +5,13 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 16:06:44 2014 alexis mestag
-// Last update Sun Feb 23 23:00:40 2014 alexis mestag
+// Last update Thu Feb 27 14:06:05 2014 alexis mestag
 //
 
 #ifndef			__IEFFECT_HPP__
 # define		__IEFFECT_HPP__
 
+# include		<typeinfo>
 # include		"Entities/ACharacter.hh"
 
 namespace		Effect
@@ -24,11 +25,12 @@ namespace		Effect
 
 class			IEffect
 {
-protected:
+public:
   virtual ~IEffect() {}
 
 public:
-  virtual Effect::eType	getType() const = 0;
+  virtual Effect::eType		getType() const = 0;
+  virtual std::type_info const	*getTypeInfo() const = 0;
 };
 
 template<typename T>
@@ -46,6 +48,7 @@ protected:
 public:
   virtual ~AEffect() {}
   Effect::eType		getType() const { return (_type); }
+  std::type_info const	*getTypeInfo() const { return (&typeid(T)); }
   virtual bool		apply(T &character) = 0;
 };
 

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:21:41 2013 alexis mestag
-// Last update Wed Feb 26 14:48:21 2014 alexis mestag
+// Last update Thu Feb 27 20:12:22 2014 alexis mestag
 //
 
 #ifndef			__ASTATENTITY_HH__
@@ -56,8 +56,10 @@ public:
   AuthorizedStatKeys const	&getStatKeys() const;
   void				setStatKeys(AuthorizedStatKeys const &keys);
   bool				isKeyAuthorized(StatKey const &key) const;
+  StatKey const			*getKey(std::string const &key) const;
 
   Stat::value_type	getStat(StatKey const &key) const;
+  Stat::value_type	getStat(std::string const &key) const;
   bool			setStat(StatKey const &key, Stat::value_type const value,
 				bool const add = false);
 
@@ -67,6 +69,7 @@ public:
 # endif
 
   Stat::value_type	getTmpStat(StatKey const &key) const;
+  Stat::value_type	getTmpStat(std::string const &key) const;
   bool			setTmpStat(StatKey const &key, Stat::value_type const value,
 				   bool const add = false);
 
@@ -79,6 +82,8 @@ public:
 
   void			enterBattle();
   void			leaveBattle();
+
+  void			displayTmpStats() const;
 
 private:
   void			initTmpStats();

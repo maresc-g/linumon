@@ -5,10 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:54:34 2013 alexis mestag
-// Last update Fri Jan 31 15:14:47 2014 laurent ansel
+// Last update Thu Feb 27 19:57:18 2014 alexis mestag
 //
 
 #include			"Entities/Spell.hh"
+#include			"Effects/SpellEffect.hh"
 
 Spell::Spell() :
   Persistent(), Nameable(""), _type(NULL), _power(0)
@@ -38,6 +39,31 @@ Spell				&Spell::operator=(Spell const &rhs)
   return (*this);
 }
 
+void				Spell::operator()(Mob &caster, Mob &target)
+{
+#ifndef			CLIENT_COMPILATION
+
+  static std::vector<std::type_info const *> const	typeTab = {
+    &typeid(Mob),
+  };
+  IEffect			*effect = _effectLib->getEffect();
+  SpellEffect			*sEffect = dynamic_cast<SpellEffect *>(effect);
+
+  if (!sEffect) {
+    std::cerr << "Bad cast in Spell::operator()" << std::endl;
+    return ;
+  }
+
+  sEffect->initialize(caster, *this, target);
+  sEffect->apply(target);
+
+  delete effect;
+
+#endif
+  (void)caster;
+  (void)target;
+}
+
 Type const			&Spell::getType() const
 {
   return (*_type);
@@ -48,12 +74,12 @@ void				Spell::setType(Type const &type)
   _type = &type;
 }
 
-int				Spell::getPower() const
+Spell::power_type		Spell::getPower() const
 {
   return (_power);
 }
 
-void				Spell::setPower(int const power)
+void				Spell::setPower(Spell::power_type const power)
 {
   _power = power;
 }

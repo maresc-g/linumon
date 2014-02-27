@@ -14,7 +14,8 @@ INSERT INTO `EffectLib`(`id`, `name`, `path`) VALUES
        (1, 'Rugissement', 'EffectLibs/Rugissement.so'),
        (2, 'Mimi-Queue', 'EffectLibs/Mimi-Queue.so'),
        (3, 'HesodeEffect', 'EffectLibs/HesodeEffect.so'),
-       (4, 'CelestiaEffect', 'EffectLibs/CelestiaEffect.so');
+       (4, 'CelestiaEffect', 'EffectLibs/CelestiaEffect.so'),
+       (5, 'NormalEffect', 'EffectLibs/NormalEffect.so');
 
 /* Inserting Factions */
 DELETE FROM `Faction`;
@@ -144,6 +145,40 @@ INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`) VALUES
        (1, 'Charizard', 2, 1),
        (2, 'Blastoise', 2, 2),
        (3, 'Venuzaur', 2, 3);
+
+/* Inserting Spells */
+DELETE FROM `Spell`;
+
+INSERT INTO `Spell`(`id`, `name`, `type_id`, `power`, `useLimit`, `effectLib`) VALUES
+       (1,  'Lance-Flamme',  1,  90, 0, 5),
+       (2,  'Flammèche',     1,  40, 0, 5),
+       (3,  'Crocs Feu',     1,  65, 0, 5),
+       (4,  'Boutefeu',      1, 120, 0, 5),
+       (5,  'Vibraqua',      2,  60, 0, 5),
+       (6,  'Hydroqueue',    2,  90, 0, 5),
+       (7,  'Hydrocanon',    2, 110, 0, 5),
+       (8,  'Surf',          2,  90, 0, 5),
+       (9,  'Tranch''Herbe', 3,  55, 0, 5),
+       (10, 'Fouet Lianes',  3,  35, 0, 5),
+       (11, 'Danse-Fleur',   3, 120, 0, 5),
+       (12, 'Lance-Soleil',  3, 120, 0, 5);
+
+/* Assigning Spells to MobModels */
+DELETE FROM `MobModel_spells_spells`;
+
+INSERT INTO `MobModel_spells_spells`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 1),
+       (1, 1, 2),
+       (1, 2, 3),
+       (1, 3, 4),
+       (2, 0, 5),
+       (2, 1, 6),
+       (2, 2, 7),
+       (2, 3, 8),
+       (3, 0, 9),
+       (3, 1, 10),
+       (3, 2, 11),
+       (3, 3, 12);
 
 /* Inserting Stats */
 DELETE FROM `Stat`;
