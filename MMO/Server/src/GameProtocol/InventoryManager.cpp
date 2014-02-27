@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:31:31 2014 laurent ansel
-// Last update Wed Feb 19 13:27:29 2014 laurent ansel
+// Last update Thu Feb 27 12:44:31 2014 laurent ansel
 //
 
 #include			<functional>
@@ -42,7 +42,7 @@ bool				InventoryManager::deleteObject(Trame *trame)
 {
   if ((*trame)[CONTENT].isMember("DELETEOBJECT"))
     {
-      ClientManager::getInstance()->playerObject((*trame)[HEADER]["IDCLIENT"].asInt(),  (*trame)[CONTENT]["USEOBJECT"]["ITEM"].asUInt());
+      ClientManager::getInstance()->playerObject((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["USEOBJECT"]["ITEM"].asUInt(), (*trame)[CONTENT]["USEOBJECT"]["NB"].asUInt());
       return (true);
     }
   return (false);

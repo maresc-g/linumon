@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Tue Feb 25 10:39:06 2014 laurent ansel
+// Last update Thu Feb 27 12:51:19 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -370,14 +370,14 @@ bool				ClientUpdater::playerObject(FD const fd, unsigned int const target, unsi
   return (false);
 }
 
-bool				ClientUpdater::playerObject(FD const fd, unsigned int const item) const
+bool				ClientUpdater::playerObject(FD const fd, unsigned int const item, int const nb) const
 {
   this->_mutex->lock();
   for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
     {
       if (fd == (*it).first->getId() && (*it).first->isUse())
 	{
-	  (*it).first->deleteObject(item);
+	  (*it).first->deleteObject(item, nb);
 	  this->_mutex->unlock();
 	  return (true);
 	}

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Tue Feb 25 10:39:32 2014 laurent ansel
+// Last update Thu Feb 27 12:50:50 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -44,7 +44,7 @@ public:
   void				sendListPlayers(FD const fd) const;
   void				setPlayerTalents(Trame *trame) const;
   void				playerObject(FD const fd, unsigned int const target, unsigned int const item) const;
-  void				playerObject(FD const fd, unsigned int const item) const;
+  void				playerObject(FD const fd, unsigned int const item, int const nb) const;
 
   void				startBattle(FD const fd, Player *&player) const;
   void				endBattle(FD const fd) const;

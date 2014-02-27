@@ -5,12 +5,12 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 14:08:00 2014 alexis mestag
-// Last update Mon Feb 10 16:06:33 2014 alexis mestag
+// Last update Thu Feb 27 11:27:04 2014 laurent ansel
 //
 
 #include			"Entities/Level.hh"
 
-Level::Level() : _lvl(0), _exp(0)
+Level::Level() : _lvl(1), _exp(0)
 {
 
 }

@@ -329,6 +329,31 @@ INSERT INTO `Mob_stats_stats`(`object_id`, `index`, `value`) VALUES
        (6, 6, 71),
        (6, 7, 72);
 
+/* JobModel */
+DELETE FROM `JobModel`;
+
+INSERT INTO `JobModel`(`id`, `name`) VALUES
+        (1, 'Développeur'),
+        (2, 'Armurier'),
+        (3, 'Ingénieur'),
+        (4, 'Maitre des Potions'),
+	(5, 'Herboriste'),
+	(6, 'Mineur'),
+	(7, 'Trappeur');
+
+ /* crafts */
+/* DELETE FROM `Craft`;
+
+ INSERT INTO `Craft`(`id`, `name`, `level_lvl`, `level_exp`) VALUES
+        (1, 'Coiffe Bouftou', 1, 10)
+*/
+
+ /* JobModel_crafts */
+/* DELETE FROM `JobModel_crafts`;
+
+ INSERT INTO `JobModel_crafts`(`object_id`, `index`, `value`) VALUES
+        ()
+*/
 /* Assigning Mobs to Players */
 DELETE FROM `Player_digitaliser_mobs`;
 
