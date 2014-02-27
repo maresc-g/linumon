@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Dec  1 14:52:17 2013 laurent ansel
-// Last update Mon Feb 17 16:04:08 2014 laurent ansel
+// Last update Thu Feb 27 11:09:05 2014 laurent ansel
 //
 
 #include			"CodeBreaker/CodeBreaker.hh"
@@ -139,7 +139,7 @@ void				CodeBreaker::run()
       this->newCode(trame);
       delete trame;
       this->execCode();
-      usleep(50000);
+      usleep(5000);
       this->_mutex->lock();
     }
   this->_mutex->unlock();

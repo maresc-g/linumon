@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 12:53:14 2014 laurent ansel
-// Last update Wed Feb 19 14:00:35 2014 laurent ansel
+// Last update Thu Feb 27 17:19:32 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -29,7 +29,7 @@ Jobs				&Jobs::operator=(Jobs const &rhs)
 {
   if (this != &rhs)
     {
-
+      this->setJobs(rhs.getJobs());
     }
   return (*this);
 }
@@ -47,6 +47,19 @@ void				Jobs::setJobs(std::list<Job *> const &jobs)
 void				Jobs::setJob(Job *job)
 {
   this->_jobs.push_back(job);
+}
+
+void				Jobs::setJob(std::string const &name, Job *job)
+{
+  for (auto it = _jobs.begin() ; it != _jobs.end() ; it++)
+    {
+      if ((*it)->getJobModel().getName() == name)
+	{
+	  delete *it;
+	  *it = job;
+	  break;
+	}
+    }
 }
 
 bool				Jobs::serialization(Trame &trame) const

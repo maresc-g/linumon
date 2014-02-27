@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Wed Feb 26 16:48:12 2014 alexis mestag
+// Last update Thu Feb 27 14:48:17 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -53,7 +53,7 @@ private:
   std::list<Talent *>		_talents;
   User const			*_user;
   Inventory			*_inventory;
-  Jobs				*_jobs;
+  Jobs				_jobs;
   Guild const			*_guild;
 
 # ifndef	CLIENT_COMPILATION
@@ -129,9 +129,11 @@ public:
   void				addMoney(int const money);
 
   void				setJobs(Jobs *jobs);
+  void				setJob(Job *job);
+  void				setJob(std::string const &name, Job *job);
   Job				*getJob(std::string const &name) const;
 
-  bool				doCraft(std::string const &job, std::string const &craft, std::list<AItem *> &result, std::list<AItem *> &object);
+  bool				doCraft(std::string const &job, std::string const &craft, std::list<AItem *> &result, std::list<std::pair<unsigned int, unsigned int> > &object);
   bool				doGather(std::string const &job, std::string const &ressource, std::list<AItem *> &result, unsigned int &idRessource);
 
   bool				getPlayerEquipment(unsigned int const idItem);
@@ -158,7 +160,7 @@ public:
 #  pragma db member(Player::_inventoryPath) virtual(std::string) get(_inventory->getPath()) set(_inventory->setPath(?))
 #  pragma db member(Player::_money) virtual(unsigned int) get(_inventory->getMoney()) set(_inventory->setMoney(?))
 #  pragma db member(Player::_limit) virtual(unsigned int) get(_inventory->getLimit()) set(_inventory->setLimit(?))
-#  pragma db member(Player::_jobs) transient
+#  pragma db member(Player::_jobs)
 # endif
 
 #endif

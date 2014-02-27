@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Feb 25 17:47:35 2014 laurent ansel
+// Last update Thu Feb 27 14:11:13 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -57,7 +57,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, int, Zone *>("REMOVEENTITY", &removeEntity);
 
       this->_container->load<unsigned int, std::list<AItem *> *>("ADDTOINVENTORY", &addToInventory);
-      this->_container->load<unsigned int, std::list<AItem *> *>("DELETEFROMINVENTORY", &deleteFromInventory);
+      this->_container->load<unsigned int, std::list<std::pair<unsigned int, unsigned int> > *>("DELETEFROMINVENTORY", &deleteFromInventory);
       this->_container->load<unsigned int, Job const *>("JOB", &job);
 
       this->_container->load<unsigned int, Player *, Zone *, Zone *>("NEWZONE", &newZone);
@@ -81,6 +81,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, unsigned int>("GETMONEY", &getMoney);
       this->_container->load<unsigned int, unsigned int>("ACCEPT", &accept);
       this->_container->load<unsigned int, unsigned int>("REFUSE", &refuse);
+      this->_container->load<unsigned int, std::string, std::string>("CRAFT", &craft);
       this->_container->load<unsigned int>("HEAL", &heal);
       this->_container->load<unsigned int>("DISCONNECT", &disconnect);
       this->_container->load<unsigned int>("SWITCHPLAYER", &switchPlayer);
@@ -922,7 +923,7 @@ bool			addToInventory(unsigned int const id, std::list<AItem *> *list)
   return (ret);
 }
 
-bool			deleteFromInventory(unsigned int const id, std::list<AItem *> *list)
+bool			deleteFromInventory(unsigned int const id, std::list<std::pair<unsigned int, unsigned int> > *list)
 {
   bool			ret = false;
   Trame			*trame;
@@ -939,7 +940,8 @@ bool			deleteFromInventory(unsigned int const id, std::list<AItem *> *list)
       for (auto it = list->begin() ; it != list->end() ; ++it)
 	{
 	  str << "ITEM" << nb;
-	  (*it)->serialization((*trame)((*trame)[CONTENT]["DELETEFROMINVENTORY"][str.str()]));
+	  (*trame)[CONTENT]["DELETEFROMINVENTORY"][str.str()]["ID"] = it->first;
+	  (*trame)[CONTENT]["DELETEFROMINVENTORY"][str.str()]["NB"] = it->second;
 	  str.str("");
 	  nb++;
 	}
@@ -969,6 +971,26 @@ bool			job(unsigned int const id, Job const *job)
     }
   delete header;
   return (ret);
+}
+
+bool			craft(unsigned int const id, std::string craftName, std::string jobName)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["CRAFT"]["CRAFTNAME"] = craftName;
+      (*trame)[CONTENT]["CRAFT"]["JOBNAME"] = jobName;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
 }
 
 bool			heal(unsigned int const id)

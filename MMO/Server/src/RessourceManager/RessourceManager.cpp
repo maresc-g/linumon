@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Feb 17 14:29:34 2014 laurent ansel
-// Last update Tue Feb 25 16:48:09 2014 laurent ansel
+// Last update Thu Feb 27 15:09:57 2014 laurent ansel
 //
 
 #include			<ctime>
@@ -87,6 +87,7 @@ void				RessourceManager::init()
 	      res = Ressource::deserialization((*file)((*file)[*it][*im]), false);
 	      if (res)
 		{
+		  res->setVisible(true);
 		  (*_ressources)[*it]->push_back(res);
 		  Map::getInstance()->addEntity(*it, res);
 		}

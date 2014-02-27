@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Tue Feb 25 14:29:10 2014 guillaume marescaux
+// Last update Wed Feb 26 10:49:32 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -104,10 +104,10 @@ void				StuffView::initStuff(Player const &player)
     {
       QLabel			*label = new QLabel(this);
       label->setText((*it)->getKey().getName().c_str());
-      label->move(520, 160 + i * 30);
+      label->move(520, 170 + i * 40);
       label = new QLabel(this);
       label->setText(std::to_string((*it)->getValue()).c_str());
-      label->move(710, 160 + i * 30);
+      label->move(710, 170 + i * 40);
       i++;
     }
 }

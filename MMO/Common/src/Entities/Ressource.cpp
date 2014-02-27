@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Wed Feb 26 13:48:59 2014 laurent ansel
+// Last update Thu Feb 27 15:13:03 2014 laurent ansel
 //
 
 #include			"Entities/Ressource.hh"
@@ -129,7 +129,9 @@ Ressource			*Ressource::deserialization(Trame const &trame, bool const client)
 	ressource->setId(trame["RESSOURCE"]["ID"].asUInt());
       ressource->setItemType(static_cast<AItem::eItem>(trame["RESSOURCE"]["TYPE"].asInt()));
       ressource->setEntityType(static_cast<AEntity::eEntity>(trame["RESSOURCE"]["ENTITYTYPE"].asInt()));
-      ressource->setCoord(*RessourceCoordinate::deserialization(trame(trame["RESSOURCE"])));
+      if (trame["RESSOURCE"].isMember("COORDINATE"))
+	ressource->setCoord(*RessourceCoordinate::deserialization(trame(trame["RESSOURCE"])));
+      if (trame["RESSOURCE"].isMember("VISIBLE"))
       ressource->setVisible(trame["RESSOURCE"]["VISIBLE"].asBool());
     }
   return (ressource);

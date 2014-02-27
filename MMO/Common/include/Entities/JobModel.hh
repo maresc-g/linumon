@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:21:21 2014 laurent ansel
-// Last update Thu Feb 20 10:48:26 2014 laurent ansel
+// Last update Thu Feb 27 14:15:42 2014 laurent ansel
 //
 
 #ifndef 		__JOBMODEL_HH__
@@ -21,7 +21,8 @@ class			JobModel : public Persistent, public Nameable, public ISerialization
   friend class		odb::access;
 
 private:
-  std::list<Craft *>	_crafts;
+  std::string		_path;
+  std::list<Craft *>	*_crafts;
   std::list<Ressource *>	_gather;
 
   JobModel();
@@ -35,8 +36,15 @@ public:
 
   JobModel			&operator=(JobModel const &rhs);
 
+  void				loadCrafts();
+  void				serializationCrafts();
+
   std::list<Craft *> const	&getCrafts() const;
+  Craft const			*getCraft(std::string const &name) const;
   std::list<Ressource *> const	&getGather() const;
+
+  std::string const	&getPath() const;
+  void			setPath(std::string const &path);
 
   virtual bool		serialization(Trame &trame) const;
   static JobModel	*deserialization(Trame const &trame);
@@ -44,6 +52,8 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(JobModel)
+#  pragma db member(JobModel::_crafts) transient
+#  pragma db member(JobModel::_path) get(getPath()) set(setPath(?))
 # endif
 
 #endif

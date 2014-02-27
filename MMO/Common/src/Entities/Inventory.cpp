@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Mon Feb 24 19:58:03 2014 laurent ansel
+// Last update Thu Feb 27 13:52:13 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -159,6 +159,16 @@ AItem				*Inventory::getAndDeleteItem(unsigned int const id) const
 	}
     }
   return (NULL);
+}
+
+unsigned int			Inventory::getIdItem(std::string const &name) const
+{
+  auto				it = this->_inventory->begin();
+
+  for ( ; it != this->_inventory->end() && it->first->getName() != name ; ++it);
+  if (it != this->_inventory->end() && it->first->getName() == name)
+    return (it->first->getId());
+  return (0);
 }
 
 void				Inventory::loadInventory()

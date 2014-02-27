@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:54:38 2014 guillaume marescaux
-// Last update Tue Feb 25 16:27:18 2014 guillaume marescaux
+// Last update Thu Feb 27 13:12:56 2014 guillaume marescaux
 //
 
 #ifndef 		__JOBVIEW_HH__
@@ -16,6 +16,9 @@
 #include		"ui_jobview.h"
 #include		"Qt/WindowManager.hh"
 #include		"Entities/Job.hh"
+#include		"Qt/Views/CraftView.hh"
+
+class			CraftView;
 
 class			JobView : public QWidget
 {
@@ -32,6 +35,8 @@ private:
 
   Ui::jobview		ui;
   WindowManager		*_wMan;
+  CraftView		*_currentCraft;
+  Job const		*_job;
 
 private:
 
@@ -40,6 +45,7 @@ private:
 private slots:
 
   void			on_b_craft_clicked();
+  void			handleChange();
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Mon Feb 24 16:18:49 2014 guillaume marescaux
+// Last update Thu Feb 27 10:42:29 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -77,7 +77,7 @@ void				ItemView::paintEvent(QPaintEvent *)
   style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
-void				ItemView::enterEvent(QEvent *event)
+void				ItemView::enterEvent(QEvent *)
 {
   QToolTip::showText(this->mapToGlobal( QPoint( 0, 0 ) ), "ITEM DESCRIPTION" );
 }

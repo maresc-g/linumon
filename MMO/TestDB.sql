@@ -364,6 +364,64 @@ INSERT INTO `Mob_stats_stats`(`object_id`, `index`, `value`) VALUES
        (6, 6, 71),
        (6, 7, 72);
 
+/* JobModel */
+DELETE FROM `JobModel`;
+
+INSERT INTO `JobModel`(`id`, `name`, `path`) VALUES
+        (1, 'Developpeur', 'Res/JobCraft/developpeur.json'),
+        (2, 'Armurier', 'Res/JobCraft/armurier.json'),
+        (3, 'Ingenieur', 'Res/JobCraft/ingenieur.json'),
+        (4, 'Maitre des Potions', 'Res/JobCraft/potions.json'),
+	(5, 'Herboriste', 'Res/JobCraft/herboriste.json'),
+	(6, 'Mineur', 'Res/JobCraft/mineur.json'),
+	(7, 'Trappeur', 'Res/JobCraft/trappeur.json');
+
+/* Job */
+DELETE FROM `Job`;
+
+INSERT INTO `Job`(`id`, `currentExp`, `level_lvl`, `level_exp`, `jobModel`) VALUES
+       (1, 10, 20, 0684, 1),
+       (2, 00, 28, 1684, 2),
+       (3, 80, 10, 2684, 3),
+       (4, 55, 05, 3684, 4),
+       (5, 24, 50, 4684, 5),
+       (6, 01, 87, 5684, 6),
+       (7, 98, 99, 6684, 7);
+
+/*Player_job_job*/
+DELETE FROM `Player_jobs_jobs`;
+
+INSERT INTO `Player_jobs_jobs`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 1),
+       (1, 1, 2),
+       (1, 2, 3),
+       (1, 3, 4),
+       (1, 4, 5),
+       (1, 5, 6),
+       (1, 6, 7),
+       (2, 0, 1),
+       (2, 1, 2),
+       (2, 2, 3),
+       (2, 3, 4),
+       (2, 4, 5),
+       (2, 5, 6),
+       (2, 6, 7),
+       (3, 0, 1),
+       (3, 1, 2),
+       (3, 2, 3),
+       (3, 3, 4),
+       (3, 4, 5),
+       (3, 5, 6),
+       (3, 6, 7),
+       (4, 0, 1),
+       (4, 1, 2),
+       (4, 2, 3),
+       (4, 3, 4),
+       (4, 4, 5),
+       (4, 5, 6),
+       (4, 6, 7);
+
+
 /* Assigning Mobs to Players */
 DELETE FROM `Player_digitaliser_mobs`;
 

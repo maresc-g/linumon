@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Wed Feb 26 16:47:08 2014 laurent ansel
+// Last update Thu Feb 27 16:23:21 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -71,7 +71,7 @@ void				Job::setJobModel(JobModel const &jobModel)
   this->_jobModel = &jobModel;
 }
 
-bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, std::list<AItem *> &object)
+bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, std::list<std::pair<std::string, unsigned int> > &object)
 {
   bool				ret = false;
   unsigned int			exp = 0;
@@ -81,7 +81,7 @@ bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, s
     if ((*it)->getName() == nameCraft)
       {
 	for (auto ic = (*it)->getIngredients().begin() ; ic != (*it)->getIngredients().end() ; ++ic)
-	  object.push_back(ic->first);
+	  object.push_back(std::make_pair(ic->first->getName(), ic->second));
 	if ((*it)->getResult().getItemType() == AItem::STUFF)
 	  item = new Stuff(static_cast<Stuff const &>((*it)->getResult()));
 	else if ((*it)->getResult().getItemType() == AItem::CONSUMABLE)

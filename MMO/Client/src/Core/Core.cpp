@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Feb 25 15:11:37 2014 guillaume marescaux
+// Last update Thu Feb 27 13:47:41 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -69,6 +69,12 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("NEWPLAYER", func);
   func = std::bind1st(std::mem_fun(&Core::newZone), this);
   _proto->addFunc("NEWZONE", func);
+  func = std::bind1st(std::mem_fun(&Core::addToInventory), this);
+  _proto->addFunc("ADDTOINVENTORY", func);
+  func = std::bind1st(std::mem_fun(&Core::deleteFromInventory), this);
+  _proto->addFunc("DELETEFROMINVENTORY", func);
+  func = std::bind1st(std::mem_fun(&Core::job), this);
+  _proto->addFunc("JOB", func);
 
   (*_sockets)[TCP] = new Socket;
   (*_sockets)[UDP] = new Socket;
@@ -251,13 +257,37 @@ bool				Core::upTalents(Trame *)
   return (true);
 }
 
-bool				Core::inventory(Trame *)
+bool				Core::addToInventory(Trame *trame)
 {
+  std::vector<std::string>	keys = (*trame)[CONTENT]["ADDTOINVENTORY"].getMemberNames();
+  AItem				*item;
+
+  for (auto it = keys.begin() ; it != keys.end() ; it++)
+    {
+      item = AItem::deserialization((*trame)((*trame)[CONTENT]["ADDTOINVENTORY"]["ITEM"]));
+      for (int i = 0 ; i < (*trame)[CONTENT]["ADDTOINVENTORY"][*it]["NB"].asInt() ; i++)
+	(**_player)->addItem(item);
+    }
   return (true);
 }
 
-bool				Core::job(Trame *)
+bool				Core::deleteFromInventory(Trame *trame)
 {
+  std::vector<std::string>	keys = (*trame)[CONTENT]["DELETEFROMINVENTORY"].getMemberNames();
+
+  for (auto it = keys.begin() ; it != keys.end() ; it++)
+    {
+      for (int i = 0 ; i < (*trame)[CONTENT]["DELETEFROMINVENTORY"][*it]["NB"].asInt() ; i++)
+	(**_player)->deleteItem((*trame)[CONTENT]["DELETEFROMINVENTORY"][*it]["ID"].asUInt());
+    }
+  return (true);
+}
+
+bool				Core::job(Trame *trame)
+{
+  Job				*job = Job::deserialization((*trame)((*trame)[CONTENT]["JOB"]));
+
+  (**_player)->setJob(job->getJobModel().getName(), job);
   return (true);
 }
 
@@ -462,7 +492,12 @@ void				Core::sendSwitch(unsigned int idBattle, unsigned int target, unsigned in
 
 //  void				stuff(void *action);
 // void				talents();
-// void				craft();
+void				Core::craft(std::string const &craftName, std::string const &jobName)
+{
+  (*_proto).operator()<unsigned int const, std::string, std::string>("CRAFT", _id, craftName, jobName);
+}
+
+
 // void				gather();
 
 void				Core::useObject(unsigned int target, AItem const &item)

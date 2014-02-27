@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 12:52:53 2014 laurent ansel
-// Last update Wed Feb 19 14:01:10 2014 laurent ansel
+// Last update Thu Feb 27 14:50:11 2014 laurent ansel
 //
 
 #ifndef 			__JOBS_HH__
@@ -21,9 +21,9 @@ class				Jobs : public ISerialization
 private:
   std::list<Job *>		_jobs;
 
-  Jobs();
-
 public:
+
+  Jobs();
 
   Jobs(Jobs const &rhs);
 
@@ -34,9 +34,13 @@ public:
   std::list<Job *> const	&getJobs() const;
   void				setJobs(std::list<Job *> const &jobs);
   void				setJob(Job *job);
+  void				setJob(std::string const &name, Job *job);
 
   virtual bool			serialization(Trame &trame) const;
   static Jobs			*deserialization(Trame const &trame);
 };
 
+# ifdef	ODB_COMPILER
+#  pragma db value(Jobs)
+# endif
 #endif

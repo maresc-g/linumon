@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:27:32 2014 laurent ansel
-// Last update Wed Feb 26 16:42:09 2014 laurent ansel
+// Last update Thu Feb 27 16:14:04 2014 laurent ansel
 //
 
 #ifndef 		__CRAFT_HH__
@@ -23,7 +23,7 @@ class			Craft : public Persistent, public Nameable, public ISerialization
 
 private:
   Level			_level;
-  AItem			*_result;
+  AItem const		*_result;
   std::list<std::pair<AItem *, unsigned int> >	_ingredients;
 
   Craft();
@@ -43,7 +43,7 @@ public:
   std::list<std::pair<AItem *, unsigned int> > const	&getIngredients() const;
 
   virtual bool		serialization(Trame &trame) const;
-  static Craft		*deserialization(Trame const &trame);
+  static Craft		*deserialization(Trame const &trame, bool const client = true);
 };
 
 # ifdef	ODB_COMPILER

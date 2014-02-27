@@ -169,3 +169,8 @@ JobView
 {
 	background-color: #FFFFFF;
 }
+
+CraftView
+{
+	background-color: #FFFFFF;
+}

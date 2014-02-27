@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Tue Feb 25 16:06:25 2014 laurent ansel
+// Last update Thu Feb 27 12:50:45 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -218,14 +218,14 @@ void				ClientManager::playerObject(FD const fd, unsigned int const target, unsi
   this->_mutex->unlock();
 }
 
-void				ClientManager::playerObject(FD const fd, unsigned int const item) const
+void				ClientManager::playerObject(FD const fd, unsigned int const item, int const nb) const
 {
   bool				set = false;
 
   this->_mutex->lock();
   for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
     if ((*it).first && (*it).second)
-      set = (*it).first->playerObject(fd, item);
+      set = (*it).first->playerObject(fd, item, nb);
   this->_mutex->unlock();
 }
 
