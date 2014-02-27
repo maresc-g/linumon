@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Sun Feb 16 17:04:54 2014 alexis mestag
-## Last update Thu Feb 27 20:08:00 2014 alexis mestag
+## Last update Thu Feb 27 20:44:32 2014 alexis mestag
 ##
 
 EFFECT_CMN_DIR=		..
@@ -33,10 +33,12 @@ EFFECT_CMN_SRC=		Common/src/Database/Persistent.cpp		\
 			Common/src/Entities/DBZone.cpp			\
 			Common/src/Entities/Equipment.cpp		\
 			Common/src/Entities/Faction.cpp			\
-			Common/src/Entities/Player.cpp			\
+			Common/src/Entities/Job.cpp			\
+			Common/src/Entities/Jobs.cpp			\
 			Common/src/Entities/Level.cpp			\
 			Common/src/Entities/Mob.cpp			\
 			Common/src/Entities/MobModel.cpp		\
+			Common/src/Entities/Player.cpp			\
 			Common/src/Entities/Spell.cpp			\
 			Common/src/Entities/Spells.cpp			\
 			Common/src/Entities/Type.cpp			\
@@ -54,6 +56,8 @@ EFFECT_CMN_SRC=		Common/src/Database/Persistent.cpp		\
 			Common/include/Entities/Digitaliser-odb.cxx	\
 			Common/include/Entities/DBZone-odb.cxx		\
 			Common/include/Entities/Equipment-odb.cxx	\
+			Common/include/Entities/Job-odb.cxx		\
+			Common/include/Entities/Jobs-odb.cxx		\
 			Common/include/Entities/Level-odb.cxx		\
 			Common/include/Entities/Mob-odb.cxx		\
 			Common/include/Entities/MobModel-odb.cxx	\
