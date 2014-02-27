@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 12:53:14 2014 laurent ansel
-// Last update Thu Feb 27 16:16:23 2014 laurent ansel
+// Last update Thu Feb 27 17:19:32 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -29,7 +29,7 @@ Jobs				&Jobs::operator=(Jobs const &rhs)
 {
   if (this != &rhs)
     {
-
+      this->setJobs(rhs.getJobs());
     }
   return (*this);
 }
