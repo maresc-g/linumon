@@ -5,38 +5,51 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Sun Feb 16 17:04:54 2014 alexis mestag
-## Last update Mon Feb 24 14:08:07 2014 alexis mestag
+## Last update Wed Feb 26 15:57:19 2014 alexis mestag
 ##
 
 EFFECT_CMN_DIR=		..
 EFFECT_SRC_DIR=		Sources
 EFFECT_OBJ_DIR=		Objects
 
-EFFECT_SRC=		DamageEffect.cpp
+EFFECT_SRC=		HesodeEffect.cpp			\
+			CelestiaEffect.cpp
+
 EFFECT_SRC:=		$(addprefix $(EFFECT_SRC_DIR)/,$(EFFECT_SRC))
+
 EFFECT_OBJ=		$(EFFECT_SRC:.cpp=.o)
 EFFECT_OBJ:=		$(subst $(EFFECT_SRC_DIR),$(EFFECT_OBJ_DIR),$(EFFECT_OBJ))
 
-EFFECT_CMN_SRC=		Common/src/Utility/Nameable.cpp		\
-			Common/src/Utility/Id.cpp		\
-			Common/src/Database/Persistent.cpp	\
-			Common/src/Entities/ACharacter.cpp	\
-			Common/src/Entities/AStatEntity.cpp	\
-			Common/src/Entities/AEntity.cpp		\
-			Common/src/Stats/Stats.cpp		\
-			Common/src/Stats/AuthorizedStatKeys.cpp	\
-			Common/src/Stats/Stat.cpp		\
-			Common/src/Stats/StatKey.cpp
+EFFECT_CMN_SRC=		Common/src/Database/Persistent.cpp		\
+			Common/src/Effects/FactionEffect.cpp		\
+			Common/src/Effects/MobEffect.cpp		\
+			Common/src/Effects/PlayerEffect.cpp		\
+			Common/src/Entities/ACharacter.cpp		\
+			Common/src/Entities/AStatEntity.cpp		\
+			Common/src/Entities/AEntity.cpp			\
+			Common/src/Mutex/AMutex.cpp			\
+			Common/src/Mutex/UnixMutex.cpp			\
+			Common/src/Stats/Stats.cpp			\
+			Common/src/Stats/AuthorizedStatKeys.cpp		\
+			Common/src/Stats/Stat.cpp			\
+			Common/src/Stats/StatKey.cpp			\
+			Common/src/Utility/Nameable.cpp			\
+			Common/src/Utility/Id.cpp			\
+			Common/include/Utility/Nameable-odb.cxx		\
+			Common/include/Database/Persistent-odb.cxx	\
+			Common/include/Stats/StatKey-odb.cxx
 
 EFFECT_CMN_SRC:=	$(addprefix $(EFFECT_CMN_DIR)/,$(EFFECT_CMN_SRC))
 
 EFFECT_CMN_OBJ=		$(EFFECT_CMN_SRC:.cpp=.o)
+EFFECT_CMN_OBJ:=	$(EFFECT_CMN_OBJ:.cxx=.o)
 EFFECT_CMN_OBJ:=	$(subst $(EFFECT_CMN_DIR),$(EFFECT_OBJ_DIR),$(EFFECT_CMN_OBJ))
 
 EFFECT_LIBS=		$(EFFECT_OBJ:.o=.so)
 EFFECT_LIBS:=		$(subst $(EFFECT_OBJ_DIR)/,,$(EFFECT_LIBS))
 
 CPPFLAGS=		-W -Wall -Wextra -fPIC -I ../Common/include -std=c++0x -g -D SERVER
+LDFLAGS=		-L/usr/lib/odb -lodb-mysql -lodb
 
 $(EFFECT_OBJ_DIR)/%.o:	$(EFFECT_SRC_DIR)/%.cpp
 			g++ $(CPPFLAGS) -c -o $@ $<
@@ -44,9 +57,12 @@ $(EFFECT_OBJ_DIR)/%.o:	$(EFFECT_SRC_DIR)/%.cpp
 $(EFFECT_OBJ_DIR)/%.o:	$(EFFECT_CMN_DIR)/%.cpp
 			@mkdir -p $(dir $@)
 			g++ $(CPPFLAGS) -c -o $@ $<
+$(EFFECT_OBJ_DIR)/%.o:	$(EFFECT_CMN_DIR)/%.cxx
+			@mkdir -p $(dir $@)
+			g++ $(CPPFLAGS) -c -o $@ $<
 
 %.so:			$(EFFECT_OBJ_DIR)/%.o $(EFFECT_CMN_OBJ)
-			g++ -shared -o $@ $< $(EFFECT_CMN_OBJ)
+			g++ -shared -o $@ $< $(EFFECT_CMN_OBJ) $(LDFLAGS)
 
 all:			$(EFFECT_OBJ_DIR) $(EFFECT_CMN_DIR) $(EFFECT_CMN_OBJ) $(EFFECT_LIBS)
 

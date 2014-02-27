@@ -5,10 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:31:07 2013 alexis mestag
-// Last update Tue Feb 25 12:43:28 2014 laurent ansel
+// Last update Wed Feb 26 22:46:40 2014 alexis mestag
 //
 
 #include			"Entities/Faction.hh"
+#include			"Effects/PlayerEffect.hh"
 
 Faction::Faction() :
   Persistent(), Nameable()
@@ -37,10 +38,32 @@ Faction				&Faction::operator=(Faction const &rhs)
 {
   if (this != &rhs)
     {
-
+#ifndef				CLIENT_COMPILATION
+      this->setEffectLib(rhs.getEffectLib());
+#endif
     }
   return (*this);
 }
+
+#ifndef				CLIENT_COMPILATION
+EffectLib const			&Faction::getEffectLib() const
+{
+  return (*_effectLib);
+}
+
+void				Faction::setEffectLib(EffectLib const &effectLib)
+{
+  _effectLib = &effectLib;
+}
+
+void				Faction::applyEffect(Player &player) const
+{
+  PlayerEffect			*effect = static_cast<PlayerEffect *>(_effectLib->getEffect());
+
+  effect->apply(player);
+  delete effect;
+}
+#endif
 
 bool				Faction::serialization(Trame &trame) const
 {

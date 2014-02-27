@@ -5,10 +5,14 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Wed Feb 26 11:26:45 2014 alexis mestag
+// Last update Wed Feb 26 15:33:44 2014 alexis mestag
 //
 
 #include			"Entities/AStatEntity.hh"
+
+#ifndef		CLIENT_COMPILATION
+# include			"Database/Repositories/StatKeyRepository.hpp"
+#endif
 
 AStatEntity::AStatEntity() :
   AEntity("", eEntity::STATENTITY), _statEntityType(eStatEntity::NONE),
@@ -62,7 +66,7 @@ Stats const			&AStatEntity::getStats() const
 {
   return (_stats);
 }
-#include			<iostream>
+
 void				AStatEntity::setStats(Stats const &stats)
 {
   _stats = stats;
@@ -98,28 +102,68 @@ void				AStatEntity::setStatKeys(AuthorizedStatKeys const &keys)
   _authKeys = &keys;
 }
 
+bool				AStatEntity::isKeyAuthorized(StatKey const &key) const
+{
+  return (_authKeys->isAuthorized(key));
+}
+
 Stat::value_type		AStatEntity::getStat(StatKey const &key) const
 {
   return (_stats.getStat(key));
 }
 
-void				AStatEntity::setStat(StatKey const &key, Stat::value_type const value,
+bool				AStatEntity::setStat(StatKey const &key, Stat::value_type const value,
 						     bool const add)
 {
-  _stats.setStat(key, value, add);
+  bool				ret = true;
+
+  if (this->isKeyAuthorized(key))
+    _stats.setStat(key, value, add);
+  else
+    ret = false;
+  return (ret);
 }
+
+#ifndef		CLIENT_COMPILATION
+bool				AStatEntity::setStat(std::string const &key,
+						     Stat::value_type const value,
+						     bool const add)
+{
+  Repository<StatKey>		*rsk = &Database::getRepository<StatKey>();
+  StatKey const			*sk = rsk->getByName(key);
+
+  return (sk ? this->setStat(*sk, value, add) : false);
+}
+
+bool				AStatEntity::setTmpStat(std::string const &key,
+							Stat::value_type const value,
+							bool const add)
+{
+  Repository<StatKey>		*rsk = &Database::getRepository<StatKey>();
+  StatKey const			*sk = rsk->getByName(key);
+
+  return (sk ? this->setTmpStat(*sk, value, add) : false);
+}
+#endif
+
 
 Stat::value_type		AStatEntity::getTmpStat(StatKey const &key) const
 {
   return (_tmpStats.getStat(key));
 }
 
-void				AStatEntity::setTmpStat(StatKey const &key, Stat::value_type const value,
+bool				AStatEntity::setTmpStat(StatKey const &key,
+							Stat::value_type const value,
 							bool const add)
 {
-  _tmpStats.setStat(key, value, add);
-}
+  bool				ret = true;
 
+  if (this->isKeyAuthorized(key))
+    _tmpStats.setStat(key, value, add);
+  else
+    ret = false;
+  return (ret);
+}
 
 void				AStatEntity::enterBattle()
 {

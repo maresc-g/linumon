@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Jan 30 12:41:57 2014 alexis mestag
-// Last update Tue Feb 11 15:02:46 2014 laurent ansel
+// Last update Wed Feb 26 16:19:35 2014 alexis mestag
 //
 
 #include			"Effects/EffectLib.hh"
@@ -52,15 +52,15 @@ void				EffectLib::setPath(std::string const &path)
   _dl->setPath(path);
 }
 
-IEffect				*EffectLib::getEffect()
+IEffect				*EffectLib::getEffect() const
 {
-  static IEffect		*(*symbol)() = NULL;
+  IEffect			*(*symbol)() = NULL;
   IEffect			*ret = NULL;
 
   if (!symbol || !_dl->isLoaded())
     {
       if (_dl->load())
-	symbol = reinterpret_cast<IEffect *(*)()>(_dl->getSymbol(""));
+	symbol = reinterpret_cast<IEffect *(*)()>(_dl->getSymbol("getInstance"));
     }
   if (symbol)
     ret = symbol();

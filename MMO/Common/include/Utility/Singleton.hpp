@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Mar 12 11:54:01 2013 guillaume marescaux
-// Last update Sun Nov  3 18:45:16 2013 alexis mestag
+// Last update Thu Feb 27 01:16:50 2014 alexis mestag
 //
 
 #ifndef			__SINGLETON_HPP__

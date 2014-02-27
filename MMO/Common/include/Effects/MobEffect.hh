@@ -5,17 +5,22 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Feb 14 10:38:37 2014 alexis mestag
-// Last update Fri Feb 14 10:46:12 2014 alexis mestag
+// Last update Wed Feb 26 14:06:31 2014 alexis mestag
 //
 
 #ifndef				__MOBEFFECT_HPP__
 # define			__MOBEFFECT_HPP__
 
+# include			"Effects/IEffect.hpp"
+# include			"Entities/Mob.hh"
+
 class				MobEffect : public AEffect<Mob>
 {
 protected:
-  MobEffect() : AEffect<Mob>(Effect::eType::MOB) {}
-  virtual ~MobEffect() {}
+  MobEffect();
+
+public:
+  virtual ~MobEffect();
 };
 
 #endif

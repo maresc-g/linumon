@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Jan 30 12:30:55 2014 alexis mestag
-// Last update Sat Feb 15 14:18:31 2014 alexis mestag
+// Last update Wed Feb 26 16:18:06 2014 alexis mestag
 //
 
 #ifndef				__EFFECTLIB_HH__
@@ -37,7 +37,7 @@ public:
   std::string const		&getPath() const;
   void				setPath(std::string const &path);
 
-  IEffect			*getEffect();
+  IEffect			*getEffect() const;
 
   virtual bool			serialization(Trame &trame) const;
   static EffectLib		*deserialization(Trame const &trame);
