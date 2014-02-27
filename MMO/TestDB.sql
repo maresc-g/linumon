@@ -341,19 +341,52 @@ INSERT INTO `JobModel`(`id`, `name`, `path`) VALUES
 	(6, 'Mineur', 'Res/JobCraft/mineur.json'),
 	(7, 'Trappeur', 'Res/JobCraft/trappeur.json');
 
- /* crafts */
-/* DELETE FROM `Craft`;
+/* Job */
+DELETE FROM `Job`;
 
- INSERT INTO `Craft`(`id`, `name`, `level_lvl`, `level_exp`) VALUES
-        (1, 'Coiffe Bouftou', 1, 10)
-*/
+INSERT INTO `Job`(`id`, `currentExp`, `level_lvl`, `level_exp`, `jobModel`) VALUES
+       (1, 10, 20, 0684, 1),
+       (2, 00, 28, 1684, 2),
+       (3, 80, 10, 2684, 3),
+       (4, 55, 05, 3684, 4),
+       (5, 24, 50, 4684, 5),
+       (6, 01, 87, 5684, 6),
+       (7, 98, 99, 6684, 7);
 
- /* JobModel_crafts */
-/* DELETE FROM `JobModel_crafts`;
+/*Player_job_job*/
+DELETE FROM `Player_jobs_jobs`;
 
- INSERT INTO `JobModel_crafts`(`object_id`, `index`, `value`) VALUES
-        ()
-*/
+INSERT INTO `Player_jobs_jobs`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 1),
+       (1, 1, 2),
+       (1, 2, 3),
+       (1, 3, 4),
+       (1, 4, 5),
+       (1, 5, 6),
+       (1, 6, 7),
+       (2, 0, 1),
+       (2, 1, 2),
+       (2, 2, 3),
+       (2, 3, 4),
+       (2, 4, 5),
+       (2, 5, 6),
+       (2, 6, 7),
+       (3, 0, 1),
+       (3, 1, 2),
+       (3, 2, 3),
+       (3, 3, 4),
+       (3, 4, 5),
+       (3, 5, 6),
+       (3, 6, 7),
+       (4, 0, 1),
+       (4, 1, 2),
+       (4, 2, 3),
+       (4, 3, 4),
+       (4, 4, 5),
+       (4, 5, 6),
+       (4, 6, 7);
+
+
 /* Assigning Mobs to Players */
 DELETE FROM `Player_digitaliser_mobs`;
 

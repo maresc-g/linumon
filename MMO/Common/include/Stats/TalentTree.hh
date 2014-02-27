@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 12:39:07 2014 alexis mestag
-// Last update Mon Feb  3 13:43:15 2014 laurent ansel
+// Last update Thu Feb 27 14:29:18 2014 laurent ansel
 //
 
 #ifndef				__TALENTTREE_HH__

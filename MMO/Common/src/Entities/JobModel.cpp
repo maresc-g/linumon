@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:53:29 2014 laurent ansel
-// Last update Thu Feb 27 13:20:30 2014 laurent ansel
+// Last update Thu Feb 27 16:16:30 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -37,6 +37,7 @@ JobModel			&JobModel::operator=(JobModel const &rhs)
 {
   if (this != &rhs)
     {
+      this->setName(this->getName());
       this->setCrafts(rhs.getCrafts());
       this->setGather(rhs.getGather());
     }
@@ -59,7 +60,7 @@ void				JobModel::loadCrafts()
 
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	{
-	  toPush = Craft::deserialization((*file)((*file)[*it]));
+	  toPush = Craft::deserialization((*file)((*file)[*it]), false);
 	  if (toPush)
 	    this->_crafts->push_back(toPush);
 	}
@@ -124,6 +125,7 @@ std::string const		&JobModel::getPath() const
 void				JobModel::setPath(std::string const &path)
 {
   this->_path = path;
+  this->loadCrafts();
 }
 
 bool				JobModel::serialization(Trame &trame) const
@@ -132,13 +134,13 @@ bool				JobModel::serialization(Trame &trame) const
   int				nb = 0;
   std::ostringstream		str;
 
-  trame["JOBMODEL"]["CRAFTS"];
-  trame["JOBMODEL"]["GATHER"];
-  trame["JOBMODEL"]["NAME"] = this->getName();
+  trame["CRAFTS"];
+  trame["GATHER"];
+  trame["NAME"] = this->getName();
   for (auto it = this->_crafts->begin() ; it != this->_crafts->end() && ret; ++it)
     {
       str << "CRAFT" << nb;
-      ret = (*it)->serialization(trame(trame["JOBMODEL"]["CRAFTS"][str.str()]));
+      ret = (*it)->serialization(trame(trame["CRAFTS"][str.str()]));
       str.str("");
       nb++;
     }
@@ -147,7 +149,7 @@ bool				JobModel::serialization(Trame &trame) const
   for (auto it = this->_gather.begin() ; it != this->_gather.end() && ret; ++it)
     {
       str << "GATHER" << nb;
-      ret = (*it)->serialization(trame(trame["JOBMODEL"]["GATHER"][str.str()]));
+      ret = (*it)->serialization(trame(trame["GATHER"][str.str()]));
       str.str("");
       nb++;
     }
@@ -165,7 +167,7 @@ JobModel			*JobModel::deserialization(Trame const &trame)
   if (trame.isMember("JOBMODEL"))
     {
       jobModel = new JobModel;
-      jobModel->setName(trame["NAME"].asString());
+      jobModel->setName(trame["JOBMODEL"]["NAME"].asString());
       crafts = new std::list<Craft *>;
       ressources = new std::list<Ressource *>;
 

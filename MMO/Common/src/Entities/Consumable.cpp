@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Mon Feb 24 19:50:27 2014 laurent ansel
+// Last update Thu Feb 27 15:29:30 2014 laurent ansel
 //
 
 #include			"Entities/Consumable.hh"
@@ -70,9 +70,12 @@ Consumable			*Consumable::deserialization(Trame const &trame, bool const client)
 {
   Consumable			*consumable = NULL;
 
-  consumable = new Consumable(trame["NAME"].asString(), static_cast<eConsumable>(trame["CONSUTYPE"].asInt()));
-  if (client)
-    consumable->setId(trame["ID"].asUInt());
-  consumable->setItemType(static_cast<AItem::eItem>(trame["TYPE"].asInt()));
+  if (trame["TYPE"].asInt() == AItem::eItem::CONSUMABLE)
+    {
+      consumable = new Consumable(trame["NAME"].asString(), static_cast<eConsumable>(trame["CONSUTYPE"].asInt()));
+      if (client)
+	consumable->setId(trame["ID"].asUInt());
+      consumable->setItemType(static_cast<AItem::eItem>(trame["TYPE"].asInt()));
+    }
   return (consumable);
 }
