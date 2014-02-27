@@ -5,9 +5,10 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:55:36 2014 guillaume marescaux
-// Last update Wed Feb 26 16:36:03 2014 guillaume marescaux
+// Last update Thu Feb 27 13:04:12 2014 guillaume marescaux
 //
 
+#include			<QMessageBox>
 #include			"Qt/Views/JobView.hh"
 
 JobView::JobView(QWidget *parent, WindowManager *wMan):
@@ -18,31 +19,6 @@ JobView::JobView(QWidget *parent, WindowManager *wMan):
   ui.tw_crafts->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
   ui.tw_crafts->setColumnWidth(0, 455);
   ui.tw_crafts->setColumnWidth(1, 50);
-  QTableWidgetItem *item=new QTableWidgetItem ("blaa");
-  QTableWidgetItem *item2=new QTableWidgetItem ("blaa");
-  QTableWidgetItem *item3=new QTableWidgetItem ("blaa");
-  QTableWidgetItem *item4=new QTableWidgetItem ("blaa");
-  QTableWidgetItem *item5=new QTableWidgetItem ("blaa");
-  item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter); 
-  item2->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter); 
-  item3->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter); 
-  item4->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter); 
-  item5->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter); 
-  ui.tw_crafts->insertRow(0);
-  ui.tw_crafts->setItem(0, 0, item);
-  ui.tw_crafts->setItem(0, 1, new QTableWidgetItem("30"));
-  ui.tw_crafts->insertRow(1);
-  ui.tw_crafts->setItem(1, 0, item2);
-  ui.tw_crafts->setItem(1, 1, new QTableWidgetItem("30"));
-  ui.tw_crafts->insertRow(2);
-  ui.tw_crafts->setItem(2, 0, item3);
-  ui.tw_crafts->setItem(2, 1, new QTableWidgetItem("30"));
-  ui.tw_crafts->insertRow(3);
-  ui.tw_crafts->setItem(3, 0, item4);
-  ui.tw_crafts->setItem(3, 1, new QTableWidgetItem("30"));
-  ui.tw_crafts->insertRow(4);
-  ui.tw_crafts->setItem(4, 0, item5);
-  ui.tw_crafts->setItem(4, 1, new QTableWidgetItem("30"));
 }
 
 JobView::~JobView()
@@ -53,13 +29,33 @@ void				JobView::handleChange()
 {
   QList<QTableWidgetItem *>	list = ui.tw_crafts->selectedItems();
   Craft const			*craft = _job->getJobModel().getCraft(list.first()->text().toStdString());
+  std::list<std::pair<AItem *, unsigned int>> const	items = _currentCraft->getCraft().getIngredients();
+  std::list<std::pair<AItem *, unsigned int>> const	inventory = (**(_wMan->getMainPlayer()))->getInventory().getInventory();
+  bool				ret = true;
 
   std::cout << list.first()->text().toStdString() << std::endl;
   if (_currentCraft)
     delete _currentCraft;
   _currentCraft = new CraftView(this, _wMan);
+  _currentCraft->setInfos(*craft);
   _currentCraft->move(5, 460);
   _currentCraft->show();
+  for (auto it = items.begin() ; it != items.end() ; it++)
+    {
+      auto itb = inventory.begin();
+      auto end = inventory.end();
+      while (itb != end && it->first->getName() != itb->first->getName())
+	itb++;
+      if (it->second > itb->second)
+	{
+	  ret = false;
+	  break;
+	}
+    }
+  if (ret && _currentCraft->getCraft().getLevel().getLevel() <= _job->getLevel().getLevel())
+    ui.b_craft->setEnabled(true);
+  else
+    ui.b_craft->setEnabled(false);
 }
 
 void				JobView::paintEvent(QPaintEvent *)
@@ -97,4 +93,5 @@ void				JobView::setInfos(Job const &job)
 
 void				JobView::on_b_craft_clicked()
 {
+  Client::getInstance()->craft(_job->getJobModel().getName(), _currentCraft->getCraft().getName());
 }

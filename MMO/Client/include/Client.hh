@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Tue Feb 25 15:04:20 2014 guillaume marescaux
+// Last update Thu Feb 27 12:55:40 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -62,7 +62,7 @@ public:
   void				sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob);
   //  void				stuff(void *action);
   // void				talents();
-  // void				craft();
+  void				craft(std::string const &craftName, std::string const &jobName);
   // void				gather();
   void				useObject(unsigned int target, AItem const &item);
   // void				unsigned interaction();

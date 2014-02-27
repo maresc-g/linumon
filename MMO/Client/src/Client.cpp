@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Tue Feb 25 15:10:13 2014 guillaume marescaux
+// Last update Thu Feb 27 12:57:18 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -67,7 +67,8 @@ void				Client::sendSwitch(unsigned int idBattle, unsigned int target, unsigned 
 
 // void				Client::talents();
 
-// void				Client::craft();
+void				Client::craft(std::string const &craftName, std::string const &jobName)
+{ _core->craft(craftName, jobName); }
 
 // void				Client::gather();
 

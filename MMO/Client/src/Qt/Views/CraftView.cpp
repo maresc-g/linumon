@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Feb 26 14:24:07 2014 guillaume marescaux
-// Last update Thu Feb 27 10:32:49 2014 guillaume marescaux
+// Last update Thu Feb 27 12:51:17 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/CraftView.hh"
@@ -40,11 +40,10 @@ void				CraftView::setInfos(Craft const &craft)
   for (auto it = items.begin() ; it != items.end() ; it++)
     {
       item = new ItemView(ui.frame, _wMan, it->second, it->first);
-      item->move(i % 5 * ITEM_SIZE + i % 5, i / 5 * ITEM_SIZE);
+      item->move(i * ITEM_SIZE + i, 0);
       item->resize(ITEM_SIZE, ITEM_SIZE);
       i++;
-      // if (ingredients != "")
-      // 	ingredients += ", ";
-      // ingredients += (*it)->getName();
     }
 }
+
+Craft const			&CraftView::getCraft(void) const { return (*_craft); }

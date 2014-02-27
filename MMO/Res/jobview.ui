@@ -43,6 +43,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="b_craft">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>440</x>

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Feb 26 14:22:32 2014 guillaume marescaux
-// Last update Wed Feb 26 16:37:25 2014 guillaume marescaux
+// Last update Thu Feb 27 10:47:09 2014 guillaume marescaux
 //
 
 #ifndef 		__CRAFTVIEW_HH__
@@ -38,6 +38,7 @@ private:
 public:
 
   void			setInfos(Craft const &craft);
+  Craft const		&getCraft(void) const;
 };
 
 #endif
