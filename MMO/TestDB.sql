@@ -481,7 +481,7 @@ INSERT INTO `Player_stats_stats`(`object_id`, `index`, `value`) VALUES
 DELETE FROM `Ressource`;
 
 INSERT INTO `Ressource`(`id`, `name`, `level_lvl`, `level_exp`) VALUES
-       (1, 'Orchidée', 10, 100),
+       (1, 'Orchidee', 10, 100),
        (2, 'Peau de bouftou', 1, 10);
 
 /* Adding some fancy views because it's quite swag */
