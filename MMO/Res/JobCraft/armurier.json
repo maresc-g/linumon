@@ -1,42 +1,33 @@
 {
     "1" :
     {
-	"CRAFT" :
+	"NAME" : "Plastron Bouftou",
+	"LEVEL" :
+	{
+	    "LVL" : 1,
+	    "EXP" : 50
+	},
+	"RESULT" :
 	{
 	    "NAME" : "Plastron Bouftou",
-	    "LEVEL" :
+	    "TYPE" : 1,
+	    "STUFFTYPE" : 1
+	},
+	"INGREDIENTS" :
+	{
+	    "ITEM0" :
 	    {
-		"LVL" : 1,
-		"EXP" : 50
+		"ENTITYTYPE":1,
+		"NAME":"Orchidee",
+		"TYPE":2,
+		"NB" : 1
 	    },
-	    "RESULT" :
+	    "ITEM1" :
 	    {
-		"NAME" : "Plastron Bouftou",
-		"TYPE" : 1,
-		"STUFFTYPE" : 1
-	    },
-	    "INGREDIENTS" :
-	    {
-		"ITEM0" :
-		{
-		    "RESSOURCE":
-		    {
-			"ENTITYTYPE":1,
-			"NAME":"Orchidée",
-			"TYPE":2
-		    },
-		    "NB" : 1
-		},
-		"ITEM1" :
-		{
-		    "RESSOURCE":
-		    {
-			"ENTITYTYPE":1,
-			"NAME":"Peau de bouftou",
-			"TYPE":2
-		    },
-		    "NB" : 3
-		}
+		"ENTITYTYPE":1,
+		"NAME":"Peau de bouftou",
+		"TYPE":2,
+		"NB" : 3
 	    }
 	}
     }

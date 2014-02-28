@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Thu Feb 27 15:13:03 2014 laurent ansel
+// Last update Fri Feb 28 11:43:04 2014 laurent ansel
 //
 
 #include			"Entities/Ressource.hh"
@@ -109,12 +109,12 @@ void				Ressource::setVisible(bool const visible)
 
 bool				Ressource::serialization(Trame &trame) const
 {
-  trame["RESSOURCE"]["TYPE"] = this->getItemType();
-  trame["RESSOURCE"]["ENTITYTYPE"] = this->getEntityType();
-  trame["RESSOURCE"]["VISIBLE"] = this->isVisible();
-  trame["RESSOURCE"]["NAME"] = this->getName();
-  trame["RESSOURCE"]["ID"] = static_cast<unsigned int>(this->getId());
-  this->_coord->serialization(trame(trame["RESSOURCE"]));
+  trame/*["RESSOURCE"]*/["TYPE"] = this->getItemType();
+  trame/*["RESSOURCE"]*/["ENTITYTYPE"] = this->getEntityType();
+  trame/*["RESSOURCE"]*/["VISIBLE"] = this->isVisible();
+  trame/*["RESSOURCE"]*/["NAME"] = this->getName();
+  trame/*["RESSOURCE"]*/["ID"] = static_cast<unsigned int>(this->getId());
+  this->_coord->serialization(trame/*(trame["RESSOURCE"])*/);
   return (true);
 }
 
@@ -122,17 +122,19 @@ Ressource			*Ressource::deserialization(Trame const &trame, bool const client)
 {
   Ressource			*ressource = NULL;
 
-  if (trame.isMember("RESSOURCE"))
+  // if (trame.isMember("RESSOURCE"))
+  //   {
+  if (trame["TYPE"].asInt() == AItem::eItem::RESSOURCE || trame["ENTITYTYPE"].asInt() == AEntity::eEntity::RESSOURCE || trame["ENTITYTYPE"].asInt() == AEntity::eEntity::ITEM)
     {
-      ressource = new Ressource(trame["RESSOURCE"]["NAME"].asString());
+      ressource = new Ressource(trame/*["RESSOURCE"]*/["NAME"].asString());
       if (client)
-	ressource->setId(trame["RESSOURCE"]["ID"].asUInt());
-      ressource->setItemType(static_cast<AItem::eItem>(trame["RESSOURCE"]["TYPE"].asInt()));
-      ressource->setEntityType(static_cast<AEntity::eEntity>(trame["RESSOURCE"]["ENTITYTYPE"].asInt()));
-      if (trame["RESSOURCE"].isMember("COORDINATE"))
-	ressource->setCoord(*RessourceCoordinate::deserialization(trame(trame["RESSOURCE"])));
-      if (trame["RESSOURCE"].isMember("VISIBLE"))
-      ressource->setVisible(trame["RESSOURCE"]["VISIBLE"].asBool());
+	ressource->setId(trame/*["RESSOURCE"]*/["ID"].asUInt());
+      ressource->setItemType(static_cast<AItem::eItem>(trame/*["RESSOURCE"]*/["TYPE"].asInt()));
+      ressource->setEntityType(static_cast<AEntity::eEntity>(trame/*["RESSOURCE"]*/["ENTITYTYPE"].asInt()));
+      if (trame/*["RESSOURCE"]*/.isMember("COORDINATE"))
+	ressource->setCoord(*RessourceCoordinate::deserialization(trame(trame/*["RESSOURCE"]*/)));
+      if (trame/*["RESSOURCE"]*/.isMember("VISIBLE"))
+      ressource->setVisible(trame/*["RESSOURCE"]*/["VISIBLE"].asBool());
     }
   return (ressource);
 }

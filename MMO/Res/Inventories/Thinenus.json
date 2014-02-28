@@ -8,7 +8,6 @@
     "ITEM1" :
     {
         "NAME" : "Plastron Bouftou",
-        "TYPE" : 1,
-        "STUFFTYPE" : 1
+        "TYPE" : 2
     }
 }

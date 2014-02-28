@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Feb 28 11:29:43 2014 cyril jourdain
+// Last update Fri Feb 28 12:56:11 2014 cyril jourdain
 //
 
 /*
@@ -30,7 +30,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()), _mainPerso(NULL),
   _clock(new sf::Clock()), _sprites(new SpriteMap), _keyDelayer(new KeyDelayer()),
   _playerList(new std::vector<OPlayerSprite*>), _entities(new std::list<RessourceSprite*>()), _keyMap(new KeyMap),
-  _spellBar(new SpellBarView(this, w)), _itemView(new ItemView(this, w)),
+  _spellBar(new SpellBarView(this, w)),
   _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
   _chat(new ChatView(this, w)), _menu(new MenuView(this, w)), _jobMenu(new JobMenuView(this, w)),
   _job(new JobView(this, w))
@@ -40,7 +40,6 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _spriteTest = new sf::Sprite(*_textureTest);
   _spriteTest->setScale(4,4);
   _spellBar->hide();
-  _itemView->hide();
   _stuff->hide();
   _inventory->hide();
   _jobMenu->hide();

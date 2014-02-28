@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 12:56:12 2014 guillaume marescaux
-// Last update Thu Feb 27 13:12:30 2014 guillaume marescaux
+// Last update Fri Feb 28 10:53:05 2014 guillaume marescaux
 //
 
 #include			"SFML/SFMLView.hpp"
@@ -42,22 +42,22 @@ void				JobMenuView::initJob(std::string const &name)
 
 void				JobMenuView::on_b_alch_clicked()
 {
-  initJob("Maitre des potions");
+  initJob("Maitre des Potions");
 }
 
 void				JobMenuView::on_b_dev_clicked()
 {
-  initJob("Développeur");
+  initJob("Developpeur");
 }
 
-void				JobMenuView::on_b_crafter1_clicked()
+void				JobMenuView::on_b_armu_clicked()
 {
   initJob("Armurier");
 }
 
-void				JobMenuView::on_b_crafter2_clicked()
+void				JobMenuView::on_b_inge_clicked()
 {
-  initJob("Ingénieur");
+  initJob("Ingenieur");
 }
 
 void				JobMenuView::on_b_mineur_clicked()

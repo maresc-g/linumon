@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:18:02 2013 alexis mestag
-// Last update Mon Feb 24 19:50:00 2014 laurent ansel
+// Last update Fri Feb 28 11:38:54 2014 laurent ansel
 //
 
 #include			"Entities/AItem.hh"
@@ -43,6 +43,7 @@ AItem				&AItem::operator=(AItem const &rhs)
   if (this != &rhs)
     {
       this->_itemType = rhs.getItemType();
+      this->setEntityType(rhs.getEntityType());
     }
   return (*this);
 }

@@ -10,6 +10,9 @@
     <height>300</height>
    </rect>
   </property>
+  <property name="acceptDrops">
+   <bool>false</bool>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -35,7 +38,7 @@
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QFrame" name="frame">
+  <widget class="QFrame" name="f_items">
    <property name="geometry">
     <rect>
      <x>0</x>

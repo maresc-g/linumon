@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 12:56:42 2014 guillaume marescaux
-// Last update Thu Feb 27 13:13:28 2014 guillaume marescaux
+// Last update Fri Feb 28 10:50:53 2014 guillaume marescaux
 //
 
 #ifndef 		__JOBMENUVIEW_HH__
@@ -39,8 +39,8 @@ private slots:
 
   void			on_b_alch_clicked();
   void			on_b_dev_clicked();
-  void			on_b_crafter1_clicked();
-  void			on_b_crafter2_clicked();
+  void			on_b_armu_clicked();
+  void			on_b_inge_clicked();
   void			on_b_mineur_clicked();
   void			on_b_trapper_clicked();
   void			on_b_herbo_clicked();

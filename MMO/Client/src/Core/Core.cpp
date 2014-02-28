@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Feb 27 13:47:41 2014 guillaume marescaux
+// Last update Thu Feb 27 14:11:02 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -337,8 +337,16 @@ bool				Core::quitServer(Trame *)
   return (true);
 }
 
-bool				Core::removeEntity(Trame *)
+bool				Core::removeEntity(Trame *trame)
 {
+  Map				*map = Map::getInstance();
+  AEntity			*entity = map->getEntityById((**_player)->getZone(),
+							     (*trame)[CONTENT]["REMOVEENTITY"]["ID"].asUInt());
+
+  if (entity->getEntityType() == AEntity::STATENTITY)
+    map->delPlayer((**_player)->getZone(), entity);
+  else
+    map->delEntity((**_player)->getZone(), entity);
   return (true);
 }
 
@@ -435,7 +443,6 @@ bool				Core::move(CLIENT::eDirection dir)
   newY = (**_player)->getY() + (dir == CLIENT::UP ? -1 : (dir == CLIENT::DOWN ? 1 : 0));
   map->lock();
   zone = map->getZone((**_player)->getZone());
-  // if (zone && newX >= 0 && newY >= 0 && newX < zone->getSizeX() && newY < zone->getSizeY()
   if ((zone->getCase(newX, newY) && zone->getCase(newX, newY)->getEntities()->size() == 0) || !zone->getCase(newX, newY))
     {
       (**_player)->setCoord(newX, newY);

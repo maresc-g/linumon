@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:08:03 2014 guillaume marescaux
-// Last update Mon Feb 24 12:44:40 2014 guillaume marescaux
+// Last update Thu Feb 27 15:55:45 2014 guillaume marescaux
 //
 
 #ifndef 		__STUFFVIEW_HH__
@@ -26,7 +26,7 @@ class			StuffView : public QWidget
 
 public:
   StuffView(QWidget *, WindowManager *wman = NULL);
-  ~StuffView();
+  virtual ~StuffView();
 
 private:
   Ui::stuffview		ui;
