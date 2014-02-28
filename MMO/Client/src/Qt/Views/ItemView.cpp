@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Fri Feb 28 12:41:23 2014 guillaume marescaux
+// Last update Fri Feb 28 13:06:17 2014 cyril jourdain
 //
 
 #include			<qtooltip.h>
@@ -32,9 +32,9 @@ ItemView::ItemView(QWidget *parent, WindowManager *wMan, unsigned int nb, AItem 
       it = name.find(' ');
     }
   boost::algorithm::to_lower(name);
-  this->setObjectName(name.c_str());
+  ui.frame->setObjectName(name.c_str());
   std::cout << "NAME = " << name << std::endl;
-  this->setStyleSheet(std::string("ItemView#" + name + "{ border-image: url(./Res/Items/" + name + ".png); }").c_str());
+  this->setStyleSheet(std::string("ItemView QFrame#" + name + "{ border-image: url(./Res/Items/" + name + ".png); }").c_str());
 }
 
 ItemView::ItemView(QWidget *parent, WindowManager *wMan):
@@ -43,7 +43,7 @@ ItemView::ItemView(QWidget *parent, WindowManager *wMan):
   ui.setupUi(this);
   ui.l_nb->hide();
   this->setObjectName("default");
-  this->setStyleSheet("ItemView#default { border-image: url(./Res/Items/bottes_bouftou.png); }");
+  // this->setStyleSheet("ItemView#default { border-image: url(./Res/Items/bottes_bouftou.png); }");
 }
 
 ItemView::~ItemView()
@@ -94,14 +94,20 @@ void				ItemView::setInfos(AItem *item, unsigned int nb)
 	  it = name.find(' ');
 	}
       boost::algorithm::to_lower(name);
-      this->setObjectName(name.c_str());
-      this->setStyleSheet(std::string("ItemView#" + name + "{ border-image: url(./Res/Items/" + name + ".png); }").c_str());
+      ui.frame->setObjectName(name.c_str());
+      this->setStyleSheet(std::string("ItemView QFrame#" + name + "{ border-image: url(./Res/Items/" + name + ".png); }").c_str());
     }
   else
     {
       this->setObjectName("default");
-      this->setStyleSheet("ItemView#default { border-image: url(./Res/Items/bottes_bouftou.png); }");
+      // this->setStyleSheet("ItemView#default { border-image: url(./Res/Items/bottes_bouftou.png); }");
     }
+}
+
+void				ItemView::resize(int x, int y)
+{
+  QWidget::resize(x, y);
+  ui.frame->resize(x, y);
 }
 
 AItem const			&ItemView::getItem() const { return (*_item); }
