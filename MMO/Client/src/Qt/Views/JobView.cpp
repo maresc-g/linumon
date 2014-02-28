@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:55:36 2014 guillaume marescaux
-// Last update Thu Feb 27 13:04:12 2014 guillaume marescaux
+// Last update Fri Feb 28 12:29:39 2014 guillaume marescaux
 //
 
 #include			<QMessageBox>
@@ -29,7 +29,7 @@ void				JobView::handleChange()
 {
   QList<QTableWidgetItem *>	list = ui.tw_crafts->selectedItems();
   Craft const			*craft = _job->getJobModel().getCraft(list.first()->text().toStdString());
-  std::list<std::pair<AItem *, unsigned int>> const	items = _currentCraft->getCraft().getIngredients();
+  std::list<std::pair<AItem *, unsigned int>> const	items = craft->getIngredients();
   std::list<std::pair<AItem *, unsigned int>> const	inventory = (**(_wMan->getMainPlayer()))->getInventory().getInventory();
   bool				ret = true;
 
@@ -76,8 +76,12 @@ void				JobView::setInfos(Job const &job)
   _job = &job;
   ui.l_name->setText(job.getJobModel().getName().c_str());
   ui.l_level->setText(std::to_string(job.getLevel().getLevel()).c_str());
+  std::cout << "EXP MAX = " << job.getLevel().getExp() << " EXP CUR = " << job.getCurrentExp() << std::endl;
   ui.pb_exp->setMaximum(job.getLevel().getExp());
   ui.pb_exp->setValue(job.getCurrentExp());
+  ui.tw_crafts->clearContents();
+  for (int i = 0 ; i < ui.tw_crafts->rowCount() ; i++)
+    ui.tw_crafts->removeRow(i);
   for (auto it = crafts.begin() ; it != crafts.end() ; it++)
     {
       ui.tw_crafts->insertRow(i);

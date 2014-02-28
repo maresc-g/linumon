@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:46:00 2014 guillaume marescaux
-// Last update Mon Feb 17 14:55:02 2014 guillaume marescaux
+// Last update Thu Feb 27 16:31:37 2014 guillaume marescaux
 //
 
 #ifndef 		__INVENTORYVIEW_HH__
@@ -15,10 +15,10 @@
 #include		<Qt/qwidget.h>
 #include		<Qt/qpainter.h>
 #include		"ui_inventoryview.h"
-#include		"Qt/WindowManager.hh"
 #include		"Qt/Views/ItemView.hh"
 
 class			WindowManager;
+class			ItemView;
 
 class			InventoryView : public QWidget
 {
@@ -26,7 +26,7 @@ class			InventoryView : public QWidget
 
 public:
   InventoryView(QWidget *, WindowManager *wman = NULL);
-  ~InventoryView();
+  virtual ~InventoryView();
 
 private:
   Ui::inventoryview	ui;
@@ -39,6 +39,7 @@ private:
 public:
 
   void			initInventory(void);
+  void			itemAction(ItemView *);
 };
 
 #endif

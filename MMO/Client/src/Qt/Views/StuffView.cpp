@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Wed Feb 26 10:49:32 2014 guillaume marescaux
+// Last update Thu Feb 27 14:59:17 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -52,49 +52,49 @@ void				StuffView::initStuff(Player const &player)
 
   if (equipment->stuffExists(Stuff::HELMET))
     {
-      item = new ItemView(this, _wMan, new Stuff(equipment->getStuff(Stuff::HELMET)));
+      item = new ItemView(this, _wMan, 0, new Stuff(equipment->getStuff(Stuff::HELMET)));
       item->move(0, 70);
       item->resize(120, 80);
     }
   if (equipment->stuffExists(Stuff::SHOULDERS))
     {
-      item = new ItemView(this, _wMan, new Stuff(equipment->getStuff(Stuff::SHOULDERS)));
+      item = new ItemView(this, _wMan, 0, new Stuff(equipment->getStuff(Stuff::SHOULDERS)));
       item->move(0, 170);
       item->resize(120, 80);
     }
   if (equipment->stuffExists(Stuff::BREASTPLATE))
     {
-      item = new ItemView(this, _wMan, new Stuff(equipment->getStuff(Stuff::BREASTPLATE)));
+      item = new ItemView(this, _wMan, 0, new Stuff(equipment->getStuff(Stuff::BREASTPLATE)));
       item->move(0, 270);
       item->resize(120, 80);
     }
   if (equipment->stuffExists(Stuff::CLOAK))
     {
-      item = new ItemView(this, _wMan, new Stuff(equipment->getStuff(Stuff::CLOAK)));
+      item = new ItemView(this, _wMan, 0, new Stuff(equipment->getStuff(Stuff::CLOAK)));
       item->move(0, 370);
       item->resize(120, 80);
     }
   if (equipment->stuffExists(Stuff::BOOTS))
     {
-      item = new ItemView(this, _wMan, new Stuff(equipment->getStuff(Stuff::BOOTS)));
+      item = new ItemView(this, _wMan, 0, new Stuff(equipment->getStuff(Stuff::BOOTS)));
       item->move(0, 470);
       item->resize(120, 80);
     }
   if (equipment->stuffExists(Stuff::NECKLACE))
     {
-      item = new ItemView(this, _wMan, new Stuff(equipment->getStuff(Stuff::NECKLACE)));
+      item = new ItemView(this, _wMan, 0, new Stuff(equipment->getStuff(Stuff::NECKLACE)));
       item->move(380, 70);
       item->resize(120, 80);
     }
   if (equipment->stuffExists(Stuff::RING))
     {
-      item = new ItemView(this, _wMan, new Stuff(equipment->getStuff(Stuff::RING)));
+      item = new ItemView(this, _wMan, 0, new Stuff(equipment->getStuff(Stuff::RING)));
       item->move(380, 170);
       item->resize(120, 80);
     }
   if (equipment->stuffExists(Stuff::WEAPON))
     {
-      item = new ItemView(this, _wMan, new Stuff(equipment->getStuff(Stuff::WEAPON)));
+      item = new ItemView(this, _wMan, 0, new Stuff(equipment->getStuff(Stuff::WEAPON)));
       item->move(380, 270);
       item->resize(120, 80);
     }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb  6 15:32:26 2014 guillaume marescaux
-// Last update Fri Feb  7 12:17:14 2014 guillaume marescaux
+// Last update Thu Feb 27 15:55:40 2014 guillaume marescaux
 //
 
 #ifndef 		__SPELLBARVIEW_HH__
@@ -25,7 +25,7 @@ class			SpellBarView : public QWidget
 public:
 
   SpellBarView(QWidget *, WindowManager *wMan = NULL);
-  ~SpellBarView();
+  virtual ~SpellBarView();
 
 private:
 
