@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Thu Feb 27 14:58:08 2014 guillaume marescaux
+// Last update Fri Feb 28 12:56:11 2014 cyril jourdain
 //
 
 /*
@@ -105,6 +105,9 @@ void			SFMLView::onInit()
   			  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - _mainPerso->getCurrentBound()->height / 2 + 4);
   _mainView->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
   		  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
+  // if ((**(_wMan->getMainPlayer()))->getX() <= 15)
+  //   _mainView->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE,
+  // 		    0);
   loadPlayerList();
   _inventory->initInventory();
   _stuff->initStuff(***(_wMan->getMainPlayer()));
@@ -132,6 +135,7 @@ void			SFMLView::onUpdate()
 	  catch (std::out_of_range const &e) {
 	  }
 	}
+
     }
   /* Not used here but SFML need it to handle internal events */
 
@@ -253,20 +257,20 @@ void			SFMLView::loadMap()
 	  else
 	    ((*_sprites)[y])[x] = _sMan->copySprite("grass"); // Play rock
 	  ((*_sprites)[y])[x]->play("default");
-	  list = zone->getCase(x,y)->getEntities();
-	  if (list && list->size() > 0)
-	    {
-	      for (auto it = list->begin(); it != list->end(); it++)
-		{
-		  if ((*it)->getEntityType() == AEntity::RESSOURCE) {
-		    _entities->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
-		    _sMan->copySprite(static_cast<Ressource*>(*it)->getName(), *_entities->back());
-		    _entities->back()->play("default");
-		    _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
-						   static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
-		  }
-		}
-	    }
+	  // list = zone->getCase(x,y)->getEntities();
+	  // if (list && list->size() > 0)
+	  //   {
+	  //     for (auto it = list->begin(); it != list->end(); it++)
+	  // 	{
+	  // 	  if ((*it)->getEntityType() == AEntity::RESSOURCE) {
+	  // 	    _entities->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
+	  // 	    _sMan->copySprite(static_cast<Ressource*>(*it)->getName(), *_entities->back());
+	  // 	    _entities->back()->play("default");
+	  // 	    _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
+	  // 					   static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
+	  // 	  }
+	  // 	}
+	  //   }
 	}
     }
   // for (auto it = cases->begin(); it != cases->end(); ++it)
@@ -449,6 +453,14 @@ void			SFMLView::keyControl()
     _mainPerso->setSpeed(PX_PER_SECOND + 100);
   else
     _mainPerso->setSpeed(PX_PER_SECOND);
+}
+
+void			SFMLView::mousePressEvent(QMouseEvent *event)
+{
+  std::cout << event->x() << "/" << event->y() << std::endl;
+  sf::Vector2f	v = mapPixelToCoords(sf::Vector2i(event->x(), event->y()));
+
+  std::cout << "View pos : " << v.x << "/" << v.y << std::endl;
 }
 
 JobView			*SFMLView::getJobView(void) const { return (_job); }

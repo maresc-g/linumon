@@ -104,7 +104,7 @@ void			PlayerSprite::moveUp(float px, sf::View *view)
       _deltaPos.y -= CASE_SIZE;
       if (!_receivedInput)
 	{
-	  _dir = NONE;
+	  _dir = END_MOVE;
 	  move(0, _deltaPos.y);
 	  view->move(0, _deltaPos.y);
 	  _deltaPos.y = 0;
@@ -133,7 +133,7 @@ void			PlayerSprite::moveDown(float px, sf::View *view)
       _deltaPos.y -= CASE_SIZE;
       if (!_receivedInput)
 	{
-	  _dir = NONE;
+	  _dir = END_MOVE;
 	  move(0, -_deltaPos.y);
 	  view->move(0, -_deltaPos.y);
 	  _deltaPos.y = 0;
@@ -147,7 +147,8 @@ void			PlayerSprite::moveDown(float px, sf::View *view)
 void			PlayerSprite::moveLeft(float px, sf::View *view)
 {
   play("left");
-  if (view) view->move(-px, 0);
+  // if (view && _pos.x > 15)
+  view->move(-px, 0);
   move(-px,0);
   _deltaPos.y += px;
   if (_deltaPos.y <= CASE_SIZE - 10 && !_receivedInput)
@@ -158,15 +159,18 @@ void			PlayerSprite::moveLeft(float px, sf::View *view)
     _isInputable = false;
   if (_deltaPos.y >= CASE_SIZE)
     {
+      std::cout << "View center : "  << view->getCenter().x << std::endl;
       _pos.x -= 1;
       _deltaPos.y -= CASE_SIZE;
       if (!_receivedInput)
 	{
-	  _dir = NONE;
+	  _dir = END_MOVE;
 	  move(_deltaPos.y, 0);
-	  view->move(_deltaPos.y,0);
+	  // if (_pos.x >= 15)
+	    view->move(_deltaPos.y,0);
 	  _deltaPos.y = 0;
 	  play("default_left");
+	  std::cout << "View center at stop : "  << view->getCenter().x << std::endl;
 	}
       _receivedInput = false;
       _isInputable = true;
@@ -176,7 +180,9 @@ void			PlayerSprite::moveLeft(float px, sf::View *view)
 void			PlayerSprite::moveRight(float px, sf::View *view)
 {
   play("right");
-  if (view) view->move(px, 0);
+  if (view // && _pos.x >= 15
+      )
+    view->move(px, 0);
   move(px,0);
   _deltaPos.y += px;
   if (_deltaPos.y <= CASE_SIZE - 10 && !_receivedInput)
@@ -187,15 +193,23 @@ void			PlayerSprite::moveRight(float px, sf::View *view)
     _isInputable = false;
   if (_deltaPos.y >= CASE_SIZE)
     {
+
+      // NEED TO FIX DECAL
+
+
+      std::cout << _deltaPos.y << std::endl;
+      std::cout << "View center : "  << view->getCenter().x << std::endl;
       _pos.x += 1;
       _deltaPos.y -= CASE_SIZE;
       if (!_receivedInput)
 	{
 	  _dir = END_MOVE;
 	  move(-_deltaPos.y, 0);
-	  view->move(-_deltaPos.y,0);
+	  // if (_pos.x > 15)
+	    view->move(-_deltaPos.y,0);
 	  _deltaPos.y = 0;
 	  play("default_right");
+	  std::cout << "View center at stop : "  << view->getCenter().x << std::endl;
 	}
       _receivedInput = false;
       _isInputable = true;
@@ -210,16 +224,19 @@ void			PlayerSprite::moveFromServer(sf::View *v)
 	{
 	  setPosition(Map::getInstance()->getPlayerById(_playerId)->getX() * CASE_SIZE,
 		      Map::getInstance()->getPlayerById(_playerId)->getY() * CASE_SIZE - getCurrentBound()->height / 2 + 4);
-	  if (v){
+	  if (v) {
 	    v->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
 	    v->move(Map::getInstance()->getPlayerById(_playerId)->getX() * CASE_SIZE - WIN_W / 2,
 		    Map::getInstance()->getPlayerById(_playerId)->getY() * CASE_SIZE - WIN_H / 2);
 	    _pos.x = Map::getInstance()->getPlayerById(_playerId)->getX();
 	    _pos.y = Map::getInstance()->getPlayerById(_playerId)->getY();
+	    // if (_pos.x <= 15)
+	    //   v->move((15 - _pos.x * CASE_SIZE),
+	    // 	       0);
 	    std::cout << "NEW POS X AFTER MAGIC TP : "  << _pos.x << std::endl;
+	    std::cout << "WADAFAK WITH POS ?" << std::endl;
 	  }
 	}
-	std::cout << "WADAFAK WITH POS ?" << std::endl;
       _dir = NONE;
     }
   if (_dir == NONE || _dir == WAITING)

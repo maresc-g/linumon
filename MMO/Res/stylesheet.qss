@@ -1,3 +1,8 @@
+QLabel
+{
+	color:black;
+}
+
 LoginView
 {
 	border-image:url(./Res/backgroundLogin.png);
@@ -116,7 +121,7 @@ SpellBarView
 InventoryView
 {
 	border:2px solid black;
-	background-color: #505050;
+	border-image:url(./Res/inventory.png);
 }
 
 StuffView
@@ -132,33 +137,39 @@ ChatView
 
 MenuView
 {
-	border-image:url(./Res/base.png);
+	border-image:url(./Res/menu.png);
 }
 
 MenuView QPushButton#bLogout
 {
-	border-image:url(./Res/button3.png);
+	border-image:url(./Res/menu_logout.png);
 }
 
 MenuView QPushButton#bSwitch
 {
-	border-image:url(./Res/button2.png);
+	border-image:url(./Res/menu_changeCharactere.png);
 }
 
 MenuView QPushButton#bQuit
 {
-	border-image:url(./Res/button4.png);
+	border-image:url(./Res/menu_quitGame.png);
 }
 
 MenuView QPushButton#bReturn
 {
-	border-image:url(./Res/button1.png);
+	border-image:url(./Res/menu_return.png);
 }
 
 ItemView QLabel
 {
 	background-color: #FFFFFF;
 }
+
+ItemView
+{
+	border-image:url(./Res/inventory_case.png);
+}
+
 
 JobMenuView
 {
