@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:53:29 2014 laurent ansel
-// Last update Thu Feb 27 16:16:30 2014 laurent ansel
+// Last update Fri Feb 28 12:35:32 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -95,10 +95,8 @@ std::list<Craft *> const	&JobModel::getCrafts() const
 Craft const			*JobModel::getCraft(std::string const &name) const
 {
   for (auto it = _crafts->begin() ; it != _crafts->end() ; ++it)
-    {
-      if ((*it)->getName() == name)
-	return (*it);
-    }
+    if ((*it)->getName() == name)
+      return (*it);
   return (NULL);
 }
 
@@ -139,7 +137,7 @@ bool				JobModel::serialization(Trame &trame) const
   trame["NAME"] = this->getName();
   for (auto it = this->_crafts->begin() ; it != this->_crafts->end() && ret; ++it)
     {
-      str << "CRAFT" << nb;
+      str << nb;
       ret = (*it)->serialization(trame(trame["CRAFTS"][str.str()]));
       str.str("");
       nb++;
@@ -148,7 +146,7 @@ bool				JobModel::serialization(Trame &trame) const
   nb = 0;
   for (auto it = this->_gather.begin() ; it != this->_gather.end() && ret; ++it)
     {
-      str << "GATHER" << nb;
+      str << nb;
       ret = (*it)->serialization(trame(trame["GATHER"][str.str()]));
       str.str("");
       nb++;
@@ -170,6 +168,7 @@ JobModel			*JobModel::deserialization(Trame const &trame)
       jobModel->setName(trame["JOBMODEL"]["NAME"].asString());
       crafts = new std::list<Craft *>;
       ressources = new std::list<Ressource *>;
+      std::cout << "NAME = " << jobModel->getName() << std::endl;
 
       auto			membersCraft = trame["JOBMODEL"]["CRAFTS"].getMemberNames();
       auto			membersGather = trame["JOBMODEL"]["GATHER"].getMemberNames();

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Wed Feb 26 13:36:45 2014 antoine maitre
+// Last update Fri Feb 28 11:45:38 2014 laurent ansel
 //
 
 #include		"Zone/Case.hh"
@@ -113,7 +113,7 @@ void			Case::deserialization(Trame const &trame)
 	  player->setZone((trame[std::to_string(i)]["PLAYER"]["ZONE"].asString()));
 	  this->_entities->push_back(player);
 	}
-      else if (trame[std::to_string(i)].isMember("RESSOURCE"))
+      else if (trame[std::to_string(i)]["ENTITYTYPE"] == AEntity::eEntity::RESSOURCE)
 	this->_entities->push_back(Ressource::deserialization(trame(trame[std::to_string(i)])));
       else
 	this->_entities->push_back(PNJ::deserialization(trame(trame[std::to_string(i)])));
