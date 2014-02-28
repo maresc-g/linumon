@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 13:41:58 2013 cyril jourdain
-// Last update Wed Feb 26 23:07:10 2014 cyril jourdain
+// Last update Fri Feb 28 11:23:40 2014 cyril jourdain
 //
 
 #ifndef 		__QSFMLWIDGET_HPP__
@@ -38,6 +38,7 @@ private:
   virtual QPaintEngine  *paintEngine() const;
   virtual void          showEvent(QShowEvent *);
   virtual void          paintEvent(QPaintEvent *);
+  virtual void		mousePressEvent(QMouseEvent *) {};
   bool			eventFilter(QObject *w, QEvent *e);
 };
 

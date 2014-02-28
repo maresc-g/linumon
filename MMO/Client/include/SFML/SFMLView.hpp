@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Wed Feb 26 16:53:37 2014 cyril jourdain
+// Last update Fri Feb 28 11:23:06 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -108,6 +108,7 @@ private:
   void				keyEscape();
   void				keyReturn();
   void				keyControl();
+  virtual void		        mousePressEvent(QMouseEvent *);
 };
 
 #endif

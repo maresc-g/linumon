@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 13:44:43 2013 cyril jourdain
-// Last update Wed Feb 26 23:17:26 2014 cyril jourdain
+// Last update Thu Feb 27 10:43:18 2014 cyril jourdain
 //
 
 #include		"Qt/QSFMLWidget.hpp"
@@ -16,8 +16,7 @@
 
 QSFMLWidget::QSFMLWidget(QWidget *parent, QPoint const &position, QSize const &size,
 			 unsigned int frameTime) :
-  QWidget(parent), sf::RenderWindow(), _timer(new QTimer), _initialized(false),
-  _mainView(new sf::View(sf::FloatRect(0,0, WIN_W, WIN_H)))
+  QWidget(parent), sf::RenderWindow(), _timer(new QTimer), _mainView(new sf::View(sf::FloatRect(0,0, WIN_W, WIN_H))), _initialized(false)
 {
   setAttribute(Qt::WA_PaintOnScreen);
   setAttribute(Qt::WA_OpaquePaintEvent);
