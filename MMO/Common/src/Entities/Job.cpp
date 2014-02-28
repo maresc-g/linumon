@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Fri Feb 28 11:23:16 2014 laurent ansel
+// Last update Fri Feb 28 13:35:51 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -130,7 +130,7 @@ bool				Job::serialization(Trame &trame) const
   bool				ret = true;
 
   this->_level.serialization(trame);
-  this->_jobModel->serialization(trame(trame["JOBMODEL"]));
+  this->_jobModel->serialization(trame(trame["MOD"]));
   trame["EXP"] = this->_currentExp;
   return (ret);
 }

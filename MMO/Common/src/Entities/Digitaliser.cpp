@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Fri Feb 21 13:48:19 2014 laurent ansel
+// Last update Fri Feb 28 13:17:14 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -113,7 +113,7 @@ bool				Digitaliser::serialization(Trame &trame) const
   trame["DIGITALISER"];
   for (auto it = this->_mobs.begin() ; it != this->_mobs.end() && ret; ++it)
     {
-      str << "MOB" << nb;
+      str << nb;
       ret = (*it)->serialization(trame(trame["DIGITALISER"]["LIST"][str.str()]));
       str.str("");
       nb++;
@@ -121,7 +121,7 @@ bool				Digitaliser::serialization(Trame &trame) const
   nb = 0;
   for (auto it = this->_battleMobs.begin() ; it != this->_battleMobs.end() && ret; ++it)
     {
-      str << "MOB" << nb;
+      str << nb;
       ret = (*it)->serialization(trame(trame["DIGITALISER"]["BATTLE"][str.str()]));
       str.str("");
       nb++;

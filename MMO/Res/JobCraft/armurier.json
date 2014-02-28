@@ -2,29 +2,29 @@
     "1" :
     {
 	"NAME" : "Plastron Bouftou",
-	"LEVEL" :
+	"LVL" :
 	{
 	    "LVL" : 1,
 	    "EXP" : 50
 	},
-	"RESULT" :
+	"RES" :
 	{
 	    "NAME" : "Plastron Bouftou",
 	    "TYPE" : 1,
-	    "STUFFTYPE" : 1
+	    "ST" : 1
 	},
-	"INGREDIENTS" :
+	"INGS" :
 	{
-	    "ITEM0" :
+	    "0" :
 	    {
-		"ENTITYTYPE":1,
+		"EN":1,
 		"NAME":"Orchidee",
 		"TYPE":2,
 		"NB" : 1
 	    },
-	    "ITEM1" :
+	    "1" :
 	    {
-		"ENTITYTYPE":1,
+		"EN":1,
 		"NAME":"Peau de bouftou",
 		"TYPE":2,
 		"NB" : 3

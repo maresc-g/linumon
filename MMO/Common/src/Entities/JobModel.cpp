@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:53:29 2014 laurent ansel
-// Last update Fri Feb 28 12:35:32 2014 laurent ansel
+// Last update Fri Feb 28 13:35:38 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -132,13 +132,13 @@ bool				JobModel::serialization(Trame &trame) const
   int				nb = 0;
   std::ostringstream		str;
 
-  trame["CRAFTS"];
-  trame["GATHER"];
+  trame["CRS"];
+  trame["GR"];
   trame["NAME"] = this->getName();
   for (auto it = this->_crafts->begin() ; it != this->_crafts->end() && ret; ++it)
     {
       str << nb;
-      ret = (*it)->serialization(trame(trame["CRAFTS"][str.str()]));
+      ret = (*it)->serialization(trame(trame["CRS"][str.str()]));
       str.str("");
       nb++;
     }
@@ -147,7 +147,7 @@ bool				JobModel::serialization(Trame &trame) const
   for (auto it = this->_gather.begin() ; it != this->_gather.end() && ret; ++it)
     {
       str << nb;
-      ret = (*it)->serialization(trame(trame["GATHER"][str.str()]));
+      ret = (*it)->serialization(trame(trame["GR"][str.str()]));
       str.str("");
       nb++;
     }
@@ -162,27 +162,27 @@ JobModel			*JobModel::deserialization(Trame const &trame)
   Craft				*craft;
   Ressource			*ressource;
 
-  if (trame.isMember("JOBMODEL"))
+  if (trame.isMember("MOD"))
     {
       jobModel = new JobModel;
-      jobModel->setName(trame["JOBMODEL"]["NAME"].asString());
+      jobModel->setName(trame["MOD"]["NAME"].asString());
       crafts = new std::list<Craft *>;
       ressources = new std::list<Ressource *>;
       std::cout << "NAME = " << jobModel->getName() << std::endl;
 
-      auto			membersCraft = trame["JOBMODEL"]["CRAFTS"].getMemberNames();
-      auto			membersGather = trame["JOBMODEL"]["GATHER"].getMemberNames();
+      auto			membersCraft = trame["MOD"]["CRS"].getMemberNames();
+      auto			membersGather = trame["MOD"]["GR"].getMemberNames();
 
       for (auto it = membersCraft.begin() ; it != membersCraft.end() ; ++it)
 	{
-	  craft = Craft::deserialization(trame(trame["JOBMODEL"]["CRAFTS"][*it]));
+	  craft = Craft::deserialization(trame(trame["MOD"]["CRS"][*it]));
 	  if (craft)
 	    crafts->push_back(craft);
 	}
 
       for (auto it = membersGather.begin() ; it != membersGather.end() ; ++it)
 	{
-	  ressource = Ressource::deserialization(trame(trame["JOBMODEL"]["GATHER"][*it]));
+	  ressource = Ressource::deserialization(trame(trame["MOD"]["GR"][*it]));
 	  if (ressource)
 	    ressources->push_back(ressource);
 	}

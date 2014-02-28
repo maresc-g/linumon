@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Wed Feb 26 01:08:48 2014 alexis mestag
+// Last update Fri Feb 28 13:12:10 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -167,10 +167,15 @@ void				Stats::deleteStats()
 bool				Stats::serialization(Trame &trame) const
 {
   bool				ret = true;
+  std::ostringstream		str;
+  unsigned int			nb = 0;
 
   for (auto it = this->_stats.begin() ; it != this->_stats.end() ; ++it)
     {
-      (*it)->serialization(trame);
+      str << nb;
+      (*it)->serialization(trame(trame[str.str()]));
+      str.str("");
+      nb++;
     }
   return (ret);
 }
