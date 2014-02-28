@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:27:32 2014 laurent ansel
-// Last update Thu Feb 27 16:14:04 2014 laurent ansel
+// Last update Fri Feb 28 15:09:53 2014 laurent ansel
 //
 
 #ifndef 		__CRAFT_HH__

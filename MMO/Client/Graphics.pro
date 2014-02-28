@@ -120,6 +120,7 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/PNJ.cpp \ 
                 ../Common/src/Entities/Spell.cpp \ 
                 ../Common/src/Entities/Level.cpp \ 
+                ../Common/src/Entities/Gather.cpp \ 
                 ../Common/src/Entities/Digitaliser.cpp \ 
                 ../Common/src/Entities/Mob.cpp \ 
                 ../Common/src/Entities/Jobs.cpp \ 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:21:21 2014 laurent ansel
-// Last update Thu Feb 27 14:15:42 2014 laurent ansel
+// Last update Fri Feb 28 15:09:32 2014 laurent ansel
 //
 
 #ifndef 		__JOBMODEL_HH__
@@ -14,6 +14,7 @@
 #include		"Utility/ISerialization.hh"
 #include		"Utility/Nameable.hh"
 #include		"Entities/Craft.hh"
+#include		"Entities/Gather.hh"
 #include		"Entities/Ressource.hh"
 
 class			JobModel : public Persistent, public Nameable, public ISerialization
@@ -23,12 +24,12 @@ class			JobModel : public Persistent, public Nameable, public ISerialization
 private:
   std::string		_path;
   std::list<Craft *>	*_crafts;
-  std::list<Ressource *>	_gather;
+  std::list<Gather>	_gather;
 
   JobModel();
 
   void			setCrafts(std::list<Craft *> const &crafts);
-  void			setGather(std::list<Ressource *> const &gather);
+  void			setGather(std::list<Gather> const &gather);
 
 public:
   JobModel(JobModel const &rhs);
@@ -41,7 +42,7 @@ public:
 
   std::list<Craft *> const	&getCrafts() const;
   Craft const			*getCraft(std::string const &name) const;
-  std::list<Ressource *> const	&getGather() const;
+  std::list<Gather> const	&getGather() const;
 
   std::string const	&getPath() const;
   void			setPath(std::string const &path);
