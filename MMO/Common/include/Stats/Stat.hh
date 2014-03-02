@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:00:16 2013 alexis mestag
-// Last update Tue Feb 25 23:13:03 2014 alexis mestag
+// Last update Fri Feb 28 16:00:11 2014 alexis mestag
 //
 
 #ifndef			__STAT_HH__
@@ -20,7 +20,7 @@ class			Stat : public Persistent, public ISerialization
   friend class		odb::access;
 
 public:
-  typedef int		value_type;
+  typedef unsigned int	value_type;
 
 private:
   StatKey const		*_key;
@@ -35,6 +35,15 @@ public:
   virtual ~Stat();
 
   Stat			&operator=(Stat const &rhs);
+  bool			operator==(Stat const &rhs) const;
+  bool			operator!=(Stat const &rhs) const;
+
+  void			add(Stat const &rhs);
+  void			sub(Stat const &rhs);
+  Stat			operator+(Stat const &rhs) const;
+  Stat			operator-(Stat const &rhs) const;
+  Stat			&operator+=(Stat const &rhs);
+  Stat			&operator-=(Stat const &rhs);
 
   StatKey const		&getKey() const;
   void			setKey(StatKey const &key);

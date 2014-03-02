@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Wed Feb 26 01:08:48 2014 alexis mestag
+// Last update Fri Feb 28 16:03:32 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -45,6 +45,42 @@ Stat::value_type		Stats::operator[](StatKey const &key) const
 Stat::value_type		Stats::operator[](std::string const &key) const
 {
   return (this->getStat(key));
+}
+
+void				Stats::add(Stats const &rhs)
+{
+  Stat const			*rhsStat;
+  Stat				*stat;
+
+  for (auto it = _stats.begin() ; it != _stats.end() ; ++it) {
+    rhsStat = *it;
+    stat = this->get(rhsStat->getKey());
+    if (stat)
+      *stat += *rhsStat;
+    else
+      this->setStat(rhsStat->getKey(), rhsStat->getValue(), true);
+  }
+}
+
+Stats				&Stats::operator+=(Stats const &rhs)
+{
+  this->add(rhs);
+  return (*this);
+}
+
+void				Stats::sub()
+{
+  Stat const			*rhsStat;
+  Stat				*stat;
+
+  for (auto it = _stats.begin() ; it != _stats.end() ; ++it) {
+    rhsStat = *it;
+    stat = this->get(rhsStat->getKey());
+    if (stat)
+      ;
+    else
+      ;
+  }
 }
 
 Stats::container_type		&Stats::getStatsDeepCopy() const
