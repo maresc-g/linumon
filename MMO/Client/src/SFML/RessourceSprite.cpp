@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Feb 26 14:58:57 2014 cyril jourdain
-// Last update Wed Feb 26 15:10:18 2014 cyril jourdain
+// Last update Fri Feb 28 19:49:36 2014 cyril jourdain
 //
 
 #include		"SFML/RessourceSprite.hh"
@@ -32,4 +32,20 @@ void		RessourceSprite::draw(sf::RenderTarget &target, sf::RenderStates states) c
     }
   }
   Map::getInstance()->unlock();
+}
+
+void		RessourceSprite::onClick()
+{
+  std::cout << "Ressource Clicked" << std::endl;
+}
+
+bool		RessourceSprite::isVisible()
+{
+  Map::getInstance()->lock();
+  if (_resPtr && _resPtr->isVisible()){
+    Map::getInstance()->unlock();
+    return true;
+  }
+  Map::getInstance()->unlock();
+  return false;
 }
