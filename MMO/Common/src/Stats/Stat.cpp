@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:08:36 2013 alexis mestag
-// Last update Tue Feb 25 15:20:59 2014 alexis mestag
+// Last update Fri Feb 28 13:04:27 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -72,11 +72,9 @@ bool				Stat::isShortLived() const
 bool		 		Stat::serialization(Trame &trame) const
 {
   bool				ret = true;
-  std::ostringstream		str;
 
-  str << "STAT" << this->getKey().getName();
-  trame[str.str()]["KEY"] = this->getKey().getName();
-  trame[str.str()]["VALUE"] = this->getValue();
+  trame["KEY"] = this->getKey().getName();
+  trame["VALUE"] = this->getValue();
   return (ret);
 }
 

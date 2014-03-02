@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 14:51:25 2014 alexis mestag
-// Last update Mon Feb 10 14:52:09 2014 laurent ansel
+// Last update Fri Feb 28 13:49:06 2014 laurent ansel
 //
 
 #include			"Stats/Talent.hh"
@@ -61,7 +61,7 @@ bool				Talent::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  trame[this->_model->getName()]["CURRENTPTS"] = this->_currentPoints;
+  trame[this->_model->getName()]["PTS"] = this->_currentPoints;
   this->_model->serialization(trame(trame[this->_model->getName()]));
   return (ret);
 }
@@ -75,8 +75,8 @@ Talent				*Talent::deserialization(Trame const &trame)
   for (auto it = members.begin() ; it != members.end() ; ++it)
     {
       model = NULL;
-      if ((*it) == "CURRENTPTS")
-	talent->setCurrentPoints(trame["TALENT"]["CURRENTPTS"].asInt());
+      if ((*it) == "PTS")
+	talent->setCurrentPoints(trame["TALENT"][*it]["PTS"].asInt());
       else
 	{
 	  model = TalentModel::deserialization(trame(trame["TALENT"][*it]));

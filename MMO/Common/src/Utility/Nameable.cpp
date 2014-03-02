@@ -5,15 +5,15 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Dec  2 16:49:14 2013 alexis mestag
-// Last update Tue Dec  3 10:57:20 2013 alexis mestag
+// Last update Fri Feb 28 15:42:01 2014 laurent ansel
 //
 
+#include			<iostream>
 #include			"Utility/Nameable.hh"
 
 Nameable::Nameable(std::string const &name) :
   _name(name)
 {
-
 }
 
 Nameable::Nameable(Nameable const &rhs)

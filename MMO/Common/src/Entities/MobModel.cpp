@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:39:45 2014 alexis mestag
-// Last update Tue Feb 25 15:15:44 2014 laurent ansel
+// Last update Fri Feb 28 13:28:34 2014 laurent ansel
 //
 
 #include			"Entities/MobModel.hh"
@@ -60,9 +60,9 @@ bool				MobModel::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  this->getType().serialization(trame(trame["MOBMODEL"]));
-  this->getStats().serialization(trame(trame["MOBMODEL"]["STATS"]));
-  this->getSpells().serialization(trame(trame["MOBMODEL"]));
+  this->getType().serialization(trame(trame["MOD"]));
+  this->getStats().serialization(trame(trame["MOD"]["STATS"]));
+  this->getSpells().serialization(trame(trame["MOD"]));
   return (ret);
 }
 
@@ -70,12 +70,12 @@ MobModel			*MobModel::deserialization(Trame const &trame)
 {
   MobModel			*model = NULL;
 
-  if (trame.isMember("MOBMODEL"))
+  if (trame.isMember("MOD"))
     {
       model = new MobModel;
-      model->setType(*Type::deserialization(trame(trame["MOBMODEL"])));
-      model->setSpells(*Spells::deserialization(trame(trame["MOBMODEL"])));
-      model->setStats(*Stats::deserialization(trame(trame["MOBMODEL"])));
+      model->setType(*Type::deserialization(trame(trame["MOD"])));
+      model->setSpells(*Spells::deserialization(trame(trame["MOD"])));
+      model->setStats(*Stats::deserialization(trame(trame["MOD"])));
     }
   return (model);
 }
