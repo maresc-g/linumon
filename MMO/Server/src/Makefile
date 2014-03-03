@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Thu Nov 28 19:36:25 2013 laurent ansel
-## Last update Tue Feb 25 14:28:09 2014 laurent ansel
+## Last update Sun Mar  2 22:33:09 2014 antoine maitre
 ##
 
 SOURCESERVER=		$(SERVER_SRC)/Server
@@ -18,6 +18,7 @@ TRADE=			$(SERVER_SRC)/Trade
 GAMEPROTOCOL=		$(SERVER_SRC)/GameProtocol
 RESSOURCEMANAGER=	$(SERVER_SRC)/RessourceManager
 PNJMANAGER=		$(SERVER_SRC)/PNJManager
+AI=			$(SERVER_SRC)/AI
 
 include			$(SOURCESERVER)/Makefile
 include			$(CODEBREAKER)/Makefile
@@ -29,3 +30,4 @@ include			$(GAMEPROTOCOL)/Makefile
 include			$(TRADE)/Makefile
 include			$(RESSOURCEMANAGER)/Makefile
 include			$(PNJMANAGER)/Makefile
+include			$(AI)/Makefile

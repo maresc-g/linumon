@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Fri Feb 28 15:15:45 2014 laurent ansel
+## Last update Sun Mar  2 20:43:30 2014 antoine maitre
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
@@ -48,6 +48,7 @@ ODB_ENTITIES+=		ACharacter.hh		\
 			AItem.hh		\
 			AStatEntity.hh		\
 			Consumable.hh		\
+			Craft.hh		\
 			DBZone.hh		\
 			Digitaliser.hh		\
 			Equipment.hh		\

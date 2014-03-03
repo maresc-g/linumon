@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Feb 27 14:48:17 2014 laurent ansel
+// Last update Mon Mar  3 04:03:56 2014 antoine maitre
 //
 
 #ifndef			__PLAYER_HH__
@@ -44,7 +44,14 @@ public:
   typedef iCoordinate		PlayerCoordinate; // This one is kept for compatibility issues
   typedef PlayerCoordinate	Coordinate;
 
+  enum				PlayerType
+    {
+      PLAYER,
+      AI
+    };
+
 protected:
+  PlayerType			_type;
   Digitaliser			_digitaliser;
 private:
   PlayerCoordinate		*_coord; //1
@@ -84,6 +91,8 @@ public:
   PlayerCoordinate const	&getCoord() const;
   PlayerCoordinate::type const	&getX() const;
   PlayerCoordinate::type const	&getY() const;
+  void				setType(Player::PlayerType const type);
+  Player::PlayerType		getType() const;
   void				setCoord(PlayerCoordinate const &coord);
   void				setCoord(PlayerCoordinate::type const &x,  // Keep calm :
 					 PlayerCoordinate::type const &y); // these are just integers
@@ -121,6 +130,8 @@ public:
   void				capture(Mob const &mob);
 
   Mob const			&getMob(unsigned int const id);
+  
+  bool				isMyMob(unsigned int const id);
 
   void				deleteItem(unsigned int const item);
   void				addItem(AItem *item);

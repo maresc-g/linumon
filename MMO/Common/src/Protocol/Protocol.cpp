@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Feb 28 12:58:51 2014 laurent ansel
+// Last update Mon Mar  3 01:57:21 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -46,7 +46,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int>("REFUSE", &refuse);
 
       this->_container->load<unsigned int, unsigned int, Player const *>("LAUNCHBATTLE", &launchBattle);
-      this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
+      this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int, unsigned int>("SPELL", &spell);
       this->_container->load<unsigned int, unsigned int, int, unsigned int>("SPELLEFFECT", &spellEffect);
       this->_container->load<unsigned int, unsigned int, bool>("CAPTUREEFFECT", &captureEffect);
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
