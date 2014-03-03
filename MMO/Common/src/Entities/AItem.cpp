@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:18:02 2013 alexis mestag
-// Last update Fri Feb 28 11:38:54 2014 laurent ansel
+// Last update Fri Feb 28 15:38:56 2014 laurent ansel
 //
 
 #include			"Entities/AItem.hh"
@@ -17,7 +17,6 @@ AItem::AItem() :
   AEntity("", eEntity::ITEM),
   _itemType(eItem::NONE)
 {
-
 }
 
 AItem::AItem(std::string const &name, AItem::eItem const type) :

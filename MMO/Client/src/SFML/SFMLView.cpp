@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Feb 28 14:56:59 2014 guillaume marescaux
+// Last update Mon Mar  3 10:40:45 2014 guillaume marescaux
 //
 
 /*
@@ -33,7 +33,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _spellBar(new SpellBarView(this, w)),
   _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
   _chat(new ChatView(this, w)), _menu(new MenuView(this, w)), _jobMenu(new JobMenuView(this, w)),
-  _job(new JobView(this, w)), _digit(new DigitaliserView(this, w))
+  _job(new JobView(this, w)), _digit(new DigitaliserView(this, w)), _clickView(new PlayerClickView(this, w))
 {
   _textureTest = new sf::Texture();
   _textureTest->loadFromFile("./Res/test.png");
@@ -43,6 +43,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _stuff->hide();
   _inventory->hide();
   _jobMenu->hide();
+  _clickView->hide();
   _job->move(300, 100);
   _job->hide();
   _menu->move(WIN_W / 2 - _menu->size().width() / 2, WIN_H / 2 - _menu->size().height() / 2);
@@ -268,6 +269,8 @@ void			SFMLView::loadMap()
 	  // 	    _entities->back()->play("default");
 	  // 	    _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
 	  // 					   static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
+	  // _entities->back()->setPos(static_cast<Ressource*>(*it)->getX(),
+ 	  // 					   static_cast<Ressource*>(*it)->getY());
 	  // 	  }
 	  // 	}
 	  //   }
@@ -459,8 +462,36 @@ void			SFMLView::mousePressEvent(QMouseEvent *event)
 {
   std::cout << event->x() << "/" << event->y() << std::endl;
   sf::Vector2f	v = mapPixelToCoords(sf::Vector2i(event->x(), event->y()));
-
   std::cout << "View pos : " << v.x << "/" << v.y << std::endl;
+
+  _clickView->hide();
+
+  if (_mainPerso->isClicked(v.x, v.y))
+    {
+      _mainPerso->onClick();
+      _clickView->move(event->x(), event->y());
+      _clickView->show();
+    }
+  for (auto it = _playerList->begin(); it != _playerList->end(); it++)
+    {
+      if ((*it)->getPlayerId() != _mainPerso->getPlayerId())
+	{
+	  if ((*it)->isClicked(v.x, v.y))
+	    {
+	      _clickView->move(event->x(), event->y());
+	      _clickView->show();
+	      (*it)->onClick();
+	    }
+	}
+    }
+  for (auto it = _entities->begin(); it != _entities->end(); it++)
+    {
+      if ((*it)->isVisible())
+  	{
+  	  if ((*it)->isClicked(v.x, v.y))
+  	    (*it)->onClick();
+  	}
+    }
 }
 
 JobView			*SFMLView::getJobView(void) const { return (_job); }

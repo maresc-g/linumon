@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 13:38:44 2014 cyril jourdain
-// Last update Sun Feb 16 03:41:07 2014 cyril jourdain
+// Last update Fri Feb 28 18:52:59 2014 cyril jourdain
 //
 
 #ifndef 		__SPRITE_HH__
@@ -16,8 +16,9 @@
 #include		<map>
 #include		<iostream>
 #include		"SFML/Sprite/Animation.hh"
+#include		"SFML/Clickable.hh"
 
-class			Sprite : public sf::Drawable, public sf::Transformable
+class			Sprite : public sf::Drawable, public sf::Transformable, public Clickable
 {
 
 protected /* attributs */:
@@ -38,6 +39,8 @@ public /* class specific */ :
 public /* inherited functions */ :
   virtual void		draw(sf::RenderTarget &, sf::RenderStates) const;
   virtual void		update(sf::Clock &);
+  virtual bool		isClicked(float const x, float const y) const;
+  virtual void		onClick();
 
 public /* methods */ :
   void			setTexture(sf::Texture *);
@@ -49,7 +52,7 @@ public /* methods */ :
   void			pause();
   void			print();
   std::string		getLastPlayed();
-  sf::IntRect		*getCurrentBound();
+  sf::IntRect		*getCurrentBound() const;
 };
 
 #endif

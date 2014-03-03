@@ -31,12 +31,14 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Qt/Views/CraftView.hh \
                 include/Qt/Views/DigitaliserView.hh \
                 include/Qt/Views/MobView.hh \
+                include/Qt/Views/PlayerClickView.hh \
                 include/Qt/WindowManager.hh \
                 include/Qt/CharDescription/CharDescription.hh \
                 include/SFML/SFMLView.hpp \
                 include/SFML/PlayerSprite.hh \
                 include/SFML/OPlayerSprite.hh \
                 include/SFML/RessourceSprite.hh \
+                include/SFML/Clickable.hh \
                 include/SFML/GraphicEntities.hh \
                 include/SFML/KeyDelayer.hh \
                 include/SFML/Sprite/Sprite.hh \
@@ -65,12 +67,14 @@ SOURCES +=      src/main.cpp \
                 src/Qt/Views/CraftView.cpp \
                 src/Qt/Views/DigitaliserView.cpp \
                 src/Qt/Views/MobView.cpp \
+                src/Qt/Views/PlayerClickView.cpp \
                 src/Qt/WindowManager.cpp \
                 src/Qt/CharDescription.cpp \
                 src/SFML/SFMLView.cpp \
                 src/SFML/PlayerSprite.cpp \
                 src/SFML/OPlayerSprite.cpp \
                 src/SFML/RessourceSprite.cpp \
+                src/SFML/Clickable.cpp \
                 src/SFML/KeyDelayer.cpp \
                 src/SFML/Sprite/Sprite.cpp \
                 src/SFML/Sprite/Animation.cpp \
@@ -124,6 +128,7 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/PNJ.cpp \ 
                 ../Common/src/Entities/Spell.cpp \ 
                 ../Common/src/Entities/Level.cpp \ 
+                ../Common/src/Entities/Gather.cpp \ 
                 ../Common/src/Entities/Digitaliser.cpp \ 
                 ../Common/src/Entities/Mob.cpp \ 
                 ../Common/src/Entities/Jobs.cpp \ 

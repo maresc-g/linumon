@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:40:15 2014 laurent ansel
-// Last update Fri Feb 28 13:33:00 2014 laurent ansel
+// Last update Fri Feb 28 15:44:24 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -76,17 +76,17 @@ bool				Craft::serialization(Trame &trame) const
   int				nb = 0;
   std::ostringstream		str;
 
-  trame/*["CRAFT"]*/["NAME"] = this->getName();
-  trame/*["CRAFT"]*/["INGS"];
-  this->_level.serialization(trame(trame/*["CRAFT"]*/));
-  this->_result->serialization(trame(trame/*["CRAFT"]*/["RES"]));
+  trame["NAME"] = this->getName();
+  trame["INGS"];
+  this->_level.serialization(trame(trame));
+  this->_result->serialization(trame(trame["RES"]));
   for (auto it = this->_ingredients.begin() ; it != this->_ingredients.end() && ret; ++it)
     {
       str <<  nb;
-      ret = it->first->serialization(trame(trame/*["CRAFT"]*/["INGS"][str.str()]));
-      trame/*["CRAFT"]*/["INGS"][str.str()]["NB"] = it->second;
-      trame/*["CRAFT"]*/["INGS"][str.str()].removeMember("COORDINATE");
-      trame/*["CRAFT"]*/["INGS"][str.str()].removeMember("VISIBLE");
+      ret = it->first->serialization(trame(trame["INGS"][str.str()]));
+      trame["INGS"][str.str()]["NB"] = it->second;
+      trame["INGS"][str.str()].removeMember("COORDINATE");
+      trame["INGS"][str.str()].removeMember("VIS");
       str.str("");
       nb++;
     }
@@ -99,21 +99,18 @@ Craft				*Craft::deserialization(Trame const &trame, bool const client)
   std::list<std::pair<AItem *, unsigned int> >		*ingredients;
   AItem				*item;
 
-  // if (trame.isMember("CRAFT"))
-  //   {
-      craft = new Craft;
-      craft->setName(trame/*["CRAFT"]*/["NAME"].asString());
-      craft->setLevel(*Level::deserialization(trame(trame/*["CRAFT"]*/)));
-      craft->setResult(*AItem::deserialization(trame(trame/*["CRAFT"]*/["RES"])));
-      ingredients = new std::list<std::pair<AItem *, unsigned int> >;
-      auto			members = trame/*["CRAFT"]*/["INGS"].getMemberNames();
+  craft = new Craft;
+  craft->setName(trame["NAME"].asString());
+  craft->setLevel(*Level::deserialization(trame(trame)));
+  craft->setResult(*AItem::deserialization(trame(trame["RES"]), client));
+  ingredients = new std::list<std::pair<AItem *, unsigned int> >;
+  auto			members = trame["INGS"].getMemberNames();
 
-      for (auto it = members.begin() ; it != members.end() ; ++it)
-	{
-	  if ((item = AItem::deserialization(trame(trame/*["CRAFT"]*/["INGS"][*it]), client)))
-	    ingredients->push_back(std::make_pair(item, trame/*["CRAFT"]*/["INGS"][*it]["NB"].asUInt()));
-	}
-      craft->setIngredients(*ingredients);
-    // }
+  for (auto it = members.begin() ; it != members.end() ; ++it)
+    {
+      if ((item = AItem::deserialization(trame(trame["INGS"][*it]), client)))
+	ingredients->push_back(std::make_pair(item, trame["INGS"][*it]["NB"].asUInt()));
+    }
+  craft->setIngredients(*ingredients);
   return (craft);
 }

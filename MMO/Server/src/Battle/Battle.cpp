@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Wed Feb 26 01:20:05 2014 alexis mestag
+// Last update Mon Mar  3 04:57:19 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -13,49 +13,32 @@
 
 Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, Player *player1, Player *player2)
   : _id(id), _type(type),
-    _mobNumber(mobNumber),
-    // _mobs1(),
-    // _mobs2(),
-    _player1(player1),
-    _player2(player2)
+    _mobNumber(mobNumber)
 {
-  static StatKey const			*speedKey = Database::getRepository<StatKey>().getByName("Speed");
-
-  std::cout << "a" << std::endl;
-  std::list<Mob *> const *tmp = &player1->getDigitaliser().getMobs();
-  Stats const *stats;
-
   int i = 0;
-  for (auto it = tmp->begin(); it != tmp->end() && i < mobNumber; it++)
-    {
-      this->_mobs1.push_back((*it));
-      stats = &(*it)->getStats();
-      this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats->getStat(*speedKey)));
-      i++;
-    }
-  std::cout << "b" << std::endl;
-  tmp = &player2->getDigitaliser().getMobs();
+
+  for (auto it = player1->getDigitaliser().getMobs().begin(); it != player1->getDigitaliser().getMobs().end() && i < mobNumber; it++)
+    this->_mobs.push_back((*it));
   i = 0;
-  for (auto it = tmp->begin(); it != tmp->end() && i < mobNumber; it++)
-    {
-      this->_mobs2.push_back((*it));
-      stats = &(*it)->getStats();
-      this->_order.push_back(std::tuple<int, int>((*it)->getId(), stats->getStat(*speedKey)));
-      i++;
-    }
-  std::cout << "c" << std::endl;
-  Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", _player2->getId(), id, _player1);
-  Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", _player1->getId(), id, _player2);
-  std::cout << "d" << std::endl;
-  this->_order.sort(compareSpeed);
+  for (auto it = player2->getDigitaliser().getMobs().begin(); it != player2->getDigitaliser().getMobs().end() && i < mobNumber; it++)
+    this->_mobs.push_back((*it));
+  if (player1->getType() == Player::PlayerType::PLAYER)
+    this->trameLaunchBattle(player1->getId(), player2);
+  if (player2->getType() == Player::PlayerType::PLAYER)
+    this->trameLaunchBattle(player2->getId(), player1);
+  this->_players.push_back(player1);
+  this->_players.push_back(player2);
+  this->_mobs.sort(compareSpeed);
   this->next();
 }
 
 Battle::~Battle()
 {
-  ClientManager::getInstance()->endBattle(this->_player1->getUser().getId());
-  if (this->_type == Battle::PVP)
-    ClientManager::getInstance()->endBattle(this->_player2->getUser().getId());
+  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+    {
+      if ((*it)->getType() == Player::PlayerType::PLAYER)
+	ClientManager::getInstance()->endBattle((*it)->getId());
+    }
 }
 
 unsigned int				Battle::getID() const
@@ -72,93 +55,67 @@ bool					Battle::checkEnd()
 {
   static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
   Stats const				*statMob;
-  int					i = 0;
+  int					i;
 
-  for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
+  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     {
-      statMob = &(*it)->getStats();
-      if (statMob->getStat(*hpKey) == 0)
-	i++;
+      i = 0;
+      for (auto itb = this->_mobs.begin(); itb != this->_mobs.end(); itb++)
+	{
+	  statMob = &(*it)->getStats();
+	  if ((*it)->isMyMob((*it)->getId()) && statMob->getStat(*hpKey) <= 0)
+	    i++;
+	  if (i == _mobNumber)
+	    return (true);
+	}
     }
-  if (i == 0)
-    return (true);
-  i = 0;
-  for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
-    {
-      statMob = &(*it)->getStats();
-      if (statMob->getStat(*hpKey) == 0)
-	i++;
-    }
-  if (i == 0)
-    return (true);
-  else
-    return (false);
+  return (false);
+
 }
 
 bool					Battle::spell(unsigned int const launcher, unsigned int const target, Spell *spell) //, int id_lanceur
 {
   static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
+  Mob					*mobLauncher;
+  Mob					*mobTarget;
+ 
+  for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
+    {
+      if ((*it)->getId() == launcher)
+	mobLauncher = (*it);
+      if ((*it)->getId() == target)
+	mobTarget = (*it);
+    }
+  if (mobLauncher && mobTarget)
+    {
+      (*spell)(*mobLauncher, *mobTarget);
+      for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+	if ((*it)->getType() == Player::PlayerType::PLAYER)
+	  {
+	    this->trameSpell((*it)->getId(), spell, launcher, target);
+	    this->trameSpellEffect((*it)->getId(), target, 10);
+	  } 
 
-  (void)launcher;
-  (void)spell;
-  for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
-    if ((*it)->getId() == target)
-      {
-	Stats statMob = (*it)->getStats();
-	statMob.setStat(*hpKey, statMob.getStat(*hpKey) - 10);
-	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player1->getId(), this->_id, 10, target);
-	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player2->getId(), this->_id, 10, target);
-	if (statMob.getStat(*hpKey) <= 0)
-	  {
-	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player2->getId(), this->_id, 10, target);
-	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player1->getId(), this->_id, 10, target);
-	  }
-      }
-  for (auto it = this->_mobs2.begin(); it != this->_mobs2.end(); it++)
-    if ((*it)->getId() == target)
-      {
-	Stats statMob = (*it)->getStats();
-	statMob.setStat(*hpKey, statMob.getStat(*hpKey) - 10);
-	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player1->getId(), this->_id, 10, target);
-	Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", this->_player2->getId(), this->_id, 10, target);
-	if (statMob.getStat(*hpKey) <= 0)
-	  {
-	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player2->getId(), this->_id, 10, target);
-	    Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("DEADMOB", this->_player1->getId(), this->_id, 10, target);
-	  }
-      }
+      Stats statMob = mobTarget->getStats();
+      if (statMob.getStat(*hpKey) <= 0)
+	for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+	  if ((*it)->getType() == Player::PlayerType::PLAYER)
+	    this->trameDeadMob((*it)->getId(), target);
+    }
   return (this->checkEnd());
 }
 
 bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
 {
-  for (auto it = this->_mobs1.begin(); it != this->_mobs1.end(); it++)
-    if ((*it)->getId() == target)
-      {
-	std::list<Mob *> const *tmp = &this->_player1->getDigitaliser().getMobs();
-	for (auto itb = tmp->begin(); itb != tmp->end(); itb++)
-	  if ((*itb)->getId() == newmob)
-	    {
-	      (*it) = (*itb);
-	      Server::getInstance()->callProtocol<unsigned int, unsigned int, unsigned int>("SWITCH", this->_player2->getId(), this->_id, target, newmob);
-	      return (true);
-	    }
-	return (false);
-      }
-  for (auto it = this->_mobs2.begin(); it != this->_mobs2.end(); it++)
-    if ((*it)->getId() == target)
-      {
-	std::list<Mob *> const *tmp = &this->_player2->getDigitaliser().getMobs();
-	for (auto itb = tmp->begin(); itb != tmp->end(); itb++)
-	  if ((*itb)->getId() == newmob)
-	    {
-	      (*it) = (*itb);
-	      Server::getInstance()->callProtocol<unsigned int, unsigned int, unsigned int>("SWITCH", this->_player1->getId(), this->_id, target, newmob);
-	      return (true);
-	    }
-	return (false);
-      }
-  return (false);
+  for (auto itMob = this->_mobs.begin(); itMob != this->_mobs.end(); itMob++)
+    if ((*itMob)->getId() == target)
+      for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+	if ((*it)->isMyMob((*itMob)->getId()))
+	  (*itMob) = (Mob *)(&(*it)->getMob(target));
+  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+    if ((*it)->getType() == Player::PlayerType::PLAYER)
+      this->trameSwitch((*it)->getId(), target, newmob);
+  return (this->checkEnd());
 }
 
 bool					Battle::capture(unsigned int const target)
@@ -166,33 +123,84 @@ bool					Battle::capture(unsigned int const target)
   if (this->_type == PVP)
     return (false);
   else
-    {
-      for (auto it = this->_mobs2.begin(); it != this->_mobs2.end(); it++)
-	{
-	  if ((*it)->getId() == target)
-	    {
-	      this->_player1->capture(*(*it));
-	      this->_mobs2.erase(it);
-	      delete *it;
-	      Server::getInstance()->callProtocol<unsigned int, bool>("CAPTUREEFFECT", this->_player1->getId(), this->_id, true);
-	      return (true);
-	    }
-	}
-      return (false);
-    }
+    for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
+      {
+	if ((*it)->getId() == target)
+	  {
+	    this->_players.front()->capture(*(*it));
+	    static_cast<AI *>(this->_players.back())->remove(target);
+	    this->_mobs.erase(it);
+	    this->trameCapture(this->_players.front()->getId(), target);
+	  }
+      }
+  return (this->checkEnd());
 }
 
 void					Battle::next()
 {
-  Server::getInstance()->callProtocol<unsigned int const, unsigned int const>("TURNTO", this->_player1->getId(), this->_id, std::get<0>(this->_order.front()));
-  auto tmp = this->_order.front();
-  this->_order.pop_front();
-  this->_order.push_back(tmp);
+  auto tmp = this->_mobs.front();
+  this->_mobs.pop_front();
+  this->_mobs.push_back(tmp);
+  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+    if ((*it)->isMyMob(tmp->getId()))
+      {
+	if ((*it)->getType() == Player::PlayerType::PLAYER)
+	  this->trameTurnTo((*it)->getId(), tmp->getId());
+	else
+	  {
+	    auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
+	    this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2));
+	  }
+      }
 }
 
-bool					compareSpeed(std::tuple<int, int> tuple1, std::tuple<int, int> tuple2)
+void					Battle::trameSpell(unsigned int const idPlayer,
+							   Spell const *spell,
+							   unsigned int const launcher,
+							   unsigned int const target) const
 {
-  if (std::get<1>(tuple1) < std::get<1>(tuple2))
+  Server::getInstance()->callProtocol<unsigned int, Spell const *, unsigned int, unsigned int>("SPELL", idPlayer, this->_id, spell, launcher, target);
+}
+
+void					Battle::trameSwitch(unsigned int const idPlayer, unsigned int const target, unsigned int const newmob) const
+{
+  Server::getInstance()->callProtocol<unsigned int, unsigned int, unsigned int>("SWITCH", idPlayer, this->_id, target, newmob);
+}
+
+void					Battle::trameSpellEffect(unsigned int const idPlayer,
+								 unsigned int const idMob, 
+								 int const hpChange) const
+{
+  Server::getInstance()->callProtocol<unsigned int, int, unsigned int>("SPELLEFFECT", idPlayer, this->_id, hpChange, idMob);
+}
+
+void					Battle::trameDeadMob(unsigned int const idPlayer, unsigned int const idMob) const
+{
+  Server::getInstance()->callProtocol<unsigned int, unsigned int>("DEADMOB", idPlayer, this->_id, idMob);
+}
+
+void					Battle::trameCapture(unsigned int const idPlayer, unsigned int const idMob) const
+{
+  Server::getInstance()->callProtocol<unsigned int, bool>("CAPTUREEFFECT", idPlayer, idMob, true);
+}
+
+void					Battle::trameLaunchBattle(unsigned int const idPlayer, Player *player) const
+{
+  Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", idPlayer, this->_id, player);
+}
+
+void					Battle::trameTurnTo(unsigned int const idPlayer, unsigned int const idMob) const
+{
+  Server::getInstance()->callProtocol<unsigned int, unsigned int>("TURNTO", idPlayer, this->_id, idMob);
+}
+
+bool					compareSpeed(Mob *mob1, Mob *mob2)
+{
+  static StatKey const			*speedKey = Database::getRepository<StatKey>().getByName("Speed");
+  int speed1 = mob1->getStats().getStat(*speedKey);
+  int speed2 = mob2->getStats().getStat(*speedKey);
+
+  if (speed1 < speed2)
     return (true);
   else
     return (false);

@@ -376,6 +376,13 @@ INSERT INTO `JobModel`(`id`, `name`, `path`) VALUES
 	(6, 'Mineur', 'Res/JobCraft/mineur.json'),
 	(7, 'Trappeur', 'Res/JobCraft/trappeur.json');
 
+/* JobModel_gather */
+DELETE FROM `JobModel_gather`;
+
+INSERT INTO `JobModel_gather`(`object_id`, `index`, `value_level_lvl`, `value_level_exp`, `value_ressource`) VALUES
+       (5, 0, 1, 10, 1),
+       (7, 0, 1, 10, 2);
+
 /* Job */
 DELETE FROM `Job`;
 

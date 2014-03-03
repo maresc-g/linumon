@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:53:29 2014 laurent ansel
-// Last update Fri Feb 28 13:35:38 2014 laurent ansel
+// Last update Fri Feb 28 15:23:00 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -105,12 +105,12 @@ void				JobModel::setCrafts(std::list<Craft *> const &list)
   *this->_crafts = list;
 }
 
-std::list<Ressource *> const	&JobModel::getGather() const
+std::list<Gather> const		&JobModel::getGather() const
 {
   return (this->_gather);
 }
 
-void				JobModel::setGather(std::list<Ressource *> const &list)
+void				JobModel::setGather(std::list<Gather> const &list)
 {
   this->_gather = list;
 }
@@ -147,7 +147,7 @@ bool				JobModel::serialization(Trame &trame) const
   for (auto it = this->_gather.begin() ; it != this->_gather.end() && ret; ++it)
     {
       str << nb;
-      ret = (*it)->serialization(trame(trame["GR"][str.str()]));
+      ret = (*it).serialization(trame(trame["GR"][str.str()]));
       str.str("");
       nb++;
     }
@@ -158,17 +158,16 @@ JobModel			*JobModel::deserialization(Trame const &trame)
 {
   JobModel			*jobModel = NULL;
   std::list<Craft *>		*crafts;
-  std::list<Ressource *>	*ressources;
+  std::list<Gather>		*ressources;
   Craft				*craft;
-  Ressource			*ressource;
+  Gather			*ressource;
 
   if (trame.isMember("MOD"))
     {
       jobModel = new JobModel;
       jobModel->setName(trame["MOD"]["NAME"].asString());
       crafts = new std::list<Craft *>;
-      ressources = new std::list<Ressource *>;
-      std::cout << "NAME = " << jobModel->getName() << std::endl;
+     ressources = new std::list<Gather>;
 
       auto			membersCraft = trame["MOD"]["CRS"].getMemberNames();
       auto			membersGather = trame["MOD"]["GR"].getMemberNames();
@@ -182,9 +181,9 @@ JobModel			*JobModel::deserialization(Trame const &trame)
 
       for (auto it = membersGather.begin() ; it != membersGather.end() ; ++it)
 	{
-	  ressource = Ressource::deserialization(trame(trame["MOD"]["GR"][*it]));
+	  ressource = Gather::deserialization(trame(trame["MOD"]["GR"][*it]));
 	  if (ressource)
-	    ressources->push_back(ressource);
+	    ressources->push_back(*ressource);
 	}
       jobModel->setCrafts(*crafts);
       jobModel->setGather(*ressources);

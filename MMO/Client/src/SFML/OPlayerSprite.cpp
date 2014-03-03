@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Feb 25 14:25:26 2014 cyril jourdain
-// Last update Tue Feb 25 16:04:31 2014 cyril jourdain
+// Last update Fri Feb 28 19:35:29 2014 cyril jourdain
 //
 
 #include		"SFML/OPlayerSprite.hh"
@@ -88,4 +88,9 @@ void			OPlayerSprite::moveRight(float px, sf::View *)
       _deltaPos.x = 0;
       play("default_right");
     }
+}
+
+void			OPlayerSprite::onClick()
+{
+  std::cout << "other player clicked" << std::endl;
 }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 10:34:09 2013 alexis mestag
-// Last update Thu Feb  6 15:32:49 2014 laurent ansel
+// Last update Fri Feb 28 15:34:09 2014 laurent ansel
 //
 
 #include			"Utility/Id.hh"
@@ -13,7 +13,7 @@
 Id::Id() :
   _id(0)
 {
-  static unsigned int		id = 0;
+  static unsigned int		id = 1;
 
   _id = id++;
 }

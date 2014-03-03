@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Fri Feb 28 14:45:35 2014 guillaume marescaux
+// Last update Mon Mar  3 10:41:21 2014 guillaume marescaux
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -23,7 +23,7 @@
 #include                "Qt/Views/JobMenuView.hh"
 #include                "Qt/Views/JobView.hh"
 #include                "Qt/Views/DigitaliserView.hh"
-
+#include                "Qt/Views/PlayerClickView.hh"
 #include		"SFML/Sprite/SpriteManager.hh"
 #include		"SFML/Sprite/Sprite.hh"
 
@@ -32,8 +32,7 @@
 #include		"SFML/KeyDelayer.hh"
 #include		"SFML/OPlayerSprite.hh"
 #include		"SFML/RessourceSprite.hh"
-
-#define			CASE_SIZE	64
+#include		"SFML/defines.hh"
 
 class			WindowManager;
 class			SpellBarView;
@@ -44,6 +43,7 @@ class			MenuView;
 class			JobMenuView;
 class			JobView;
 class			DigitaliserView;
+class			PlayerClickView;
 
 class			SFMLView : public QSFMLWidget
 {
@@ -78,6 +78,7 @@ private:
   JobMenuView		*_jobMenu;
   JobView		*_job;
   DigitaliserView	*_digit;
+  PlayerClickView	*_clickView;
 
 public:
   SFMLView(QWidget *, QPoint const &, QSize const &, WindowManager *_wMan);

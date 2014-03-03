@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Fri Feb 28 13:37:03 2014 laurent ansel
+// Last update Fri Feb 28 15:42:07 2014 laurent ansel
 //
 
 #include			"Entities/Stuff.hh"
@@ -15,7 +15,6 @@ Stuff::Stuff() :
   AItem("", AItem::eItem::STUFF),
   _stuffType(eStuff::NONE)
 {
-
 }
 
 Stuff::Stuff(std::string const &name, eStuff const type) :

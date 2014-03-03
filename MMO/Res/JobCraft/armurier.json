@@ -30,5 +30,37 @@
 		"NB" : 3
 	    }
 	}
+    },
+    "2" :
+    {
+	"NAME" : "Coiffe Bouftou",
+	"LVL" :
+	{
+	    "LVL" : 1,
+	    "EXP" : 150
+	},
+	"RES" :
+	{
+	    "NAME" : "Coiffe Bouftou",
+	    "TYPE" : 1,
+	    "ST" : 1
+	},
+	"INGS" :
+	{
+	    "0" :
+	    {
+		"EN":1,
+		"NAME":"Orchidee",
+		"TYPE":2,
+		"NB" : 3
+	    },
+	    "1" :
+	    {
+		"EN":1,
+		"NAME":"Peau de bouftou",
+		"TYPE":2,
+		"NB" : 1
+	    }
+	}
     }
 }
