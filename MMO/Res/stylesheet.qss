@@ -185,3 +185,8 @@ CraftView
 {
 	background-color: #FFFFFF;
 }
+
+DigitaliserView
+{
+	background-color: #FFFFFF;
+}

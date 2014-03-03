@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Feb 28 12:56:11 2014 cyril jourdain
+// Last update Fri Feb 28 14:56:59 2014 guillaume marescaux
 //
 
 /*
@@ -33,7 +33,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _spellBar(new SpellBarView(this, w)),
   _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
   _chat(new ChatView(this, w)), _menu(new MenuView(this, w)), _jobMenu(new JobMenuView(this, w)),
-  _job(new JobView(this, w))
+  _job(new JobView(this, w)), _digit(new DigitaliserView(this, w))
 {
   _textureTest = new sf::Texture();
   _textureTest->loadFromFile("./Res/test.png");

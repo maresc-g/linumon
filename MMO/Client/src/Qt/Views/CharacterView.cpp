@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:05:10 2013 cyril jourdain
-// Last update Wed Feb 26 13:57:18 2014 cyril jourdain
+// Last update Fri Feb 28 14:36:05 2014 guillaume marescaux
 //
 
 #include		"Qt/Views/CharacterView.hh"
@@ -15,7 +15,7 @@
 #include		<QLayoutItem>
 
 CharacterView::CharacterView(QWidget *parent, WindowManager *man) :
-  QWidget(parent), _wMan(man), _layout(new QGridLayout) ,
+  QWidget(parent), _wMan(man),
   _charList(new std::vector<CharDescription *>),
   _prev(new QPushButton(this)), _next(new QPushButton(this)),
   _scrollArea(new QScrollArea), _charContainer(new QFrame(this)),
@@ -51,6 +51,12 @@ CharacterView::CharacterView(QWidget *parent, WindowManager *man) :
 
 CharacterView::~CharacterView()
 {
+  delete _prev;
+  delete _next;
+  delete _charContainer;
+  delete _createCharView;
+  delete _scrollArea;
+  // delete _charLayout;
 }
 
 void		CharacterView::clear()
