@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Sat Mar  1 00:30:38 2014 cyril jourdain
+// Last update Mon Mar  3 10:41:21 2014 guillaume marescaux
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -22,8 +22,8 @@
 #include		"Qt/Views/MenuView.hh"
 #include                "Qt/Views/JobMenuView.hh"
 #include                "Qt/Views/JobView.hh"
+#include                "Qt/Views/DigitaliserView.hh"
 #include                "Qt/Views/PlayerClickView.hh"
-
 #include		"SFML/Sprite/SpriteManager.hh"
 #include		"SFML/Sprite/Sprite.hh"
 
@@ -42,6 +42,7 @@ class			ChatView;
 class			MenuView;
 class			JobMenuView;
 class			JobView;
+class			DigitaliserView;
 class			PlayerClickView;
 
 class			SFMLView : public QSFMLWidget
@@ -76,6 +77,7 @@ private:
   MenuView		*_menu;
   JobMenuView		*_jobMenu;
   JobView		*_job;
+  DigitaliserView	*_digit;
   PlayerClickView	*_clickView;
 
 public:

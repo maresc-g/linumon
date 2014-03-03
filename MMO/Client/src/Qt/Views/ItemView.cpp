@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Fri Feb 28 13:06:17 2014 cyril jourdain
+// Last update Fri Feb 28 15:52:58 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>

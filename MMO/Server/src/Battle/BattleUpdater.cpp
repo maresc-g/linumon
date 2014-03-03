@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Tue Feb 25 17:04:27 2014 antoine maitre
+// Last update Mon Mar  3 05:00:04 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -72,15 +72,26 @@ void				BattleUpdater::run()
 bool				BattleUpdater::newBattle(Player *player1, Player *player2)
 {
   unsigned int			id = 0;
+  AI				*tmp = new AI("I m going to crush you");
+  AI				*tmp2 = new AI("I m going to kill you");
 
+  std::cout << "NEW BATTLE" << std::endl;
   for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     {
       if ((*it)->getID() != id)
 	{
-	  // if (player2->getType() == IA || player1->getType() == IA)
-	  //   {
-	  new Battle(id, Battle::PVE, 1, player1, player2);
-	    // }
+	  if (player2->getType() == Player::AI || player1->getType() == Player::AI)
+	    {
+	      tmp->capture(*player1->getDBZone().getRandomMob());
+	      tmp->capture(*player1->getDBZone().getRandomMob());
+	      tmp->capture(*player1->getDBZone().getRandomMob());
+	      tmp2->capture(*player1->getDBZone().getRandomMob());
+	      tmp2->capture(*player1->getDBZone().getRandomMob());
+	      tmp2->capture(*player1->getDBZone().getRandomMob());
+	      tmp->addEnemy(tmp2->getDigitaliser().getMobs());
+	      tmp2->addEnemy(tmp->getDigitaliser().getMobs());
+	      new Battle(id, Battle::PVP, 3, tmp, tmp2);
+	    }
 	  // else
 	  //   {
 	  //     new Battle(id, Battle::PVP, 1, player1, player2);
@@ -103,6 +114,7 @@ bool				BattleUpdater::spell(Trame *trame)
   if (tmp)
     {
       this->_battles->remove(tmp);
+      std::cout << "END BATTLE" << std::endl;
       delete tmp;
     }
   return (true);

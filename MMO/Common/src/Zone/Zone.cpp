@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Wed Feb 26 13:45:52 2014 antoine maitre
+// Last update Sun Mar  2 13:02:43 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -281,7 +281,7 @@ bool				Zone::move(AEntity *entity)
 	    }
 	  else
 	    {
-	      Player::Coordinate::type const y = Map::getInstance()->getZone(static_cast<Player *>(entity)->getZone())->getSizeY();
+	      Player::Coordinate::type const y = 0;
 	      static_cast<Player *>(entity)->setY(y);
 	      return (false);
 	    }
@@ -301,7 +301,7 @@ bool				Zone::move(AEntity *entity)
 	    }
 	  else
 	    {
-	      Player::Coordinate::type const x = Map::getInstance()->getZone(static_cast<Player *>(entity)->getZone())->getSizeX();
+	      Player::Coordinate::type const x = 0;
 	      static_cast<Player *>(entity)->setX(x);
 	      return (false);
 	    }

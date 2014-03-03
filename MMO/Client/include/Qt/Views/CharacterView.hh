@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:02:41 2013 cyril jourdain
-// Last update Mon Feb 10 14:22:06 2014 guillaume marescaux
+// Last update Fri Feb 28 14:36:19 2014 guillaume marescaux
 //
 
 #ifndef 		__CHARACTERVIEW_HH__
@@ -30,7 +30,6 @@ class			CharacterView : public QWidget
 
 private: /* QT WIDGETS */
   WindowManager		*_wMan;
-  QGridLayout		*_layout;
   std::vector<CharDescription *> *_charList;
   QPushButton		*_prev;
   QPushButton		*_next;

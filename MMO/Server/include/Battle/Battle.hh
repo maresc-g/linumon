@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Fri Feb 21 14:37:59 2014 antoine maitre
+// Last update Mon Mar  3 04:56:48 2014 antoine maitre
 //
 
 #ifndef				__BATTLE_HH__
@@ -13,7 +13,7 @@
 
 # include			<string>
 # include			<tuple>
-//# include			"AI/AI.hh"
+# include			"AI/AI.hh"
 # include			"Entities/Player.hh"
 # include			"Server/Server.hh"
 
@@ -29,11 +29,8 @@ private:
   unsigned int const		_id;
   eBattle const			_type;
   int const			_mobNumber;
-  std::list<Mob *>		_mobs1;
-  std::list<Mob *>		_mobs2;
-  Player			*_player1;
-  Player			*_player2;
-  std::list<std::tuple<int, int>>		_order;
+  std::list<Mob *>		_mobs;
+  std::list<Player *>		_players;
 public:
   Battle(unsigned int const id, eBattle const type, int const mobNumber, Player *player1, Player *player2);
   ~Battle();
@@ -43,9 +40,16 @@ public:
   bool				capture(unsigned int const);
   bool				spell(unsigned int const, unsigned int const, Spell *);
   bool				checkEnd();
+  void				trameSpell(unsigned int const idPlayer, Spell const *spell, unsigned int const launcher, unsigned int const target) const;
+  void				trameSwitch(unsigned int const idPlayer, unsigned int const target, unsigned int const newMob) const;
+  void				trameSpellEffect(unsigned int const idPlayer, unsigned int const target, int const hpChange) const;
+  void				trameDeadMob(unsigned int const idPlayer, unsigned int const idMob) const;
+  void				trameCapture(unsigned int const idPlayer, unsigned int const idMob) const;
+  void				trameLaunchBattle(unsigned int const idPlayer, Player *player) const;
+  void				trameTurnTo(unsigned int const idPlayer, unsigned int const idMob) const;
   void				next();
 };
 
-bool				compareSpeed(std::tuple<int, int>, std::tuple<int, int>);
+bool				compareSpeed(Mob *, Mob *);
 
 #endif

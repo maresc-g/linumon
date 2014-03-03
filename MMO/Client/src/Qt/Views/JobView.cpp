@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:55:36 2014 guillaume marescaux
-// Last update Fri Feb 28 12:29:39 2014 guillaume marescaux
+// Last update Fri Feb 28 14:47:08 2014 guillaume marescaux
 //
 
 #include			<QMessageBox>
@@ -46,7 +46,7 @@ void				JobView::handleChange()
       auto end = inventory.end();
       while (itb != end && it->first->getName() != itb->first->getName())
 	itb++;
-      if (it->second > itb->second)
+      if (itb == end || it->second > itb->second)
 	{
 	  ret = false;
 	  break;

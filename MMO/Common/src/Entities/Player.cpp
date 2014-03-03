@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Feb 28 13:40:44 2014 laurent ansel
+// Last update Sun Mar  2 23:08:47 2014 antoine maitre
 //
 
 #include			<functional>
@@ -20,7 +20,7 @@
 #endif
 
 Player::Player() :
-  Persistent(), ACharacter("", eCharacter::PLAYER), _coord(new PlayerCoordinate),
+  Persistent(), ACharacter("", eCharacter::PLAYER), _type(PlayerType::PLAYER), _coord(new PlayerCoordinate),
   _faction(NULL), _talentTree(NULL), _inventory(new Inventory), _guild(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
@@ -32,7 +32,7 @@ Player::Player() :
 }
 
 Player::Player(std::string const &name, std::string const &factionName) :
-  Persistent(), ACharacter(name, eCharacter::PLAYER), _coord(new PlayerCoordinate),
+  Persistent(), ACharacter(name, eCharacter::PLAYER), _type(PlayerType::PLAYER), _coord(new PlayerCoordinate),
   _faction(NULL), _talentTree(NULL), _inventory(new Inventory), _guild(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
@@ -199,6 +199,16 @@ Job				*Player::getJob(std::string const &name) const
   return (NULL);
 }
 
+void				Player::setType(Player::PlayerType const type)
+{
+  this->_type = type;
+}
+
+Player::PlayerType		Player::getType() const
+{
+  return (this->_type);
+}
+
 void				Player::deleteItem(unsigned int const item)
 {
   this->_inventory->deleteItem(item);
@@ -222,6 +232,14 @@ void				Player::addMoney(int const money)
 Mob const			&Player::getMob(unsigned int const id)
 {
   return (*this->_digitaliser.getMob(id));
+}
+
+bool				Player::isMyMob(unsigned int const id)
+{
+  if (this->_digitaliser.getMob(id))
+    return (true);
+  else
+    return (false);
 }
 
 bool				Player::getPlayerEquipment(unsigned int const idItem)

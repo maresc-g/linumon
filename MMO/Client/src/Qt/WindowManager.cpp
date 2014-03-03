@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Tue Feb 25 16:06:32 2014 cyril jourdain
+// Last update Fri Feb 28 14:04:55 2014 guillaume marescaux
 //
 
 #include	"Qt/WindowManager.hh"
@@ -42,6 +42,11 @@ WindowManager::WindowManager(int ac, char **av, MutexVar<CLIENT::eState> *state,
 
 WindowManager::~WindowManager()
 {  
+  delete _mainLayout;
+  delete _mainFrame;
+  // delete _loginView;
+  // delete _characterView;
+  // delete _sfmlView;
 }
 
 int			WindowManager::exec()
