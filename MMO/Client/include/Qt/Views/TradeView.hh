@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb 20 13:27:33 2014 guillaume marescaux
-// Last update Fri Feb 21 14:31:49 2014 guillaume marescaux
+// Last update Sat Mar  1 01:02:42 2014 cyril jourdain
 //
 
 #ifndef 		__TRADEVIEW_HH__

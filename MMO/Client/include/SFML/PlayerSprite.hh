@@ -5,13 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Feb 16 03:12:14 2014 cyril jourdain
-// Last update Fri Feb 28 11:32:50 2014 cyril jourdain
+// Last update Fri Feb 28 19:31:20 2014 cyril jourdain
 //
 
 #ifndef 		__PLAYERSPRITE_HH__
 # define 		__PLAYERSPRITE_HH__
 
 #include		"SFML/Sprite/Sprite.hh"
+#include		"SFML/Clickable.hh"
 #include		"Entities/Player.hh"
 
 class			PlayerSprite : public Sprite
@@ -39,7 +40,6 @@ private:
   bool			_receivedInput;
 
 protected:
-  sf::Vector2f		_pos;
   sf::Vector2f		_deltaPos;
   eDir			_dir;
 
@@ -67,6 +67,7 @@ public:
 
 public:
   virtual void		draw(sf::RenderTarget &, sf::RenderStates) const;
+  virtual void		onClick();
 
 private:
   virtual void			moveUp(float, sf::View *);

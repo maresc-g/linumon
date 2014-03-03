@@ -15,7 +15,7 @@
 
 PlayerSprite::PlayerSprite() :
   Sprite(), _name(new sf::Text()), _textFont(NULL), _nameOffset(sf::Vector2f(0,0)),
-  _pos(sf::Vector2f(WIN_W / 2,WIN_H / 2)), _deltaPos(sf::Vector2f(0,0))
+  _deltaPos(sf::Vector2f(0,0))
 {
   _name->setString("!_uninitialized");
   _name->setCharacterSize(14);
@@ -28,8 +28,7 @@ PlayerSprite::PlayerSprite() :
 }
 
 PlayerSprite::PlayerSprite(sf::String const &name, sf::Font *font) : 
-  Sprite(), _name(new sf::Text()), _textFont(font), _nameOffset(sf::Vector2f(0,0)),
-  _pos(sf::Vector2f(0,0)), _deltaPos(sf::Vector2f(0,0))
+  Sprite(),  _name(new sf::Text()), _textFont(font), _nameOffset(sf::Vector2f(0,0)), _deltaPos(sf::Vector2f(0,0))
 {
   _name->setString(name);
   _name->setFont(*_textFont);
@@ -84,6 +83,11 @@ void			PlayerSprite::draw(sf::RenderTarget &target, sf::RenderStates states) con
     states.texture = NULL;
     target.draw(*_name, states);
   }
+}
+
+void			PlayerSprite::onClick()
+{
+  std::cout << "PLAYER CLICKED" << std::endl;
 }
 
 void			PlayerSprite::moveUp(float px, sf::View *view)

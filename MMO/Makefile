@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:06:15 2013 laurent ansel
-## Last update Wed Feb 26 15:57:31 2014 alexis mestag
+## Last update Sun Mar  2 14:00:53 2014 cyril jourdain
 ##
 
 NAMESERVER=	pfa-server
@@ -31,10 +31,10 @@ OBJCLIENT=	$(SRCCLIENT:.cpp=.o)
 OBJCOMMON=	$(SRCCOMMON:.cpp=.o) $(ODB_OBJ)
 CPPFLAGS=	-W -Wall -Wextra $(SERVER_INCLUDES) $(CLIENT_INCLUDES) $(COMMON_INCLUDES) -std=c++0x -g  -D SERVER
 
-all:		$(ODB_SRC) $(OBJCOMMON) $(NAMESERVER) effectLibs client
+all:		 client $(ODB_SRC) $(OBJCOMMON) $(NAMESERVER) effectLibs
 
 client:
-		cd $(CLIENT) && make
+		cd $(CLIENT) && make -j3
 
 $(NAMESERVER):	$(OBJCOMMON) $(OBJSERVER)
 		g++ -o $(NAMESERVER) $(OBJCOMMON) $(OBJSERVER) $(LDFLAGS)
