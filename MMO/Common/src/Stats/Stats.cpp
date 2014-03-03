@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Fri Feb 28 13:12:10 2014 laurent ansel
+// Last update Mon Mar  3 12:22:45 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -45,6 +45,48 @@ Stat::value_type		Stats::operator[](StatKey const &key) const
 Stat::value_type		Stats::operator[](std::string const &key) const
 {
   return (this->getStat(key));
+}
+
+void				Stats::add(Stats const &rhs)
+{
+  Stat const			*rhsStat;
+  Stat				*stat;
+
+  for (auto it = rhs.getStats().begin() ; it != rhs.getStats().end() ; ++it) {
+    rhsStat = *it;
+    stat = this->get(rhsStat->getKey());
+    if (stat)
+      *stat += *rhsStat;
+    else
+      this->setStat(rhsStat->getKey(), rhsStat->getValue(), true);
+  }
+}
+
+Stats				&Stats::operator+=(Stats const &rhs)
+{
+  this->add(rhs);
+  return (*this);
+}
+
+void				Stats::sub(Stats const &rhs)
+{
+  Stat const			*rhsStat;
+  Stat				*stat;
+
+  for (auto it = rhs.getStats().begin() ; it != rhs.getStats().end() ; ++it) {
+    rhsStat = *it;
+    stat = this->get(rhsStat->getKey());
+    if (stat) {
+      *stat -= *rhsStat;
+    }
+    // Nothing to do if the key's not found
+  }
+}
+
+Stats				&Stats::operator-=(Stats const &rhs)
+{
+  this->sub(rhs);
+  return (*this);
 }
 
 Stats::container_type		&Stats::getStatsDeepCopy() const
@@ -101,10 +143,19 @@ void				Stats::removeShortLivedStats()
   _stats.remove_if(shortLivedStatSeeker);
 }
 
-void				Stats::setStats(container_type &stats)
+void				Stats::setStats(container_type const &stats)
 {
-  this->deleteStats();
-  _stats = stats;
+  Stat const			*rhsStat;
+  Stat				*stat;
+
+  for (auto it = stats.begin() ; it != stats.end() ; ++it) {
+    rhsStat = *it;
+    stat = this->get(rhsStat->getKey());
+    if (stat)
+      *stat = *rhsStat;
+    else
+      this->setStat(rhsStat->getKey(), rhsStat->getValue(), true);
+  }
 }
 
 Stats::container_type const	&Stats::getStats() const

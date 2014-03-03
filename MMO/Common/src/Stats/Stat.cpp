@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:08:36 2013 alexis mestag
-// Last update Fri Feb 28 13:04:27 2014 laurent ansel
+// Last update Sun Mar  2 16:50:57 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -42,6 +42,56 @@ Stat				&Stat::operator=(Stat const &rhs)
       this->setValue(rhs.getValue());
     }
   return (*this);
+}
+
+bool				Stat::operator==(Stat const &rhs) const
+{
+  return (this->getKey() == rhs.getKey());
+}
+
+bool				Stat::operator!=(Stat const &rhs) const
+{
+  return (!(*this == rhs));
+}
+
+Stat				Stat::operator+(Stat const &rhs) const
+{
+  Stat				ret(*this);
+
+  ret += rhs;
+  return (ret);
+}
+
+Stat				&Stat::operator+=(Stat const &rhs)
+{
+  this->add(rhs);
+  return (*this);
+}
+
+Stat				Stat::operator-(Stat const &rhs) const
+{
+  Stat				ret(*this);
+
+  ret -= rhs;
+  return (ret);
+}
+
+Stat				&Stat::operator-=(Stat const &rhs)
+{
+  this->sub(rhs);
+  return (*this);
+}
+
+void				Stat::add(Stat const &rhs)
+{
+  if (this->getKey() == rhs.getKey())
+    this->setValue(this->getValue() + rhs.getValue());
+}
+
+void				Stat::sub(Stat const &rhs)
+{
+  if (this->getKey() == rhs.getKey())
+    this->setValue(this->getValue() > rhs.getValue() ? this->getValue() - rhs.getValue() : 0);
 }
 
 StatKey const			&Stat::getKey() const

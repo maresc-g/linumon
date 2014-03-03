@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:33:20 2014 alexis mestag
-// Last update Thu Feb 27 18:59:04 2014 alexis mestag
+// Last update Mon Mar  3 04:33:58 2014 antoine maitre
 //
 
 #ifndef			__SPELLS_HH__

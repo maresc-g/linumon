@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Mon Mar  3 14:06:30 2014 cyril jourdain
+// Last update Mon Mar  3 14:15:40 2014 cyril jourdain
 //
 
 /*
@@ -32,7 +32,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _clock(new sf::Clock()), _keyDelayer(new KeyDelayer()),
   _spellBar(new SpellBarView(this, w)), _inventory(new InventoryView(this, w)),
   _stuff(new StuffView(this, w)), _chat(new ChatView(this, w)), _menu(new MenuView(this, w)),
-  _jobMenu(new JobMenuView(this, w)), _job(new JobView(this, w)),
+  _jobMenu(new JobMenuView(this, w)), _job(new JobView(this, w)), _digit(new DigitaliserView(this, w)),
   _clickView(new PlayerClickView(this, w))
 {
   _spellBar->hide();

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 12:56:12 2014 guillaume marescaux
-// Last update Fri Feb 28 10:53:05 2014 guillaume marescaux
+// Last update Fri Feb 28 14:33:32 2014 guillaume marescaux
 //
 
 #include			"SFML/SFMLView.hpp"
@@ -60,7 +60,7 @@ void				JobMenuView::on_b_inge_clicked()
   initJob("Ingenieur");
 }
 
-void				JobMenuView::on_b_mineur_clicked()
+void				JobMenuView::on_b_miner_clicked()
 {
   initJob("Mineur");
 }

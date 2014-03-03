@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Thu Feb 27 12:57:18 2014 guillaume marescaux
+// Last update Fri Feb 28 13:58:00 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -26,8 +26,18 @@ Client::Client():
 
 Client::~Client()
 {
+  delete **_player;
+  for (auto it = (**_players)->begin() ; it != (**_players)->end() ; it++)
+    delete *it;
+  delete **_players;
+  delete **_chat;
   delete _state;
   delete _core;
+  delete _player;
+  delete _players;
+  delete _chat;
+  delete _newPlayer;
+  delete _manager;
 }
 
 //------------------------------------END CTOR / DTOR------------------------------------------
