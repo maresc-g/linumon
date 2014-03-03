@@ -31,7 +31,7 @@
     <rect>
      <x>220</x>
      <y>0</y>
-     <width>100</width>
+     <width>120</width>
      <height>20</height>
     </rect>
    </property>
@@ -74,7 +74,7 @@
     <set>Qt::AlignCenter</set>
    </property>
    <property name="format">
-    <string>%v/%m</string>
+    <string notr="true">%v/%m</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -95,7 +95,7 @@
     <rect>
      <x>220</x>
      <y>40</y>
-     <width>100</width>
+     <width>120</width>
      <height>20</height>
     </rect>
    </property>

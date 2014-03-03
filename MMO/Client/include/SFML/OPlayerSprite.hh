@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Feb 25 14:10:55 2014 cyril jourdain
-// Last update Tue Feb 25 14:41:38 2014 cyril jourdain
+// Last update Fri Feb 28 19:46:19 2014 cyril jourdain
 //
 
 #ifndef 		__OPLAYERSPRITE_HH__
@@ -24,7 +24,8 @@ private:
   virtual void			moveDown(float, sf::View *v = NULL);
   virtual void			moveLeft(float, sf::View *v = NULL);
   virtual void			moveRight(float, sf::View *v = NULL);
-
+public:
+  virtual void			onClick();
 };
 
 #endif

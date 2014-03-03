@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 12:53:14 2014 laurent ansel
-// Last update Thu Feb 27 17:19:32 2014 laurent ansel
+// Last update Fri Feb 28 13:21:48 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -71,7 +71,7 @@ bool				Jobs::serialization(Trame &trame) const
   trame["JOBS"];
   for (auto it = this->_jobs.begin() ; it!= this->_jobs.end() ; ++it)
     {
-      str << "JOB" << nb;
+      str << nb;
       ret = (*it)->serialization(trame(trame["JOBS"][str.str()]));
       str.str("");
       nb++;

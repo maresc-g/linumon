@@ -5,14 +5,15 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Sun Feb 16 04:03:06 2014 cyril jourdain
+// Last update Fri Feb 28 22:37:48 2014 cyril jourdain
 //
 
 #include		<stdexcept>
 #include		"SFML/Sprite/Sprite.hh"
+#include		"SFML/defines.hh"
 
 Sprite::Sprite():
-  sf::Drawable(), sf::Transformable(), _texture(NULL),
+  sf::Drawable(), sf::Transformable(), Clickable(), _texture(NULL),
   _anim(new std::map<std::string, Animation *>), _vertex(new sf::Vertex [4]),
   _current(""), _playing(false)
 {
@@ -31,7 +32,7 @@ Sprite::Sprite():
 }
 
 Sprite::Sprite(Sprite const &other) :
-  sf::Drawable(), sf::Transformable(),
+  sf::Drawable(), sf::Transformable(), Clickable(),
   _texture(other._texture), _anim(new std::map<std::string, Animation *>)
 {
   for (auto it = other._anim->begin(); it != other._anim->end(); it++)
@@ -109,6 +110,19 @@ void			Sprite::update(sf::Clock &clock)
     }
 }
 
+bool			Sprite::isClicked(float const x, float const y) const
+{
+  if (x >= getPosition().x && x <= getPosition().x + getCurrentBound()->width && y >= getPosition().y
+      && y <= getPosition().y + getCurrentBound()->height)
+    return true;
+  return false;
+}
+
+void			Sprite::onClick()
+{
+  std::cout << _current << " CLICKED" << std::endl;
+}
+
 void			Sprite::setTexture(sf::Texture *text)
 {
   _texture = text;
@@ -169,7 +183,7 @@ std::string		Sprite::getLastPlayed()
   return _current;
 }
 
-sf::IntRect		*Sprite::getCurrentBound()
+sf::IntRect		*Sprite::getCurrentBound() const
 {
   if (_current != "" && (*_anim)[_current] && _playing)
     return ((*_anim)[_current]->getCurrentCoord());

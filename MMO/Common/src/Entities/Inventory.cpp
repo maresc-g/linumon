@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Thu Feb 27 13:52:13 2014 laurent ansel
+// Last update Fri Feb 28 13:30:27 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -207,7 +207,7 @@ void				Inventory::serializationInventory()
 	{
 	  for (unsigned int i = 0 ; i < it->second ; ++i)
 	    {
-	      str << "ITEM" << nb;
+	      str << nb;
 	      it->first->serialization((*file)((*file)[str.str()]));
 	      str.str("");
 	      nb++;
@@ -223,14 +223,14 @@ bool				Inventory::serialization(Trame &trame) const
   int				nb = 0;
   std::ostringstream		str;
 
-  trame["INVENTORY"]["MONEY"] = this->getMoney();
-  trame["INVENTORY"]["LIMIT"] = this->getLimit();
-  trame["INVENTORY"]["ITEMS"];
+  trame["INV"]["MO"] = this->getMoney();
+  trame["INV"]["LI"] = this->getLimit();
+  trame["INV"]["ITS"];
   for (auto it = _inventory->begin() ; it != _inventory->end() ; ++it)
     {
-      str << "ITEM" << nb;
-      ret = it->first->serialization(trame(trame["INVENTORY"]["ITEMS"][str.str()]));
-      trame["INVENTORY"]["ITEMS"][str.str()]["NB"] = it->second;
+      str << nb;
+      ret = it->first->serialization(trame(trame["INV"]["ITS"][str.str()]));
+      trame["INV"]["ITS"][str.str()]["NB"] = it->second;
       str.str("");
       nb++;
     }
@@ -242,23 +242,23 @@ Inventory			*Inventory::deserialization(Trame const &trame)
   Inventory			*inventory = NULL;
   std::list<std::pair<AItem *, unsigned int> >	*items = NULL;
 
-  if (trame.isMember("INVENTORY"))
+  if (trame.isMember("INV"))
     {
       inventory = new Inventory;
       items = new std::list<std::pair<AItem *, unsigned int> >;
-      inventory->setMoney(trame["INVENTORY"]["MONEY"].asUInt());
-      inventory->setLimit(trame["INVENTORY"]["LIMIT"].asUInt());
+      inventory->setMoney(trame["INV"]["MO"].asUInt());
+      inventory->setLimit(trame["INV"]["LI"].asUInt());
       inventory->setInventory(items);
-      if (trame["INVENTORY"].isMember("ITEMS"))
+      if (trame["INV"].isMember("ITS"))
 	{
-	  auto			members = trame["INVENTORY"]["ITEMS"].getMemberNames();
+	  auto			members = trame["INV"]["ITS"].getMemberNames();
 
 	  for (auto it = members.begin() ; it != members.end() ; ++it)
 	    {
-	      for (unsigned int i = 0 ; i < trame["INVENTORY"]["ITEMS"][*it]["NB"].asUInt() ; ++i)
+	      for (unsigned int i = 0 ; i < trame["INV"]["ITS"][*it]["NB"].asUInt() ; ++i)
 		{
 		  std::cout << "IN FOR INVENTORY" << std::endl;
-		  inventory->addItem(AItem::deserialization(trame(trame["INVENTORY"]["ITEMS"][*it])));
+		  inventory->addItem(AItem::deserialization(trame(trame["INV"]["ITS"][*it])));
 		  std::cout << "INVENTORY SIZE AFTER ADD " << inventory->getInventory().size() << std::endl;
 		}
 	    }

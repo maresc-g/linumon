@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:20:50 2013 laurent ansel
-// Last update Thu Nov 28 19:46:58 2013 laurent ansel
+// Last update Fri Feb 28 11:19:10 2014 laurent ansel
 //
 
 #ifndef _WIN32
@@ -19,6 +19,7 @@ UnixSocket::UnixSocket():
   _socket(0),
   _currentSocket(NULL)
 {
+
 }
 
 UnixSocket::~UnixSocket()
@@ -35,10 +36,16 @@ int				UnixSocket::initialize(std::string const &protocole)
       {"UDP", SOCK_DGRAM}
     };
   struct protoent		*proto;
+  int				yes = 1;
 
   this->_proto = protocole;
   proto = getprotobyname(protocole.c_str());
   if ((this->_socket = socket(AF_INET, protoType[protocole], proto->p_proto)) == -1)
+    {
+      throw SocketError("initialize socket failed");
+      return (-1);
+    }
+  if (setsockopt(this->_socket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
     {
       throw SocketError("initialize socket failed");
       return (-1);

@@ -376,6 +376,13 @@ INSERT INTO `JobModel`(`id`, `name`, `path`) VALUES
 	(6, 'Mineur', 'Res/JobCraft/mineur.json'),
 	(7, 'Trappeur', 'Res/JobCraft/trappeur.json');
 
+/* JobModel_gather */
+DELETE FROM `JobModel_gather`;
+
+INSERT INTO `JobModel_gather`(`object_id`, `index`, `value_level_lvl`, `value_level_exp`, `value_ressource`) VALUES
+       (5, 0, 1, 10, 1),
+       (7, 0, 1, 10, 2);
+
 /* Job */
 DELETE FROM `Job`;
 
@@ -481,7 +488,7 @@ INSERT INTO `Player_stats_stats`(`object_id`, `index`, `value`) VALUES
 DELETE FROM `Ressource`;
 
 INSERT INTO `Ressource`(`id`, `name`, `level_lvl`, `level_exp`) VALUES
-       (1, 'Orchidée', 10, 100),
+       (1, 'Orchidee', 10, 100),
        (2, 'Peau de bouftou', 1, 10);
 
 /* Adding some fancy views because it's quite swag */

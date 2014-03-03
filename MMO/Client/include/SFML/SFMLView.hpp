@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Wed Feb 26 16:53:37 2014 cyril jourdain
+// Last update Sat Mar  1 00:30:38 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -16,13 +16,13 @@
 #include		"Qt/QSFMLWidget.hpp"
 #include		"Qt/WindowManager.hh"
 #include		"Qt/Views/SpellBarView.hh"
-#include		"Qt/Views/ItemView.hh"
 #include		"Qt/Views/InventoryView.hh"
 #include		"Qt/Views/StuffView.hh"
 #include		"Qt/Views/ChatView.hh"
 #include		"Qt/Views/MenuView.hh"
 #include                "Qt/Views/JobMenuView.hh"
 #include                "Qt/Views/JobView.hh"
+#include                "Qt/Views/PlayerClickView.hh"
 
 #include		"SFML/Sprite/SpriteManager.hh"
 #include		"SFML/Sprite/Sprite.hh"
@@ -32,18 +32,17 @@
 #include		"SFML/KeyDelayer.hh"
 #include		"SFML/OPlayerSprite.hh"
 #include		"SFML/RessourceSprite.hh"
-
-#define			CASE_SIZE	64
+#include		"SFML/defines.hh"
 
 class			WindowManager;
 class			SpellBarView;
-class			ItemView;
 class			InventoryView;
 class			StuffView;
 class			ChatView;
 class			MenuView;
 class			JobMenuView;
 class			JobView;
+class			PlayerClickView;
 
 class			SFMLView : public QSFMLWidget
 {
@@ -71,13 +70,13 @@ private:
 
   /* Child Views */
   SpellBarView		*_spellBar;
-  ItemView		*_itemView;
   InventoryView		*_inventory;
   StuffView		*_stuff;
   ChatView		*_chat;
   MenuView		*_menu;
   JobMenuView		*_jobMenu;
   JobView		*_job;
+  PlayerClickView	*_clickView;
 
 public:
   SFMLView(QWidget *, QPoint const &, QSize const &, WindowManager *_wMan);
@@ -108,6 +107,7 @@ private:
   void				keyEscape();
   void				keyReturn();
   void				keyControl();
+  virtual void		        mousePressEvent(QMouseEvent *);
 };
 
 #endif

@@ -5,9 +5,10 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:54:19 2014 alexis mestag
-// Last update Fri Jan 31 15:08:45 2014 laurent ansel
+// Last update Fri Feb 28 13:41:34 2014 laurent ansel
 //
 
+#include			<sstream>
 #include			"Entities/Spells.hh"
 
 Spells::Spells()
@@ -47,22 +48,30 @@ void				Spells::addSpell(Spell const &spell)
 bool				Spells::serialization(Trame &trame) const
 {
   bool				ret = true;
+  std::ostringstream		str;
+  unsigned int			nb = 0;
 
   for (auto it = this->_spells.begin() ; it != this->_spells.end() && ret; ++it)
-    (*it)->serialization(trame(trame["SPELLS"]));
+    {
+      str << nb;
+      (*it)->serialization(trame(trame["SPS"][str.str()]));
+      str.str("");
+      nb++;
+    }
   return (ret);
 }
 
 Spells				*Spells::deserialization(Trame const &trame)
 {
   Spells			*spells = NULL;
-  auto				members = trame.getMemberNames();
 
-  if (trame.isMember("SPELLS"))
+  if (trame.isMember("SPS"))
     {
+      auto			members = trame["SPS"].getMemberNames();
+
       spells = new Spells;
       for (auto it = members.begin() ; it != members.end() ; ++it)
-	spells->addSpell(*Spell::deserialization(trame(trame["SPELLS"][*it])));
+	spells->addSpell(*Spell::deserialization(trame(trame["SPS"][*it])));
     }
   return (spells);
 }

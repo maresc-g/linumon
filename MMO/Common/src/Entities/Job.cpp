@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Thu Feb 27 16:23:21 2014 laurent ansel
+// Last update Fri Feb 28 15:56:54 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -106,14 +106,14 @@ bool				Job::doGather(std::string const &nameRessource, std::list<AItem *> &resu
   unsigned int			exp = 0;
 
   for (auto it = this->getJobModel().getGather().begin() ; it != this->getJobModel().getGather().end() && !ret; ++it)
-    if ((*it)->getName() == nameRessource)
+    if ((*it).getRessource().getName() == nameRessource)
       {
 	int			i = rand() % 4 + 1;
 
-	idRessource = (*it)->getId();
+	idRessource = (*it).getRessource().getId();
 	for (auto nb = 0 ; nb < i ; ++nb)
-	  result.push_back(new Ressource(**it));
-	exp = this->_currentExp + (*it)->getLevel().getExp();
+	  result.push_back(new Ressource((*it).getRessource()));
+	exp = this->_currentExp + (*it).getLevel().getExp();
 	while (this->_level.getExp() < exp)
 	  {
 	    this->_level.levelUp();
@@ -129,8 +129,8 @@ bool				Job::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  this->_level.serialization(trame(trame["LEVEL"]));
-  this->_jobModel->serialization(trame(trame["JOBMODEL"]));
+  this->_level.serialization(trame);
+  this->_jobModel->serialization(trame(trame["MOD"]));
   trame["EXP"] = this->_currentExp;
   return (ret);
 }

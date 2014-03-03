@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:58:39 2013 alexis mestag
-// Last update Fri Feb 28 15:53:40 2014 alexis mestag
+// Last update Mon Mar  3 12:19:50 2014 alexis mestag
 //
 
 #ifndef				__STATS_HH__
@@ -53,7 +53,7 @@ public:
   void				smartAssign(Stats const &rhs);
   void				removeShortLivedStats();
 
-  void				setStats(container_type &stats);
+  void				setStats(container_type const &stats);
   container_type const		&getStats() const;
 
   Stat::value_type		getStat(StatKey const &key) const;

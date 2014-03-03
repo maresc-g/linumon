@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:54:34 2013 alexis mestag
-// Last update Thu Feb 27 19:57:18 2014 alexis mestag
+// Last update Fri Feb 28 13:41:44 2014 laurent ansel
 //
 
 #include			"Entities/Spell.hh"
@@ -34,7 +34,6 @@ Spell				&Spell::operator=(Spell const &rhs)
     {
       this->setType(rhs.getType());
       this->setPower(rhs.getPower());
-      this->setUseLimit(rhs.getUseLimit());
     }
   return (*this);
 }
@@ -98,10 +97,9 @@ bool				Spell::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  trame[this->getName()]["NAME"] = this->getName();
-  this->_type->serialization(trame(trame[this->getName()]));
-  trame[this->getName()]["POWER"] = this->_power;
-  trame[this->getName()]["USELIMIT"] = this->_useLimit;
+  trame["NAME"] = this->getName();
+  this->_type->serialization(trame);
+  trame["POW"] = this->_power;
   return (ret);
 }
 
@@ -111,7 +109,6 @@ Spell				*Spell::deserialization(Trame const &trame)
 
   spell->setType(*Type::deserialization(trame));
   spell->setName(trame["NAME"].asString());
-  spell->setPower(trame["POWER"].asInt());
-  spell->setUseLimit(trame["USELIMIT"].asInt());
+  spell->setPower(trame["POW"].asInt());
   return (spell);
 }

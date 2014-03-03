@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Thu Feb 27 18:12:13 2014 alexis mestag
+// Last update Fri Feb 28 13:39:57 2014 laurent ansel
 //
 
 #include			"Entities/Mob.hh"
@@ -66,7 +66,7 @@ bool				Mob::serialization(Trame &trame) const
   bool				ret = true;
 
   this->getStats().serialization(trame(trame["STATS"]));
-  this->getTmpStats().serialization(trame(trame["TMPSTATS"]));
+  this->getTmpStats().serialization(trame(trame["TMP"]));
   trame["NAME"] = this->getName();
   trame["ID"] = static_cast<unsigned int>(this->getId());
   this->getLevel().serialization(trame(trame["LEVEL"]));

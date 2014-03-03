@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Thu Feb 27 00:07:17 2014 cyril jourdain
+// Last update Sat Mar  1 18:25:34 2014 cyril jourdain
 //
 
 /*
@@ -30,20 +30,20 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()), _mainPerso(NULL),
   _clock(new sf::Clock()), _sprites(new SpriteMap), _keyDelayer(new KeyDelayer()),
   _playerList(new std::vector<OPlayerSprite*>), _entities(new std::list<RessourceSprite*>()), _keyMap(new KeyMap),
-  _spellBar(new SpellBarView(this, w)), _itemView(new ItemView(this, w)),
+  _spellBar(new SpellBarView(this, w)),
   _inventory(new InventoryView(this, w)), _stuff(new StuffView(this, w)),
   _chat(new ChatView(this, w)), _menu(new MenuView(this, w)), _jobMenu(new JobMenuView(this, w)),
-  _job(new JobView(this, w))
+  _job(new JobView(this, w)), _clickView(new PlayerClickView(this, w))
 {
   _textureTest = new sf::Texture();
   _textureTest->loadFromFile("./Res/test.png");
   _spriteTest = new sf::Sprite(*_textureTest);
   _spriteTest->setScale(4,4);
   _spellBar->hide();
-  _itemView->hide();
   _stuff->hide();
   _inventory->hide();
   _jobMenu->hide();
+  _clickView->hide();
   _job->move(300, 100);
   _job->hide();
   _menu->move(WIN_W / 2 - _menu->size().width() / 2, WIN_H / 2 - _menu->size().height() / 2);
@@ -106,6 +106,9 @@ void			SFMLView::onInit()
   			  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - _mainPerso->getCurrentBound()->height / 2 + 4);
   _mainView->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
   		  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
+  // if ((**(_wMan->getMainPlayer()))->getX() <= 15)
+  //   _mainView->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE,
+  // 		    0);
   loadPlayerList();
   _inventory->initInventory();
   _stuff->initStuff(***(_wMan->getMainPlayer()));
@@ -133,6 +136,7 @@ void			SFMLView::onUpdate()
 	  catch (std::out_of_range const &e) {
 	  }
 	}
+
     }
   /* Not used here but SFML need it to handle internal events */
 
@@ -254,20 +258,22 @@ void			SFMLView::loadMap()
 	  else
 	    ((*_sprites)[y])[x] = _sMan->copySprite("grass"); // Play rock
 	  ((*_sprites)[y])[x]->play("default");
-	  list = zone->getCase(x,y)->getEntities();
-	  if (list && list->size() > 0)
-	    {
-	      for (auto it = list->begin(); it != list->end(); it++)
-		{
-		  if ((*it)->getEntityType() == AEntity::RESSOURCE) {
-		    _entities->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
-		    _sMan->copySprite(static_cast<Ressource*>(*it)->getName(), *_entities->back());
-		    _entities->back()->play("default");
-		    _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
-						   static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
-		  }
-		}
-	    }
+	  // list = zone->getCase(x,y)->getEntities();
+	  // if (list && list->size() > 0)
+	  //   {
+	  //     for (auto it = list->begin(); it != list->end(); it++)
+	  // 	{
+	  // 	  if ((*it)->getEntityType() == AEntity::RESSOURCE) {
+	  // 	    _entities->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
+	  // 	    _sMan->copySprite(static_cast<Ressource*>(*it)->getName(), *_entities->back());
+	  // 	    _entities->back()->play("default");
+	  // 	    _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
+	  // 					   static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
+	  // _entities->back()->setPos(static_cast<Ressource*>(*it)->getX(),
+ 	  // 					   static_cast<Ressource*>(*it)->getY());
+	  // 	  }
+	  // 	}
+	  //   }
 	}
     }
   // for (auto it = cases->begin(); it != cases->end(); ++it)
@@ -450,6 +456,42 @@ void			SFMLView::keyControl()
     _mainPerso->setSpeed(PX_PER_SECOND + 100);
   else
     _mainPerso->setSpeed(PX_PER_SECOND);
+}
+
+void			SFMLView::mousePressEvent(QMouseEvent *event)
+{
+  std::cout << event->x() << "/" << event->y() << std::endl;
+  sf::Vector2f	v = mapPixelToCoords(sf::Vector2i(event->x(), event->y()));
+  std::cout << "View pos : " << v.x << "/" << v.y << std::endl;
+
+  _clickView->hide();
+
+  if (_mainPerso->isClicked(v.x, v.y))
+    {
+      _mainPerso->onClick();
+      _clickView->move(event->x(), event->y());
+      _clickView->show();
+    }
+  for (auto it = _playerList->begin(); it != _playerList->end(); it++)
+    {
+      if ((*it)->getPlayerId() != _mainPerso->getPlayerId())
+	{
+	  if ((*it)->isClicked(v.x, v.y))
+	    {
+	      _clickView->move(event->x(), event->y());
+	      _clickView->show();
+	      (*it)->onClick();
+	    }
+	}
+    }
+  for (auto it = _entities->begin(); it != _entities->end(); it++)
+    {
+      if ((*it)->isVisible())
+  	{
+  	  if ((*it)->isClicked(v.x, v.y))
+  	    (*it)->onClick();
+  	}
+    }
 }
 
 JobView			*SFMLView::getJobView(void) const { return (_job); }

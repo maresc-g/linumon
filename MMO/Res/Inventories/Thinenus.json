@@ -1,14 +1,14 @@
 {
-    "ITEM0" :
+    "0" :
     {
         "NAME" : "Coiffe Bouftou",
         "TYPE" : 1,
-        "STUFFTYPE" : 1
+        "ST" : 1
     },
-    "ITEM1" :
+    "1" :
     {
         "NAME" : "Plastron Bouftou",
         "TYPE" : 1,
-        "STUFFTYPE" : 1
+        "ST" : 1
     }
 }

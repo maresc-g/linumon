@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Fri Feb 28 16:03:32 2014 alexis mestag
+// Last update Mon Mar  3 12:22:45 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -52,7 +52,7 @@ void				Stats::add(Stats const &rhs)
   Stat const			*rhsStat;
   Stat				*stat;
 
-  for (auto it = _stats.begin() ; it != _stats.end() ; ++it) {
+  for (auto it = rhs.getStats().begin() ; it != rhs.getStats().end() ; ++it) {
     rhsStat = *it;
     stat = this->get(rhsStat->getKey());
     if (stat)
@@ -68,19 +68,25 @@ Stats				&Stats::operator+=(Stats const &rhs)
   return (*this);
 }
 
-void				Stats::sub()
+void				Stats::sub(Stats const &rhs)
 {
   Stat const			*rhsStat;
   Stat				*stat;
 
-  for (auto it = _stats.begin() ; it != _stats.end() ; ++it) {
+  for (auto it = rhs.getStats().begin() ; it != rhs.getStats().end() ; ++it) {
     rhsStat = *it;
     stat = this->get(rhsStat->getKey());
-    if (stat)
-      ;
-    else
-      ;
+    if (stat) {
+      *stat -= *rhsStat;
+    }
+    // Nothing to do if the key's not found
   }
+}
+
+Stats				&Stats::operator-=(Stats const &rhs)
+{
+  this->sub(rhs);
+  return (*this);
 }
 
 Stats::container_type		&Stats::getStatsDeepCopy() const
@@ -137,10 +143,19 @@ void				Stats::removeShortLivedStats()
   _stats.remove_if(shortLivedStatSeeker);
 }
 
-void				Stats::setStats(container_type &stats)
+void				Stats::setStats(container_type const &stats)
 {
-  this->deleteStats();
-  _stats = stats;
+  Stat const			*rhsStat;
+  Stat				*stat;
+
+  for (auto it = stats.begin() ; it != stats.end() ; ++it) {
+    rhsStat = *it;
+    stat = this->get(rhsStat->getKey());
+    if (stat)
+      *stat = *rhsStat;
+    else
+      this->setStat(rhsStat->getKey(), rhsStat->getValue(), true);
+  }
 }
 
 Stats::container_type const	&Stats::getStats() const
@@ -203,10 +218,15 @@ void				Stats::deleteStats()
 bool				Stats::serialization(Trame &trame) const
 {
   bool				ret = true;
+  std::ostringstream		str;
+  unsigned int			nb = 0;
 
   for (auto it = this->_stats.begin() ; it != this->_stats.end() ; ++it)
     {
-      (*it)->serialization(trame);
+      str << nb;
+      (*it)->serialization(trame(trame[str.str()]));
+      str.str("");
+      nb++;
     }
   return (ret);
 }

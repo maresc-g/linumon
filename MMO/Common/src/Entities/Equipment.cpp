@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:28:56 2014 laurent ansel
-// Last update Mon Feb 24 15:44:30 2014 guillaume marescaux
+// Last update Fri Feb 28 13:38:51 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -114,11 +114,11 @@ bool				Equipment::serialization(Trame &trame) const
   int				nb = 0;
   std::ostringstream		str;
 
-  trame["EQUIPMENT"];
+  trame["EQUIP"];
   for (auto it = this->_stuffs.begin() ; it != this->_stuffs.end() && ret; ++it)
     {
       str << it->first;
-      ret = it->second->serialization(trame(trame["EQUIPMENT"][str.str()]));
+      ret = it->second->serialization(trame(trame["EQUIP"][str.str()]));
       str.str("");
       nb++;
     }
@@ -131,15 +131,15 @@ Equipment			*Equipment::deserialization(Trame const &trame)
   std::map<Stuff::eStuff, Stuff *>	*stuffs;
   Stuff				*tmp;
 
-  if (trame.isMember("EQUIPMENT"))
+  if (trame.isMember("EQUIP"))
     {
       equipment = new Equipment;
       stuffs = new std::map<Stuff::eStuff, Stuff *>;
-      auto			members = trame["EQUIPMENT"].getMemberNames();
+      auto			members = trame["EQUIP"].getMemberNames();
 
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	{
-	  tmp = Stuff::deserialization(trame(trame["EQUIPMENT"][*it]));
+	  tmp = Stuff::deserialization(trame(trame["EQUIP"][*it]));
 	  if (tmp)
 	    (*stuffs)[tmp->getStuffType()] = tmp;
 	}
