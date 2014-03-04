@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Tue Mar  4 11:28:58 2014 guillaume marescaux
+// Last update Tue Mar  4 14:04:30 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -14,7 +14,8 @@
 #include			"Client.hh"
 
 StuffView::StuffView(QWidget *parent, WindowManager *wMan) :
-  QWidget(parent),  _wMan(wMan), _labels(new std::list<QLabel *>), _items(new std::list<ItemView *>), _last(NULL)
+  QWidget(parent),  _wMan(wMan), _labels(new std::list<QLabel *>), _items(new std::list<ItemView *>), _last(NULL),
+  _changed(true)
 {
   ui.setupUi(this);
   // ui.addWidget(new ItemView(this, wMan), 50, 50);
@@ -74,9 +75,10 @@ void				StuffView::setEquipment(Equipment const *equipment)
 
 void				StuffView::initStuff(Player const &player)
 {
-  if (_last == &player)
+  if (_last == &player && !_changed)
     return;
   _last = &player;
+  _changed = false;
   ui.l_name->setText(player.getName().c_str());
   ui.l_faction->setText(player.getFaction().getName().c_str());
   ui.l_guilde->setText("NO GUILDE");
@@ -110,11 +112,12 @@ void				StuffView::initStuff(Player const &player)
 
 void				StuffView::initStuff(Mob const &mob)
 {
-  if (_last == &mob)
+  if (_last == &mob && !_changed)
     return;
   _last = &mob;
   Equipment const		*equipment = &mob.getEquipment();
 
+  _changed = false;
   setEquipment(equipment);
   ui.l_name->setText(mob.getName().c_str());
   ui.l_level->setText(std::to_string(mob.getLevel()).c_str());
@@ -141,6 +144,13 @@ void				StuffView::initStuff(Mob const &mob)
   show();
 }
 
-void				StuffView::itemAction(ItemView *)
+void				StuffView::itemAction(ItemView *item)
 {
+  Stuff const		*stuff = static_cast<Stuff const *>(&item->getItem());
+            
+  Client::getInstance()->stuff(eStuffAction::GET, stuff->getId(), (**(_wMan->getMainPlayer()))->getId());
+  _wMan->getSFMLView()->getInventoryView()->initInventory();
+  _changed = true;
 }
+
+void				StuffView::setChanged(bool changed) { _changed = changed; }

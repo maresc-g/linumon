@@ -5,31 +5,21 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Tue Mar  4 12:51:29 2014 guillaume marescaux
+// Last update Tue Mar  4 14:01:41 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/InventoryView.hh"
 
 InventoryView::InventoryView(QWidget *parent, WindowManager *wMan):
-  QWidget(parent), _wMan(wMan), _toolbar(new QToolBar(this)), _items(new std::list<ItemView *>)
+  QWidget(parent), _wMan(wMan), _items(new std::list<ItemView *>)
 {
   ui.setupUi(this);
-  QPixmap			closepix("./Res/close-button.png");
-  QWidget* spacer = new QWidget(this);
-
-  spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  _toolbar->addWidget(spacer);
-
-  QAction			*action = _toolbar->addAction(closepix, "close");
-
-  connect(action, SIGNAL(triggered()), this, SLOT(hide()));
 }
 
 InventoryView::~InventoryView()
 {
   for (auto it = _items->begin() ; it != _items->end() ; it++)
     delete *it;
-  delete _toolbar;
   delete _items;
 }
 
@@ -52,6 +42,9 @@ void				InventoryView::initInventory()
   auto				it = items.begin();
   ItemView			*item;
 
+  for (auto it = _items->begin() ; it != _items->end() ; it++)
+    delete *it;
+  _items->clear();
   for (unsigned int i = 0 ; i < limit ; i++)
     {
       if (it != items.end())
@@ -64,6 +57,7 @@ void				InventoryView::initInventory()
       _items->push_back(item);
       item->move(i % 5 * ITEM_SIZE + i % 5, i / 5 * ITEM_SIZE);
       item->resize(ITEM_SIZE, ITEM_SIZE);
+      item->show();
     }
   ui.f_items->resize(5 * ITEM_SIZE + 5, limit / 5 * ITEM_SIZE);
   ui.f_items->move(5, 5 + 40);
@@ -78,8 +72,7 @@ void				InventoryView::itemAction(ItemView *item)
       Stuff const		*stuff = static_cast<Stuff const *>(&item->getItem());
             
       Client::getInstance()->stuff(eStuffAction::PUT, stuff->getId(), (**(_wMan->getMainPlayer()))->getId());
-      std::cout << "SUCCESS" << std::endl;
+      _wMan->getSFMLView()->getStuffView()->setChanged(true);
+      initInventory();
     }
-  else
-    std::cout << "FAIL" << std::endl;
 }

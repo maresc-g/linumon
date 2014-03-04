@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:08:03 2014 guillaume marescaux
-// Last update Tue Mar  4 11:22:47 2014 guillaume marescaux
+// Last update Tue Mar  4 13:58:23 2014 guillaume marescaux
 //
 
 #ifndef 		__STUFFVIEW_HH__
@@ -35,6 +35,7 @@ private:
   std::list<QLabel *>	*_labels;
   std::list<ItemView *>	*_items;
   AEntity const		*_last;
+  bool			_changed;
 
 private:
   virtual void		paintEvent(QPaintEvent *);
@@ -45,6 +46,7 @@ public:
   void			initStuff(Player const &player);
   void			initStuff(Mob const &mob);
   void			itemAction(ItemView *);
+  void			setChanged(bool changed);
 };
 
 #endif

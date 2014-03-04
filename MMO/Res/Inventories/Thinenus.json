@@ -1,14 +1,14 @@
 {
     "0" :
     {
-        "NAME" : "Coiffe Bouftou",
+        "NAME" : "Casque Piou",
         "TYPE" : 1,
         "ST" : 1
     },
     "1" :
     {
-        "NAME" : "Plastron Bouftou",
+        "NAME" : "Bottes Bouftou",
         "TYPE" : 1,
-        "ST" : 7
+        "ST" : 5
     }
 }
