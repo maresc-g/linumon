@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:33:45 2013 alexis mestag
-// Last update Mon Feb 24 14:33:36 2014 alexis mestag
+// Last update Mon Mar  3 20:46:48 2014 alexis mestag
 //
 
 #ifndef			__ACHARACTER_HH__
@@ -29,9 +29,9 @@ public:
 
 private:
   eCharacter		_characterType;
-  int			_currentExp;
-  Level			_level;
-  Equipment		_equipment;
+  Level::type		_currentExp;
+  Level			*_level;
+  Equipment		*_equipment;
 
 protected:
   ACharacter();
@@ -42,16 +42,26 @@ protected:
 
   void			setCharacterType(eCharacter const characterType);
 
+  Level const		&getLevelObject() const;
+  void			setLevelObject(Level const &level);
+
 public:
   virtual ~ACharacter();
 
   eCharacter		getCharacterType() const;
 
-  int			getCurrentExp() const;
-  void			setCurrentExp(int const currentExp);
+  Level::type		getCurrentExp() const;
+  void			setCurrentExp(Level::type const currentExp);
 
-  Level const		&getLevel() const;
-  void			setLevel(Level const &level);
+  // Required xp to level up
+  Level::type		getExp() const;
+  void			setExp(Level::type const exp);
+
+  Level::type		getLevel() const;
+  void			setLevel(Level::type const lvl);
+
+  // Level const		&getLevel() const;
+  // void			setLevel(Level const &level);
   void			levelUp();
 
   Equipment const	&getEquipment() const;
@@ -66,7 +76,12 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(ACharacter) abstract
 #  pragma db member(ACharacter::_characterType) transient
-#  pragma db member(ACharacter::_equipment)
+#  pragma db member(ACharacter::_level) transient
+#  pragma db member(ACharacter::_equipment) transient
+#  pragma db member(ACharacter::_currentExp) get(getCurrentExp()) set(setCurrentExp(?))
+#  pragma db member(ACharacter::level) virtual(Level::type) get(getLevel()) set(setLevel(?))
+#  pragma db member(ACharacter::exp) virtual(Level::type) get(getExp()) set(setExp(?))
+#  pragma db member(ACharacter::equipment) virtual(Equipment::container_type) get(_equipment->getContainer()) set(_equipment->setContainer(?))
 # endif
 
 #endif

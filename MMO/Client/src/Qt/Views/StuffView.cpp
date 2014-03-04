@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Thu Feb 27 14:59:17 2014 guillaume marescaux
+// Last update Mon Mar  3 21:30:08 2014 alexis mestag
 //
 
 #include			<iostream>
@@ -43,9 +43,9 @@ void				StuffView::initStuff(Player const &player)
   ui.l_name->setText(player.getName().c_str());
   ui.l_faction->setText(player.getFaction().getName().c_str());
   ui.l_guilde->setText("NO GUILDE");
-  ui.l_level->setText(std::to_string(player.getLevel().getLevel()).c_str());
+  ui.l_level->setText(std::to_string(player.getLevel()).c_str());
   ui.l_curExp->setText(std::to_string(player.getCurrentExp()).c_str());
-  ui.l_expToUp->setText(std::to_string(player.getLevel().getExp()).c_str());
+  ui.l_expToUp->setText(std::to_string(player.getExp()).c_str());
 
   Equipment const		*equipment = &player.getEquipment();
   ItemView			*item;
@@ -115,9 +115,9 @@ void				StuffView::initStuff(Player const &player)
 void				StuffView::initStuff(Mob const &mob)
 {
   ui.l_name->setText(mob.getName().c_str());
-  ui.l_level->setText(std::to_string(mob.getLevel().getLevel()).c_str());
+  ui.l_level->setText(std::to_string(mob.getLevel()).c_str());
   ui.l_curExp->setText(std::to_string(mob.getCurrentExp()).c_str());
-  ui.l_expToUp->setText(std::to_string(mob.getLevel().getExp()).c_str());
+  ui.l_expToUp->setText(std::to_string(mob.getExp()).c_str());
   unsigned int			i = 0;
   for (auto it = mob.getStats().getStats().begin() ; it != mob.getStats().getStats().end() ; it ++)
     {

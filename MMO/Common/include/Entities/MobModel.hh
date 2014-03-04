@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:21:00 2014 alexis mestag
-// Last update Thu Feb 27 18:52:47 2014 alexis mestag
+// Last update Mon Mar  3 22:45:27 2014 alexis mestag
 //
 
 #ifndef			__MOBMODEL_HH__
@@ -23,7 +23,7 @@ class			MobModel : public Persistent, public AStatEntity, public ISerialization
 
 private:
   Type const		*_type;
-  Spells 		_spells;
+  Spells 		*_spells;
 
 private:
   MobModel();
@@ -31,14 +31,16 @@ private:
 
   MobModel		&operator=(MobModel const &rhs);
 
-  void			setSpells(Spells const &spells);
 
 public:
   virtual ~MobModel();
+
   Type const		&getType() const;
   void			setType(Type const &type);
 
   Spells const		&getSpells() const;
+  void			setSpells(Spells const &spells);
+
   virtual bool		serialization(Trame &trame) const;
   static MobModel	*deserialization(Trame const &trame);
 };
@@ -46,7 +48,8 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(MobModel)
 #  pragma db member(MobModel::_type) not_null column(type_id)
-#  pragma db member(MobModel::_spells)
+#  pragma db member(MobModel::_spells) transient
+#  pragma db member(MobModel::spells) virtual(Spells::container_type) get(_spells->getContainer()) set(_spells->setContainer(?))
 # endif
 
 #endif

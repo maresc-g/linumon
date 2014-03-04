@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:33:20 2014 alexis mestag
-// Last update Mon Mar  3 04:33:58 2014 antoine maitre
+// Last update Mon Mar  3 15:55:49 2014 alexis mestag
 //
 
 #ifndef			__SPELLS_HH__
@@ -13,40 +13,27 @@
 
 # include		"Database/Persistent.hh"
 # include		"Utility/ISerialization.hh"
+# include		"Utility/Wrapper.hpp"
 
 class			Spell;
 
-class			Spells : public ISerialization
+class			Spells : public ISerialization, public ContainerWrapper<std::list<Spell const *>>
 {
-  friend class		odb::access;
-
-public:
-  typedef std::list<Spell const *>	containerType;
-
 private:
-  containerType		_spells;
-
-private:
-  Spells(Spells const &rhs);
-
   void			addSpell(Spell const &spell);
 
 public:
   Spells();
+  Spells(Spells const &rhs);
+
   virtual ~Spells();
 
   Spells		&operator=(Spells const &rhs);
-
-  containerType const	&getContainer() const;
 
   virtual bool		serialization(Trame &trame) const;
   static Spells		*deserialization(Trame const &trame);
 };
 
 # include		"Entities/Spell.hh"
-
-# ifdef	ODB_COMPILER
-#  pragma db value(Spells)
-# endif
 
 #endif

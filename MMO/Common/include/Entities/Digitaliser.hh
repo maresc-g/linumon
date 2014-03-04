@@ -5,27 +5,24 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Mon Mar  3 03:59:23 2014 antoine maitre
+// Last update Mon Mar  3 15:52:05 2014 alexis mestag
 //
 
 #ifndef			__DIGITALISER_HH__
 # define		__DIGITALISER_HH__
 
 # include		<list>
-# include		<odb/core.hxx>
 # include		"Entities/Mob.hh"
 # include		"Utility/ISerialization.hh"
+# include		"Utility/Wrapper.hpp"
 
-class			Digitaliser : public ISerialization
+class			Digitaliser : public ISerialization, public ContainerWrapper<std::list<Mob *>>
 {
-  friend class		odb::access;
-
 public:
-  typedef std::list<Mob *>	Mobs;
+  typedef container_type	Mobs;
 
 private:
-  Mobs			_mobs;
-  Mobs			_battleMobs;
+  container_type		_battleMobs;
 
 private:
   Digitaliser(Digitaliser const &rhs);
@@ -54,10 +51,5 @@ public:
   virtual bool		serialization(Trame &trame) const;
   static Digitaliser	*deserialization(Trame const &trame);
 };
-
-# ifdef	ODB_COMPILER
-#  pragma db value(Digitaliser)
-#  pragma db member(Digitaliser::_battleMobs) transient
-# endif
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:19 2014 laurent ansel
-// Last update Thu Feb 27 14:00:07 2014 laurent ansel
+// Last update Mon Mar  3 21:46:19 2014 alexis mestag
 //
 
 #ifndef 		__JOB_HH__
@@ -20,7 +20,7 @@ class			Job : public Persistent, public ISerialization
 
 private:
   unsigned int		_currentExp;
-  Level			_level;
+  Level			*_level;
   JobModel const	*_jobModel;
 
   Job();
@@ -34,8 +34,14 @@ public:
   unsigned int		getCurrentExp() const;
   void			setCurrentExp(unsigned int const currentExp);
 
-  Level const		&getLevel() const;
-  void			setLevel(Level const &level);
+  Level const		&getLevelObject() const;
+  void			setLevelObject(Level const &level);
+
+  Level::type		getLevel() const;
+  void			setLevel(Level::type const level);
+
+  Level::type		getExp() const;
+  void			setExp(Level::type const exp);
 
   JobModel const	&getJobModel() const;
   void			setJobModel(JobModel const &jobModel);
@@ -49,6 +55,9 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Job)
+#  pragma db member(Job::_level) transient
+#  pragma db member(Job::level) virtual(Level::type) get(getLevel()) set(setLevel(?))
+#  pragma db member(Job::exp) virtual(Level::type) get(getExp()) set(setExp(?))
 # endif
 
 #endif

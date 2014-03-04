@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Sun Mar  2 20:43:30 2014 antoine maitre
+## Last update Mon Mar  3 22:16:46 2014 alexis mestag
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
@@ -50,24 +50,17 @@ ODB_ENTITIES+=		ACharacter.hh		\
 			Consumable.hh		\
 			Craft.hh		\
 			DBZone.hh		\
-			Digitaliser.hh		\
-			Equipment.hh		\
 			Faction.hh		\
 			Heal.hh			\
-			Inventory.hh		\
 			Job.hh			\
-			Jobs.hh			\
 			JobModel.hh		\
 			Gather.hh		\
 			Guild.hh		\
-			Level.hh		\
 			Mob.hh			\
 			MobModel.hh		\
 			Player.hh		\
-			Players.hh		\
 			Ressource.hh		\
 			Spell.hh		\
-			Spells.hh		\
 			Stuff.hh		\
 			Type.hh			\
 			User.hh			\
