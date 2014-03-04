@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Mar  4 13:34:14 2014 laurent ansel
+// Last update Tue Mar  4 14:07:18 2014 laurent ansel
 //
 
 #include			<functional>
@@ -252,7 +252,9 @@ bool				Player::getPlayerEquipment(unsigned int const idItem)
   bool				ret = false;
   Stuff				*item;
 
+  std::cout << "PLAYER => "<<idItem << std::endl;
   ret = this->getStuff(item, idItem);
+  std::cout << "RET = " << ret << std::endl;
   if (ret)
     this->addItem(item);
   return (ret);

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:28:56 2014 laurent ansel
-// Last update Tue Mar  4 13:22:53 2014 laurent ansel
+// Last update Tue Mar  4 14:36:12 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -99,7 +99,11 @@ bool				Equipment::getStuff(Stuff *&oldStuff, unsigned int const idItem)
 
 bool				Equipment::stuffExists(Stuff::eStuff const type) const
 {
-  return (this->getContainer().find(type) != this->end() ? true : false);
+  auto				it = this->begin();
+
+  if ((it = this->getContainer().find(type)) != this->end() && it->second)
+    return (true);
+  return (false);
 }
 
 Stuff const			&Equipment::getStuff(Stuff::eStuff const type) const

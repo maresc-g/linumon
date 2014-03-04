@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Mar  4 13:09:33 2014 laurent ansel
+// Last update Tue Mar  4 14:06:43 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -349,6 +349,7 @@ bool				Client::stuff(bool const get, unsigned int const idItem, unsigned int co
     {
       if (get)
 	{
+	  std::cout << "GET" << std::endl;
 	  if (target == _player->getId())
 	    ret = _player->getPlayerEquipment(idItem);
 	  else
