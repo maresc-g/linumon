@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:08:03 2014 guillaume marescaux
-// Last update Mon Mar  3 16:32:30 2014 guillaume marescaux
+// Last update Tue Mar  4 11:22:47 2014 guillaume marescaux
 //
 
 #ifndef 		__STUFFVIEW_HH__
@@ -44,6 +44,7 @@ private:
 public:
   void			initStuff(Player const &player);
   void			initStuff(Mob const &mob);
+  void			itemAction(ItemView *);
 };
 
 #endif

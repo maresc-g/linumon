@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Tue Mar  4 11:08:14 2014 guillaume marescaux
+// Last update Tue Mar  4 11:28:58 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -139,4 +139,8 @@ void				StuffView::initStuff(Mob const &mob)
       i++;
     }
   show();
+}
+
+void				StuffView::itemAction(ItemView *)
+{
 }

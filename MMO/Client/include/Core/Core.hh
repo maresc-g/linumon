@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Thu Feb 27 13:29:37 2014 guillaume marescaux
+// Last update Tue Mar  4 12:51:43 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -25,6 +25,7 @@
 #include		"ErrorHandler.hh"
 #include		"Entities/Faction.hh"
 #include		"Chat/Chat.hh"
+#include		"Utility/CommonDefine.hh"
 
 # define		CONNECT_FILE	"Res/Connection.json"
 
@@ -85,7 +86,7 @@ public:
   void			spell(unsigned int idBattle, Spell const &spell, unsigned int target);
   void			capture(unsigned int idBattle, unsigned int target);
   void			sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob);
-  //  void			stuff(void *action);
+  void			stuff(int action, unsigned int idItem, unsigned int target);
   // void			talents();
   void			craft(std::string const &craftName, std::string const &jobName);
   // void			gather();

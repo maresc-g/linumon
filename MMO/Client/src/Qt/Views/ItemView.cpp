@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Mon Mar  3 13:41:00 2014 guillaume marescaux
+// Last update Tue Mar  4 12:44:36 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -62,14 +62,16 @@ void				ItemView::paintEvent(QPaintEvent *)
 void				ItemView::mouseDoubleClickEvent(QMouseEvent *)
 {
   if (_item && this->parentWidget()->objectName() == "f_items")
-    static_cast<InventoryView *>(this->parentWidget())->itemAction(this);
+    static_cast<InventoryView *>(this->parentWidget()->parentWidget())->itemAction(this);
+  else if (_item && this->parentWidget()->objectName() == "stuffview")
+    static_cast<StuffView *>(this->parentWidget())->itemAction(this);
   else
     std::cout << "FAIL = " << this->parentWidget()->objectName().toStdString() << std::endl;
 }
 
 void				ItemView::enterEvent(QEvent *)
 {
-  QToolTip::showText(this->mapToGlobal( QPoint( 0, 0 ) ), "ITEM DESCRIPTION" );
+  // QToolTip::showText(this->mapToGlobal( QPoint( 0, 0 ) ), "ITEM DESCRIPTION" );
 }
 
 void				ItemView::setInfos(AItem *item, unsigned int nb)

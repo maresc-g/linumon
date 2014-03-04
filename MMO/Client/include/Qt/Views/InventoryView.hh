@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:46:00 2014 guillaume marescaux
-// Last update Mon Mar  3 13:59:12 2014 guillaume marescaux
+// Last update Tue Mar  4 12:42:10 2014 guillaume marescaux
 //
 
 #ifndef 		__INVENTORYVIEW_HH__
@@ -25,7 +25,7 @@ class			InventoryView : public QWidget
   Q_OBJECT
 
 public:
-  InventoryView(QWidget *, WindowManager *wman = NULL);
+  InventoryView(QWidget *, WindowManager *wman);
   virtual ~InventoryView();
 
 private:

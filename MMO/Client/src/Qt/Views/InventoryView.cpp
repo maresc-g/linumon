@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Mon Mar  3 14:00:23 2014 guillaume marescaux
+// Last update Tue Mar  4 12:51:29 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/InventoryView.hh"
@@ -76,7 +76,8 @@ void				InventoryView::itemAction(ItemView *item)
   if (item->getItem().getItemType() == AItem::STUFF)
     {
       Stuff const		*stuff = static_cast<Stuff const *>(&item->getItem());
-      
+            
+      Client::getInstance()->stuff(eStuffAction::PUT, stuff->getId(), (**(_wMan->getMainPlayer()))->getId());
       std::cout << "SUCCESS" << std::endl;
     }
   else
