@@ -5,17 +5,19 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 12:53:14 2014 laurent ansel
-// Last update Fri Feb 28 13:21:48 2014 laurent ansel
+// Last update Mon Mar  3 16:31:27 2014 alexis mestag
 //
 
 #include			<sstream>
 #include			"Entities/Jobs.hh"
 
-Jobs::Jobs()
+Jobs::Jobs() :
+  ContainerWrapper<container_type>()
 {
 }
 
-Jobs::Jobs(Jobs const &rhs)
+Jobs::Jobs(Jobs const &rhs) :
+  ContainerWrapper<container_type>()
 {
   *this = rhs;
 }
@@ -34,24 +36,24 @@ Jobs				&Jobs::operator=(Jobs const &rhs)
   return (*this);
 }
 
-std::list<Job *> const		&Jobs::getJobs() const
+Jobs::container_type const	&Jobs::getJobs() const
 {
-  return (this->_jobs);
+  return (this->getContainer());
 }
 
-void				Jobs::setJobs(std::list<Job *> const &jobs)
+void				Jobs::setJobs(container_type const &jobs)
 {
-  this->_jobs = jobs;
+  this->setContainer(jobs);
 }
 
 void				Jobs::setJob(Job *job)
 {
-  this->_jobs.push_back(job);
+  this->getContainer().push_back(job);
 }
 
 void				Jobs::setJob(std::string const &name, Job *job)
 {
-  for (auto it = _jobs.begin() ; it != _jobs.end() ; it++)
+  for (auto it = this->begin() ; it != this->end() ; it++)
     {
       if ((*it)->getJobModel().getName() == name)
 	{
@@ -69,7 +71,7 @@ bool				Jobs::serialization(Trame &trame) const
   std::ostringstream		str;
 
   trame["JOBS"];
-  for (auto it = this->_jobs.begin() ; it!= this->_jobs.end() ; ++it)
+  for (auto it = this->begin() ; it!= this->end() ; ++it)
     {
       str << nb;
       ret = (*it)->serialization(trame(trame["JOBS"][str.str()]));
@@ -82,12 +84,12 @@ bool				Jobs::serialization(Trame &trame) const
 Jobs				*Jobs::deserialization(Trame const &trame)
 {
   Jobs				*jobs = NULL;
-  std::list<Job *>		*list = NULL;
+  container_type		*list = NULL;
 
   if (trame.isMember("JOBS"))
     {
       jobs = new Jobs;
-      list = new std::list<Job *>;
+      list = new container_type;
       auto			members = trame["JOBS"].getMemberNames();
 
       for (auto it = members.begin() ; it != members.end() ; ++it)

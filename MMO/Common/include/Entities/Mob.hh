@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Thu Feb 27 18:47:42 2014 alexis mestag
+// Last update Mon Mar  3 22:43:39 2014 alexis mestag
 //
 
 #ifndef			__MOB_HH__
@@ -30,7 +30,7 @@ private:
 
 public:
   Mob(Mob const &rhs);
-  Mob(MobModel const &model, unsigned int const level);
+  Mob(MobModel const &model, Level::type const level);
   virtual ~Mob();
 
   Mob			&operator=(Mob const &rhs);

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Thu Feb 27 20:17:05 2014 alexis mestag
+// Last update Mon Mar  3 21:01:47 2014 alexis mestag
 //
 
 #include			"Entities/AStatEntity.hh"
@@ -16,14 +16,14 @@
 
 AStatEntity::AStatEntity() :
   AEntity("", eEntity::STATENTITY), _statEntityType(eStatEntity::NONE),
-  _authKeys(NULL), _inBattle(false)
+  _authKeys(NULL), _stats(new Stats), _tmpStats(new Stats), _inBattle(false)
 {
 
 }
 
 AStatEntity::AStatEntity(std::string const &name, AStatEntity::eStatEntity const statEntityType) :
   AEntity(name, eEntity::STATENTITY), _statEntityType(statEntityType),
-  _authKeys(NULL), _inBattle(false)
+  _authKeys(NULL), _stats(new Stats), _tmpStats(new Stats), _inBattle(false)
 {
 
 }
@@ -36,7 +36,8 @@ AStatEntity::AStatEntity(AStatEntity const &rhs) :
 
 AStatEntity::~AStatEntity()
 {
-
+  delete _stats;
+  delete _tmpStats;
 }
 
 AStatEntity			&AStatEntity::operator=(AStatEntity const &rhs)
@@ -64,32 +65,28 @@ void				AStatEntity::setStatEntityType(AStatEntity::eStatEntity const statEntity
 
 Stats const			&AStatEntity::getStats() const
 {
-  return (_stats);
+  return (*_stats);
 }
 
 void				AStatEntity::setStats(Stats const &stats)
 {
-  _stats = stats;
+  if (!_stats)
+    _stats = new Stats(stats);
+  else
+    *_stats = stats;
 }
 
 Stats const			&AStatEntity::getTmpStats() const
 {
-  return (_tmpStats);
+  return (*_tmpStats);
 }
 
 void				AStatEntity::setTmpStats(Stats const &stats)
 {
-  _tmpStats = stats;
-}
-
-void				AStatEntity::initTmpStats()
-{
-  _tmpStats.smartAssign(_stats);
-}
-
-void				AStatEntity::endTmpStats()
-{
-  _tmpStats.removeShortLivedStats();
+  if (!_tmpStats)
+    _tmpStats = new Stats(stats);
+  else
+    *_tmpStats = stats;
 }
 
 AuthorizedStatKeys const	&AStatEntity::getStatKeys() const
@@ -114,7 +111,7 @@ StatKey const			*AStatEntity::getKey(std::string const &key) const
 
 Stat::value_type		AStatEntity::getStat(StatKey const &key) const
 {
-  return (_stats.getStat(key));
+  return (_stats->getStat(key));
 }
 
 Stat::value_type		AStatEntity::getStat(std::string const &key) const
@@ -130,19 +127,17 @@ bool				AStatEntity::setStat(StatKey const &key, Stat::value_type const value,
   bool				ret = true;
 
   if (this->isKeyAuthorized(key))
-    _stats.setStat(key, value, add);
+    _stats->setStat(key, value, add);
   else
     ret = false;
   return (ret);
 }
 
-#ifndef		CLIENT_COMPILATION
 bool				AStatEntity::setStat(std::string const &key,
 						     Stat::value_type const value,
 						     bool const add)
 {
-  Repository<StatKey>		*rsk = &Database::getRepository<StatKey>();
-  StatKey const			*sk = rsk->getByName(key);
+  StatKey const			*sk = this->getKey(key);
 
   return (sk ? this->setStat(*sk, value, add) : false);
 }
@@ -151,17 +146,15 @@ bool				AStatEntity::setTmpStat(std::string const &key,
 							Stat::value_type const value,
 							bool const add)
 {
-  Repository<StatKey>		*rsk = &Database::getRepository<StatKey>();
-  StatKey const			*sk = rsk->getByName(key);
+  StatKey const			*sk = this->getKey(key);
 
   return (sk ? this->setTmpStat(*sk, value, add) : false);
 }
-#endif
 
 
 Stat::value_type		AStatEntity::getTmpStat(StatKey const &key) const
 {
-  return (_tmpStats.getStat(key));
+  return (_tmpStats->getStat(key));
 }
 
 Stat::value_type		AStatEntity::getTmpStat(std::string const &key) const
@@ -178,10 +171,20 @@ bool				AStatEntity::setTmpStat(StatKey const &key,
   bool				ret = true;
 
   if (this->isKeyAuthorized(key))
-    _tmpStats.setStat(key, value, add);
+    _tmpStats->setStat(key, value, add);
   else
     ret = false;
   return (ret);
+}
+
+void				AStatEntity::initTmpStats()
+{
+  _tmpStats->smartAssign(this->getStats());
+}
+
+void				AStatEntity::endTmpStats()
+{
+  _tmpStats->removeShortLivedStats();
 }
 
 void				AStatEntity::enterBattle()
@@ -209,8 +212,7 @@ void				AStatEntity::setInBattle(bool const inBattle)
 void				AStatEntity::displayTmpStats() const
 {
   std::cout << "Mob : " << this->getName() << std::endl;
-  for (auto it = this->getTmpStats().getStats().begin() ; it != this->getTmpStats().getStats().end() ;
-       ++it)
+  for (auto it = this->getTmpStats().begin() ; it != this->getTmpStats().end() ; ++it)
     {
       Stat			*s = *it;
 

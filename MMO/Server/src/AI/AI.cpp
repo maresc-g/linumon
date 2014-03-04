@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Sun Mar  2 22:33:20 2014 antoine maitre
-// Last update Mon Mar  3 04:57:46 2014 antoine maitre
+// Last update Mon Mar  3 17:06:11 2014 alexis mestag
 //
 
 #include			"AI/AI.hh"
@@ -43,11 +43,11 @@ std::tuple<unsigned int const, unsigned int const, Spell const *>			AI::action(u
   Spell const			*tmp;
   // int				target;
 
-  for (auto it = this->getDigitaliser().getMobs().begin(); it != this->getDigitaliser().getMobs().end(); it++)
+  for (auto it = this->getDigitaliser().begin(); it != this->getDigitaliser().end(); it++)
     if ((*it)->getId() == mob)
       {
-	int i = rand() % (*it)->getModel().getSpells().getContainer().size();
-	for (auto itb = (*it)->getModel().getSpells().getContainer().begin(); itb != (*it)->getModel().getSpells().getContainer().end() && i >= 0; it++)
+	int i = rand() % (*it)->getModel().getSpells().size();
+	for (auto itb = (*it)->getModel().getSpells().begin(); itb != (*it)->getModel().getSpells().end() && i >= 0; it++)
 	  {
 	    if (i == 0)
 	      tmp = (*itb);

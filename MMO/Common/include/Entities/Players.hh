@@ -5,24 +5,19 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 15:53:16 2013 alexis mestag
-// Last update Tue Feb  4 12:50:13 2014 laurent ansel
+// Last update Mon Mar  3 16:35:14 2014 alexis mestag
 //
 
 #ifndef			__PLAYERS_HH__
 # define		__PLAYERS_HH__
 
-# include		<odb/core.hxx>
 # include		<list>
+# include		"Utility/Wrapper.hpp"
 
 class			Player;
 
-class			Players
+class			Players : public ContainerWrapper<std::list<Player *>>
 {
-  friend class		odb::access;
-
-private:
-  std::list<Player *>	_players;
-
 private:
   Players(Players const &rhs);
 
@@ -37,9 +32,5 @@ public:
 };
 
 # include		"Entities/Player.hh"
-
-# ifdef ODB_COMPILER
-#  pragma db value(Players)
-# endif
 
 #endif

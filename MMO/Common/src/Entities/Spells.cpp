@@ -5,18 +5,20 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:54:19 2014 alexis mestag
-// Last update Fri Feb 28 13:41:34 2014 laurent ansel
+// Last update Mon Mar  3 15:55:12 2014 alexis mestag
 //
 
 #include			<sstream>
 #include			"Entities/Spells.hh"
 
-Spells::Spells()
+Spells::Spells() :
+  ContainerWrapper<container_type>()
 {
 
 }
 
-Spells::Spells(Spells const &rhs)
+Spells::Spells(Spells const &rhs) :
+  ContainerWrapper<container_type>()
 {
   *this = rhs;
 }
@@ -30,19 +32,14 @@ Spells				&Spells::operator=(Spells const &rhs)
 {
   if (this != &rhs)
     {
-
+      this->setContainer(rhs.getContainer());
     }
   return (*this);
 }
 
-Spells::containerType const	&Spells::getContainer() const
-{
-  return (_spells);
-}
-
 void				Spells::addSpell(Spell const &spell)
 {
-  this->_spells.push_back(&spell);
+  this->getContainer().push_back(&spell);
 }
 
 bool				Spells::serialization(Trame &trame) const
@@ -51,7 +48,7 @@ bool				Spells::serialization(Trame &trame) const
   std::ostringstream		str;
   unsigned int			nb = 0;
 
-  for (auto it = this->_spells.begin() ; it != this->_spells.end() && ret; ++it)
+  for (auto it = this->begin() ; it != this->end() && ret; ++it)
     {
       str << nb;
       (*it)->serialization(trame(trame["SPS"][str.str()]));

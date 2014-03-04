@@ -5,25 +5,27 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Thu Feb 27 14:15:07 2014 laurent ansel
+// Last update Mon Mar  3 22:37:16 2014 alexis mestag
 //
 
 #ifndef 			__INVENTORY_HH__
 # define 			__INVENTORY_HH__
 
-#include			<list>
-#include			"Utility/ISerialization.hh"
-#include			"Entities/AItem.hh"
-#include			"Database/Persistent.hh"
-#include			"JsonFile/JsonFile.hh"
+# include			<list>
+# include			"Utility/ISerialization.hh"
+# include			"Entities/AItem.hh"
+# include			"Database/Persistent.hh"
+# include			"JsonFile/JsonFile.hh"
+# include			"Utility/Wrapper.hpp"
 
-class				Inventory : public Persistent, public ISerialization
+class				Inventory : public ISerialization, public Persistent,
+					    public ContainerWrapper<std::list<std::pair<AItem *,
+											unsigned int>>>
 {
 private:
   std::string			_path;
   unsigned int			_money;
   unsigned int			_limit;
-  std::list<std::pair<AItem *, unsigned int> >	*_inventory;
 
   void				loadInventory();
 
@@ -39,8 +41,8 @@ public:
   std::string const		&getPath() const;
   void				setPath(std::string const &path);
 
-  std::list<std::pair<AItem *, unsigned int> > const	&getInventory() const;
-  void				setInventory(std::list<std::pair<AItem *, unsigned int> > *inventory);
+  container_type const		&getInventory() const;
+  void				setInventory(container_type *inventory);
 
   unsigned int			getMoney() const;
   void				setMoney(unsigned int const money);
@@ -53,20 +55,12 @@ public:
   void				addItem(AItem *item);
 
   AItem				*getItem(unsigned int const id) const;
-  AItem				*getAndDeleteItem(unsigned int const id) const;
+  AItem				*getAndDeleteItem(unsigned int const id);
 
   unsigned int			getIdItem(std::string const &name) const;
 
   virtual bool			serialization(Trame &trame) const;
   static Inventory		*deserialization(Trame const &trame);
 };
-
-// # ifdef	ODB_COMPILER
-// #  pragma db object(Inventory) session(false)
-// #  pragma db member(Inventory::_path) get(getPath()) set(setPath(?))
-// #  pragma db member(Inventory::_money) get(getMoney()) set(setMoney(?))
-// #  pragma db member(Inventory::_limit) get(getLimit()) set(setLimit(?))
-// #  pragma db member(Inventory::_inventory) transient
-// # endif
 
 #endif

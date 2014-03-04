@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Sun Feb 16 17:04:54 2014 alexis mestag
-## Last update Thu Feb 27 20:44:32 2014 alexis mestag
+## Last update Mon Mar  3 21:50:36 2014 alexis mestag
 ##
 
 EFFECT_CMN_DIR=		..
@@ -53,21 +53,15 @@ EFFECT_CMN_SRC=		Common/src/Database/Persistent.cpp		\
 			Common/src/Utility/Id.cpp			\
 			Common/include/Database/Persistent-odb.cxx	\
 			Common/include/Entities/Faction-odb.cxx		\
-			Common/include/Entities/Digitaliser-odb.cxx	\
 			Common/include/Entities/DBZone-odb.cxx		\
-			Common/include/Entities/Equipment-odb.cxx	\
 			Common/include/Entities/Job-odb.cxx		\
-			Common/include/Entities/Jobs-odb.cxx		\
-			Common/include/Entities/Level-odb.cxx		\
 			Common/include/Entities/Mob-odb.cxx		\
 			Common/include/Entities/MobModel-odb.cxx	\
 			Common/include/Entities/Player-odb.cxx		\
 			Common/include/Entities/Spell-odb.cxx		\
-			Common/include/Entities/Spells-odb.cxx		\
 			Common/include/Entities/Type-odb.cxx		\
 			Common/include/Utility/Nameable-odb.cxx		\
 			Common/include/Stats/Stat-odb.cxx		\
-			Common/include/Stats/Stats-odb.cxx		\
 			Common/include/Stats/StatKey-odb.cxx
 
 EFFECT_CMN_SRC:=	$(addprefix $(EFFECT_CMN_DIR)/,$(EFFECT_CMN_SRC))

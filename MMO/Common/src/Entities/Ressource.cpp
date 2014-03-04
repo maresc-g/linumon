@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Fri Feb 28 15:42:14 2014 laurent ansel
+// Last update Tue Mar  4 00:59:24 2014 alexis mestag
 //
 
 #include			"Entities/Ressource.hh"
@@ -14,6 +14,7 @@ Ressource::Ressource() :
   Persistent(),
   AItem("", AItem::eItem::RESSOURCE),
   _coord(new RessourceCoordinate),
+  _level(new Level),
   _visible(true)
 {
 }
@@ -22,6 +23,7 @@ Ressource::Ressource(std::string const &name) :
   Persistent(),
   AItem(name, AItem::eItem::RESSOURCE),
   _coord(new RessourceCoordinate),
+  _level(new Level),
   _visible(true)
 {
 
@@ -31,6 +33,7 @@ Ressource::Ressource(Ressource const &rhs) :
   Persistent(rhs),
   AItem(rhs.getName(), AItem::eItem::RESSOURCE),
   _coord(new RessourceCoordinate),
+  _level(new Level),
   _visible(true)
 {
   *this = rhs;
@@ -48,7 +51,7 @@ Ressource			&Ressource::operator=(Ressource const &rhs)
       this->setName(rhs.getName());
       this->setItemType(rhs.getItemType());
       this->setEntityType(rhs.getEntityType());
-      this->setLevel(rhs.getLevel());
+      this->setLevelObject(rhs.getLevelObject());
       *this->_coord = rhs.getCoord();
       this->setVisible(rhs.isVisible());
     }
@@ -65,14 +68,34 @@ void				Ressource::setCoord(RessourceCoordinate const &coord)
   *_coord = coord;
 }
 
-void				Ressource::setLevel(Level const &level)
+void				Ressource::setLevelObject(Level const &level)
 {
-  _level = level;
+  *_level = level;
 }
 
-Level const			&Ressource::getLevel() const
+Level const			&Ressource::getLevelObject() const
 {
-  return (this->_level);
+  return (*this->_level);
+}
+
+Level::type			Ressource::getLevel() const
+{
+  return (_level->getLevel());
+}
+
+void				Ressource::setLevel(Level::type const level)
+{
+  return (_level->setLevel(level));
+}
+
+Level::type			Ressource::getExp() const
+{
+  return (_level->getExp());
+}
+
+void				Ressource::setExp(Level::type const exp)
+{
+  return (_level->setExp(exp));
 }
 
 Ressource::RessourceCoordinate::type const	&Ressource::getX() const

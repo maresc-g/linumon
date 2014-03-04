@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:58:39 2013 alexis mestag
-// Last update Mon Mar  3 12:19:50 2014 alexis mestag
+// Last update Mon Mar  3 16:56:24 2014 alexis mestag
 //
 
 #ifndef				__STATS_HH__
@@ -21,11 +21,6 @@
 
 class				Stats : public ContainerWrapper<std::list<Stat *>>
 {
-  friend class			odb::access;
-
-private:
-  container_type		_stats;
-
 private:
   container_type		&getStatsDeepCopy() const;
   void				deleteStats();
@@ -68,9 +63,5 @@ public:
   virtual bool			serialization(Trame &trame) const;
   static Stats			*deserialization(Trame const &trame);
 };
-
-# ifdef	ODB_COMPILER
-#  pragma db value(Stats)
-# endif
 
 #endif

@@ -5,42 +5,52 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:27:32 2014 laurent ansel
-// Last update Fri Feb 28 15:09:53 2014 laurent ansel
+// Last update Mon Mar  3 21:24:33 2014 alexis mestag
 //
 
 #ifndef 		__CRAFT_HH__
 # define		__CRAFT_HH__
 
-#include		"Database/Persistent.hh"
-#include		"Entities/AItem.hh"
-#include		"Entities/Level.hh"
-#include		"Utility/ISerialization.hh"
-#include		"Utility/Nameable.hh"
+# include		"Database/Persistent.hh"
+# include		"Entities/AItem.hh"
+# include		"Entities/Level.hh"
+# include		"Utility/ISerialization.hh"
+# include		"Utility/Nameable.hh"
+# include		"Utility/Wrapper.hpp"
 
-class			Craft : public Persistent, public Nameable, public ISerialization
+typedef std::pair<AItem *, unsigned int>	itemStack;
+
+class			Craft : public ISerialization, public Persistent, public Nameable,
+				public ContainerWrapper<std::list<itemStack>>
 {
   friend class		odb::access;
 
 private:
-  Level			_level;
+  Level			*_level;
   AItem const		*_result;
-  std::list<std::pair<AItem *, unsigned int> >	_ingredients;
 
   Craft();
 
-  void			setLevel(Level const &level);
+  void			setLevelObject(Level const &level);
   void			setResult(AItem const &item);
-  void			setIngredients(std::list<std::pair<AItem *, unsigned int> > const &items);
+  void			setIngredients(container_type const &items);
 
 public:
   Craft(Craft const &rhs);
   virtual ~Craft();
 
-  Craft				&operator=(Craft const &rhs);
+  Craft			&operator=(Craft const &rhs);
 
-  Level const			&getLevel() const;
-  AItem const			&getResult() const;
-  std::list<std::pair<AItem *, unsigned int> > const	&getIngredients() const;
+  Level const		&getLevelObject() const;
+
+  Level::type		getLevel() const;
+  void			setLevel(Level::type const level);
+
+  Level::type		getExp() const;
+  void			setExp(Level::type const exp);
+
+  AItem const		&getResult() const;
+  container_type const	&getIngredients() const;
 
   virtual bool		serialization(Trame &trame) const;
   static Craft		*deserialization(Trame const &trame, bool const client = true);
@@ -48,8 +58,10 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Craft)
+#  pragma db member(Craft::_level) transient
 #  pragma db member(Craft::_result) transient
-#  pragma db member(Craft::_ingredients) transient
+#  pragma db member(Craft::level) virtual(Level::type) get(getLevel()) set(setLevel(?))
+#  pragma db member(Craft::exp) virtual(Level::type) get(getExp()) set(setExp(?))
 # endif
 
 #endif
