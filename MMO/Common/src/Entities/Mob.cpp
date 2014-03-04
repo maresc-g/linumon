@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Mon Mar  3 20:43:58 2014 alexis mestag
+// Last update Tue Mar  4 12:30:09 2014 laurent ansel
 //
 
 #include			"Entities/Mob.hh"
@@ -67,9 +67,11 @@ bool				Mob::serialization(Trame &trame) const
   this->getStats().serialization(trame(trame["STATS"]));
   this->getTmpStats().serialization(trame(trame["TMP"]));
   trame["NAME"] = this->getName();
+  trame["CEXP"] = this->getCurrentExp();
   trame["ID"] = static_cast<unsigned int>(this->getId());
-  this->getLevelObject().serialization(trame(trame["LEVEL"]));
+  this->getLevelObject().serialization(trame);
   this->getModel().serialization(trame);
+  this->getEquipment().serialization(trame);
   return (ret);
 }
 
@@ -79,9 +81,14 @@ Mob				*Mob::deserialization(Trame const &trame)
 
   mob->setStats(*Stats::deserialization(trame));
   mob->setTmpStats(*Stats::deserialization(trame));
-  mob->setLevelObject(*Level::deserialization(trame(trame["LEVEL"])));
+  mob->setLevelObject(*Level::deserialization(trame));
   mob->setName(trame["NAME"].asString());
   mob->setId(trame["ID"].asUInt());
   mob->setModel(*MobModel::deserialization(trame));
+  mob->setCurrentExp(trame["CEXP"].asUInt());
+
+  Equipment			*equipment = Equipment::deserialization(trame);
+  if (equipment)
+    mob->setEquipment(equipment);
   return (mob);
 }

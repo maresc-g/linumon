@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 14:08:00 2014 alexis mestag
-// Last update Fri Feb 28 13:39:41 2014 laurent ansel
+// Last update Tue Mar  4 11:47:56 2014 laurent ansel
 //
 
 #include			"Entities/Level.hh"
@@ -69,8 +69,8 @@ void				Level::levelUp()
 
 bool				Level::serialization(Trame &trame) const
 {
-  trame["LVL"]["LVL"] = this->getLevel();
-  trame["LVL"]["EXP"] = this->getExp();
+  trame["LVL"] = this->getLevel();
+  trame["EXP"] = this->getExp();
   return (true);
 }
 
@@ -78,11 +78,11 @@ Level				*Level::deserialization(Trame const &trame)
 {
   Level				*level = NULL;
 
-  if (trame.isMember("LVL"))
+  if (trame.isMember("LVL") && trame.isMember("EXP"))
     {
       level = new Level;
-      level->setLevel(trame["LVL"]["LVL"].asUInt());
-      level->setExp(trame["LVL"]["EXP"].asUInt());
+      level->setLevel(trame["LVL"].asUInt());
+      level->setExp(trame["EXP"].asUInt());
     }
   return (level);
 }

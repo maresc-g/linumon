@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Mon Mar  3 22:39:46 2014 alexis mestag
+// Last update Tue Mar  4 12:32:19 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -156,7 +156,7 @@ bool				Job::serialization(Trame &trame) const
 
   this->_level->serialization(trame);
   this->_jobModel->serialization(trame(trame["MOD"]));
-  trame["EXP"] = this->_currentExp;
+  trame["CEXP"] = this->_currentExp;
   return (ret);
 }
 
@@ -166,7 +166,7 @@ Job				*Job::deserialization(Trame const &trame)
 
   job->setLevelObject(*Level::deserialization(trame));
   job->setJobModel(*JobModel::deserialization(trame));
-  job->setCurrentExp(trame["EXP"].asUInt());
+  job->setCurrentExp(trame["CEXP"].asUInt());
   return (job);
 }
 

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Mar  4 00:30:49 2014 alexis mestag
+// Last update Tue Mar  4 12:28:22 2014 laurent ansel
 //
 
 #include			<functional>
@@ -332,7 +332,7 @@ bool				Player::serialization(Trame &trame) const
   this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
   this->getTmpStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
   this->getLevelObject().serialization(trame(trame["PLAYER"]));
-  trame["PLAYER"]["EXP"] = this->getCurrentExp();
+  trame["PLAYER"]["CEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
   this->_inventory->serialization(trame(trame["PLAYER"]));
   this->_talentTree->serialization(trame(trame["PLAYER"]));
@@ -362,8 +362,8 @@ Player				*Player::deserialization(Trame const &trame)
       if (lvl)
 	player->setLevelObject(*lvl);
 
-      if (trame["PLAYER"].isMember("EXP"))
-	player->setCurrentExp(trame["PLAYER"]["EXP"].asUInt());
+      if (trame["PLAYER"].isMember("CEXP"))
+	player->setCurrentExp(trame["PLAYER"]["CEXP"].asUInt());
 
       TalentTree		*tree = TalentTree::deserialization(trame(trame["PLAYER"]));
       if (tree)
