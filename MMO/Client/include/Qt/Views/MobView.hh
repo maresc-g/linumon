@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:41:39 2014 guillaume marescaux
-// Last update Fri Feb 28 15:52:48 2014 guillaume marescaux
+// Last update Mon Mar  3 14:20:23 2014 guillaume marescaux
 //
 
 #ifndef 		__MOBVIEW_HH__
@@ -23,26 +23,33 @@ class			MobView : public QWidget
 
 public:
 
-  MobView(QWidget *, WindowManager *wMan, unsigned int nb, Mob *mob);
+  MobView(QWidget *, WindowManager *wMan, Mob *mob);
   MobView(QWidget *parent, WindowManager *wMan);
   virtual ~MobView();
-  AItem const		&getItem(void) const;
 
 private:
 
   Ui::itemview		ui;
   WindowManager		*_wMan;
   Mob			*_mob;
-  unsigned int		_nb;
+  int			_x;
+  int			_y;
+
+public:
+
+  virtual void		resize(int, int);
+  virtual void		move(int, int);
 
 private:
-
   virtual void		paintEvent(QPaintEvent *);
+
+private slots:
+
+  void			test(const QPoint&);
+
 //   virtual void		enterEvent(QEvent *event);
 //   virtual void		mouseDoubleClickEvent(QMouseEvent *event);
 //   void			setInfos(AItem *item, unsigned int nb);
-// public:
-//   virtual void		resize(int, int);
 
 // public slots:
 //   void			makeDrag();

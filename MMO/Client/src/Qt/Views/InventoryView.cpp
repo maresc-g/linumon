@@ -5,13 +5,13 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Fri Feb 28 23:35:28 2014 cyril jourdain
+// Last update Mon Mar  3 14:00:23 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/InventoryView.hh"
 
 InventoryView::InventoryView(QWidget *parent, WindowManager *wMan):
-  QWidget(parent), _wMan(wMan), _toolbar(new QToolBar(this))
+  QWidget(parent), _wMan(wMan), _toolbar(new QToolBar(this)), _items(new std::list<ItemView *>)
 {
   ui.setupUi(this);
   QPixmap			closepix("./Res/close-button.png");
@@ -27,6 +27,10 @@ InventoryView::InventoryView(QWidget *parent, WindowManager *wMan):
 
 InventoryView::~InventoryView()
 {
+  for (auto it = _items->begin() ; it != _items->end() ; it++)
+    delete *it;
+  delete _toolbar;
+  delete _items;
 }
 
 void				InventoryView::paintEvent(QPaintEvent *)
@@ -57,6 +61,7 @@ void				InventoryView::initInventory()
       	}
       else
 	  item = new ItemView(ui.f_items, _wMan);
+      _items->push_back(item);
       item->move(i % 5 * ITEM_SIZE + i % 5, i / 5 * ITEM_SIZE);
       item->resize(ITEM_SIZE, ITEM_SIZE);
     }

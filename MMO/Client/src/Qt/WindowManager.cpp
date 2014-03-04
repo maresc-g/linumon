@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Fri Feb 28 14:04:55 2014 guillaume marescaux
+// Last update Mon Mar  3 15:14:54 2014 guillaume marescaux
 //
 
 #include	"Qt/WindowManager.hh"
@@ -110,4 +110,9 @@ MutexVar<Player*>		*WindowManager::getMainPlayer()
 MutexVar<bool>			*WindowManager::getNewPlayer()
 {
   return _newPlayer;
+}
+
+SFMLView		*WindowManager::getSFMLView(void)
+{
+  return (_sfmlView);
 }

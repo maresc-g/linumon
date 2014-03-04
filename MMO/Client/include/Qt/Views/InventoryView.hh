@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:46:00 2014 guillaume marescaux
-// Last update Fri Feb 28 23:35:10 2014 cyril jourdain
+// Last update Mon Mar  3 13:59:12 2014 guillaume marescaux
 //
 
 #ifndef 		__INVENTORYVIEW_HH__
@@ -32,6 +32,7 @@ private:
   Ui::inventoryview	ui;
   WindowManager		*_wMan;
   QToolBar		*_toolbar;
+  std::list<ItemView *>	*_items;
 
 private:
   virtual void		paintEvent(QPaintEvent *);
