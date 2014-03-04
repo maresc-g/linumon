@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Mar  4 12:28:22 2014 laurent ansel
+// Last update Tue Mar  4 13:08:34 2014 laurent ansel
 //
 
 #include			<functional>
@@ -280,6 +280,7 @@ bool				Player::putPlayerEquipment(unsigned int const idItem)
   AItem				*item;
   Stuff				*old;
 
+  /*effect item*/
   item = this->getAndDeleteItem(idItem);
   if (item && item->getItemType() == AItem::STUFF)
     {

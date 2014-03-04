@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Mar  4 12:53:22 2014 guillaume marescaux
+// Last update Tue Mar  4 13:10:32 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -886,7 +886,7 @@ bool			updateCharacter(unsigned int const id, ACharacter const *character)
       header->setProtocole("TCP");
       if (header->serialization(*trame))
 	{
-	  character->getStats().serialization((*trame)((*trame)["UPDATECHARACTER"]));
+	  character->getStats().serialization((*trame)((*trame)[CONTENT]["UPDATECHARACTER"]));
 	  trame->setEnd(true);
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 	  ret = true;

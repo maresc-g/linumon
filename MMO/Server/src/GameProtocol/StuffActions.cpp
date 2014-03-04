@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 16:36:22 2014 laurent ansel
-// Last update Tue Mar  4 11:23:40 2014 laurent ansel
+// Last update Tue Mar  4 12:59:36 2014 laurent ansel
 //
 
 #include			<functional>
@@ -49,7 +49,7 @@ bool				StuffActions::getStuff(Trame *trame)
   bool				ret = false;
   Error				*error = NULL;
 
-  ret = ClientManager::getInstance()->stuff((*trame)[HEADER]["IDCLIENT"].asInt(), false, (*trame)[CONTENT]["STUFF"]["IDITEM"].asUInt(), (*trame)[CONTENT]["STUFF"]["TARGET"].asUInt());
+  ret = ClientManager::getInstance()->stuff((*trame)[HEADER]["IDCLIENT"].asInt(), true, (*trame)[CONTENT]["STUFF"]["IDITEM"].asUInt(), (*trame)[CONTENT]["STUFF"]["TARGET"].asUInt());
   if (!ret)
     {
       if (ObjectPoolManager::getInstance()->setObject(error, "error"))
@@ -67,7 +67,7 @@ bool				StuffActions::putStuff(Trame *trame)
   bool				ret = false;
   Error				*error = NULL;
 
-  ret = ClientManager::getInstance()->stuff((*trame)[HEADER]["IDCLIENT"].asInt(), true, (*trame)[CONTENT]["STUFF"]["IDITEM"].asUInt(), (*trame)[CONTENT]["STUFF"]["TARGET"].asUInt());
+  ret = ClientManager::getInstance()->stuff((*trame)[HEADER]["IDCLIENT"].asInt(), false, (*trame)[CONTENT]["STUFF"]["IDITEM"].asUInt(), (*trame)[CONTENT]["STUFF"]["TARGET"].asUInt());
   if (!ret)
     {
       if (ObjectPoolManager::getInstance()->setObject(error, "error"))
