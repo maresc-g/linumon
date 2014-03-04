@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 13:44:43 2013 cyril jourdain
-// Last update Thu Feb 27 10:43:18 2014 cyril jourdain
+// Last update Mon Mar  3 00:29:11 2014 cyril jourdain
 //
 
 #include		"Qt/QSFMLWidget.hpp"
@@ -75,3 +75,5 @@ bool			QSFMLWidget::eventFilter(QObject *w, QEvent *event)
     }
   return false;
 }
+
+sf::View		*QSFMLWidget::getMainView() const {return _mainView;}

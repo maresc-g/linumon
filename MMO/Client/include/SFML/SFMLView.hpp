@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Mon Mar  3 10:41:21 2014 guillaume marescaux
+// Last update Mon Mar  3 14:12:56 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -33,6 +33,8 @@
 #include		"SFML/OPlayerSprite.hh"
 #include		"SFML/RessourceSprite.hh"
 #include		"SFML/defines.hh"
+#include		"SFML/ContextView.hh"
+// #include		"SFML/WorldView.hh"
 
 class			WindowManager;
 class			SpellBarView;
@@ -44,6 +46,7 @@ class			JobMenuView;
 class			JobView;
 class			DigitaliserView;
 class			PlayerClickView;
+class			ContextView;
 
 class			SFMLView : public QSFMLWidget
 {
@@ -53,20 +56,9 @@ private:
   typedef std::map<sf::Keyboard::Key, void (SFMLView::*)()> KeyMap;
   WindowManager		*_wMan;
   SpriteManager		*_sMan;
-  PlayerSprite		*_mainPerso;
   sf::Clock		*_clock;
-  SpriteMap		*_sprites;
   KeyDelayer		*_keyDelayer;
-  std::vector<OPlayerSprite *> *_playerList;
-  std::list<RessourceSprite*>	*_entities;
-  KeyMap		*_keyMap;
-  sf::Sprite		*_spriteTest;
-  sf::Texture		*_textureTest;
-  sf::RenderTexture	*_winTexture;
-  sf::Sprite		*_winSprite;
-  bool			_changed;
   sf::Font		*_textFont;
-  sf::Keyboard::Key	_pressedKey;
   bool			_reset;
 
   /* Child Views */
@@ -80,36 +72,37 @@ private:
   DigitaliserView	*_digit;
   PlayerClickView	*_clickView;
 
+  ContextView		*_worldView;
+
+
 public:
   SFMLView(QWidget *, QPoint const &, QSize const &, WindowManager *_wMan);
   virtual ~SFMLView();
 
 public:
-  JobView		*getJobView(void) const;
+  sf::Font			*getFont(void) const;
+  SpriteManager			*getSpriteManager(void) const;
+  sf::Clock			*getMainClock(void) const;
+  KeyDelayer			*getKeyDelayer(); /* Not const, used by W&B view */
 
 private :
   virtual void			onInit();
   virtual void			onUpdate();
   virtual void			onResize(QResizeEvent *);
-  void				drawView();
-  void				checkKeys();
-  void				loadPlayerList();
-  void				loadMap();
-  void                          reloadBackgroundSprite();
   void				reset();
 
 private:
-  void				keyUp();
-  void				keyDown();
-  void				keyLeft();
-  void				keyRight();
-  void				keyI();
-  void				keyS();
-  void				keyJ();
-  void				keyEscape();
-  void				keyReturn();
-  void				keyControl();
   virtual void		        mousePressEvent(QMouseEvent *);
+
+public: /* Child view accessors for World and Battle view, not const */
+  SpellBarView			*getSpellBarView(void);
+  InventoryView			*getInventoryView(void);
+  StuffView			*getStuffView(void);
+  ChatView			*getChatView(void);
+  MenuView			*getMenuView(void);
+  JobMenuView			*getJobMenuView(void);
+  JobView			*getJobView(void);
+
 };
 
 #endif

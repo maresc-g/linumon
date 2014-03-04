@@ -35,6 +35,8 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Qt/WindowManager.hh \
                 include/Qt/CharDescription/CharDescription.hh \
                 include/SFML/SFMLView.hpp \
+                include/SFML/ContextView.hh \
+                include/SFML/WorldView.hh \
                 include/SFML/PlayerSprite.hh \
                 include/SFML/OPlayerSprite.hh \
                 include/SFML/RessourceSprite.hh \
@@ -71,6 +73,8 @@ SOURCES +=      src/main.cpp \
                 src/Qt/WindowManager.cpp \
                 src/Qt/CharDescription.cpp \
                 src/SFML/SFMLView.cpp \
+                src/SFML/WorldView.cpp \
+                src/SFML/ContextView.cpp \
                 src/SFML/PlayerSprite.cpp \
                 src/SFML/OPlayerSprite.cpp \
                 src/SFML/RessourceSprite.cpp \

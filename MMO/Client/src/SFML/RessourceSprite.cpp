@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Feb 26 14:58:57 2014 cyril jourdain
-// Last update Fri Feb 28 19:49:36 2014 cyril jourdain
+// Last update Mon Mar  3 14:05:37 2014 cyril jourdain
 //
 
 #include		"SFML/RessourceSprite.hh"
