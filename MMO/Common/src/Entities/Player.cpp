@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Mar  4 13:08:34 2014 laurent ansel
+// Last update Tue Mar  4 13:34:14 2014 laurent ansel
 //
 
 #include			<functional>
@@ -284,7 +284,7 @@ bool				Player::putPlayerEquipment(unsigned int const idItem)
   item = this->getAndDeleteItem(idItem);
   if (item && item->getItemType() == AItem::STUFF)
     {
-      ret = this->addStuff(reinterpret_cast<Stuff *>(item), old);
+      ret = this->addStuff(dynamic_cast<Stuff *>(item), old);
       if (ret && old)
 	this->addItem(old);
     }
