@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Fri Feb 28 15:52:58 2014 guillaume marescaux
+// Last update Mon Mar  3 13:41:00 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -13,7 +13,7 @@
 #include			"Qt/Views/ItemView.hh"
 
 ItemView::ItemView(QWidget *parent, WindowManager *wMan, unsigned int nb, AItem *item):
-  QWidget(parent), _wMan(wMan), _item(item), _nb(nb)
+  QWidget(parent), _wMan(wMan), _item(item), _nb(nb), _x(0), _y(0)
 {
   ui.setupUi(this);
   if (nb > 0)
@@ -108,6 +108,13 @@ void				ItemView::resize(int x, int y)
 {
   QWidget::resize(x, y);
   ui.frame->resize(x, y);
+}
+
+void				ItemView::move(int x, int y)
+{
+  QWidget::move(x, y);
+  _x = x;
+  _y = y;
 }
 
 AItem const			&ItemView::getItem() const { return (*_item); }

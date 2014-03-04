@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Mon Mar  3 14:04:30 2014 cyril jourdain
+// Last update Mon Mar  3 16:19:32 2014 guillaume marescaux
 //
 
 #include		"SFML/WorldView.hh"
@@ -312,6 +312,7 @@ void			WorldView::keyS()
 {
   if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::S) && !_sfmlView->getChatView()->getFocused())
     {
+      _sfmlView->getStuffView()->initStuff(***(_wMan->getMainPlayer()));
       if (!_sfmlView->getStuffView()->isVisible())
 	_sfmlView->getStuffView()->show();
       else

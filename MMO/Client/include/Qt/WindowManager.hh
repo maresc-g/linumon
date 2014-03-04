@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:15:41 2013 cyril jourdain
-// Last update Thu Feb 27 16:26:24 2014 guillaume marescaux
+// Last update Mon Mar  3 15:14:44 2014 guillaume marescaux
 //
 
 #ifndef 		__WINDOWMANAGER_HH__
@@ -27,6 +27,8 @@
 class	LoginView;
 class	CharacterView;
 class	SFMLView;
+class	FrameView;
+class	ItemView;
 
 class			WindowManager
 {
@@ -58,6 +60,7 @@ public:
   MutexVar<CLIENT::eState>	*getState();
   MutexVar<Player*>		*getMainPlayer();
   MutexVar<bool>		*getNewPlayer();
+  SFMLView		*getSFMLView(void);
 };
 
 #endif
