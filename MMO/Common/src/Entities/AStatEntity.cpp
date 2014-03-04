@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Mon Mar  3 21:01:47 2014 alexis mestag
+// Last update Tue Mar  4 11:19:11 2014 alexis mestag
 //
 
 #include			"Entities/AStatEntity.hh"
@@ -29,7 +29,7 @@ AStatEntity::AStatEntity(std::string const &name, AStatEntity::eStatEntity const
 }
 
 AStatEntity::AStatEntity(AStatEntity const &rhs) :
-  AEntity(rhs)
+  AEntity(rhs), _stats(new Stats), _tmpStats(new Stats)
 {
   *this = rhs;
 }
