@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Mon Mar  3 12:22:45 2014 alexis mestag
+// Last update Tue Mar  4 11:41:37 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -13,12 +13,14 @@
 #include			<algorithm>
 #include			"Stats/Stats.hh"
 
-Stats::Stats()
+Stats::Stats() :
+  ContainerWrapper<container_type>()
 {
 
 }
 
-Stats::Stats(Stats const &rhs)
+Stats::Stats(Stats const &rhs) :
+  ContainerWrapper<container_type>()
 {
   *this = rhs;
 }
@@ -32,7 +34,8 @@ Stats				&Stats::operator=(Stats const &rhs)
 {
   if (this != &rhs)
     {
-      this->setStats(rhs.getStatsDeepCopy());
+      // this->setStats(rhs.getStatsDeepCopy());
+      this->setStats(rhs.getStats());
     }
   return (*this);
 }
@@ -89,17 +92,6 @@ Stats				&Stats::operator-=(Stats const &rhs)
   return (*this);
 }
 
-Stats::container_type		&Stats::getStatsDeepCopy() const
-{
-  std::list<Stat *>		*ret = new std::list<Stat *>;
-
-  for (auto it = _stats.cbegin() ; it != _stats.cend() ; ++it)
-    {
-      ret->push_back(new Stat(**it));
-    }
-  return (*ret);
-}
-
 Stat				*Stats::get(StatKey const &key) const
 {
   return (this->get(key.getName()));
@@ -115,9 +107,9 @@ Stat				*Stats::get(std::string const &key) const
   std::function<bool(Stat *)>	statSeeker = [&](Stat *s) -> bool {
     return (s->getKey().getName() == key);
   };
-  auto				it = std::find_if(_stats.begin(), _stats.end(), statSeeker);
+  auto				it = std::find_if(this->begin(), this->end(), statSeeker);
 
-  return (it != _stats.end() ? *it : NULL);  
+  return (it != this->end() ? *it : NULL);  
 }
 
 void				Stats::smartAssign(Stats const &rhs)
@@ -140,7 +132,7 @@ void				Stats::removeShortLivedStats()
     return (false);
   };
 
-  _stats.remove_if(shortLivedStatSeeker);
+  this->getContainer().remove_if(shortLivedStatSeeker);
 }
 
 void				Stats::setStats(container_type const &stats)
@@ -160,7 +152,7 @@ void				Stats::setStats(container_type const &stats)
 
 Stats::container_type const	&Stats::getStats() const
 {
-  return (_stats);
+  return (this->getContainer());
 }
 
 Stat::value_type		Stats::getStat(StatKey const &key) const
@@ -183,7 +175,7 @@ void				Stats::setStat(StatKey const &key, Stat::value_type const value,
   if (s)
     s->setValue(value);
   else if (add) {
-    _stats.push_back(new Stat(key, value));
+    this->getContainer().push_back(new Stat(key, value));
   }
 }
 
@@ -212,21 +204,21 @@ void				Stats::deleteStats()
     return (true);
   };
 
-  _stats.remove_if(f);
+  this->getContainer().remove_if(f);
 }
 
 bool				Stats::serialization(Trame &trame) const
 {
   bool				ret = true;
-  std::ostringstream		str;
-  unsigned int			nb = 0;
+  // std::ostringstream		str;
+  // unsigned int			nb = 0;
 
-  for (auto it = this->_stats.begin() ; it != this->_stats.end() ; ++it)
+  for (auto it = this->begin() ; it != this->end() ; ++it)
     {
-      str << nb;
-      (*it)->serialization(trame(trame[str.str()]));
-      str.str("");
-      nb++;
+      //      str << nb;
+      (*it)->serialization(trame/*(trame[str.str()])*/);
+      // str.str("");
+      // nb++;
     }
   return (ret);
 }
@@ -247,7 +239,10 @@ Stats				*Stats::deserialization(Trame const &trame)
 	{
 	  st = Stat::deserialization(trame(trame["STATS"][*it]));
 	  if (st)
-	    stat->push_back(st);
+	    {
+	      st->setKey(*new StatKey(*it));
+	      stat->push_back(st);
+	    }
 	}
       stats->setStats(*stat);
     }
@@ -261,7 +256,10 @@ Stats				*Stats::deserialization(Trame const &trame)
 	{
 	  st = Stat::deserialization(trame(trame["TMPSTATS"][*it]));
 	  if (st)
-	    stat->push_back(st);
+	    {
+	      st->setKey(*new StatKey(*it));
+	      stat->push_back(st);
+	    }
 	}
       stats->setStats(*stat);
     }

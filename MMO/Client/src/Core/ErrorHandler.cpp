@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb  3 13:06:46 2014 guillaume marescaux
-// Last update Wed Feb  5 11:28:56 2014 guillaume marescaux
+// Last update Tue Mar  4 13:09:00 2014 guillaume marescaux
 //
 
 #include			"Core/ErrorHandler.hh"
@@ -52,7 +52,8 @@ void				ErrorHandler::handleError(Error const &error, MutexVar<CLIENT::eState> *
       { Error::CREATEPLAYER, &ErrorHandler::nameExists }
     };
 
-  (this->*ptrs[error.getType()])(state);
+  if (ptrs.find(error.getType()) != ptrs.end())
+    (this->*ptrs[error.getType()])(state);
 }
 
 //--------------------------------------END METHODS--------------------------------------------

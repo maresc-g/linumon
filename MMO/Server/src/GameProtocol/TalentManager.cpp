@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:23:10 2014 laurent ansel
-// Last update Tue Feb 11 15:41:29 2014 laurent ansel
+// Last update Tue Mar  4 00:25:40 2014 alexis mestag
 //
 
 #include			<functional>
@@ -48,7 +48,7 @@ void				TalentManager::updateTalents(Trame *trame, Player *player)
     {
       Repository<Talent>	*rp = &Database::getRepository<Talent>();
       auto			members = (*trame)["TALENTS"].getMemberNames();
-      std::list<Talent *>	talent = player->getTalents();
+      Talents			talent = player->getTalents();
 
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	{

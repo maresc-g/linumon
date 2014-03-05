@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:40:15 2014 laurent ansel
-// Last update Fri Feb 28 15:44:24 2014 laurent ansel
+// Last update Tue Mar  4 12:22:21 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -14,17 +14,22 @@
 Craft::Craft():
   Persistent(),
   Nameable(),
+  ContainerWrapper<container_type>(),
+  _level(new Level),
   _result(NULL)
 {
 }
 
 Craft::~Craft()
 {
+  delete _level;
 }
 
 Craft::Craft(Craft const &rhs):
   Persistent(rhs),
-  Nameable(rhs)
+  Nameable(rhs),
+  ContainerWrapper<container_type>(),
+  _level(new Level)
 {
   *this = rhs;
 }
@@ -33,31 +38,54 @@ Craft				&Craft::operator=(Craft const &rhs)
 {
   if (this != &rhs)
     {
-      this->setLevel(rhs.getLevel());
+      this->setLevelObject(rhs.getLevelObject());
       this->setIngredients(rhs.getIngredients());
       this->setResult(rhs.getResult());
     }
   return (*this);
 }
 
-std::list<std::pair<AItem *, unsigned int> > const	&Craft::getIngredients() const
+Craft::container_type const	&Craft::getIngredients() const
 {
-  return (this->_ingredients);
+  return (this->getContainer());
 }
 
-void				Craft::setIngredients(std::list<std::pair<AItem *, unsigned int> > const &list)
+void				Craft::setIngredients(container_type const &list)
 {
-  this->_ingredients = list;
+  this->setContainer(list);
 }
 
-Level const			&Craft::getLevel() const
+Level const			&Craft::getLevelObject() const
 {
-  return (this->_level);
+  return (*this->_level);
 }
 
-void				Craft::setLevel(Level const &level)
+void				Craft::setLevelObject(Level const &level)
 {
-  this->_level = level;
+  if (!_level)
+    this->_level = new Level(level);
+  else
+    *this->_level = level;
+}
+
+Level::type			Craft::getLevel() const
+{
+  return (_level->getLevel());
+}
+
+void				Craft::setLevel(Level::type const level)
+{
+  _level->setLevel(level);
+}
+
+Level::type			Craft::getExp() const
+{
+  return (_level->getExp());
+}
+
+void				Craft::setExp(Level::type const exp)
+{
+  _level->setExp(exp);
 }
 
 AItem const			&Craft::getResult() const
@@ -78,9 +106,9 @@ bool				Craft::serialization(Trame &trame) const
 
   trame["NAME"] = this->getName();
   trame["INGS"];
-  this->_level.serialization(trame(trame));
+  this->_level->serialization(trame);
   this->_result->serialization(trame(trame["RES"]));
-  for (auto it = this->_ingredients.begin() ; it != this->_ingredients.end() && ret; ++it)
+  for (auto it = this->begin() ; it != this->end() && ret; ++it)
     {
       str <<  nb;
       ret = it->first->serialization(trame(trame["INGS"][str.str()]));
@@ -96,14 +124,14 @@ bool				Craft::serialization(Trame &trame) const
 Craft				*Craft::deserialization(Trame const &trame, bool const client)
 {
   Craft				*craft = NULL;
-  std::list<std::pair<AItem *, unsigned int> >		*ingredients;
+  container_type		*ingredients;
   AItem				*item;
 
   craft = new Craft;
   craft->setName(trame["NAME"].asString());
-  craft->setLevel(*Level::deserialization(trame(trame)));
+  craft->setLevelObject(*Level::deserialization(trame(trame)));
   craft->setResult(*AItem::deserialization(trame(trame["RES"]), client));
-  ingredients = new std::list<std::pair<AItem *, unsigned int> >;
+  ingredients = new container_type;
   auto			members = trame["INGS"].getMemberNames();
 
   for (auto it = members.begin() ; it != members.end() ; ++it)

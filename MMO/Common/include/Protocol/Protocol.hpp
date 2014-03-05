@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Thu Feb 27 14:11:09 2014 laurent ansel
+// Last update Tue Mar  4 12:55:23 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -80,8 +80,9 @@ bool				entity(unsigned int const id, int playerId, Player::PlayerCoordinate con
 bool				removeEntity(unsigned int const id, int removeId, Zone *zone);
 bool				chat(unsigned int const id, std::string idZone, std::string msg);
 bool				capture(unsigned int const id, unsigned int idBattle, unsigned int target);
+bool				stuff(unsigned int const id, int action, unsigned int idItem, unsigned int target);
 //  bool				stuff(void *action);
-  // bool				talents();
+  // bool				talents();'
 bool				craft(unsigned int const id, std::string craftName, std::string jobName);
   // bool				gather();
 bool				objectEffect(unsigned int const id, Stats *stats);

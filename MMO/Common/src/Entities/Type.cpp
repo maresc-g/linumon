@@ -5,32 +5,32 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 21:14:39 2013 alexis mestag
-// Last update Thu Feb 27 17:53:15 2014 alexis mestag
+// Last update Tue Mar  4 00:39:11 2014 alexis mestag
 //
 
 #include			"Entities/Type.hh"
 
 Type::Type() :
-  Persistent(), Nameable()
+  Persistent(), Nameable(), _relations(new TypeRelations)
 {
 
 }
 
 Type::Type(std::string const &name) :
-  Persistent(), Nameable(name)
+  Persistent(), Nameable(name), _relations(new TypeRelations)
 {
 
 }
 
 Type::Type(Type const &rhs) :
-  Persistent(rhs), Nameable(rhs)
+  Persistent(rhs), Nameable(rhs), _relations(new TypeRelations)
 {
   *this = rhs;
 }
 
 Type::~Type()
 {
-
+  delete _relations;
 }
 
 Type				&Type::operator=(Type const &rhs)
@@ -54,15 +54,15 @@ bool				Type::operator!=(Type const &rhs) const
 
 TypeRelations const		&Type::getRelations() const
 {
-  return (_relations);
+  return (*_relations);
 }
 
 void				Type::setRelations(TypeRelations const &relations)
 {
-  _relations = relations;
+  *_relations = relations;
 }
 
-TypeRelations::Link::coeff_type	Type::getCoeffAgainst(Type const &type) const
+Link::coeff_type		Type::getCoeffAgainst(Type const &type) const
 {
   return (this->getRelations().getCoeffOf(type));
 }

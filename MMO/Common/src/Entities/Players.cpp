@@ -5,19 +5,21 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 15:55:08 2013 alexis mestag
-// Last update Tue Feb  4 12:58:37 2014 laurent ansel
+// Last update Mon Mar  3 16:37:25 2014 alexis mestag
 //
 
 #include			<functional>
 #include			<sstream>
 #include			"Entities/Players.hh"
 
-Players::Players()
+Players::Players() :
+  ContainerWrapper<container_type>()
 {
 
 }
 
-Players::Players(Players const &rhs)
+Players::Players(Players const &rhs) :
+  ContainerWrapper<container_type>()
 {
   *this = rhs;
 }
@@ -43,10 +45,10 @@ void				Players::deletePlayers()
     return (true);
   };
 
-  _players.remove_if(f);
+  this->getContainer().remove_if(f);
 }
 
 void				Players::addPlayer(Player &player)
 {
-  _players.push_back(&player);
+  this->getContainer().push_back(&player);
 }

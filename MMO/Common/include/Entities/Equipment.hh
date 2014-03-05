@@ -5,31 +5,30 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:26:08 2014 laurent ansel
-// Last update Mon Feb 24 15:44:55 2014 guillaume marescaux
+// Last update Mon Mar  3 16:14:21 2014 alexis mestag
 //
 
 #ifndef 			__EQUIPMENT_HH__
 # define 			__EQUIPMENT_HH__
 
-#include			<map>
-#include			"Entities/Stuff.hh"
-#include			"Utility/ISerialization.hh"
+# include			<map>
+# include			"Entities/Stuff.hh"
+# include			"Utility/ISerialization.hh"
+# include			"Utility/Wrapper.hpp"
 
-class				Equipment : public ISerialization
+class				Equipment : public ISerialization,
+					    public ContainerWrapper<std::map<Stuff::eStuff, Stuff *>>
 {
-private:
-  std::map<Stuff::eStuff, Stuff *>	_stuffs;
-
 public:
   Equipment();
-  virtual ~Equipment();
-
   Equipment(Equipment const &rhs);
+
+  virtual ~Equipment();
 
   Equipment		&operator=(Equipment const &rhs);
 
-  std::map<Stuff::eStuff, Stuff *> const	&getStuffs() const;
-  void			setStuffs(std::map<Stuff::eStuff, Stuff *> const &);
+  container_type const	&getStuffs() const;
+  void			setStuffs(container_type const &);
   bool			addStuff(Stuff *newStuff, Stuff *&oldStuff);
   bool			addStuff(Stuff::eStuff const type, Stuff *&oldStuff);
   bool			getStuff(Stuff *&oldStuff, unsigned int const idItem);
@@ -39,9 +38,5 @@ public:
   virtual bool		serialization(Trame &trame) const;
   static Equipment	*deserialization(Trame const &trame);
 };
-
-# ifdef	ODB_COMPILER
-#  pragma db value(Equipment)
-# endif
 
 #endif

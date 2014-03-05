@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:08:36 2013 alexis mestag
-// Last update Sun Mar  2 16:50:57 2014 alexis mestag
+// Last update Tue Mar  4 11:42:38 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -123,8 +123,8 @@ bool		 		Stat::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  trame["KEY"] = this->getKey().getName();
-  trame["VALUE"] = this->getValue();
+  // trame["KEY"] = this->getKey().getName();
+  trame[this->getKey().getName()] = this->getValue();
   return (ret);
 }
 
@@ -132,6 +132,8 @@ Stat				*Stat::deserialization(Trame const &trame)
 {
   Stat				*stat = NULL;
 
-  stat = new Stat(*new StatKey(trame["KEY"].asString()), trame["VALUE"].asInt());
+  //  stat = new Stat(*new StatKey(trame["KEY"].asString()), trame["VALUE"].asInt());
+  stat = new Stat();
+  stat->setValue(trame.asUInt());
   return (stat);
 }

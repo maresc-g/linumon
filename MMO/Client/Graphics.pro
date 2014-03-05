@@ -119,6 +119,7 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Stats/StatKey.cpp \ 
                 ../Common/src/Stats/TalentTree.cpp \ 
                 ../Common/src/Stats/Talent.cpp \ 
+                ../Common/src/Stats/Talents.cpp \ 
                 ../Common/src/Stats/TalentModel.cpp \ 
                 ../Common/src/Trame/Trame.cpp \ 
                 ../Common/src/Header/Header.cpp \ 

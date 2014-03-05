@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:54:34 2013 alexis mestag
-// Last update Fri Feb 28 13:41:44 2014 laurent ansel
+// Last update Tue Mar  4 11:46:09 2014 laurent ansel
 //
 
 #include			"Entities/Spell.hh"
@@ -97,9 +97,9 @@ bool				Spell::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  trame["NAME"] = this->getName();
-  this->_type->serialization(trame);
-  trame["POW"] = this->_power;
+  //  trame["NAME"] = this->getName();
+  this->_type->serialization(trame(trame[this->getName()]));
+  trame[this->getName()]["POW"] = this->_power;
   return (ret);
 }
 
@@ -108,7 +108,7 @@ Spell				*Spell::deserialization(Trame const &trame)
   Spell				*spell = new Spell;
 
   spell->setType(*Type::deserialization(trame));
-  spell->setName(trame["NAME"].asString());
+  //  spell->setName(trame["NAME"].asString());
   spell->setPower(trame["POW"].asInt());
   return (spell);
 }

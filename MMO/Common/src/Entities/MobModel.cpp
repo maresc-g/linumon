@@ -5,26 +5,28 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:39:45 2014 alexis mestag
-// Last update Fri Feb 28 13:28:34 2014 laurent ansel
+// Last update Mon Mar  3 22:45:51 2014 alexis mestag
 //
 
 #include			"Entities/MobModel.hh"
 
 MobModel::MobModel() :
-  Persistent(), AStatEntity("", eStatEntity::MOBMODEL)
+  Persistent(), AStatEntity("", eStatEntity::MOBMODEL),
+  _spells(new Spells)
 {
 
 }
 
 MobModel::MobModel(MobModel const &rhs) :
-  Persistent(rhs), AStatEntity(rhs)
+  Persistent(rhs), AStatEntity(rhs),
+  _spells(new Spells)
 {
   *this = rhs;
 }
 
 MobModel::~MobModel()
 {
-
+  delete _spells;
 }
 
 MobModel			&MobModel::operator=(MobModel const &rhs)
@@ -32,6 +34,7 @@ MobModel			&MobModel::operator=(MobModel const &rhs)
   if (this != &rhs)
     {
       this->setType(rhs.getType());
+      this->setSpells(rhs.getSpells());
     }
   return (*this);
 }
@@ -48,12 +51,12 @@ void				MobModel::setType(Type const &type)
 
 Spells const			&MobModel::getSpells() const
 {
-  return (_spells);
+  return (*_spells);
 }
 
 void				MobModel::setSpells(Spells const &spells)
 {
-  this->_spells = spells;
+  *this->_spells = spells;
 }
 
 bool				MobModel::serialization(Trame &trame) const

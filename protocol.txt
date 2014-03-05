@@ -39,7 +39,7 @@
 			#  end
 
 			#  stuff
-			STUFF : {action : eActionStuff, item : AItem, target : ACharacter} -> client
+			STUFF : {action : eActionStuff, idItem : unsigned int, target : unsgined int} -> client
 			[not equippable] = ERROR : {not equippable : eError} -> server
 			[else] = UPDATECHARACTER : {character : ACharacter} -> server
 			#  end

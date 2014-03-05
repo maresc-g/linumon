@@ -5,18 +5,20 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Fri Feb 28 13:17:14 2014 laurent ansel
+// Last update Wed Mar  5 12:14:27 2014 laurent ansel
 //
 
 #include			<sstream>
 #include			"Entities/Digitaliser.hh"
 
-Digitaliser::Digitaliser()
+Digitaliser::Digitaliser() :
+  ContainerWrapper<container_type>()
 {
 
 }
 
-Digitaliser::Digitaliser(Digitaliser const &rhs)
+Digitaliser::Digitaliser(Digitaliser const &rhs) :
+  ContainerWrapper<container_type>()
 {
   *this = rhs;
 }
@@ -30,25 +32,26 @@ Digitaliser			&Digitaliser::operator=(Digitaliser const &rhs)
 {
   if (this != &rhs)
     {
-      for (auto it = rhs.getMobs().begin() ; it != rhs.getMobs().end(); ++it)
-	this->_mobs.push_back(new Mob(**it));
+      // Je tuerai celui qui a fait ça (mestag_a)
+      for (auto it = rhs.begin() ; it != rhs.end(); ++it)
+      	this->getContainer().push_back(new Mob(**it));
       for (auto it = rhs.getBattleMobs().begin() ; it != rhs.getBattleMobs().end(); ++it)
-	this->_battleMobs.push_back(new Mob(**it));
+      	this->_battleMobs.push_back(new Mob(**it));
     }
   return (*this);
 }
 
-Digitaliser::Mobs const		&Digitaliser::getMobs() const
+Digitaliser::container_type const	&Digitaliser::getMobs() const
 {
-  return (_mobs);
+  return (this->getContainer());
 }
 
-void				Digitaliser::setMobs(Mobs const &mobs)
+void				Digitaliser::setMobs(Digitaliser::container_type const &mobs)
 {
-  this->_mobs = mobs;
+  this->setContainer(mobs);
 }
 
-Digitaliser::Mobs const		&Digitaliser::getBattleMobs() const
+Digitaliser::container_type const	&Digitaliser::getBattleMobs() const
 {
   return (_battleMobs);
 }
@@ -60,7 +63,7 @@ void				Digitaliser::setBattleMobs(Mobs const &mobs)
 
 void				Digitaliser::addMob(Mob const &mob)
 {
-  _mobs.push_back(new Mob(mob));
+  this->getContainer().push_back(new Mob(mob));
 }
 
 void				Digitaliser::addBattleMob(Mob const &mob)
@@ -83,11 +86,11 @@ void				Digitaliser::battleMobtoMob(unsigned int const id)
 
 void				Digitaliser::mobtoBattleMob(unsigned int const id)
 {
-  for (auto it = _mobs.begin() ; it != _mobs.end() ; ++it)
+  for (auto it = this->begin() ; it != this->end() ; ++it)
     {
       if ((*it)->getId() == id)
 	{
-	  _mobs.erase(it);
+	  this->getContainer().erase(it);
 	  this->addBattleMob(**it);
 	  break;
 	}
@@ -97,6 +100,11 @@ void				Digitaliser::mobtoBattleMob(unsigned int const id)
 Mob				*Digitaliser::getMob(unsigned int const id) const
 {
   for (auto it = _battleMobs.begin() ; it != _battleMobs.end() ; ++it)
+    {
+      if ((*it)->getId() == id)
+	return (*it);
+    }
+  for (auto it = this->begin() ; it != this->end() ; ++it)
     {
       if ((*it)->getId() == id)
 	return (*it);
@@ -111,7 +119,7 @@ bool				Digitaliser::serialization(Trame &trame) const
   std::ostringstream		str;
 
   trame["DIGITALISER"];
-  for (auto it = this->_mobs.begin() ; it != this->_mobs.end() && ret; ++it)
+  for (auto it = this->begin() ; it != this->end() && ret; ++it)
     {
       str << nb;
       ret = (*it)->serialization(trame(trame["DIGITALISER"]["LIST"][str.str()]));

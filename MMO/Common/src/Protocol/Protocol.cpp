@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Mar  3 01:57:21 2014 antoine maitre
+// Last update Tue Mar  4 13:10:32 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -86,6 +86,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("DISCONNECT", &disconnect);
       this->_container->load<unsigned int>("SWITCHPLAYER", &switchPlayer);
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
+      this->_container->load<unsigned int, int, unsigned int, unsigned int>("STUFF", &stuff);
     }
 }
 
@@ -885,7 +886,7 @@ bool			updateCharacter(unsigned int const id, ACharacter const *character)
       header->setProtocole("TCP");
       if (header->serialization(*trame))
 	{
-	  character->getStats().serialization((*trame)((*trame)["UPDATECHARACTER"]));
+	  character->getStats().serialization((*trame)((*trame)[CONTENT]["UPDATECHARACTER"]));
 	  trame->setEnd(true);
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 	  ret = true;
@@ -946,6 +947,29 @@ bool			deleteFromInventory(unsigned int const id, std::list<std::pair<unsigned i
 	  str.str("");
 	  nb++;
 	}
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			stuff(unsigned int const id, int action, unsigned int idItem, unsigned int target)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["STUFF"]["ACTION"] = action;
+      (*trame)[CONTENT]["STUFF"]["TARGET"] = target;
+      (*trame)[CONTENT]["STUFF"]["IDITEM"] = idItem;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;

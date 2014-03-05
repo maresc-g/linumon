@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:21:21 2014 laurent ansel
-// Last update Fri Feb 28 15:09:32 2014 laurent ansel
+// Last update Mon Mar  3 22:41:07 2014 alexis mestag
 //
 
 #ifndef 		__JOBMODEL_HH__
@@ -21,15 +21,18 @@ class			JobModel : public Persistent, public Nameable, public ISerialization
 {
   friend class		odb::access;
 
+public:
+  typedef std::list<Gather>	gathers_container_type;
+
 private:
   std::string		_path;
   std::list<Craft *>	*_crafts;
-  std::list<Gather>	_gather;
+  std::list<Gather>	*_gathers;
 
   JobModel();
 
   void			setCrafts(std::list<Craft *> const &crafts);
-  void			setGather(std::list<Gather> const &gather);
+  void			setGathers(std::list<Gather> const &gathers);
 
 public:
   JobModel(JobModel const &rhs);
@@ -42,7 +45,7 @@ public:
 
   std::list<Craft *> const	&getCrafts() const;
   Craft const			*getCraft(std::string const &name) const;
-  std::list<Gather> const	&getGather() const;
+  std::list<Gather> const	&getGathers() const;
 
   std::string const	&getPath() const;
   void			setPath(std::string const &path);
@@ -54,7 +57,9 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(JobModel)
 #  pragma db member(JobModel::_crafts) transient
+#  pragma db member(JobModel::_gathers) transient
 #  pragma db member(JobModel::_path) get(getPath()) set(setPath(?))
+#  pragma db member(JobModel::gathers) virtual(JobModel::gathers_container_type) get(getGathers()) set(setGathers(?))
 # endif
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:55:36 2014 guillaume marescaux
-// Last update Fri Feb 28 14:47:08 2014 guillaume marescaux
+// Last update Mon Mar  3 21:43:12 2014 alexis mestag
 //
 
 #include			<QMessageBox>
@@ -52,7 +52,7 @@ void				JobView::handleChange()
 	  break;
 	}
     }
-  if (ret && _currentCraft->getCraft().getLevel().getLevel() <= _job->getLevel().getLevel())
+  if (ret && _currentCraft->getCraft().getLevel() <= _job->getLevel())
     ui.b_craft->setEnabled(true);
   else
     ui.b_craft->setEnabled(false);
@@ -75,9 +75,9 @@ void				JobView::setInfos(Job const &job)
 
   _job = &job;
   ui.l_name->setText(job.getJobModel().getName().c_str());
-  ui.l_level->setText(std::to_string(job.getLevel().getLevel()).c_str());
-  std::cout << "EXP MAX = " << job.getLevel().getExp() << " EXP CUR = " << job.getCurrentExp() << std::endl;
-  ui.pb_exp->setMaximum(job.getLevel().getExp());
+  ui.l_level->setText(std::to_string(job.getLevel()).c_str());
+  std::cout << "EXP MAX = " << job.getExp() << " EXP CUR = " << job.getCurrentExp() << std::endl;
+  ui.pb_exp->setMaximum(job.getExp());
   ui.pb_exp->setValue(job.getCurrentExp());
   ui.tw_crafts->clearContents();
   for (int i = 0 ; i < ui.tw_crafts->rowCount() ; i++)
@@ -88,7 +88,7 @@ void				JobView::setInfos(Job const &job)
       item = new QTableWidgetItem((*it)->getName().c_str());
       item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter); 
       ui.tw_crafts->setItem(i, 0, item);
-      item = new QTableWidgetItem(std::to_string((*it)->getLevel().getLevel()).c_str());
+      item = new QTableWidgetItem(std::to_string((*it)->getLevel()).c_str());
       item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter); 
       ui.tw_crafts->setItem(i, 1, item);
       i++;

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 27 16:57:56 2014 alexis mestag
-// Last update Thu Feb 27 20:22:50 2014 alexis mestag
+// Last update Mon Mar  3 21:51:14 2014 alexis mestag
 //
 
 #include				"NormalEffect.hh"
@@ -31,7 +31,7 @@ void					NormalEffect::initialize(Mob &caster, Spell &spell, Mob &target)
   // ((Pui
   hp = spell.getPower() * (caster.getType() == spell.getType() ? 1.5 : 1);
   // × Att × (2 + 0.4 × Niv))
-  hp *= caster.getTmpStat("Attack") * (2 + 0.4 * caster.getLevel().getLevel()); 
+  hp *= caster.getTmpStat("Attack") * (2 + 0.4 * caster.getLevel());
   // ÷ (Def × 50)
   hp /= target.getTmpStat("Defense") * 50;
   // + 2) * CE

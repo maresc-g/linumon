@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Mar  5 14:59:52 2014 cyril jourdain
+// Last update Wed Mar  5 15:04:03 2014 cyril jourdain
 //
 
 /*
@@ -43,6 +43,8 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _clickView->hide();
   _job->move(300, 100);
   _digit->hide();
+  _digit->move(800, 0);
+  _inventory->move(1500, 0);
   _job->hide();
   _menu->move(WIN_W / 2 - _menu->size().width() / 2, WIN_H / 2 - _menu->size().height() / 2);
   _menu->hide();
@@ -70,7 +72,7 @@ void			SFMLView::onInit()
   _reset = false;
   _clock->restart();
   _inventory->initInventory();
-  _stuff->initStuff(***(_wMan->getMainPlayer()));
+  _digit->initDigit((**_wMan->getMainPlayer())->getDigitaliser());
   _worldView->onInit();
   // *(_wMan->getState()) = CLIENT::LOADING_BATTLE;
   _battleView->onInit();
