@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Mar  4 12:52:31 2014 guillaume marescaux
+// Last update Wed Mar  5 15:37:36 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -31,7 +31,8 @@ static void			*runThread(void *data)
 
 Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
 	   MutexVar<std::list<PlayerView *> *> *players,
-	   MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer):
+	   MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer,
+	   MutexVar<Battle *> *battle):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
@@ -46,6 +47,7 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _players(players),
   _chat(chat),
   _newPlayer(newPlayer),
+  _battle(battle),
   _handler(new ErrorHandler)
 {
   std::function<bool (Trame *)> func;
@@ -75,6 +77,10 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("DELETEFROMINVENTORY", func);
   func = std::bind1st(std::mem_fun(&Core::job), this);
   _proto->addFunc("JOB", func);
+  func = std::bind1st(std::mem_fun(&Core::launchBattle), this);
+  _proto->addFunc("LAUNCHBATTLE", func);
+  func = std::bind1st(std::mem_fun(&Core::turnTo), this);
+  _proto->addFunc("TURNTO", func);
 
   (*_sockets)[TCP] = new Socket;
   (*_sockets)[UDP] = new Socket;
@@ -212,9 +218,17 @@ bool				Core::map(Trame *trame)
   return (true);
 }
 
-bool				Core::launchBattle(Trame *)
+bool				Core::launchBattle(Trame *trame)
 {
-  *_state = CLIENT::BATTLE;
+  *_state = CLIENT::LOADING_BATTLE;
+  (**_battle)->setInfos(_player, (*trame)[CONTENT]["LAUNCHBATTLE"]["ID"].asUInt(),
+			Player::deserialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"])));
+  return (true);
+}
+
+bool				Core::turnTo(Trame *trame)
+{
+  (**_battle)->setTurnTo((*trame)[CONTENT]["TURNTO"].asUInt());
   return (true);
 }
 

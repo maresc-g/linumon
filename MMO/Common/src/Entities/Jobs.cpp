@@ -5,10 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 12:53:14 2014 laurent ansel
-// Last update Mon Mar  3 16:31:27 2014 alexis mestag
+// Last update Tue Mar  4 15:49:03 2014 alexis mestag
 //
 
 #include			<sstream>
+#include			<functional>
 #include			"Entities/Jobs.hh"
 
 Jobs::Jobs() :
@@ -24,7 +25,7 @@ Jobs::Jobs(Jobs const &rhs) :
 
 Jobs::~Jobs()
 {
-
+  this->deleteJobs();
 }
 
 Jobs				&Jobs::operator=(Jobs const &rhs)
@@ -62,6 +63,16 @@ void				Jobs::setJob(std::string const &name, Job *job)
 	  break;
 	}
     }
+}
+
+void				Jobs::deleteJobs()
+{
+  static std::function<bool(Job *)>	jobDeleter = [](Job *j) -> bool {
+    delete j;
+    return (true);
+  };
+
+  this->getContainer().remove_if(jobDeleter);
 }
 
 bool				Jobs::serialization(Trame &trame) const

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Mon Mar  3 15:52:05 2014 alexis mestag
+// Last update Tue Mar  4 15:51:31 2014 alexis mestag
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -26,6 +26,8 @@ private:
 
 private:
   Digitaliser(Digitaliser const &rhs);
+
+  void			deleteMobs();
 
 public:
   Digitaliser();

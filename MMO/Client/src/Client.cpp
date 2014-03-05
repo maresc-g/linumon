@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Tue Mar  4 12:52:09 2014 guillaume marescaux
+// Last update Wed Mar  5 12:40:24 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -18,7 +18,8 @@ Client::Client():
   _players(new MutexVar<std::list<PlayerView *> *>(new std::list<PlayerView *>)),
   _chat(new MutexVar<Chat *>(new Chat)),
   _newPlayer(new MutexVar<bool>(false)),
-  _core(new Core(_state, _player, _players, _chat, _newPlayer)),
+  _battle(new MutexVar<Battle *>(new Battle)),
+  _core(new Core(_state, _player, _players, _chat, _newPlayer, _battle)),
   _manager(NULL)
 {
 }

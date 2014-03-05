@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb 17 14:49:11 2014 alexis mestag
-// Last update Wed Feb 19 01:04:21 2014 alexis mestag
+// Last update Tue Mar  4 14:57:35 2014 alexis mestag
 //
 
 #ifndef				__SESSION_HPP__
@@ -15,6 +15,8 @@
 # include			<memory>
 # include			<cassert>
 # include			<typeinfo>
+# include			<type_traits>
+// # include			<iostream>
 # include			<odb/database.hxx>
 # include			<odb/traits.hxx>
 # include			<odb/details/type-info.hxx>
@@ -26,7 +28,6 @@ class				Session : public Singleton<Session>
   friend class			Singleton<Session>;
 
 private:
-  // Attr
   Mutex				*_mtx;
 
 private:
@@ -35,6 +36,12 @@ private:
     _mtx->init();
   }
   virtual ~Session() {
+    _mtx->lock();
+    for (auto it = _cache.begin() ; it != _cache.end() ; ) {
+      delete it->second;
+      it = _cache.erase(it);
+    }
+    _mtx->unlock();
     _mtx->destroy();
     delete _mtx;
   }
@@ -69,26 +76,56 @@ public:
     cache_position(cache_position const &rhs) {
       *this = rhs;
     }
+
+    void			reset(t_map &map, t_map_it const &it) {
+      _map = &map;
+      _it = it;
+    }
+
     cache_position		&operator=(cache_position const &rhs) {
       if (this != &rhs) {
-	_map = rhs._map;
-	_it = rhs._it;
+	this->reset(*rhs._map, rhs._it);
       }
       return (*this);
     }
 
     void			erase() const {
       if (_map)
-	_map->erase(_it);
+	{
+	  // std::cout << "Erasing an iterator";
+	  if (std::is_pointer<typename odb::object_traits<T>::pointer_type>::value) {
+	    // std::cout << " (was a pointer, deleting it ... ";
+	    delete _it->second;
+	    // std::cout << " Done)";
+	  }
+	  // std::cout << std::endl;
+	  _map->erase(_it);
+	}
     }
   };
 
 private:
-  struct			object_map_base {};
+  struct			object_map_base
+  {
+    virtual ~object_map_base() {}
+  };
   template<typename T>
   struct			object_map : public object_map_base
   {
     typename cache_position<T>::t_map	map;
+
+    virtual ~object_map() {
+      for (auto it = map.begin() ; it != map.end() ; ) {
+	// std::cout << "Erasing an iterator";
+	if (std::is_pointer<typename odb::object_traits<T>::pointer_type>::value) {
+	  // std::cout << " (was a pointer, deleting it ... ";
+	  delete it->second;
+	  // std::cout << " Done)";
+	}
+	// std::cout << std::endl;
+	it = map.erase(it);
+      }
+    }
   };
 
   typedef std::map<std::type_info const *,

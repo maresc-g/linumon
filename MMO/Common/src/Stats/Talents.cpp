@@ -5,9 +5,10 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Mar  4 00:06:53 2014 alexis mestag
-// Last update Tue Mar  4 00:14:19 2014 alexis mestag
+// Last update Tue Mar  4 15:49:57 2014 alexis mestag
 //
 
+#include				<functional>
 #include				"Stats/Talents.hh"
 
 Talents::Talents() :
@@ -24,7 +25,7 @@ Talents::Talents(Talents const &rhs) :
 
 Talents::~Talents()
 {
-
+  this->deleteTalents();
 }
 
 Talents					&Talents::operator=(Talents const &rhs)
@@ -44,4 +45,14 @@ Talents::container_type const		&Talents::getTalents() const
 void					Talents::setTalents(container_type const &talents)
 {
   this->setContainer(talents);
+}
+
+void					Talents::deleteTalents()
+{
+  static std::function<bool(Talent *)>	talentDeleter = [](Talent *t) -> bool {
+    delete t;
+    return (true);
+  };
+
+  this->getContainer().remove_if(talentDeleter);
 }

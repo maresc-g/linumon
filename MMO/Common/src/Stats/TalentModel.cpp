@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:18:40 2014 alexis mestag
-// Last update Tue Feb 11 15:17:54 2014 laurent ansel
+// Last update Tue Mar  4 14:36:58 2014 alexis mestag
 //
 
 #include			<functional>
@@ -31,8 +31,11 @@ TalentModel::TalentModel(TalentModel const &rhs) :
 
 TalentModel::~TalentModel()
 {
-  delete _effectLib;
-  this->deleteTalents();
+  /*
+  ** Do not delete them : they will be deleted by the Session
+  */
+  // delete _effectLib;
+  // this->deleteTalents();
 }
 
 TalentModel			&TalentModel::operator=(TalentModel const &rhs)

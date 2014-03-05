@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:00:16 2013 alexis mestag
-// Last update Fri Feb 28 16:00:11 2014 alexis mestag
+// Last update Tue Mar  4 14:31:42 2014 alexis mestag
 //
 
 #ifndef			__STAT_HH__
@@ -58,7 +58,7 @@ public:
 };
 
 # ifdef	ODB_COMPILER
-#  pragma db object(Stat)
+#  pragma db object(Stat) session(false)
 # endif
 
 #endif
