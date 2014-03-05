@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:57:30 2013 laurent ansel
-// Last update Thu Feb  6 14:51:36 2014 laurent ansel
+// Last update Tue Mar  4 11:19:04 2014 laurent ansel
 //
 
 #ifndef 			__TRAME_HH__
@@ -32,6 +32,7 @@ public:
   void				setSize(size_t const size);
   virtual bool			toString(std::string &content) const;
   std::string			toString() const;
+  std::string			toStyledString() const;
   bool				getEnd() const;
   void				setEnd(bool const end);
   static void			removeTrameEnd(std::string &content);

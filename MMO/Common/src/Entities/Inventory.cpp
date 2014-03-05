@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Mon Mar  3 22:39:01 2014 alexis mestag
+// Last update Tue Mar  4 13:32:27 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -98,8 +98,8 @@ void				Inventory::deleteItem(unsigned int const id)
     {
       if (it->second == 1)
 	{
-	  this->getContainer().erase(it);
 	  delete it->first;
+	  this->getContainer().erase(it);
 	}
       else
 	it->second--;
@@ -148,8 +148,9 @@ AItem				*Inventory::getAndDeleteItem(unsigned int const id)
     {
       if (it->second == 1)
 	{
+	  item = it->first;
 	  this->getContainer().erase(it);
-	  return (it->first);
+	  return (item);
 	}
       else
 	{

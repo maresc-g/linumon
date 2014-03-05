@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Mon Mar  3 16:19:32 2014 guillaume marescaux
+// Last update Tue Mar  4 13:46:44 2014 guillaume marescaux
 //
 
 #include		"SFML/WorldView.hh"
@@ -301,7 +301,10 @@ void			WorldView::keyI()
   if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::I) && !_sfmlView->getChatView()->getFocused())
     {
       if (!_sfmlView->getInventoryView()->isVisible())
-	_sfmlView->getInventoryView()->show();
+	{
+	  _sfmlView->getInventoryView()->initInventory();
+	  _sfmlView->getInventoryView()->show();
+	}
       else
 	_sfmlView->getInventoryView()->hide();
       _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::I, 100000);
@@ -312,9 +315,11 @@ void			WorldView::keyS()
 {
   if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::S) && !_sfmlView->getChatView()->getFocused())
     {
-      _sfmlView->getStuffView()->initStuff(***(_wMan->getMainPlayer()));
       if (!_sfmlView->getStuffView()->isVisible())
-	_sfmlView->getStuffView()->show();
+	{
+	  _sfmlView->getStuffView()->initStuff(***(_wMan->getMainPlayer()));
+	  _sfmlView->getStuffView()->show();
+	}
       else
 	_sfmlView->getStuffView()->hide();
       _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::S, 100000);

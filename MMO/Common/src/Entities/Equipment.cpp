@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:28:56 2014 laurent ansel
-// Last update Mon Mar  3 16:18:54 2014 alexis mestag
+// Last update Tue Mar  4 14:36:12 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -52,17 +52,16 @@ bool				Equipment::addStuff(Stuff *newStuff, Stuff *&oldStuff)
 
   if ((it = this->getContainer().find(newStuff->getStuffType())) != this->end())
     {
-      if (it->second)
-	{
-	  ret = true;
-	  oldStuff = it->second;
-	  it->second = newStuff;
-	}
-      else
-	ret = false;
+      ret = true;
+      oldStuff = it->second;
+      it->second = newStuff;
     }
   else
-    ret = false;
+    {
+      ret = true;
+      oldStuff = NULL;
+      this->getContainer()[newStuff->getStuffType()] = newStuff;
+    }
   return (ret);
 }
 
@@ -73,14 +72,9 @@ bool				Equipment::addStuff(Stuff::eStuff const type, Stuff *&oldStuff)
 
   if ((it = this->getContainer().find(type)) != this->end())
     {
-      if (it->second)
-	{
-	  ret = true;
-	  oldStuff = it->second;
-	  it->second = NULL;
-	}
-      else
-	ret = false;
+      ret = true;
+      oldStuff = it->second;
+      it->second = NULL;
     }
   else
     ret = false;
@@ -105,7 +99,11 @@ bool				Equipment::getStuff(Stuff *&oldStuff, unsigned int const idItem)
 
 bool				Equipment::stuffExists(Stuff::eStuff const type) const
 {
-  return (this->getContainer().find(type) != this->end() ? true : false);
+  auto				it = this->begin();
+
+  if ((it = this->getContainer().find(type)) != this->end() && it->second)
+    return (true);
+  return (false);
 }
 
 Stuff const			&Equipment::getStuff(Stuff::eStuff const type) const

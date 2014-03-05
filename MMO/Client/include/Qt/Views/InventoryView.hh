@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:46:00 2014 guillaume marescaux
-// Last update Mon Mar  3 13:59:12 2014 guillaume marescaux
+// Last update Wed Mar  5 11:29:56 2014 guillaume marescaux
 //
 
 #ifndef 		__INVENTORYVIEW_HH__
@@ -25,14 +25,14 @@ class			InventoryView : public QWidget
   Q_OBJECT
 
 public:
-  InventoryView(QWidget *, WindowManager *wman = NULL);
+  InventoryView(QWidget *, WindowManager *wman);
   virtual ~InventoryView();
 
 private:
   Ui::inventoryview	ui;
   WindowManager		*_wMan;
-  QToolBar		*_toolbar;
   std::list<ItemView *>	*_items;
+  std::list<ItemView *>	*_hidden;
 
 private:
   virtual void		paintEvent(QPaintEvent *);

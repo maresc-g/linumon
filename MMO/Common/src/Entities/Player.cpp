@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Mar  4 15:41:30 2014 alexis mestag
+// Last update Wed Mar  5 14:42:45 2014 alexis mestag
 //
 
 #include			<functional>
@@ -283,10 +283,11 @@ bool				Player::putPlayerEquipment(unsigned int const idItem)
   AItem				*item;
   Stuff				*old;
 
+  /*effect item*/
   item = this->getAndDeleteItem(idItem);
   if (item && item->getItemType() == AItem::STUFF)
     {
-      ret = this->addStuff(reinterpret_cast<Stuff *>(item), old);
+      ret = this->addStuff(dynamic_cast<Stuff *>(item), old);
       if (ret && old)
 	this->addItem(old);
     }
@@ -308,7 +309,7 @@ bool				Player::putMobEquipment(unsigned int const idMod,unsigned int const idIt
       item = this->getAndDeleteItem(idItem);
       if (item && item->getItemType() == AItem::STUFF)
 	{
-	  ret = mob->addStuff(reinterpret_cast<Stuff *>(item), old);
+	  ret = mob->addStuff(dynamic_cast<Stuff *>(item), old);
 	  if (ret && old)
 	    this->addItem(old);
 	}
@@ -335,7 +336,7 @@ bool				Player::serialization(Trame &trame) const
   this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
   this->getTmpStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
   this->getLevelObject().serialization(trame(trame["PLAYER"]));
-  trame["PLAYER"]["EXP"] = this->getCurrentExp();
+  trame["PLAYER"]["CEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
   this->_inventory->serialization(trame(trame["PLAYER"]));
   this->_talentTree->serialization(trame(trame["PLAYER"]));
@@ -365,8 +366,8 @@ Player				*Player::deserialization(Trame const &trame)
       if (lvl)
 	player->setLevelObject(*lvl);
 
-      if (trame["PLAYER"].isMember("EXP"))
-	player->setCurrentExp(trame["PLAYER"]["EXP"].asUInt());
+      if (trame["PLAYER"].isMember("CEXP"))
+	player->setCurrentExp(trame["PLAYER"]["CEXP"].asUInt());
 
       TalentTree		*tree = TalentTree::deserialization(trame(trame["PLAYER"]));
       if (tree)

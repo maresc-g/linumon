@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:40:15 2014 laurent ansel
-// Last update Mon Mar  3 21:39:40 2014 alexis mestag
+// Last update Tue Mar  4 12:22:21 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -106,7 +106,7 @@ bool				Craft::serialization(Trame &trame) const
 
   trame["NAME"] = this->getName();
   trame["INGS"];
-  this->_level->serialization(trame(trame));
+  this->_level->serialization(trame);
   this->_result->serialization(trame(trame["RES"]));
   for (auto it = this->begin() ; it != this->end() && ret; ++it)
     {

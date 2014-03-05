@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:54:19 2014 alexis mestag
-// Last update Mon Mar  3 15:55:12 2014 alexis mestag
+// Last update Tue Mar  4 11:46:18 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -45,15 +45,15 @@ void				Spells::addSpell(Spell const &spell)
 bool				Spells::serialization(Trame &trame) const
 {
   bool				ret = true;
-  std::ostringstream		str;
-  unsigned int			nb = 0;
+  // std::ostringstream		str;
+  // unsigned int			nb = 0;
 
   for (auto it = this->begin() ; it != this->end() && ret; ++it)
     {
-      str << nb;
-      (*it)->serialization(trame(trame["SPS"][str.str()]));
-      str.str("");
-      nb++;
+      // str << nb;
+      (*it)->serialization(trame(trame["SPS"]));
+      // str.str("");
+      // nb++;
     }
   return (ret);
 }
@@ -61,6 +61,7 @@ bool				Spells::serialization(Trame &trame) const
 Spells				*Spells::deserialization(Trame const &trame)
 {
   Spells			*spells = NULL;
+  Spell				*spell = NULL;
 
   if (trame.isMember("SPS"))
     {
@@ -68,7 +69,14 @@ Spells				*Spells::deserialization(Trame const &trame)
 
       spells = new Spells;
       for (auto it = members.begin() ; it != members.end() ; ++it)
-	spells->addSpell(*Spell::deserialization(trame(trame["SPS"][*it])));
+	{
+	  spell = Spell::deserialization(trame(trame["SPS"][*it]));
+	  if (spell)
+	    {
+	      spell->setName(*it);
+	      spells->addSpell(*spell);
+	    }
+	}
     }
   return (spells);
 }

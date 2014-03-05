@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Fri Feb 28 14:39:54 2014 laurent ansel
+// Last update Tue Mar  4 14:37:21 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -123,6 +123,7 @@ bool				Client::writeTrame(Trame *trame, std::string const &proto)
 
   if (trame && trame->toString(str))
     {
+      std::cout << trame->toStyledString() << std::endl;
       // //      Crypto::getInstance()->encryption(str, tmp);
       // //      ret = (*this->_sockets)[proto]->writeSocket(const_cast<char *>(tmp.c_str()), tmp.size());
       ret = (*this->_sockets)[proto]->writeSocket(const_cast<char *>(str.c_str()), str.size());

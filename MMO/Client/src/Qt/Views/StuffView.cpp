@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Tue Mar  4 11:08:14 2014 guillaume marescaux
+// Last update Wed Mar  5 12:14:29 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -14,7 +14,8 @@
 #include			"Client.hh"
 
 StuffView::StuffView(QWidget *parent, WindowManager *wMan) :
-  QWidget(parent),  _wMan(wMan), _labels(new std::list<QLabel *>), _items(new std::list<ItemView *>), _last(NULL)
+  QWidget(parent),  _wMan(wMan), _labels(new std::list<QLabel *>), _items(new std::list<ItemView *>), _last(NULL),
+  _changed(true)
 {
   ui.setupUi(this);
   // ui.addWidget(new ItemView(this, wMan), 50, 50);
@@ -50,9 +51,10 @@ void				StuffView::setItem(Equipment const *equipment, Stuff::eStuff stuff, int 
 
   if (equipment->stuffExists(stuff))
     {
-      item = new ItemView(this, _wMan, 0, new Stuff(equipment->getStuff(stuff)));
+      item = new ItemView(this, _wMan, 0, &(equipment->getStuff(stuff)));
       item->move(x, y);
       item->resize(120, 80);
+      item->show();
       _items->push_back(item);
     }
 }
@@ -74,9 +76,10 @@ void				StuffView::setEquipment(Equipment const *equipment)
 
 void				StuffView::initStuff(Player const &player)
 {
-  if (_last == &player)
+  if (_last == &player && !_changed)
     return;
   _last = &player;
+  _changed = false;
   ui.l_name->setText(player.getName().c_str());
   ui.l_faction->setText(player.getFaction().getName().c_str());
   ui.l_guilde->setText("NO GUILDE");
@@ -110,11 +113,12 @@ void				StuffView::initStuff(Player const &player)
 
 void				StuffView::initStuff(Mob const &mob)
 {
-  if (_last == &mob)
+  if (_last == &mob && !_changed)
     return;
   _last = &mob;
   Equipment const		*equipment = &mob.getEquipment();
 
+  _changed = false;
   setEquipment(equipment);
   ui.l_name->setText(mob.getName().c_str());
   ui.l_level->setText(std::to_string(mob.getLevel()).c_str());
@@ -139,4 +143,72 @@ void				StuffView::initStuff(Mob const &mob)
       i++;
     }
   show();
+}
+
+void				StuffView::itemAction(ItemView *item)
+{
+  Stuff const			*stuff = static_cast<Stuff const *>(&item->getItem());
+
+  bool			ret;
+
+  if (_last->getCharacterType() == ACharacter::MOB)
+    ret = (**(_wMan->getMainPlayer()))->getMobEquipment(_last->getId(), stuff->getId());
+  else
+    ret = (**(_wMan->getMainPlayer()))->getPlayerEquipment(stuff->getId());
+
+  if (ret)
+    {
+      Client::getInstance()->stuff(eStuffAction::GET, stuff->getId(), _last->getId());
+      _wMan->getSFMLView()->getInventoryView()->initInventory();
+      _changed = true;
+      if (_last->getCharacterType() == ACharacter::MOB)
+	initStuff(*static_cast<Mob const *>(_last));
+      else
+	initStuff(*static_cast<Player const *>(_last));
+    }
+}
+
+ACharacter const		*StuffView::getLast() const { return (_last); }
+
+void				StuffView::setChanged(bool changed) { _changed = changed; }
+
+void				StuffView::dragMoveEvent(QDragMoveEvent *de)
+{
+  de->accept();
+}
+ 
+void				StuffView::dragEnterEvent(QDragEnterEvent *event)
+{
+  event->acceptProposedAction();
+}
+
+void				StuffView::dropEvent(QDropEvent *de)
+{
+  std::pair<AItem const *, unsigned int>	*pair =
+    reinterpret_cast<std::pair<AItem const *, unsigned int> *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
+
+  if (pair->first->getItemType() == AItem::STUFF)
+    {
+      Stuff const		*stuff = static_cast<Stuff const *>(pair->first);
+      bool			ret;
+
+      if (_last->getCharacterType() == ACharacter::MOB)
+	ret = (**(_wMan->getMainPlayer()))->putMobEquipment(_last->getId(), stuff->getId());
+      else
+	ret = (**(_wMan->getMainPlayer()))->putPlayerEquipment(stuff->getId());
+      if (ret)
+	{
+	  Client::getInstance()->stuff(eStuffAction::PUT, stuff->getId(), _last->getId());
+	  _changed = true;
+	  if (_last->getCharacterType() == ACharacter::MOB)
+	    initStuff(*static_cast<Mob const *>(_last));
+	  else
+	    initStuff(*static_cast<Player const *>(_last));
+	  _wMan->getSFMLView()->getInventoryView()->initInventory();
+	}
+    }
+  //   {
+
+  //     itemAction(new ItemView(this, _wMan, 0, pair->first));
+  //   }
 }

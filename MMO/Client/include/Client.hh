@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Thu Feb 27 12:55:40 2014 guillaume marescaux
+// Last update Tue Mar  4 12:51:53 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -60,7 +60,7 @@ public:
   void				spell(unsigned int idBattle, Spell const &spell, unsigned int target);
   void				capture(unsigned int idBattle, unsigned int target);
   void				sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob);
-  //  void				stuff(void *action);
+  void				stuff(int action, unsigned int idItem, unsigned int target);
   // void				talents();
   void				craft(std::string const &craftName, std::string const &jobName);
   // void				gather();

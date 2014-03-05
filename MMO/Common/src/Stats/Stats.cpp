@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Mon Mar  3 14:26:04 2014 alexis mestag
+// Last update Tue Mar  4 11:41:37 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -210,15 +210,15 @@ void				Stats::deleteStats()
 bool				Stats::serialization(Trame &trame) const
 {
   bool				ret = true;
-  std::ostringstream		str;
-  unsigned int			nb = 0;
+  // std::ostringstream		str;
+  // unsigned int			nb = 0;
 
   for (auto it = this->begin() ; it != this->end() ; ++it)
     {
-      str << nb;
-      (*it)->serialization(trame(trame[str.str()]));
-      str.str("");
-      nb++;
+      //      str << nb;
+      (*it)->serialization(trame/*(trame[str.str()])*/);
+      // str.str("");
+      // nb++;
     }
   return (ret);
 }
@@ -239,7 +239,10 @@ Stats				*Stats::deserialization(Trame const &trame)
 	{
 	  st = Stat::deserialization(trame(trame["STATS"][*it]));
 	  if (st)
-	    stat->push_back(st);
+	    {
+	      st->setKey(*new StatKey(*it));
+	      stat->push_back(st);
+	    }
 	}
       stats->setStats(*stat);
     }
@@ -253,7 +256,10 @@ Stats				*Stats::deserialization(Trame const &trame)
 	{
 	  st = Stat::deserialization(trame(trame["TMPSTATS"][*it]));
 	  if (st)
-	    stat->push_back(st);
+	    {
+	      st->setKey(*new StatKey(*it));
+	      stat->push_back(st);
+	    }
 	}
       stats->setStats(*stat);
     }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:08:03 2014 guillaume marescaux
-// Last update Mon Mar  3 16:32:30 2014 guillaume marescaux
+// Last update Wed Mar  5 11:59:24 2014 guillaume marescaux
 //
 
 #ifndef 		__STUFFVIEW_HH__
@@ -34,7 +34,8 @@ private:
   WindowManager		*_wMan;
   std::list<QLabel *>	*_labels;
   std::list<ItemView *>	*_items;
-  AEntity const		*_last;
+  ACharacter const	*_last;
+  bool			_changed;
 
 private:
   virtual void		paintEvent(QPaintEvent *);
@@ -44,6 +45,14 @@ private:
 public:
   void			initStuff(Player const &player);
   void			initStuff(Mob const &mob);
+  void			itemAction(ItemView *);
+  void			setChanged(bool changed);
+  ACharacter const	*getLast() const;
+
+protected:
+  virtual void		dropEvent(QDropEvent *de);
+  virtual void		dragMoveEvent(QDragMoveEvent *de);
+  virtual void		dragEnterEvent(QDragEnterEvent *event);
 };
 
 #endif
