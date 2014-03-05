@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Wed Mar  5 14:25:23 2014 cyril jourdain
+// Last update Wed Mar  5 15:29:01 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -96,6 +96,7 @@ private :
 
 private:
   virtual void		        mousePressEvent(QMouseEvent *);
+  virtual void			mouseMoveEvent(QMouseEvent *);
 
 public: /* Child view accessors for World and Battle view, not const */
   SpellBarView			*getSpellBarView(void);

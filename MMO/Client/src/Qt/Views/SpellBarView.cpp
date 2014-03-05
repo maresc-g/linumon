@@ -5,19 +5,22 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb  6 15:42:00 2014 guillaume marescaux
-// Last update Fri Feb  7 12:20:17 2014 guillaume marescaux
+// Last update Wed Mar  5 15:38:37 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/SpellBarView.hh"
 
 SpellBarView::SpellBarView(QWidget *parent, WindowManager *wMan):
-  QWidget(parent), _wMan(wMan)
+  QWidget(parent), _wMan(wMan), _buttons(new std::list<QPushButton *>), _spells(NULL), _mapper(new QSignalMapper)
 {
   ui.setupUi(this);
 }
 
 SpellBarView::~SpellBarView()
 {
+  for (auto it = _buttons->begin() ; it != _buttons->end() ; it++)
+    delete *it;
+  delete _buttons;
 }
 
 void				SpellBarView::paintEvent(QPaintEvent *)
@@ -29,52 +32,34 @@ void				SpellBarView::paintEvent(QPaintEvent *)
   style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
-void				SpellBarView::on_b_spell1_clicked()
+void				SpellBarView::handleClick(QString const &name)
 {
-  std::cout << "CLICKED 1" << std::endl;
+  for (auto it = _spells->begin() ; it != _spells->end() ; it++)
+    {
+      if ((*it)->getName() != name.toStdString())
+	{
+	  break;
+	}
+    }
 }
 
-void				SpellBarView::on_b_spell2_clicked()
+void				SpellBarView::setInfos(Spells const &spells)
 {
-  std::cout << "CLICKED 2" << std::endl;
-}
+  QPushButton			*button;
+  int				i = 0;
 
-void				SpellBarView::on_b_spell3_clicked()
-{
-  std::cout << "CLICKED 3" << std::endl;
-}
-
-void				SpellBarView::on_b_spell4_clicked()
-{
-  std::cout << "CLICKED 4" << std::endl;
-}
-
-void				SpellBarView::on_b_spell5_clicked()
-{
-  std::cout << "CLICKED 5" << std::endl;
-}
-
-void				SpellBarView::on_b_spell6_clicked()
-{
-  std::cout << "CLICKED 6" << std::endl;
-}
-
-void				SpellBarView::on_b_spell7_clicked()
-{
-  std::cout << "CLICKED 7" << std::endl;
-}
-
-void				SpellBarView::on_b_spell8_clicked()
-{
-  std::cout << "CLICKED 8" << std::endl;
-}
-
-void				SpellBarView::on_b_spell9_clicked()
-{
-  std::cout << "CLICKED 9" << std::endl;
-}
-
-void				SpellBarView::on_b_spell10_clicked()
-{
-  std::cout << "CLICKED 10" << std::endl;
+  _spells = &spells;
+  for (auto it = spells.begin() ; it != spells.end() ; it++)
+    {
+      button = new QPushButton((*it)->getName().c_str(), this);
+      button->resize(100, 100);
+      button->move(101 * i, 0);
+      button->show();
+      button->setObjectName((*it)->getName().c_str());
+      _mapper->setMapping(button, (*it)->getName().c_str());
+      connect(button, SIGNAL(clicked()), _mapper, SLOT(map()));
+      i++;
+    }
+  connect(_mapper, SIGNAL(mapped(QString const &)), this, SLOT(clicked(QString const &)));
+  this->resize(101 * i, 100);
 }

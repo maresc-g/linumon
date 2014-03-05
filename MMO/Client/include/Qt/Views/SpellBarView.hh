@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb  6 15:32:26 2014 guillaume marescaux
-// Last update Thu Feb 27 15:55:40 2014 guillaume marescaux
+// Last update Wed Mar  5 15:29:16 2014 guillaume marescaux
 //
 
 #ifndef 		__SPELLBARVIEW_HH__
@@ -13,8 +13,10 @@
 
 #include		<Qt/qwidget.h>
 #include		<Qt/qpainter.h>
-#include		"ui_spellbar.h"
+#include		<QSignalMapper>
+#include		"ui_spellbarview.h"
 #include		"Qt/WindowManager.hh"
+#include		"Entities/Spells.hh"
 
 class			WindowManager;
 
@@ -29,8 +31,11 @@ public:
 
 private:
 
-  Ui::SpellBarView	ui;
+  Ui::spellbarview	ui;
   WindowManager		*_wMan;
+  std::list<QPushButton *>	*_buttons;
+  Spells const		*_spells;
+  QSignalMapper		*_mapper;
 
 private:
 
@@ -38,16 +43,11 @@ private:
 
 public slots:
 
-  void			on_b_spell1_clicked();
-  void			on_b_spell2_clicked();
-  void			on_b_spell3_clicked();
-  void			on_b_spell4_clicked();
-  void			on_b_spell5_clicked();
-  void			on_b_spell6_clicked();
-  void			on_b_spell7_clicked();
-  void			on_b_spell8_clicked();
-  void			on_b_spell9_clicked();
-  void			on_b_spell10_clicked();
+  void			handleClick(QString const &name);
+
+public:
+
+  void			setInfos(Spells const &spells);
 };
 
 #endif

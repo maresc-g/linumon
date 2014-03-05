@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Mar  5 15:04:03 2014 cyril jourdain
+// Last update Wed Mar  5 15:56:10 2014 cyril jourdain
 //
 
 /*
@@ -57,10 +57,12 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _sMan->loadAnimations("./Res/perso1.json");
   _sMan->loadAnimations("./Res/textures.json");
   _sMan->loadAnimations("./Res/selectedPlayer.json");
+  _sMan->loadAnimations("./Res/Spell/Lance-Flamme.json");
   _grow = false;
 
   _worldView = new WorldView(this, w);
   _battleView = new BattleView(this, w);
+  setMouseTracking(true);
 }
 
 SFMLView::~SFMLView()
@@ -159,6 +161,11 @@ void			SFMLView::reset()
   _reset = true;
 }
 void			SFMLView::mousePressEvent(QMouseEvent *event)
+{
+  _currentView->onMouseEvent(event);
+}
+
+void			SFMLView::mouseMoveEvent(QMouseEvent *event)
 {
   _currentView->onMouseEvent(event);
 }
