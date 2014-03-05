@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Tue Mar  4 13:46:44 2014 guillaume marescaux
+// Last update Wed Mar  5 15:03:30 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -55,8 +55,9 @@ void			WorldView::onInit()
   _mainPerso->generateOffset();
   _mainPerso->setPosition((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE,
 			  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - _mainPerso->getCurrentBound()->height / 2 + 4);
-  _sfmlView->getMainView()->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
-  		  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
+  resetPOV();
+  // _sfmlView->getMainView()->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
+  // 		  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
   if (zone)
     _backgroundTexture->create(zone->getSizeX() * CASE_SIZE, zone->getSizeY()*CASE_SIZE);
   loadBackgroundMap();
@@ -352,12 +353,20 @@ void			WorldView::keyEscape()
 
 void			WorldView::keyReturn()
 {
-  if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::Return))
-    {
-      if (!_sfmlView->getChatView()->getFocused())
-	_sfmlView->getChatView()->setFocused(true);
-      else
-	_sfmlView->getChatView()->submitText();
-      _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::Return, 100000);
-    }
+  // if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::Return))
+  //   {
+  //     if (!_sfmlView->getChatView()->getFocused())
+  // 	_sfmlView->getChatView()->setFocused(true);
+  //     else
+  // 	_sfmlView->getChatView()->submitText();
+  //     _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::Return, 100000);
+  //   }
+  *(_wMan->getState()) = CLIENT::LOADING_BATTLE;
+}
+
+void			WorldView::resetPOV()
+{
+  _sfmlView->getMainView()->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
+  _sfmlView->getMainView()->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
+				 (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
 }

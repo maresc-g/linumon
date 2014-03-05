@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 26 13:55:45 2014 alexis mestag
-// Last update Wed Feb 26 23:54:02 2014 alexis mestag
+// Last update Wed Mar  5 11:02:57 2014 laurent ansel
 //
 
 #include				"HesodeEffect.hh"
@@ -26,9 +26,9 @@ HesodeEffect::~HesodeEffect()
 
 bool					HesodeEffect::apply(Player &player)
 {
-Repository<StatKey>		*rsk = &Database::getRepository<StatKey>();
+  Repository<StatKey>		*rsk = &Database::getRepository<StatKey>();
 
-std::cout << "HesodeEffect::Repo : " << (void *)rsk << std::endl;
+  std::cout << "HesodeEffect::Repo : " << (void *)rsk << std::endl;
   player.setStat("Attack", 10, true);
   return (true);
 }

@@ -450,6 +450,17 @@ INSERT INTO `DBZone_mobModels`(`object_id`, `index`, `value`) VALUES
        (2, 1, 2),
        (2, 2, 3);
 
+/* Assigning Mobs to Players */
+DELETE FROM `Player_battleMobs`;
+
+INSERT INTO `Player_battleMobs`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 4),
+       (1, 1, 5),
+       (1, 2, 6),
+       (2, 0, 1),
+       (2, 1, 2),
+       (2, 2, 3);
+
 /* Inserting Stuff */
 DELETE FROM `Stuff`;
 

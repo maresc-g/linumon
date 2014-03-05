@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Mon Mar  3 14:12:56 2014 cyril jourdain
+// Last update Wed Mar  5 14:25:23 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -60,6 +60,7 @@ private:
   KeyDelayer		*_keyDelayer;
   sf::Font		*_textFont;
   bool			_reset;
+  bool			_grow;
 
   /* Child Views */
   SpellBarView		*_spellBar;
@@ -73,6 +74,8 @@ private:
   PlayerClickView	*_clickView;
 
   ContextView		*_worldView;
+  ContextView		*_battleView;
+  ContextView		*_currentView;
 
 
 public:

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Mar  4 14:07:18 2014 laurent ansel
+// Last update Wed Mar  5 12:17:34 2014 laurent ansel
 //
 
 #include			<functional>
@@ -252,9 +252,7 @@ bool				Player::getPlayerEquipment(unsigned int const idItem)
   bool				ret = false;
   Stuff				*item;
 
-  std::cout << "PLAYER => "<<idItem << std::endl;
   ret = this->getStuff(item, idItem);
-  std::cout << "RET = " << ret << std::endl;
   if (ret)
     this->addItem(item);
   return (ret);
@@ -308,7 +306,7 @@ bool				Player::putMobEquipment(unsigned int const idMod,unsigned int const idIt
       item = this->getAndDeleteItem(idItem);
       if (item && item->getItemType() == AItem::STUFF)
 	{
-	  ret = mob->addStuff(reinterpret_cast<Stuff *>(item), old);
+	  ret = mob->addStuff(dynamic_cast<Stuff *>(item), old);
 	  if (ret && old)
 	    this->addItem(old);
 	}

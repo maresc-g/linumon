@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Wed Mar  5 13:13:49 2014 antoine maitre
+// Last update Wed Mar  5 16:37:56 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -94,7 +94,7 @@ void				BattleManager::deleteBattleUpdaters()
 
 bool				BattleManager::spell(Trame *trame)
 {
-  std::list<Battle *>		*tmp;
+  std::list<Battle *>		tmp;
   
   if ((*trame)[CONTENT]["SPELL"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["SPELL"].isMember("SPELL") &&
@@ -105,7 +105,7 @@ bool				BattleManager::spell(Trame *trame)
 	{
 	  (*it)->lock();
 	  tmp = (*it)->getBattles();
-	  for (auto itb = tmp->begin(); itb != tmp->end(); it++)
+	  for (auto itb = tmp.begin(); itb != tmp.end(); it++)
 	    if ((*itb)->getID() == (*trame)[CONTENT]["SPELL"]["IDBATTLE"].asUInt())
 	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
 	  (*it)->unlock();
@@ -117,7 +117,7 @@ bool				BattleManager::spell(Trame *trame)
 
 bool				BattleManager::capture(Trame *trame)
 {
-  std::list<Battle *>		*tmp;
+  std::list<Battle *>		tmp;
 
   if ((*trame)[CONTENT]["CAPTURE"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["CAPTURE"].isMember("TARGET"))
@@ -126,7 +126,7 @@ bool				BattleManager::capture(Trame *trame)
 	{
 	  (*it)->lock();
 	  tmp = (*it)->getBattles();
-	  for (auto itb = tmp->begin(); itb != tmp->end(); it++)
+	  for (auto itb = tmp.begin(); itb != tmp.end(); it++)
 	    if ((*itb)->getID() == (*trame)[CONTENT]["CAPTURE"]["IDBATTLE"].asUInt())
 	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
 	  (*it)->unlock();
@@ -138,7 +138,7 @@ bool				BattleManager::capture(Trame *trame)
 
 bool				BattleManager::dswitch(Trame *trame)
 {
-  std::list<Battle *>		*tmp;
+  std::list<Battle *>		tmp;
 
   if ((*trame)[CONTENT]["SWITCH"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["SWITCH"].isMember("TARGET") &&
@@ -148,7 +148,7 @@ bool				BattleManager::dswitch(Trame *trame)
 	{
 	  (*it)->lock();
 	  tmp = (*it)->getBattles();
-	  for (auto itb = tmp->begin(); itb != tmp->end(); it++)
+	  for (auto itb = tmp.begin(); itb != tmp.end(); it++)
 	    if ((*itb)->getID() == (*trame)[CONTENT]["SWITCH"]["IDBATTLE"].asUInt())
 	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
 	  (*it)->unlock();

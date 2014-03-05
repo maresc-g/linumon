@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Feb 26 14:24:07 2014 guillaume marescaux
-// Last update Thu Feb 27 12:51:17 2014 guillaume marescaux
+// Last update Tue Mar  4 14:26:48 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/CraftView.hh"

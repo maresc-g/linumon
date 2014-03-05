@@ -1,4 +1,5 @@
 {
     "perso1" : "./Res/perso1.png",
-    "textures" : "./Res/texturesTest.png"
+    "textures" : "./Res/texturesTest.png",
+    "selectedPlayer" : "./Res/selectedPlayer.png"
 }

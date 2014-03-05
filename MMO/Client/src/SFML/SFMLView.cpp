@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Mon Mar  3 17:06:51 2014 guillaume marescaux
+// Last update Wed Mar  5 15:04:03 2014 cyril jourdain
 //
 
 /*
@@ -26,6 +26,7 @@
 #include		"Map/Map.hh"
 #include		"Common/eState.hh"
 #include		"SFML/WorldView.hh"
+#include		"SFML/BattleView.hh"
 
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()),
@@ -41,7 +42,9 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _jobMenu->hide();
   _clickView->hide();
   _job->move(300, 100);
+  _digit->hide();
   _digit->move(800, 0);
+  _inventory->move(1500, 0);
   _job->hide();
   _menu->move(WIN_W / 2 - _menu->size().width() / 2, WIN_H / 2 - _menu->size().height() / 2);
   _menu->hide();
@@ -53,8 +56,11 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _sMan->loadTextures("./Res/textureList.json");
   _sMan->loadAnimations("./Res/perso1.json");
   _sMan->loadAnimations("./Res/textures.json");
+  _sMan->loadAnimations("./Res/selectedPlayer.json");
+  _grow = false;
 
   _worldView = new WorldView(this, w);
+  _battleView = new BattleView(this, w);
 }
 
 SFMLView::~SFMLView()
@@ -63,12 +69,15 @@ SFMLView::~SFMLView()
 
 void			SFMLView::onInit()
 {
-  _mainView->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
   _reset = false;
   _clock->restart();
   _inventory->initInventory();
   _digit->initDigit((**_wMan->getMainPlayer())->getDigitaliser());
   _worldView->onInit();
+  // *(_wMan->getState()) = CLIENT::LOADING_BATTLE;
+  _battleView->onInit();
+  _currentView = _worldView;
+  _currentView->resetPOV();
 }
 
 void			SFMLView::onUpdate()
@@ -84,36 +93,57 @@ void			SFMLView::onUpdate()
   while (pollEvent(event))
     {
       if (event.type == sf::Event::KeyPressed)
-	_worldView->onKeyEvent(event);
+	_currentView->onKeyEvent(event);
     }
   /* Not used here but SFML need it to handle internal events */
 
   CLIENT::eState s = **(_wMan->getState());
-  if (s != CLIENT::PLAYING)
+  switch (s)
     {
-      switch (s)
-  	{
-  	case CLIENT::CHOOSE_PLAYER:
-	  reset();
-  	  _wMan->hideSfmlView();
-	  _menu->hide();
-  	  _wMan->showCharacter();
-  	  break;
-  	case CLIENT::LOGIN:
-  	  _wMan->hideSfmlView();
-  	  _wMan->showLogin();
-  	  break;
-	default:
-	  break;
-  	}
-      // Need to : Destroy map, entites, etc ...
+    case CLIENT::ENTER_BATTLE:
+      _mainView->rotate(-10);
+      _mainView->zoom(1.2);
+      if (_mainView->getSize().x > WIN_W)
+	{
+	  *(_wMan->getState()) = CLIENT::BATTLE;
+	  _battleView->resetPOV();
+	}
+      break;
+    case CLIENT::LOADING_BATTLE:
+      if (!_grow)
+	{
+	  _mainView->rotate(10);
+	  _mainView->zoom(0.8);
+	  if (_mainView->getSize().x <= 10)
+	    {
+	      _grow = true;
+	      _currentView = _battleView;
+	      *(_wMan->getState()) = CLIENT::ENTER_BATTLE;
+	      _currentView->centerView();
+	    }
+	}
+      std::cout << _mainView->getSize().x << std::endl;
+      break;
+    case CLIENT::CHOOSE_PLAYER:
+      reset();
+      _wMan->hideSfmlView();
+      _menu->hide();
+      _wMan->showCharacter();
+      break;
+    case CLIENT::LOGIN:
+      _wMan->hideSfmlView();
+      _wMan->showLogin();
+      break;
+    default:
+      break;
     }
+  // Need to : Destroy map, entites, etc ...
   clear(sf::Color(0,0,0));
   if (_reset)
     return;
   _keyDelayer->update(_clock);
-  _worldView->onUpdate();
-  _worldView->drawView();
+  _currentView->onUpdate();
+  _currentView->drawView();
   _clock->restart();
   _chat->update();
 }
@@ -130,7 +160,7 @@ void			SFMLView::reset()
 }
 void			SFMLView::mousePressEvent(QMouseEvent *event)
 {
-  _worldView->onMouseEvent(event);
+  _currentView->onMouseEvent(event);
 }
 
 SpellBarView		*SFMLView::getSpellBarView(void){return (_spellBar); }
