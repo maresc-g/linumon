@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 26 13:58:03 2014 alexis mestag
-// Last update Wed Feb 26 14:42:58 2014 alexis mestag
+// Last update Wed Mar  5 16:19:57 2014 laurent ansel
 //
 
 #ifndef				__CELESTIAEFFECT_HH__

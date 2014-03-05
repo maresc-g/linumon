@@ -5,14 +5,13 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 16:06:44 2014 alexis mestag
-// Last update Thu Feb 27 14:06:05 2014 alexis mestag
+// Last update Wed Mar  5 17:12:46 2014 laurent ansel
 //
 
 #ifndef			__IEFFECT_HPP__
 # define		__IEFFECT_HPP__
 
 # include		<typeinfo>
-# include		"Entities/ACharacter.hh"
 
 namespace		Effect
 {

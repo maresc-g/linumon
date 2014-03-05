@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 26 14:37:41 2014 alexis mestag
-// Last update Wed Feb 26 14:39:18 2014 alexis mestag
+// Last update Wed Mar  5 16:40:54 2014 laurent ansel
 //
 
 #ifndef				__PLAYEREFFECT_HH__

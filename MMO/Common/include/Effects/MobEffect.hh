@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Feb 14 10:38:37 2014 alexis mestag
-// Last update Wed Feb 26 14:06:31 2014 alexis mestag
+// Last update Wed Mar  5 15:50:56 2014 laurent ansel
 //
 
 #ifndef				__MOBEFFECT_HPP__

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:39:45 2014 alexis mestag
-// Last update Mon Mar  3 22:45:51 2014 alexis mestag
+// Last update Wed Mar  5 14:58:01 2014 laurent ansel
 //
 
 #include			"Entities/MobModel.hh"
@@ -63,9 +63,9 @@ bool				MobModel::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  this->getType().serialization(trame(trame["MOD"]));
-  this->getStats().serialization(trame(trame["MOD"]["STATS"]));
-  this->getSpells().serialization(trame(trame["MOD"]));
+  this->getType().serialization(trame(trame));
+  this->getStats().serialization(trame(trame["STATS"]));
+  this->getSpells().serialization(trame(trame));
   return (ret);
 }
 
@@ -73,12 +73,9 @@ MobModel			*MobModel::deserialization(Trame const &trame)
 {
   MobModel			*model = NULL;
 
-  if (trame.isMember("MOD"))
-    {
-      model = new MobModel;
-      model->setType(*Type::deserialization(trame(trame["MOD"])));
-      model->setSpells(*Spells::deserialization(trame(trame["MOD"])));
-      model->setStats(*Stats::deserialization(trame(trame["MOD"])));
-    }
+  model = new MobModel;
+  model->setType(*Type::deserialization(trame(trame)));
+  model->setSpells(*Spells::deserialization(trame(trame)));
+  model->setStats(*Stats::deserialization(trame(trame)));
   return (model);
 }

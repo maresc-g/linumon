@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Mar  4 00:31:55 2014 alexis mestag
+// Last update Wed Mar  5 16:07:26 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -131,7 +131,7 @@ public:
   void				capture(Mob const &mob);
 
   Mob const			&getMob(unsigned int const id);
-  
+
   bool				isMyMob(unsigned int const id);
 
   void				deleteItem(unsigned int const item);
@@ -152,6 +152,8 @@ public:
   bool				getMobEquipment(unsigned int const idMod, unsigned int const idItem);
   bool				putPlayerEquipment(unsigned int const idItem);
   bool				putMobEquipment(unsigned int const idMod, unsigned int const idItem);
+
+  void				useObject(unsigned int const target, unsigned int const item);
 
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);
