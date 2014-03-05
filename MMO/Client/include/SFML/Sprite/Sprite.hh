@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 13:38:44 2014 cyril jourdain
-// Last update Fri Feb 28 18:52:59 2014 cyril jourdain
+// Last update Wed Mar  5 16:53:22 2014 cyril jourdain
 //
 
 #ifndef 		__SPRITE_HH__
@@ -27,6 +27,7 @@ protected /* attributs */:
   sf::Vertex		*_vertex;
   std::string		_current;
   bool			_playing;
+  bool			_visible;
   
 
 public /* class specific */ :
@@ -51,6 +52,7 @@ public /* methods */ :
   void			stop();
   void			pause();
   void			print();
+  void			setVisible(bool);
   std::string		getLastPlayed();
   sf::IntRect		*getCurrentBound() const;
 };

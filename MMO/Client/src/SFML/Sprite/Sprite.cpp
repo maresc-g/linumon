@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Fri Feb 28 22:37:48 2014 cyril jourdain
+// Last update Wed Mar  5 17:01:04 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -15,7 +15,7 @@
 Sprite::Sprite():
   sf::Drawable(), sf::Transformable(), Clickable(), _texture(NULL),
   _anim(new std::map<std::string, Animation *>), _vertex(new sf::Vertex [4]),
-  _current(""), _playing(false)
+  _current(""), _playing(false), _visible(true)
 {
   // _vertex[0].texCoords = sf::Vector2f(0,0);
   // _vertex[1].texCoords = sf::Vector2f(0,100);
@@ -46,6 +46,7 @@ Sprite::Sprite(Sprite const &other) :
   _vertex[3].color = sf::Color(255,255,255);
   _current = "";
   _playing = false;
+  _visible = other._visible;
   _texture = other._texture;
   // Remember to add other things
 }
@@ -84,7 +85,7 @@ Animation		*Sprite::operator[](std::string const &id)
 
 void			Sprite::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-  if (_texture && _vertex) {
+  if (_visible && _texture && _vertex) {
     states.texture = _texture;
     states.transform *= getTransform();
     target.draw(_vertex, 4, sf::Quads, states);
@@ -112,7 +113,7 @@ void			Sprite::update(sf::Clock &clock)
 
 bool			Sprite::isClicked(float const x, float const y) const
 {
-  if (x >= getPosition().x && x <= getPosition().x + getCurrentBound()->width && y >= getPosition().y
+  if (_visible && x >= getPosition().x && x <= getPosition().x + getCurrentBound()->width && y >= getPosition().y
       && y <= getPosition().y + getCurrentBound()->height)
     return true;
   return false;
@@ -178,6 +179,11 @@ void			Sprite::print()
     }
 }
 
+void			Sprite::setVisible(bool val)
+{
+  _visible = val;
+}
+
 std::string		Sprite::getLastPlayed()
 {
   return _current;
@@ -189,3 +195,4 @@ sf::IntRect		*Sprite::getCurrentBound() const
     return ((*_anim)[_current]->getCurrentCoord());
   return NULL;
 }
+

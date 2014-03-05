@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar  5 16:11:27 2014 laurent ansel
+// Last update Wed Mar  5 17:27:21 2014 laurent ansel
 //
 
 #include			<functional>
@@ -70,7 +70,10 @@ Player::~Player()
 {
   delete _digitaliser;
   delete _coord;
-  this->deleteTalents();
+  delete _talents;
+  delete _inventory;
+  delete _jobs;
+  // this->deleteTalents();
   // delete _faction; // Causes an invalid pointer delete
 }
 

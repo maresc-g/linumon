@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Feb  4 11:04:13 2014 cyril jourdain
-// Last update Wed Feb 26 13:30:51 2014 cyril jourdain
+// Last update Wed Mar  5 12:40:00 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -52,13 +52,14 @@ void		SpriteManager::loadAnimations(std::string const &jsonPath)
 
   for (unsigned int i = 0; i < jFile["sprites"].getMemberNames().size();i++)
     {
-      // Need to add the texture associated in each anim
       id = jFile["sprites"].getMemberNames()[i]; // Name of global sprite
+      std::cout << "Adding anim : " << id << std::endl;
       (*_anims)[id] = new Sprite();
       (*_anims)[id]->setTexture((*_textures)[jFile["info"]["texture"].asString()]);
       for (unsigned int j = 0; j < jFile["sprites"][id].getMemberNames().size(); j++)
 	{
 	  iName = jFile["sprites"][id].getMemberNames()[j];
+	  std::cout << "\t" << iName << std::endl;
 	  (*_anims)[id]->addAnim(iName);
 	  for (unsigned int k = 0; k < jFile["sprites"][id][iName].getMemberNames().size(); k++)
 	    {
@@ -68,6 +69,7 @@ void		SpriteManager::loadAnimations(std::string const &jsonPath)
 				      jFile["sprites"][id][iName][numSprite]["y"].asInt(),
 				      size,
 				      size));
+	      std::cout << "\t\t" << k << std::endl;
 	    }
 	}
     }

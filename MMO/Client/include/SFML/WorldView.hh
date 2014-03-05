@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb 17 15:32:06 2014 cyril jourdain
-// Last update Mon Mar  3 13:58:08 2014 cyril jourdain
+// Last update Wed Mar  5 14:36:10 2014 cyril jourdain
 //
 
 #ifndef				__WORLDVIEW_HH__
@@ -44,6 +44,7 @@ public:
   virtual void			onMouseEvent(QMouseEvent *event);
   virtual void			resetView();
   virtual void			drawView();
+  virtual void			resetPOV();
 
 private:
   void				loadPlayerList();

@@ -5,10 +5,14 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Wed Mar  5 14:57:30 2014 laurent ansel
+// Last update Wed Mar  5 17:27:49 2014 laurent ansel
 //
 
 #include			"Entities/Mob.hh"
+#ifndef		CLIENT_COMPILATION
+# include			"Stats/AuthorizedStatKeys-odb.hxx"
+# include			"Database/Repositories/Repository.hpp"
+#endif
 
 Mob::Mob() :
   Persistent(), ACharacter("", eCharacter::MOB)
@@ -27,6 +31,11 @@ Mob::Mob(MobModel const &model, Level::type const level) :
 {
   this->setModel(model);
   this->setLevel(level);
+
+#ifndef		CLIENT_COMPILATION
+  Repository<AuthorizedStatKeys>	*rask = &Database::getRepository<AuthorizedStatKeys>();
+  this->setStatKeys(*rask->getById(2));
+#endif
 }
 
 Mob::~Mob()

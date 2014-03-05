@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Sun Feb 16 17:04:54 2014 alexis mestag
-## Last update Wed Mar  5 16:21:34 2014 laurent ansel
+## Last update Wed Mar  5 17:27:09 2014 laurent ansel
 ##
 
 EFFECT_CMN_DIR=		..
@@ -57,6 +57,8 @@ EFFECT_CMN_SRC=		Common/src/Database/Persistent.cpp		\
 			Common/include/Entities/Faction-odb.cxx		\
 			Common/include/Entities/DBZone-odb.cxx		\
 			Common/include/Entities/Job-odb.cxx		\
+			Common/include/Entities/AStatEntity-odb.cxx	\
+			Common/include/Entities/ACharacter-odb.cxx	\
 			Common/include/Entities/Mob-odb.cxx		\
 			Common/include/Entities/MobModel-odb.cxx	\
 			Common/include/Entities/Player-odb.cxx		\

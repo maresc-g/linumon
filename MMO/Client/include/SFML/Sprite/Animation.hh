@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:08:20 2014 cyril jourdain
-// Last update Wed Feb 19 14:07:03 2014 cyril jourdain
+// Last update Wed Mar  5 13:32:42 2014 cyril jourdain
 //
 
 #ifndef 		__ANIMATION_HH__
@@ -38,6 +38,7 @@ public /* methods */ :
   sf::IntRect		*getCurrentCoord() const;
   void			addSprite(sf::IntRect const &coord);
   void			play(bool);
+  void			setFrameLength(int len); // µs
 };
 
 #endif

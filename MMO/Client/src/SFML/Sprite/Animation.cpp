@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:08:26 2014 cyril jourdain
-// Last update Tue Feb 11 14:16:58 2014 cyril jourdain
+// Last update Wed Mar  5 13:32:26 2014 cyril jourdain
 //
 
 #include		"SFML/Sprite/Animation.hh"
@@ -74,4 +74,9 @@ void			Animation::addSprite(sf::IntRect const &coord)
 void			Animation::play(bool p)
 {
   _playing = p;
+}
+
+void			Animation::setFrameLength(int len)
+{
+  _frameLenght = len;
 }
