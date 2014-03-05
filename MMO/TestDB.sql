@@ -146,6 +146,17 @@ INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`) VALUES
        (2, 'Blastoise', 2, 2),
        (3, 'Venuzaur', 2, 3);
 
+/* Assignin MobModels to DBZones */
+DELETE FROM `DBZone_mobModels`;
+
+INSERT INTO `DBZone_mobModels`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 1),
+       (1, 1, 2),
+       (1, 2, 3),
+       (2, 0, 1),
+       (2, 1, 2),
+       (2, 2, 3);
+
 /* Inserting Spells */
 DELETE FROM `Spell`;
 
