@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = ../pfa-client
 DEPENDPATH += . src
 INCLUDEPATH += . include ../Common/include
-FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbar.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui ../Res/craftview.ui ../Res/digitaliserview.ui
+FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbarview.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui ../Res/craftview.ui ../Res/digitaliserview.ui
 LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp -ldl
 QMAKE_CXXFLAGS += -std=c++0x -DCLIENT_COMPILATION -g
 OBJECTS_DIR = ./obj
@@ -51,6 +51,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Core/Core.hh \
                 include/Core/ErrorHandler.hh \
                 include/Chat/Chat.hh \
+                include/Battle/Battle.hh \
 
 SOURCES +=      src/main.cpp \
                 src/Qt/QSFMLWidget.cpp \
@@ -87,6 +88,7 @@ SOURCES +=      src/main.cpp \
                 src/Chat/Chat.cpp \
                 src/Core/Core.cpp \
                 src/Core/ErrorHandler.cpp \
+                src/Battle/Battle.cpp \
                 ../Common/src/Map/Map.cpp \
                 ../Common/src/Crypto/Crypto.cpp \ 
                 ../Common/src/Mutex/AMutex.cpp \ 

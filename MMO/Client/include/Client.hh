@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Tue Mar  4 12:51:53 2014 guillaume marescaux
+// Last update Wed Mar  5 12:39:59 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -25,6 +25,7 @@
 #include			<Qt/qgridlayout.h>
 #include			"Entities/Views/PlayerView.hh"
 #include			"Chat/Chat.hh"
+#include			"Battle/Battle.hh"
 #include			"Entities/AItem.hh"
 
 class				Client : public Singleton<Client>
@@ -39,6 +40,7 @@ private:
   MutexVar<std::list<PlayerView *> *>		*_players;
   MutexVar<Chat *>		*_chat;
   MutexVar<bool>		*_newPlayer;
+  MutexVar<Battle *>		*_battle;
   Core				*_core;
   WindowManager			*_manager;
 
