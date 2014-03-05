@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Wed Mar  5 16:24:14 2014 antoine maitre
+// Last update Wed Mar  5 17:35:26 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -25,7 +25,7 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
     this->_mobs.push_back((*it));
   for (auto it = player1->getDigitaliser().getMobs().begin(); it != player1->getDigitaliser().getMobs().end() && i < mobNumber; it++)
     {
-      (*it)->setStat("HP", 10);
+      (*it)->setStat("HP", 10, true);
       (*it)->enterBattle();
     }
   for (auto it = player2->getDigitaliser().getMobs().begin(); it != player2->getDigitaliser().getMobs().end() && i < mobNumber; it++)

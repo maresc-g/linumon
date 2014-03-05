@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Wed Mar  5 16:26:37 2014 alexis mestag
+// Last update Wed Mar  5 17:59:27 2014 antoine maitre
 //
 
 #include			"Entities/Mob.hh"
@@ -54,8 +54,11 @@ Mob				&Mob::operator=(Mob const &rhs)
   return (*this);
 }
 
+#include			<iostream>
+
 MobModel const			&Mob::getModel() const
 {
+  std::cout << "MODEL = " << _model->getName() << std::endl;
   return (*_model);
 }
 
