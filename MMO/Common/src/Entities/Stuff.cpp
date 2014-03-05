@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Tue Mar  4 14:14:28 2014 laurent ansel
+// Last update Wed Mar  5 17:15:28 2014 laurent ansel
 //
 
 #include			"Entities/Stuff.hh"
@@ -13,21 +13,24 @@
 Stuff::Stuff() :
   Persistent(),
   AItem("", AItem::eItem::STUFF),
-  _stuffType(eStuff::NONE)
+  _stuffType(eStuff::NONE),
+  _effect(new std::map<StatKey const *, Stat::value_type>)
 {
 }
 
 Stuff::Stuff(std::string const &name, eStuff const type) :
   Persistent(),
   AItem(name, AItem::eItem::STUFF),
-  _stuffType(type)
+  _stuffType(type),
+  _effect(new std::map<StatKey const *, Stat::value_type>)
 {
 
 }
 
 Stuff::Stuff(Stuff const &rhs) :
   Persistent(rhs),
-  AItem(rhs.getName(), AItem::eItem::STUFF)
+  AItem(rhs.getName(), AItem::eItem::STUFF),
+  _effect(new std::map<StatKey const *, Stat::value_type>)
 {
   *this = rhs;
 }
@@ -42,8 +45,43 @@ Stuff				&Stuff::operator=(Stuff const &rhs)
   if (this != &rhs)
     {
       this->setStuffType(rhs.getStuffType());
+#ifndef				CLIENT_COMPILATION
+      this->setEffectLib(rhs.getEffectLib());
+#endif
+      for (auto it = rhs.getEffect().begin() ; it != rhs.getEffect().end() ; ++it)
+	(*this->_effect)[it->first] = it->second;
     }
   return (*this);
+}
+
+#ifndef				CLIENT_COMPILATION
+EffectLib const			&Stuff::getEffectLib() const
+{
+  return (*_effectLib);
+}
+
+void				Stuff::setEffectLib(EffectLib const &effectLib)
+{
+  _effectLib = &effectLib;
+}
+
+void				Stuff::applyEffect(AStatEntity &StatEntity) const
+{
+  StatEntityEffect		*effect = static_cast<StatEntityEffect *>(_effectLib->getEffect());
+
+  effect->apply(StatEntity);
+  delete effect;
+}
+#endif
+
+std::map<StatKey const *, Stat::value_type> const	&Stuff::getEffect() const
+{
+  return (*_effect);
+}
+
+void			Stuff::setEffect(std::map<StatKey const *, Stat::value_type> const &effect)
+{
+  *_effect = effect;
 }
 
 Stuff::eStuff			Stuff::getStuffType() const

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Mon Feb 24 19:52:09 2014 laurent ansel
+// Last update Wed Mar  5 16:36:15 2014 laurent ansel
 //
 
 #ifndef 		__CONSUMABLE_HH__
@@ -14,6 +14,8 @@
 # include		<functional>
 # include		"Database/Persistent.hh"
 # include		"Entities/AItem.hh"
+# include		"Effects/EffectLib.hh"
+# include		"Entities/Mob.hh"
 
 class			Consumable : public Persistent, public AItem
 {
@@ -27,6 +29,9 @@ public:
     }			eConsumable;
 private:
   eConsumable		_consumableType;
+# ifndef		CLIENT_COMPILATION
+  EffectLib const	*_effectLib;
+# endif
 
 protected:
   Consumable();
@@ -37,10 +42,20 @@ protected:
   Consumable::eConsumable	getConsumableType() const;
   void			setConsumableType(eConsumable const consumableType);
 
+# ifndef		CLIENT_COMPILATION
+  void			setEffectLib(EffectLib const &effectLib);
+# endif
+
 public:
   Consumable(Consumable const &rhs);
 
   virtual ~Consumable();
+
+# ifndef		CLIENT_COMPILATION
+  EffectLib const	&getEffectLib() const;
+
+  void			applyEffect(Mob &mob) const;
+# endif
 
   virtual bool		serialization(Trame &trame) const;
   static Consumable	*deserialization(Trame const &trame, bool const client = true);

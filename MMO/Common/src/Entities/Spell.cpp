@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:54:34 2013 alexis mestag
-// Last update Tue Mar  4 11:46:09 2014 laurent ansel
+// Last update Wed Mar  5 16:59:42 2014 laurent ansel
 //
 
 #include			"Entities/Spell.hh"

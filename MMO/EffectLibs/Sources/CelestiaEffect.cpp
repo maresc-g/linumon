@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 26 13:59:15 2014 alexis mestag
-// Last update Wed Feb 26 22:51:26 2014 alexis mestag
+// Last update Wed Mar  5 16:18:08 2014 laurent ansel
 //
 
 #include				"CelestiaEffect.hh"

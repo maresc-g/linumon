@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Sun Feb 16 17:04:54 2014 alexis mestag
-## Last update Wed Mar  5 17:30:53 2014 alexis mestag
+## Last update Wed Mar  5 17:32:52 2014 alexis mestag
 ##
 
 EFFECT_CMN_DIR=		..
@@ -14,6 +14,8 @@ EFFECT_OBJ_DIR=		Objects
 
 EFFECT_SRC=		HesodeEffect.cpp			\
 			CelestiaEffect.cpp			\
+			PotionEffect.cpp			\
+			SuperPotionEffect.cpp			\
 			NormalEffect.cpp
 
 EFFECT_SRC:=		$(addprefix $(EFFECT_SRC_DIR)/,$(EFFECT_SRC))

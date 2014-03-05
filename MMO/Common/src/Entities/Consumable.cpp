@@ -5,10 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Fri Feb 28 13:38:13 2014 laurent ansel
+// Last update Wed Mar  5 16:37:20 2014 laurent ansel
 //
 
 #include			"Entities/Consumable.hh"
+#include			"Effects/MobEffect.hh"
 
 Consumable::Consumable() :
   Persistent(),
@@ -43,9 +44,32 @@ Consumable			&Consumable::operator=(Consumable const &rhs)
   if (this != &rhs)
     {
       this->setConsumableType(rhs.getConsumableType());
+#ifndef				CLIENT_COMPILATION
+      this->setEffectLib(rhs.getEffectLib());
+#endif
     }
   return (*this);
 }
+
+#ifndef				CLIENT_COMPILATION
+EffectLib const			&Consumable::getEffectLib() const
+{
+  return (*_effectLib);
+}
+
+void				Consumable::setEffectLib(EffectLib const &effectLib)
+{
+  _effectLib = &effectLib;
+}
+
+void				Consumable::applyEffect(Mob &mob) const
+{
+  MobEffect			*effect = static_cast<MobEffect *>(_effectLib->getEffect());
+
+  effect->apply(mob);
+  delete effect;
+}
+#endif
 
 Consumable::eConsumable		Consumable::getConsumableType() const
 {

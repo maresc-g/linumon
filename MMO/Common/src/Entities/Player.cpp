@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar  5 14:42:45 2014 alexis mestag
+// Last update Wed Mar  5 17:27:21 2014 laurent ansel
 //
 
 #include			<functional>
@@ -18,6 +18,7 @@
 # include			"Entities/DBZone-odb.hxx"
 # include			"Database/Repositories/FactionRepository.hpp"
 #endif
+#include			"Entities/Consumable.hh"
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _type(PlayerType::PLAYER),
@@ -319,7 +320,25 @@ bool				Player::putMobEquipment(unsigned int const idMod,unsigned int const idIt
   return (ret);
 }
 
+void				Player::useObject(unsigned int const target, unsigned int const idItem)
+{
+#ifndef		CLIENT_COMPILATION
+  AItem				*item;
+  Mob				*mob;
 
+  mob = this->_digitaliser->getMob(target);
+  if (mob)
+    {
+      item = this->getAndDeleteItem(idItem);
+      if (item && item->getItemType() == AItem::CONSUMABLE)
+	dynamic_cast<Consumable *>(item)->applyEffect(*mob);
+      else if (item)
+	this->addItem(item);
+    }
+#endif
+  (void)target;
+  (void)idItem;
+}
 
 bool				Player::serialization(Trame &trame) const
 {

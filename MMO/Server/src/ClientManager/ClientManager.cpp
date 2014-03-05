@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Thu Feb 27 12:50:45 2014 laurent ansel
+// Last update Wed Mar  5 15:33:09 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"

@@ -15,7 +15,9 @@ INSERT INTO `EffectLib`(`id`, `name`, `path`) VALUES
        (2, 'Mimi-Queue', 'EffectLibs/Mimi-Queue.so'),
        (3, 'HesodeEffect', 'EffectLibs/HesodeEffect.so'),
        (4, 'CelestiaEffect', 'EffectLibs/CelestiaEffect.so'),
-       (5, 'NormalEffect', 'EffectLibs/NormalEffect.so');
+       (5, 'NormalEffect', 'EffectLibs/NormalEffect.so'),
+       (6, 'PotionEffect', 'EffectLibs/PotionEffect.so'),
+       (7, 'SuperPotionEffect', 'EffectLibs/SuperPotionEffect.so');
 
 /* Inserting Factions */
 DELETE FROM `Faction`;
@@ -512,6 +514,13 @@ DELETE FROM `Ressource`;
 INSERT INTO `Ressource`(`id`, `name`, `level`, `exp`) VALUES
        (1, 'Orchidee', 10, 100),
        (2, 'Peau de bouftou', 1, 10);
+
+/* Inserting Consumable */
+DELETE FROM `Consumable`;
+
+INSERT INTO `Consumable`(`id`, `name`, `effectlib`) VALUES
+       (1, 'Potion', 6),
+       (2, 'Super Potion', 7);
 
 /* Adding some fancy views because it's quite swag */
 DROP VIEW IF EXISTS `StatView`;
