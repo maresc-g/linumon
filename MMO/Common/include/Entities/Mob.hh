@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Mon Mar  3 22:43:39 2014 alexis mestag
+// Last update Tue Mar  4 14:35:16 2014 alexis mestag
 //
 
 #ifndef			__MOB_HH__
@@ -47,7 +47,7 @@ public:
 # include		"Entities/MobModel.hh"
 
 # ifdef	ODB_COMPILER
-#  pragma db object(Mob)
+#  pragma db object(Mob) session(false)
 #  pragma db member(Mob::_model) not_null column("model_id")
 # endif
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 12:52:53 2014 laurent ansel
-// Last update Mon Mar  3 16:32:41 2014 alexis mestag
+// Last update Tue Mar  4 15:46:54 2014 alexis mestag
 //
 
 #ifndef 			__JOBS_HH__
@@ -15,8 +15,11 @@
 # include			"Utility/ISerialization.hh"
 # include			"Utility/Wrapper.hpp"
 
-class				Jobs : public ISerialization, public ContainerWrapper<std::list<Job *>>
+class				Jobs : public ISerialization, public ContainerWrapper<std::list<Job *> >
 {
+private:
+  void				deleteJobs();
+
 public:
   Jobs();
   Jobs(Jobs const &rhs);

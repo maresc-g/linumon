@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Tue Mar  4 12:51:43 2014 guillaume marescaux
+// Last update Wed Mar  5 13:50:29 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -25,6 +25,7 @@
 #include		"ErrorHandler.hh"
 #include		"Entities/Faction.hh"
 #include		"Chat/Chat.hh"
+#include		"Battle/Battle.hh"
 #include		"Utility/CommonDefine.hh"
 
 # define		CONNECT_FILE	"Res/Connection.json"
@@ -61,13 +62,14 @@ private:
   MutexVar<std::list<PlayerView *> *>	*_players;
   MutexVar<Chat *>			*_chat;
   MutexVar<bool>			*_newPlayer;
+  MutexVar<Battle *>			*_battle;
   ErrorHandler				*_handler;
 
 public:
 
   // Ctor / Dtor
   Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players,
-       MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer);
+       MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer, MutexVar<Battle *> *battle);
   virtual ~Core();
 
   // Methods
@@ -117,6 +119,7 @@ private:
   bool			map(Trame *trame);
   bool			getChat(Trame *trame);
   bool			launchBattle(Trame *);
+  bool			turnTo(Trame *);
   bool			spell(Trame *);
   bool			spellEffect(Trame *);
   bool			captureEffect(Trame *);
