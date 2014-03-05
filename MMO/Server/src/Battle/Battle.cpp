@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Mar  3 12:30:05 2014 antoine maitre
+// Last update Wed Mar  5 16:24:14 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -15,6 +15,7 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
   : _id(id), _type(type),
     _mobNumber(mobNumber)
 {
+  static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
   int i = 0;
 
   for (auto it = player1->getDigitaliser().getMobs().begin(); it != player1->getDigitaliser().getMobs().end() && i < mobNumber; it++)
@@ -22,6 +23,13 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
   i = 0;
   for (auto it = player2->getDigitaliser().getMobs().begin(); it != player2->getDigitaliser().getMobs().end() && i < mobNumber; it++)
     this->_mobs.push_back((*it));
+  for (auto it = player1->getDigitaliser().getMobs().begin(); it != player1->getDigitaliser().getMobs().end() && i < mobNumber; it++)
+    {
+      (*it)->setStat("HP", 10);
+      (*it)->enterBattle();
+    }
+  for (auto it = player2->getDigitaliser().getMobs().begin(); it != player2->getDigitaliser().getMobs().end() && i < mobNumber; it++)
+    (*it)->enterBattle();
   if (player1->getType() == Player::PlayerType::PLAYER)
     this->trameLaunchBattle(player1->getId(), player2);
   if (player2->getType() == Player::PlayerType::PLAYER)
@@ -62,7 +70,7 @@ bool					Battle::checkEnd()
       i = 0;
       for (auto itb = this->_mobs.begin(); itb != this->_mobs.end(); itb++)
 	{
-	  statMob = &(*it)->getStats();
+	  statMob = &(*it)->getTmpStats();
 	  if ((*it)->isMyMob((*it)->getId()) && statMob->getStat(*hpKey) <= 0)
 	    i++;
 	  if (i == _mobNumber)
@@ -70,7 +78,7 @@ bool					Battle::checkEnd()
 	}
     }
   return (false);
-
+  
 }
 
 bool					Battle::spell(unsigned int const launcher, unsigned int const target, Spell *spell) //, int id_lanceur
@@ -96,7 +104,7 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
 	    this->trameSpellEffect((*it)->getId(), target, 10);
 	  } 
 
-      Stats statMob = mobTarget->getStats();
+      Stats statMob = mobTarget->getTmpStats();
       if (statMob.getStat(*hpKey) <= 0)
 	for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	  if ((*it)->getType() == Player::PlayerType::PLAYER)
@@ -143,9 +151,10 @@ void					Battle::next()
   auto tmp = this->_mobs.front();
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);
-  Stats statMob = tmp->getStats();
+  Stats statMob = tmp->getTmpStats();
   if (statMob.getStat(*hpKey) <= 0)
     {
+      std::cout << statMob.getStat(*hpKey) << std::endl;
       this->next();
       return;
     }
@@ -205,8 +214,8 @@ void					Battle::trameTurnTo(unsigned int const idPlayer, unsigned int const idM
 bool					compareSpeed(Mob *mob1, Mob *mob2)
 {
   static StatKey const			*speedKey = Database::getRepository<StatKey>().getByName("Speed");
-  int speed1 = mob1->getStats().getStat(*speedKey);
-  int speed2 = mob2->getStats().getStat(*speedKey);
+  int speed1 = mob1->getTmpStats().getStat(*speedKey);
+  int speed2 = mob2->getTmpStats().getStat(*speedKey);
 
   if (speed1 < speed2)
     return (true);

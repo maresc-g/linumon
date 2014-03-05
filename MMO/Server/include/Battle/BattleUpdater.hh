@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:25:25 2014 antoine maitre
-// Last update Mon Feb 10 15:48:18 2014 antoine maitre
+// Last update Wed Mar  5 14:37:44 2014 antoine maitre
 //
 
 #ifndef					__BATTLEUPDATER_HH__
@@ -20,6 +20,8 @@
 # include				"Entities/Spell.hh"
 # include				"Utility/GenericSerialization.hpp"
 
+class					BattleUpdater;
+
 typedef std::function <bool (Trame *)> funcBattle;
 
 class					BattleUpdater : public Thread
@@ -28,7 +30,7 @@ private:
   bool					_quit;
   Mutex		                        *_mutex;
   std::list<Trame *>			_trames;
-  std::list<Battle *>			*_battles;
+  std::list<Battle *>			_battles;
   std::map<std::string, funcBattle>     *_funcs;
 
 public:
@@ -43,7 +45,7 @@ public:
   bool					dswitch(Trame *);
   void					addTrame(Trame );
   int					getNumOfBattle() const;
-  std::list<Battle *>			*getBattles() const;
+  std::list<Battle *>			getBattles() const;
 };
 
 void					*launch(void *data);

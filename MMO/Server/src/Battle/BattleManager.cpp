@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Wed Feb 26 12:04:26 2014 antoine maitre
+// Last update Wed Mar  5 13:13:49 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -23,6 +23,10 @@ BattleManager::BattleManager()
   Server::getInstance()->addFuncProtocol("SPELL", func);
   func = std::bind1st(std::mem_fun(&BattleManager::dswitch), this);
   Server::getInstance()->addFuncProtocol("SWITCH", func);
+  this->_battleUpdaters.push_back(new BattleUpdater);
+  this->_battleUpdaters.push_back(new BattleUpdater);
+  this->_battleUpdaters.push_back(new BattleUpdater);
+  this->_battleUpdaters.push_back(new BattleUpdater);
 }
 
 BattleManager::~BattleManager()
@@ -34,14 +38,14 @@ BattleManager::~BattleManager()
 
 bool				BattleManager::inBattle(Player *player)
 {
-  if ((rand() % 100) < 74)
-    {
+  // if ((rand() % 100) < 74)
+  //   {
       std::cout << "Yolo" << std::endl;
       this->newBattle(player, player);
       return (true);
-    }
-  else
-    return (false);
+  //   }
+  // else
+  //   return (false);
 }
 
 void				BattleManager::newBattle(Player *player1, Player *player2)
@@ -63,6 +67,7 @@ void				BattleManager::newBattle(Player *player1, Player *player2)
       i++;
     }
   i = 0;
+  std::cout << "LA BATTLE DEVRAIT SE LANCER" << std::endl;
   for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
     {
       if (i == j)
