@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Mar  2 23:49:12 2014 cyril jourdain
-// Last update Mon Mar  3 12:21:18 2014 cyril jourdain
+// Last update Wed Mar  5 14:57:11 2014 cyril jourdain
 //
 
 #ifndef 		__CONTEXTVIEW_HH__
@@ -36,8 +36,10 @@ public:
   virtual void		onMouseEvent(QMouseEvent *) = 0;
   virtual void		resetView() = 0;
   virtual void		drawView() = 0;
-  void			loadBackgroundMap();
-  void			loadBackgroundSprite();
+  virtual void		loadBackgroundMap();
+  virtual void		loadBackgroundSprite();
+  virtual void		resetPOV();
+  virtual void		centerView();
 };
 
 #endif

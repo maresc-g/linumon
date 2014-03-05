@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar  5 12:15:09 2014 laurent ansel
+// Last update Wed Mar  5 14:42:45 2014 alexis mestag
 //
 
 #include			<functional>
@@ -69,7 +69,10 @@ Player::~Player()
 {
   delete _digitaliser;
   delete _coord;
-  this->deleteTalents();
+  delete _talents;
+  delete _inventory;
+  delete _jobs;
+  // this->deleteTalents();
   // delete _faction; // Causes an invalid pointer delete
 }
 
@@ -306,7 +309,7 @@ bool				Player::putMobEquipment(unsigned int const idMod,unsigned int const idIt
       item = this->getAndDeleteItem(idItem);
       if (item && item->getItemType() == AItem::STUFF)
 	{
-	  ret = mob->addStuff(reinterpret_cast<Stuff *>(item), old);
+	  ret = mob->addStuff(dynamic_cast<Stuff *>(item), old);
 	  if (ret && old)
 	    this->addItem(old);
 	}

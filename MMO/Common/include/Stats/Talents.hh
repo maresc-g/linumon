@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Mar  4 00:03:52 2014 alexis mestag
-// Last update Tue Mar  4 00:13:51 2014 alexis mestag
+// Last update Tue Mar  4 15:42:36 2014 alexis mestag
 //
 
 #ifndef				__TALENTS_HH__
@@ -19,6 +19,8 @@ class				Talents : public ContainerWrapper<std::list<Talent *> >
 private:
   container_type const		&getTalents() const;
   void				setTalents(container_type const &talents);
+
+  void				deleteTalents();
 
 public:
   Talents();
