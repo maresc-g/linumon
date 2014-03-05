@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 10:15:18 2014 alexis mestag
-// Last update Tue Feb 11 11:05:59 2014 alexis mestag
+// Last update Mon Mar  3 21:28:48 2014 alexis mestag
 //
 
 #ifndef				__PLAYERVIEW_HH__
@@ -47,7 +47,7 @@ public:
 #  pragma db view(PlayerView) object(Player) object(User: Player::_user) object(Faction)
 #  pragma db member(PlayerView::persistentId) column(Player::_persistentId)
 #  pragma db member(PlayerView::name) column(Player::_name)
-#  pragma db member(PlayerView::level) column(Player::_level._lvl)
+#  pragma db member(PlayerView::level) column(Player::level)
 #  pragma db member(PlayerView::userId) column(User::_persistentId)
 #  pragma db member(PlayerView::faction) column(Faction::_name)
 # endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:55:14 2013 laurent ansel
-// Last update Thu Feb  6 15:17:15 2014 laurent ansel
+// Last update Tue Mar  4 11:18:31 2014 laurent ansel
 //
 
 #include		<sstream>
@@ -74,6 +74,23 @@ std::string		Trame::toString() const
 {
   std::string		content;
   Json::FastWriter	*writer = new Json::FastWriter;
+  size_t		pos;
+  std::string		str(CONTENT + std::string(" : "));
+
+  content = writer->write(*this);
+  delete writer;
+  if ((pos = content.find(str)) != std::string::npos)
+    if (pos < _size)
+      content.erase(pos + std::string(str).size(), _size);
+  if (this->_end)
+    content.append(TRAMEEND);
+  return (content);
+}
+
+std::string		Trame::toStyledString() const
+{
+  std::string		content;
+  Json::StyledWriter	*writer = new Json::StyledWriter;
   size_t		pos;
   std::string		str(CONTENT + std::string(" : "));
 

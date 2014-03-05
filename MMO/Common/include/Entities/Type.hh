@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 21:03:13 2013 alexis mestag
-// Last update Thu Feb 27 17:53:26 2014 alexis mestag
+// Last update Tue Mar  4 00:38:23 2014 alexis mestag
 //
 
 #ifndef			__TYPE_HH__
@@ -15,29 +15,24 @@
 # include		"Database/Persistent.hh"
 # include		"Utility/Nameable.hh"
 # include		"Utility/ISerialization.hh"
+# include		"Utility/Wrapper.hpp"
 
 class			Type;
 
-class			TypeRelations
+struct			Link
+{
+  typedef double	coeff_type;
+
+  Type const		*type;
+  coeff_type		coeff;
+};
+
+class			TypeRelations : public ContainerWrapper<std::list<Link>>
 {
   friend class		odb::access;
 
-public:
-  struct		Link
-  {
-    typedef double	coeff_type;
-
-    Type const		*type;
-    coeff_type		coeff;
-  };
-
-  typedef std::list<Link>	Relations;
-
 private:
-  Relations		_relations;
-
-private:
-  void			setRelations(Relations const &relations);
+  void			setRelations(container_type const &relations);
 
 public:
   TypeRelations();
@@ -48,7 +43,7 @@ public:
 
   Link::coeff_type	getCoeffOf(Type const &type) const;
 
-  Relations const	&getRelations() const;
+  container_type const	&getRelations() const;
 };
 
 class			Type : public Persistent, public Nameable, public ISerialization
@@ -56,7 +51,7 @@ class			Type : public Persistent, public Nameable, public ISerialization
   friend class		odb::access;
 
 private:
-  TypeRelations		_relations;
+  TypeRelations		*_relations;
 
 private:
   Type();
@@ -74,20 +69,20 @@ public:
 
   TypeRelations const	&getRelations() const;
 
-  TypeRelations::Link::coeff_type	getCoeffAgainst(Type const &type) const;
+  Link::coeff_type	getCoeffAgainst(Type const &type) const;
 
   virtual bool		serialization(Trame &trame) const;
   static Type		*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER
-#  pragma db value(TypeRelations::Link)
-#  pragma db member(TypeRelations::Link::type) not_null column("oType_id")
-#  pragma db member(TypeRelations::Link::coeff) not_null column("coeff")
-
-#  pragma db value(TypeRelations)
+#  pragma db value(Link)
+#  pragma db member(Link::type) not_null column("oType_id")
+#  pragma db member(Link::coeff) not_null column("coeff")
 
 #  pragma db object(Type)
+#  pragma db member(Type::_relations) transient
+#  pragma db member(Type::relations) virtual(TypeRelations::container_type) get(_relations->getContainer()) set(_relations->setContainer(?))
 # endif
 
 #endif

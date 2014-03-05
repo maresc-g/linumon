@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Tue Dec  3 13:09:41 2013 alexis mestag
-## Last update Thu Feb 20 13:48:38 2014 alexis mestag
+## Last update Tue Mar  4 00:10:48 2014 alexis mestag
 ##
 
 STATS_SRC=		AuthorizedStatKeys.cpp	\
@@ -13,6 +13,7 @@ STATS_SRC=		AuthorizedStatKeys.cpp	\
 			Stats.cpp		\
 			StatKey.cpp		\
 			Talent.cpp		\
+			Talents.cpp		\
 			TalentModel.cpp		\
 			TalentTree.cpp
 
@@ -28,10 +29,10 @@ ODB_OPTIONS+=		$(ODB_STATS_OPTIONS)
 
 ODB_STATS=		AuthorizedStatKeys.hh	\
 			Stat.hh			\
-			Stats.hh		\
 			StatKey.hh		\
 			Talent.hh		\
 			TalentModel.hh		\
 			TalentTree.hh
+
 ODB_STATS:=		$(addprefix $(STATS_H_DIR)/,$(ODB_STATS))
 ODB_CLASSES+=		$(ODB_STATS)

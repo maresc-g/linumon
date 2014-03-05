@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Fri Feb 28 15:56:54 2014 laurent ansel
+// Last update Tue Mar  4 12:32:19 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -16,16 +16,18 @@
 Job::Job():
   Persistent(),
   _currentExp(0),
+  _level(new Level),
   _jobModel(NULL)
 {
 }
 
 Job::~Job()
 {
+  delete _level;
 }
 
 Job::Job(Job const &rhs):
-  Persistent(rhs)
+  Persistent(rhs), _level(new Level)
 {
   *this = rhs;
 }
@@ -35,7 +37,7 @@ Job				&Job::operator=(Job const &rhs)
   if (this != &rhs)
     {
       this->setCurrentExp(rhs.getCurrentExp());
-      this->setLevel(rhs.getLevel());
+      this->setLevelObject(rhs.getLevelObject());
       this->setJobModel(rhs.getJobModel());
     }
   return (*this);
@@ -51,14 +53,37 @@ void				Job::setCurrentExp(unsigned int const currentExp)
   _currentExp = currentExp;
 }
 
-Level const			&Job::getLevel() const
+Level const			&Job::getLevelObject() const
 {
-  return (this->_level);
+  return (*this->_level);
 }
 
-void				Job::setLevel(Level const &level)
+void				Job::setLevelObject(Level const &level)
 {
-  this->_level = level;
+  if (!_level)
+    this->_level = new Level(level);
+  else
+    *this->_level = level;
+}
+
+Level::type			Job::getLevel() const
+{
+  return (_level->getLevel());
+}
+
+void				Job::setLevel(Level::type const level)
+{
+  _level->setLevel(level);
+}
+
+Level::type			Job::getExp() const
+{
+  return (_level->getExp());
+}
+
+void				Job::setExp(Level::type const exp)
+{
+  _level->setExp(exp);
 }
 
 JobModel const			&Job::getJobModel() const
@@ -80,7 +105,7 @@ bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, s
   for (auto it = this->getJobModel().getCrafts().begin() ; it != this->getJobModel().getCrafts().end() && !ret; ++it)
     if ((*it)->getName() == nameCraft)
       {
-	for (auto ic = (*it)->getIngredients().begin() ; ic != (*it)->getIngredients().end() ; ++ic)
+	for (auto ic = (*it)->begin() ; ic != (*it)->end() ; ++ic)
 	  object.push_back(std::make_pair(ic->first->getName(), ic->second));
 	if ((*it)->getResult().getItemType() == AItem::STUFF)
 	  item = new Stuff(static_cast<Stuff const &>((*it)->getResult()));
@@ -88,11 +113,11 @@ bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, s
 	  item = new Consumable(static_cast<Consumable const &>((*it)->getResult()));
 	if (item)
 	  result.push_back(item);
-	exp = this->_currentExp + (*it)->getLevel().getExp();
-	while (this->_level.getExp() < exp)
+	exp = this->_currentExp + (*it)->getExp();
+	while (this->getExp() < exp)
 	  {
-	    this->_level.levelUp();
-	    exp -= this->_level.getExp();
+	    this->_level->levelUp();
+	    exp -= this->getExp();
 	  }
 	this->_currentExp = exp;
 	ret = true;
@@ -105,7 +130,7 @@ bool				Job::doGather(std::string const &nameRessource, std::list<AItem *> &resu
   bool				ret = false;
   unsigned int			exp = 0;
 
-  for (auto it = this->getJobModel().getGather().begin() ; it != this->getJobModel().getGather().end() && !ret; ++it)
+  for (auto it = this->getJobModel().getGathers().begin() ; it != this->getJobModel().getGathers().end() && !ret; ++it)
     if ((*it).getRessource().getName() == nameRessource)
       {
 	int			i = rand() % 4 + 1;
@@ -113,11 +138,11 @@ bool				Job::doGather(std::string const &nameRessource, std::list<AItem *> &resu
 	idRessource = (*it).getRessource().getId();
 	for (auto nb = 0 ; nb < i ; ++nb)
 	  result.push_back(new Ressource((*it).getRessource()));
-	exp = this->_currentExp + (*it).getLevel().getExp();
-	while (this->_level.getExp() < exp)
+	exp = this->_currentExp + it->getExp();
+	while (this->getExp() < exp)
 	  {
-	    this->_level.levelUp();
-	    exp -= this->_level.getExp();
+	    this->_level->levelUp();
+	    exp -= this->getExp();
 	  }
 	this->_currentExp = exp;
 	ret = true;
@@ -129,9 +154,9 @@ bool				Job::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  this->_level.serialization(trame);
+  this->_level->serialization(trame);
   this->_jobModel->serialization(trame(trame["MOD"]));
-  trame["EXP"] = this->_currentExp;
+  trame["CEXP"] = this->_currentExp;
   return (ret);
 }
 
@@ -139,9 +164,9 @@ Job				*Job::deserialization(Trame const &trame)
 {
   Job				*job = new Job;
 
-  job->setLevel(*Level::deserialization(trame));
+  job->setLevelObject(*Level::deserialization(trame));
   job->setJobModel(*JobModel::deserialization(trame));
-  job->setCurrentExp(trame["EXP"].asUInt());
+  job->setCurrentExp(trame["CEXP"].asUInt());
   return (job);
 }
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:45:53 2013 laurent ansel
-// Last update Wed Feb 26 01:35:50 2014 alexis mestag
+// Last update Tue Mar  4 01:12:04 2014 alexis mestag
 //
 
 #include		<string>
@@ -32,7 +32,6 @@ int			main(int argc, char **argv)
   	  srand(time(NULL));
   	  Server::getInstance()->init(port);
   	  Server::getInstance()->run();
-
   	  Server::deleteInstance();
   	}
       catch (std::invalid_argument const &e)

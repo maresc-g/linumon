@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:08:36 2013 alexis mestag
-// Last update Fri Feb 28 13:04:27 2014 laurent ansel
+// Last update Tue Mar  4 11:42:38 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -44,6 +44,56 @@ Stat				&Stat::operator=(Stat const &rhs)
   return (*this);
 }
 
+bool				Stat::operator==(Stat const &rhs) const
+{
+  return (this->getKey() == rhs.getKey());
+}
+
+bool				Stat::operator!=(Stat const &rhs) const
+{
+  return (!(*this == rhs));
+}
+
+Stat				Stat::operator+(Stat const &rhs) const
+{
+  Stat				ret(*this);
+
+  ret += rhs;
+  return (ret);
+}
+
+Stat				&Stat::operator+=(Stat const &rhs)
+{
+  this->add(rhs);
+  return (*this);
+}
+
+Stat				Stat::operator-(Stat const &rhs) const
+{
+  Stat				ret(*this);
+
+  ret -= rhs;
+  return (ret);
+}
+
+Stat				&Stat::operator-=(Stat const &rhs)
+{
+  this->sub(rhs);
+  return (*this);
+}
+
+void				Stat::add(Stat const &rhs)
+{
+  if (this->getKey() == rhs.getKey())
+    this->setValue(this->getValue() + rhs.getValue());
+}
+
+void				Stat::sub(Stat const &rhs)
+{
+  if (this->getKey() == rhs.getKey())
+    this->setValue(this->getValue() > rhs.getValue() ? this->getValue() - rhs.getValue() : 0);
+}
+
 StatKey const			&Stat::getKey() const
 {
   return (*_key);
@@ -73,8 +123,8 @@ bool		 		Stat::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  trame["KEY"] = this->getKey().getName();
-  trame["VALUE"] = this->getValue();
+  // trame["KEY"] = this->getKey().getName();
+  trame[this->getKey().getName()] = this->getValue();
   return (ret);
 }
 
@@ -82,6 +132,8 @@ Stat				*Stat::deserialization(Trame const &trame)
 {
   Stat				*stat = NULL;
 
-  stat = new Stat(*new StatKey(trame["KEY"].asString()), trame["VALUE"].asInt());
+  //  stat = new Stat(*new StatKey(trame["KEY"].asString()), trame["VALUE"].asInt());
+  stat = new Stat();
+  stat->setValue(trame.asUInt());
   return (stat);
 }

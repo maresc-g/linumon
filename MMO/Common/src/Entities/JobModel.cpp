@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:53:29 2014 laurent ansel
-// Last update Fri Feb 28 15:23:00 2014 laurent ansel
+// Last update Mon Mar  3 22:31:29 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -14,7 +14,8 @@
 JobModel::JobModel():
   Persistent(),
   Nameable(),
-  _crafts(new std::list<Craft *>)
+  _crafts(new std::list<Craft *>),
+  _gathers(new gathers_container_type)
 {
 }
 
@@ -23,12 +24,14 @@ JobModel::~JobModel()
   for (auto it = this->_crafts->begin() ; it != this->_crafts->end() ; ++it)
     delete *it;
   delete _crafts;
+  delete _gathers;
 }
 
 JobModel::JobModel(JobModel const &rhs):
   Persistent(rhs),
   Nameable(rhs),
-  _crafts(new std::list<Craft *>)
+  _crafts(new std::list<Craft *>),
+  _gathers(new gathers_container_type)
 {
   *this = rhs;
 }
@@ -39,7 +42,7 @@ JobModel			&JobModel::operator=(JobModel const &rhs)
     {
       this->setName(this->getName());
       this->setCrafts(rhs.getCrafts());
-      this->setGather(rhs.getGather());
+      this->setGathers(rhs.getGathers());
     }
   return (*this);
 }
@@ -105,14 +108,14 @@ void				JobModel::setCrafts(std::list<Craft *> const &list)
   *this->_crafts = list;
 }
 
-std::list<Gather> const		&JobModel::getGather() const
+std::list<Gather> const		&JobModel::getGathers() const
 {
-  return (this->_gather);
+  return (*this->_gathers);
 }
 
-void				JobModel::setGather(std::list<Gather> const &list)
+void				JobModel::setGathers(std::list<Gather> const &list)
 {
-  this->_gather = list;
+  *this->_gathers = list;
 }
 
 std::string const		&JobModel::getPath() const
@@ -144,7 +147,7 @@ bool				JobModel::serialization(Trame &trame) const
     }
   ret = true;
   nb = 0;
-  for (auto it = this->_gather.begin() ; it != this->_gather.end() && ret; ++it)
+  for (auto it = this->_gathers->begin() ; it != this->_gathers->end() && ret; ++it)
     {
       str << nb;
       ret = (*it).serialization(trame(trame["GR"][str.str()]));
@@ -167,7 +170,7 @@ JobModel			*JobModel::deserialization(Trame const &trame)
       jobModel = new JobModel;
       jobModel->setName(trame["MOD"]["NAME"].asString());
       crafts = new std::list<Craft *>;
-     ressources = new std::list<Gather>;
+      ressources = new std::list<Gather>;
 
       auto			membersCraft = trame["MOD"]["CRS"].getMemberNames();
       auto			membersGather = trame["MOD"]["GR"].getMemberNames();
@@ -186,7 +189,7 @@ JobModel			*JobModel::deserialization(Trame const &trame)
 	    ressources->push_back(*ressource);
 	}
       jobModel->setCrafts(*crafts);
-      jobModel->setGather(*ressources);
+      jobModel->setGathers(*ressources);
     }
   return (jobModel);
 }

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:59:05 2013 laurent ansel
-// Last update Wed Feb 26 11:04:45 2014 laurent ansel
+// Last update Tue Mar  4 11:21:03 2014 laurent ansel
 //
 
 #ifndef 		__COMMONDEFINE_HH__
@@ -21,5 +21,13 @@
 #else
 #define	FD		SOCKET
 #endif
+
+typedef enum			eStuffAction
+  {
+    NONE,
+    GET,
+    PUT
+  }				eStuffAction;
+
 
 #endif

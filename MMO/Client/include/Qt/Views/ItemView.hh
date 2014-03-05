@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:16:30 2014 guillaume marescaux
-// Last update Fri Feb 28 12:59:10 2014 cyril jourdain
+// Last update Mon Mar  3 13:41:48 2014 guillaume marescaux
 //
 
 #ifndef 		__ITEMVIEW_HH__
@@ -34,6 +34,8 @@ private:
   WindowManager		*_wMan;
   AItem			*_item;
   unsigned int		_nb;
+  int			_x;
+  int			_y;
 
 private:
 
@@ -43,6 +45,7 @@ private:
   void			setInfos(AItem *item, unsigned int nb);
 public:
   virtual void		resize(int, int);
+  virtual void		move(int, int);
 
 // public slots:
 //   void			makeDrag();

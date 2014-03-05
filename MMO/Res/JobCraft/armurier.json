@@ -2,11 +2,8 @@
     "1" :
     {
 	"NAME" : "Plastron Bouftou",
-	"LVL" :
-	{
-	    "LVL" : 1,
-	    "EXP" : 50
-	},
+	"LVL" : 1,
+	"EXP" : 50,
 	"RES" :
 	{
 	    "NAME" : "Plastron Bouftou",
@@ -34,11 +31,8 @@
     "2" :
     {
 	"NAME" : "Coiffe Bouftou",
-	"LVL" :
-	{
-	    "LVL" : 1,
-	    "EXP" : 150
-	},
+	"LVL" : 1,
+	"EXP" : 150,
 	"RES" :
 	{
 	    "NAME" : "Coiffe Bouftou",

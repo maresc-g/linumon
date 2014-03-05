@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Fri Feb 28 13:06:17 2014 cyril jourdain
+// Last update Tue Mar  4 12:44:36 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -13,7 +13,7 @@
 #include			"Qt/Views/ItemView.hh"
 
 ItemView::ItemView(QWidget *parent, WindowManager *wMan, unsigned int nb, AItem *item):
-  QWidget(parent), _wMan(wMan), _item(item), _nb(nb)
+  QWidget(parent), _wMan(wMan), _item(item), _nb(nb), _x(0), _y(0)
 {
   ui.setupUi(this);
   if (nb > 0)
@@ -62,14 +62,16 @@ void				ItemView::paintEvent(QPaintEvent *)
 void				ItemView::mouseDoubleClickEvent(QMouseEvent *)
 {
   if (_item && this->parentWidget()->objectName() == "f_items")
-    static_cast<InventoryView *>(this->parentWidget())->itemAction(this);
+    static_cast<InventoryView *>(this->parentWidget()->parentWidget())->itemAction(this);
+  else if (_item && this->parentWidget()->objectName() == "stuffview")
+    static_cast<StuffView *>(this->parentWidget())->itemAction(this);
   else
     std::cout << "FAIL = " << this->parentWidget()->objectName().toStdString() << std::endl;
 }
 
 void				ItemView::enterEvent(QEvent *)
 {
-  QToolTip::showText(this->mapToGlobal( QPoint( 0, 0 ) ), "ITEM DESCRIPTION" );
+  // QToolTip::showText(this->mapToGlobal( QPoint( 0, 0 ) ), "ITEM DESCRIPTION" );
 }
 
 void				ItemView::setInfos(AItem *item, unsigned int nb)
@@ -108,6 +110,13 @@ void				ItemView::resize(int x, int y)
 {
   QWidget::resize(x, y);
   ui.frame->resize(x, y);
+}
+
+void				ItemView::move(int x, int y)
+{
+  QWidget::move(x, y);
+  _x = x;
+  _y = y;
 }
 
 AItem const			&ItemView::getItem() const { return (*_item); }

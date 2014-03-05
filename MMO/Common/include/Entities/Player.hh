@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Mar  3 04:03:56 2014 antoine maitre
+// Last update Tue Mar  4 00:31:55 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -19,7 +19,7 @@
 # endif
 # include		"Entities/ACharacter.hh"
 # include		"Stats/TalentTree.hh"
-# include		"Stats/Talent.hh"
+# include		"Stats/Talents.hh"
 # include		"Zone/Coordinate.hpp"
 # include		"Utility/ISerialization.hh"
 # include		"Entities/Inventory.hh"
@@ -52,15 +52,16 @@ public:
 
 protected:
   PlayerType			_type;
-  Digitaliser			_digitaliser;
+  Digitaliser			*_digitaliser;
+
 private:
   PlayerCoordinate		*_coord; //1
   Faction const			*_faction; //2
   TalentTree const		*_talentTree;
-  std::list<Talent *>		_talents;
+  Talents			*_talents;
   User const			*_user;
   Inventory			*_inventory;
-  Jobs				_jobs;
+  Jobs				*_jobs;
   Guild const			*_guild;
 
 # ifndef	CLIENT_COMPILATION
@@ -118,8 +119,8 @@ public:
   void				setInventory(Inventory *inventory);
 
   void				addTalent(Talent *talent);
-  std::list<Talent *> const	&getTalents() const;
-  void				setTalents(std::list<Talent *> const &list);
+  Talents const	&getTalents() const;
+  void				setTalents(Talents const &list);
 
   TalentTree const		&getTalentTree() const;
   void				setTalentTree(TalentTree const &tree);
@@ -162,16 +163,21 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(Player) session(false)
 #  pragma db member(Player::_coord) transient
+#  pragma db member(Player::_digitaliser) transient
+#  pragma db member(Player::_talents) transient
+#  pragma db member(Player::_inventory) transient
+#  pragma db member(Player::_jobs) transient
 #  pragma db member(Player::_x) virtual(Player::Coordinate::type) get(_coord->getX()) set(_coord->setX(?))
 #  pragma db member(Player::_y) virtual(Player::Coordinate::type) get(_coord->getY()) set(_coord->setY(?))
 #  pragma db member(Player::_faction) not_null
-#  pragma db member(Player::_digitaliser) value_not_null id_column("player_id") value_column("mob_id")
+#  pragma db member(Player::mobs) virtual(Digitaliser::container_type) get(_digitaliser->getContainer()) set(_digitaliser->setContainer(?))
+#  pragma db member(Player::battleMobs) virtual(Digitaliser::container_type) get(_digitaliser->getBattleMobs()) set(_digitaliser->setBattleMobs(?))
 #  pragma db member(Player::_dbZone)
-#  pragma db member(Player::_inventory) transient
 #  pragma db member(Player::_inventoryPath) virtual(std::string) get(_inventory->getPath()) set(_inventory->setPath(?))
 #  pragma db member(Player::_money) virtual(unsigned int) get(_inventory->getMoney()) set(_inventory->setMoney(?))
 #  pragma db member(Player::_limit) virtual(unsigned int) get(_inventory->getLimit()) set(_inventory->setLimit(?))
-#  pragma db member(Player::_jobs)
+#  pragma db member(Player::jobs) virtual(Jobs::container_type) get(_jobs->getContainer()) set(_jobs->setContainer(?))
+#  pragma db member(Player::talents) virtual(Talents::container_type) get(_talents->getContainer()) set(_talents->setContainer(?))
 # endif
 
 #endif

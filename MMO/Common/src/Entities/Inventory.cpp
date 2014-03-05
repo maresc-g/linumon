@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Fri Feb 28 13:30:27 2014 laurent ansel
+// Last update Tue Mar  4 13:32:27 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -14,16 +14,15 @@
 
 Inventory::Inventory():
   Persistent(),
+  ContainerWrapper<container_type>(),
   _money(0),
-  _limit(0),
-  _inventory(new std::list<std::pair<AItem *, unsigned int> >)
+  _limit(0)
 {
 
 }
 
 Inventory::Inventory(Inventory const &rhs) :
-  Persistent(rhs),
-  _inventory(new std::list<std::pair<AItem *, unsigned int> >)
+  Persistent(rhs), ContainerWrapper<container_type>()
 {
   *this = rhs;
 }
@@ -36,8 +35,8 @@ Inventory			&Inventory::operator=(Inventory const &rhs)
 {
   if (this != &rhs)
     {
-      this->_money = rhs.getMoney();
-      this->_limit = rhs.getLimit();
+      this->setMoney(rhs.getMoney());
+      this->setLimit(rhs.getLimit());
       this->setPath(rhs.getPath());
     }
   return (*this);
@@ -54,14 +53,15 @@ void				Inventory::setPath(std::string const &path)
   this->loadInventory();
 }
 
-std::list<std::pair<AItem *, unsigned int> > const	&Inventory::getInventory() const
+Inventory::container_type const	&Inventory::getInventory() const
 {
-  return (*_inventory);
+  return (this->getContainer());
 }
 
-void				Inventory::setInventory(std::list<std::pair<AItem *, unsigned int> > *inventory)
+void				Inventory::setInventory(container_type *inventory)
 {
-  _inventory = inventory;
+  this->setContainer(*inventory);
+  delete inventory;
 }
 
 unsigned int			Inventory::getMoney() const
@@ -91,15 +91,15 @@ void				Inventory::setLimit(unsigned int const limit)
 
 void				Inventory::deleteItem(unsigned int const id)
 {
-  auto				it = this->_inventory->begin();
+  auto				it = this->begin();
 
-  for ( ; it != this->_inventory->end() && it->first->getId() != id ; ++it);
-  if (it != this->_inventory->end() && it->first->getId() == id)
+  for ( ; it != this->end() && it->first->getId() != id ; ++it);
+  if (it != this->end() && it->first->getId() == id)
     {
       if (it->second == 1)
 	{
-	  this->_inventory->erase(it);
 	  delete it->first;
+	  this->getContainer().erase(it);
 	}
       else
 	it->second--;
@@ -110,7 +110,7 @@ void				Inventory::addItem(AItem *item)
 {
   bool				set = false;
 
-  for (auto it = this->_inventory->begin() ; !set && it != this->_inventory->end() ; ++it)
+  for (auto it = this->begin() ; !set && it != this->end() ; ++it)
     {
       if (it->first->getName() == item->getName())
 	{
@@ -120,36 +120,37 @@ void				Inventory::addItem(AItem *item)
 	      delete item;
 	    }
 	  else
-	    this->_inventory->push_back(std::make_pair(item, 1));
+	    this->getContainer().push_back(std::make_pair(item, 1));
 	  set = true;
 	}
     }
   if (!set)
-    this->_inventory->push_back(std::make_pair(item, 1));
+    this->getContainer().push_back(std::make_pair(item, 1));
 }
 
 AItem				*Inventory::getItem(unsigned int const id) const
 {
-  auto				it = this->_inventory->begin();
+  auto				it = this->begin();
 
-  for ( ; it != this->_inventory->end() && it->first->getId() != id ; ++it);
-  if (it != this->_inventory->end() && it->first->getId() == id)
+  for ( ; it != this->end() && it->first->getId() != id ; ++it);
+  if (it != this->end() && it->first->getId() == id)
     return (it->first);
   return (NULL);
 }
 
-AItem				*Inventory::getAndDeleteItem(unsigned int const id) const
+AItem				*Inventory::getAndDeleteItem(unsigned int const id)
 {
-  auto				it = this->_inventory->begin();
+  auto				it = this->begin();
   AItem				*item;
 
-  for ( ; it != this->_inventory->end() && it->first->getId() != id ; ++it);
-  if (it != this->_inventory->end() && it->first->getId() == id)
+  for ( ; it != this->end() && it->first->getId() != id ; ++it);
+  if (it != this->end() && it->first->getId() == id)
     {
       if (it->second == 1)
 	{
-	  this->_inventory->erase(it);
-	  return (it->first);
+	  item = it->first;
+	  this->getContainer().erase(it);
+	  return (item);
 	}
       else
 	{
@@ -163,10 +164,10 @@ AItem				*Inventory::getAndDeleteItem(unsigned int const id) const
 
 unsigned int			Inventory::getIdItem(std::string const &name) const
 {
-  auto				it = this->_inventory->begin();
+  auto				it = this->begin();
 
-  for ( ; it != this->_inventory->end() && it->first->getName() != name ; ++it);
-  if (it != this->_inventory->end() && it->first->getName() == name)
+  for ( ; it != this->end() && it->first->getName() != name ; ++it);
+  if (it != this->end() && it->first->getName() == name)
     return (it->first->getId());
   return (0);
 }
@@ -178,9 +179,9 @@ void				Inventory::loadInventory()
   ObjectPoolManager::getInstance()->setObject(file, "trame");
   if (JsonFile::readFile(*file, this->_path))
     {
-      for (auto it = this->_inventory->begin() ; it != this->_inventory->end() ; ++it)
+      for (auto it = this->begin() ; it != this->end() ; ++it)
 	delete it->first;
-      this->_inventory->clear();
+      this->getContainer().clear();
 
       auto			members = file->getMemberNames();
       AItem			*toPush;
@@ -203,7 +204,7 @@ void				Inventory::serializationInventory()
   if (!this->_path.empty())
     {
       ObjectPoolManager::getInstance()->setObject(file, "trame");
-      for (auto it = _inventory->begin() ; it != _inventory->end() ; ++it)
+      for (auto it = this->begin() ; it != this->end() ; ++it)
 	{
 	  for (unsigned int i = 0 ; i < it->second ; ++i)
 	    {
@@ -226,7 +227,7 @@ bool				Inventory::serialization(Trame &trame) const
   trame["INV"]["MO"] = this->getMoney();
   trame["INV"]["LI"] = this->getLimit();
   trame["INV"]["ITS"];
-  for (auto it = _inventory->begin() ; it != _inventory->end() ; ++it)
+  for (auto it = this->begin() ; it != this->end() ; ++it)
     {
       str << nb;
       ret = it->first->serialization(trame(trame["INV"]["ITS"][str.str()]));
@@ -240,15 +241,16 @@ bool				Inventory::serialization(Trame &trame) const
 Inventory			*Inventory::deserialization(Trame const &trame)
 {
   Inventory			*inventory = NULL;
-  std::list<std::pair<AItem *, unsigned int> >	*items = NULL;
+  // container_type		*items = NULL;
 
   if (trame.isMember("INV"))
     {
       inventory = new Inventory;
-      items = new std::list<std::pair<AItem *, unsigned int> >;
+      // items = new container_type;
       inventory->setMoney(trame["INV"]["MO"].asUInt());
       inventory->setLimit(trame["INV"]["LI"].asUInt());
-      inventory->setInventory(items);
+      // (mestag_a) Je pense que la ligne en dessous n'est plus utile mntnt
+      // inventory->setInventory(items);
       if (trame["INV"].isMember("ITS"))
 	{
 	  auto			members = trame["INV"]["ITS"].getMemberNames();
@@ -259,7 +261,7 @@ Inventory			*Inventory::deserialization(Trame const &trame)
 		{
 		  std::cout << "IN FOR INVENTORY" << std::endl;
 		  inventory->addItem(AItem::deserialization(trame(trame["INV"]["ITS"][*it])));
-		  std::cout << "INVENTORY SIZE AFTER ADD " << inventory->getInventory().size() << std::endl;
+		  std::cout << "INVENTORY SIZE AFTER ADD " << inventory->size() << std::endl;
 		}
 	    }
 	    //	    items->push_back(AItem::deserialization(trame(trame["EQUIPMENT"]["ITEMS"][*it])));

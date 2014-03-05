@@ -5,23 +5,25 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:28:56 2014 laurent ansel
-// Last update Fri Feb 28 13:38:51 2014 laurent ansel
+// Last update Tue Mar  4 14:36:12 2014 laurent ansel
 //
 
 #include			<sstream>
 #include			"Entities/Equipment.hh"
 
-Equipment::Equipment()
+Equipment::Equipment() :
+  ContainerWrapper<container_type>()
 {
+}
+
+Equipment::Equipment(Equipment const &rhs) :
+  ContainerWrapper<container_type>()
+{
+  *this = rhs;
 }
 
 Equipment::~Equipment()
 {
-}
-
-Equipment::Equipment(Equipment const &rhs)
-{
-  *this = rhs;
 }
 
 Equipment			&Equipment::operator=(Equipment const &rhs)
@@ -33,52 +35,46 @@ Equipment			&Equipment::operator=(Equipment const &rhs)
   return (*this);
 }
 
-std::map<Stuff::eStuff, Stuff *> const	&Equipment::getStuffs() const
+Equipment::container_type const	&Equipment::getStuffs() const
 {
-  return (this->_stuffs);
+  return (this->getContainer());
 }
 
-void				Equipment::setStuffs(std::map<Stuff::eStuff, Stuff *> const &list)
+void				Equipment::setStuffs(container_type const &list)
 {
-  this->_stuffs = list;
+  this->setContainer(list);
 }
 
 bool				Equipment::addStuff(Stuff *newStuff, Stuff *&oldStuff)
 {
   bool				ret = false;
-  auto				it = this->_stuffs.begin();
+  auto				it = this->begin();
 
-  if ((it = this->_stuffs.find(newStuff->getStuffType())) != this->_stuffs.end())
+  if ((it = this->getContainer().find(newStuff->getStuffType())) != this->end())
     {
-      if (it->second)
-	{
-	  ret = true;
-	  oldStuff = it->second;
-	  it->second = newStuff;
-	}
-      else
-	ret = false;
+      ret = true;
+      oldStuff = it->second;
+      it->second = newStuff;
     }
   else
-    ret = false;
+    {
+      ret = true;
+      oldStuff = NULL;
+      this->getContainer()[newStuff->getStuffType()] = newStuff;
+    }
   return (ret);
 }
 
 bool				Equipment::addStuff(Stuff::eStuff const type, Stuff *&oldStuff)
 {
   bool				ret = false;
-  auto				it = this->_stuffs.begin();
+  auto				it = this->begin();
 
-  if ((it = this->_stuffs.find(type)) != this->_stuffs.end())
+  if ((it = this->getContainer().find(type)) != this->end())
     {
-      if (it->second)
-	{
-	  ret = true;
-	  oldStuff = it->second;
-	  it->second = NULL;
-	}
-      else
-	ret = false;
+      ret = true;
+      oldStuff = it->second;
+      it->second = NULL;
     }
   else
     ret = false;
@@ -89,7 +85,7 @@ bool				Equipment::getStuff(Stuff *&oldStuff, unsigned int const idItem)
 {
   bool				ret = false;
 
-  for (auto it = this->_stuffs.begin() ; it != this->_stuffs.end() && !ret ; ++it)
+  for (auto it = this->begin() ; it != this->end() && !ret ; ++it)
     {
       if (it->second && it->second->getId() == idItem)
 	{
@@ -103,10 +99,17 @@ bool				Equipment::getStuff(Stuff *&oldStuff, unsigned int const idItem)
 
 bool				Equipment::stuffExists(Stuff::eStuff const type) const
 {
-  return (_stuffs.find(type) != _stuffs.end() ? true : false);
+  auto				it = this->begin();
+
+  if ((it = this->getContainer().find(type)) != this->end() && it->second)
+    return (true);
+  return (false);
 }
 
-Stuff const			&Equipment::getStuff(Stuff::eStuff const type) const { return (*(_stuffs.find(type)->second)); }
+Stuff const			&Equipment::getStuff(Stuff::eStuff const type) const
+{
+  return (*(this->getContainer().find(type)->second));
+}
 
 bool				Equipment::serialization(Trame &trame) const
 {
@@ -115,7 +118,7 @@ bool				Equipment::serialization(Trame &trame) const
   std::ostringstream		str;
 
   trame["EQUIP"];
-  for (auto it = this->_stuffs.begin() ; it != this->_stuffs.end() && ret; ++it)
+  for (auto it = this->begin() ; it != this->end() && ret; ++it)
     {
       str << it->first;
       ret = it->second->serialization(trame(trame["EQUIP"][str.str()]));
@@ -128,13 +131,13 @@ bool				Equipment::serialization(Trame &trame) const
 Equipment			*Equipment::deserialization(Trame const &trame)
 {
   Equipment			*equipment = NULL;
-  std::map<Stuff::eStuff, Stuff *>	*stuffs;
+  container_type		*stuffs;
   Stuff				*tmp;
 
   if (trame.isMember("EQUIP"))
     {
       equipment = new Equipment;
-      stuffs = new std::map<Stuff::eStuff, Stuff *>;
+      stuffs = new container_type;
       auto			members = trame["EQUIP"].getMemberNames();
 
       for (auto it = members.begin() ; it != members.end() ; ++it)

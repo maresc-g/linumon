@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Feb 27 14:11:02 2014 guillaume marescaux
+// Last update Tue Mar  4 12:52:31 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -97,6 +97,8 @@ Core::~Core()
   delete _poll;
   delete _proto;
   delete _handler;
+  delete _initialized;
+  delete _running;
   ObjectPoolManager::deleteInstance();
 }
 
@@ -497,8 +499,13 @@ void				Core::sendSwitch(unsigned int idBattle, unsigned int target, unsigned in
   (*_proto).operator()<unsigned int const, unsigned int, unsigned int, unsigned int>("SWITCH", _id, idBattle, target, newMob);
 }
 
-//  void				stuff(void *action);
+void				Core::stuff(int action, unsigned int idItem, unsigned int target)
+{
+  (*_proto).operator()<unsigned int const, int, unsigned int, unsigned int>("STUFF", _id, action, idItem, target);
+}
+
 // void				talents();
+
 void				Core::craft(std::string const &craftName, std::string const &jobName)
 {
   (*_proto).operator()<unsigned int const, std::string, std::string>("CRAFT", _id, craftName, jobName);
@@ -595,7 +602,7 @@ void				Core::run()
 
 void				Core::loop()
 {
-  Trame				*trame = new Trame();
+  Trame				*trame;
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
   this->read(0, true);
@@ -603,6 +610,7 @@ void				Core::loop()
   if (trame)
     {
       _proto->decodeTrame(trame);
+      delete trame;
     }
   this->write();
 }

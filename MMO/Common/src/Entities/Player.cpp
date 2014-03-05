@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Sun Mar  2 23:08:47 2014 antoine maitre
+// Last update Tue Mar  4 14:07:18 2014 laurent ansel
 //
 
 #include			<functional>
@@ -20,8 +20,10 @@
 #endif
 
 Player::Player() :
-  Persistent(), ACharacter("", eCharacter::PLAYER), _type(PlayerType::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _talentTree(NULL), _inventory(new Inventory), _guild(NULL)
+  Persistent(), ACharacter("", eCharacter::PLAYER), _type(PlayerType::PLAYER),
+  _digitaliser(new Digitaliser), _coord(new PlayerCoordinate),
+  _faction(NULL), _talentTree(NULL), _talents(new Talents),
+  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
@@ -32,8 +34,10 @@ Player::Player() :
 }
 
 Player::Player(std::string const &name, std::string const &factionName) :
-  Persistent(), ACharacter(name, eCharacter::PLAYER), _type(PlayerType::PLAYER), _coord(new PlayerCoordinate),
-  _faction(NULL), _talentTree(NULL), _inventory(new Inventory), _guild(NULL)
+  Persistent(), ACharacter(name, eCharacter::PLAYER), _type(PlayerType::PLAYER),
+  _digitaliser(new Digitaliser), _coord(new PlayerCoordinate),
+  _faction(NULL), _talentTree(NULL), _talents(new Talents),
+  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
@@ -55,13 +59,15 @@ Player::Player(std::string const &name, std::string const &factionName) :
 }
 
 Player::Player(Player const &rhs) :
-  Persistent(rhs), ACharacter(rhs), _coord(new PlayerCoordinate)
+  Persistent(rhs), ACharacter(rhs), _digitaliser(new Digitaliser), _coord(new PlayerCoordinate),
+  _talents(new Talents), _jobs(new Jobs)
 {
   *this = rhs;
 }
 
 Player::~Player()
 {
+  delete _digitaliser;
   delete _coord;
   this->deleteTalents();
   // delete _faction; // Causes an invalid pointer delete
@@ -71,6 +77,7 @@ Player				&Player::operator=(Player const &rhs)
 {
   if (this != &rhs)
     {
+      this->setDigitaliser(rhs.getDigitaliser());
       this->setCoord(rhs.getCoord());
       this->setFaction(rhs.getFaction());
       this->setGuild(*rhs.getGuild());
@@ -156,12 +163,12 @@ void				Player::setGuild(Guild const &guild)
 
 Digitaliser const		&Player::getDigitaliser() const
 {
-  return (_digitaliser);
+  return (*_digitaliser);
 }
 
 void				Player::setDigitaliser(Digitaliser const &digit)
 {
-  this->_digitaliser = digit;
+  *this->_digitaliser = digit;
 }
 
 Inventory const			&Player::getInventory() const
@@ -176,24 +183,22 @@ void				Player::setInventory(Inventory *inventory)
 
 void				Player::setJobs(Jobs *jobs)
 {
-  this->_jobs = *jobs;
+  *this->_jobs = *jobs;
 }
 
 void				Player::setJob(Job *job)
 {
-  this->_jobs.setJob(job);
+  this->_jobs->setJob(job);
 }
 
 void				Player::setJob(std::string const &name, Job *job)
 {
-  this->_jobs.setJob(name, job);
+  this->_jobs->setJob(name, job);
 }
 
 Job				*Player::getJob(std::string const &name) const
 {
-  std::list<Job *>		list = this->_jobs.getJobs();
-
-  for (auto it = list.begin() ; it != list.end() ; ++it)
+  for (auto it = _jobs->begin() ; it != _jobs->end() ; ++it)
     if ((*it)->getJobModel().getName() == name)
       return (*it);
   return (NULL);
@@ -231,12 +236,12 @@ void				Player::addMoney(int const money)
 
 Mob const			&Player::getMob(unsigned int const id)
 {
-  return (*this->_digitaliser.getMob(id));
+  return (*this->_digitaliser->getMob(id));
 }
 
 bool				Player::isMyMob(unsigned int const id)
 {
-  if (this->_digitaliser.getMob(id))
+  if (this->_digitaliser->getMob(id))
     return (true);
   else
     return (false);
@@ -247,7 +252,9 @@ bool				Player::getPlayerEquipment(unsigned int const idItem)
   bool				ret = false;
   Stuff				*item;
 
+  std::cout << "PLAYER => "<<idItem << std::endl;
   ret = this->getStuff(item, idItem);
+  std::cout << "RET = " << ret << std::endl;
   if (ret)
     this->addItem(item);
   return (ret);
@@ -259,7 +266,7 @@ bool				Player::getMobEquipment(unsigned int const idMod, unsigned int const idI
   Mob				*mob;
   Stuff				*item;
 
-  mob = this->_digitaliser.getMob(idMod);
+  mob = this->_digitaliser->getMob(idMod);
   if (mob)
     {
       ret = mob->getStuff(item, idItem);
@@ -275,10 +282,11 @@ bool				Player::putPlayerEquipment(unsigned int const idItem)
   AItem				*item;
   Stuff				*old;
 
+  /*effect item*/
   item = this->getAndDeleteItem(idItem);
   if (item && item->getItemType() == AItem::STUFF)
     {
-      ret = this->addStuff(reinterpret_cast<Stuff *>(item), old);
+      ret = this->addStuff(dynamic_cast<Stuff *>(item), old);
       if (ret && old)
 	this->addItem(old);
     }
@@ -294,7 +302,7 @@ bool				Player::putMobEquipment(unsigned int const idMod,unsigned int const idIt
   Stuff				*old;
   Mob				*mob;
 
-  mob = this->_digitaliser.getMob(idMod);
+  mob = this->_digitaliser->getMob(idMod);
   if (mob)
     {
       item = this->getAndDeleteItem(idItem);
@@ -323,25 +331,25 @@ bool				Player::serialization(Trame &trame) const
   this->_faction->serialization(trame(trame["PLAYER"]));
   if (this->_guild)
     this->_guild->serialization(trame(trame["PLAYER"]));
-  this->_digitaliser.serialization(trame(trame["PLAYER"]));
+  this->_digitaliser->serialization(trame(trame["PLAYER"]));
   this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
   this->getTmpStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
-  this->getLevel().serialization(trame(trame["PLAYER"]));
-  trame["PLAYER"]["EXP"] = this->getCurrentExp();
+  this->getLevelObject().serialization(trame(trame["PLAYER"]));
+  trame["PLAYER"]["CEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
   this->_inventory->serialization(trame(trame["PLAYER"]));
   this->_talentTree->serialization(trame(trame["PLAYER"]));
   this->getEquipment().serialization(trame(trame["PLAYER"]));
-  for (auto it = this->_talents.begin() ; it != this->_talents.end() ; ++it)
+  for (auto it = this->_talents->begin() ; it != this->_talents->end() ; ++it)
     (*it)->serialization(trame(trame["PLAYER"]["TALENTS"]));
-  this->_jobs.serialization(trame(trame["PLAYER"]));
+  this->_jobs->serialization(trame(trame["PLAYER"]));
   return (ret);
 }
 
 Player				*Player::deserialization(Trame const &trame)
 {
   Player			*player = NULL;
-  std::list<Talent *>		*talents = NULL;
+  Talents			*talents = NULL;
 
   if (trame.isMember("PLAYER"))
     {
@@ -355,10 +363,10 @@ Player				*Player::deserialization(Trame const &trame)
 
       Level			*lvl = Level::deserialization(trame(trame["PLAYER"]));
       if (lvl)
-	player->setLevel(*lvl);
+	player->setLevelObject(*lvl);
 
-      if (trame["PLAYER"].isMember("EXP"))
-	player->setCurrentExp(trame["PLAYER"]["EXP"].asInt());
+      if (trame["PLAYER"].isMember("CEXP"))
+	player->setCurrentExp(trame["PLAYER"]["CEXP"].asUInt());
 
       TalentTree		*tree = TalentTree::deserialization(trame(trame["PLAYER"]));
       if (tree)
@@ -388,10 +396,10 @@ Player				*Player::deserialization(Trame const &trame)
 	{
 	  auto			members = trame["PLAYER"]["TALENTS"].getMemberNames();
 
-	  talents = new std::list<Talent *>;
+	  talents = new Talents;
 	  for (auto it = members.begin() ; it != members.end() ; ++it)
 	    {
-	      talents->push_back(Talent::deserialization(trame(trame["PLAYER"]["TALENTS"][*it])));
+	      talents->getContainer().push_back(Talent::deserialization(trame(trame["PLAYER"]["TALENTS"][*it])));
 	    }
 	  player->setTalents(*talents);
 	}
@@ -405,7 +413,7 @@ Player				*Player::deserialization(Trame const &trame)
 
 void				Player::addTalent(Talent *talent)
 {
-  this->_talents.push_back(talent);
+  this->_talents->getContainer().push_back(talent);
 }
 
 TalentTree const		&Player::getTalentTree() const
@@ -418,9 +426,9 @@ void				Player::setTalentTree(TalentTree const &tree)
   this->_talentTree = &tree;
 }
 
-void				Player::setTalents(std::list<Talent *> const &list)
+void				Player::setTalents(Talents const &list)
 {
-  this->_talents = list;
+  *this->_talents = list;
 }
 
 #ifndef	CLIENT_COMPILATION
@@ -469,17 +477,17 @@ void				Player::deleteTalents()
     return (true);
   };
 
-  _talents.remove_if(talentsDeleter);
+  _talents->getContainer().remove_if(talentsDeleter);
 }
 
-std::list<Talent *> const	&Player::getTalents() const
+Talents const			&Player::getTalents() const
 {
-  return (_talents);
+  return (*_talents);
 }
 
 void				Player::capture(Mob const &mob)
 {
-  this->_digitaliser.addMob(mob);
+  this->_digitaliser->addMob(mob);
 }
 
 bool				Player::doCraft(std::string const &job, std::string const &craft, std::list<AItem *> &result, std::list<std::pair<unsigned int, unsigned int> > &object)

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Thu Feb 27 12:57:18 2014 guillaume marescaux
+// Last update Tue Mar  4 12:52:09 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -26,8 +26,18 @@ Client::Client():
 
 Client::~Client()
 {
+  delete **_player;
+  for (auto it = (**_players)->begin() ; it != (**_players)->end() ; it++)
+    delete *it;
+  delete **_players;
+  delete **_chat;
   delete _state;
   delete _core;
+  delete _player;
+  delete _players;
+  delete _chat;
+  delete _newPlayer;
+  delete _manager;
 }
 
 //------------------------------------END CTOR / DTOR------------------------------------------
@@ -63,7 +73,8 @@ void				Client::capture(unsigned int idBattle, unsigned int target) { _core->cap
 void				Client::sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob)
 { _core->sendSwitch(idBattle, target, newMob); }
 
-// void				Client::stuff();
+void				Client::stuff(int action, unsigned int idItem, unsigned int target)
+{ _core->stuff(action, idItem, target); }
 
 // void				Client::talents();
 

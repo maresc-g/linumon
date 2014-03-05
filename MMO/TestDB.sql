@@ -61,9 +61,9 @@ INSERT INTO `Type`(`id`, `name`) VALUES
        (3, 'Grass');
 
 /* Assigning Types to Types */
-DELETE FROM `Type_relations_relations`;
+DELETE FROM `Type_relations`;
 
-INSERT INTO `Type_relations_relations`(`object_id`, `index`, `value_oType_id`, `value_coeff`) VALUES
+INSERT INTO `Type_relations`(`object_id`, `index`, `value_oType_id`, `value_coeff`) VALUES
        (1, 0, 1, 0.5),
        (1, 1, 2, 0.5),
        (1, 2, 3, 2),
@@ -125,7 +125,7 @@ INSERT INTO `Guild`(`id`, `name`) VALUES
 /* Inserting Players */
 DELETE FROM Player;
 
-INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level_lvl`, `level_exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`) VALUES
+INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`) VALUES
        (1, 'Thinenus', 1, 13, 4, 10, 1, 1, 1, 1, 1, 10, 30, 'Res/Inventories/Thinenus.json', 10000, 30),
        (2, 'Sezu-Kho', 1, 20, 6, 10, 1, 1, 2, 1, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30),
        (3, 'WeshWeshCabillaud', 1, 15, 5, 10, 2, 1, 1, 2, 2, 10, 30, 'Res/Inventories/WeshWeshCabillaud.json', 20000, 20),
@@ -164,9 +164,9 @@ INSERT INTO `Spell`(`id`, `name`, `type_id`, `power`, `useLimit`, `effectLib`) V
        (12, 'Lance-Soleil',  3, 120, 0, 5);
 
 /* Assigning Spells to MobModels */
-DELETE FROM `MobModel_spells_spells`;
+DELETE FROM `MobModel_spells`;
 
-INSERT INTO `MobModel_spells_spells`(`object_id`, `index`, `value`) VALUES
+INSERT INTO `MobModel_spells`(`object_id`, `index`, `value`) VALUES
        (1, 0, 1),
        (1, 1, 2),
        (1, 2, 3),
@@ -272,9 +272,9 @@ INSERT INTO `Stat`(`id`, `key`, `value`) VALUES
        (84, 11, 70);
 
 /* Assigning Stats to MobModels */
-DELETE FROM `MobModel_stats_stats`;
+DELETE FROM `MobModel_stats`;
 
-INSERT INTO `MobModel_stats_stats`(`object_id`, `index`, `value`) VALUES
+INSERT INTO `MobModel_stats`(`object_id`, `index`, `value`) VALUES
        (1, 0, 1),
        (1, 1, 2),
        (1, 2, 3),
@@ -303,7 +303,7 @@ INSERT INTO `MobModel_stats_stats`(`object_id`, `index`, `value`) VALUES
 /* Inserting Mobs */
 DELETE FROM `Mob`;
 
-INSERT INTO `Mob`(`id`, `name`, `authKeys`, `currentExp`, `level_lvl`, `level_exp`, `model_id`) VALUES
+INSERT INTO `Mob`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `model_id`) VALUES
        (1, 'TinyLezard', 2, 412, 6, 500, 1),
        (2, 'BigTurtle', 2, 789, 7, 1000, 2),
        (3, 'VastFlowerPot', 2, 350, 5, 400, 3),
@@ -312,9 +312,9 @@ INSERT INTO `Mob`(`id`, `name`, `authKeys`, `currentExp`, `level_lvl`, `level_ex
        (6, 'UltraBushy', 2, 12, 1, 20, 3);
 
 /* Assigning Stats to Mobs */
-DELETE FROM `Mob_stats_stats`;
+DELETE FROM `Mob_stats`;
 
-INSERT INTO `Mob_stats_stats`(`object_id`, `index`, `value`) VALUES
+INSERT INTO `Mob_stats`(`object_id`, `index`, `value`) VALUES
        (1, 0, 25),
        (1, 1, 26),
        (1, 2, 27),
@@ -376,17 +376,17 @@ INSERT INTO `JobModel`(`id`, `name`, `path`) VALUES
 	(6, 'Mineur', 'Res/JobCraft/mineur.json'),
 	(7, 'Trappeur', 'Res/JobCraft/trappeur.json');
 
-/* JobModel_gather */
-DELETE FROM `JobModel_gather`;
+/* JobModel_gathers */
+DELETE FROM `JobModel_gathers`;
 
-INSERT INTO `JobModel_gather`(`object_id`, `index`, `value_level_lvl`, `value_level_exp`, `value_ressource`) VALUES
+INSERT INTO `JobModel_gathers`(`object_id`, `index`, `value_level`, `value_exp`, `value_ressource`) VALUES
        (5, 0, 1, 10, 1),
        (7, 0, 1, 10, 2);
 
 /* Job */
 DELETE FROM `Job`;
 
-INSERT INTO `Job`(`id`, `currentExp`, `level_lvl`, `level_exp`, `jobModel`) VALUES
+INSERT INTO `Job`(`id`, `currentExp`, `level`, `exp`, `jobModel`) VALUES
        (1, 10, 20, 0684, 1),
        (2, 00, 28, 1684, 2),
        (3, 80, 10, 2684, 3),
@@ -396,9 +396,9 @@ INSERT INTO `Job`(`id`, `currentExp`, `level_lvl`, `level_exp`, `jobModel`) VALU
        (7, 98, 99, 6684, 7);
 
 /*Player_job_job*/
-DELETE FROM `Player_jobs_jobs`;
+DELETE FROM `Player_jobs`;
 
-INSERT INTO `Player_jobs_jobs`(`object_id`, `index`, `value`) VALUES
+INSERT INTO `Player_jobs`(`object_id`, `index`, `value`) VALUES
        (1, 0, 1),
        (1, 1, 2),
        (1, 2, 3),
@@ -430,9 +430,9 @@ INSERT INTO `Player_jobs_jobs`(`object_id`, `index`, `value`) VALUES
 
 
 /* Assigning Mobs to Players */
-DELETE FROM `Player_digitaliser_mobs`;
+DELETE FROM `Player_mobs`;
 
-INSERT INTO `Player_digitaliser_mobs`(`object_id`, `index`, `value`) VALUES
+INSERT INTO `Player_mobs`(`object_id`, `index`, `value`) VALUES
        (1, 0, 1),
        (1, 1, 2),
        (1, 2, 3),
@@ -455,9 +455,9 @@ INSERT INTO `Stuff`(`id`, `name`, `stuffType`) VALUES
        (9, 'Marteau Bouftou', 'WEAPON');
 
 /* Assigning Stuff to Players */
-DELETE FROM `Player_equipment_stuffs`;
+DELETE FROM `Player_equipment`;
 
-INSERT INTO `Player_equipment_stuffs`(`object_id`, `key`, `value`) VALUES
+INSERT INTO `Player_equipment`(`object_id`, `key`, `value`) VALUES
        (1, 'HELMET', 1),
        (1, 'BREASTPLATE', 6),
        (1, 'SHOULDERS', 5),
@@ -468,9 +468,9 @@ INSERT INTO `Player_equipment_stuffs`(`object_id`, `key`, `value`) VALUES
        (2, 'BOOTS', 3);
 
 /* Assigning Stats to Players */
-DELETE FROM `Player_stats_stats`;
+DELETE FROM `Player_stats`;
 
-INSERT INTO `Player_stats_stats`(`object_id`, `index`, `value`) VALUES
+INSERT INTO `Player_stats`(`object_id`, `index`, `value`) VALUES
        (1, 0, 73),
        (1, 1, 74),
        (1, 2, 75),
@@ -487,7 +487,7 @@ INSERT INTO `Player_stats_stats`(`object_id`, `index`, `value`) VALUES
 /* Inserting Ressources */
 DELETE FROM `Ressource`;
 
-INSERT INTO `Ressource`(`id`, `name`, `level_lvl`, `level_exp`) VALUES
+INSERT INTO `Ressource`(`id`, `name`, `level`, `exp`) VALUES
        (1, 'Orchidee', 10, 100),
        (2, 'Peau de bouftou', 1, 10);
 
@@ -498,40 +498,40 @@ CREATE VIEW StatView AS SELECT Stat.id, StatKey.name, Stat.value FROM Stat, Stat
 DROP VIEW IF EXISTS `MobModelView`;
 CREATE VIEW MobModelView AS 
        SELECT MobModel.id, MobModel.name AS model, Type.name AS type, StatView.name AS stat, StatView.value
-       	      FROM StatView, Type, MobModel_stats_stats, MobModel
-       	      WHERE MobModel_stats_stats.value = StatView.id
-       	      	    AND MobModel_stats_stats.object_id = MobModel.id
+       	      FROM StatView, Type, MobModel_stats, MobModel
+       	      WHERE MobModel_stats.value = StatView.id
+       	      	    AND MobModel_stats.object_id = MobModel.id
 	     	    AND MobModel.type = Type.id;
 
 DROP VIEW IF EXISTS `MobView`;
 CREATE VIEW `MobView` AS
-       SELECT Mob.id, Mob.name, Mob.level_lvl, MobModelView.model, MobModelView.type, MobModelView.stat, MobModelView.value AS modelValue, StatView.value AS mobValue
-       	      FROM Mob, MobModelView, Mob_stats_stats, StatView
+       SELECT Mob.id, Mob.name, Mob.level, MobModelView.model, MobModelView.type, MobModelView.stat, MobModelView.value AS modelValue, StatView.value AS mobValue
+       	      FROM Mob, MobModelView, Mob_stats, StatView
        	      WHERE Mob.model_id = MobModelView.id
-	      	    AND Mob_stats_stats.object_id = Mob.id
-	      	    AND StatView.id = Mob_stats_stats.value
+	      	    AND Mob_stats.object_id = Mob.id
+	      	    AND StatView.id = Mob_stats.value
 		    AND StatView.name = MobModelView.stat;
 
 DROP VIEW IF EXISTS `PlayerView`;
 CREATE VIEW `PlayerView` AS
-       SELECT Player.id, Player.name, User.pseudo AS user, Faction.name AS faction, Player.level_lvl, Player.currentExp, DBZone.name AS zone, Player.x, Player.y,
+       SELECT Player.id, Player.name, User.pseudo AS user, Faction.name AS faction, Player.level, Player.currentExp, DBZone.name AS zone, Player.x, Player.y,
        	      AuthorizedStatKeys.name AS statKeys, TalentTree.name AS talentTree, StatView.name AS stat, StatView.value
-       	      FROM Player, Faction, User, DBZone, AuthorizedStatKeys, TalentTree, StatView, Player_stats_stats
+       	      FROM Player, Faction, User, DBZone, AuthorizedStatKeys, TalentTree, StatView, Player_stats
        	      WHERE Player.faction = Faction.id
        	      	    AND Player.user = User.id
 	     	    AND Player.dbZone = DBZone.id
 		    AND Player.authKeys = AuthorizedStatKeys.id
 		    AND Player.talentTree = TalentTree.id
-		    AND Player_stats_stats.object_id = Player.id
-		    AND Player_stats_stats.value = StatView.id
+		    AND Player_stats.object_id = Player.id
+		    AND Player_stats.value = StatView.id
 	      ORDER BY Player.id;
 
 DROP VIEW IF EXISTS `TypeView`;
 CREATE VIEW `TypeView` AS
-       SELECT Type.id, Type.name, OType.name AS other, Type_relations_relations.value_coeff AS coeff
-       	      FROM Type, Type AS OType, Type_relations_relations
-	      WHERE Type_relations_relations.object_id = Type.id
-	      	    AND Type_relations_relations.value_oType_id = OType.id
+       SELECT Type.id, Type.name, OType.name AS other, Type_relations.value_coeff AS coeff
+       	      FROM Type, Type AS OType, Type_relations
+	      WHERE Type_relations.object_id = Type.id
+	      	    AND Type_relations.value_oType_id = OType.id
 	      ORDER BY Type.id, OType.id;
 
 COMMIT;
