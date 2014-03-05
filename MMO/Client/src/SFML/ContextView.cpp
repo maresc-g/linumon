@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 01:15:31 2014 cyril jourdain
-// Last update Mon Mar  3 13:58:20 2014 cyril jourdain
+// Last update Wed Mar  5 14:57:23 2014 cyril jourdain
 //
 
 #include		"SFML/ContextView.hh"
@@ -70,4 +70,12 @@ void			ContextView::loadBackgroundSprite()
 	}
     }
   _backgroundTexture->display();
+}
+
+void			ContextView::resetPOV()
+{
+}
+
+void			ContextView::centerView()
+{
 }
