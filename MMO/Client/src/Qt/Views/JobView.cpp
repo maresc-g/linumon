@@ -5,20 +5,21 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:55:36 2014 guillaume marescaux
-// Last update Mon Mar  3 21:43:12 2014 alexis mestag
+// Last update Wed Mar  5 16:21:08 2014 guillaume marescaux
 //
 
 #include			<QMessageBox>
 #include			"Qt/Views/JobView.hh"
 
 JobView::JobView(QWidget *parent, WindowManager *wMan):
-  QWidget(parent), _wMan(wMan), _currentCraft(NULL), _job(NULL)
+  QWidget(parent), _wMan(wMan), _currentCraft(new CraftView(this, _wMan)), _job(NULL)
 {
   ui.setupUi(this);
   connect(ui.tw_crafts, SIGNAL(itemSelectionChanged()), this, SLOT(handleChange()));
   ui.tw_crafts->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
   ui.tw_crafts->setColumnWidth(0, 455);
   ui.tw_crafts->setColumnWidth(1, 50);
+  _currentCraft->hide();
 }
 
 JobView::~JobView()
@@ -28,34 +29,37 @@ JobView::~JobView()
 void				JobView::handleChange()
 {
   QList<QTableWidgetItem *>	list = ui.tw_crafts->selectedItems();
-  Craft const			*craft = _job->getJobModel().getCraft(list.first()->text().toStdString());
-  std::list<std::pair<AItem *, unsigned int>> const	items = craft->getIngredients();
-  std::list<std::pair<AItem *, unsigned int>> const	inventory = (**(_wMan->getMainPlayer()))->getInventory().getInventory();
-  bool				ret = true;
 
-  std::cout << list.first()->text().toStdString() << std::endl;
-  if (_currentCraft)
-    delete _currentCraft;
-  _currentCraft = new CraftView(this, _wMan);
-  _currentCraft->setInfos(*craft);
-  _currentCraft->move(5, 460);
-  _currentCraft->show();
-  for (auto it = items.begin() ; it != items.end() ; it++)
+  if (!list.isEmpty())
     {
-      auto itb = inventory.begin();
-      auto end = inventory.end();
-      while (itb != end && it->first->getName() != itb->first->getName())
-	itb++;
-      if (itb == end || it->second > itb->second)
+      Craft const			*craft = _job->getJobModel().getCraft(list.first()->text().toStdString());
+      std::list<std::pair<AItem *, unsigned int>> const	items = craft->getIngredients();
+      std::list<std::pair<AItem *, unsigned int>> const	inventory = (**(_wMan->getMainPlayer()))->getInventory().getInventory();
+      bool				ret = true;
+
+      std::cout << list.first()->text().toStdString() << std::endl;
+      _currentCraft->setInfos(*craft);
+      _currentCraft->move(5, 460);
+      _currentCraft->show();
+      for (auto it = items.begin() ; it != items.end() ; it++)
 	{
-	  ret = false;
-	  break;
+	  auto itb = inventory.begin();
+	  auto end = inventory.end();
+	  while (itb != end && it->first->getName() != itb->first->getName())
+	    itb++;
+	  if (itb == end || it->second > itb->second)
+	    {
+	      ret = false;
+	      break;
+	    }
 	}
+      if (ret && _currentCraft->getCraft().getLevel() <= _job->getLevel())
+	ui.b_craft->setEnabled(true);
+      else
+	ui.b_craft->setEnabled(false);
     }
-  if (ret && _currentCraft->getCraft().getLevel() <= _job->getLevel())
-    ui.b_craft->setEnabled(true);
-  else
-    ui.b_craft->setEnabled(false);
+  else if (_currentCraft)
+    _currentCraft->hide();
 }
 
 void				JobView::paintEvent(QPaintEvent *)
@@ -76,12 +80,12 @@ void				JobView::setInfos(Job const &job)
   _job = &job;
   ui.l_name->setText(job.getJobModel().getName().c_str());
   ui.l_level->setText(std::to_string(job.getLevel()).c_str());
-  std::cout << "EXP MAX = " << job.getExp() << " EXP CUR = " << job.getCurrentExp() << std::endl;
   ui.pb_exp->setMaximum(job.getExp());
   ui.pb_exp->setValue(job.getCurrentExp());
+  int				count = ui.tw_crafts->rowCount();
+  for (int i = 0 ; i < count ; i++)
+    ui.tw_crafts->removeRow(0);
   ui.tw_crafts->clearContents();
-  for (int i = 0 ; i < ui.tw_crafts->rowCount() ; i++)
-    ui.tw_crafts->removeRow(i);
   for (auto it = crafts.begin() ; it != crafts.end() ; it++)
     {
       ui.tw_crafts->insertRow(i);
