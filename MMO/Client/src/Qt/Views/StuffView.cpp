@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Wed Mar  5 12:03:42 2014 guillaume marescaux
+// Last update Wed Mar  5 12:14:29 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -149,15 +149,23 @@ void				StuffView::itemAction(ItemView *item)
 {
   Stuff const			*stuff = static_cast<Stuff const *>(&item->getItem());
 
-  std::cout << "NAME STUFF = " << stuff->getName() << std::endl;
-  (**(_wMan->getMainPlayer()))->getPlayerEquipment(stuff->getId());
-  Client::getInstance()->stuff(eStuffAction::GET, stuff->getId(), _last->getId());
-  _wMan->getSFMLView()->getInventoryView()->initInventory();
-  _changed = true;
+  bool			ret;
+
   if (_last->getCharacterType() == ACharacter::MOB)
-    initStuff(*static_cast<Mob const *>(_last));
+    ret = (**(_wMan->getMainPlayer()))->getMobEquipment(_last->getId(), stuff->getId());
   else
-    initStuff(*static_cast<Player const *>(_last));
+    ret = (**(_wMan->getMainPlayer()))->getPlayerEquipment(stuff->getId());
+
+  if (ret)
+    {
+      Client::getInstance()->stuff(eStuffAction::GET, stuff->getId(), _last->getId());
+      _wMan->getSFMLView()->getInventoryView()->initInventory();
+      _changed = true;
+      if (_last->getCharacterType() == ACharacter::MOB)
+	initStuff(*static_cast<Mob const *>(_last));
+      else
+	initStuff(*static_cast<Player const *>(_last));
+    }
 }
 
 ACharacter const		*StuffView::getLast() const { return (_last); }
@@ -182,15 +190,22 @@ void				StuffView::dropEvent(QDropEvent *de)
   if (pair->first->getItemType() == AItem::STUFF)
     {
       Stuff const		*stuff = static_cast<Stuff const *>(pair->first);
-            
-      (**(_wMan->getMainPlayer()))->putPlayerEquipment(stuff->getId());
-      Client::getInstance()->stuff(eStuffAction::PUT, stuff->getId(), _last->getId());
-      _changed = true;
+      bool			ret;
+
       if (_last->getCharacterType() == ACharacter::MOB)
-	initStuff(*static_cast<Mob const *>(_last));
+	ret = (**(_wMan->getMainPlayer()))->putMobEquipment(_last->getId(), stuff->getId());
       else
-	initStuff(*static_cast<Player const *>(_last));
-      _wMan->getSFMLView()->getInventoryView()->initInventory();
+	ret = (**(_wMan->getMainPlayer()))->putPlayerEquipment(stuff->getId());
+      if (ret)
+	{
+	  Client::getInstance()->stuff(eStuffAction::PUT, stuff->getId(), _last->getId());
+	  _changed = true;
+	  if (_last->getCharacterType() == ACharacter::MOB)
+	    initStuff(*static_cast<Mob const *>(_last));
+	  else
+	    initStuff(*static_cast<Player const *>(_last));
+	  _wMan->getSFMLView()->getInventoryView()->initInventory();
+	}
     }
   //   {
 
