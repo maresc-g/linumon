@@ -5,10 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Mon Mar  3 15:23:50 2014 alexis mestag
+// Last update Tue Mar  4 15:54:08 2014 alexis mestag
 //
 
 #include			<sstream>
+#include			<functional>
 #include			"Entities/Digitaliser.hh"
 
 Digitaliser::Digitaliser() :
@@ -25,7 +26,7 @@ Digitaliser::Digitaliser(Digitaliser const &rhs) :
 
 Digitaliser::~Digitaliser()
 {
-
+  this->deleteMobs();
 }
 
 Digitaliser			&Digitaliser::operator=(Digitaliser const &rhs)
@@ -105,6 +106,16 @@ Mob				*Digitaliser::getMob(unsigned int const id) const
 	return (*it);
     }
   return (NULL);
+}
+
+void				Digitaliser::deleteMobs()
+{
+  static std::function<bool(Mob *)>	mobDeleter = [](Mob *m) -> bool {
+    delete m;
+    return (true);
+  };
+
+  this->getContainer().remove_if(mobDeleter);
 }
 
 bool				Digitaliser::serialization(Trame &trame) const
