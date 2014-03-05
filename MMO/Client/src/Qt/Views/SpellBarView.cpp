@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb  6 15:42:00 2014 guillaume marescaux
-// Last update Wed Mar  5 15:32:03 2014 guillaume marescaux
+// Last update Wed Mar  5 15:38:37 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/SpellBarView.hh"
@@ -36,7 +36,7 @@ void				SpellBarView::handleClick(QString const &name)
 {
   for (auto it = _spells->begin() ; it != _spells->end() ; it++)
     {
-      if ((*it)->getName() != name)
+      if ((*it)->getName() != name.toStdString())
 	{
 	  break;
 	}
