@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Mar  3 04:57:19 2014 antoine maitre
+// Last update Mon Mar  3 12:30:05 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -138,9 +138,17 @@ bool					Battle::capture(unsigned int const target)
 
 void					Battle::next()
 {
+  static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
+
   auto tmp = this->_mobs.front();
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);
+  Stats statMob = tmp->getStats();
+  if (statMob.getStat(*hpKey) <= 0)
+    {
+      this->next();
+      return;
+    }
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     if ((*it)->isMyMob(tmp->getId()))
       {
