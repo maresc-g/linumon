@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Mon Mar  3 15:23:50 2014 alexis mestag
+// Last update Wed Mar  5 12:14:27 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -100,6 +100,11 @@ void				Digitaliser::mobtoBattleMob(unsigned int const id)
 Mob				*Digitaliser::getMob(unsigned int const id) const
 {
   for (auto it = _battleMobs.begin() ; it != _battleMobs.end() ; ++it)
+    {
+      if ((*it)->getId() == id)
+	return (*it);
+    }
+  for (auto it = this->begin() ; it != this->end() ; ++it)
     {
       if ((*it)->getId() == id)
 	return (*it);
