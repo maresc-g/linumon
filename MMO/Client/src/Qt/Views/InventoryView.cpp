@@ -5,13 +5,13 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Tue Mar  4 14:01:41 2014 guillaume marescaux
+// Last update Wed Mar  5 12:00:58 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/InventoryView.hh"
 
 InventoryView::InventoryView(QWidget *parent, WindowManager *wMan):
-  QWidget(parent), _wMan(wMan), _items(new std::list<ItemView *>)
+  QWidget(parent), _wMan(wMan), _items(new std::list<ItemView *>), _hidden(new std::list<ItemView *>)
 {
   ui.setupUi(this);
 }
@@ -21,6 +21,9 @@ InventoryView::~InventoryView()
   for (auto it = _items->begin() ; it != _items->end() ; it++)
     delete *it;
   delete _items;
+  for (auto it = _hidden->begin() ; it != _hidden->end() ; it++)
+    delete *it;
+  delete _hidden;
 }
 
 void				InventoryView::paintEvent(QPaintEvent *)
@@ -42,8 +45,14 @@ void				InventoryView::initInventory()
   auto				it = items.begin();
   ItemView			*item;
 
-  for (auto it = _items->begin() ; it != _items->end() ; it++)
+  for (auto it = _hidden->begin() ; it != _hidden->end() ; it++)
     delete *it;
+  _hidden->clear();
+  for (auto it = _items->begin() ; it != _items->end() ; it++)
+    {
+      (*it)->hide();
+      _hidden->push_back(*it);
+    }
   _items->clear();
   for (unsigned int i = 0 ; i < limit ; i++)
     {
@@ -71,8 +80,14 @@ void				InventoryView::itemAction(ItemView *item)
     {
       Stuff const		*stuff = static_cast<Stuff const *>(&item->getItem());
             
+      (**(_wMan->getMainPlayer()))->putPlayerEquipment(stuff->getId());
       Client::getInstance()->stuff(eStuffAction::PUT, stuff->getId(), (**(_wMan->getMainPlayer()))->getId());
       _wMan->getSFMLView()->getStuffView()->setChanged(true);
+      ACharacter const		*last = _wMan->getSFMLView()->getStuffView()->getLast();
+      if (last->getCharacterType() == ACharacter::MOB)
+	_wMan->getSFMLView()->getStuffView()->initStuff(*static_cast<Mob const *>(last));
+      else
+	_wMan->getSFMLView()->getStuffView()->initStuff(*static_cast<Player const *>(last));
       initInventory();
     }
 }

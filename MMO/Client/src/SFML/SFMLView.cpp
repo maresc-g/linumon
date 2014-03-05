@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Mon Mar  3 17:06:51 2014 guillaume marescaux
+// Last update Tue Mar  4 15:27:06 2014 guillaume marescaux
 //
 
 /*
@@ -42,6 +42,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _clickView->hide();
   _job->move(300, 100);
   _digit->move(800, 0);
+  _inventory->move(1500, 0);
   _job->hide();
   _menu->move(WIN_W / 2 - _menu->size().width() / 2, WIN_H / 2 - _menu->size().height() / 2);
   _menu->hide();
