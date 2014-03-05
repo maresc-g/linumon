@@ -5,14 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Wed Mar  5 14:57:42 2014 cyril jourdain
+// Last update Wed Mar  5 15:58:12 2014 cyril jourdain
 //
 
 #include		"SFML/BattleView.hh"
 #include		"Entities/Digitaliser.hh"
 
 BattleView::BattleView(SFMLView *v, WindowManager *w) :
-  ContextView(v,w), _playerList(new std::list<OPlayerSprite*>()), _ennemyList(new std::list<OPlayerSprite*>()), _playingMob(NULL), _selection(new Sprite())
+  ContextView(v,w), _playerList(new std::list<OPlayerSprite*>()), _ennemyList(new std::list<OPlayerSprite*>()), _playingMob(NULL), _selection(new Sprite()), _spellSprite(new Sprite())
 {
 }
 
@@ -43,7 +43,10 @@ void			BattleView::onInit()
     }
   _playingMob = _playerList->front();
   _sfmlView->getSpriteManager()->copySprite("selectedPlayer", *_selection);
+  _sfmlView->getSpriteManager()->copySprite("Lance-Flamme", *_spellSprite);
   _selection->play("default_down");
+  _spellSprite->play("mouse");
+  (*_spellSprite)["mouse"]->setFrameLength(50000);
   (*_selection)["default_down"]->setFrameLength(45000);
 }
 void			BattleView::onUpdate()
@@ -58,6 +61,10 @@ void			BattleView::onKeyEvent(sf::Event const &event)
 
 void			BattleView::onMouseEvent(QMouseEvent *event)
 {
+  if (event->button() == Qt::NoButton)
+    {
+      std::cout << "move mouse" << std::endl;
+    }
 }
 
 void			BattleView::resetView()
