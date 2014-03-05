@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Sun Feb 16 17:04:54 2014 alexis mestag
-## Last update Wed Mar  5 17:02:30 2014 alexis mestag
+## Last update Wed Mar  5 17:30:53 2014 alexis mestag
 ##
 
 EFFECT_CMN_DIR=		..
@@ -66,7 +66,8 @@ EFFECT_CMN_SRC=		Common/src/Database/Persistent.cpp		\
 			Common/include/Stats/Stat-odb.cxx		\
 			Common/include/Stats/StatKey-odb.cxx
 
-EFFECT_CMN_SRC:=	$(addprefix $(EFFECT_CMN_DIR)/,$(EFFECT_CMN_SRC))
+# EFFECT_CMN_SRC:=	$(addprefix $(EFFECT_CMN_DIR)/,$(EFFECT_CMN_SRC))
+EFFECT_CMN_SRC=		`find ../Common -name '*.cpp' && find ../Common -name '*.cxx'`
 
 EFFECT_CMN_OBJ=		$(EFFECT_CMN_SRC:.cpp=.o)
 EFFECT_CMN_OBJ:=	$(EFFECT_CMN_OBJ:.cxx=.o)
