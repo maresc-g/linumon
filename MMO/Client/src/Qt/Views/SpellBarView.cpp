@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb  6 15:42:00 2014 guillaume marescaux
-// Last update Wed Mar  5 15:38:37 2014 guillaume marescaux
+// Last update Thu Mar  6 10:45:22 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/SpellBarView.hh"
@@ -60,6 +60,6 @@ void				SpellBarView::setInfos(Spells const &spells)
       connect(button, SIGNAL(clicked()), _mapper, SLOT(map()));
       i++;
     }
-  connect(_mapper, SIGNAL(mapped(QString const &)), this, SLOT(clicked(QString const &)));
+  connect(_mapper, SIGNAL(mapped(QString const &)), this, SLOT(handleClick(QString const &)));
   this->resize(101 * i, 100);
 }

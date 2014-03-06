@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Mar  6 14:39:20 2014 laurent ansel
+// Last update Thu Mar  6 15:28:29 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -250,9 +250,12 @@ void				Client::move(Player::PlayerCoordinate *coord)
 		  //     _state = BATTLE;
 		}
 	    }
-	  // if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
-	  //   if (BattleManager::getInstance()->inBattle(_player))
-	  //     _state = BATTLE;
+	  if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
+	    {
+	      std::cout << "Le getSafe RENVOIE TRUE, JE VAIS RENTRER DANS INBATTLE" << std::endl;
+	      if (BattleManager::getInstance()->inBattle(_player))
+		_state = BATTLE;
+	    }
 	}
     }
 }

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Thu Mar  6 02:01:50 2014 cyril jourdain
+// Last update Thu Mar  6 12:10:57 2014 guillaume marescaux
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -76,7 +76,8 @@ private:
   ContextView		*_worldView;
   ContextView		*_battleView;
   ContextView		*_currentView;
-
+  QWidget		*_view1;
+  QWidget		*_view2;
 
 public:
   SFMLView(QWidget *, QPoint const &, QSize const &, WindowManager *_wMan);
@@ -106,6 +107,9 @@ public: /* Child view accessors for World and Battle view, not const */
   MenuView			*getMenuView(void);
   JobMenuView			*getJobMenuView(void);
   JobView			*getJobView(void);
+  DigitaliserView		*getDigitaliserView(void);
+  void				displayView(QWidget *view);
+  void				hideView(QWidget *view);
 
 };
 

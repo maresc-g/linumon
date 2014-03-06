@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Mar  3 04:57:19 2014 antoine maitre
+// Last update Thu Mar  6 16:25:46 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -13,15 +13,30 @@
 
 Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, Player *player1, Player *player2)
   : _id(id), _type(type),
-    _mobNumber(mobNumber)
+    _mobNumber(mobNumber), _money(0), _exp(0)
 {
+  // static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
   int i = 0;
 
-  for (auto it = player1->getDigitaliser().getMobs().begin(); it != player1->getDigitaliser().getMobs().end() && i < mobNumber; it++)
+  for (auto it = player1->getDigitaliser().getMobs().begin(); it != player1->getDigitaliser().getMobs().end() && i++ < mobNumber+1; it++)
     this->_mobs.push_back((*it));
   i = 0;
-  for (auto it = player2->getDigitaliser().getMobs().begin(); it != player2->getDigitaliser().getMobs().end() && i < mobNumber; it++)
+  for (auto it = player2->getDigitaliser().getMobs().begin(); it != player2->getDigitaliser().getMobs().end() && i++ < mobNumber+1; it++)
     this->_mobs.push_back((*it));
+  i = 0;
+  for (auto it = player1->getDigitaliser().getMobs().begin(); it != player1->getDigitaliser().getMobs().end() && i++ < mobNumber+1; it++)
+    {
+      (*it)->setTmpStat("HP", 50, true);
+      (*it)->setTmpStat("Attack", 10, true);
+      (*it)->enterBattle();
+    }
+  i = 0;
+  for (auto it = player2->getDigitaliser().getMobs().begin(); it != player2->getDigitaliser().getMobs().end() && i++ < mobNumber+1; it++)
+    {
+      (*it)->setTmpStat("HP", 50, true);
+      (*it)->setTmpStat("Attack", 10, true);
+      (*it)->enterBattle();
+    }
   if (player1->getType() == Player::PlayerType::PLAYER)
     this->trameLaunchBattle(player1->getId(), player2);
   if (player2->getType() == Player::PlayerType::PLAYER)
@@ -53,8 +68,8 @@ Battle::eBattle 			Battle::getType() const
 
 bool					Battle::checkEnd()
 {
-  static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
-  Stats const				*statMob;
+  // static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
+  // Stats const				*statMob;
   int					i;
 
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
@@ -62,15 +77,19 @@ bool					Battle::checkEnd()
       i = 0;
       for (auto itb = this->_mobs.begin(); itb != this->_mobs.end(); itb++)
 	{
-	  statMob = &(*it)->getStats();
-	  if ((*it)->isMyMob((*it)->getId()) && statMob->getStat(*hpKey) <= 0)
+	  // statMob = &(*it)->getTmpStats();
+	  if ((*it)->isMyMob((*itb)->getId()) && (*itb)->getTmpStat("HP") <= 0)
 	    i++;
 	  if (i == _mobNumber)
-	    return (true);
+	    {
+	      this->_idLooser = (*it)->getId();
+	      std::cout << "FIN DE LA BATTLE" << std::endl;
+	      return (true);
+	    }
 	}
     }
   return (false);
-
+  
 }
 
 bool					Battle::spell(unsigned int const launcher, unsigned int const target, Spell *spell) //, int id_lanceur
@@ -78,13 +97,14 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
   static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
   Mob					*mobLauncher;
   Mob					*mobTarget;
- 
+
   for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
     {
       if ((*it)->getId() == launcher)
 	mobLauncher = (*it);
       if ((*it)->getId() == target)
 	mobTarget = (*it);
+      (*it)->displayTmpStats();
     }
   if (mobLauncher && mobTarget)
     {
@@ -95,8 +115,7 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
 	    this->trameSpell((*it)->getId(), spell, launcher, target);
 	    this->trameSpellEffect((*it)->getId(), target, 10);
 	  } 
-
-      Stats statMob = mobTarget->getStats();
+      Stats statMob = mobTarget->getTmpStats();
       if (statMob.getStat(*hpKey) <= 0)
 	for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	  if ((*it)->getType() == Player::PlayerType::PLAYER)
@@ -138,9 +157,19 @@ bool					Battle::capture(unsigned int const target)
 
 void					Battle::next()
 {
+  static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
+
   auto tmp = this->_mobs.front();
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);
+  Stats statMob = tmp->getTmpStats();
+  if (statMob.getStat(*hpKey) <= 0 && !this->checkEnd())
+    {
+      this->next();
+      return;
+    }
+  else if (this->checkEnd())
+    return; 
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     if ((*it)->isMyMob(tmp->getId()))
       {
@@ -149,7 +178,9 @@ void					Battle::next()
 	else
 	  {
 	    auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
-	    this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2));
+	    if (!this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2)))
+	      this->next();
+	    return;
 	  }
       }
 }
@@ -194,11 +225,20 @@ void					Battle::trameTurnTo(unsigned int const idPlayer, unsigned int const idM
   Server::getInstance()->callProtocol<unsigned int, unsigned int>("TURNTO", idPlayer, this->_id, idMob);
 }
 
+void					Battle::trameEndBattle()
+{
+  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+    {
+      if ((*it)->getType() == Player::PlayerType::PLAYER)
+	Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, std::list<AItem *> *>("ENDBATTLE", (*it)->getId(), this->_id, ((*it)->getId() == this->_idLooser)?(false):(true), this->_money, this->_exp, NULL);
+    }
+}
+
 bool					compareSpeed(Mob *mob1, Mob *mob2)
 {
   static StatKey const			*speedKey = Database::getRepository<StatKey>().getByName("Speed");
-  int speed1 = mob1->getStats().getStat(*speedKey);
-  int speed2 = mob2->getStats().getStat(*speedKey);
+  int speed1 = mob1->getTmpStats().getStat(*speedKey);
+  int speed2 = mob2->getTmpStats().getStat(*speedKey);
 
   if (speed1 < speed2)
     return (true);

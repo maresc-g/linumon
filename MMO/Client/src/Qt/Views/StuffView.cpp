@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Wed Mar  5 12:14:29 2014 guillaume marescaux
+// Last update Thu Mar  6 12:16:18 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -108,7 +108,7 @@ void				StuffView::initStuff(Player const &player)
       _labels->push_back(label);
       i++;
     }
-  show();
+  _wMan->getSFMLView()->displayView(this);
 }
 
 void				StuffView::initStuff(Mob const &mob)
@@ -142,7 +142,7 @@ void				StuffView::initStuff(Mob const &mob)
       _labels->push_back(label);
       i++;
     }
-  show();
+  _wMan->getSFMLView()->displayView(this);
 }
 
 void				StuffView::itemAction(ItemView *item)
