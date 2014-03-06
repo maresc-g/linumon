@@ -5,10 +5,11 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 01:15:31 2014 cyril jourdain
-// Last update Wed Mar  5 14:57:23 2014 cyril jourdain
+// Last update Thu Mar  6 11:37:53 2014 cyril jourdain
 //
 
 #include		"SFML/ContextView.hh"
+#include <cstdlib>
 
 
 ContextView::ContextView(SFMLView *v, WindowManager *w) :
@@ -27,14 +28,24 @@ void			ContextView::loadBackgroundMap()
   Zone	*zone = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone());
   std::list<AEntity*>	*list;
 
+  srand(time(NULL));
+
   for (int y = 0; y < zone->getSizeY(); y++)
     {
       for (int x = 0; x < zone->getSizeX(); x++)
 	{
-	  if (zone->getCase(x,y) && zone->getCase(x,y)->getSafe())
-	    ((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("grass");
+	  int rnd = rand() % 100;
+	  if (zone->getCase(x,y) && !zone->getCase(x,y)->getSafe())
+	    {
+	      if (rnd < 85)
+		((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("grass");
+	      else if (rnd >= 85 && rnd <= 92)
+		((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("flower");
+	      else
+		((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("mushroom");
+	    }
 	  else
-	    ((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("grass"); // Play rock
+	    ((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("dirt"); // Play rock
 	  ((*_spriteMap)[y])[x]->play("default");
 	  // list = zone->getCase(x,y)->getEntities();
 	  // if (list && list->size() > 0)
