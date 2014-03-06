@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Mar  6 14:21:30 2014 guillaume marescaux
-// Last update Thu Mar  6 14:56:49 2014 guillaume marescaux
+// Last update Thu Mar  6 15:34:44 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/TinyHUDView.hh"
@@ -50,16 +50,16 @@ void				TinyHUDView::setInfos(Mob const *mob)
   _mobView->setInfos(mob);
   if (mob)
     {
-      // unsigned int		current = mob->getTmpStat("HP");
-      // unsigned int		max = mob->getStat("HP");
-      // ui.pb_hp->setMaximum(max);
-      // ui.pb_hp->setValue(current);
-      // if (current / max * 100 <= 20)
-      // 	ui.pb_hp->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(RED) + "; }").c_str());
-      // else if (current / max * 100 <= 50)
-      // 	ui.pb_hp->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(ORANGE) + "; }").c_str());
-      // else
-      // 	ui.pb_hp->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(GREEN) + "; }").c_str());
+      unsigned int		current = mob->getTmpStat("HP");
+      unsigned int		max = mob->getStat("HP");
+      ui.pb_hp->setMaximum(max);
+      ui.pb_hp->setValue(current);
+      if (current / max * 100 <= 20)
+      	ui.pb_hp->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(RED) + "; }").c_str());
+      else if (current / max * 100 <= 50)
+      	ui.pb_hp->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(ORANGE) + "; }").c_str());
+      else
+      	ui.pb_hp->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(GREEN) + "; }").c_str());
       ui.pb_exp->setMaximum(mob->getExp());
       ui.pb_exp->setValue(mob->getCurrentExp());
       ui.l_lvl->setText(std::to_string(mob->getLevel()).c_str());
