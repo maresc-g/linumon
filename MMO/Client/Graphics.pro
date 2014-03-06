@@ -160,6 +160,10 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/Faction.cpp \ 
                 ../Common/src/Loader/MobModelLoader.cpp \
                 ../Common/src/Loader/JobModelLoader.cpp \ 
+                ../Common/src/Loader/StuffLoader.cpp \ 
+                ../Common/src/Loader/ConsumableLoader.cpp \ 
+                ../Common/src/Loader/RessourceLoader.cpp \ 
+                ../Common/src/Loader/AuthorizedStatKeysLoader.cpp \ 
                 ../Common/src/Loader/LoaderManager.cpp \ 
                 ../Common/src/Utility/Nameable.cpp \ 
                 ../Common/src/Utility/Id.cpp

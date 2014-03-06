@@ -453,6 +453,16 @@ INSERT INTO `Player_mobs`(`object_id`, `index`, `value`) VALUES
        (2, 1, 5),
        (2, 2, 6);
 
+DELETE FROM `DBZone_mobModels`;
+
+INSERT INTO `DBZone_mobModels`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 1),
+       (1, 1, 2),
+       (1, 2, 3),
+       (2, 0, 1),
+       (2, 1, 2),
+       (2, 2, 3);
+
 /* Assigning Mobs to Players */
 DELETE FROM `Player_battleMobs`;
 
@@ -476,7 +486,8 @@ INSERT INTO `Stuff`(`id`, `name`, `stuffType`) VALUES
        (6, 'Plastron Bouftou', 'BREASTPLATE'),
        (7, 'Anneau Bouftou', 'RING'),
        (8, 'Ceinture Bouftou', 'BELT'),
-       (9, 'Marteau Bouftou', 'WEAPON');
+       (9, 'Marteau Bouftou', 'WEAPON'),
+       (10, 'Casque Piou', 'HELMET');
 
 /* Assigning Stuff to Players */
 DELETE FROM `Player_equipment`;

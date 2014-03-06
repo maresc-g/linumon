@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Wed Feb 26 12:04:26 2014 antoine maitre
+// Last update Thu Mar  6 12:33:34 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -23,6 +23,10 @@ BattleManager::BattleManager()
   Server::getInstance()->addFuncProtocol("SPELL", func);
   func = std::bind1st(std::mem_fun(&BattleManager::dswitch), this);
   Server::getInstance()->addFuncProtocol("SWITCH", func);
+  this->_battleUpdaters.push_back(new BattleUpdater);
+  this->_battleUpdaters.push_back(new BattleUpdater);
+  this->_battleUpdaters.push_back(new BattleUpdater);
+  this->_battleUpdaters.push_back(new BattleUpdater);
 }
 
 BattleManager::~BattleManager()
@@ -34,14 +38,14 @@ BattleManager::~BattleManager()
 
 bool				BattleManager::inBattle(Player *player)
 {
-  if ((rand() % 100) < 74)
-    {
+  // if ((rand() % 100) < 74)
+  //   {
       std::cout << "Yolo" << std::endl;
       this->newBattle(player, player);
       return (true);
-    }
-  else
-    return (false);
+  //   }
+  // else
+  //   return (false);
 }
 
 void				BattleManager::newBattle(Player *player1, Player *player2)
@@ -63,6 +67,7 @@ void				BattleManager::newBattle(Player *player1, Player *player2)
       i++;
     }
   i = 0;
+  std::cout << "LA BATTLE DEVRAIT SE LANCE" << std::endl;
   for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
     {
       if (i == j)
@@ -89,7 +94,7 @@ void				BattleManager::deleteBattleUpdaters()
 
 bool				BattleManager::spell(Trame *trame)
 {
-  std::list<Battle *>		*tmp;
+  std::list<Battle *>		tmp;
   
   if ((*trame)[CONTENT]["SPELL"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["SPELL"].isMember("SPELL") &&
@@ -100,7 +105,7 @@ bool				BattleManager::spell(Trame *trame)
 	{
 	  (*it)->lock();
 	  tmp = (*it)->getBattles();
-	  for (auto itb = tmp->begin(); itb != tmp->end(); it++)
+	  for (auto itb = tmp.begin(); itb != tmp.end(); it++)
 	    if ((*itb)->getID() == (*trame)[CONTENT]["SPELL"]["IDBATTLE"].asUInt())
 	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
 	  (*it)->unlock();
@@ -112,7 +117,7 @@ bool				BattleManager::spell(Trame *trame)
 
 bool				BattleManager::capture(Trame *trame)
 {
-  std::list<Battle *>		*tmp;
+  std::list<Battle *>		tmp;
 
   if ((*trame)[CONTENT]["CAPTURE"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["CAPTURE"].isMember("TARGET"))
@@ -121,7 +126,7 @@ bool				BattleManager::capture(Trame *trame)
 	{
 	  (*it)->lock();
 	  tmp = (*it)->getBattles();
-	  for (auto itb = tmp->begin(); itb != tmp->end(); it++)
+	  for (auto itb = tmp.begin(); itb != tmp.end(); it++)
 	    if ((*itb)->getID() == (*trame)[CONTENT]["CAPTURE"]["IDBATTLE"].asUInt())
 	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
 	  (*it)->unlock();
@@ -133,7 +138,7 @@ bool				BattleManager::capture(Trame *trame)
 
 bool				BattleManager::dswitch(Trame *trame)
 {
-  std::list<Battle *>		*tmp;
+  std::list<Battle *>		tmp;
 
   if ((*trame)[CONTENT]["SWITCH"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["SWITCH"].isMember("TARGET") &&
@@ -143,7 +148,7 @@ bool				BattleManager::dswitch(Trame *trame)
 	{
 	  (*it)->lock();
 	  tmp = (*it)->getBattles();
-	  for (auto itb = tmp->begin(); itb != tmp->end(); it++)
+	  for (auto itb = tmp.begin(); itb != tmp.end(); it++)
 	    if ((*itb)->getID() == (*trame)[CONTENT]["SWITCH"]["IDBATTLE"].asUInt())
 	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
 	  (*it)->unlock();

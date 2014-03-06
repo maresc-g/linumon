@@ -5,11 +5,12 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:28:56 2014 laurent ansel
-// Last update Tue Mar  4 14:36:12 2014 laurent ansel
+// Last update Thu Mar  6 12:04:37 2014 laurent ansel
 //
 
 #include			<sstream>
 #include			"Entities/Equipment.hh"
+#include			"Loader/LoaderManager.hh"
 
 Equipment::Equipment() :
   ContainerWrapper<container_type>()
@@ -121,7 +122,8 @@ bool				Equipment::serialization(Trame &trame) const
   for (auto it = this->begin() ; it != this->end() && ret; ++it)
     {
       str << it->first;
-      ret = it->second->serialization(trame(trame["EQUIP"][str.str()]));
+      //      ret = it->second->serialization(trame(trame["EQUIP"][str.str()]));
+      trame["EQUIP"][str.str()] = it->second->getName();
       str.str("");
       nb++;
     }
@@ -142,7 +144,8 @@ Equipment			*Equipment::deserialization(Trame const &trame)
 
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	{
-	  tmp = Stuff::deserialization(trame(trame["EQUIP"][*it]));
+	  //Stuff::deserialization(trame(trame["EQUIP"][*it]));
+	  tmp = (**LoaderManager::getInstance()->getStuffLoader())->getValue(trame["EQUIP"][*it].asString());
 	  if (tmp)
 	    (*stuffs)[tmp->getStuffType()] = tmp;
 	}

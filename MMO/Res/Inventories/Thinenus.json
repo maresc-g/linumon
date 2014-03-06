@@ -1,26 +1,6 @@
 {
-    "0" :
-    {
-        "NAME" : "Casque Piou",
-        "TYPE" : 1,
-        "ST" : 1
-    },
-    "1" :
-    {
-        "NAME" : "Bottes Bouftou",
-        "TYPE" : 1,
-        "ST" : 5
-    },
-    "2" :
-    {
-        "NAME" : "Potion",
-        "TYPE" : 3,
-        "CONS" : 0
-    },
-    "3" :
-    {
-        "NAME" : "Super Potion",
-        "TYPE" : 3,
-        "CONS" : 0
-    }
+    "Casque Piou" : 1,
+    "Bottes Bouftou" : 1,
+    "Potion" : 129,
+    "Super Potion" : 1
 }

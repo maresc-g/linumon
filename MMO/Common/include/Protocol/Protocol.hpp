@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Wed Mar  5 21:45:38 2014 laurent ansel
+// Last update Thu Mar  6 14:31:16 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -110,5 +110,9 @@ bool				visible(unsigned int const id, unsigned int const idRessource, bool cons
 
 bool				mobModels(unsigned int const id);
 bool				jobModels(unsigned int const id);
+bool				stuffs(unsigned int const id);
+bool				consumables(unsigned int const id);
+bool				ressources(unsigned int const id);
+bool				authorizedStatKeys(unsigned int const id);
 
 #endif
