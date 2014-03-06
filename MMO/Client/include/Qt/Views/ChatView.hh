@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Feb  6 14:47:23 2014 cyril jourdain
-// Last update Wed Feb 19 14:43:01 2014 cyril jourdain
+// Last update Thu Mar  6 00:57:29 2014 cyril jourdain
 //
 
 #ifndef 		__CHATVIEW_HH__

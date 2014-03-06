@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar  5 15:37:36 2014 guillaume marescaux
+// Last update Wed Mar  5 21:25:17 2014 laurent ansel
 //
 
 #include			<unistd.h>
@@ -15,6 +15,7 @@
 #include			"Crypto/Crypto.hh"
 #include			"Map/Map.hh"
 #include			"Entities/User.hh"
+#include			"Loader/LoaderManager.hh"
 
 static void			*runThread(void *data)
 {
@@ -82,6 +83,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   func = std::bind1st(std::mem_fun(&Core::turnTo), this);
   _proto->addFunc("TURNTO", func);
 
+  LoaderManager::getInstance()->initReception(*_proto);
+
   (*_sockets)[TCP] = new Socket;
   (*_sockets)[UDP] = new Socket;
   (*_socketsClient)[TCP] = NULL;
@@ -105,6 +108,7 @@ Core::~Core()
   delete _handler;
   delete _initialized;
   delete _running;
+  LoaderManager::deleteInstance();
   ObjectPoolManager::deleteInstance();
 }
 

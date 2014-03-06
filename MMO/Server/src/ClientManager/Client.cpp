@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar  5 18:34:46 2014 antoine maitre
+// Last update Thu Mar  6 12:03:55 2014 antoine maitre
 //
 
 #include			"ClientManager/Client.hh"
@@ -106,6 +106,12 @@ void				Client::use(FD const id)
   _state = GAME;
   this->_id = id;
   this->_use = true;
+}
+
+void				Client::sendAllInformationModel() const
+{
+  Server::getInstance()->callProtocol("MOBMODELS", _id);
+  Server::getInstance()->callProtocol("JOBMODELS", _id);
 }
 
 void				Client::setSocket(ISocketClient const *socket, std::string const &proto)

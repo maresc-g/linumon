@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Thu Feb 27 12:51:10 2014 laurent ansel
+// Last update Wed Mar  5 21:52:26 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -49,7 +49,7 @@ public:
   bool				playerObject(FD const fd, unsigned int const item, int const nb) const;
   bool				stateBattle(FD const fd, bool const start, bool const end, Player *&player) const;
   bool				stateTrade(FD const fd, bool const start, bool const end, Player *&player) const;
-
+  void				sendAllInformationModel(FD const fd) const;
   bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;
 
   bool				craftSomething(FD const fd, std::string const &craft, std::string const &job) const;

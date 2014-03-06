@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Wed Mar  5 14:56:48 2014 antoine maitre
+// Last update Thu Mar  6 16:20:48 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -64,14 +64,6 @@ void				BattleUpdater::run()
 	    this->dswitch(_trames.front());
 	  this->_trames.pop_front();
 	  delete tmp;
-	  // for (auto it = this->_funcs->begin(); it != this->_funcs->end(); it++)
-	  //   if (this->_trames.front()->isMember(it->first))
-	  //     {
-	  // 	auto tmp = this->_trames.front();
-	  // 	((*this->_funcs)[it->first])(tmp);
-	  // 	this->_trames.pop_front();
-	  // 	delete tmp;
-	  //     }
 	}
       this->_mutex->unlock();
       usleep(10000);
@@ -84,45 +76,31 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2)
 {
   unsigned int			id = 0;
   AI				*tmp = new AI("I m going to crush you");
-  AI				*tmp2 = new AI("I m going to kill you");
 
   std::cout << "NEW BATTLE" << std::endl;
   for (auto it = this->_battles.begin(); it != this->_battles.end(); it++)
     {
       if ((*it)->getID() != id)
 	{
-	  if (player2->getType() == Player::AI || player1->getType() == Player::AI)
+	  if (!player2)
 	    {
 	      tmp->capture(*player1->getDBZone().getRandomMob());
 	      tmp->capture(*player1->getDBZone().getRandomMob());
 	      tmp->capture(*player1->getDBZone().getRandomMob());
-	      tmp2->capture(*player1->getDBZone().getRandomMob());
-	      tmp2->capture(*player1->getDBZone().getRandomMob());
-	      tmp2->capture(*player1->getDBZone().getRandomMob());
-	      tmp->addEnemy(tmp2->getDigitaliser().getMobs());
-	      tmp2->addEnemy(tmp->getDigitaliser().getMobs());
-	      // this->_battles.push_back(new Battle(id, Battle::PVP, 3, tmp, tmp2));
+	      tmp->addEnemy(player1->getDigitaliser().getMobs());
+	      this->_battles.push_back(new Battle(id, Battle::PVP, 3, player1, tmp));
 	    }
-	  // else
-	  //   {
-	  //     new Battle(id, Battle::PVP, 1, player1, player2);
-	  //     Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", player1->getId(), id, player2);
-	  //   }
+	  else
+	    new Battle(id, Battle::PVP, 1, player1, player2);
 	}
     }
   if (id == 0)
     {
-      if (!player1->getDBZone().getRandomMob())
-	std::cout << "MESTAG EST UN GROS PD" << std::endl;
       tmp->capture(*player1->getDBZone().getRandomMob());
       tmp->capture(*player1->getDBZone().getRandomMob());
       tmp->capture(*player1->getDBZone().getRandomMob());
-      tmp2->capture(*player1->getDBZone().getRandomMob());
-      tmp2->capture(*player1->getDBZone().getRandomMob());
-      tmp2->capture(*player1->getDBZone().getRandomMob());
-      tmp->addEnemy(tmp2->getDigitaliser().getMobs());
-      tmp2->addEnemy(tmp->getDigitaliser().getMobs());
-      this->_battles.push_back(new Battle(id, Battle::PVP, 3, tmp, tmp2));
+      tmp->addEnemy(player1->getDigitaliser().getMobs());
+      this->_battles.push_back(new Battle(id, Battle::PVP, 3, player1, tmp));
     }
     
   return (true);

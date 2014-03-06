@@ -5,13 +5,14 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Tue Mar  4 12:32:19 2014 laurent ansel
+// Last update Thu Mar  6 09:32:38 2014 laurent ansel
 //
 
 #include			<sstream>
 #include			"Entities/Job.hh"
 #include			"Entities/Stuff.hh"
 #include			"Entities/Consumable.hh"
+#include			"Loader/LoaderManager.hh"
 
 Job::Job():
   Persistent(),
@@ -155,7 +156,8 @@ bool				Job::serialization(Trame &trame) const
   bool				ret = true;
 
   this->_level->serialization(trame);
-  this->_jobModel->serialization(trame(trame["MOD"]));
+  //  this->_jobModel->serialization(trame(trame["MOD"]));
+  trame["MOD"] = this->_jobModel->getName();
   trame["CEXP"] = this->_currentExp;
   return (ret);
 }
@@ -165,7 +167,9 @@ Job				*Job::deserialization(Trame const &trame)
   Job				*job = new Job;
 
   job->setLevelObject(*Level::deserialization(trame));
-  job->setJobModel(*JobModel::deserialization(trame));
+  if (trame.isMember("MOD"))
+    //    job->setJobModel(*JobModel::deserialization(trame));
+    job->setJobModel(*(**LoaderManager::getInstance()->getJobModelLoader())->getValue(trame["MOD"].asString()));
   job->setCurrentExp(trame["CEXP"].asUInt());
   return (job);
 }

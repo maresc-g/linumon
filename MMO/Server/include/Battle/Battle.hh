@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Mon Mar  3 04:56:48 2014 antoine maitre
+// Last update Thu Mar  6 12:57:24 2014 antoine maitre
 //
 
 #ifndef				__BATTLE_HH__
@@ -31,6 +31,9 @@ private:
   int const			_mobNumber;
   std::list<Mob *>		_mobs;
   std::list<Player *>		_players;
+  int				_money;
+  int				_exp;
+  unsigned int			_idLooser;
 public:
   Battle(unsigned int const id, eBattle const type, int const mobNumber, Player *player1, Player *player2);
   ~Battle();
@@ -47,6 +50,7 @@ public:
   void				trameCapture(unsigned int const idPlayer, unsigned int const idMob) const;
   void				trameLaunchBattle(unsigned int const idPlayer, Player *player) const;
   void				trameTurnTo(unsigned int const idPlayer, unsigned int const idMob) const;
+  void				trameEndBattle();
   void				next();
 };
 

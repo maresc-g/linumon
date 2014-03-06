@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:53:29 2014 laurent ansel
-// Last update Mon Mar  3 22:31:29 2014 alexis mestag
+// Last update Wed Mar  5 23:39:36 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -165,31 +165,28 @@ JobModel			*JobModel::deserialization(Trame const &trame)
   Craft				*craft;
   Gather			*ressource;
 
-  if (trame.isMember("MOD"))
+  jobModel = new JobModel;
+  jobModel->setName(trame["NAME"].asString());
+  crafts = new std::list<Craft *>;
+  ressources = new std::list<Gather>;
+
+  auto			membersCraft = trame["CRS"].getMemberNames();
+  auto			membersGather = trame["GR"].getMemberNames();
+
+  for (auto it = membersCraft.begin() ; it != membersCraft.end() ; ++it)
     {
-      jobModel = new JobModel;
-      jobModel->setName(trame["MOD"]["NAME"].asString());
-      crafts = new std::list<Craft *>;
-      ressources = new std::list<Gather>;
-
-      auto			membersCraft = trame["MOD"]["CRS"].getMemberNames();
-      auto			membersGather = trame["MOD"]["GR"].getMemberNames();
-
-      for (auto it = membersCraft.begin() ; it != membersCraft.end() ; ++it)
-	{
-	  craft = Craft::deserialization(trame(trame["MOD"]["CRS"][*it]));
-	  if (craft)
-	    crafts->push_back(craft);
-	}
-
-      for (auto it = membersGather.begin() ; it != membersGather.end() ; ++it)
-	{
-	  ressource = Gather::deserialization(trame(trame["MOD"]["GR"][*it]));
-	  if (ressource)
-	    ressources->push_back(*ressource);
-	}
-      jobModel->setCrafts(*crafts);
-      jobModel->setGathers(*ressources);
+      craft = Craft::deserialization(trame(trame["CRS"][*it]));
+      if (craft)
+	crafts->push_back(craft);
     }
+
+  for (auto it = membersGather.begin() ; it != membersGather.end() ; ++it)
+    {
+      ressource = Gather::deserialization(trame(trame["GR"][*it]));
+      if (ressource)
+	ressources->push_back(*ressource);
+    }
+  jobModel->setCrafts(*crafts);
+  jobModel->setGathers(*ressources);
   return (jobModel);
 }

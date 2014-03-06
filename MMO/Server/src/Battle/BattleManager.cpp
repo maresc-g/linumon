@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Wed Mar  5 16:37:56 2014 antoine maitre
+// Last update Thu Mar  6 12:33:34 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -67,7 +67,7 @@ void				BattleManager::newBattle(Player *player1, Player *player2)
       i++;
     }
   i = 0;
-  std::cout << "LA BATTLE DEVRAIT SE LANCER" << std::endl;
+  std::cout << "LA BATTLE DEVRAIT SE LANCE" << std::endl;
   for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
     {
       if (i == j)

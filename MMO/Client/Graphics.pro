@@ -154,5 +154,8 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/Consumable.cpp \ 
                 ../Common/src/Entities/Inventory.cpp \ 
                 ../Common/src/Entities/Faction.cpp \ 
+                ../Common/src/Loader/MobModelLoader.cpp \
+                ../Common/src/Loader/JobModelLoader.cpp \ 
+                ../Common/src/Loader/LoaderManager.cpp \ 
                 ../Common/src/Utility/Nameable.cpp \ 
                 ../Common/src/Utility/Id.cpp

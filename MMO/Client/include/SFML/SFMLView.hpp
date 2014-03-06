@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Wed Mar  5 15:29:01 2014 cyril jourdain
+// Last update Thu Mar  6 02:01:50 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__

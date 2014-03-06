@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Wed Mar  5 15:33:09 2014 laurent ansel
+// Last update Wed Mar  5 21:53:15 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -177,6 +177,20 @@ void				ClientManager::setInfoClient(FD const fd, Player::PlayerCoordinate *coor
     if ((*it).first && (*it).second && (*it).first->search(fd))
       {
 	(*it).first->setInfo(fd, coord);
+	set = true;
+      }
+  this->_mutex->unlock();
+}
+
+void				ClientManager::sendAllInformationModel(FD const fd) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second && (*it).first->search(fd))
+      {
+	(*it).first->sendAllInformationModel(fd);
 	set = true;
       }
   this->_mutex->unlock();
