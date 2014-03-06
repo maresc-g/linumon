@@ -33,6 +33,66 @@
 	    "default":{
 		"1":{"x" : 320, "y":0}
 	    }
-	} 
+	},
+	"dirttograss_down" :{
+	    "default":{
+		"1":{"x" : 384, "y":0}
+	    }
+	},
+	"dirttograss_up" :{
+	    "default":{
+		"1":{"x" : 448, "y":0}
+	    }
+	},
+	"dirttograss_left" :{
+	    "default":{
+		"1":{"x" : 512, "y":0}
+	    }
+	},
+	"dirttograss_right" :{
+	    "default":{
+		"1":{"x" : 576, "y":0}
+	    }
+	},
+	"dirttograss_downright" :{
+	    "default":{
+		"1":{"x" : 0, "y":64}
+	    }
+	},
+	"dirttograss_upleft" :{
+	    "default":{
+		"1":{"x" : 64, "y":64}
+	    }
+	},
+	"dirttograss_downleft" :{
+	    "default":{
+		"1":{"x" : 128, "y":64}
+	    }
+	},
+	"dirttograss_upright" :{
+	    "default":{
+		"1":{"x" : 192, "y":64}
+	    }
+	},
+	"grasstodirt_upleft" :{
+	    "default":{
+		"1":{"x" : 256, "y":64}
+	    }
+	},
+	"grasstodirt_upright" :{
+	    "default":{
+		"1":{"x" : 320, "y":64}
+	    }
+	},
+	"grasstodirt_downleft" :{
+	    "default":{
+		"1":{"x" : 384, "y":64}
+	    }
+	},
+	"grasstodirt_downright" :{
+	    "default":{
+		"1":{"x" : 448, "y":64}
+	    }
+	}
     }
 }

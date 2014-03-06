@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 13:38:44 2014 cyril jourdain
-// Last update Wed Mar  5 16:53:22 2014 cyril jourdain
+// Last update Thu Mar  6 11:54:53 2014 cyril jourdain
 //
 
 #ifndef 		__SPRITE_HH__
@@ -28,6 +28,7 @@ protected /* attributs */:
   std::string		_current;
   bool			_playing;
   bool			_visible;
+  std::string		_name;
   
 
 public /* class specific */ :
@@ -52,6 +53,8 @@ public /* methods */ :
   void			stop();
   void			pause();
   void			print();
+  void			setName(std::string const &);
+  std::string const &	getName() const;
   void			setVisible(bool);
   std::string		getLastPlayed();
   sf::IntRect		*getCurrentBound() const;

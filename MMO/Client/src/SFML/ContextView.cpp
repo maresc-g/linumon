@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 01:15:31 2014 cyril jourdain
-// Last update Thu Mar  6 11:37:53 2014 cyril jourdain
+// Last update Thu Mar  6 15:03:05 2014 cyril jourdain
 //
 
 #include		"SFML/ContextView.hh"
@@ -29,7 +29,6 @@ void			ContextView::loadBackgroundMap()
   std::list<AEntity*>	*list;
 
   srand(time(NULL));
-
   for (int y = 0; y < zone->getSizeY(); y++)
     {
       for (int x = 0; x < zone->getSizeX(); x++)
@@ -37,15 +36,56 @@ void			ContextView::loadBackgroundMap()
 	  int rnd = rand() % 100;
 	  if (zone->getCase(x,y) && !zone->getCase(x,y)->getSafe())
 	    {
-	      if (rnd < 85)
-		((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("grass");
-	      else if (rnd >= 85 && rnd <= 92)
-		((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("flower");
-	      else
-		((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("mushroom");
+	      // if (rnd < 85)
+	      ((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("grass");
+	      // else if (rnd >= 85 && rnd <= 92)
+	      // 	((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("flower");
+	      // else
+	      // 	((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("mushroom");
 	    }
 	  else
-	    ((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("dirt"); // Play rock
+	    {
+	      if (zone->getCase(x,y-1) && zone->getCase(x,y-1)->getSafe() &&
+		  zone->getCase(x,y+1) && !zone->getCase(x,y+1)->getSafe())
+		{
+		  if (zone->getCase(x-1,y) && !zone->getCase(x-1,y)->getSafe())
+		    ((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("grasstodirt_downleft");
+		  else if (zone->getCase(x+1,y) && !zone->getCase(x+1,y)->getSafe())
+		    ((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("grasstodirt_downright");
+		  else
+		    ((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("dirttograss_up");
+		}
+	      else if (zone->getCase(x,y-1) && !zone->getCase(x,y-1)->getSafe() &&
+		       zone->getCase(x,y+1) && zone->getCase(x,y+1)->getSafe())
+		{
+		  if (zone->getCase(x-1,y) && !zone->getCase(x-1,y)->getSafe())
+		    ((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("grasstodirt_upleft");
+		  else if (zone->getCase(x+1,y) && !zone->getCase(x+1,y)->getSafe())
+		    ((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("grasstodirt_upright");
+		  else
+		    ((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("dirttograss_down");
+		}
+	      else if (zone->getCase(x - 1,y) && !zone->getCase(x - 1,y)->getSafe() &&
+		       zone->getCase(x + 1,y) && zone->getCase(x + 1,y)->getSafe())
+		((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("dirttograss_right");
+	      else if (zone->getCase(x + 1,y) && !zone->getCase(x + 1,y)->getSafe() &&
+		       zone->getCase(x - 1,y) && zone->getCase(x - 1,y)->getSafe())
+		((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("dirttograss_left");
+	      else if (zone->getCase(x+1,y - 1) && zone->getCase(x+1,y - 1)->getSafe() &&
+		       zone->getCase(x-1,y+1) && !zone->getCase(x-1,y+1)->getSafe())
+		((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("dirttograss_upright");
+	      else if (zone->getCase(x-1,y - 1) && zone->getCase(x-1,y - 1)->getSafe() &&
+		       zone->getCase(x+1,y+1) && !zone->getCase(x+1,y+1)->getSafe())
+		((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("dirttograss_upleft");
+	      else if (zone->getCase(x-1,y-1) && !zone->getCase(x-1,y-1)->getSafe() &&
+		       zone->getCase(x+1,y+1) && zone->getCase(x+1,y+1)->getSafe())
+		((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("dirttograss_downright");
+	      else if (zone->getCase(x+1,y-1) && !zone->getCase(x+1,y-1)->getSafe() &&
+		       zone->getCase(x-1,y+1) && zone->getCase(x-1,y+1)->getSafe())
+		((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("dirttograss_downleft");
+	      else
+	  	((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("dirt");
+	    }
 	  ((*_spriteMap)[y])[x]->play("default");
 	  // list = zone->getCase(x,y)->getEntities();
 	  // if (list && list->size() > 0)
