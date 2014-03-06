@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Thu Mar  6 16:25:46 2014 antoine maitre
+// Last update Thu Mar  6 17:00:39 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -38,9 +38,9 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
       (*it)->enterBattle();
     }
   if (player1->getType() == Player::PlayerType::PLAYER)
-    this->trameLaunchBattle(player1->getId(), player2);
+    this->trameLaunchBattle(player1->getUser().getId(), player2);
   if (player2->getType() == Player::PlayerType::PLAYER)
-    this->trameLaunchBattle(player2->getId(), player1);
+    this->trameLaunchBattle(player2->getUser().getId(), player1);
   this->_players.push_back(player1);
   this->_players.push_back(player2);
   this->_mobs.sort(compareSpeed);
@@ -112,14 +112,14 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
       for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	if ((*it)->getType() == Player::PlayerType::PLAYER)
 	  {
-	    this->trameSpell((*it)->getId(), spell, launcher, target);
-	    this->trameSpellEffect((*it)->getId(), target, 10);
+	    this->trameSpell((*it)->getUser().getId(), spell, launcher, target);
+	    this->trameSpellEffect((*it)->getUser().getId(), target, 10);
 	  } 
       Stats statMob = mobTarget->getTmpStats();
       if (statMob.getStat(*hpKey) <= 0)
 	for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	  if ((*it)->getType() == Player::PlayerType::PLAYER)
-	    this->trameDeadMob((*it)->getId(), target);
+	    this->trameDeadMob((*it)->getUser().getId(), target);
     }
   return (this->checkEnd());
 }
@@ -133,7 +133,7 @@ bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
 	  (*itMob) = (Mob *)(&(*it)->getMob(target));
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     if ((*it)->getType() == Player::PlayerType::PLAYER)
-      this->trameSwitch((*it)->getId(), target, newmob);
+      this->trameSwitch((*it)->getUser().getId(), target, newmob);
   return (this->checkEnd());
 }
 
@@ -149,7 +149,7 @@ bool					Battle::capture(unsigned int const target)
 	    this->_players.front()->capture(*(*it));
 	    static_cast<AI *>(this->_players.back())->remove(target);
 	    this->_mobs.erase(it);
-	    this->trameCapture(this->_players.front()->getId(), target);
+	    this->trameCapture(this->_players.front()->getUser().getId(), target);
 	  }
       }
   return (this->checkEnd());
@@ -174,7 +174,7 @@ void					Battle::next()
     if ((*it)->isMyMob(tmp->getId()))
       {
 	if ((*it)->getType() == Player::PlayerType::PLAYER)
-	  this->trameTurnTo((*it)->getId(), tmp->getId());
+	  this->trameTurnTo((*it)->getUser().getId(), tmp->getId());
 	else
 	  {
 	    auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
@@ -217,7 +217,8 @@ void					Battle::trameCapture(unsigned int const idPlayer, unsigned int const id
 
 void					Battle::trameLaunchBattle(unsigned int const idPlayer, Player *player) const
 {
-  Server::getInstance()->callProtocol<unsigned int const, Player *>("LAUNCHBATTLE", idPlayer, this->_id, player);
+  std::cout << "LAURENT EST UN ENCULE QUI ENVOIE PAS LA TRAME" << std::endl;
+  Server::getInstance()->callProtocol<unsigned int const, Player const *>("LAUNCHBATTLE", idPlayer, this->_id, player);
 }
 
 void					Battle::trameTurnTo(unsigned int const idPlayer, unsigned int const idMob) const
@@ -230,7 +231,7 @@ void					Battle::trameEndBattle()
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     {
       if ((*it)->getType() == Player::PlayerType::PLAYER)
-	Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, std::list<AItem *> *>("ENDBATTLE", (*it)->getId(), this->_id, ((*it)->getId() == this->_idLooser)?(false):(true), this->_money, this->_exp, NULL);
+	Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, std::list<AItem *> *>("ENDBATTLE", (*it)->getUser().getId(), this->_id, ((*it)->getId() == this->_idLooser)?(false):(true), this->_money, this->_exp, NULL);
     }
 }
 

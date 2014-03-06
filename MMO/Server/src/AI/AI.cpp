@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Sun Mar  2 22:33:20 2014 antoine maitre
-// Last update Thu Mar  6 15:36:11 2014 antoine maitre
+// Last update Thu Mar  6 16:51:56 2014 antoine maitre
 //
 
 #include			"AI/AI.hh"
@@ -71,3 +71,4 @@ std::tuple<unsigned int const, unsigned int const, Spell const *>			AI::action(u
   std::tuple<unsigned int const, unsigned int const, Spell const *> ret(mob, this->getRandomMob(), tmp);
   return (ret);
 }
+

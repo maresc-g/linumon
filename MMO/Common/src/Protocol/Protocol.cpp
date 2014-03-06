@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Mar  6 12:53:08 2014 antoine maitre
+// Last update Thu Mar  6 16:55:01 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -526,14 +526,16 @@ bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player c
   Trame			*trame;
   Header		*header;
 
+  std::cout << "LAURENT EST VRAIEMENT UN GROS ENCULE" << std::endl;
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
+      std::cout << "LAURENT EST VRAIEMENT UN TRES TRES GROS ENCULE" << std::endl;
       (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"] = idBattle;
-      (*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"] = player->serialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"]));
+      player->serialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }

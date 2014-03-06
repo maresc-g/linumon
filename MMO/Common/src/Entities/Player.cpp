@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar  5 17:27:21 2014 laurent ansel
+// Last update Thu Mar  6 16:47:32 2014 antoine maitre
 //
 
 #include			<functional>
@@ -348,7 +348,8 @@ bool				Player::serialization(Trame &trame) const
   trame["PLAYER"]["NAME"] = this->getName();
   trame["PLAYER"]["TYPE"] = this->getStatEntityType();
   this->_coord->serialization(trame(trame["PLAYER"]));
-  this->_faction->serialization(trame(trame["PLAYER"]));
+  if (this->_faction)
+    this->_faction->serialization(trame(trame["PLAYER"]));
   if (this->_guild)
     this->_guild->serialization(trame(trame["PLAYER"]));
   this->_digitaliser->serialization(trame(trame["PLAYER"]));
