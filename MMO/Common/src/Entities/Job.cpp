@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Thu Mar  6 11:32:03 2014 laurent ansel
+// Last update Thu Mar  6 17:12:06 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -108,10 +108,11 @@ bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, s
       {
 	for (auto ic = (*it)->begin() ; ic != (*it)->end() ; ++ic)
 	  object.push_back(std::make_pair(ic->first->getName(), ic->second));
-	if ((*it)->getResult().getItemType() == AItem::STUFF)
-	  item = new Stuff(static_cast<Stuff const &>((*it)->getResult()));
-	else if ((*it)->getResult().getItemType() == AItem::CONSUMABLE)
-	  item = new Consumable(static_cast<Consumable const &>((*it)->getResult()));
+	// if ((*it)->getResult().getItemType() == AItem::STUFF)
+	//   item = new Stuff(static_cast<Stuff const &>((*it)->getResult()));
+	// else if ((*it)->getResult().getItemType() == AItem::CONSUMABLE)
+	//   item = new Consumable(static_cast<Consumable const &>((*it)->getResult()));
+	item = LoaderManager::getInstance()->getItemLoader((*it)->getResult().getName());
 	if (item)
 	  result.push_back(item);
 	exp = this->_currentExp + (*it)->getExp();
@@ -130,15 +131,19 @@ bool				Job::doGather(std::string const &nameRessource, std::list<AItem *> &resu
 {
   bool				ret = false;
   unsigned int			exp = 0;
+  Ressource			*item;
 
   for (auto it = this->getJobModel().getGathers().begin() ; it != this->getJobModel().getGathers().end() && !ret; ++it)
     if ((*it).getRessource().getName() == nameRessource)
       {
-	int			i = rand() % 4 + 1;
+	// int			i = rand() % 4 + 1;
 
 	idRessource = (*it).getRessource().getId();
-	for (auto nb = 0 ; nb < i ; ++nb)
-	  result.push_back(new Ressource((*it).getRessource()));
+	// for (auto nb = 0 ; nb < i ; ++nb)
+	//   result.push_back(new Ressource((*it).getRessource()));
+	item = (**LoaderManager::getInstance()->getRessourceLoader())->getValue((*it).getRessource().getName());
+	if (item)
+	  result.push_back(item);
 	exp = this->_currentExp + it->getExp();
 	while (this->getExp() < exp)
 	  {

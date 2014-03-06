@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 15:04:36 2014 laurent ansel
-// Last update Thu Mar  6 14:39:16 2014 laurent ansel
+// Last update Thu Mar  6 16:50:08 2014 laurent ansel
 //
 
 #include			<functional>
@@ -13,12 +13,13 @@
 #include			"Loader/LoaderManager.hh"
 
 LoaderManager::LoaderManager():
-  _mobModels(new MutexVar<MobModelLoader *>(new MobModelLoader)),
-  _jobModels(new MutexVar<JobModelLoader *>(new JobModelLoader)),
-  _stuffs(new MutexVar<StuffLoader *>(new StuffLoader)),
-  _consumables(new MutexVar<ConsumableLoader *>(new ConsumableLoader)),
-  _ressources(new MutexVar<RessourceLoader *>(new RessourceLoader)),
-  _authorizedStatKeys(new MutexVar<AuthorizedStatKeyLoader *>(new AuthorizedStatKeyLoader))
+  _stuffs(new MutexVar<StuffLoader *>(NULL)),
+  _consumables(new MutexVar<ConsumableLoader *>(NULL)),
+  _ressources(new MutexVar<RessourceLoader *>(NULL)),
+  _authorizedStatKeys(new MutexVar<AuthorizedStatKeyLoader *>(NULL)),
+  _jobModels(new MutexVar<JobModelLoader *>(NULL)),
+  _mobModels(new MutexVar<MobModelLoader *>(NULL))
+
 {
 
 }
@@ -31,6 +32,16 @@ LoaderManager::~LoaderManager()
   delete _consumables;
   delete _ressources;
   delete _authorizedStatKeys;
+}
+
+void				LoaderManager::init()
+{
+  _stuffs->setVar(new StuffLoader);
+  _consumables->setVar(new ConsumableLoader);
+  _ressources->setVar(new RessourceLoader);
+  _authorizedStatKeys->setVar(new AuthorizedStatKeyLoader);
+  _jobModels->setVar(new JobModelLoader);
+  _mobModels->setVar(new MobModelLoader);
 }
 
 MutexVar<MobModelLoader *>	*LoaderManager::getMobModelLoader() const
@@ -70,7 +81,7 @@ AItem				*LoaderManager::getItemLoader(std::string const &name) const
 
   if (!(item = (**getStuffLoader())->getValue(name)))
     if (!(item = (**getConsumableLoader())->getValue(name)))
-      item = (**getConsumableLoader())->getValue(name);
+      item = (**getRessourceLoader())->getValue(name);
   return (item);
 }
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Tue Mar  4 01:00:33 2014 alexis mestag
+// Last update Thu Mar  6 16:55:29 2014 laurent ansel
 //
 
 #ifndef 		__RESSOURCE_HH__
@@ -28,6 +28,7 @@ private:
   RessourceCoordinate	*_coord;
   Level			*_level;
   bool			_visible;
+  bool			_gather;
 
 protected:
   Ressource(std::string const &name);
@@ -59,6 +60,9 @@ public:
 
   bool			isVisible() const;
   void			setVisible(bool const visible);
+
+  bool			isGather() const;
+  void			setGather(bool const gather);
 
   virtual bool		serialization(Trame &trame) const;
   static Ressource	*deserialization(Trame const &trame, bool const client = true);

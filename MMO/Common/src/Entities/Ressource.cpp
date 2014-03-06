@@ -5,14 +5,14 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Tue Mar  4 00:59:24 2014 alexis mestag
+// Last update Thu Mar  6 17:44:49 2014 laurent ansel
 //
 
 #include			"Entities/Ressource.hh"
 
 Ressource::Ressource() :
   Persistent(),
-  AItem("", AItem::eItem::RESSOURCE),
+  AItem("", AItem::eItem::RESSOURCE, AEntity::eEntity::RESSOURCE),
   _coord(new RessourceCoordinate),
   _level(new Level),
   _visible(true)
@@ -21,7 +21,7 @@ Ressource::Ressource() :
 
 Ressource::Ressource(std::string const &name) :
   Persistent(),
-  AItem(name, AItem::eItem::RESSOURCE),
+  AItem(name, AItem::eItem::RESSOURCE, AEntity::eEntity::RESSOURCE),
   _coord(new RessourceCoordinate),
   _level(new Level),
   _visible(true)
@@ -31,7 +31,7 @@ Ressource::Ressource(std::string const &name) :
 
 Ressource::Ressource(Ressource const &rhs) :
   Persistent(rhs),
-  AItem(rhs.getName(), AItem::eItem::RESSOURCE),
+  AItem(rhs.getName(), AItem::eItem::RESSOURCE, AEntity::eEntity::RESSOURCE),
   _coord(new RessourceCoordinate),
   _level(new Level),
   _visible(true)
@@ -129,11 +129,23 @@ void				Ressource::setVisible(bool const visible)
   this->_visible = visible;
 }
 
+bool				Ressource::isGather() const
+{
+  return (this->_gather);
+}
+
+
+void				Ressource::setGather(bool const gather)
+{
+  this->_gather = gather;
+}
+
 bool				Ressource::serialization(Trame &trame) const
 {
   trame["TYPE"] = this->getItemType();
   trame["EN"] = this->getEntityType();
   trame["VIS"] = this->isVisible();
+  trame["GAT"] = this->isGather();
   trame["NAME"] = this->getName();
   trame["ID"] = static_cast<unsigned int>(this->getId());
   this->_coord->serialization(trame);
@@ -154,7 +166,9 @@ Ressource			*Ressource::deserialization(Trame const &trame, bool const client)
       if (trame.isMember("COORDINATE"))
 	ressource->setCoord(*RessourceCoordinate::deserialization(trame(trame)));
       if (trame.isMember("VIS"))
-      ressource->setVisible(trame["VIS"].asBool());
+	ressource->setVisible(trame["VIS"].asBool());
+      if (trame.isMember("GAT"))
+	ressource->setGather(trame["GAT"].asBool());
     }
   return (ressource);
 }
