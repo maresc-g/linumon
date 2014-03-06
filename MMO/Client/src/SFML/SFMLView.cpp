@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Thu Mar  6 01:04:46 2014 cyril jourdain
+// Last update Thu Mar  6 12:56:59 2014 guillaume marescaux
 //
 
 /*
@@ -34,17 +34,18 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _spellBar(new SpellBarView(this, w)), _inventory(new InventoryView(this, w)),
   _stuff(new StuffView(this, w)), _chat(new ChatView(this, w)), _menu(new MenuView(this, w)),
   _jobMenu(new JobMenuView(this, w)), _job(new JobView(this, w)), _digit(new DigitaliserView(this, w)),
-  _clickView(new PlayerClickView(this, w))
+  _clickView(new PlayerClickView(this, w)), _worldView(new WorldView(this, w)), _battleView(new BattleView(this, w)),
+  _currentView(NULL), _view1(NULL), _view2(NULL)
 {
   _spellBar->hide();
   _stuff->hide();
   _inventory->hide();
   _jobMenu->hide();
   _clickView->hide();
-  _job->move(300, 100);
+  // _job->move(300, 100);
   _digit->hide();
-  _digit->move(800, 0);
-  _inventory->move(1500, 0);
+  // _digit->move(800, 0);
+  // _inventory->move(1500, 0);
   _job->hide();
   _menu->move(WIN_W / 2 - _menu->size().width() / 2, WIN_H / 2 - _menu->size().height() / 2);
   _menu->hide();
@@ -60,8 +61,6 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _sMan->loadAnimations("./Res/Spell/Lance-Flamme.json");
   _grow = false;
 
-  _worldView = new WorldView(this, w);
-  _battleView = new BattleView(this, w);
   setMouseTracking(true);
 }
 
@@ -85,6 +84,56 @@ void			SFMLView::onInit()
   QPalette pa;
   pa.setBrush(_chat->backgroundRole(), QBrush(p));
   _chat->setPalette(pa);
+}
+
+void			SFMLView::displayView(QWidget *view)
+{
+  if (_view1 == view || _view2 == view)
+    return;
+  if (!_view1)
+    {
+      _view1 = view;
+      _view1->show();
+      _view1->move(0, 0);
+    }
+  else if (_view1 && !_view2)
+    {
+      _view2 = _view1;
+      _view1 = view;
+      _view1->show();
+      _view2->move(_view1->size().width() + 50, 0);
+      _view1->move(0, 0);
+    }
+  else
+    {
+      _view2->hide();
+      _view2 = _view1;
+      _view1 = view;
+      _view2->move(_view1->size().width() + 50, 0);
+      _view1->move(0, 0);
+      _view1->show();
+    }
+}
+
+void			SFMLView::hideView(QWidget *view)
+{
+  if (_view2 == view)
+    {
+      _view2->hide();
+      _view2 = NULL;
+    }
+  else
+    {
+      _view1->hide();
+      if (_view2)
+	{
+	  _view1 = _view2;
+	  _view1->move(0, 0);
+	  _view2 = NULL;
+	}
+      else
+	_view1 = NULL;
+    }
 }
 
 void			SFMLView::onUpdate()
@@ -183,6 +232,7 @@ ChatView		*SFMLView::getChatView(void){return (_chat); }
 MenuView		*SFMLView::getMenuView(void){return (_menu); }
 JobMenuView		*SFMLView::getJobMenuView(void){return (_jobMenu); }
 JobView			*SFMLView::getJobView(void) { return (_job); }
+DigitaliserView		*SFMLView::getDigitaliserView(void) { return (_digit); }
 sf::Font		*SFMLView::getFont(void) const {return _textFont; }
 SpriteManager		*SFMLView::getSpriteManager(void) const {return _sMan; }
 sf::Clock		*SFMLView::getMainClock(void) const {return _clock; }

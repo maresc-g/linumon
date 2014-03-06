@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Thu Mar  6 02:08:57 2014 cyril jourdain
+// Last update Thu Mar  6 12:12:00 2014 guillaume marescaux
 //
 
 #include		"SFML/WorldView.hh"
@@ -31,6 +31,7 @@ WorldView::WorldView(SFMLView *v, WindowManager *w) :
   (*_keyMap)[sf::Keyboard::I] = &WorldView::keyI;
   (*_keyMap)[sf::Keyboard::S] = &WorldView::keyS;
   (*_keyMap)[sf::Keyboard::J] = &WorldView::keyJ;
+  (*_keyMap)[sf::Keyboard::D] = &WorldView::keyD;
   (*_keyMap)[sf::Keyboard::Escape] = &WorldView::keyEscape;
   (*_keyMap)[sf::Keyboard::Return] = &WorldView::keyReturn;
   _clickView->hide();
@@ -304,10 +305,10 @@ void			WorldView::keyI()
       if (!_sfmlView->getInventoryView()->isVisible())
 	{
 	  _sfmlView->getInventoryView()->initInventory();
-	  _sfmlView->getInventoryView()->show();
+	  _sfmlView->displayView(_sfmlView->getInventoryView());
 	}
       else
-	_sfmlView->getInventoryView()->hide();
+	_sfmlView->hideView(_sfmlView->getInventoryView());
       _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::I, 100000);
     }
 }
@@ -319,10 +320,10 @@ void			WorldView::keyS()
       if (!_sfmlView->getStuffView()->isVisible())
 	{
 	  _sfmlView->getStuffView()->initStuff(***(_wMan->getMainPlayer()));
-	  _sfmlView->getStuffView()->show();
+	  _sfmlView->displayView(_sfmlView->getStuffView());
 	}
       else
-	_sfmlView->getStuffView()->hide();
+	_sfmlView->hideView(_sfmlView->getStuffView());
       _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::S, 100000);
     }
 }
@@ -332,10 +333,22 @@ void			WorldView::keyJ()
   if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::J) && !_sfmlView->getChatView()->getFocused())
     {
       if (!_sfmlView->getJobMenuView()->isVisible())
-	_sfmlView->getJobMenuView()->show();
+	  _sfmlView->displayView(_sfmlView->getJobMenuView());
       else
-	_sfmlView->getJobMenuView()->hide();
+	  _sfmlView->hideView(_sfmlView->getJobMenuView());
       _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::J, 100000);
+    }
+}
+
+void			WorldView::keyD()
+{
+  if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::D) && !_sfmlView->getChatView()->getFocused())
+    {
+      if (!_sfmlView->getDigitaliserView()->isVisible())
+	  _sfmlView->displayView(_sfmlView->getDigitaliserView());
+      else
+	  _sfmlView->hideView(_sfmlView->getDigitaliserView());
+      _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::D, 100000);
     }
 }
 
