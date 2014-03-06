@@ -5,16 +5,16 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:26:08 2014 laurent ansel
-// Last update Mon Mar  3 16:14:21 2014 alexis mestag
+// Last update Wed Mar  5 16:59:01 2014 laurent ansel
 //
 
 #ifndef 			__EQUIPMENT_HH__
 # define 			__EQUIPMENT_HH__
 
 # include			<map>
-# include			"Entities/Stuff.hh"
 # include			"Utility/ISerialization.hh"
 # include			"Utility/Wrapper.hpp"
+# include			"Entities/Stuff.hh"
 
 class				Equipment : public ISerialization,
 					    public ContainerWrapper<std::map<Stuff::eStuff, Stuff *>>
@@ -38,5 +38,6 @@ public:
   virtual bool		serialization(Trame &trame) const;
   static Equipment	*deserialization(Trame const &trame);
 };
+
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Mar  5 15:56:10 2014 cyril jourdain
+// Last update Wed Mar  5 17:10:26 2014 cyril jourdain
 //
 
 /*
@@ -109,6 +109,7 @@ void			SFMLView::onUpdate()
 	{
 	  *(_wMan->getState()) = CLIENT::BATTLE;
 	  _battleView->resetPOV();
+	  _spellBar->show();
 	}
       break;
     case CLIENT::LOADING_BATTLE:

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:31:07 2013 alexis mestag
-// Last update Fri Feb 28 13:39:09 2014 laurent ansel
+// Last update Wed Mar  5 15:48:06 2014 laurent ansel
 //
 
 #include			"Entities/Faction.hh"

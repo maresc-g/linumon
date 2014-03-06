@@ -5,12 +5,13 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Thu Jan 30 13:56:42 2014 alexis mestag
-## Last update Thu Feb 27 16:57:18 2014 alexis mestag
+## Last update Wed Mar  5 17:07:27 2014 laurent ansel
 ##
 
 EFFECTS_SRC=		EffectLib.cpp			\
 			FactionEffect.cpp		\
 			MobEffect.cpp			\
+			StatEntityEffect.cpp		\
 			PlayerEffect.cpp		\
 			SpellEffect.cpp
 

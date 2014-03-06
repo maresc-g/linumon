@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Wed Mar  5 15:35:34 2014 cyril jourdain
+// Last update Wed Mar  5 17:05:44 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -22,8 +22,10 @@ private:
   std::list<OPlayerSprite*>	*_playerList;
   std::list<OPlayerSprite*>	*_ennemyList;
   OPlayerSprite			*_playingMob;
+  OPlayerSprite			*_selectedMob;
   Sprite			*_selection;
   Sprite			*_spellSprite;
+  Sprite			*_spellSpriteCase;
 
 public:
   BattleView(SFMLView *, WindowManager *);

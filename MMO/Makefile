@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:06:15 2013 laurent ansel
-## Last update Mon Mar  3 14:31:41 2014 alexis mestag
+## Last update Wed Mar  5 17:31:09 2014 alexis mestag
 ##
 
 NAMESERVER=	pfa-server
@@ -40,7 +40,7 @@ $(NAMESERVER):	$(ODB_SRC) $(OBJCOMMON) $(OBJSERVER)
 		g++ -o $(NAMESERVER) $(OBJCOMMON) $(OBJSERVER) $(LDFLAGS)
 
 effectLibs:
-		cd $(EFFECT_LIBS) && make
+		cd $(EFFECT_LIBS) && make -j 4
 
 $(NAMECLIENT):	$(OBJCOMMON) $(OBJCLIENT)
 		g++ -o $(NAMECLIENT) $(OBJCOMMON) $(OBJCLIENT) $(LDFLAGS) +

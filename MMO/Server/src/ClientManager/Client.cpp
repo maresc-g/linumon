@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar  5 16:30:39 2014 antoine maitre
+// Last update Wed Mar  5 18:34:46 2014 antoine maitre
 //
 
 #include			"ClientManager/Client.hh"
@@ -259,12 +259,12 @@ void				Client::updateTalents(Trame *trame) const
     }
 }
 
-void				Client::useObject(unsigned int const, unsigned int const)
+void				Client::useObject(unsigned int const target, unsigned int const item)
 {
   if (_state == GAME && _player)
     {
-      /*USE OBJECT*/
-      Server::getInstance()->callProtocol<Stats const *>("OBJECTEFFECT", _id, &_player->getStats());
+      _player->useObject(target, item);
+      Server::getInstance()->callProtocol<Stats const *>("OBJECTEFFECT", _id, &(_player->getMob(target).getStats()));
     }
 }
 

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 26 13:32:57 2014 alexis mestag
-// Last update Wed Feb 26 13:41:54 2014 alexis mestag
+// Last update Wed Mar  5 17:06:49 2014 laurent ansel
 //
 
 #include				"Effects/FactionEffect.hh"

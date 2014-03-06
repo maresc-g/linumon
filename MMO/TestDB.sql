@@ -15,7 +15,9 @@ INSERT INTO `EffectLib`(`id`, `name`, `path`) VALUES
        (2, 'Mimi-Queue', 'EffectLibs/Mimi-Queue.so'),
        (3, 'HesodeEffect', 'EffectLibs/HesodeEffect.so'),
        (4, 'CelestiaEffect', 'EffectLibs/CelestiaEffect.so'),
-       (5, 'NormalEffect', 'EffectLibs/NormalEffect.so');
+       (5, 'NormalEffect', 'EffectLibs/NormalEffect.so'),
+       (6, 'PotionEffect', 'EffectLibs/PotionEffect.so'),
+       (7, 'SuperPotionEffect', 'EffectLibs/SuperPotionEffect.so');
 
 /* Inserting Factions */
 DELETE FROM `Faction`;
@@ -145,6 +147,17 @@ INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`) VALUES
        (1, 'Charizard', 2, 1),
        (2, 'Blastoise', 2, 2),
        (3, 'Venuzaur', 2, 3);
+
+/* Assignin MobModels to DBZones */
+DELETE FROM `DBZone_mobModels`;
+
+INSERT INTO `DBZone_mobModels`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 1),
+       (1, 1, 2),
+       (1, 2, 3),
+       (2, 0, 1),
+       (2, 1, 2),
+       (2, 2, 3);
 
 /* Inserting Spells */
 DELETE FROM `Spell`;
@@ -511,6 +524,13 @@ DELETE FROM `Ressource`;
 INSERT INTO `Ressource`(`id`, `name`, `level`, `exp`) VALUES
        (1, 'Orchidee', 10, 100),
        (2, 'Peau de bouftou', 1, 10);
+
+/* Inserting Consumable */
+DELETE FROM `Consumable`;
+
+INSERT INTO `Consumable`(`id`, `name`, `effectlib`) VALUES
+       (1, 'Potion', 6),
+       (2, 'Super Potion', 7);
 
 /* Adding some fancy views because it's quite swag */
 DROP VIEW IF EXISTS `StatView`;

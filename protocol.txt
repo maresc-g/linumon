@@ -63,7 +63,7 @@
 			#  end
 
 			#  use object
-			USEOBJECT : {target : ACharacter, item : AItem} -> client
+			USEOBJECT : {target : idCharacter, item : id} -> client
 			-OBJECTEFFECT : {target : ACharacter} -> server
 			-DELETEOBJECT : {item : AItem} -> client
 			#  end
