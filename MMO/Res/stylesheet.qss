@@ -190,3 +190,16 @@ DigitaliserView
 {
 	background-color: #FFFFFF;
 }
+
+QProgressBar
+{
+	border: 2px solid #505050;
+	border-radius: 5px;
+	background-color: grey
+}
+
+QProgressBar::chunk
+{
+	background-color: #05B8CC;
+	width: 20px;
+}
