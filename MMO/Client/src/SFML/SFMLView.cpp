@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Thu Mar  6 12:56:59 2014 guillaume marescaux
+// Last update Thu Mar  6 14:48:10 2014 guillaume marescaux
 //
 
 /*
@@ -34,7 +34,8 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _spellBar(new SpellBarView(this, w)), _inventory(new InventoryView(this, w)),
   _stuff(new StuffView(this, w)), _chat(new ChatView(this, w)), _menu(new MenuView(this, w)),
   _jobMenu(new JobMenuView(this, w)), _job(new JobView(this, w)), _digit(new DigitaliserView(this, w)),
-  _clickView(new PlayerClickView(this, w)), _worldView(new WorldView(this, w)), _battleView(new BattleView(this, w)),
+  _clickView(new PlayerClickView(this, w)), _hud(new HUDView(this, w)), _tinyHud(new TinyHUDView(this, w)),
+  _worldView(new WorldView(this, w)), _battleView(new BattleView(this, w)),
   _currentView(NULL), _view1(NULL), _view2(NULL)
 {
   _spellBar->hide();
@@ -42,6 +43,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _inventory->hide();
   _jobMenu->hide();
   _clickView->hide();
+  _tinyHud->hide();
   // _job->move(300, 100);
   _digit->hide();
   // _digit->move(800, 0);
@@ -74,6 +76,7 @@ void			SFMLView::onInit()
   _clock->restart();
   _inventory->initInventory();
   _digit->initDigit((**_wMan->getMainPlayer())->getDigitaliser());
+  _hud->setInfos((**_wMan->getMainPlayer())->getDigitaliser().getMobs().front());
   _worldView->onInit();
   // *(_wMan->getState()) = CLIENT::LOADING_BATTLE;
   _battleView->onInit();

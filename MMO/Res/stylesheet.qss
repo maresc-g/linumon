@@ -216,6 +216,16 @@ DigitaliserView
 	background-color: #FFFFFF;
 }
 
+HUDView
+{
+	background-color: #FFFFFF;
+}
+
+TinyHUDView
+{
+	background-color: #FFFFFF;
+}
+
 QProgressBar
 {
 	border: 2px solid #505050;
