@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Thu Mar  6 16:15:05 2014 antoine maitre
+// Last update Thu Mar  6 16:25:46 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -80,7 +80,6 @@ bool					Battle::checkEnd()
 	  // statMob = &(*it)->getTmpStats();
 	  if ((*it)->isMyMob((*itb)->getId()) && (*itb)->getTmpStat("HP") <= 0)
 	    i++;
-	  std::cout << i << std::endl;
 	  if (i == _mobNumber)
 	    {
 	      this->_idLooser = (*it)->getId();
