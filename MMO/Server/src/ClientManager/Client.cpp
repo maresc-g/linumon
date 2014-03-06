@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Mar  6 12:03:55 2014 antoine maitre
+// Last update Thu Mar  6 15:28:29 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -112,6 +112,10 @@ void				Client::sendAllInformationModel() const
 {
   Server::getInstance()->callProtocol("MOBMODELS", _id);
   Server::getInstance()->callProtocol("JOBMODELS", _id);
+  Server::getInstance()->callProtocol("STUFFS", _id);
+  Server::getInstance()->callProtocol("CONSUMABLES", _id);
+  Server::getInstance()->callProtocol("RESSOURCES", _id);
+  Server::getInstance()->callProtocol("AUTHORIZEDSTATKEYSLIST", _id);
 }
 
 void				Client::setSocket(ISocketClient const *socket, std::string const &proto)

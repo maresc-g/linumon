@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:41:39 2014 guillaume marescaux
-// Last update Mon Mar  3 14:20:23 2014 guillaume marescaux
+// Last update Thu Mar  6 13:26:46 2014 guillaume marescaux
 //
 
 #ifndef 		__MOBVIEW_HH__
@@ -23,7 +23,7 @@ class			MobView : public QWidget
 
 public:
 
-  MobView(QWidget *, WindowManager *wMan, Mob *mob);
+  MobView(QWidget *, WindowManager *wMan, Mob const *mob);
   MobView(QWidget *parent, WindowManager *wMan);
   virtual ~MobView();
 
@@ -31,7 +31,7 @@ private:
 
   Ui::itemview		ui;
   WindowManager		*_wMan;
-  Mob			*_mob;
+  Mob const		*_mob;
   int			_x;
   int			_y;
 
@@ -39,13 +39,14 @@ public:
 
   virtual void		resize(int, int);
   virtual void		move(int, int);
+  void			setInfos(Mob const *mob);
 
 private:
   virtual void		paintEvent(QPaintEvent *);
 
 private slots:
 
-  void			test(const QPoint&);
+  void			displayMenu(const QPoint&);
 
 //   virtual void		enterEvent(QEvent *event);
 //   virtual void		mouseDoubleClickEvent(QMouseEvent *event);

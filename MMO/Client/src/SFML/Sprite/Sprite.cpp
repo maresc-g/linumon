@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Wed Mar  5 17:01:04 2014 cyril jourdain
+// Last update Thu Mar  6 12:00:00 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -15,7 +15,7 @@
 Sprite::Sprite():
   sf::Drawable(), sf::Transformable(), Clickable(), _texture(NULL),
   _anim(new std::map<std::string, Animation *>), _vertex(new sf::Vertex [4]),
-  _current(""), _playing(false), _visible(true)
+  _current(""), _playing(false), _visible(true), _name("")
 {
   // _vertex[0].texCoords = sf::Vector2f(0,0);
   // _vertex[1].texCoords = sf::Vector2f(0,100);
@@ -48,6 +48,7 @@ Sprite::Sprite(Sprite const &other) :
   _playing = false;
   _visible = other._visible;
   _texture = other._texture;
+  _name = other._name;
   // Remember to add other things
 }
 
@@ -65,6 +66,7 @@ Sprite			&Sprite::operator=(Sprite const &other)
   _current = other._current;
   _playing = other._playing;
   _texture = other._texture;
+  _name = other._name;
   return *this;
 
 }
@@ -177,6 +179,16 @@ void			Sprite::print()
     {
       std::cout << "{" << it->first << "}" << std::endl;
     }
+}
+
+void			Sprite::setName(std::string const &name)
+{
+  _name = name;
+}
+
+std::string const &	Sprite::getName() const
+{
+  return _name;
 }
 
 void			Sprite::setVisible(bool val)

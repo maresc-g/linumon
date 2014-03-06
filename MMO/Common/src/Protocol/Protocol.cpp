@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Mar  6 16:55:01 2014 antoine maitre
+// Last update Thu Mar  6 17:04:24 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -66,6 +66,10 @@ Protocol::Protocol(bool const server):
 
       this->_container->load<unsigned int>("MOBMODELS", &mobModels);
       this->_container->load<unsigned int>("JOBMODELS", &jobModels);
+      this->_container->load<unsigned int>("STUFFS", &stuffs);
+      this->_container->load<unsigned int>("CONSUMABLES", &consumables);
+      this->_container->load<unsigned int>("RESSOURCES", &ressources);
+      this->_container->load<unsigned int>("AUTHORIZEDSTATKEYSLIST", &authorizedStatKeys);
     }
   else
     {
@@ -911,6 +915,87 @@ bool			jobModels(unsigned int const id)
   if (header->serialization(*trame))
     {
       ret = (**LoaderManager::getInstance()->getJobModelLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			stuffs(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getStuffLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			consumables(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getConsumableLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			ressources(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getRessourceLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+
+bool			authorizedStatKeys(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->serialization(*trame);
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }

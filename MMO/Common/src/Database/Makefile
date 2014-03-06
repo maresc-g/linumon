@@ -5,11 +5,10 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 16:28:46 2013 alexis mestag
-## Last update Mon Feb 24 15:37:12 2014 alexis mestag
+## Last update Thu Mar  6 13:26:30 2014 laurent ansel
 ##
 
-DATABASE_SRC=		Persistent.cpp			\
-			Loaders/RessourceLoader.cpp
+DATABASE_SRC=		Persistent.cpp
 
 DATABASE_SRC:=		$(addprefix $(DATABASE)/, $(DATABASE_SRC))
 
