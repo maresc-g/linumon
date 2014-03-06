@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Mon Mar  3 15:15:54 2014 guillaume marescaux
+// Last update Thu Mar  6 12:13:42 2014 guillaume marescaux
 //
 
 #include			<QMenu>

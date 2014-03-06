@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Thu Mar  6 09:31:29 2014 laurent ansel
+// Last update Thu Mar  6 13:08:11 2014 antoine maitre
 //
 
 #include			"Entities/Mob.hh"
