@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Thu Mar  6 02:08:57 2014 cyril jourdain
+// Last update Thu Mar  6 15:15:01 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -93,33 +93,43 @@ void			WorldView::onMouseEvent(QMouseEvent *event)
 {
   sf::Vector2f	v = _sfmlView->mapPixelToCoords(sf::Vector2i(event->x(), event->y()));
 
-  _clickView->hide();
+  if (event->button() != Qt::NoButton)
+    _clickView->hide();
   if (event->button() == Qt::RightButton && _mainPerso->isClicked(v.x, v.y))
     {
       _mainPerso->onClick();
       _clickView->move(event->x(), event->y());
       _clickView->show();
+      return;
     }
-  for (auto it = _playerList->begin(); it != _playerList->end(); it++)
-    {
-      if ((*it)->getPlayerId() != _mainPerso->getPlayerId())
-  	{
-  	  if ((*it)->isClicked(v.x, v.y))
-  	    {
-  	      _clickView->move(event->x(), event->y());
-  	      _clickView->show();
-  	      (*it)->onClick();
-  	    }
-  	}
-    }
-  for (auto it = _entities->begin(); it != _entities->end(); it++)
-    {
-      if ((*it)->isVisible())
-  	{
-  	  if ((*it)->isClicked(v.x, v.y))
-  	    (*it)->onClick();
-  	}
-    }
+  if (event->button() == Qt::RightButton){
+    for (auto it = _playerList->begin(); it != _playerList->end(); it++)
+      {
+	if ((*it)->getPlayerId() != _mainPerso->getPlayerId())
+	  {
+	    if ((*it)->isClicked(v.x, v.y))
+	      {
+		_clickView->move(event->x(), event->y());
+		_clickView->show();
+		(*it)->onClick();
+		return;
+	      }
+	  }
+      }
+    for (auto it = _entities->begin(); it != _entities->end(); it++)
+      {
+	if ((*it)->isVisible())
+	  {
+	    if ((*it)->isClicked(v.x, v.y))
+	      {
+		(*it)->onClick();
+		_clickView->move(event->x(), event->y());
+		_clickView->show();
+		return;
+	      }
+	  }
+      }
+  }
 }
 
 void			WorldView::resetView()
@@ -292,7 +302,7 @@ void			WorldView::keyRight()
 void			WorldView::keyControl()
 {
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
-    _mainPerso->setSpeed(PX_PER_SECOND + 100);
+    _mainPerso->setSpeed(PX_PER_SECOND + 200);
   else
     _mainPerso->setSpeed(PX_PER_SECOND);
 }

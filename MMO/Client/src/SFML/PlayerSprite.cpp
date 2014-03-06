@@ -19,7 +19,7 @@ PlayerSprite::PlayerSprite() :
 {
   _name->setString("!_uninitialized");
   _name->setCharacterSize(14);
-  _name->setColor(sf::Color(15,15,240));
+  _name->setColor(sf::Color(27,1,155));
   _name->setStyle(sf::Text::Bold);
   _dir = NONE;
   _speed = PX_PER_SECOND;
@@ -33,7 +33,7 @@ PlayerSprite::PlayerSprite(sf::String const &name, sf::Font *font) :
   _name->setString(name);
   _name->setFont(*_textFont);
   _name->setCharacterSize(14);
-  _name->setColor(sf::Color(15,15,240));
+  _name->setColor(sf::Color(27,1,155));
   _name->setStyle(sf::Text::Bold);
   _dir = NONE;
   _speed = PX_PER_SECOND;
