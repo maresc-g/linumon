@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Wed Feb 26 13:56:06 2014 laurent ansel
+// Last update Wed Mar  5 21:52:38 2014 laurent ansel
 //
 
 #include			<list>
@@ -21,6 +21,7 @@
 #include			"ClientWriter/ClientWriter.hh"
 #include			"RessourceManager/RessourceManager.hh"
 #include			"Battle/BattleManager.hh"
+#include			"Loader/LoaderManager.hh"
 
 bool				quit = false;
 
@@ -126,6 +127,9 @@ void				Server::init(int const port)
   RessourceManager::getInstance();
   this->debug("Done");
   _codeBreaker->start();
+  this->debug("Initialing BDD ...");
+  LoaderManager::getInstance();
+  this->debug("Done");
   this->debug("Initialing GameProtocol ...");
   this->_gameProtocol = new GameProtocol;
   this->debug("Done");
@@ -237,6 +241,7 @@ bool				Server::recvUdp()
 	      this->_mutex->unlock();
 	      this->callProtocol("CHECK", (*trame)[HEADER]["IDCLIENT"].asInt());
 	      this->_mutex->lock();
+	      ClientManager::getInstance()->sendAllInformationModel((*trame)[HEADER]["IDCLIENT"].asInt());
 	    }
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
 	// }

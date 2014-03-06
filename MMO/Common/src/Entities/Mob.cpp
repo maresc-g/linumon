@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Wed Mar  5 17:27:49 2014 laurent ansel
+// Last update Thu Mar  6 09:31:29 2014 laurent ansel
 //
 
 #include			"Entities/Mob.hh"
@@ -13,6 +13,7 @@
 # include			"Stats/AuthorizedStatKeys-odb.hxx"
 # include			"Database/Repositories/Repository.hpp"
 #endif
+#include			"Loader/LoaderManager.hh"
 
 Mob::Mob() :
   Persistent(), ACharacter("", eCharacter::MOB)
@@ -79,7 +80,8 @@ bool				Mob::serialization(Trame &trame) const
   trame["CEXP"] = this->getCurrentExp();
   trame["ID"] = static_cast<unsigned int>(this->getId());
   this->getLevelObject().serialization(trame);
-  this->getModel().serialization(trame(trame["MOD"]));
+  trame["MOD"] = this->getModel().getName();
+  // this->getModel().serialization(trame(trame["MOD"]));
   this->getEquipment().serialization(trame);
   return (ret);
 }
@@ -94,7 +96,8 @@ Mob				*Mob::deserialization(Trame const &trame)
   mob->setName(trame["NAME"].asString());
   mob->setId(trame["ID"].asUInt());
   if (trame.isMember("MOD"))
-    mob->setModel(*MobModel::deserialization(trame(trame["MOD"])));
+  //   mob->setModel(*MobModel::deserialization(trame(trame["MOD"])));
+    mob->setModel(*(**LoaderManager::getInstance()->getMobModelLoader())->getValue(trame["MOD"].asString()));
   mob->setCurrentExp(trame["CEXP"].asUInt());
 
   Equipment			*equipment = Equipment::deserialization(trame);
