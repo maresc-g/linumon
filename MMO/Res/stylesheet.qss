@@ -5,7 +5,7 @@ QLabel
 
 LoginView
 {
-	border-image:url(./Res/backgroundLogin.png);
+	border-image:url(./Res/UI/backgroundLogin.png);
 	background-color:transparent;
 }
 
@@ -38,17 +38,17 @@ LoginView QPushButton:pressed
 
 CharacterView
 {
-	border-image:url(./Res/background2.png);
+	border-image:url(./Res/UI/background2.png);
 }
 
 CharDescription
 {
-	border-image:url(./Res/charSelectBorder.png);
+	border-image:url(./Res/UI/charSelectBorder.png);
 }
 
 CharDescription QLabel#charPic
 {
-	border-image:url(./Res/harpe.png);
+	border-image:url(./Res/UI/harpe.png);
 }
 
 CharDescription QLabel#l_name, CharDescription QLabel#l_level
@@ -61,12 +61,12 @@ CharDescription QLabel#l_name, CharDescription QLabel#l_level
 
 CharacterView QPushButton#b_next
 {
-	border-image:url(./Res/arrow_next.png);
+	border-image:url(./Res/UI/arrow_next.png);
 }
 
 CharacterView QPushButton#b_prev
 {
-	border-image:url(./Res/arrow_prev.png);
+	border-image:url(./Res/UI/arrow_prev.png);
 }
 
 CharacterView QScrollArea#scrollPerso
@@ -82,34 +82,34 @@ CharacterView QFrame#charContainer
 
 CharacterView QPushButton#b_play
 {
-	border-image:url(./Res/play_button.png)
+	border-image:url(./Res/UI/play_button.png)
 }
 
 CharacterView QPushButton#b_back
 {
-	border-image:url(./Res/back_button.png)
+	border-image:url(./Res/UI/back_button.png)
 }
 
  CreateCharView QGroupBox#charBox
 {
-	border-image:url(./Res/CreateCharBorder.png)
+	border-image:url(./Res/UI/CreateCharBorder.png)
 }
 
 CreateCharView QPushButton#b_spritePerso1
 {
-	border-image:url(./Res/char1.png)
+	border-image:url(./Res/UI/char1.png)
 }
 
 CreateCharView QPushButton#b_spritePerso2
 {
-	border-image:url(./Res/char2.png)
+	border-image:url(./Res/UI/char2.png)
 }
 
 SpellBarView QPushButton
 {
 	width:32px;
 	height:32px;
-	border-image:url(./Res/emptySpell.png);
+	border-image:url(./Res/UI/emptySpell.png);
 }
 
 SpellBarView
@@ -121,7 +121,7 @@ SpellBarView
 InventoryView
 {
 	border:2px solid black;
-	border-image:url(./Res/inventory.png);
+	border-image:url(./Res/UI/inventory.png);
 }
 
 StuffView
@@ -137,27 +137,27 @@ ChatView
 
 MenuView
 {
-	border-image:url(./Res/menu.png);
+	border-image:url(./Res/UI/menu.png);
 }
 
 MenuView QPushButton#bLogout
 {
-	border-image:url(./Res/menu_logout.png);
+	border-image:url(./Res/UI/menu_logout.png);
 }
 
 MenuView QPushButton#bSwitch
 {
-	border-image:url(./Res/menu_changeCharactere.png);
+	border-image:url(./Res/UI/menu_changeCharactere.png);
 }
 
 MenuView QPushButton#bQuit
 {
-	border-image:url(./Res/menu_quitGame.png);
+	border-image:url(./Res/UI/menu_quitGame.png);
 }
 
 MenuView QPushButton#bReturn
 {
-	border-image:url(./Res/menu_return.png);
+	border-image:url(./Res/UI/menu_return.png);
 }
 
 ItemView QLabel
@@ -167,7 +167,7 @@ ItemView QLabel
 
 ItemView
 {
-	border-image:url(./Res/inventory_case.png);
+	border-image:url(./Res/UI/inventory_case.png);
 }
 
 

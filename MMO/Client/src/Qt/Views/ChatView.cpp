@@ -5,10 +5,12 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb 17 12:55:28 2014 cyril jourdain
-// Last update Wed Feb 19 15:04:38 2014 cyril jourdain
+// Last update Thu Mar  6 02:09:01 2014 cyril jourdain
 //
 
 #include		<QMessageBox>
+#include		<QPalette>
+#include		<QPixmap>
 #include		"Qt/Views/ChatView.hh"
 
 ChatView::ChatView(QWidget *parent, WindowManager *man) :
@@ -56,7 +58,7 @@ void		ChatView::setFocused(bool f)
     ui.le_chatText->clearFocus();
 }
 
-void			ChatView::update()
+void		ChatView::update()
 {
   if ((**(Client::getInstance()->getChat()))->getNewMessage())
     {

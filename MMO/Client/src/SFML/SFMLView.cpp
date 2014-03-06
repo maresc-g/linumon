@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Mar  5 17:10:26 2014 cyril jourdain
+// Last update Thu Mar  6 01:04:46 2014 cyril jourdain
 //
 
 /*
@@ -80,6 +80,11 @@ void			SFMLView::onInit()
   _battleView->onInit();
   _currentView = _worldView;
   _currentView->resetPOV();
+  QPixmap p;
+  p = QPixmap::grabWidget(this, 0,0, 100,100);
+  QPalette pa;
+  pa.setBrush(_chat->backgroundRole(), QBrush(p));
+  _chat->setPalette(pa);
 }
 
 void			SFMLView::onUpdate()
@@ -141,7 +146,7 @@ void			SFMLView::onUpdate()
       break;
     }
   // Need to : Destroy map, entites, etc ...
-  clear(sf::Color(0,0,0));
+  clear(sf::Color(0,183,235));
   if (_reset)
     return;
   _keyDelayer->update(_clock);
