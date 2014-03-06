@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Wed Mar  5 21:52:38 2014 laurent ansel
+// Last update Thu Mar  6 15:23:18 2014 laurent ansel
 //
 
 #include			<list>
@@ -123,7 +123,6 @@ void				Server::init(int const port)
   Map::getInstance();
   this->debug("Done");
   this->debug("Initialing RessourceManager ...");
-  RessourceLoader::getInstance();
   RessourceManager::getInstance();
   this->debug("Done");
   _codeBreaker->start();

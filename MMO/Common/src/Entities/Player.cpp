@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar  5 17:27:21 2014 laurent ansel
+// Last update Thu Mar  6 15:20:54 2014 laurent ansel
 //
 
 #include			<functional>
@@ -19,6 +19,7 @@
 # include			"Database/Repositories/FactionRepository.hpp"
 #endif
 #include			"Entities/Consumable.hh"
+#include			"Loader/LoaderManager.hh"
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _type(PlayerType::PLAYER),
@@ -363,6 +364,7 @@ bool				Player::serialization(Trame &trame) const
   for (auto it = this->_talents->begin() ; it != this->_talents->end() ; ++it)
     (*it)->serialization(trame(trame["PLAYER"]["TALENTS"]));
   this->_jobs->serialization(trame(trame["PLAYER"]));
+  trame["PLAYER"]["KEY"] = this->getStatKeys().getName();
   return (ret);
 }
 
@@ -374,6 +376,8 @@ Player				*Player::deserialization(Trame const &trame)
   if (trame.isMember("PLAYER"))
     {
       player = new Player(trame["PLAYER"]["NAME"].asString());
+      if (trame["PLAYER"].isMember("KEY"))
+	player->setStatKeys(*(**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->getValue(trame["PLAYER"]["KEY"].asString()));
       player->setId(trame["PLAYER"]["ID"].asUInt());
       player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame["PLAYER"]["TYPE"].asInt()));
       player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));

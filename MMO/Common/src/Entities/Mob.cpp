@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Thu Mar  6 09:31:29 2014 laurent ansel
+// Last update Thu Mar  6 15:25:56 2014 laurent ansel
 //
 
 #include			"Entities/Mob.hh"
@@ -83,6 +83,7 @@ bool				Mob::serialization(Trame &trame) const
   trame["MOD"] = this->getModel().getName();
   // this->getModel().serialization(trame(trame["MOD"]));
   this->getEquipment().serialization(trame);
+  trame["KEY"] = this->getStatKeys().getName();
   return (ret);
 }
 
@@ -90,6 +91,8 @@ Mob				*Mob::deserialization(Trame const &trame)
 {
   Mob				*mob = new Mob;
 
+  if (trame.isMember("KEY"))
+    mob->setStatKeys(*(**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->getValue(trame["KEY"].asString()));
   mob->setStats(*Stats::deserialization(trame));
   mob->setTmpStats(*Stats::deserialization(trame));
   mob->setLevelObject(*Level::deserialization(trame));

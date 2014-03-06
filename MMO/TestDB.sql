@@ -476,7 +476,8 @@ INSERT INTO `Stuff`(`id`, `name`, `stuffType`) VALUES
        (6, 'Plastron Bouftou', 'BREASTPLATE'),
        (7, 'Anneau Bouftou', 'RING'),
        (8, 'Ceinture Bouftou', 'BELT'),
-       (9, 'Marteau Bouftou', 'WEAPON');
+       (9, 'Marteau Bouftou', 'WEAPON'),
+       (10, 'Casque Piou', 'HELMET');
 
 /* Assigning Stuff to Players */
 DELETE FROM `Player_equipment`;
