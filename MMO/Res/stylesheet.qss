@@ -173,7 +173,32 @@ ItemView
 
 JobMenuView
 {
-	background-color: #FFFFFF;
+	border-image:url(./Res/UI/jobs.png);
+}
+
+JobMenuView QPushButton#b_alch
+{
+	border-image:url(./Res/UI/jobs_potionsMaster.png);
+}
+
+JobMenuView QPushButton#b_dev
+{
+	border-image:url(./Res/UI/jobs_developer.png);
+}
+
+JobMenuView QPushButton#b_herbo
+{
+	border-image:url(./Res/UI/jobs_herbalist.png);
+}
+
+JobMenuView QPushButton#b_miner
+{
+	border-image:url(./Res/UI/jobs_miner.png);
+}
+
+JobMenuView QPushButton#b_trapper
+{
+	border-image:url(./Res/UI/jobs_trapper.png);
 }
 
 JobView
