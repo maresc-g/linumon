@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Wed Mar  5 17:08:29 2014 cyril jourdain
+// Last update Fri Mar  7 13:21:00 2014 cyril jourdain
 //
 
 #include		"SFML/BattleView.hh"
@@ -13,7 +13,8 @@
 
 BattleView::BattleView(SFMLView *v, WindowManager *w) :
   ContextView(v,w), _playerList(new std::list<OPlayerSprite*>()),
-  _ennemyList(new std::list<OPlayerSprite*>()), _playingMob(NULL), _selectedMob(NULL), _selection(new Sprite()),
+  _enemyList(new std::list<OPlayerSprite*>()), _playingMob(NULL), _selectedMob(NULL),
+  _selection(new Sprite()),
   _spellSprite(new Sprite()), _spellSpriteCase(new Sprite())
 {
 }
@@ -25,6 +26,7 @@ BattleView::~BattleView()
 void			BattleView::onInit()
 {
   std::list<Mob*>	mobs = (**(_wMan->getMainPlayer()))->getDigitaliser().getMobs();
+  std::list<Mob*>	enemyMobs = (**_wMan->getBattle())->getEnemy().getDigitaliser().getBattleMobs();
   int			posY = 2 * CASE_SIZE;
   int			limit = 0;
 
@@ -43,6 +45,18 @@ void			BattleView::onInit()
       _playerList->back()->setPos(posY / CASE_SIZE, BATTLE_SIZE - 2);
       posY += 3*CASE_SIZE;
       limit++;
+    }
+  posY = 0;
+  for (auto it = enemyMobs.begin(); it != enemyMobs.end(); ++it)
+    {
+      _enemyList->push_back(new OPlayerSprite((static_cast<Mob*>(*it))->getName(),
+					       _sfmlView->getFont()));
+      _sfmlView->getSpriteManager()->copySprite("perso1", *_enemyList->back());
+      _playerList->back()->play("default_up");
+      _playerList->back()->generateOffset();
+      _playerList->back()->setPosition(posY, ((2) * CASE_SIZE) - _playerList->back()->getCurrentBound()->height / 2 + 4);
+      _playerList->back()->setPos(posY / CASE_SIZE, 2);
+      posY += 3*CASE_SIZE;
     }
   _playingMob = _playerList->front();
   _sfmlView->getSpriteManager()->copySprite("selectedPlayer", *_selection);
@@ -114,6 +128,11 @@ void			BattleView::drawView()
   _sfmlView->draw(*_backgroundSprite);
   _sfmlView->draw(*_spellSpriteCase);
   for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
+    {
+      (*it)->update(*_sfmlView->getMainClock());
+      _sfmlView->draw(*(*it));
+    }
+  for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
     {
       (*it)->update(*_sfmlView->getMainClock());
       _sfmlView->draw(*(*it));

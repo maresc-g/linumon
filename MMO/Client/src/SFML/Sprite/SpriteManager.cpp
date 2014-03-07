@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Feb  4 11:04:13 2014 cyril jourdain
-// Last update Fri Mar  7 11:47:31 2014 cyril jourdain
+// Last update Fri Mar  7 12:42:13 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -42,6 +42,7 @@ void		SpriteManager::loadAnimations(std::string const &jsonPath)
 {
   JsonFile	jFile;
   int		size = 0;
+  sf::Vector2i	customSize;
   Json::Value	sprites;
   std::string	id;
   std::string	iName;
@@ -65,11 +66,23 @@ void		SpriteManager::loadAnimations(std::string const &jsonPath)
 	  for (unsigned int k = 0; k < jFile["sprites"][id][iName].getMemberNames().size(); k++)
 	    {
 	      numSprite = jFile["sprites"][id][iName].getMemberNames()[k];
+	      if (jFile["sprites"][id][iName][numSprite]["sx"].asInt() != 0 &&
+		  jFile["sprites"][id][iName][numSprite]["sy"].asInt() != 0)
+		{
+		  customSize.x = jFile["sprites"][id][iName][numSprite]["sx"].asInt();
+		  customSize.y = jFile["sprites"][id][iName][numSprite]["sy"].asInt();
+		}
+	      else
+		{
+		  customSize.x = size;
+		  customSize.y = size;
+		}
+		
 	      (*(*_anims)[id])[iName]->
 		addSprite(sf::IntRect(jFile["sprites"][id][iName][numSprite]["x"].asInt(),
 				      jFile["sprites"][id][iName][numSprite]["y"].asInt(),
-				      size,
-				      size));
+				      customSize.x,
+				      customSize.y));
 	      // std::cout << "\t\t" << k << std::endl;
 	    }
 	}
