@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Fri Mar  7 14:28:29 2014 cyril jourdain
+// Last update Fri Mar  7 22:38:48 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -189,6 +189,7 @@ void			WorldView::drawView()
 void			WorldView::loadPlayerList()
 {
   std::list<AEntity *>	list = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getPlayers();
+  OPlayerSprite		*tmp = NULL;
 
   for (auto it = _playerList->begin(); it != _playerList->end(); it++)
     delete *it;
@@ -197,15 +198,16 @@ void			WorldView::loadPlayerList()
     {
       if ((static_cast<Player*>(*it))->getId() == _mainPerso->getPlayerId())
   	continue;
-      _playerList->push_back(new OPlayerSprite((static_cast<Player*>(*it))->getName(),
-					       _sfmlView->getFont()));
-      _sfmlView->getSpriteManager()->copySprite("perso1", *_playerList->back());
-      _playerList->back()->setPlayerZone(Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getName());
-      _playerList->back()->setPlayerId((static_cast<Player*>(*it))->getId());
-      _playerList->back()->play("default_down");
-      _playerList->back()->generateOffset();
-      _playerList->back()->setPosition((static_cast<Player*>(*it))->getX() * CASE_SIZE,
-  				       (static_cast<Player*>(*it))->getY() * CASE_SIZE - _playerList->back()->getCurrentBound()->height / 2 + 4);
+      tmp = new OPlayerSprite((static_cast<Player*>(*it))->getName(),
+			      _sfmlView->getFont());
+      _sfmlView->getSpriteManager()->copySprite("perso1", *tmp);
+      tmp->setPlayerZone(Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getName());
+      tmp->setPlayerId((static_cast<Player*>(*it))->getId());
+      tmp->play("default_down");
+      tmp->generateOffset();
+      tmp->setPosition((static_cast<Player*>(*it))->getX() * CASE_SIZE,
+		       (static_cast<Player*>(*it))->getY() * CASE_SIZE - tmp->getCurrentBound()->height / 2 + 4);
+      _playerList->push_back(tmp);
     }
 }
 
@@ -213,6 +215,7 @@ void			WorldView::loadEntities()
 {
   Zone	*zone = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone());
   std::list<AEntity*>	*list;
+  RessourceSprite	*tmp;
 
   for (int y = 0; y < zone->getSizeY(); y++)
     {
@@ -228,37 +231,36 @@ void			WorldView::loadEntities()
 		    {
 		      if ((*it)->getName() == "Tree")
 			{
-			  _entities->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
-			  _sfmlView->getSpriteManager()->copySprite("tree_trunk",
-								    *_entities->back());
-			  _entities->back()->play("default");
-			  _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
-							 static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
-			  _entities->back()->setPos(static_cast<Ressource*>(*it)->getX(),
-						    static_cast<Ressource*>(*it)->getY());
-
-			  _topLayer->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
-			  _sfmlView->getSpriteManager()->copySprite("tree_top",
-								    *_topLayer->back());
-			  _topLayer->back()->play("default");
-			  _topLayer->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE- 64,
-							 static_cast<Ressource*>(*it)->getY() * CASE_SIZE - 128);
-			  _topLayer->back()->setPos(static_cast<Ressource*>(*it)->getX(),
-						    static_cast<Ressource*>(*it)->getY());
+			  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
+			  if (!_sfmlView->getSpriteManager()->copySprite("tree_trunk", *tmp))
+			    continue;
+			  tmp->play("default");
+			  tmp->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
+					   static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
+			  tmp->setPos(static_cast<Ressource*>(*it)->getX(),
+				      static_cast<Ressource*>(*it)->getY());
+			  _entities->push_back(tmp);
+			  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
+			  if (_sfmlView->getSpriteManager()->copySprite("tree_top", *tmp))
+			    continue;
+			  tmp->play("default");
+			  tmp->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE- 64,
+					   static_cast<Ressource*>(*it)->getY() * CASE_SIZE - 128);
+			  tmp->setPos(static_cast<Ressource*>(*it)->getX(),
+				      static_cast<Ressource*>(*it)->getY());
+			  _topLayer->push_back(tmp);
 			}
 		      else
 			{
-			  _entities->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
-			  if (_sfmlView->getSpriteManager()->copySprite(static_cast<Ressource*>(*it)
-									->getName(),
-									*_entities->back()))
-			    {
-			      _entities->back()->play("default");
-			      _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
-							     static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
-			      _entities->back()->setPos(static_cast<Ressource*>(*it)->getX(),
-							static_cast<Ressource*>(*it)->getY());
-			    }
+			  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
+			  if (!_sfmlView->getSpriteManager()->copySprite((*it)->getName(), *tmp))
+			    continue;
+			  tmp->play("default");
+			  tmp->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
+					   static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
+			  tmp->setPos(static_cast<Ressource*>(*it)->getX(),
+				      static_cast<Ressource*>(*it)->getY());
+			  _entities->push_back(tmp);
 			}
 		    }
 		}
