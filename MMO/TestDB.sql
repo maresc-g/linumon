@@ -33,6 +33,12 @@ INSERT INTO `TalentModel`(`id`, `name`, `maxPoints`, `effectLib`) VALUES
        (1, 'MinAtkTalentModel', 10, 1),
        (2, 'MinDefTalentModel', 10, 2);
 
+/* Inserting TalentModels_talents */
+DELETE FROM `TalentModel_talents`;
+
+INSERT INTO `TalentModel_talents`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 2);
+
 /* Inserting Talents */
 DELETE FROM `Talent`;
 
