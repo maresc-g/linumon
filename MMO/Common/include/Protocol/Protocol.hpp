@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Fri Mar  7 12:06:42 2014 antoine maitre
+// Last update Fri Mar  7 15:11:03 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -89,6 +89,8 @@ bool				objectEffect(unsigned int const id, Stats *stats);
 bool				useObject(unsigned int const id, unsigned int target, unsigned int idItem);
 // bool				interaction();
 bool				launchTrade(unsigned int const id, unsigned int const idTrade, std::string namePlayer);
+bool				putMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
+bool				getMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
 bool				putItem(unsigned int const id, unsigned int const idTrade, AItem const *item);
 bool				getItem(unsigned int const id, unsigned int const idTrade, AItem const *item);
 bool				putMoney(unsigned int const id, unsigned int const idTrade, unsigned int const money);
@@ -113,6 +115,7 @@ bool				jobModels(unsigned int const id);
 bool				stuffs(unsigned int const id);
 bool				consumables(unsigned int const id);
 bool				ressources(unsigned int const id);
+bool				heals(unsigned int const id);
 bool				authorizedStatKeys(unsigned int const id);
 
 #endif

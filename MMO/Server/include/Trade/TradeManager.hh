@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Feb 12 20:12:21 2014 laurent ansel
-// Last update Fri Feb 14 22:06:45 2014 laurent ansel
+// Last update Fri Mar  7 13:46:40 2014 laurent ansel
 //
 
 #ifndef 			__TRADEMANAGER_HH__
@@ -27,6 +27,8 @@ private:
   Mutex				*_mutex;
 
 private:
+  bool				getMob(Trame *trame);
+  bool				putMob(Trame *trame);
   bool				getItem(Trame *trame);
   bool				putItem(Trame *trame);
   bool				getMoney(Trame *trame);

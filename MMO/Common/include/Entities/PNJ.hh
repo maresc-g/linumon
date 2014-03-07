@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Feb 25 13:42:08 2014 laurent ansel
-// Last update Tue Feb 25 14:35:01 2014 laurent ansel
+// Last update Fri Mar  7 15:00:02 2014 laurent ansel
 //
 
 #ifndef 		__PNJ_HH__
@@ -21,6 +21,8 @@
 
 class			PNJ : public AEntity, public ISerialization
 {
+  friend class		odb::access;
+
 public:
   typedef iCoordinate	PNJCoordinate;
 
@@ -31,8 +33,7 @@ public:
     }			ePnj;
 private:
   ePnj			_pnjType;
-
-private:
+  std::string		_zone;
   PNJCoordinate		*_coord;
 
 public:
@@ -49,6 +50,9 @@ public:
   void			setX(PNJCoordinate::type const &x);
   void			setY(PNJCoordinate::type const &y);
 
+  std::string const	&getZone() const;
+  void			setZone(std::string const &zone);
+
   virtual bool		action(Player *player) = 0;
 
   void			setPNJType(ePnj const pnjType);
@@ -58,5 +62,12 @@ public:
   virtual bool		serialization(Trame &trame) const = 0;
   static PNJ		*deserialization(Trame const &trame, bool const client = true);
 };
+
+# ifdef	ODB_COMPILER
+#  pragma db object(PNJ) abstract
+#  pragma db member(PNJ::_coord) transient
+#  pragma db member(PNJ::_x) virtual(PNJ::PNJCoordinate::type) get(_coord->getX()) set(_coord->setX(?))
+#  pragma db member(PNJ::_y) virtual(PNJ::PNJCoordinate::type) get(_coord->getY()) set(_coord->setY(?))
+# endif
 
 #endif

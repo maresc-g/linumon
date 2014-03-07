@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 15:04:36 2014 laurent ansel
-// Last update Thu Mar  6 16:50:08 2014 laurent ansel
+// Last update Fri Mar  7 14:47:55 2014 laurent ansel
 //
 
 #include			<functional>
@@ -17,6 +17,7 @@ LoaderManager::LoaderManager():
   _consumables(new MutexVar<ConsumableLoader *>(NULL)),
   _ressources(new MutexVar<RessourceLoader *>(NULL)),
   _authorizedStatKeys(new MutexVar<AuthorizedStatKeyLoader *>(NULL)),
+  _heals(new MutexVar<HealLoader *>(NULL)),
   _jobModels(new MutexVar<JobModelLoader *>(NULL)),
   _mobModels(new MutexVar<MobModelLoader *>(NULL))
 
@@ -30,6 +31,7 @@ LoaderManager::~LoaderManager()
   delete _jobModels;
   delete _stuffs;
   delete _consumables;
+  delete _heals;
   delete _ressources;
   delete _authorizedStatKeys;
 }
@@ -38,6 +40,7 @@ void				LoaderManager::init()
 {
   _stuffs->setVar(new StuffLoader);
   _consumables->setVar(new ConsumableLoader);
+  _heals->setVar(new HealLoader);
   _ressources->setVar(new RessourceLoader);
   _authorizedStatKeys->setVar(new AuthorizedStatKeyLoader);
   _jobModels->setVar(new JobModelLoader);
@@ -63,6 +66,11 @@ MutexVar<StuffLoader *>		*LoaderManager::getStuffLoader() const
 MutexVar<ConsumableLoader *>	*LoaderManager::getConsumableLoader() const
 {
   return (this->_consumables);
+}
+
+MutexVar<HealLoader *>		*LoaderManager::getHealLoader() const
+{
+  return (this->_heals);
 }
 
 MutexVar<RessourceLoader *>	*LoaderManager::getRessourceLoader() const
@@ -105,6 +113,11 @@ bool				LoaderManager::setConsumableLoader(Trame *trame)
   return ((**_consumables)->deserialization(*trame));
 }
 
+bool				LoaderManager::setHealLoader(Trame *trame)
+{
+  return ((**_heals)->deserialization(*trame));
+}
+
 bool				LoaderManager::setRessourceLoader(Trame *trame)
 {
   return ((**_ressources)->deserialization(*trame));
@@ -133,6 +146,9 @@ void				LoaderManager::initReception(Protocol &protocol) const
 
   func = std::bind1st(std::mem_fun(&LoaderManager::setRessourceLoader), this);
   protocol.addFunc("RESSOURCES", func);
+
+  func = std::bind1st(std::mem_fun(&LoaderManager::setHealLoader), this);
+  protocol.addFunc("HEALS", func);
 
   func = std::bind1st(std::mem_fun(&LoaderManager::setAuthorizedStatKeyLoader), this);
   protocol.addFunc("AUTHORIZEDSTATKEYSLIST", func);

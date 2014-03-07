@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar  6 17:04:40 2014 antoine maitre
+// Last update Fri Mar  7 14:01:50 2014 laurent ansel
 //
 
 #include			<functional>
@@ -233,6 +233,17 @@ AItem				*Player::getAndDeleteItem(unsigned int const item) const
 {
   return (this->_inventory->getAndDeleteItem(item));
 }
+
+void				Player::addMob(Mob *mob)
+{
+  this->_digitaliser->addMob(mob);
+}
+
+Mob				*Player::getAndDeleteMob(unsigned int const mob) const
+{
+  return (this->_digitaliser->getAndDeleteMob(mob));
+}
+
 
 void				Player::addMoney(int const money)
 {

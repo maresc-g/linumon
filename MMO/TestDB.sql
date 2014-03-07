@@ -282,7 +282,16 @@ INSERT INTO `Stat`(`id`, `key`, `value`) VALUES
        (81, 11, 60),
        (82, 9, 40),
        (83, 10, 42),
-       (84, 11, 70);
+       (84, 11, 70),
+
+       (85, 1, 20),
+       (86, 2, 5),
+       (87, 3, 5),
+       (88, 4, 15),
+       (89, 5, 8),
+       (90, 6, 4),
+       (91, 7, 1),
+       (92, 8, 3);
 
 /* Assigning Stats to MobModels */
 DELETE FROM `MobModel_stats`;
@@ -489,6 +498,31 @@ INSERT INTO `Stuff`(`id`, `name`, `stuffType`) VALUES
        (9, 'Marteau Bouftou', 'WEAPON'),
        (10, 'Casque Piou', 'HELMET');
 
+/* Inserting Stuff */
+DELETE FROM `Stuff_stats`;
+
+INSERT INTO `Stuff_stats`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 85),
+       (1, 1, 86),
+       (2, 0, 85),
+       (2, 1, 87),
+       (3, 0, 87),
+       (3, 1, 88),
+       (4, 0, 85),
+       (4, 1, 92),
+       (5, 0, 90),
+       (5, 1, 86),
+       (6, 0, 85),
+       (6, 1, 87),
+       (7, 0, 85),
+       (7, 1, 90),
+       (8, 0, 85),
+       (8, 1, 86),
+       (9, 0, 85),
+       (9, 1, 86),
+       (10, 0, 88),
+       (10, 1, 86);
+
 /* Assigning Stuff to Players */
 DELETE FROM `Player_equipment`;
 
@@ -526,6 +560,15 @@ INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
        (1, 'Orchidee', 1, 10, 100),
        (2, 'Peau de bouftou', 1, 1, 10),
        (3, 'Tree', 0, 0, 0);
+
+/* Inserting Heals */
+DELETE FROM `Heal`;
+
+INSERT INTO `Heal`(`id`, `name`, `pnjType`, `zone`, `x`, `y`) VALUES
+       (1, 'Connard0', 'HEAL', 'Plain', 10, 70),
+       (2, 'Connard1', 'HEAL', 'Plain', 30, 30),
+       (3, 'Connard2', 'HEAL', 'Plain', 40, 40);
+
 
 /* Inserting Consumable */
 DELETE FROM `Consumable`;

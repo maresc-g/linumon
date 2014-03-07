@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Tue Mar  4 15:51:31 2014 alexis mestag
+// Last update Fri Mar  7 14:07:26 2014 laurent ansel
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -46,6 +46,9 @@ public:
 
   void			addMob(Mob const &mob);
   void			addBattleMob(Mob const &mob);
+
+  void			addMob(Mob  *mob);
+  Mob			*getAndDeleteMob(unsigned int const mob);
 
   void			battleMobtoMob(unsigned int const id);
   void			mobtoBattleMob(unsigned int const id);
