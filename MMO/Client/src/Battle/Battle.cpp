@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Wed Mar  5 13:48:32 2014 guillaume marescaux
+// Last update Fri Mar  7 11:44:31 2014 guillaume marescaux
 //
 
 #include			"Battle/Battle.hh"
@@ -35,4 +35,17 @@ void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *en
 void				Battle::setTurnTo(unsigned int id)
 {
   _turnTo = id;
+}
+
+void				Battle::pushSpell(SpellContainer *container)
+{
+  _spells->push_back(container);
+}
+
+SpellContainer			*Battle::getSpell(void)
+{
+  SpellContainer		*ret = _spells->front();
+
+  _spells->remove(ret);
+  return (ret);
 }

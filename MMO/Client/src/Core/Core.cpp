@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Mar  6 16:39:33 2014 laurent ansel
+// Last update Fri Mar  7 12:45:17 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -82,6 +82,10 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("LAUNCHBATTLE", func);
   func = std::bind1st(std::mem_fun(&Core::turnTo), this);
   _proto->addFunc("TURNTO", func);
+  func = std::bind1st(std::mem_fun(&Core::spell), this);
+  _proto->addFunc("SPELL", func);
+  func = std::bind1st(std::mem_fun(&Core::spellEffect), this);
+  _proto->addFunc("SPELLEFFECT", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -237,8 +241,12 @@ bool				Core::turnTo(Trame *trame)
   return (true);
 }
 
-bool				Core::spell(Trame *)
+bool				Core::spell(Trame *trame)
 {
+  Spell				*spell = Spell::deserialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
+
+  (**_battle)->pushSpell(new SpellContainer((*trame)[CONTENT]["SPELL"]["TARGET"].asUInt(),
+					    (*trame)[CONTENT]["SPELL"]["LAUNCHER"].asUInt(), spell));
   return (true);
 }
 
@@ -375,7 +383,7 @@ bool				Core::entity(Trame *trame)
 {
   Map				*map = Map::getInstance();
   AEntity			*entity = map->getEntityById((**_player)->getZone(),
-							     (*trame)[CONTENT]["ENTITY"]["ID"].asUInt());
+  							     (*trame)[CONTENT]["ENTITY"]["ID"].asUInt());
 
   if (entity)
     {
