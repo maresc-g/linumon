@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 15:08:00 2014 laurent ansel
-// Last update Fri Mar  7 14:44:50 2014 laurent ansel
+// Last update Fri Mar  7 15:58:32 2014 laurent ansel
 //
 
 #ifndef 			__LOADERMANAGER_HH__
@@ -16,6 +16,7 @@
 #include			"Loader/JobModelLoader.hh"
 #include			"Loader/StuffLoader.hh"
 #include			"Loader/ConsumableLoader.hh"
+#include			"Loader/TalentModelLoader.hh"
 #include			"Loader/HealLoader.hh"
 #include			"Loader/AuthorizedStatKeysLoader.hh"
 #include			"Loader/RessourceLoader.hh"
@@ -31,6 +32,7 @@ private:
   MutexVar<RessourceLoader *>	*_ressources;
   MutexVar<AuthorizedStatKeyLoader *>	*_authorizedStatKeys;
   MutexVar<HealLoader *>		*_heals;
+  MutexVar<TalentModelLoader *>	*_talentModels;
   MutexVar<JobModelLoader *>	*_jobModels;
   MutexVar<MobModelLoader *>	*_mobModels;
 
@@ -43,6 +45,7 @@ public:
   MutexVar<JobModelLoader *>	*getJobModelLoader() const;
   MutexVar<StuffLoader *>	*getStuffLoader() const;
   MutexVar<ConsumableLoader *>	*getConsumableLoader() const;
+  MutexVar<TalentModelLoader *>	*getTalentModelLoader() const;
   MutexVar<HealLoader *>		*getHealLoader() const;
   MutexVar<RessourceLoader *>	*getRessourceLoader() const;
   MutexVar<AuthorizedStatKeyLoader *>	*getAuthorizedStatKeyLoader() const;
@@ -53,6 +56,7 @@ public:
   bool				setJobModelLoader(Trame *trame);
   bool				setStuffLoader(Trame *trame);
   bool				setConsumableLoader(Trame *trame);
+  bool				setTalentModelLoader(Trame *trame);
   bool				setHealLoader(Trame *trame);
   bool				setRessourceLoader(Trame *trame);
   bool				setAuthorizedStatKeyLoader(Trame *trame);

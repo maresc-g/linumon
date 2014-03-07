@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Mar  7 15:45:29 2014 laurent ansel
+// Last update Fri Mar  7 16:18:19 2014 laurent ansel
 //
 
 #include			<functional>
@@ -366,15 +366,14 @@ bool				Player::serialization(Trame &trame) const
     this->_guild->serialization(trame(trame["PLAYER"]));
   this->_digitaliser->serialization(trame(trame["PLAYER"]));
   this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
-  this->getTmpStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
+  // this->getTmpStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
   this->getLevelObject().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
   this->_inventory->serialization(trame(trame["PLAYER"]));
   this->_talentTree->serialization(trame(trame["PLAYER"]));
   this->getEquipment().serialization(trame(trame["PLAYER"]));
-  for (auto it = this->_talents->begin() ; it != this->_talents->end() ; ++it)
-    (*it)->serialization(trame(trame["PLAYER"]["TALENTS"]));
+  this->_talents->serialization(trame(trame["PLAYER"]));
   this->_jobs->serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["KEY"] = this->getStatKeys().getName();
   return (ret);
@@ -424,21 +423,25 @@ Player				*Player::deserialization(Trame const &trame)
       if (stats)
       	player->setStats(*stats);
 
-      stats = Stats::deserialization(trame(trame["PLAYER"]));
-      if (stats)
-      	player->setTmpStats(*stats);
+      Talents			*talents = Talents::deserialization(trame(trame["PLAYER"]));
+      if (talents)
+      	player->setTalents(*talents);
 
-      if (!trame["PLAYER"]["TALENTS"].empty())
-	{
-	  auto			members = trame["PLAYER"]["TALENTS"].getMemberNames();
+      // stats = Stats::deserialization(trame(trame["PLAYER"]));
+      // if (stats)
+      // 	player->setTmpStats(*stats);
 
-	  talents = new Talents;
-	  for (auto it = members.begin() ; it != members.end() ; ++it)
-	    {
-	      talents->getContainer().push_back(Talent::deserialization(trame(trame["PLAYER"]["TALENTS"][*it])));
-	    }
-	  player->setTalents(*talents);
-	}
+      // if (!trame["PLAYER"]["TALENTS"].empty())
+      // 	{
+      // 	  auto			members = trame["PLAYER"]["TALENTS"].getMemberNames();
+
+      // 	  talents = new Talents;
+      // 	  for (auto it = members.begin() ; it != members.end() ; ++it)
+      // 	    {
+      // 	      talents->getContainer().push_back(Talent::deserialization(trame(trame["PLAYER"]["TALENTS"][*it])));
+      // 	    }
+      // 	  player->setTalents(*talents);
+      // 	}
 
       Jobs			*jobs = Jobs::deserialization(trame(trame["PLAYER"]));
       if (jobs)
