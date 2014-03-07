@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Mar  7 13:36:08 2014 guillaume marescaux
+// Last update Fri Mar  7 16:03:19 2014 cyril jourdain
 //
 
 /*
@@ -31,14 +31,13 @@
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()),
   _clock(new sf::Clock()), _keyDelayer(new KeyDelayer()),
-  _spellBar(new SpellBarView(this, w)), _inventory(new InventoryView(this, w)),
+  _inventory(new InventoryView(this, w)),
   _stuff(new StuffView(this, w)), _chat(new ChatView(this, w)), _menu(new MenuView(this, w)),
   _jobMenu(new JobMenuView(this, w)), _job(new JobView(this, w)), _digit(new DigitaliserView(this, w)),
   _clickView(new PlayerClickView(this, w)),
   _worldView(new WorldView(this, w)), _battleView(new BattleView(this, w)),
   _currentView(NULL), _view1(NULL), _view2(NULL)
 {
-  _spellBar->hide();
   _stuff->hide();
   _inventory->hide();
   _jobMenu->hide();
@@ -60,6 +59,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _sMan->loadAnimations("./Res/textures.json");
   _sMan->loadAnimations("./Res/selectedPlayer.json");
   _sMan->loadAnimations("./Res/Spell/Lance-Flamme.json");
+  _sMan->loadAnimations("./Res/Spell/Surf.json");
   _grow = false;
 
   setMouseTracking(true);
@@ -79,56 +79,6 @@ void			SFMLView::onInit()
   // *(_wMan->getState()) = CLIENT::LOADING_BATTLE;
   _currentView = _worldView;
   _currentView->resetPOV();
-}
-
-void			SFMLView::displayView(QWidget *view)
-{
-  if (_view1 == view || _view2 == view)
-    return;
-  if (!_view1)
-    {
-      _view1 = view;
-      _view1->show();
-      _view1->move(0, 0);
-    }
-  else if (_view1 && !_view2)
-    {
-      _view2 = _view1;
-      _view1 = view;
-      _view1->show();
-      _view2->move(_view1->size().width() + 50, 0);
-      _view1->move(0, 0);
-    }
-  else
-    {
-      _view2->hide();
-      _view2 = _view1;
-      _view1 = view;
-      _view2->move(_view1->size().width() + 50, 0);
-      _view1->move(0, 0);
-      _view1->show();
-    }
-}
-
-void			SFMLView::hideView(QWidget *view)
-{
-  if (_view2 == view)
-    {
-      _view2->hide();
-      _view2 = NULL;
-    }
-  else
-    {
-      _view1->hide();
-      if (_view2)
-	{
-	  _view1 = _view2;
-	  _view1->move(0, 0);
-	  _view2 = NULL;
-	}
-      else
-	_view1 = NULL;
-    }
 }
 
 void			SFMLView::onUpdate()
@@ -158,7 +108,6 @@ void			SFMLView::onUpdate()
 	{
 	  *(_wMan->getState()) = CLIENT::BATTLE;
 	  _battleView->resetPOV();
-	  _spellBar->show();
 	}
       break;
     case CLIENT::LOADING_BATTLE:
@@ -221,7 +170,56 @@ void			SFMLView::mouseMoveEvent(QMouseEvent *event)
   _currentView->onMouseEvent(event);
 }
 
-SpellBarView		*SFMLView::getSpellBarView(void){return (_spellBar); }
+void			SFMLView::displayView(QWidget *view)
+{
+  if (_view1 == view || _view2 == view)
+    return;
+  if (!_view1)
+    {
+      _view1 = view;
+      _view1->show();
+      _view1->move(0, 0);
+    }
+  else if (_view1 && !_view2)
+    {
+      _view2 = _view1;
+      _view1 = view;
+      _view1->show();
+      _view2->move(_view1->size().width() + 50, 0);
+      _view1->move(0, 0);
+    }
+  else
+    {
+      _view2->hide();
+      _view2 = _view1;
+      _view1 = view;
+      _view2->move(_view1->size().width() + 50, 0);
+      _view1->move(0, 0);
+      _view1->show();
+    }
+}
+
+void			SFMLView::hideView(QWidget *view)
+{
+  if (_view2 == view)
+    {
+      _view2->hide();
+      _view2 = NULL;
+    }
+  else
+    {
+      _view1->hide();
+      if (_view2)
+	{
+	  _view1 = _view2;
+	  _view1->move(0, 0);
+	  _view2 = NULL;
+	}
+      else
+	_view1 = NULL;
+    }
+}
+
 InventoryView		*SFMLView::getInventoryView(void){return (_inventory); }
 StuffView		*SFMLView::getStuffView(void){return (_stuff); }
 ChatView		*SFMLView::getChatView(void){return (_chat); }
@@ -233,3 +231,4 @@ sf::Font		*SFMLView::getFont(void) const {return _textFont; }
 SpriteManager		*SFMLView::getSpriteManager(void) const {return _sMan; }
 sf::Clock		*SFMLView::getMainClock(void) const {return _clock; }
 KeyDelayer		*SFMLView::getKeyDelayer(void) {return _keyDelayer; }
+ContextView		*SFMLView::getBattleView(void) {return _battleView; };

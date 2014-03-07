@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Fri Mar  7 13:56:06 2014 guillaume marescaux
+// Last update Fri Mar  7 16:56:25 2014 cyril jourdain
 //
 
 #include			"Battle/Battle.hh"
@@ -22,11 +22,17 @@ Battle::~Battle()
 
 void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *enemy, unsigned int maxMobs)
 {
-  std::list<Mob *>		mobs = (**player)->getDigitaliser().getBattleMobs();
+  std::list<Mob *> const	mobs = (**player)->getDigitaliser().getBattleMobs();
+  unsigned int			i = 0;
 
   _mobs->clear();
-  for (auto it = mobs.begin() ; it != mobs.end() ; it++)
-    _mobs->push_back(*it);
+  std::cout << "BEFORE PUTTING MOBS IN THE FUCKING LISTTTTTTTTTTTTTTTTTTTTTTTTTTTT" << std::endl;
+  for (auto it = mobs.begin() ; it != mobs.end() && i < 3; it++)
+    {
+      std::cout << "I AM PUTTING MOBS IN THE FUCKING LISTTTTTTTTTTTTTTTTTTTTTTTTTTTT" << std::endl;
+      _mobs->push_back(*it);
+      i++;
+    }
   _id = id;
   _enemy = enemy;
   _maxMobs = maxMobs;

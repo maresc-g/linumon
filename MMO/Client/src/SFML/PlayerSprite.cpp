@@ -410,14 +410,15 @@ void			PlayerSprite::setSpeed(unsigned int speed)
   _speed = speed;
 }
 
-void			PlayerSprite::setPlayerId(unsigned int id)
+void			PlayerSprite::setPlayerId(unsigned int id, bool setPos)
 {
   _playerId = id;
-  Player *player = Map::getInstance()->getPlayerById(_playerId);
-
-  _pos.x = player->getX();
-  _pos.y = player->getY();
-  std::cout << "INITIAL PLAYER POS IN X : " <<  _pos.x << std::endl;
+  if (setPos){
+    Player *player = Map::getInstance()->getPlayerById(_playerId);
+    
+    _pos.x = player->getX();
+    _pos.y = player->getY();
+  }
 }
 
 unsigned int		PlayerSprite::getPlayerId() const

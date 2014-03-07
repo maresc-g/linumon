@@ -5,17 +5,16 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Fri Mar  7 13:48:47 2014 guillaume marescaux
+// Last update Fri Mar  7 16:45:02 2014 cyril jourdain
 //
 
 #include		"SFML/BattleView.hh"
 #include		"Entities/Digitaliser.hh"
 
 BattleView::BattleView(SFMLView *v, WindowManager *w) :
-  ContextView(v,w), _playerList(new std::list<OPlayerSprite*>()),
-  _enemyList(new std::list<OPlayerSprite*>()), _playingMob(NULL), _selectedMob(NULL),
-  _selection(new Sprite()),
-  _spellSprite(new Sprite()), _spellSpriteCase(new Sprite())
+  ContextView(v,w), _playerList(new std::list<MobSprite*>()),
+  _enemyList(new std::list<MobSprite*>()), _playingMob(NULL), _selectedMob(NULL),
+  _selection(new Sprite()), _spellSprite(new Sprite()), _spellSpriteCase(new Sprite())
 {
 }
 
@@ -25,45 +24,51 @@ BattleView::~BattleView()
 
 void			BattleView::onInit()
 {
-  std::list<Mob*>	mobs = (**(_wMan->getMainPlayer()))->getDigitaliser().getMobs();
-  std::list<Mob*>	enemyMobs = (**_wMan->getBattle())->getEnemy().getDigitaliser().getBattleMobs();
+  std::list<Mob*> const 	mobs = (**_wMan->getBattle())->getMobs();
+  std::list<Mob*>	enemyMobs = (**_wMan->getBattle())->getEnemy().getDigitaliser().getMobs();
   int			posY = 2 * CASE_SIZE;
   int			limit = 0;
+  MobSprite		*tmp;
 
   _backgroundTexture->create(BATTLE_SIZE * CASE_SIZE, BATTLE_SIZE*CASE_SIZE);
-  resetPOV();
   loadBackgroundMap();
   loadBackgroundSprite();
   for (auto it = mobs.begin(); it != mobs.end() && limit < 3; ++it)
     {
-      _playerList->push_back(new OPlayerSprite((static_cast<Mob*>(*it))->getName(),
-					       _sfmlView->getFont()));
-      _sfmlView->getSpriteManager()->copySprite("perso1", *_playerList->back());
-      _playerList->back()->play("default_up");
-      _playerList->back()->generateOffset();
-      _playerList->back()->setPosition(posY, ((BATTLE_SIZE- 2) * CASE_SIZE) - _playerList->back()->getCurrentBound()->height / 2 + 4);
-      _playerList->back()->setPos(posY / CASE_SIZE, BATTLE_SIZE - 2);
+      tmp = new MobSprite((static_cast<Mob*>(*it))->getName(),
+			  _sfmlView->getFont(), _wMan);
+      _sfmlView->getSpriteManager()->copySprite("perso1", *tmp);
+      tmp->play("default_up");
+      tmp->generateOffset();
+      tmp->setPosition(posY, ((BATTLE_SIZE- 2) * CASE_SIZE) - tmp->getCurrentBound()->height / 2 + 4);
+      tmp->setPos(posY / CASE_SIZE, BATTLE_SIZE - 2);
+      tmp->setPlayerId((*it)->getId(), false);
+      tmp->setHUDInfo(*(static_cast<Mob*>(*it)));
+      tmp->setInfoVisibility(false);
+      _playerList->push_back(tmp);
       posY += 3*CASE_SIZE;
       limit++;
     }
-  posY = 0;
+  posY = 2*CASE_SIZE;
   for (auto it = enemyMobs.begin(); it != enemyMobs.end(); ++it)
     {
-      _enemyList->push_back(new OPlayerSprite((static_cast<Mob*>(*it))->getName(),
-					       _sfmlView->getFont()));
-      _sfmlView->getSpriteManager()->copySprite("perso1", *_enemyList->back());
-      _enemyList->back()->play("default_up");
-      _enemyList->back()->generateOffset();
-      _enemyList->back()->setPosition(posY, ((2) * CASE_SIZE) - _enemyList->back()->getCurrentBound()->height / 2 + 4);
-      _enemyList->back()->setPos(posY / CASE_SIZE, 2);
+      tmp = new MobSprite((static_cast<Mob*>(*it))->getName(),
+			  _sfmlView->getFont(), _wMan);
+      _sfmlView->getSpriteManager()->copySprite("perso1", *tmp);
+      tmp->play("default_down");
+      tmp->generateOffset();
+      tmp->setPosition(posY, ((2) * CASE_SIZE) - tmp->getCurrentBound()->height / 2 + 4);
+      tmp->setPos(posY / CASE_SIZE, 2);
+      tmp->setPlayerId((*it)->getId(), false);
+      _enemyList->push_back(tmp);
       posY += 3*CASE_SIZE;
     }
-  _playingMob = _playerList->front();
+  _playingMob = NULL;
   _sfmlView->getSpriteManager()->copySprite("selectedPlayer", *_selection);
   _sfmlView->getSpriteManager()->copySprite("Lance-Flamme", *_spellSprite);
   _sfmlView->getSpriteManager()->copySprite("translucentCase", *_spellSpriteCase);
   _selection->play("default_down");
-  _spellSprite->play("mouse");
+  // _spellSprite->play("mouse");
   _spellSpriteCase->play("default");
   _spellSpriteCase->setVisible(false);
   (*_spellSprite)["mouse"]->setFrameLength(120000);
@@ -71,7 +76,31 @@ void			BattleView::onInit()
 }
 void			BattleView::onUpdate()
 {
-  _selection->setPosition((_playingMob->getPosition().x), (_playingMob->getPosition().y - CASE_SIZE));
+  if ((!_playingMob) || (**_wMan->getBattle())->getTurnTo() != _playingMob->getPlayerId())
+    {
+      auto it = find_if(_playerList->begin(), _playerList->end(), [&](const MobSprite *val){
+	  std::cout << "players : " << val->getPlayerId() << "/" << (**_wMan->getBattle())->getTurnTo() << std::endl;
+	  if (val->getPlayerId() == (**_wMan->getBattle())->getTurnTo())
+	    return true;
+	  return false;
+	});
+      if (it == _playerList->end())
+	it = find_if(_enemyList->begin(), _enemyList->end(), [&](const MobSprite *val){
+	  std::cout << "enemy : " << val->getPlayerId() << "/" << (**_wMan->getBattle())->getTurnTo() << std::endl;
+	    if (val->getPlayerId() == (**_wMan->getBattle())->getTurnTo())
+	      return true;
+	    return false;
+	  });
+      if (it != _enemyList->end())
+	{
+	  if (_playingMob)
+	    _playingMob->setInfoVisibility(false);
+	  _playingMob = *it;
+	  _playingMob->setInfoVisibility(true);
+	}
+    }
+  if (_playingMob)
+    _selection->setPosition((_playingMob->getPosition().x), (_playingMob->getPosition().y - CASE_SIZE));
   _selection->update(*_sfmlView->getMainClock());
   _spellSprite->update(*_sfmlView->getMainClock());
   _spellSpriteCase->update(*_sfmlView->getMainClock());
@@ -84,6 +113,8 @@ void			BattleView::onKeyEvent(sf::Event const &event)
 void			BattleView::onMouseEvent(QMouseEvent *event)
 {
   bool			found = false;
+  std::list<Mob*>	enemyMobs = (**_wMan->getBattle())->getEnemy().getDigitaliser().getMobs();
+  Mob			*tmp = NULL;
 
   if (event->button() == Qt::NoButton)
     {
@@ -93,10 +124,17 @@ void			BattleView::onMouseEvent(QMouseEvent *event)
 	{
 	  if ((*it)->isClicked(v.x, v.y))
 	    {
-	      // _spellSpriteCase->setPosition((static_cast<int>(static_cast<int>(v.x) / CASE_SIZE))
-	      // 				    *CASE_SIZE,
-	      // 				    (static_cast<int>(static_cast<int>(v.y) / CASE_SIZE))
-	      // 				    *CASE_SIZE);
+	      _selectedMob = (*it);
+	      _spellSpriteCase->setPosition((*it)->getPos()->x * CASE_SIZE,
+					    (*it)->getPos()->y * CASE_SIZE);
+	      _spellSpriteCase->setVisible(true);
+	      found = true;
+	    }
+	}
+      for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
+	{
+	  if ((*it)->isClicked(v.x, v.y))
+	    {
 	      _selectedMob = (*it);
 	      _spellSpriteCase->setPosition((*it)->getPos()->x * CASE_SIZE,
 					    (*it)->getPos()->y * CASE_SIZE);
@@ -114,7 +152,29 @@ void			BattleView::onMouseEvent(QMouseEvent *event)
   if (event->button() == Qt::LeftButton)
     {
       if (_selectedMob)
-	_selectedMob->onClick();
+	{
+	  _selectedMob->onClick();
+	  auto it = find_if(enemyMobs.begin(), enemyMobs.end(), [&](const Mob *val){
+	      if (_selectedMob->getPlayerId() == val->getId())
+		return true;
+	      return false;
+	    });
+	  if (it != enemyMobs.end())
+	    {
+	      tmp = *it;
+	      auto it = find_if(tmp->getModel().getSpells().begin(),
+				tmp->getModel().getSpells().end(), [&](const Spell *val){
+				  if (val->getName() == _spellSprite->getName())
+				    return true;
+				  return false;
+				});
+	      Client::getInstance()->spell( (**_wMan->getBattle())->getId(), **it,
+					    (**_wMan->getBattle())->getTurnTo(),
+					    _selectedMob->getPlayerId());
+	      std::cout << "SEEEND SPEEEEEEEEEEEEEEEEEEL" << std::endl;
+	    }
+
+	}
     }
 }
 
@@ -164,4 +224,10 @@ void			BattleView::resetPOV()
 void			BattleView::centerView()
 {
   _sfmlView->getMainView()->setCenter(sf::Vector2f(BATTLE_SIZE * CASE_SIZE / 2, BATTLE_SIZE * CASE_SIZE / 2));
+}
+
+void			BattleView::spellClick(std::string const &spell)
+{
+  _sfmlView->getSpriteManager()->copySprite(spell, *_spellSprite); // spell
+  _spellSprite->play("mouse");
 }

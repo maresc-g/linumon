@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Fri Mar  7 13:06:14 2014 cyril jourdain
+// Last update Fri Mar  7 14:28:29 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -155,9 +155,6 @@ void			WorldView::drawView()
 {
   _backgroundSprite->setTexture(_backgroundTexture->getTexture());
   _sfmlView->draw(*_backgroundSprite);
-  if (_mainPerso) {
-    _sfmlView->draw(*_mainPerso);
-  }
   for (auto it = _entities->begin(); it != _entities->end(); ++it)
     {
       if (*it){
@@ -176,6 +173,9 @@ void			WorldView::drawView()
 	_sfmlView->draw(**it);
       }
     }
+  if (_mainPerso) {
+    _sfmlView->draw(*_mainPerso);
+  }
   for (auto it = _topLayer->begin(); it != _topLayer->end(); ++it)
     {
       if (*it){
