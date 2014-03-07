@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:18:40 2014 alexis mestag
-// Last update Fri Mar  7 18:10:48 2014 laurent ansel
+// Last update Fri Mar  7 21:46:58 2014 laurent ansel
 //
 
 #include			<functional>
@@ -88,6 +88,11 @@ void				TalentModel::addTalent(TalentModel const &talent)
   _talents.push_back(new TalentModel(talent));
 }
 
+void				TalentModel::addTalent(TalentModel *talent)
+{
+  _talents.push_back(talent);
+}
+
 void				TalentModel::setTalents(TalentModel const &talent)
 {
   for (auto it = talent._talents.begin() ; it != talent._talents.end() ; ++it)
@@ -115,9 +120,9 @@ bool				TalentModel::deserializationTreeModel(Trame const &trame)
     {
       if (*it != "PTS")
   	{
-  	  model = (**LoaderManager::getInstance()->getTalentModelLoader())->getValue(trame[*it].asString());
+  	  model = (**LoaderManager::getInstance()->getTalentModelLoader())->getValue(*it);
   	  if (model)
-  	    this->addTalent(*model);
+  	    this->addTalent(model);
   	  TalentModel::deserializationTreeModel(trame(trame[*it]));
   	}
     }

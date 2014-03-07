@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:07:00 2014 alexis mestag
-// Last update Fri Mar  7 18:09:20 2014 laurent ansel
+// Last update Fri Mar  7 21:45:51 2014 laurent ansel
 //
 
 #ifndef				__TALENTMODEL_HH__
@@ -46,6 +46,7 @@ public:
   void				setEffectLib(EffectLib const &effectLib);
 
   void				addTalent(TalentModel const &talent);
+  void				addTalent(TalentModel *talent);
 
   virtual bool			serialization(Trame &trame) const;
   bool				deserializationTreeModel(Trame const &trame);
