@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Feb 17 14:29:34 2014 laurent ansel
-// Last update Thu Mar  6 18:02:07 2014 laurent ansel
+// Last update Fri Mar  7 11:32:09 2014 laurent ansel
 //
 
 #include			<ctime>
@@ -50,9 +50,9 @@ RessourceManager::~RessourceManager()
 	{
 	  str.str("");
 	  str <<  nb;
-	  (*trame)[it->first][str.str()]["NAME"] = (*im)->getName();
-	  (*im)->getCoord().serialization((*trame)((*trame)[it->first][str.str()]));
-	  //	  (*im)->serialization((*trame)((*trame)[it->first][str.str()]));
+	  //	  (*trame)[it->first][str.str()]["NAME"] = (*im)->getName();
+	  //	  (*im)->getCoord().serialization((*trame)((*trame)[it->first][str.str()]));
+	  (*im)->serialization((*trame)((*trame)[it->first][str.str()]));
 	  delete *im;
 	  nb++;
 	}
@@ -87,11 +87,11 @@ void				RessourceManager::init()
 	  (*_ressources)[*it] = new std::list<Ressource *>;
 	  for (auto im = zoneMembers.begin() ; im != zoneMembers.end() ; ++im)
 	    {
-	      res = (**LoaderManager::getInstance()->getRessourceLoader())->getValue((*file)[*it][*im]["NAME"].asString());
-	      //	      res = Ressource::deserialization((*file)((*file)[*it][*im]), false);
+	      //	      res = (**LoaderManager::getInstance()->getRessourceLoader())->getValue((*file)[*it][*im]["NAME"].asString());
+	      res = Ressource::deserialization((*file)((*file)[*it][*im]), false);
 	      if (res)
 		{
-		  res->setCoord(*Ressource::RessourceCoordinate::deserialization((*file)((*file)[*it][*im])));
+		  //	  res->setCoord(*Ressource::RessourceCoordinate::deserialization((*file)((*file)[*it][*im])));
 		  res->setVisible(true);
 		  (*_ressources)[*it]->push_back(res);
 		  Map::getInstance()->addEntity(*it, res);
