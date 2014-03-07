@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Mar  7 13:23:01 2014 cyril jourdain
+// Last update Fri Mar  7 13:36:08 2014 guillaume marescaux
 //
 
 /*
@@ -157,7 +157,6 @@ void			SFMLView::onUpdate()
       if (_mainView->getSize().x > WIN_W)
 	{
 	  *(_wMan->getState()) = CLIENT::BATTLE;
-	  _battleView->onInit();
 	  _battleView->resetPOV();
 	  _spellBar->show();
 	}
@@ -170,6 +169,7 @@ void			SFMLView::onUpdate()
 	  if (_mainView->getSize().x <= 10)
 	    {
 	      _grow = true;
+	      _battleView->onInit();
 	      _currentView = _battleView;
 	      *(_wMan->getState()) = CLIENT::ENTER_BATTLE;
 	      _currentView->centerView();

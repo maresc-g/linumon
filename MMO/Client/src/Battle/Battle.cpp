@@ -5,13 +5,13 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Fri Mar  7 13:17:30 2014 guillaume marescaux
+// Last update Fri Mar  7 13:56:06 2014 guillaume marescaux
 //
 
 #include			"Battle/Battle.hh"
 
 Battle::Battle():
-  _id(0), _turnTo(0), _mobs(new std::list<Mob *>), _enemy(NULL), _maxMobs(0)
+  _id(0), _turnTo(0), _mobs(new std::list<Mob *>), _enemy(NULL), _maxMobs(0), _spells(new std::list<SpellContainer *>)
 {
 }
 

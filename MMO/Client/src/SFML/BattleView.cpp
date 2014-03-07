@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Fri Mar  7 13:21:00 2014 cyril jourdain
+// Last update Fri Mar  7 13:48:47 2014 guillaume marescaux
 //
 
 #include		"SFML/BattleView.hh"
@@ -52,10 +52,10 @@ void			BattleView::onInit()
       _enemyList->push_back(new OPlayerSprite((static_cast<Mob*>(*it))->getName(),
 					       _sfmlView->getFont()));
       _sfmlView->getSpriteManager()->copySprite("perso1", *_enemyList->back());
-      _playerList->back()->play("default_up");
-      _playerList->back()->generateOffset();
-      _playerList->back()->setPosition(posY, ((2) * CASE_SIZE) - _playerList->back()->getCurrentBound()->height / 2 + 4);
-      _playerList->back()->setPos(posY / CASE_SIZE, 2);
+      _enemyList->back()->play("default_up");
+      _enemyList->back()->generateOffset();
+      _enemyList->back()->setPosition(posY, ((2) * CASE_SIZE) - _enemyList->back()->getCurrentBound()->height / 2 + 4);
+      _enemyList->back()->setPos(posY / CASE_SIZE, 2);
       posY += 3*CASE_SIZE;
     }
   _playingMob = _playerList->front();
