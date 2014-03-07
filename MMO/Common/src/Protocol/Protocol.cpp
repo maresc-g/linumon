@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Mar  6 17:04:24 2014 antoine maitre
+// Last update Fri Mar  7 12:12:57 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -52,7 +52,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, bool>("CAPTUREEFFECT", &captureEffect);
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, unsigned int>("DEADMOB", &deadMob);
-      this->_container->load<unsigned int, unsigned int, unsigned int>("TURNTO", &turnTo);
+      this->_container->load<unsigned int, unsigned int>("TURNTO", &turnTo);
       this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, std::list<AItem *>*>("ENDBATTLE", &endBattle);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
       this->_container->load<unsigned int, int, Zone *>("REMOVEENTITY", &removeEntity);
@@ -537,7 +537,6 @@ bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player c
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      std::cout << "LAURENT EST VRAIEMENT UN TRES TRES GROS ENCULE" << std::endl;
       (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"] = idBattle;
       player->serialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"]));
       trame->setEnd(true);
@@ -563,7 +562,7 @@ bool			spell(unsigned int const id,
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["SPELL"]["IDBATTLE"] = idBattle;
-      (*trame)[CONTENT]["SPELL"]["SPELL"] = spell->serialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
+      spell->serialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
       (*trame)[CONTENT]["SPELL"]["LAUNCHER"] = launcher;
       (*trame)[CONTENT]["SPELL"]["TARGET"] = target;
       trame->setEnd(true);
@@ -661,7 +660,7 @@ bool			deadMob(unsigned int const id, unsigned int const idBattle, unsigned int 
   return (false);
 }
 
-bool			turnTo(unsigned int const id, unsigned int const idBattle, unsigned int const idMob)
+bool			turnTo(unsigned int const id, unsigned int const idMob)
 {
     Trame			*trame;
   Header		*header;
@@ -672,8 +671,7 @@ bool			turnTo(unsigned int const id, unsigned int const idBattle, unsigned int c
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["TURNTO"]["IDBATTLE"] = idBattle;
-      (*trame)[CONTENT]["TURNTO"]["ID"] = idMob;
+      (*trame)[CONTENT]["TURNTO"] = idMob;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
