@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Fri Mar  7 11:11:38 2014 laurent ansel
+// Last update Fri Mar  7 15:21:45 2014 laurent ansel
 //
 
 #include			<list>
@@ -122,11 +122,11 @@ void				Server::init(int const port)
   Crypto::getInstance();
   CircularBufferManager::getInstance();
   ClientWriter::getInstance();
-  this->debug("Initialing BDD ...");
-  LoaderManager::getInstance()->init();;
-  this->debug("Done");
   this->debug("Initialing Map ...");
   Map::getInstance();
+  this->debug("Done");
+  this->debug("Initialing BDD ...");
+  LoaderManager::getInstance()->init();
   this->debug("Done");
   this->debug("Initialing RessourceManager ...");
   RessourceManager::getInstance();

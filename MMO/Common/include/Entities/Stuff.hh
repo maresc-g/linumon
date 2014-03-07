@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Thu Mar  6 11:47:40 2014 laurent ansel
+// Last update Fri Mar  7 13:10:48 2014 laurent ansel
 //
 
 #ifndef 		__STUFF_HH__
@@ -19,16 +19,13 @@
 # include		"Effects/StatEntityEffect.hh"
 # include		"Effects/EffectLib.hh"
 #endif
-#include		"Stats/Stat.hh"
+#include		"Stats/Stats.hh"
 
 class			Equipment;
 
 class			Stuff : public Persistent, public AItem
 {
   friend class		odb::access;
-
-public:
-  typedef std::map<StatKey const *, Stat::value_type>	effect_type;
 
 public:
   typedef enum		eStuff
@@ -46,15 +43,7 @@ public:
     }			eStuff;
 private:
   eStuff		_stuffType;
-  std::map<StatKey const *, Stat::value_type>	*_effect;
-# ifndef		CLIENT_COMPILATION
-  EffectLib const	*_effectLib;
-# endif
-
-private:
-# ifndef		CLIENT_COMPILATION
-  void			setEffectLib(EffectLib const &effectLib);
-# endif
+  Stats 		*_stats;
 
 protected:
   Stuff();
@@ -71,14 +60,8 @@ public:
 
   Stuff::eStuff		getStuffType() const;
 
-# ifndef		CLIENT_COMPILATION
-  EffectLib const	&getEffectLib() const;
-
-  void			applyEffect(AStatEntity &statEntity) const;
-# endif
-
-  std::map<StatKey const *, Stat::value_type> const	&getEffect() const;
-  void			setEffect(std::map<StatKey const *, Stat::value_type> const &effect);
+  Stats const		&getStats() const;
+  void			setStats(Stats const &stats);
 
   virtual bool		serialization(Trame &trame) const;
   static Stuff		*deserialization(Trame const &trame, bool const client = true);
@@ -88,8 +71,8 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Stuff)
-#  pragma db member(Stuff::_effect) transient
-// #  pragma db member(Stuff::effect) virtual(Stuff::effect_type) get(getEffect()) set(setEffect(?))
+#  pragma db member(Stuff::_stats) transient
+#  pragma db member(Stuff::stats) virtual(Stats::container_type) get(_stats->getContainer()) set(_stats->setContainer(?))
 # endif
 
 #endif

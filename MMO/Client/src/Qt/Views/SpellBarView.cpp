@@ -5,9 +5,10 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb  6 15:42:00 2014 guillaume marescaux
-// Last update Thu Mar  6 10:45:22 2014 guillaume marescaux
+// Last update Fri Mar  7 15:41:37 2014 cyril jourdain
 //
 
+#include			"SFML/BattleView.hh"
 #include			"Qt/Views/SpellBarView.hh"
 
 SpellBarView::SpellBarView(QWidget *parent, WindowManager *wMan):
@@ -34,13 +35,7 @@ void				SpellBarView::paintEvent(QPaintEvent *)
 
 void				SpellBarView::handleClick(QString const &name)
 {
-  for (auto it = _spells->begin() ; it != _spells->end() ; it++)
-    {
-      if ((*it)->getName() != name.toStdString())
-	{
-	  break;
-	}
-    }
+  static_cast<BattleView*>(_wMan->getSFMLView()->getBattleView())->spellClick(name.toStdString());
 }
 
 void				SpellBarView::setInfos(Spells const &spells)

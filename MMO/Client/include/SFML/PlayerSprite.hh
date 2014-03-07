@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Feb 16 03:12:14 2014 cyril jourdain
-// Last update Thu Mar  6 15:26:21 2014 cyril jourdain
+// Last update Fri Mar  7 14:27:45 2014 cyril jourdain
 //
 
 #ifndef 		__PLAYERSPRITE_HH__
@@ -58,7 +58,7 @@ public:
   void			updateMoves2(sf::Clock *, sf::View *);
   bool			isMoving() const;
   void			setSpeed(unsigned int);
-  void			setPlayerId(unsigned int);
+  void			setPlayerId(unsigned int, bool setPos = true);
   unsigned int		getPlayerId() const;
   void			setPlayerZone(std::string const &zone);
   void			setWaitingState();

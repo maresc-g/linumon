@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Mar  6 11:55:17 2014 laurent ansel
-// Last update Thu Mar  6 13:55:21 2014 laurent ansel
+// Last update Fri Mar  7 15:55:50 2014 laurent ansel
 //
 
 #ifndef 			__CONSUMABLELOADER_HH__

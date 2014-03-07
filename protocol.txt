@@ -75,8 +75,14 @@
 
 			#  trade
 			LAUNCHTRADE : {idTrade : int, namePlayer : string} -> server
-			PUTITEM : {idTrade : int, idItem : int} -> client / server
-			GETITEM : {idTrade : int, idItem : int} -> client / server
+			PUTMOB : {idTrade : int, idMob : int} -> client
+			GETMOB : {idTrade : int, idMob : int} -> client
+			PUTITEM : {idTrade : int, idItem : int} -> client
+			GETITEM : {idTrade : int, idItem : int} -> client
+			PUTMOB : {idTrade : int, Mob : mob} -> server
+			GETMOB : {idTrade : int, Mob : mob} -> server
+			PUTITEM : {idTrade : int, Item : item} -> server
+			GETITEM : {idTrade : int, Item : item} -> server
 			PUTMONEY : {idTrade : int, money : int} -> client / server
 			GETMONEY : {idTrade : int, money : int} -> client / server
 			ACCEPT : {idTrade : int} -> client / server

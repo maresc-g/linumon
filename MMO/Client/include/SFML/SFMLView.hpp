@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Thu Mar  6 15:38:31 2014 guillaume marescaux
+// Last update Fri Mar  7 15:39:45 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -63,7 +63,6 @@ private:
   bool			_grow;
 
   /* Child Views */
-  SpellBarView		*_spellBar;
   InventoryView		*_inventory;
   StuffView		*_stuff;
   ChatView		*_chat;
@@ -99,6 +98,10 @@ private:
   virtual void		        mousePressEvent(QMouseEvent *);
   virtual void			mouseMoveEvent(QMouseEvent *);
 
+public:
+  void				displayView(QWidget *view);
+  void				hideView(QWidget *view);
+
 public: /* Child view accessors for World and Battle view, not const */
   SpellBarView			*getSpellBarView(void);
   InventoryView			*getInventoryView(void);
@@ -108,8 +111,7 @@ public: /* Child view accessors for World and Battle view, not const */
   JobMenuView			*getJobMenuView(void);
   JobView			*getJobView(void);
   DigitaliserView		*getDigitaliserView(void);
-  void				displayView(QWidget *view);
-  void				hideView(QWidget *view);
+  ContextView			*getBattleView(void);
 
 };
 

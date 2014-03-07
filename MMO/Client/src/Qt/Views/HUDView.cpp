@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Mar  6 13:10:17 2014 guillaume marescaux
-// Last update Thu Mar  6 15:34:37 2014 guillaume marescaux
+// Last update Fri Mar  7 15:26:04 2014 cyril jourdain
 //
 
 #include			"Qt/Views/HUDView.hh"

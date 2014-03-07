@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Feb 25 13:43:06 2014 laurent ansel
-// Last update Tue Feb 25 14:26:00 2014 laurent ansel
+// Last update Fri Mar  7 15:18:55 2014 laurent ansel
 //
 
 
@@ -15,7 +15,7 @@
 PNJ::PNJ(std::string const &name) :
   AEntity(name, AEntity::eEntity::PNJ),
   _pnjType(ePnj::HEAL),
-  _coord(NULL)
+  _coord(new PNJCoordinate)
 {
 
 }
@@ -23,7 +23,7 @@ PNJ::PNJ(std::string const &name) :
 PNJ::PNJ(PNJ const &rhs) :
   AEntity(rhs),
   _pnjType(ePnj::HEAL),
-  _coord(NULL)
+  _coord(new PNJCoordinate)
 {
   *this = rhs;
 }
@@ -60,6 +60,16 @@ PNJ::PNJCoordinate::type const	&PNJ::getX() const
 PNJ::PNJCoordinate::type const	&PNJ::getY() const
 {
   return (this->_coord->getY());
+}
+
+std::string const		&PNJ::getZone() const
+{
+  return (this->_zone);
+}
+
+void				PNJ::setZone(std::string const &zone)
+{
+  _zone = zone;
 }
 
 void				PNJ::setX(PNJ::PNJCoordinate::type const &x)

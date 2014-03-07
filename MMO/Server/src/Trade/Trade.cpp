@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:40:51 2014 laurent ansel
-// Last update Sat Feb 15 13:55:32 2014 laurent ansel
+// Last update Fri Mar  7 13:49:42 2014 laurent ansel
 //
 
 #include			<functional>
@@ -15,6 +15,8 @@
 Trade::Trade():
   _player1(NULL),
   _player2(NULL),
+  _mobs1(new std::list<Mob *>),
+  _mobs2(new std::list<Mob *>),
   _items1(new std::list<AItem *>),
   _items2(new std::list<AItem *>),
   _money1(0),
@@ -45,6 +47,12 @@ bool				Trade::stopTrade(unsigned int const idPlayer)
 {
   if ((_player1 && _player1->getId() == idPlayer) || (_player2 && _player2->getId() == idPlayer))
     {
+      for (auto it = _mobs1->begin() ; it != _mobs1->end() ; ++it)
+	_player1->addMob(*it);
+      _mobs1->clear();
+      for (auto it = _mobs2->begin() ; it != _mobs2->end() ; ++it)
+	_player2->addMob(*it);
+      _mobs2->clear();
       for (auto it = _items1->begin() ; it != _items1->end() ; ++it)
 	_player1->addItem(*it);
       _items1->clear();
@@ -83,6 +91,60 @@ unsigned int			Trade::getIdPlayer(unsigned int const idUser) const
   else if (_player2 && _player2->getUser().getId() == idUser)
     ret = _player2->getId();
   return (ret);
+}
+
+bool				Trade::getMob(unsigned int const id, unsigned int const idMob)
+{
+  if (_player1->getId() == id)
+    {
+      auto it = _mobs1->begin();
+
+      for (; it != _mobs1->end() && (*it)->getId() != idMob ; ++it);
+      if (it != _mobs1->end() && (*it)->getId() != idMob)
+	{
+	  _player1->addMob(*it);
+	  _mobs1->erase(it);
+	  Server::getInstance()->callProtocol<unsigned int, Mob const *>("GETMOB", _player2->getUser().getId(), getId(), *it);
+	}
+    }
+  else
+    {
+      auto it = _mobs2->begin();
+
+      for (; it != _mobs2->end() && (*it)->getId() != idMob ; ++it);
+      if (it != _mobs2->end() && (*it)->getId() != idMob)
+	{
+	  _player2->addMob(*it);
+	  _mobs2->erase(it);
+	  Server::getInstance()->callProtocol<unsigned int, Mob const *>("GETMOB", _player1->getUser().getId(), getId(), *it);
+	}
+    }
+  return (true);
+}
+
+bool				Trade::putMob(unsigned int const id, unsigned int const idMob)
+{
+  Mob				*mob = NULL;
+
+  if (_player1->getId() == id)
+    {
+      mob = _player1->getAndDeleteMob(idMob);
+      if (mob)
+	{
+	  _mobs1->push_back(mob);
+	  Server::getInstance()->callProtocol<unsigned int, Mob const *>("PUTMOB", _player2->getUser().getId(), getId(), mob);
+	}
+    }
+  else
+    {
+      mob = _player2->getAndDeleteMob(idMob);
+      if (mob)
+	{
+	  _mobs2->push_back(mob);
+	  Server::getInstance()->callProtocol<unsigned int, Mob const *>("PUTMOB", _player1->getUser().getId(), getId(), mob);
+	}
+    }
+  return (true);
 }
 
 bool				Trade::getItem(unsigned int const id, unsigned int const idItem)
@@ -205,6 +267,12 @@ bool				Trade::accept(unsigned int const id)
 
 bool				Trade::refuse()
 {
+  for (auto it = _mobs1->begin() ; it != _mobs1->end() ; ++it)
+    _player1->addMob(*it);
+  _mobs1->clear();
+  for (auto it = _mobs2->begin() ; it != _mobs2->end() ; ++it)
+    _player2->addMob(*it);
+  _mobs2->clear();
   for (auto it = _items1->begin() ; it != _items1->end() ; ++it)
     _player1->addItem(*it);
   _items1->clear();

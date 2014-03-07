@@ -5,10 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 14:51:25 2014 alexis mestag
-// Last update Fri Feb 28 13:49:06 2014 laurent ansel
+// Last update Fri Mar  7 17:26:40 2014 laurent ansel
 //
 
 #include			"Stats/Talent.hh"
+#include			"Loader/LoaderManager.hh"
 
 Talent::Talent() :
   Persistent(), _model(NULL), _currentPoints(0)
@@ -61,8 +62,9 @@ bool				Talent::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  trame[this->_model->getName()]["PTS"] = this->_currentPoints;
-  this->_model->serialization(trame(trame[this->_model->getName()]));
+  trame["PTS"] = this->_currentPoints;
+  trame["NAME"] = this->_model->getName();
+  //  this->_model->serialization(trame(trame[this->_model->getName()]));
   return (ret);
 }
 
@@ -70,19 +72,12 @@ Talent				*Talent::deserialization(Trame const &trame)
 {
   Talent			*talent = new Talent;
   TalentModel			*model;
-  auto				members = trame["TALENT"].getMemberNames();
 
-  for (auto it = members.begin() ; it != members.end() ; ++it)
-    {
-      model = NULL;
-      if ((*it) == "PTS")
-	talent->setCurrentPoints(trame["TALENT"][*it]["PTS"].asInt());
-      else
-	{
-	  model = TalentModel::deserialization(trame(trame["TALENT"][*it]));
-	  model->setName(*it);
-	  talent->setModel(*model);
-	}
-    }
+  talent->setCurrentPoints(trame["PTS"].asUInt());
+  //  model = TalentModel::deserialization(trame(trame["TALENT"][*it]));
+  //  model->setName(*it);
+  model = (**LoaderManager::getInstance()->getTalentModelLoader())->getValue(trame["NAME"].asString());
+  if (model)
+    talent->setModel(*model);
   return (talent);
 }

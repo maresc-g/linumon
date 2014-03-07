@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Wed Mar  5 17:43:17 2014 antoine maitre
+// Last update Fri Mar  7 17:21:03 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -65,6 +65,27 @@ void				Digitaliser::setBattleMobs(Mobs const &mobs)
 void				Digitaliser::addMob(Mob const &mob)
 {
   this->getContainer().push_back(new Mob(mob));
+}
+
+void				Digitaliser::addMob(Mob *mob)
+{
+  this->getContainer().push_back(mob);
+}
+
+Mob				*Digitaliser::getAndDeleteMob(unsigned int const id)
+{
+  Mob				*mob;
+
+  for (auto it = this->begin() ; it != this->end() ; ++it)
+    {
+      if ((*it)->getId() == id)
+	{
+	  mob = *it;
+	  this->getContainer().erase(it);
+	  return (mob);
+	}
+    }
+  return (NULL);
 }
 
 void				Digitaliser::addBattleMob(Mob const &mob)
@@ -179,7 +200,7 @@ Digitaliser			*Digitaliser::deserialization(Trame const &trame)
 	    {
 	      tmp = Mob::deserialization(trame(trame["DIGITALISER"]["BATTLE"][*it]));
 	      if (tmp)
-		mobs->push_back(tmp);
+		battle->push_back(tmp);
 	    }
 	}
       digit->setMobs(*mobs);
