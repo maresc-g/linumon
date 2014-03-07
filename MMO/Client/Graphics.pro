@@ -55,6 +55,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Core/ErrorHandler.hh \
                 include/Chat/Chat.hh \
                 include/Battle/Battle.hh \
+                include/Battle/SpellContainer.hh \
 
 SOURCES +=      src/main.cpp \
                 src/Qt/QSFMLWidget.cpp \
@@ -95,6 +96,7 @@ SOURCES +=      src/main.cpp \
                 src/Core/Core.cpp \
                 src/Core/ErrorHandler.cpp \
                 src/Battle/Battle.cpp \
+                src/Battle/SpellContainer.cpp \
                 ../Common/src/Map/Map.cpp \
                 ../Common/src/Crypto/Crypto.cpp \ 
                 ../Common/src/Mutex/AMutex.cpp \ 

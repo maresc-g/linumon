@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Mon Mar  3 15:14:54 2014 guillaume marescaux
+// Last update Fri Mar  7 13:15:01 2014 cyril jourdain
 //
 
 #include	"Qt/WindowManager.hh"
@@ -14,14 +14,16 @@
 WindowManager::WindowManager(int ac, char **av, MutexVar<CLIENT::eState> *state,
 			     MutexVar<std::list<PlayerView *> *> *players,
 			     MutexVar<Player*> *player,
-			     MutexVar<bool> *newPlayer) :
+			     MutexVar<bool> *newPlayer,
+			     MutexVar<Battle*> *battle) :
   _app(new QApplication(ac, av)),
   _mainLayout(new QGridLayout),
   _mainFrame(new QFrame),
   _state(state),
   _mainPlayer(player),
   _players(players),
-  _newPlayer(newPlayer)
+  _newPlayer(newPlayer),
+  _battle(battle)
 {
   _mainFrame->setWindowTitle("Qt SFML");
   _mainFrame->resize(WIN_W, WIN_H);
@@ -110,6 +112,11 @@ MutexVar<Player*>		*WindowManager::getMainPlayer()
 MutexVar<bool>			*WindowManager::getNewPlayer()
 {
   return _newPlayer;
+}
+
+MutexVar<Battle*>		*WindowManager::getBattle()
+{
+  return _battle;
 }
 
 SFMLView		*WindowManager::getSFMLView(void)
