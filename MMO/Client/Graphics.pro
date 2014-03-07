@@ -43,6 +43,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/SFML/PlayerSprite.hh \
                 include/SFML/OPlayerSprite.hh \
                 include/SFML/RessourceSprite.hh \
+                include/SFML/MobSprite.hh \
                 include/SFML/Clickable.hh \
                 include/SFML/GraphicEntities.hh \
                 include/SFML/KeyDelayer.hh \
@@ -86,6 +87,7 @@ SOURCES +=      src/main.cpp \
                 src/SFML/PlayerSprite.cpp \
                 src/SFML/OPlayerSprite.cpp \
                 src/SFML/RessourceSprite.cpp \
+                src/SFML/MobSprite.cpp \
                 src/SFML/Clickable.cpp \
                 src/SFML/KeyDelayer.cpp \
                 src/SFML/Sprite/Sprite.cpp \
