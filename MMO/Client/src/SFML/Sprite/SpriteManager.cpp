@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Feb  4 11:04:13 2014 cyril jourdain
-// Last update Thu Mar  6 11:55:43 2014 cyril jourdain
+// Last update Fri Mar  7 11:47:31 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -53,14 +53,14 @@ void		SpriteManager::loadAnimations(std::string const &jsonPath)
   for (unsigned int i = 0; i < jFile["sprites"].getMemberNames().size();i++)
     {
       id = jFile["sprites"].getMemberNames()[i]; // Name of global sprite
-      std::cout << "Adding anim : " << id << std::endl;
+      // std::cout << "Adding anim : " << id << std::endl;
       (*_anims)[id] = new Sprite();
       (*_anims)[id]->setName(id);
       (*_anims)[id]->setTexture((*_textures)[jFile["info"]["texture"].asString()]);
       for (unsigned int j = 0; j < jFile["sprites"][id].getMemberNames().size(); j++)
 	{
 	  iName = jFile["sprites"][id].getMemberNames()[j];
-	  std::cout << "\t" << iName << std::endl;
+	  // std::cout << "\t" << iName << std::endl;
 	  (*_anims)[id]->addAnim(iName);
 	  for (unsigned int k = 0; k < jFile["sprites"][id][iName].getMemberNames().size(); k++)
 	    {
@@ -70,7 +70,7 @@ void		SpriteManager::loadAnimations(std::string const &jsonPath)
 				      jFile["sprites"][id][iName][numSprite]["y"].asInt(),
 				      size,
 				      size));
-	      std::cout << "\t\t" << k << std::endl;
+	      // std::cout << "\t\t" << k << std::endl;
 	    }
 	}
     }
@@ -88,19 +88,23 @@ Sprite		*SpriteManager::getSprite(std::string const &anim) const
 
 Sprite		*SpriteManager::copySprite(std::string const &anim)
 {
+  Sprite *tmp = NULL;
   try {
-    return new Sprite(*(_anims->at(anim)));
+    tmp = _anims->at(anim);
+    return new Sprite(*tmp);
   } catch (std::out_of_range const &e) {
     std::cerr << "Sprite *copySprite in SpriteManager: No animation named " << anim << std::endl;
     return NULL;
   }
 }
 
-void		SpriteManager::copySprite(std::string const &anim, Sprite &dest)
+bool		SpriteManager::copySprite(std::string const &anim, Sprite &dest)
 {
   try {
     dest = (*(_anims->at(anim)));
+    return true;
   } catch (std::out_of_range const &e) {
     std::cerr << "void copySprite in SpriteManager: No animation named " << anim << std::endl;
+    return false;
   }
 }
