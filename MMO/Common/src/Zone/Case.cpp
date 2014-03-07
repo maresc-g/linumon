@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Thu Mar  6 18:05:24 2014 laurent ansel
+// Last update Fri Mar  7 15:34:07 2014 laurent ansel
 //
 
 #include		"Zone/Case.hh"
@@ -92,7 +92,10 @@ bool			Case::serialization(Trame &trame) const
 	  else
 	    {
 	      auto tmp = static_cast<PNJ *>(*it);
-	      tmp->serialization(trame(trame[std::to_string(i)]));
+	      trame[std::to_string(i)]["NAME"] = tmp->getName();
+	      tmp->getCoord().serialization(trame(trame[std::to_string(i)]));
+
+	      // tmp->serialization(trame(trame[std::to_string(i)]));
 	    }
 	  i++;
   	}
@@ -104,6 +107,8 @@ bool			Case::serialization(Trame &trame) const
 void			Case::deserialization(Trame const &trame)
 {
   Ressource		*item;
+  Heal			*heal;
+
   for (int i = 0; trame.isMember(std::to_string(i)); i++)
     {
       if (trame[std::to_string(i)].isMember("PLAYER"))
@@ -127,6 +132,13 @@ void			Case::deserialization(Trame const &trame)
 	    }
 	}
       else
-	this->_entities->push_back(PNJ::deserialization(trame(trame[std::to_string(i)])));
+	{
+	  heal = (**LoaderManager::getInstance()->getHealLoader())->getValue(trame[std::to_string(i)]["NAME"].asString());
+	  if (heal)
+	    {
+	      heal->setCoord(*Ressource::RessourceCoordinate::deserialization(trame(trame[std::to_string(i)])));
+	      this->_entities->push_back(heal);
+	    }
+	}
     }
 }

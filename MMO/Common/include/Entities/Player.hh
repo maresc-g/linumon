@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Fri Mar  7 15:01:35 2014 antoine maitre
+// Last update Fri Mar  7 15:45:46 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -137,6 +137,9 @@ public:
   void				deleteItem(unsigned int const item);
   void				addItem(AItem *item);
   AItem				*getAndDeleteItem(unsigned int const item) const;
+
+  void				addMob(Mob *mob);
+  Mob				*getAndDeleteMob(unsigned int const mob) const;
 
   void				addMoney(int const money);
 

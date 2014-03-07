@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:43:32 2014 laurent ansel
-// Last update Fri Feb 14 22:07:11 2014 laurent ansel
+// Last update Fri Mar  7 13:47:12 2014 laurent ansel
 //
 
 #ifndef 			__TRADE_HH__
@@ -20,6 +20,8 @@ class				Trade : public Id
 private:
   Player			*_player1;
   Player			*_player2;
+  std::list<Mob *>		*_mobs1;
+  std::list<Mob *>		*_mobs2;
   std::list<AItem *>		*_items1;
   std::list<AItem *>		*_items2;
   unsigned int			_money1;
@@ -28,6 +30,8 @@ private:
   bool				_accept2;
 
 public:
+  bool				getMob(unsigned int const id, unsigned int const idMob);
+  bool				putMob(unsigned int const id, unsigned int const idMob);
   bool				getItem(unsigned int const id, unsigned int const idItem);
   bool				putItem(unsigned int const id, unsigned int const idItem);
   bool				getMoney(unsigned int const id, int const money);

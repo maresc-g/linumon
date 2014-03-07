@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Mar  7 12:12:57 2014 antoine maitre
+// Last update Fri Mar  7 15:45:03 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -41,6 +41,8 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, std::string>("LAUNCHTRADE", &launchTrade);
       this->_container->load<unsigned int, unsigned int, AItem const *>("PUTITEM", &putItem);
       this->_container->load<unsigned int, unsigned int, AItem const *>("GETITEM", &getItem);
+      this->_container->load<unsigned int, unsigned int, Mob const *>("PUTMOB", &putMob);
+      this->_container->load<unsigned int, unsigned int, Mob const *>("GETMOB", &getMob);
       this->_container->load<unsigned int, unsigned int, unsigned int>("PUTMONEY", &putMoney);
       this->_container->load<unsigned int, unsigned int, unsigned int>("GETMONEY", &getMoney);
       this->_container->load<unsigned int, unsigned int>("ACCEPT", &accept);
@@ -69,6 +71,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("STUFFS", &stuffs);
       this->_container->load<unsigned int>("CONSUMABLES", &consumables);
       this->_container->load<unsigned int>("RESSOURCES", &ressources);
+      this->_container->load<unsigned int>("HEALS", &heals);
       this->_container->load<unsigned int>("AUTHORIZEDSTATKEYSLIST", &authorizedStatKeys);
     }
   else
@@ -671,12 +674,13 @@ bool			turnTo(unsigned int const id, unsigned int const idMob)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
+      std::cout << "JE SUIS DANS LE PROTOCOL" << std::endl;
       (*trame)[CONTENT]["TURNTO"] = idMob;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
   delete header;
-  return (false);
+  return (true);
 }
 
 bool			endBattle(unsigned int const id, 
@@ -744,6 +748,48 @@ bool			launchTrade(unsigned int const id, unsigned int const idTrade, std::strin
     {
       (*trame)[CONTENT]["LAUNCHTRADE"]["IDTRADE"] = idTrade;
       (*trame)[CONTENT]["LAUNCHTRADE"]["NAMEPLAYER"] = namePlayer;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			putMob(unsigned int const id, unsigned int const idTrade, Mob const *mob)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame) && mob->serialization((*trame)((*trame)[CONTENT]["PUTMOB"])))
+    {
+      (*trame)[CONTENT]["PUTMOB"]["IDTRADE"] = idTrade;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			getMob(unsigned int const id, unsigned int const idTrade, Mob const *mob)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame) && mob->serialization((*trame)((*trame)[CONTENT]["GETMOB"])))
+    {
+      (*trame)[CONTENT]["GETMOB"]["IDTRADE"] = idTrade;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
@@ -980,6 +1026,25 @@ bool			ressources(unsigned int const id)
   return (ret);
 }
 
+bool			heals(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getHealLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
 
 bool			authorizedStatKeys(unsigned int const id)
 {

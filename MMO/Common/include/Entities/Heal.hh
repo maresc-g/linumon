@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb 21 12:49:18 2014 laurent ansel
-// Last update Tue Feb 25 14:34:01 2014 laurent ansel
+// Last update Fri Mar  7 14:59:00 2014 laurent ansel
 //
 
 #ifndef 		__HEAL_HH__
@@ -16,8 +16,10 @@
 # include		"Utility/ISerialization.hh"
 # include		"Entities/Digitaliser.hh"
 
-class			Heal : public PNJ
+class			Heal : public Persistent, public PNJ
 {
+  friend class		odb::access;
+
 private:
   Heal();
 
@@ -34,5 +36,9 @@ public:
   virtual bool		serialization(Trame &trame) const;
   static Heal		*deserialization(Trame const &trame, bool const client = true);
 };
+
+# ifdef	ODB_COMPILER
+#  pragma db object(Heal)
+#endif
 
 #endif

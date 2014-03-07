@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Wed Mar  5 17:15:28 2014 laurent ansel
+// Last update Fri Mar  7 13:11:43 2014 laurent ansel
 //
 
 #include			"Entities/Stuff.hh"
@@ -14,7 +14,7 @@ Stuff::Stuff() :
   Persistent(),
   AItem("", AItem::eItem::STUFF),
   _stuffType(eStuff::NONE),
-  _effect(new std::map<StatKey const *, Stat::value_type>)
+  _stats(new Stats)
 {
 }
 
@@ -22,7 +22,7 @@ Stuff::Stuff(std::string const &name, eStuff const type) :
   Persistent(),
   AItem(name, AItem::eItem::STUFF),
   _stuffType(type),
-  _effect(new std::map<StatKey const *, Stat::value_type>)
+  _stats(new Stats)
 {
 
 }
@@ -30,7 +30,7 @@ Stuff::Stuff(std::string const &name, eStuff const type) :
 Stuff::Stuff(Stuff const &rhs) :
   Persistent(rhs),
   AItem(rhs.getName(), AItem::eItem::STUFF),
-  _effect(new std::map<StatKey const *, Stat::value_type>)
+  _stats(new Stats)
 {
   *this = rhs;
 }
@@ -45,43 +45,19 @@ Stuff				&Stuff::operator=(Stuff const &rhs)
   if (this != &rhs)
     {
       this->setStuffType(rhs.getStuffType());
-#ifndef				CLIENT_COMPILATION
-      this->setEffectLib(rhs.getEffectLib());
-#endif
-      for (auto it = rhs.getEffect().begin() ; it != rhs.getEffect().end() ; ++it)
-	(*this->_effect)[it->first] = it->second;
+      *this->_stats = rhs.getStats();
     }
   return (*this);
 }
 
-#ifndef				CLIENT_COMPILATION
-EffectLib const			&Stuff::getEffectLib() const
+Stats const			&Stuff::getStats() const
 {
-  return (*_effectLib);
+  return (*_stats);
 }
 
-void				Stuff::setEffectLib(EffectLib const &effectLib)
+void				Stuff::setStats(Stats const &stats)
 {
-  _effectLib = &effectLib;
-}
-
-void				Stuff::applyEffect(AStatEntity &StatEntity) const
-{
-  StatEntityEffect		*effect = static_cast<StatEntityEffect *>(_effectLib->getEffect());
-
-  effect->apply(StatEntity);
-  delete effect;
-}
-#endif
-
-std::map<StatKey const *, Stat::value_type> const	&Stuff::getEffect() const
-{
-  return (*_effect);
-}
-
-void			Stuff::setEffect(std::map<StatKey const *, Stat::value_type> const &effect)
-{
-  *_effect = effect;
+  *_stats = stats;
 }
 
 Stuff::eStuff			Stuff::getStuffType() const
@@ -100,6 +76,7 @@ bool				Stuff::serialization(Trame &trame) const
   trame["NAME"] = this->getName();
   trame["ID"] = static_cast<unsigned int>(this->getId());
   trame["ST"] = this->getStuffType();
+  this->getStats().serialization(trame(trame["STATS"]));
   return (true);
 }
 
@@ -113,6 +90,7 @@ Stuff				*Stuff::deserialization(Trame const &trame, bool const client)
       if (client)
 	stuff->setId(trame["ID"].asUInt());
       stuff->setItemType(static_cast<AItem::eItem>(trame["TYPE"].asInt()));
+      stuff->setStats(*Stats::deserialization(trame(trame)));
     }
   return (stuff);
 }
