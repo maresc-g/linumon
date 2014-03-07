@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Mar  7 14:01:50 2014 laurent ansel
+// Last update Fri Mar  7 15:45:29 2014 laurent ansel
 //
 
 #include			<functional>
@@ -571,4 +571,9 @@ bool				Player::doGather(std::string const &job, std::string const &res, std::li
 	}
     }
   return (ret);
+}
+
+void				Player::mobtoBattleMob(unsigned int const id)
+{
+  this->_digitaliser->mobtoBattleMob(id);
 }

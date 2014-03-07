@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:25:25 2014 antoine maitre
-// Last update Wed Mar  5 14:37:44 2014 antoine maitre
+// Last update Fri Mar  7 14:16:43 2014 antoine maitre
 //
 
 #ifndef					__BATTLEUPDATER_HH__
@@ -39,13 +39,14 @@ public:
   void					lock();
   void					unlock();
   void					run();
-  bool					newBattle(Player *player1, Player *player2);
+  bool					newBattle(Player *player1, Player *player2, unsigned int const id);
   bool					spell(Trame *);
   bool					capture(Trame *);
   bool					dswitch(Trame *);
   void					addTrame(Trame );
   int					getNumOfBattle() const;
   std::list<Battle *>			getBattles() const;
+  void					disconnect(unsigned int const idPlayer);
 };
 
 void					*launch(void *data);

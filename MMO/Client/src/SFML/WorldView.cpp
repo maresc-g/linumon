@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Fri Mar  7 11:48:30 2014 cyril jourdain
+// Last update Fri Mar  7 13:06:14 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -20,7 +20,7 @@
 
 WorldView::WorldView(SFMLView *v, WindowManager *w) :
   ContextView(v, w), _mainPerso(NULL), _playerList(new std::vector<OPlayerSprite *>),
-  _entities(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(sf::Keyboard::Unknown),
+  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(sf::Keyboard::Unknown),
   _clickView(new PlayerClickView(v, w))
 {
   (*_keyMap)[sf::Keyboard::Up] = &WorldView::keyUp;
@@ -176,6 +176,13 @@ void			WorldView::drawView()
 	_sfmlView->draw(**it);
       }
     }
+  for (auto it = _topLayer->begin(); it != _topLayer->end(); ++it)
+    {
+      if (*it){
+	(*it)->update(*_sfmlView->getMainClock());
+	_sfmlView->draw(**it);
+      }
+    }
   _sfmlView->setView(*(_sfmlView->getMainView()));
 }
 
@@ -217,17 +224,43 @@ void			WorldView::loadEntities()
 	      for (auto it = list->begin(); it != list->end(); it++)
 		{
 		  std::cout << "RESSOURCE NAME : " << (*it)->getName() << std::endl;
-		  if ((*it)->getEntityType() == AEntity::RESSOURCE) {
-		    _entities->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
-		    if (_sfmlView->getSpriteManager()->copySprite(static_cast<Ressource*>(*it)->getName(),
-								  *_entities->back())){
-		      _entities->back()->play("default");
-		      _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
-						     static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
-		      _entities->back()->setPos(static_cast<Ressource*>(*it)->getX(),
-						static_cast<Ressource*>(*it)->getY());
+		  if ((*it)->getEntityType() == AEntity::RESSOURCE)
+		    {
+		      if ((*it)->getName() == "Tree")
+			{
+			  _entities->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
+			  _sfmlView->getSpriteManager()->copySprite("tree_trunk",
+								    *_entities->back());
+			  _entities->back()->play("default");
+			  _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
+							 static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
+			  _entities->back()->setPos(static_cast<Ressource*>(*it)->getX(),
+						    static_cast<Ressource*>(*it)->getY());
+
+			  _topLayer->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
+			  _sfmlView->getSpriteManager()->copySprite("tree_top",
+								    *_topLayer->back());
+			  _topLayer->back()->play("default");
+			  _topLayer->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE- 64,
+							 static_cast<Ressource*>(*it)->getY() * CASE_SIZE - 128);
+			  _topLayer->back()->setPos(static_cast<Ressource*>(*it)->getX(),
+						    static_cast<Ressource*>(*it)->getY());
+			}
+		      else
+			{
+			  _entities->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
+			  if (_sfmlView->getSpriteManager()->copySprite(static_cast<Ressource*>(*it)
+									->getName(),
+									*_entities->back()))
+			    {
+			      _entities->back()->play("default");
+			      _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
+							     static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
+			      _entities->back()->setPos(static_cast<Ressource*>(*it)->getX(),
+							static_cast<Ressource*>(*it)->getY());
+			    }
+			}
 		    }
-		  }
 		}
 	    }
 	}

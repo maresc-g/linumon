@@ -5,14 +5,14 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Thu Mar  6 12:33:34 2014 antoine maitre
+// Last update Fri Mar  7 14:24:40 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
 #include			"Server/Server.hh"
 
 BattleManager::BattleManager()
-  : Singleton<BattleManager>(), _mutex(new Mutex)
+  : Singleton<BattleManager>(), _id(0), _mutex(new Mutex)
 {
   this->_mutex->init();
   std::function<bool (Trame *)> func;
@@ -38,14 +38,13 @@ BattleManager::~BattleManager()
 
 bool				BattleManager::inBattle(Player *player)
 {
-  // if ((rand() % 100) < 74)
-  //   {
-      std::cout << "Yolo" << std::endl;
-      this->newBattle(player, player);
+  if ((rand() % 100) < 74)
+    {
+      this->newBattle(player, NULL);
       return (true);
-  //   }
-  // else
-  //   return (false);
+    }
+  else
+    return (false);
 }
 
 void				BattleManager::newBattle(Player *player1, Player *player2)
@@ -67,13 +66,12 @@ void				BattleManager::newBattle(Player *player1, Player *player2)
       i++;
     }
   i = 0;
-  std::cout << "LA BATTLE DEVRAIT SE LANCE" << std::endl;
   for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
     {
       if (i == j)
 	{
 	  (*it)->lock();
-	  (*it)->newBattle(player1, player2);
+	  (*it)->newBattle(player1, player2, this->_id++);
 	  (*it)->unlock();
 	}
       i++;
@@ -158,3 +156,12 @@ bool				BattleManager::dswitch(Trame *trame)
   return (false);
 }
 
+void				BattleManager::disconnect(unsigned int const idPlayer)
+{
+  for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
+    {
+      (*it)->lock();
+      (*it)->disconnect(idPlayer);
+      (*it)->unlock();
+    }
+}

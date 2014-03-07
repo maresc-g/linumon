@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Thu Mar  6 15:38:19 2014 guillaume marescaux
+// Last update Fri Mar  7 13:36:08 2014 guillaume marescaux
 //
 
 /*
@@ -77,14 +77,8 @@ void			SFMLView::onInit()
   _digit->initDigit((**_wMan->getMainPlayer())->getDigitaliser());
   _worldView->onInit();
   // *(_wMan->getState()) = CLIENT::LOADING_BATTLE;
-  _battleView->onInit();
   _currentView = _worldView;
   _currentView->resetPOV();
-  QPixmap p;
-  p = QPixmap::grabWidget(this, 0,0, 100,100);
-  QPalette pa;
-  pa.setBrush(_chat->backgroundRole(), QBrush(p));
-  _chat->setPalette(pa);
 }
 
 void			SFMLView::displayView(QWidget *view)
@@ -175,6 +169,7 @@ void			SFMLView::onUpdate()
 	  if (_mainView->getSize().x <= 10)
 	    {
 	      _grow = true;
+	      _battleView->onInit();
 	      _currentView = _battleView;
 	      *(_wMan->getState()) = CLIENT::ENTER_BATTLE;
 	      _currentView->centerView();

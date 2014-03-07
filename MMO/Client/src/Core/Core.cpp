@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar  7 12:45:17 2014 guillaume marescaux
+// Last update Fri Mar  7 13:57:19 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -244,9 +244,11 @@ bool				Core::turnTo(Trame *trame)
 bool				Core::spell(Trame *trame)
 {
   Spell				*spell = Spell::deserialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
+  unsigned int			target = (*trame)[CONTENT]["SPELL"]["TARGET"].asUInt();
+  unsigned int			launcher = (*trame)[CONTENT]["SPELL"]["LAUNCHER"].asUInt();
+  SpellContainer		*container = new SpellContainer(target, launcher, spell);
 
-  (**_battle)->pushSpell(new SpellContainer((*trame)[CONTENT]["SPELL"]["TARGET"].asUInt(),
-					    (*trame)[CONTENT]["SPELL"]["LAUNCHER"].asUInt(), spell));
+  (**_battle)->pushSpell(container);
   return (true);
 }
 
@@ -264,6 +266,7 @@ bool				Core::switchMob(Trame *)
 {
   return (true);
 }
+
 
 bool				Core::deadMob(Trame *)
 {
