@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Thu Mar  6 17:16:20 2014 antoine maitre
+// Last update Fri Mar  7 12:02:54 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -223,7 +223,7 @@ void					Battle::trameLaunchBattle(unsigned int const idPlayer, Player *player) 
 
 void					Battle::trameTurnTo(unsigned int const idPlayer, unsigned int const idMob) const
 {
-  Server::getInstance()->callProtocol<unsigned int, unsigned int>("TURNTO", idPlayer, this->_id, idMob);
+  Server::getInstance()->callProtocol<unsigned int>("TURNTO", idPlayer, idMob);
 }
 
 void					Battle::trameEndBattle()
