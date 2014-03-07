@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Mar  7 12:12:57 2014 antoine maitre
+// Last update Fri Mar  7 16:42:33 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -671,12 +671,13 @@ bool			turnTo(unsigned int const id, unsigned int const idMob)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
+      std::cout << "JE SUIS DANS LE PROTOCOL" << std::endl;
       (*trame)[CONTENT]["TURNTO"] = idMob;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
   delete header;
-  return (false);
+  return (true);
 }
 
 bool			endBattle(unsigned int const id, 

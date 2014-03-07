@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Fri Mar  7 14:46:09 2014 antoine maitre
+// Last update Fri Mar  7 15:53:42 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -86,6 +86,7 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2, unsigned int 
 	  tmp->mobtoBattleMob(tmpMob->getId());
 	}
       tmp->addEnemy(player1->getDigitaliser().getMobs());
+      std::cout << mobInBattle << " IS THE NUMBER OF MOB IN BATTLE" << player1->getDigitaliser().getBattleMobs().size() << std::endl;
       this->_battles.push_back(new Battle(id, Battle::PVP, mobInBattle, player1, tmp));
     }
   else

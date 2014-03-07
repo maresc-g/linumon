@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Fri Mar  7 15:40:53 2014 antoine maitre
+// Last update Fri Mar  7 16:38:04 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -28,7 +28,7 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
     {
       (*it)->setTmpStat("HP", 50, true);
       (*it)->setTmpStat("Attack", 10, true);
-      (*it)->setTmpStat("Speed", 10, true);
+      (*it)->setTmpStat("Speed", 4000, true);
       (*it)->enterBattle();
     }
   i = 0;
@@ -36,7 +36,7 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
     {
       (*it)->setTmpStat("HP", 50, true);
       (*it)->setTmpStat("Attack", 10, true);
-      (*it)->setTmpStat("Speed", 10, true);
+      (*it)->setTmpStat("Speed", 4000, true);
       (*it)->enterBattle();
     }
   if (player1->getType() == Player::PlayerType::PLAYER)
@@ -164,18 +164,26 @@ void					Battle::next()
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);
   Stats statMob = tmp->getTmpStats();
+  std::cout << "TIME TO NEXT!!!" << std::endl;
   if (statMob.getStat(*hpKey) <= 0 && !this->checkEnd())
     {
+      std::cout << "HOUSTON WE HAVE A PROBLEM I THINK" << std::endl;
       this->next();
       return;
     }
   else if (this->checkEnd())
-    return; 
+    {
+      std::cout << "HOUSTON WE HAVE A PROBLEM" << std::endl;
+      return;
+    } 
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     if ((*it)->isMyMob(tmp->getId()))
       {
 	if ((*it)->getType() == Player::PlayerType::PLAYER)
-	  this->trameTurnTo((*it)->getUser().getId(), tmp->getId());
+	  {
+	    std::cout << "ID PLAYER =" << (*it)->getUser().getId() << "; ID MOB =" << tmp->getId() << std::endl;
+	    this->trameTurnTo((*it)->getUser().getId(), tmp->getId());
+	  }
 	else
 	  {
 	    auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
