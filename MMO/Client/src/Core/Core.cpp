@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar  7 13:57:19 2014 guillaume marescaux
+// Last update Fri Mar  7 16:05:26 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -514,9 +514,9 @@ void				Core::sendChat(std::string const &msg)
 							     (**_player)->getName() + ": " + msg);
 }
 
-void				Core::spell(unsigned int idBattle, Spell const &spell, unsigned int target)
+void				Core::spell(unsigned int idBattle, Spell const &spell, unsigned int launcher, unsigned int target)
 {
-  (*_proto).operator()<unsigned int const, unsigned int, Spell const *, unsigned int>("SPELL", _id, idBattle, &spell, target);
+  (*_proto).operator()<unsigned int const, unsigned int, Spell const *, unsigned int, unsigned int>("SPELL", _id, idBattle, &spell, launcher, target);
 }
 
 void				Core::capture(unsigned int idBattle, unsigned int target)
