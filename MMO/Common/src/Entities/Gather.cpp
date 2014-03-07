@@ -5,11 +5,12 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb 28 15:08:06 2014 laurent ansel
-// Last update Mon Mar  3 22:03:09 2014 alexis mestag
+// Last update Thu Mar  6 17:17:49 2014 laurent ansel
 //
 
 #include			<sstream>
 #include			"Entities/Gather.hh"
+#include			"Loader/LoaderManager.hh"
 
 Gather::Gather():
   _level(new Level), _ressource(NULL)
@@ -82,20 +83,23 @@ bool				Gather::serialization(Trame &trame) const
   bool				ret = true;
 
   this->_level->serialization(trame(trame));
-  this->_ressource->serialization(trame(trame["RES"]));
-  trame["RES"].removeMember("COORDINATE");
-  trame["RES"].removeMember("VIS");
+  // this->_ressource->serialization(trame(trame["RES"]));
+  // trame["RES"].removeMember("COORDINATE");
+  // trame["RES"].removeMember("VIS");
+  trame["RES"] = this->_ressource->getName();
   return (ret);
 }
 
-Gather				*Gather::deserialization(Trame const &trame, bool const client)
+Gather				*Gather::deserialization(Trame const &trame, bool const)
 {
   Gather			*gather = NULL;
   Ressource			*item;
 
   gather = new Gather;
   gather->setLevelObject(*Level::deserialization(trame(trame)));
-  item = Ressource::deserialization(trame(trame["RES"]), client);
-  gather->setRessource(*item);
+  // item = Ressource::deserialization(trame(trame["RES"]), client);
+  item = (**LoaderManager::getInstance()->getRessourceLoader())->getValue(trame["RES"].asString());
+  if (item)
+    gather->setRessource(*item);
   return (gather);
 }

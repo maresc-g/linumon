@@ -4,28 +4,11 @@
 	"NAME" : "Plastron Bouftou",
 	"LVL" : 1,
 	"EXP" : 50,
-	"RES" :
-	{
-	    "NAME" : "Plastron Bouftou",
-	    "TYPE" : 1,
-	    "ST" : 1
-	},
+	"RES" : "Plastron Bouftou",
 	"INGS" :
 	{
-	    "0" :
-	    {
-		"EN":1,
-		"NAME":"Orchidee",
-		"TYPE":2,
-		"NB" : 1
-	    },
-	    "1" :
-	    {
-		"EN":1,
-		"NAME":"Peau de bouftou",
-		"TYPE":2,
-		"NB" : 3
-	    }
+	    "Orchidee" : 1,
+	    "Peau de bouftou" : 3
 	}
     },
     "2" :
@@ -33,28 +16,11 @@
 	"NAME" : "Coiffe Bouftou",
 	"LVL" : 1,
 	"EXP" : 150,
-	"RES" :
-	{
-	    "NAME" : "Coiffe Bouftou",
-	    "TYPE" : 1,
-	    "ST" : 1
-	},
+	"RES" : "Coiffe Bouftou",
 	"INGS" :
 	{
-	    "0" :
-	    {
-		"EN":1,
-		"NAME":"Orchidee",
-		"TYPE":2,
-		"NB" : 3
-	    },
-	    "1" :
-	    {
-		"EN":1,
-		"NAME":"Peau de bouftou",
-		"TYPE":2,
-		"NB" : 1
-	    }
+	    "Orchidee" : 3,
+	    "Peau de bouftou" : 1
 	}
     }
 }

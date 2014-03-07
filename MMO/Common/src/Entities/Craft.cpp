@@ -5,11 +5,12 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:40:15 2014 laurent ansel
-// Last update Tue Mar  4 12:22:21 2014 laurent ansel
+// Last update Thu Mar  6 17:01:54 2014 laurent ansel
 //
 
 #include			<sstream>
 #include			"Entities/Craft.hh"
+#include			"Loader/LoaderManager.hh"
 
 Craft::Craft():
   Persistent(),
@@ -101,27 +102,29 @@ void				Craft::setResult(AItem const &result)
 bool				Craft::serialization(Trame &trame) const
 {
   bool				ret = true;
-  int				nb = 0;
-  std::ostringstream		str;
+  // int				nb = 0;
+  // std::ostringstream		str;
 
   trame["NAME"] = this->getName();
   trame["INGS"];
   this->_level->serialization(trame);
-  this->_result->serialization(trame(trame["RES"]));
+  // this->_result->serialization(trame(trame["RES"]));
+  trame["RES"] = this->_result->getName();
   for (auto it = this->begin() ; it != this->end() && ret; ++it)
     {
-      str <<  nb;
-      ret = it->first->serialization(trame(trame["INGS"][str.str()]));
-      trame["INGS"][str.str()]["NB"] = it->second;
-      trame["INGS"][str.str()].removeMember("COORDINATE");
-      trame["INGS"][str.str()].removeMember("VIS");
-      str.str("");
-      nb++;
+      trame["INGS"][it->first->getName()] = it->second;
+      // str <<  nb;
+      // ret = it->first->serialization(trame(trame["INGS"][str.str()]));
+      // trame["INGS"][str.str()]["NB"] = it->second;
+      // trame["INGS"][str.str()].removeMember("COORDINATE");
+      // trame["INGS"][str.str()].removeMember("VIS");
+      // str.str("");
+      // nb++;
     }
   return (ret);
 }
 
-Craft				*Craft::deserialization(Trame const &trame, bool const client)
+Craft				*Craft::deserialization(Trame const &trame, bool const)
 {
   Craft				*craft = NULL;
   container_type		*ingredients;
@@ -130,15 +133,21 @@ Craft				*Craft::deserialization(Trame const &trame, bool const client)
   craft = new Craft;
   craft->setName(trame["NAME"].asString());
   craft->setLevelObject(*Level::deserialization(trame(trame)));
-  craft->setResult(*AItem::deserialization(trame(trame["RES"]), client));
+  item = LoaderManager::getInstance()->getItemLoader(trame["RES"].asString());
+  if (item)
+    craft->setResult(*item);
+  // craft->setResult(*AItem::deserialization(trame(trame["RES"]), client));
   ingredients = new container_type;
   auto			members = trame["INGS"].getMemberNames();
 
   for (auto it = members.begin() ; it != members.end() ; ++it)
     {
-      if ((item = AItem::deserialization(trame(trame["INGS"][*it]), client)))
-	ingredients->push_back(std::make_pair(item, trame["INGS"][*it]["NB"].asUInt()));
+      item = LoaderManager::getInstance()->getItemLoader(*it);
+      if (item)
+	ingredients->push_back(std::make_pair(item, trame["INGS"][*it].asUInt()));
+      // if ((item = AItem::deserialization(trame(trame["INGS"][*it]), client)))
+      // 	ingredients->push_back(std::make_pair(item, trame["INGS"][*it]["NB"].asUInt()));
     }
-  craft->setIngredients(*ingredients);
+   craft->setIngredients(*ingredients);
   return (craft);
 }

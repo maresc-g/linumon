@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar  5 21:25:17 2014 laurent ansel
+// Last update Thu Mar  6 16:39:33 2014 laurent ansel
 //
 
 #include			<unistd.h>
@@ -83,6 +83,7 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   func = std::bind1st(std::mem_fun(&Core::turnTo), this);
   _proto->addFunc("TURNTO", func);
 
+  LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
 
   (*_sockets)[TCP] = new Socket;

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Thu Mar  6 15:23:18 2014 laurent ansel
+// Last update Thu Mar  6 16:42:32 2014 laurent ansel
 //
 
 #include			<list>
@@ -87,6 +87,9 @@ Server::~Server()
   delete _codeBreaker;
   Crypto::deleteInstance();
   delete _protocol;
+  this->debug("Deleting BDD ...");
+  LoaderManager::deleteInstance();
+  this->debug("Done");
   ObjectPoolManager::deleteInstance();
   CircularBufferManager::deleteInstance();
   this->_mutex->unlock();
@@ -119,6 +122,9 @@ void				Server::init(int const port)
   Crypto::getInstance();
   CircularBufferManager::getInstance();
   ClientWriter::getInstance();
+  this->debug("Initialing BDD ...");
+  LoaderManager::getInstance()->init();;
+  this->debug("Done");
   this->debug("Initialing Map ...");
   Map::getInstance();
   this->debug("Done");
@@ -126,9 +132,6 @@ void				Server::init(int const port)
   RessourceManager::getInstance();
   this->debug("Done");
   _codeBreaker->start();
-  this->debug("Initialing BDD ...");
-  LoaderManager::getInstance();
-  this->debug("Done");
   this->debug("Initialing GameProtocol ...");
   this->_gameProtocol = new GameProtocol;
   this->debug("Done");

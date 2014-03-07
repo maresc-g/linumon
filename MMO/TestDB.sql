@@ -522,9 +522,10 @@ INSERT INTO `Player_stats`(`object_id`, `index`, `value`) VALUES
 /* Inserting Ressources */
 DELETE FROM `Ressource`;
 
-INSERT INTO `Ressource`(`id`, `name`, `level`, `exp`) VALUES
-       (1, 'Orchidee', 10, 100),
-       (2, 'Peau de bouftou', 1, 10);
+INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
+       (1, 'Orchidee', 1, 10, 100),
+       (2, 'Peau de bouftou', 1, 1, 10),
+       (3, 'Tree', 0, 0, 0);
 
 /* Inserting Consumable */
 DELETE FROM `Consumable`;

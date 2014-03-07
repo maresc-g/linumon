@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 15:08:00 2014 laurent ansel
-// Last update Thu Mar  6 14:32:41 2014 laurent ansel
+// Last update Thu Mar  6 16:37:58 2014 laurent ansel
 //
 
 #ifndef 			__LOADERMANAGER_HH__
@@ -25,12 +25,12 @@ class				LoaderManager : public Singleton<LoaderManager>
 {
   friend class			Singleton<LoaderManager>;
 private:
-  MutexVar<MobModelLoader *>	*_mobModels;
-  MutexVar<JobModelLoader *>	*_jobModels;
   MutexVar<StuffLoader *>	*_stuffs;
   MutexVar<ConsumableLoader *>	*_consumables;
   MutexVar<RessourceLoader *>	*_ressources;
   MutexVar<AuthorizedStatKeyLoader *>	*_authorizedStatKeys;
+  MutexVar<JobModelLoader *>	*_jobModels;
+  MutexVar<MobModelLoader *>	*_mobModels;
 
 private:
   LoaderManager();
@@ -54,6 +54,7 @@ public:
   bool				setAuthorizedStatKeyLoader(Trame *trame);
 
   void				initReception(Protocol &protocol) const;
+  void				init();
 };
 
 #endif

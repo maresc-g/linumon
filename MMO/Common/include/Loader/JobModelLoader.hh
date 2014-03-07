@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 17:31:12 2014 laurent ansel
-// Last update Thu Mar  6 11:09:34 2014 laurent ansel
+// Last update Thu Mar  6 16:39:41 2014 laurent ansel
 //
 
 #ifndef 			__JOBMODELLOADER_HH__
