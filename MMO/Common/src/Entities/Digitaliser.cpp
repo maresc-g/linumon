@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Fri Mar  7 14:07:48 2014 laurent ansel
+// Last update Fri Mar  7 17:21:03 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -200,7 +200,7 @@ Digitaliser			*Digitaliser::deserialization(Trame const &trame)
 	    {
 	      tmp = Mob::deserialization(trame(trame["DIGITALISER"]["BATTLE"][*it]));
 	      if (tmp)
-		mobs->push_back(tmp);
+		battle->push_back(tmp);
 	    }
 	}
       digit->setMobs(*mobs);
