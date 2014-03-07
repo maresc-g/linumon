@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Mar  7 16:03:19 2014 cyril jourdain
+// Last update Fri Mar  7 21:03:47 2014 cyril jourdain
 //
 
 /*
@@ -60,6 +60,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _sMan->loadAnimations("./Res/selectedPlayer.json");
   _sMan->loadAnimations("./Res/Spell/Lance-Flamme.json");
   _sMan->loadAnimations("./Res/Spell/Surf.json");
+  _sMan->loadAnimations("./Res/Spell/Boutefeu.json");
   _grow = false;
 
   setMouseTracking(true);

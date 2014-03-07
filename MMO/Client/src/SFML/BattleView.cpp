@@ -5,17 +5,22 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Fri Mar  7 16:45:02 2014 cyril jourdain
+// Last update Fri Mar  7 22:19:31 2014 cyril jourdain
 //
 
+#include		<stdexcept>
 #include		"SFML/BattleView.hh"
 #include		"Entities/Digitaliser.hh"
 
 BattleView::BattleView(SFMLView *v, WindowManager *w) :
-  ContextView(v,w), _playerList(new std::list<MobSprite*>()),
+  ContextView(v,w), _buttonMap(new ButtonMap), _playerList(new std::list<MobSprite*>()),
   _enemyList(new std::list<MobSprite*>()), _playingMob(NULL), _selectedMob(NULL),
-  _selection(new Sprite()), _spellSprite(new Sprite()), _spellSpriteCase(new Sprite())
+  _selection(new Sprite()), _spellSprite(new Sprite()), _spellSpriteCase(new Sprite()),
+  _selectedSpell("")
 {
+  (*_buttonMap)[Qt::NoButton] = &BattleView::noButton;
+  (*_buttonMap)[Qt::LeftButton] = &BattleView::leftButton;
+  (*_buttonMap)[Qt::RightButton] = &BattleView::rightButton;
 }
 
 BattleView::~BattleView()
@@ -25,7 +30,7 @@ BattleView::~BattleView()
 void			BattleView::onInit()
 {
   std::list<Mob*> const 	mobs = (**_wMan->getBattle())->getMobs();
-  std::list<Mob*>	enemyMobs = (**_wMan->getBattle())->getEnemy().getDigitaliser().getMobs();
+  std::list<Mob*>	enemyMobs = (**_wMan->getBattle())->getEnemy().getDigitaliser().getBattleMobs();
   int			posY = 2 * CASE_SIZE;
   int			limit = 0;
   MobSprite		*tmp;
@@ -79,14 +84,12 @@ void			BattleView::onUpdate()
   if ((!_playingMob) || (**_wMan->getBattle())->getTurnTo() != _playingMob->getPlayerId())
     {
       auto it = find_if(_playerList->begin(), _playerList->end(), [&](const MobSprite *val){
-	  std::cout << "players : " << val->getPlayerId() << "/" << (**_wMan->getBattle())->getTurnTo() << std::endl;
 	  if (val->getPlayerId() == (**_wMan->getBattle())->getTurnTo())
 	    return true;
 	  return false;
 	});
       if (it == _playerList->end())
 	it = find_if(_enemyList->begin(), _enemyList->end(), [&](const MobSprite *val){
-	  std::cout << "enemy : " << val->getPlayerId() << "/" << (**_wMan->getBattle())->getTurnTo() << std::endl;
 	    if (val->getPlayerId() == (**_wMan->getBattle())->getTurnTo())
 	      return true;
 	    return false;
@@ -106,76 +109,17 @@ void			BattleView::onUpdate()
   _spellSpriteCase->update(*_sfmlView->getMainClock());
 }
 
-void			BattleView::onKeyEvent(sf::Event const &event)
+void			BattleView::onKeyEvent(sf::Event const &)
 {
 }
 
 void			BattleView::onMouseEvent(QMouseEvent *event)
 {
-  bool			found = false;
-  std::list<Mob*>	enemyMobs = (**_wMan->getBattle())->getEnemy().getDigitaliser().getMobs();
-  Mob			*tmp = NULL;
-
-  if (event->button() == Qt::NoButton)
-    {
-      sf::Vector2f v = _sfmlView->mapPixelToCoords(sf::Vector2i(event->x(), event->y()));
-      _spellSprite->setPosition(v.x, v.y);
-      for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
-	{
-	  if ((*it)->isClicked(v.x, v.y))
-	    {
-	      _selectedMob = (*it);
-	      _spellSpriteCase->setPosition((*it)->getPos()->x * CASE_SIZE,
-					    (*it)->getPos()->y * CASE_SIZE);
-	      _spellSpriteCase->setVisible(true);
-	      found = true;
-	    }
-	}
-      for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
-	{
-	  if ((*it)->isClicked(v.x, v.y))
-	    {
-	      _selectedMob = (*it);
-	      _spellSpriteCase->setPosition((*it)->getPos()->x * CASE_SIZE,
-					    (*it)->getPos()->y * CASE_SIZE);
-	      _spellSpriteCase->setVisible(true);
-	      found = true;
-	    }
-	}
-      if (!found)
-	{
-	  _spellSpriteCase->setVisible(false);
-	  _selectedMob = NULL;
-	}
-
-    }
-  if (event->button() == Qt::LeftButton)
-    {
-      if (_selectedMob)
-	{
-	  _selectedMob->onClick();
-	  auto it = find_if(enemyMobs.begin(), enemyMobs.end(), [&](const Mob *val){
-	      if (_selectedMob->getPlayerId() == val->getId())
-		return true;
-	      return false;
-	    });
-	  if (it != enemyMobs.end())
-	    {
-	      tmp = *it;
-	      auto it = find_if(tmp->getModel().getSpells().begin(),
-				tmp->getModel().getSpells().end(), [&](const Spell *val){
-				  if (val->getName() == _spellSprite->getName())
-				    return true;
-				  return false;
-				});
-	      Client::getInstance()->spell( (**_wMan->getBattle())->getId(), **it,
-					    (**_wMan->getBattle())->getTurnTo(),
-					    _selectedMob->getPlayerId());
-	      std::cout << "SEEEND SPEEEEEEEEEEEEEEEEEEL" << std::endl;
-	    }
-
-	}
-    }
+  try{
+    (this->*(_buttonMap->at(event->button())))(event);
+  } catch (std::out_of_range const &e){
+    std::cerr << "BattleView::onMouseEvent : Warning - Button not handled" << std::endl; 
+  }
 }
 
 void			BattleView::resetView()
@@ -228,6 +172,101 @@ void			BattleView::centerView()
 
 void			BattleView::spellClick(std::string const &spell)
 {
-  _sfmlView->getSpriteManager()->copySprite(spell, *_spellSprite); // spell
-  _spellSprite->play("mouse");
+  if (playerTurn()) {
+    if (_sfmlView->getSpriteManager()->copySprite(spell, *_spellSprite)) {
+      _spellSprite->setVisible(true);
+      _spellSprite->play("mouse");
+      _selectedSpell = spell;
+    }
+  }
+}
+
+bool			BattleView::playerTurn() const
+{
+  std::list<Mob*> const 	mobs = (**_wMan->getBattle())->getMobs();
+  for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
+    {
+      if ((**_wMan->getBattle())->getTurnTo() == (*it)->getPlayerId())
+	return true;
+    }
+  return false;
+}
+
+void			BattleView::leftButton(QMouseEvent *)
+{
+  std::list<Mob*>	enemyMobs = (**_wMan->getBattle())->getEnemy().getDigitaliser().getBattleMobs();
+  Mob			*tmp = NULL;
+
+  if (_selectedMob && playerTurn() && _selectedSpell != "")
+    {
+      _selectedMob->onClick();
+      auto it = find_if(enemyMobs.begin(), enemyMobs.end(), [&](const Mob *val){
+	  if (_selectedMob->getPlayerId() == val->getId())
+	    return true;
+	  return false;
+	});
+      if (it != enemyMobs.end())
+	{
+	  std::cout << "Enemy found in list" << std::endl;
+	  tmp = *it;
+	  auto it = find_if(tmp->getModel().getSpells().begin(),
+			    tmp->getModel().getSpells().end(), [&](const Spell *val){
+			      if (val->getName() == _spellSprite->getName())
+				return true;
+			      return false;
+			    });
+	  if (it != tmp->getModel().getSpells().end()){
+	    std::cout << "Found Spell" << std::endl;
+	    Client::getInstance()->spell( (**_wMan->getBattle())->getId(), **it,
+					  (**_wMan->getBattle())->getTurnTo(),
+					  _selectedMob->getPlayerId());
+	    _selectedMob = NULL;
+	    _spellSpriteCase->setVisible(false);
+	    _spellSprite->setVisible(false);
+	    _selectedSpell = "";
+	  }
+	}
+    }
+}
+
+void			BattleView::rightButton(QMouseEvent *)
+{
+  _selectedMob = NULL;
+  _selectedSpell = "";
+  _spellSprite->setVisible(false);
+}
+
+void			BattleView::noButton(QMouseEvent *event)
+{
+  bool			found = false;
+
+  sf::Vector2f v = _sfmlView->mapPixelToCoords(sf::Vector2i(event->x(), event->y()));
+  _spellSprite->setPosition(v.x, v.y);
+  for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
+    {
+      if ((*it)->isClicked(v.x, v.y))
+	{
+	  _selectedMob = (*it);
+	  _spellSpriteCase->setPosition((*it)->getPos()->x * CASE_SIZE,
+					(*it)->getPos()->y * CASE_SIZE);
+	  _spellSpriteCase->setVisible(true);
+	  found = true;
+	}
+    }
+  for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
+    {
+      if ((*it)->isClicked(v.x, v.y))
+	{
+	  _selectedMob = (*it);
+	  _spellSpriteCase->setPosition((*it)->getPos()->x * CASE_SIZE,
+					(*it)->getPos()->y * CASE_SIZE);
+	  _spellSpriteCase->setVisible(true);
+	  found = true;
+	}
+    }
+  if (!found)
+    {
+      _spellSpriteCase->setVisible(false);
+      _selectedMob = NULL;
+    }
 }
