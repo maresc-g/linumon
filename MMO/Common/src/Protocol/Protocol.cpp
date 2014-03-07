@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Mar  7 16:42:33 2014 antoine maitre
+// Last update Fri Mar  7 16:55:04 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -529,6 +529,7 @@ bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player c
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   std::cout << "LAURENT EST VRAIEMENT UN GROS ENCULE" << std::endl;
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
@@ -541,9 +542,10 @@ bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player c
       player->serialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			spell(unsigned int const id,
@@ -554,6 +556,7 @@ bool			spell(unsigned int const id,
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -567,9 +570,10 @@ bool			spell(unsigned int const id,
       (*trame)[CONTENT]["SPELL"]["TARGET"] = target;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			spellEffect(unsigned int const id, 
@@ -579,6 +583,7 @@ bool			spellEffect(unsigned int const id,
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -591,15 +596,17 @@ bool			spellEffect(unsigned int const id,
       (*trame)[CONTENT]["SPELLEFFECT"]["TARGET"] = target;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			captureEffect(unsigned int const id, unsigned int const idBattle, bool success)
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -611,9 +618,10 @@ bool			captureEffect(unsigned int const id, unsigned int const idBattle, bool su
       (*trame)[CONTENT]["CAPTUREEFFECT"]["SUCCESS"] = success;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			dswitch(unsigned int const id, 
@@ -623,6 +631,7 @@ bool			dswitch(unsigned int const id,
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -635,15 +644,17 @@ bool			dswitch(unsigned int const id,
       (*trame)[CONTENT]["SWITCH"]["NEWMOB"] = newMob;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			deadMob(unsigned int const id, unsigned int const idBattle, unsigned int const idMob)
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -655,15 +666,17 @@ bool			deadMob(unsigned int const id, unsigned int const idBattle, unsigned int 
       (*trame)[CONTENT]["DEADMOB"]["ID"] = idMob;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			turnTo(unsigned int const id, unsigned int const idMob)
 {
-    Trame			*trame;
+  Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -675,9 +688,10 @@ bool			turnTo(unsigned int const id, unsigned int const idMob)
       (*trame)[CONTENT]["TURNTO"] = idMob;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (true);
+  return (ret);
 }
 
 bool			endBattle(unsigned int const id, 
@@ -689,6 +703,7 @@ bool			endBattle(unsigned int const id,
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -704,9 +719,10 @@ bool			endBattle(unsigned int const id,
       // (*trame)[CONTENT]["ENDBATTLE"]["ITEMS"] = std::get<1>(*params);
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			useObject(unsigned int const id, unsigned int target, unsigned int idItem)
