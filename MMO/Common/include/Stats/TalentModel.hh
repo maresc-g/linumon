@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:07:00 2014 alexis mestag
-// Last update Mon Feb  3 12:50:27 2014 laurent ansel
+// Last update Fri Mar  7 18:09:20 2014 laurent ansel
 //
 
 #ifndef				__TALENTMODEL_HH__
@@ -48,6 +48,7 @@ public:
   void				addTalent(TalentModel const &talent);
 
   virtual bool			serialization(Trame &trame) const;
+  bool				deserializationTreeModel(Trame const &trame);
   static TalentModel		*deserialization(Trame const &trame);
 };
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar  7 15:55:43 2014 laurent ansel
-// Last update Fri Mar  7 15:56:20 2014 laurent ansel
+// Last update Fri Mar  7 18:09:46 2014 laurent ansel
 //
 
 #ifndef 			__TALENTMODELLOADER_HH__
@@ -43,6 +43,9 @@ class				TalentModelLoader : public ILoader<TalentModels>
 {
 private:
   TalentModels			*_talentModels;
+
+private:
+  bool				deserializationTreeModel(Trame &trame);
 
 public:
   TalentModelLoader();

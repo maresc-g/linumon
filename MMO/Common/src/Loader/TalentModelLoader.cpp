@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar  7 15:56:40 2014 laurent ansel
-// Last update Fri Mar  7 15:57:35 2014 laurent ansel
+// Last update Fri Mar  7 18:12:10 2014 laurent ansel
 //
 
 #ifndef CLIENT_COMPILATION
@@ -87,9 +87,24 @@ bool				TalentModelLoader::serialization(Trame &trame) const
   return (ret);
 }
 
+bool				TalentModelLoader::deserializationTreeModel(Trame &trame)
+{
+  bool				ret = true;
+  auto				members = trame[CONTENT]["TALENTMODELS"].getMemberNames();
+  TalentModel			*talentModel;
+
+  for (auto it = members.begin() ; it != members.end() ; ++it)
+    {
+      talentModel = _talentModels->getTalentModel(*it);
+      if (talentModel)
+	talentModel->deserializationTreeModel(trame(trame[CONTENT]["TALENTMODELS"][*it]));
+    }
+  return (ret);
+}
+
 bool				TalentModelLoader::deserialization(Trame &trame)
 {
-  bool				ret = false;
+  bool				ret = true;
   TalentModel			*talentModel;
 
   if (trame[CONTENT].isMember("TALENTMODELS"))
@@ -105,6 +120,7 @@ bool				TalentModelLoader::deserialization(Trame &trame)
 	      _talentModels->addTalentModel(talentModel);
 	    }
 	}
+      ret = this->deserializationTreeModel(trame);
     }
   return (ret);
 }
