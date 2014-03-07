@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 11:51:11 2014 antoine maitre
-// Last update Mon Feb 17 11:41:07 2014 antoine maitre
+// Last update Fri Mar  7 14:22:40 2014 antoine maitre
 //
 
 #ifndef				__BATTLEMANAGER_HH__
@@ -17,6 +17,7 @@
 class				BattleManager : public Singleton<BattleManager>
 {
   friend class			Singleton<BattleManager>;
+  unsigned int			_id;
 
 private:
   Mutex                         *_mutex;
@@ -34,6 +35,7 @@ public:
   bool				capture(Trame *);
   bool				dswitch(Trame *);
   bool				inBattle(Player *player);
+  void				disconnect(unsigned int const idPlayer);
 };
 
 #endif

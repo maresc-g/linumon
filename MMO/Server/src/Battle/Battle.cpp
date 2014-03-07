@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Fri Mar  7 12:02:54 2014 antoine maitre
+// Last update Fri Mar  7 15:30:39 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -28,6 +28,7 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
     {
       (*it)->setTmpStat("HP", 50, true);
       (*it)->setTmpStat("Attack", 10, true);
+      (*it)->setTmpStat("Speed", 10, true);
       (*it)->enterBattle();
     }
   i = 0;
@@ -35,6 +36,7 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
     {
       (*it)->setTmpStat("HP", 50, true);
       (*it)->setTmpStat("Attack", 10, true);
+      (*it)->setTmpStat("Speed", 10, true);
       (*it)->enterBattle();
     }
   if (player1->getType() == Player::PlayerType::PLAYER)
@@ -83,7 +85,6 @@ bool					Battle::checkEnd()
 	  if (i == _mobNumber)
 	    {
 	      this->_idLooser = (*it)->getId();
-	      std::cout << "FIN DE LA BATTLE" << std::endl;
 	      return (true);
 	    }
 	}
@@ -185,6 +186,20 @@ void					Battle::next()
       }
 }
 
+bool					Battle::isInThisBattle(unsigned int const idPlayer)
+{
+  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+    if ((*it)->getId() == idPlayer)
+      {
+	this->_money = 0;
+	this->_exp = 0;
+	this->_idLooser = idPlayer;
+	this->trameEndBattle();
+	return (true);
+      }
+  return (false);
+}
+
 void					Battle::trameSpell(unsigned int const idPlayer,
 							   Spell const *spell,
 							   unsigned int const launcher,
@@ -217,7 +232,6 @@ void					Battle::trameCapture(unsigned int const idPlayer, unsigned int const id
 
 void					Battle::trameLaunchBattle(unsigned int const idPlayer, Player *player) const
 {
-  std::cout << "LAURENT EST UN ENCULE QUI ENVOIE PAS LA TRAME" << std::endl;
   Server::getInstance()->callProtocol<unsigned int const, Player const *>("LAUNCHBATTLE", idPlayer, this->_id, player);
 }
 

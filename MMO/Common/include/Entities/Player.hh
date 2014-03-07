@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Wed Mar  5 16:07:26 2014 laurent ansel
+// Last update Fri Mar  7 15:01:35 2014 antoine maitre
 //
 
 #ifndef			__PLAYER_HH__
@@ -155,6 +155,7 @@ public:
 
   void				useObject(unsigned int const target, unsigned int const item);
 
+  void				mobtoBattleMob(unsigned int const id);
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);
 };

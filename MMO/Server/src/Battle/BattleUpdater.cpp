@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Thu Mar  6 16:20:48 2014 antoine maitre
+// Last update Fri Mar  7 14:46:09 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -72,37 +72,24 @@ void				BattleUpdater::run()
   this->_mutex->unlock();
 }
 
-bool				BattleUpdater::newBattle(Player *player1, Player *player2)
+bool				BattleUpdater::newBattle(Player *player1, Player *player2, unsigned int const id)
 {
-  unsigned int			id = 0;
-  AI				*tmp = new AI("I m going to crush you");
+  if (!player2)
+    {
+      AI *tmp = new AI("I m going to crush you");
+      int mobInBattle = rand() % 3 + 1;
 
-  std::cout << "NEW BATTLE" << std::endl;
-  for (auto it = this->_battles.begin(); it != this->_battles.end(); it++)
-    {
-      if ((*it)->getID() != id)
+      for (int i = 0; i < mobInBattle; i++)
 	{
-	  if (!player2)
-	    {
-	      tmp->capture(*player1->getDBZone().getRandomMob());
-	      tmp->capture(*player1->getDBZone().getRandomMob());
-	      tmp->capture(*player1->getDBZone().getRandomMob());
-	      tmp->addEnemy(player1->getDigitaliser().getMobs());
-	      this->_battles.push_back(new Battle(id, Battle::PVP, 3, player1, tmp));
-	    }
-	  else
-	    new Battle(id, Battle::PVP, 1, player1, player2);
+	  Mob *tmpMob = player1->getDBZone().getRandomMob();
+	  tmp->capture(*tmpMob);
+	  tmp->mobtoBattleMob(tmpMob->getId());
 	}
-    }
-  if (id == 0)
-    {
-      tmp->capture(*player1->getDBZone().getRandomMob());
-      tmp->capture(*player1->getDBZone().getRandomMob());
-      tmp->capture(*player1->getDBZone().getRandomMob());
       tmp->addEnemy(player1->getDigitaliser().getMobs());
-      this->_battles.push_back(new Battle(id, Battle::PVP, 3, player1, tmp));
+      this->_battles.push_back(new Battle(id, Battle::PVP, mobInBattle, player1, tmp));
     }
-    
+  else
+    new Battle(id, Battle::PVP, rand()%3 + 1, player1, player2);
   return (true);
 }
 
@@ -118,7 +105,6 @@ bool				BattleUpdater::spell(Trame *trame)
   if (tmp)
     {
       this->_battles.remove(tmp);
-      std::cout << "END BATTLE" << std::endl;
       delete tmp;
     }
   return (true);
@@ -128,7 +114,15 @@ bool				BattleUpdater::capture(Trame *trame)
 {
   for (auto it = this->_battles.begin(); it != this->_battles.end(); it++)
     if ((*it)->getID() == (*trame)["CAPTURE"]["IDBATTLE"].asUInt())
-      (*it)->capture((*trame)["CAPTURE"]["TARGET"].asInt());
+      {
+	(*it)->capture((*trame)["CAPTURE"]["TARGET"].asInt());
+	if ((*it)->checkEnd())
+	  {
+	    this->_battles.remove((*it));
+	    delete (*it);
+	    break;
+	  }
+      }
   return (true);
 }
 
@@ -148,6 +142,19 @@ std::list<Battle *>		BattleUpdater::getBattles() const
 int				BattleUpdater::getNumOfBattle() const
 {
   return (this->_battles.size());
+}
+
+void				BattleUpdater::disconnect(unsigned int const idPlayer)
+{
+  for (auto it = this->_battles.begin(); it != this->_battles.end(); it++)
+    {
+      if ((*it)->isInThisBattle(idPlayer))
+	{
+	  this->_battles.remove((*it));
+	  delete (*it);
+	  break;
+	}
+    }
 }
 
 void				*launch(void *data)
