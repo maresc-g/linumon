@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:54:19 2014 alexis mestag
-// Last update Sat Mar  8 16:29:09 2014 laurent ansel
+// Last update Sat Mar  8 18:33:37 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -41,6 +41,11 @@ Spells				&Spells::operator=(Spells const &rhs)
 void				Spells::addSpell(Spell const &spell)
 {
   this->getContainer().push_back(&spell);
+}
+
+void				Spells::addSpell(Spell *spell)
+{
+  this->getContainer().push_back(spell);
 }
 
 bool				Spells::serialization(Trame &trame) const
@@ -82,7 +87,7 @@ Spells				*Spells::deserialization(Trame const &trame)
 	  if (spell)
 	    {
 	      std::cout << "NAME = " << spell->getName() << std::endl;
-	      spells->addSpell(*spell);
+	      spells->addSpell(spell);
 	    }
 	}
     }

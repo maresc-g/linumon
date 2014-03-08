@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Mar  7 16:18:19 2014 laurent ansel
+// Last update Sat Mar  8 16:34:09 2014 laurent ansel
 //
 
 #include			<functional>
@@ -382,7 +382,7 @@ bool				Player::serialization(Trame &trame) const
 Player				*Player::deserialization(Trame const &trame)
 {
   Player			*player = NULL;
-  Talents			*talents = NULL;
+  // Talents			*talents = NULL;
 
   if (trame.isMember("PLAYER"))
     {

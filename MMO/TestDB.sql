@@ -9,7 +9,7 @@ INSERT INTO `User`(`id`, `pseudo`, `password`) VALUES
 
 /* Inserting EffectLibs */
 DELETE FROM `EffectLib`;
-
+3
 INSERT INTO `EffectLib`(`id`, `name`, `path`) VALUES
        (1, 'Rugissement', 'EffectLibs/Rugissement.so'),
        (2, 'Mimi-Queue', 'EffectLibs/Mimi-Queue.so'),
