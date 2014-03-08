@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:54:34 2013 alexis mestag
-// Last update Sat Mar  8 18:53:54 2014 antoine maitre
+// Last update Sat Mar  8 20:16:59 2014 antoine maitre
 //
 
 #include			"Entities/Spell.hh"
@@ -98,8 +98,13 @@ bool				Spell::serialization(Trame &trame) const
   bool				ret = true;
 
   trame["NAME"] = this->getName();
-  //  this->_type->serialization(trame(trame[this->getName()]));
+  //   //  this->_type->serialization(trame(trame[this->getName()]));
   trame[this->getName()]["POW"] = this->_power;
+// =======
+//   //  trame["NAME"] = this->getName();
+//   this->_type->serialization(trame);
+//   trame["POW"] = this->_power;
+// >>>>>>> 28da2c0415c79217aac78da21ef47f61c5988b96
   return (ret);
 }
 

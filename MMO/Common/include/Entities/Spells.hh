@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:33:20 2014 alexis mestag
-// Last update Mon Mar  3 15:55:49 2014 alexis mestag
+// Last update Sat Mar  8 18:34:10 2014 laurent ansel
 //
 
 #ifndef			__SPELLS_HH__
@@ -21,6 +21,7 @@ class			Spells : public ISerialization, public ContainerWrapper<std::list<Spell 
 {
 private:
   void			addSpell(Spell const &spell);
+  void			addSpell(Spell *spell);
 
 public:
   Spells();
