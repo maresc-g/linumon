@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Sat Mar  8 18:08:51 2014 antoine maitre
+// Last update Sat Mar  8 19:41:36 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -164,14 +164,15 @@ bool				BattleUpdater::spell(Trame *trame)
     if (spell)
     tu fais ce tu veux avec sauf de le modifier ou de le delete
    */
-  //Spell				*spell = (**LoaderManager::getInstance()->getSpellLoader())->getValue();
-  Spell				*spell = Spell::deserialization((*trame)((*trame)["SPELL"]["SPELL"]));
+  Spell				*spell = (**LoaderManager::getInstance()->getSpellLoader())->getValue((*trame)["SPELL"]["SPELL"]["NAME"].asString());
   Battle			*tmp = NULL;
 
   for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     if ((*it)->getID() == (*trame)["SPELL"]["IDBATTLE"].asUInt())
       if ((*it)->spell((*trame)["SPELL"]["LAUNCHER"].asUInt(), (*trame)["SPELL"]["TARGET"].asUInt(), spell))
 	tmp = (*it);
+      else
+	(*it)->next();
   if (tmp)
     {
       this->_battles->remove(tmp);
@@ -192,6 +193,8 @@ bool				BattleUpdater::capture(Trame *trame)
 	    delete (*it);
 	    break;
 	  }
+	else
+	  (*it)->next();
       }
   return (true);
 }
@@ -201,6 +204,8 @@ bool				BattleUpdater::dswitch(Trame *trame)
   for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     if ((*it)->getID() == (*trame)["SWITCH"]["IDBATTLE"].asUInt())
       (*it)->dswitch((*trame)["SWITCH"]["TARGET"].asInt(), (*trame)["SWITCH"]["NEWMOB"].asInt());
+    else
+      (*it)->next();
   return (true);
 }
 

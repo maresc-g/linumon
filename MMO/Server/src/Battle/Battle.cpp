@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Sat Mar  8 16:06:08 2014 antoine maitre
+// Last update Sat Mar  8 19:35:14 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -164,16 +164,13 @@ void					Battle::next()
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);
   Stats statMob = tmp->getTmpStats();
-  std::cout << "TIME TO NEXT!!!" << std::endl;
   if (statMob.getStat(*hpKey) <= 0 && !this->checkEnd())
     {
-      std::cout << "HOUSTON WE HAVE A PROBLEM I THINK" << std::endl;
       this->next();
       return;
     }
   else if (this->checkEnd())
     {
-      std::cout << "HOUSTON WE HAVE A PROBLEM" << std::endl;
       return;
     } 
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
