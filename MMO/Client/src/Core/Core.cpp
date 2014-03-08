@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar  7 16:05:26 2014 guillaume marescaux
+// Last update Sun Mar  9 00:07:14 2014 laurent ansel
 //
 
 #include			<unistd.h>
@@ -243,7 +243,8 @@ bool				Core::turnTo(Trame *trame)
 
 bool				Core::spell(Trame *trame)
 {
-  Spell				*spell = Spell::deserialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
+  //  Spell				*spell = Spell::deserialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
+  Spell				*spell = (**LoaderManager::getInstance()->getSpellLoader())->getValue((*trame)[CONTENT]["SPELL"]["NAME"].asString());
   unsigned int			target = (*trame)[CONTENT]["SPELL"]["TARGET"].asUInt();
   unsigned int			launcher = (*trame)[CONTENT]["SPELL"]["LAUNCHER"].asUInt();
   SpellContainer		*container = new SpellContainer(target, launcher, spell);

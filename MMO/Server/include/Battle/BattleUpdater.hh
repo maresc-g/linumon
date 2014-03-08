@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:25:25 2014 antoine maitre
-// Last update Sat Mar  8 12:32:41 2014 laurent ansel
+// Last update Sun Mar  9 00:18:38 2014 laurent ansel
 //
 
 #ifndef					__BATTLEUPDATER_HH__
@@ -50,6 +50,7 @@ public:
   int					getNumOfBattle() const;
   std::list<Battle *>			&getBattles() const;
   void					disconnect(unsigned int const idPlayer);
+  void					setQuit(bool const quit);
 };
 
 void					*launch(void *data);

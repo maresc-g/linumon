@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Sat Mar  8 19:41:36 2014 antoine maitre
+// Last update Sun Mar  9 00:18:19 2014 laurent ansel
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -164,15 +164,19 @@ bool				BattleUpdater::spell(Trame *trame)
     if (spell)
     tu fais ce tu veux avec sauf de le modifier ou de le delete
    */
-  Spell				*spell = (**LoaderManager::getInstance()->getSpellLoader())->getValue((*trame)["SPELL"]["SPELL"]["NAME"].asString());
+  Spell				*spell = (**LoaderManager::getInstance()->getSpellLoader())->getValue((*trame)["SPELL"]["NAME"].asString());
   Battle			*tmp = NULL;
 
   for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
-    if ((*it)->getID() == (*trame)["SPELL"]["IDBATTLE"].asUInt())
-      if ((*it)->spell((*trame)["SPELL"]["LAUNCHER"].asUInt(), (*trame)["SPELL"]["TARGET"].asUInt(), spell))
-	tmp = (*it);
-      else
-	(*it)->next();
+    {
+      if ((*it)->getID() == (*trame)["SPELL"]["IDBATTLE"].asUInt())
+	{
+	  if ((*it)->spell((*trame)["SPELL"]["LAUNCHER"].asUInt(), (*trame)["SPELL"]["TARGET"].asUInt(), spell))
+	    tmp = (*it);
+	  else
+	    (*it)->next();
+      	}
+    }
   if (tmp)
     {
       this->_battles->remove(tmp);
@@ -230,6 +234,13 @@ void				BattleUpdater::disconnect(unsigned int const idPlayer)
 	  break;
 	}
     }
+}
+
+void				BattleUpdater::setQuit(bool const quit)
+{
+  _mutex->lock();
+  _quit = quit;
+  _mutex->unlock();
 }
 
 void				*launch(void *data)
