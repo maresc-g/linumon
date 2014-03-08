@@ -7,7 +7,7 @@ TARGET = ../pfa-client
 DEPENDPATH += . src
 INCLUDEPATH += . include ../Common/include
 FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbarview.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui ../Res/craftview.ui ../Res/digitaliserview.ui ../Res/hudview.ui
-LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp -ldl
+LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio -lcryptopp -ljsoncpp -ldl
 QMAKE_CXXFLAGS += -std=c++0x -DCLIENT_COMPILATION -g
 OBJECTS_DIR = ./obj
 MOC_DIR = ./moc
@@ -57,6 +57,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Chat/Chat.hh \
                 include/Battle/Battle.hh \
                 include/Battle/SpellContainer.hh \
+                include/Sound/SoundManager.hh
 
 SOURCES +=      src/main.cpp \
                 src/Qt/QSFMLWidget.cpp \
@@ -99,6 +100,7 @@ SOURCES +=      src/main.cpp \
                 src/Core/ErrorHandler.cpp \
                 src/Battle/Battle.cpp \
                 src/Battle/SpellContainer.cpp \
+                src/Sound/SoundManager.cpp \
                 ../Common/src/Map/Map.cpp \
                 ../Common/src/Crypto/Crypto.cpp \ 
                 ../Common/src/Mutex/AMutex.cpp \ 

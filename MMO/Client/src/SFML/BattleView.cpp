@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Fri Mar  7 22:19:31 2014 cyril jourdain
+// Last update Fri Mar  7 23:51:22 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -174,6 +174,7 @@ void			BattleView::spellClick(std::string const &spell)
 {
   if (playerTurn()) {
     if (_sfmlView->getSpriteManager()->copySprite(spell, *_spellSprite)) {
+      (static_cast<QApplication *>(QApplication::instance()))->setOverrideCursor(QCursor(Qt::BlankCursor));
       _spellSprite->setVisible(true);
       _spellSprite->play("mouse");
       _selectedSpell = spell;
@@ -194,7 +195,7 @@ bool			BattleView::playerTurn() const
 
 void			BattleView::leftButton(QMouseEvent *)
 {
-  std::list<Mob*>	enemyMobs = (**_wMan->getBattle())->getEnemy().getDigitaliser().getBattleMobs();
+  std::list<Mob* >	enemyMobs = (**_wMan->getBattle())->getEnemy().getDigitaliser().getBattleMobs();
   Mob			*tmp = NULL;
 
   if (_selectedMob && playerTurn() && _selectedSpell != "")
@@ -224,6 +225,7 @@ void			BattleView::leftButton(QMouseEvent *)
 	    _spellSpriteCase->setVisible(false);
 	    _spellSprite->setVisible(false);
 	    _selectedSpell = "";
+	    (static_cast<QApplication *>(QApplication::instance()))->setOverrideCursor(QCursor(QPixmap("./Res/cursor.png"), 0, 0));
 	  }
 	}
     }
@@ -234,6 +236,7 @@ void			BattleView::rightButton(QMouseEvent *)
   _selectedMob = NULL;
   _selectedSpell = "";
   _spellSprite->setVisible(false);
+  (static_cast<QApplication *>(QApplication::instance()))->setOverrideCursor(QCursor(QPixmap("./Res/cursor.png"), 0, 0));
 }
 
 void			BattleView::noButton(QMouseEvent *event)

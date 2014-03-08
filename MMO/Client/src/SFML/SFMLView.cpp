@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Mar  7 21:03:47 2014 cyril jourdain
+// Last update Sat Mar  8 02:50:03 2014 cyril jourdain
 //
 
 /*
@@ -27,6 +27,7 @@
 #include		"Common/eState.hh"
 #include		"SFML/WorldView.hh"
 #include		"SFML/BattleView.hh"
+#include		"Sound/SoundManager.hh"
 
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()),
@@ -62,8 +63,10 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _sMan->loadAnimations("./Res/Spell/Surf.json");
   _sMan->loadAnimations("./Res/Spell/Boutefeu.json");
   _grow = false;
+  _enterBattle = false;
 
   setMouseTracking(true);
+  (static_cast<QApplication *>(QApplication::instance()))->setOverrideCursor(QCursor(QPixmap("./Res/cursor.png"), 0, 0));
 }
 
 SFMLView::~SFMLView()
@@ -72,6 +75,8 @@ SFMLView::~SFMLView()
 
 void			SFMLView::onInit()
 {
+  SoundManager::getInstance()->stopMusic(MENU_THEME);
+  SoundManager::getInstance()->playMusic(WORLD_THEME);
   _reset = false;
   _clock->restart();
   _inventory->initInventory();
@@ -109,11 +114,17 @@ void			SFMLView::onUpdate()
 	{
 	  *(_wMan->getState()) = CLIENT::BATTLE;
 	  _battleView->resetPOV();
+	  SoundManager::getInstance()->playMusic(BATTLE_THEME);
 	}
       break;
     case CLIENT::LOADING_BATTLE:
       if (!_grow)
 	{
+	  if (!_enterBattle){
+	    SoundManager::getInstance()->stopMusic(WORLD_THEME);
+	    SoundManager::getInstance()->playSound(TO_BATTLE);
+	    _enterBattle = true;
+	  }
 	  _mainView->rotate(10);
 	  _mainView->zoom(0.8);
 	  if (_mainView->getSize().x <= 10)

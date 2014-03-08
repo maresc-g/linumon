@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 01:15:31 2014 cyril jourdain
-// Last update Thu Mar  6 15:03:05 2014 cyril jourdain
+// Last update Fri Mar  7 22:59:32 2014 cyril jourdain
 //
 
 #include		"SFML/ContextView.hh"
@@ -87,22 +87,6 @@ void			ContextView::loadBackgroundMap()
 	  	((*_spriteMap)[y])[x] = _sfmlView->getSpriteManager()->copySprite("dirt");
 	    }
 	  ((*_spriteMap)[y])[x]->play("default");
-	  // list = zone->getCase(x,y)->getEntities();
-	  // if (list && list->size() > 0)
-	  //   {
-	  //     for (auto it = list->begin(); it != list->end(); it++)
-	  // 	{
-	  // 	  if ((*it)->getEntityType() == AEntity::RESSOURCE) {
-	  // 	    _entities->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
-	  // 	    _sMan->copySprite(static_cast<Ressource*>(*it)->getName(), *_entities->back());
-	  // 	    _entities->back()->play("default");
-	  // 	    _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
-	  // 					   static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
-	  // _entities->back()->setPos(static_cast<Ressource*>(*it)->getX(),
- 	  // 					   static_cast<Ressource*>(*it)->getY());
-	  // 	  }
-	  // 	}
-	  //   }
 	}
     }
 
