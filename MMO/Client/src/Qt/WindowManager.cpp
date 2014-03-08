@@ -5,10 +5,11 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Fri Mar  7 13:15:01 2014 cyril jourdain
+// Last update Sat Mar  8 01:45:50 2014 cyril jourdain
 //
 
 #include	"Qt/WindowManager.hh"
+#include	"Sound/SoundManager.hh"
 #include	<iostream>
 
 WindowManager::WindowManager(int ac, char **av, MutexVar<CLIENT::eState> *state,
@@ -40,6 +41,8 @@ WindowManager::WindowManager(int ac, char **av, MutexVar<CLIENT::eState> *state,
   hideSfmlView();
   hideCharacter();
   showLogin();
+  SoundManager::getInstance()->loadDefaultSounds();
+  SoundManager::getInstance()->playMusic(MENU_THEME);
 }
 
 WindowManager::~WindowManager()
