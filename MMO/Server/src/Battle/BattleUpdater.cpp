@@ -5,17 +5,30 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Fri Mar  7 15:53:42 2014 antoine maitre
+// Last update Sat Mar  8 12:41:24 2014 laurent ansel
 //
 
 #include			"Battle/BattleUpdater.hh"
 #include			"Server/Server.hh"
 
 BattleUpdater::BattleUpdater()
-  : Thread(), _quit(false), _mutex(new Mutex)
+  : Thread(),
+    _quit(false),
+    _mutex(new Mutex),
+    _trames(new std::list<std::pair<Trame *, bool> >),
+    _battles(new std::list<Battle *>),
+    _nbTrame(0)
 {
-  std::string str = "CAPTURE";
+  // std::string str = "CAPTURE";
   this->_mutex->init();
+  _mutex->lock();
+
+  Trame				*trame = NULL;
+  for (int i = 0 ; i < DEFAULT_STORAGE_BATTLE ; ++i)
+    {
+      _trames->push_back(std::make_pair(trame, false));
+    }
+  _mutex->unlock();
   //  std::cout << (& BattleUpdater::capture) << std::endl;
   // (*this->_funcs)[str] = std::bind1st(std::mem_fun(& BattleUpdater::capture), this);
   //  str = "SWITCH";
@@ -28,6 +41,16 @@ BattleUpdater::BattleUpdater()
 
 BattleUpdater::~BattleUpdater()
 {
+  _mutex->lock();
+  for (auto it = _trames->begin() ; it != _trames->end() ; ++it)
+    if (it->first)
+      delete it->first;
+  delete _trames;
+  for (auto it = _battles->begin() ; it != _battles->end() ; ++it)
+    if ((*it))
+      delete *it;
+  delete _battles;
+  _mutex->unlock();
   delete _funcs;
   _mutex->destroy();
   delete _mutex;
@@ -43,9 +66,34 @@ void				BattleUpdater::unlock()
   this->_mutex->unlock();
 }
 
-void				BattleUpdater::addTrame(Trame trame)
+void				BattleUpdater::addTrame(Trame &trame)
 {
-  this->_trames.push_back(&trame);
+  bool				set = false;
+
+  // _mutex->lock();
+  for (auto it = _trames->begin() ; it != _trames->end() && !set ; ++it)
+    {
+      if (!it->second && !it->first)
+	ObjectPoolManager::getInstance()->setObject(it->first, "trame");
+      if (it->first && !it->second)
+	{
+	  it->second = true;
+	  it->first->clear();
+	  *it->first = trame;
+	  set = true;
+	  _nbTrame++;
+	}
+    }
+  if (!set)
+    {
+      Trame				*tmp = NULL;
+
+      ObjectPoolManager::getInstance()->setObject(tmp, "trame");
+      *tmp = trame;
+      _trames->push_back(std::make_pair(tmp, true));
+      _nbTrame++;
+    }
+  // _mutex->unlock();
 }
 
 void				BattleUpdater::run()
@@ -53,18 +101,33 @@ void				BattleUpdater::run()
   this->_mutex->lock();
   while (!_quit)
     {
-      if (!this->_trames.empty())
-	{
-	  auto tmp = this->_trames.front();
-	  if (this->_trames.front()->isMember("CAPTURE"))
-	    this->capture(_trames.front());
-	  else if (this->_trames.front()->isMember("SPELL"))
-	    this->spell(_trames.front());
-	  else if (this->_trames.front()->isMember("SWITCH"))
-	    this->dswitch(_trames.front());
-	  this->_trames.pop_front();
-	  delete tmp;
-	}
+      // if (!this->_trames.empty())
+      // 	{
+      // 	  auto tmp = this->_trames.front();
+      // 	  if (this->_trames.front()->isMember("CAPTURE"))
+      // 	    this->capture(_trames.front());
+      // 	  else if (this->_trames.front()->isMember("SPELL"))
+      // 	    this->spell(_trames.front());
+      // 	  else if (this->_trames.front()->isMember("SWITCH"))
+      // 	    this->dswitch(_trames.front());
+      // 	  this->_trames.pop_front();
+      // 	  delete tmp;
+      // 	}
+      if (_nbTrame > 0)
+	for (auto it = _trames->begin() ; it != _trames->end() ; ++it)
+	  {
+	    if (it->second && it->first)
+	      {
+		if ((*it->first)[CONTENT].isMember("CAPTURE"))
+		  this->capture(&(*it->first)((*it->first)[CONTENT]));
+		else if ((*it->first)[CONTENT].isMember("SPELL"))
+		  this->spell(&(*it->first)((*it->first)[CONTENT]));
+		else if ((*it->first)[CONTENT].isMember("SWITCH"))
+		  this->dswitch(&(*it->first)((*it->first)[CONTENT]));
+		it->second = false;
+		_nbTrame--;
+	      }
+	  }
       this->_mutex->unlock();
       usleep(10000);
       this->_mutex->lock();
@@ -87,7 +150,7 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2, unsigned int 
 	}
       tmp->addEnemy(player1->getDigitaliser().getMobs());
       std::cout << mobInBattle << " IS THE NUMBER OF MOB IN BATTLE" << player1->getDigitaliser().getBattleMobs().size() << std::endl;
-      this->_battles.push_back(new Battle(id, Battle::PVP, mobInBattle, player1, tmp));
+      this->_battles->push_back(new Battle(id, Battle::PVP, mobInBattle, player1, tmp));
     }
   else
     new Battle(id, Battle::PVP, rand()%3 + 1, player1, player2);
@@ -99,13 +162,13 @@ bool				BattleUpdater::spell(Trame *trame)
   Spell				*spell = Spell::deserialization((*trame)((*trame)["SPELL"]["SPELL"]));
   Battle			*tmp = NULL;
 
-  for (auto it = this->_battles.begin(); it != this->_battles.end(); it++)
+  for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     if ((*it)->getID() == (*trame)["SPELL"]["IDBATTLE"].asUInt())
       if ((*it)->spell((*trame)["SPELL"]["LAUNCHER"].asUInt(), (*trame)["SPELL"]["TARGET"].asUInt(), spell))
 	tmp = (*it);
   if (tmp)
     {
-      this->_battles.remove(tmp);
+      this->_battles->remove(tmp);
       delete tmp;
     }
   return (true);
@@ -113,13 +176,13 @@ bool				BattleUpdater::spell(Trame *trame)
 
 bool				BattleUpdater::capture(Trame *trame)
 {
-  for (auto it = this->_battles.begin(); it != this->_battles.end(); it++)
+  for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     if ((*it)->getID() == (*trame)["CAPTURE"]["IDBATTLE"].asUInt())
       {
 	(*it)->capture((*trame)["CAPTURE"]["TARGET"].asInt());
 	if ((*it)->checkEnd())
 	  {
-	    this->_battles.remove((*it));
+	    this->_battles->remove((*it));
 	    delete (*it);
 	    break;
 	  }
@@ -129,29 +192,29 @@ bool				BattleUpdater::capture(Trame *trame)
 
 bool				BattleUpdater::dswitch(Trame *trame)
 {
-  for (auto it = this->_battles.begin(); it != this->_battles.end(); it++)
+  for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     if ((*it)->getID() == (*trame)["SWITCH"]["IDBATTLE"].asUInt())
       (*it)->dswitch((*trame)["SWITCH"]["TARGET"].asInt(), (*trame)["SWITCH"]["NEWMOB"].asInt());
   return (true);
 }
 
-std::list<Battle *>		BattleUpdater::getBattles() const
+std::list<Battle *>		&BattleUpdater::getBattles() const
 {
-  return (this->_battles);
+  return (*this->_battles);
 }
 
 int				BattleUpdater::getNumOfBattle() const
 {
-  return (this->_battles.size());
+  return (this->_battles->size());
 }
 
 void				BattleUpdater::disconnect(unsigned int const idPlayer)
 {
-  for (auto it = this->_battles.begin(); it != this->_battles.end(); it++)
+  for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     {
       if ((*it)->isInThisBattle(idPlayer))
 	{
-	  this->_battles.remove((*it));
+	  this->_battles->remove((*it));
 	  delete (*it);
 	  break;
 	}

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Fri Mar  7 14:24:40 2014 antoine maitre
+// Last update Sat Mar  8 12:39:06 2014 laurent ansel
 //
 
 #include			"Battle/BattleManager.hh"
@@ -103,9 +103,10 @@ bool				BattleManager::spell(Trame *trame)
 	{
 	  (*it)->lock();
 	  tmp = (*it)->getBattles();
-	  for (auto itb = tmp.begin(); itb != tmp.end(); it++)
+	  for (auto itb = tmp.begin(); itb != tmp.end(); itb++)
 	    if ((*itb)->getID() == (*trame)[CONTENT]["SPELL"]["IDBATTLE"].asUInt())
-	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	      //	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	      (*it)->addTrame((*trame));
 	  (*it)->unlock();
 	}
       return (true);
@@ -124,9 +125,10 @@ bool				BattleManager::capture(Trame *trame)
 	{
 	  (*it)->lock();
 	  tmp = (*it)->getBattles();
-	  for (auto itb = tmp.begin(); itb != tmp.end(); it++)
+	  for (auto itb = tmp.begin(); itb != tmp.end(); itb++)
 	    if ((*itb)->getID() == (*trame)[CONTENT]["CAPTURE"]["IDBATTLE"].asUInt())
-	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	      //	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	      (*it)->addTrame((*trame));
 	  (*it)->unlock();
 	}
       return (true);
@@ -146,9 +148,10 @@ bool				BattleManager::dswitch(Trame *trame)
 	{
 	  (*it)->lock();
 	  tmp = (*it)->getBattles();
-	  for (auto itb = tmp.begin(); itb != tmp.end(); it++)
+	  for (auto itb = tmp.begin(); itb != tmp.end(); itb++)
 	    if ((*itb)->getID() == (*trame)[CONTENT]["SWITCH"]["IDBATTLE"].asUInt())
-	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	      //(*it)->addTrame((*trame)((*trame)[CONTENT]));
+	      (*it)->addTrame((*trame));
 	  (*it)->unlock();
 	}
       return (true);
