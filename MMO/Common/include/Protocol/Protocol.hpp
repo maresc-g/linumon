@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Fri Mar  7 16:00:36 2014 laurent ansel
+// Last update Sat Mar  8 16:11:37 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -117,6 +117,7 @@ bool				consumables(unsigned int const id);
 bool				talentModels(unsigned int const id);
 bool				ressources(unsigned int const id);
 bool				heals(unsigned int const id);
+bool				spells(unsigned int const id);
 bool				authorizedStatKeys(unsigned int const id);
 
 #endif

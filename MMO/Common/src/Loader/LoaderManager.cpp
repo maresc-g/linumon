@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 15:04:36 2014 laurent ansel
-// Last update Fri Mar  7 15:59:53 2014 laurent ansel
+// Last update Sat Mar  8 16:12:49 2014 laurent ansel
 //
 
 #include			<functional>
@@ -13,6 +13,7 @@
 #include			"Loader/LoaderManager.hh"
 
 LoaderManager::LoaderManager():
+  _spells(new MutexVar<SpellLoader *>(NULL)),
   _stuffs(new MutexVar<StuffLoader *>(NULL)),
   _consumables(new MutexVar<ConsumableLoader *>(NULL)),
   _ressources(new MutexVar<RessourceLoader *>(NULL)),
@@ -28,6 +29,7 @@ LoaderManager::LoaderManager():
 
 LoaderManager::~LoaderManager()
 {
+  delete _spells;
   delete _mobModels;
   delete _jobModels;
   delete _stuffs;
@@ -40,6 +42,7 @@ LoaderManager::~LoaderManager()
 
 void				LoaderManager::init()
 {
+  _spells->setVar(new SpellLoader);
   _stuffs->setVar(new StuffLoader);
   _consumables->setVar(new ConsumableLoader);
   _heals->setVar(new HealLoader);
@@ -68,6 +71,11 @@ MutexVar<StuffLoader *>		*LoaderManager::getStuffLoader() const
 MutexVar<ConsumableLoader *>	*LoaderManager::getConsumableLoader() const
 {
   return (this->_consumables);
+}
+
+MutexVar<SpellLoader *>		*LoaderManager::getSpellLoader() const
+{
+  return (this->_spells);
 }
 
 MutexVar<TalentModelLoader *>	*LoaderManager::getTalentModelLoader() const
@@ -120,6 +128,11 @@ bool				LoaderManager::setConsumableLoader(Trame *trame)
   return ((**_consumables)->deserialization(*trame));
 }
 
+bool				LoaderManager::setSpellLoader(Trame *trame)
+{
+  return ((**_spells)->deserialization(*trame));
+}
+
 bool				LoaderManager::setTalentModelLoader(Trame *trame)
 {
   return ((**_talentModels)->deserialization(*trame));
@@ -155,6 +168,9 @@ void				LoaderManager::initReception(Protocol &protocol) const
 
   func = std::bind1st(std::mem_fun(&LoaderManager::setConsumableLoader), this);
   protocol.addFunc("CONSUMABLES", func);
+
+  func = std::bind1st(std::mem_fun(&LoaderManager::setSpellLoader), this);
+  protocol.addFunc("SPELLSLIST", func);
 
   func = std::bind1st(std::mem_fun(&LoaderManager::setTalentModelLoader), this);
   protocol.addFunc("TALENTMODELS", func);

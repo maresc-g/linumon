@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 15:08:00 2014 laurent ansel
-// Last update Fri Mar  7 15:58:32 2014 laurent ansel
+// Last update Sat Mar  8 16:04:34 2014 laurent ansel
 //
 
 #ifndef 			__LOADERMANAGER_HH__
@@ -16,6 +16,7 @@
 #include			"Loader/JobModelLoader.hh"
 #include			"Loader/StuffLoader.hh"
 #include			"Loader/ConsumableLoader.hh"
+#include			"Loader/SpellLoader.hh"
 #include			"Loader/TalentModelLoader.hh"
 #include			"Loader/HealLoader.hh"
 #include			"Loader/AuthorizedStatKeysLoader.hh"
@@ -27,6 +28,7 @@ class				LoaderManager : public Singleton<LoaderManager>
 {
   friend class			Singleton<LoaderManager>;
 private:
+  MutexVar<SpellLoader *>	*_spells;
   MutexVar<StuffLoader *>	*_stuffs;
   MutexVar<ConsumableLoader *>	*_consumables;
   MutexVar<RessourceLoader *>	*_ressources;
@@ -45,6 +47,7 @@ public:
   MutexVar<JobModelLoader *>	*getJobModelLoader() const;
   MutexVar<StuffLoader *>	*getStuffLoader() const;
   MutexVar<ConsumableLoader *>	*getConsumableLoader() const;
+  MutexVar<SpellLoader *>	*getSpellLoader() const;
   MutexVar<TalentModelLoader *>	*getTalentModelLoader() const;
   MutexVar<HealLoader *>		*getHealLoader() const;
   MutexVar<RessourceLoader *>	*getRessourceLoader() const;
@@ -56,6 +59,7 @@ public:
   bool				setJobModelLoader(Trame *trame);
   bool				setStuffLoader(Trame *trame);
   bool				setConsumableLoader(Trame *trame);
+  bool				setSpellLoader(Trame *trame);
   bool				setTalentModelLoader(Trame *trame);
   bool				setHealLoader(Trame *trame);
   bool				setRessourceLoader(Trame *trame);
