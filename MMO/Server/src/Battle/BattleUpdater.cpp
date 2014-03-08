@@ -5,11 +5,12 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Sat Mar  8 12:41:24 2014 laurent ansel
+// Last update Sat Mar  8 18:08:51 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
 #include			"Server/Server.hh"
+#include			"Loader/LoaderManager.hh"
 
 BattleUpdater::BattleUpdater()
   : Thread(),
@@ -159,6 +160,11 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2, unsigned int 
 
 bool				BattleUpdater::spell(Trame *trame)
 {
+  /*
+    if (spell)
+    tu fais ce tu veux avec sauf de le modifier ou de le delete
+   */
+  //Spell				*spell = (**LoaderManager::getInstance()->getSpellLoader())->getValue();
   Spell				*spell = Spell::deserialization((*trame)((*trame)["SPELL"]["SPELL"]));
   Battle			*tmp = NULL;
 

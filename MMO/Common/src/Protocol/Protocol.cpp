@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Mar  7 23:49:17 2014 antoine maitre
+// Last update Sat Mar  8 18:03:17 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -73,6 +73,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("TALENTMODELS", &talentModels);
       this->_container->load<unsigned int>("RESSOURCES", &ressources);
       this->_container->load<unsigned int>("HEALS", &heals);
+      this->_container->load<unsigned int>("SPELLSLIST", &spells);
       this->_container->load<unsigned int>("AUTHORIZEDSTATKEYSLIST", &authorizedStatKeys);
     }
   else
@@ -1076,6 +1077,27 @@ bool			heals(unsigned int const id)
   if (header->serialization(*trame))
     {
       ret = (**LoaderManager::getInstance()->getHealLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+
+bool			spells(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getSpellLoader())->serialization(*trame);
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
