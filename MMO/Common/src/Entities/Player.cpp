@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Sat Mar  8 16:34:09 2014 laurent ansel
+// Last update Sun Mar  9 16:18:12 2014 laurent ansel
 //
 
 #include			<functional>
@@ -419,7 +419,7 @@ Player				*Player::deserialization(Trame const &trame)
       if (equipment)
 	player->setEquipment(equipment);
 
-      Stats			*stats = Stats::deserialization(trame(trame["PLAYER"]));
+      Stats			*stats = Stats::deserialization(trame(trame["PLAYER"]["STATS"]));
       if (stats)
       	player->setStats(*stats);
 

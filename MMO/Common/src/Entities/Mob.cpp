@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Fri Mar  7 16:20:08 2014 laurent ansel
+// Last update Sun Mar  9 16:18:51 2014 laurent ansel
 //
 
 #include			"Entities/Mob.hh"
@@ -93,8 +93,8 @@ Mob				*Mob::deserialization(Trame const &trame)
 
   if (trame.isMember("KEY"))
     mob->setStatKeys(*(**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->getValue(trame["KEY"].asString()));
-  mob->setStats(*Stats::deserialization(trame));
-  mob->setTmpStats(*Stats::deserialization(trame));
+  mob->setStats(*Stats::deserialization(trame(trame["STATS"])));
+  mob->setTmpStats(*Stats::deserialization(trame(trame["TMP"])));
   mob->setLevelObject(*Level::deserialization(trame));
   mob->setName(trame["NAME"].asString());
   mob->setId(trame["ID"].asUInt());
