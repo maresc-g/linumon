@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Sun Mar  9 01:13:35 2014 cyril jourdain
+// Last update Sun Mar  9 01:39:51 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
