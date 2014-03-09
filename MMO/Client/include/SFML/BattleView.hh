@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Fri Mar  7 22:13:51 2014 cyril jourdain
+// Last update Sun Mar  9 01:13:35 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -15,7 +15,9 @@
 
 # include			"SFML/ContextView.hh"
 # include			"SFML/MobSprite.hh"
+# include			"SFML/BattleSpellUpdater.hh"
 
+class BattleSpellUpdater;
 
 class				BattleView : public ContextView
 {
@@ -32,6 +34,7 @@ private:
   Sprite			*_spellSprite;
   Sprite			*_spellSpriteCase;
   std::string			_selectedSpell;
+  BattleSpellUpdater		*_spellUpdater;
 
 public:
   BattleView(SFMLView *, WindowManager *);
@@ -49,7 +52,13 @@ public:
   virtual void			centerView();
   void				spellClick(std::string const &);
 
+public:
+  std::list<MobSprite*>		*getPlayerList() const;
+  std::list<MobSprite*>		*getEnemyList() const;
+  MobSprite			*findMobById(unsigned int id) const;
+
 private:
+  void				setPlayingMob();
   bool				playerTurn() const;
   void				leftButton(QMouseEvent *);
   void				rightButton(QMouseEvent *);

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Fri Mar  7 23:51:22 2014 cyril jourdain
+// Last update Sun Mar  9 01:15:06 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -16,7 +16,7 @@ BattleView::BattleView(SFMLView *v, WindowManager *w) :
   ContextView(v,w), _buttonMap(new ButtonMap), _playerList(new std::list<MobSprite*>()),
   _enemyList(new std::list<MobSprite*>()), _playingMob(NULL), _selectedMob(NULL),
   _selection(new Sprite()), _spellSprite(new Sprite()), _spellSpriteCase(new Sprite()),
-  _selectedSpell("")
+  _selectedSpell(""), _spellUpdater(new BattleSpellUpdater(v, w))
 {
   (*_buttonMap)[Qt::NoButton] = &BattleView::noButton;
   (*_buttonMap)[Qt::LeftButton] = &BattleView::leftButton;
@@ -81,27 +81,8 @@ void			BattleView::onInit()
 }
 void			BattleView::onUpdate()
 {
-  if ((!_playingMob) || (**_wMan->getBattle())->getTurnTo() != _playingMob->getPlayerId())
-    {
-      auto it = find_if(_playerList->begin(), _playerList->end(), [&](const MobSprite *val){
-	  if (val->getPlayerId() == (**_wMan->getBattle())->getTurnTo())
-	    return true;
-	  return false;
-	});
-      if (it == _playerList->end())
-	it = find_if(_enemyList->begin(), _enemyList->end(), [&](const MobSprite *val){
-	    if (val->getPlayerId() == (**_wMan->getBattle())->getTurnTo())
-	      return true;
-	    return false;
-	  });
-      if (it != _enemyList->end())
-	{
-	  if (_playingMob)
-	    _playingMob->setInfoVisibility(false);
-	  _playingMob = *it;
-	  _playingMob->setInfoVisibility(true);
-	}
-    }
+  setPlayingMob();
+  _spellUpdater->update(this);
   if (_playingMob)
     _selection->setPosition((_playingMob->getPosition().x), (_playingMob->getPosition().y - CASE_SIZE));
   _selection->update(*_sfmlView->getMainClock());
@@ -143,6 +124,7 @@ void			BattleView::drawView()
     }
   _sfmlView->draw(*_selection);
   _sfmlView->draw(*_spellSprite);
+  _spellUpdater->draw();
   _sfmlView->setView(*(_sfmlView->getMainView()));
 }
 
@@ -180,6 +162,54 @@ void			BattleView::spellClick(std::string const &spell)
       _selectedSpell = spell;
     }
   }
+}
+
+std::list<MobSprite*>	*BattleView::getPlayerList() const {return _playerList; }
+std::list<MobSprite*>	*BattleView::getEnemyList() const {return _enemyList; }
+MobSprite		*BattleView::findMobById(unsigned int id) const
+{
+  auto it = find_if(_playerList->begin(), _playerList->end(), [&](const MobSprite *val){
+      if (val->getPlayerId() == id)
+	return true;
+      return false;
+    });
+  if (it == _playerList->end())
+    it = find_if(_enemyList->begin(), _enemyList->end(), [&](const MobSprite *val){
+	if (val->getPlayerId() == id)
+	  return true;
+	return false;
+      });
+  if (it != _enemyList->end())
+    {
+      return *it;
+    }
+  return NULL;
+}
+
+
+void			BattleView::setPlayingMob()
+{
+  if ((!_playingMob) || (**_wMan->getBattle())->getTurnTo() != _playingMob->getPlayerId())
+    {
+      auto it = find_if(_playerList->begin(), _playerList->end(), [&](const MobSprite *val){
+	  if (val->getPlayerId() == (**_wMan->getBattle())->getTurnTo())
+	    return true;
+	  return false;
+	});
+      if (it == _playerList->end())
+	it = find_if(_enemyList->begin(), _enemyList->end(), [&](const MobSprite *val){
+	    if (val->getPlayerId() == (**_wMan->getBattle())->getTurnTo())
+	      return true;
+	    return false;
+	  });
+      if (it != _enemyList->end())
+	{
+	  if (_playingMob)
+	    _playingMob->setInfoVisibility(false);
+	  _playingMob = *it;
+	  _playingMob->setInfoVisibility(true);
+	}
+    }
 }
 
 bool			BattleView::playerTurn() const

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:08:26 2014 cyril jourdain
-// Last update Wed Mar  5 13:32:26 2014 cyril jourdain
+// Last update Sun Mar  9 01:00:27 2014 cyril jourdain
 //
 
 #include		"SFML/Sprite/Animation.hh"
@@ -54,7 +54,7 @@ void			Animation::update(sf::Clock &clock)
 	_currentId++;
 	_currentId %= _frameCount;
 	if (!_loopPlay && _currentId == 0 && _frameCount > 1)
-	    _playing = false;
+	  _playing = false;
 	_cFrameTime = 0;
       }
   }
@@ -79,4 +79,16 @@ void			Animation::play(bool p)
 void			Animation::setFrameLength(int len)
 {
   _frameLenght = len;
+}
+
+bool			Animation::isEnded() const
+{
+  if (_playing)
+    return false;
+  return true;
+}
+
+void			Animation::setLoopPlay(bool loop)
+{
+  _loopPlay = loop;
 }

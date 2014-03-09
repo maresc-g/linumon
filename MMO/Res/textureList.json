@@ -2,5 +2,6 @@
     "perso1" : "./Res/perso1.png",
     "textures" : "./Res/textures.png",
     "selectedPlayer" : "./Res/selectedPlayer.png",
-    "Lance-Flamme" : "./Res/Spell/Lance-Flamme.png"
+    "Lance-Flamme" : "./Res/Spell/Lance-Flamme.png",
+    "Boutefeu" : "./Res/Spell/Boutefeu.png"
 }

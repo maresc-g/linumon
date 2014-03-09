@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 13:38:44 2014 cyril jourdain
-// Last update Thu Mar  6 11:54:53 2014 cyril jourdain
+// Last update Sun Mar  9 00:59:51 2014 cyril jourdain
 //
 
 #ifndef 		__SPRITE_HH__
@@ -58,6 +58,7 @@ public /* methods */ :
   void			setVisible(bool);
   std::string		getLastPlayed();
   sf::IntRect		*getCurrentBound() const;
+  bool			isAnimFinished() const;
 };
 
 #endif
