@@ -64,7 +64,7 @@
 
 			#  use object
 			USEOBJECT : {target : idCharacter, item : id} -> client
-			-OBJECTEFFECT : {target : Stats} -> server
+			-OBJECTEFFECT : {target : id, stats : Stats} -> server
 			#  end
 			# end
 
