@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Feb 26 14:24:07 2014 guillaume marescaux
-// Last update Tue Mar  4 14:26:48 2014 guillaume marescaux
+// Last update Mon Mar 10 12:08:36 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/CraftView.hh"
@@ -39,7 +39,7 @@ void				CraftView::setInfos(Craft const &craft)
 
   for (auto it = items.begin() ; it != items.end() ; it++)
     {
-      item = new ItemView(ui.frame, _wMan, it->second, it->first);
+      item = new ItemView(ui.f_craft, _wMan, it->second, it->first);
       item->move(i * ITEM_SIZE + i, 0);
       item->resize(ITEM_SIZE, ITEM_SIZE);
       i++;

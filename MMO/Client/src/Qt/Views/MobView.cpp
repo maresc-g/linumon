@@ -5,12 +5,13 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Thu Mar  6 13:26:24 2014 guillaume marescaux
+// Last update Mon Mar 10 14:02:11 2014 guillaume marescaux
 //
 
 #include			<QMenu>
 #include			<boost/algorithm/string.hpp>
 #include			"Qt/Views/MobView.hh"
+#include			"Entities/Consumable.hh"
 
 MobView::MobView(QWidget *parent, WindowManager *wMan, Mob const *mob):
   QWidget(parent), _wMan(wMan), _mob(mob)
@@ -99,4 +100,31 @@ void				MobView::move(int x, int y)
   QWidget::move(x, y);
   _x = x;
   _y = y;
+}
+
+void				MobView::dragMoveEvent(QDragMoveEvent *de)
+{
+  de->accept();
+}
+ 
+void				MobView::dragEnterEvent(QDragEnterEvent *event)
+{
+  event->acceptProposedAction();
+}
+
+void				MobView::dropEvent(QDropEvent *de)
+{
+  std::pair<AItem const *, unsigned int>	*pair =
+    reinterpret_cast<std::pair<AItem const *, unsigned int> *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
+
+  if (pair->first->getItemType() == AItem::CONSUMABLE)
+    {
+      Consumable const		*consumable = static_cast<Consumable const *>(pair->first);
+      bool			ret;
+
+      std::cout << "I WILL USE THE OBJECT " << consumable->getName() << " ON " << _mob->getName() << std::endl;
+      (**_wMan->getMainPlayer())->useObject(consumable->getId(), _mob->getId());
+      Client::getInstance()->useObject(_mob->getId(), consumable->getId());
+      _wMan->getSFMLView()->getInventoryView()->initInventory();
+    }
 }

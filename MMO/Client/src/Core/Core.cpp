@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Mar 10 11:07:16 2014 guillaume marescaux
+// Last update Mon Mar 10 11:47:45 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -553,9 +553,9 @@ void				Core::craft(std::string const &craftName, std::string const &jobName)
 
 // void				gather();
 
-void				Core::useObject(unsigned int target, AItem const &item)
+void				Core::useObject(unsigned int target, unsigned int item)
 {
-  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("USEOBJECT", _id, target, item.getId());  
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("USEOBJECT", _id, target, item);  
 }
 
 // void				unsigned interaction();

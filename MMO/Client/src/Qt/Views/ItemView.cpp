@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Wed Mar  5 11:41:03 2014 guillaume marescaux
+// Last update Mon Mar 10 15:23:27 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -61,7 +61,8 @@ void				ItemView::paintEvent(QPaintEvent *)
 
 void				ItemView::mousePressEvent(QMouseEvent *)
 {
-  makeDrag();
+  if (this->parentWidget()->objectName() != "f_craft")
+    makeDrag();
 }
 
 void				ItemView::mouseDoubleClickEvent(QMouseEvent *)
@@ -131,17 +132,15 @@ void				ItemView::makeDrag()
   if (_item)
     {
       std::pair<AItem const *, unsigned int>	*pair = new std::pair<AItem const *, unsigned int>(_item, _nb);
-      std::ostringstream	oss;
+      std::ostringstream       oss;
 
       oss << pair;
-      QDrag *dr = new QDrag(this);
-      // The data to be transferred by the drag and drop operation is contained in a QMimeData object
-      QMimeData *data = new QMimeData;
+      QDrag			*dr = new QDrag(this);
+      QMimeData			*data = new QMimeData;
+
       data->setText(oss.str().c_str());
-      // Assign ownership of the QMimeData object to the QDrag object.
       dr->setMimeData(data);
-      // Start the drag and drop operation
-      dr->start();
+      dr->exec();
     }
 }
  

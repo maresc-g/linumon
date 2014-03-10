@@ -55,7 +55,7 @@
     <string>Ingredients :</string>
    </property>
   </widget>
-  <widget class="QFrame" name="frame">
+  <widget class="QFrame" name="f_craft">
    <property name="geometry">
     <rect>
      <x>90</x>

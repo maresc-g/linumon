@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:41:39 2014 guillaume marescaux
-// Last update Thu Mar  6 13:26:46 2014 guillaume marescaux
+// Last update Mon Mar 10 14:02:07 2014 guillaume marescaux
 //
 
 #ifndef 		__MOBVIEW_HH__
@@ -48,16 +48,17 @@ private slots:
 
   void			displayMenu(const QPoint&);
 
+protected:
+  virtual void		dropEvent(QDropEvent *de);
+  virtual void		dragMoveEvent(QDragMoveEvent *de);
+  virtual void		dragEnterEvent(QDragEnterEvent *event);
+
 //   virtual void		enterEvent(QEvent *event);
 //   virtual void		mouseDoubleClickEvent(QMouseEvent *event);
 //   void			setInfos(AItem *item, unsigned int nb);
 
 // public slots:
 //   void			makeDrag();
-// protected:
-//   void			dropEvent(QDropEvent *de);
-//   void			dragMoveEvent(QDragMoveEvent *de);
-//   void			dragEnterEvent(QDragEnterEvent *event);
 };
 
 #endif
