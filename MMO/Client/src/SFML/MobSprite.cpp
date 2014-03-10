@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:46:04 2014 cyril jourdain
-// Last update Mon Mar 10 10:50:36 2014 guillaume marescaux
+// Last update Mon Mar 10 15:25:47 2014 cyril jourdain
 //
 
 #include		"SFML/MobSprite.hh"
@@ -17,11 +17,14 @@
 # define			RED "#E72518"
 
 MobSprite::MobSprite(sf::String const &name, sf::Font * font, WindowManager *wMan) :
-  PlayerSprite(name, font), _spellBar(new SpellBarView(wMan->getSFMLView(), wMan)), _hud(new HUDView(wMan->getSFMLView(), wMan)),
+  PlayerSprite(name, font), _wMan(wMan), _spellBar(new SpellBarView(wMan->getSFMLView(), wMan)), _hud(new HUDView(wMan->getSFMLView(), wMan)),
   _pb(new QProgressBar(wMan->getSFMLView()))
 {
   _hud->hide();
   _spellBar->hide();
+  _pb->hide();
+  _pb->resize(100,20);
+  _isVisible = false;
 }
 
 MobSprite::~MobSprite()
@@ -72,6 +75,20 @@ void			MobSprite::setInfoVisibility(bool v)
   std::cout << "lol" << std::endl;
   _hud->setVisible(v);
   _spellBar->setVisible(v);
+}
+
+void			MobSprite::resetHUDPos()
+{
+  if (_pb && _isVisible){
+    sf::Vector2i p = _wMan->getSFMLView()->mapCoordsToPixel(getPosition());
+    _pb->move(p.x, p.y + getCurrentBound()->height);
+  }
+}
+
+void			MobSprite::setLifeVisibility(bool v)
+{
+  _pb->setVisible(v);
+  _isVisible = v;
 }
 
 void			MobSprite::onClick()

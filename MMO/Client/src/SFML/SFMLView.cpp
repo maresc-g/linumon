@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Sun Mar  9 00:36:18 2014 cyril jourdain
+// Last update Mon Mar 10 15:16:17 2014 cyril jourdain
 //
 
 /*
@@ -85,6 +85,7 @@ void			SFMLView::onInit()
   // *(_wMan->getState()) = CLIENT::LOADING_BATTLE;
   _currentView = _worldView;
   _currentView->resetPOV();
+  static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
 }
 
 void			SFMLView::onUpdate()
@@ -114,6 +115,9 @@ void			SFMLView::onUpdate()
 	{
 	  *(_wMan->getState()) = CLIENT::BATTLE;
 	  _battleView->resetPOV();
+	  static_cast<BattleView*>(_battleView)->resetHUDPos();
+	  static_cast<BattleView*>(_battleView)->setLifeVisibility(true);
+	  std::cout << "SET VISIBILITY TRUE HERE" << std::endl;
 	  SoundManager::getInstance()->playMusic(BATTLE_THEME);
 	}
       break;
