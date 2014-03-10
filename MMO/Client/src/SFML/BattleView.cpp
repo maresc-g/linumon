@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Mon Mar 10 15:22:04 2014 cyril jourdain
+// Last update Mon Mar 10 16:59:31 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -83,7 +83,7 @@ void			BattleView::onInit()
 }
 void			BattleView::onUpdate()
 {
-  if (_currentTurn == (unsigned int)-1) setPlayingMob();
+  if (_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn()) setPlayingMob();
   _spellUpdater->update(this);
   if (_playingMob)
     _selection->setPosition((_playingMob->getPosition().x), (_playingMob->getPosition().y - CASE_SIZE));
@@ -208,7 +208,9 @@ void			BattleView::setLifeVisibility(bool v)
 
 void			BattleView::setPlayingMob()
 {
-  int turn = (**_wMan->getBattle())->getTurnTo();
+  int turn = -1;
+  if (_currentTurn == -1 || _spellUpdater->endTurn())
+    turn = (**_wMan->getBattle())->getTurnTo();
 
   if (turn == -1)
     return;
@@ -284,7 +286,7 @@ void			BattleView::leftButton(QMouseEvent *)
 	  if (it3 != tmp->getModel().getSpells().end()){
 	    std::cout << "Found Spell" << std::endl;
 	    Client::getInstance()->spell( (**_wMan->getBattle())->getId(), **it3,
-					  (**_wMan->getBattle())->getTurnTo(),
+					  _currentTurn,
 					  _selectedMob->getPlayerId());
 	    _selectedMob = NULL;
 	    _spellSpriteCase->setVisible(false);

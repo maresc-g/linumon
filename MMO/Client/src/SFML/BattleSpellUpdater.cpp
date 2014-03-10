@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:56 2014 cyril jourdain
-// Last update Sun Mar  9 17:07:37 2014 guillaume marescaux
+// Last update Mon Mar 10 16:59:46 2014 cyril jourdain
 //
 
 #include			"SFML/BattleSpellUpdater.hh"
@@ -54,4 +54,12 @@ void				BattleSpellUpdater::draw()
 {
   if (_currentSpell->getLastPlayed() != "")
     _sfmlView->draw(*_currentSpell);
+}
+
+
+bool				BattleSpellUpdater::endTurn()
+{
+  if (_currentSpell->isAnimFinished())
+    return true;
+  return false;
 }
