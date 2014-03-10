@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Sun Mar  9 01:15:06 2014 cyril jourdain
+// Last update Sun Mar  9 16:16:28 2014 guillaume marescaux
 //
 
 #include		<stdexcept>
@@ -50,6 +50,7 @@ void			BattleView::onInit()
       tmp->setPlayerId((*it)->getId(), false);
       tmp->setHUDInfo(*(static_cast<Mob*>(*it)));
       tmp->setInfoVisibility(false);
+      tmp->initHealthBar(*(static_cast<Mob*>(*it)));
       _playerList->push_back(tmp);
       posY += 3*CASE_SIZE;
       limit++;
@@ -65,6 +66,7 @@ void			BattleView::onInit()
       tmp->setPosition(posY, ((2) * CASE_SIZE) - tmp->getCurrentBound()->height / 2 + 4);
       tmp->setPos(posY / CASE_SIZE, 2);
       tmp->setPlayerId((*it)->getId(), false);
+      tmp->initHealthBar(*(static_cast<Mob*>(*it)));
       _enemyList->push_back(tmp);
       posY += 3*CASE_SIZE;
     }

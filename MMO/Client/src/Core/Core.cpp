@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Sun Mar  9 00:07:14 2014 laurent ansel
+// Last update Mon Mar 10 11:07:16 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -237,7 +237,7 @@ bool				Core::launchBattle(Trame *trame)
 
 bool				Core::turnTo(Trame *trame)
 {
-  (**_battle)->setTurnTo((*trame)[CONTENT]["TURNTO"].asUInt());
+  (**_battle)->pushTurnTo((*trame)[CONTENT]["TURNTO"].asUInt());
   return (true);
 }
 
@@ -253,8 +253,16 @@ bool				Core::spell(Trame *trame)
   return (true);
 }
 
-bool				Core::spellEffect(Trame *)
+bool				Core::spellEffect(Trame *trame)
 {
+  Mob				*mob = (**_battle)->getMobById((*trame)[CONTENT]["SPELLEFFECT"]["TARGET"].asUInt());
+
+  if (mob)
+    {
+      std::cout << "BEFORE = " << mob->getCurrentStat("HP") << std::endl;
+      mob->setCurrentStat("HP", mob->getCurrentStat("HP") - (*trame)[CONTENT]["SPELLEFFECT"]["HPCHANGE"].asUInt());
+      std::cout << "AFTER = " << mob->getCurrentStat("HP") << " SHOULD HAVE BEEN " << mob->getCurrentStat("HP") - (*trame)[CONTENT]["SPELLEFFECT"]["HPCHANGE"].asUInt() << std::endl;
+    }
   return (true);
 }
 

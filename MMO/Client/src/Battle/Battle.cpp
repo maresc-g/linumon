@@ -5,13 +5,15 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Sat Mar  8 23:42:33 2014 cyril jourdain
+// Last update Mon Mar 10 11:06:55 2014 guillaume marescaux
 //
 
+#include			<algorithm>
 #include			"Battle/Battle.hh"
 
 Battle::Battle():
-  _id(0), _turnTo(0), _mobs(new std::list<Mob *>), _enemy(NULL), _maxMobs(0), _spells(new std::list<SpellContainer *>)
+  _id(0), _mobs(new std::list<Mob *>), _enemy(NULL), _maxMobs(0), _spells(new std::list<SpellContainer *>),
+  _turnTo(new std::list<unsigned int>)
 {
 }
 
@@ -25,22 +27,34 @@ void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *en
   std::list<Mob *> const	mobs = (**player)->getDigitaliser().getBattleMobs();
   unsigned int			i = 0;
 
+  _turnTo->clear();
   _mobs->clear();
-  std::cout << "BEFORE PUTTING MOBS IN THE FUCKING LISTTTTTTTTTTTTTTTTTTTTTTTTTTTT" << std::endl;
   for (auto it = mobs.begin() ; it != mobs.end() && i < 3; it++)
     {
-      std::cout << "I AM PUTTING MOBS IN THE FUCKING LISTTTTTTTTTTTTTTTTTTTTTTTTTTTT" << std::endl;
+      (*it)->setStat("HP", 80);
+      (*it)->enterBattle();
       _mobs->push_back(*it);
       i++;
     }
   _id = id;
   _enemy = enemy;
+  std::list<Mob *> const	mobs2 = enemy->getDigitaliser().getBattleMobs();
+  i = 0;
+  for (auto it = mobs2.begin() ; it != mobs2.end() && i < 3; it++)
+    {
+      std::cout << "I AM CHANGING ENEMY MOBS HP" << std::endl;
+      (*it)->setStat("HP", 80);
+      std::cout << (*it)->getStat("HP") << std::endl;
+      (*it)->enterBattle();
+      // _mobs->push_back(*it);
+      i++;
+    }
   _maxMobs = maxMobs;
 }
 
-void				Battle::setTurnTo(unsigned int id)
+void				Battle::pushTurnTo(unsigned int id)
 {
-  _turnTo = id;
+  _turnTo->push_back(id);
 }
 
 void				Battle::pushSpell(SpellContainer *container)
@@ -59,7 +73,36 @@ SpellContainer			*Battle::getSpell(void)
 }
 
 unsigned int			Battle::getId() const { return (_id); }
-unsigned int			Battle::getTurnTo() const { return (_turnTo); }
+unsigned int			Battle::getTurnTo() const
+{
+  if (_turnTo->size() == 0)
+    return (-1);
+  unsigned int			id = _turnTo->front();
+  _turnTo->pop_front();
+  return (id);
+}
+
 std::list<Mob *> const		&Battle::getMobs() const { return (*_mobs); }
 Player const 			&Battle::getEnemy() const { return (*_enemy); }
 unsigned int			Battle::getMaxMobs() const { return (_maxMobs); }
+
+Mob				*Battle::getMobById(unsigned int id)
+{
+  std::list<Mob *> const	mobs = _enemy->getDigitaliser().getBattleMobs();
+
+  auto it = find_if(_mobs->begin(), _mobs->end(), [&](Mob const *mob){
+      if (mob->getId() == id)
+  	return true;
+      return false;
+    });
+  if (it != _mobs->end())
+    return (*it);
+  auto it2 = find_if(mobs.begin(), mobs.end(), [&](Mob const *mob){
+      if (mob->getId() == id)
+	return true;
+      return false;
+    });
+  if (it2 != mobs.end())
+    return *it2;
+  return NULL;
+}

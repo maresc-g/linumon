@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Mar 10 12:04:36 2014 antoine maitre
+// Last update Mon Mar 10 12:32:42 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -179,13 +179,16 @@ void					Battle::next()
 	  this->trameTurnTo((*it)->getUser().getId(), tmp->getId());
 	}
       else
-	if ((*it)->isMyMob(tmp->getId()))
-	  {
-	    auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
-	    if (!this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2)))
-	      this->next();
-	    return;
-	  }
+	{
+	  std::cout << (*it)->isMyMob(tmp->getId()) << " totokekek " << tmp->getId() << std::endl;
+	  if ((*it)->isMyMob(tmp->getId()))
+	    {
+	      auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
+	      if (!this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2)))
+		this->next();
+	      return;
+	    }
+	}
     }
 }
 
