@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Mon Mar 10 01:13:33 2014 alexis mestag
+// Last update Mon Mar 10 11:25:22 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -194,6 +194,7 @@ bool				Stats::serialization(Trame &trame) const
 
   for (auto it = this->begin() ; it != this->end() ; ++it)
     {
+      std::cout << "STAT = " << (*it)->getKey().getName() << std::endl;
       //      str << nb;
       (*it)->serialization(trame/*(trame[str.str()])*/);
       // str.str("");
@@ -252,7 +253,7 @@ Stats				*Stats::deserialization(Trame const &trame)
       st = Stat::deserialization(trame(trame[*it]));
       if (st)
 	{
-      std::cout << "STAT = " << *it << std::endl;
+	  std::cout << "STAT = " << *it << std::endl;
 	  st->setKey(*new StatKey(*it));
 	  stat->push_back(st);
 	}
