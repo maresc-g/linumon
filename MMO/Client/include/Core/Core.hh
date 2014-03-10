@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Mon Mar 10 11:48:18 2014 guillaume marescaux
+// Last update Mon Mar 10 16:01:48 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -127,6 +127,7 @@ private:
   bool			deadMob(Trame *);
   bool			endBattle(Trame *);
   bool			upStats(Trame *);
+  bool			stats(Trame *);
   bool			upTalents(Trame *);
   bool			addToInventory(Trame *);
   bool			deleteFromInventory(Trame *);

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Mon Mar 10 14:02:11 2014 guillaume marescaux
+// Last update Mon Mar 10 16:22:23 2014 guillaume marescaux
 //
 
 #include			<QMenu>
@@ -123,7 +123,7 @@ void				MobView::dropEvent(QDropEvent *de)
       bool			ret;
 
       std::cout << "I WILL USE THE OBJECT " << consumable->getName() << " ON " << _mob->getName() << std::endl;
-      (**_wMan->getMainPlayer())->useObject(consumable->getId(), _mob->getId());
+      (**_wMan->getMainPlayer())->useObject(_mob->getId(), consumable->getId());
       Client::getInstance()->useObject(_mob->getId(), consumable->getId());
       _wMan->getSFMLView()->getInventoryView()->initInventory();
     }

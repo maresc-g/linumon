@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Mar 10 14:56:22 2014 laurent ansel
+// Last update Mon Mar 10 16:20:48 2014 guillaume marescaux
 //
 
 #include			<functional>
@@ -345,6 +345,8 @@ void				Player::useObject(unsigned int const target, unsigned int const idItem)
   if (mob)
     {
       item = this->getAndDeleteItem(idItem);
+      if (!item)
+	std::cout << "ITEM IS NULL" << std::endl;
 #ifndef		CLIENT_COMPILATION
       if (item && item->getItemType() == AItem::CONSUMABLE)
 	dynamic_cast<Consumable *>(item)->applyEffect(*mob);
@@ -354,6 +356,8 @@ void				Player::useObject(unsigned int const target, unsigned int const idItem)
       (void)item;
 #endif
     }
+  else
+    std::cout << "MOB IS NULL" << std::endl;
 }
 
 bool				Player::serialization(Trame &trame) const
