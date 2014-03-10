@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Mar 10 01:36:39 2014 alexis mestag
+// Last update Mon Mar 10 14:53:44 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__

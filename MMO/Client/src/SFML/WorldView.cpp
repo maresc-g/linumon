@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Fri Mar  7 22:47:54 2014 cyril jourdain
+// Last update Mon Mar 10 13:31:58 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -244,7 +244,7 @@ void			WorldView::loadEntities()
 				      pos->y);
 			  _entities->push_back(tmp);
 			  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
-			  if (_sfmlView->getSpriteManager()->copySprite("tree_top", *tmp))
+			  if (!_sfmlView->getSpriteManager()->copySprite("tree_top", *tmp))
 			    continue;
 			  tmp->play("default");
 			  tmp->setPosition(pos->x * CASE_SIZE- 64,

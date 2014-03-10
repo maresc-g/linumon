@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:44:23 2014 cyril jourdain
-// Last update Sun Mar  9 16:14:24 2014 guillaume marescaux
+// Last update Mon Mar 10 15:18:48 2014 cyril jourdain
 //
 
 #ifndef 		__MOBSPRITE_HH__
@@ -20,10 +20,12 @@
 class			MobSprite : public PlayerSprite
 {
 private:
+  WindowManager		*_wMan;
   SpellBarView		*_spellBar;
   HUDView		*_hud;
   QProgressBar		*_pb;
   Mob const		*_mob;
+  bool			_isVisible;
 
 public:
   MobSprite(sf::String const &, sf::Font *, WindowManager *);
@@ -34,6 +36,8 @@ public:
   void				initHealthBar(Mob const &mob);
   void				upHealthBar();
   void				setInfoVisibility(bool);
+  void				resetHUDPos();
+  void				setLifeVisibility(bool);
   virtual void			onClick();
   virtual void			setPosition(int x, int y);
 };

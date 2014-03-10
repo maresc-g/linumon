@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar  7 14:18:07 2014 laurent ansel
-// Last update Fri Mar  7 15:27:58 2014 laurent ansel
+// Last update Mon Mar 10 14:01:43 2014 laurent ansel
 //
 
 #ifndef CLIENT_COMPILATION
@@ -28,6 +28,8 @@ Heals::Heals() :
   Repository<Heal>		*mm = &Database::getRepository<Heal>();
 
   *_heals = mm->getAll();
+  for (auto it = _heals->begin() ; it != _heals->end() ; ++it)
+    Map::getInstance()->addEntity((*it)->getZone(), *it);
 #endif
 }
 
@@ -87,10 +89,7 @@ bool				HealLoader::serialization(Trame &trame) const
 
   trame[CONTENT]["HEALS"];
   for (auto it = _heals->getHeals().begin() ; it != _heals->getHeals().end() ; ++it)
-    {
-      Map::getInstance()->addEntity((*it)->getZone(), *it);
-      (*it)->serialization(trame(trame[CONTENT]["HEALS"][(*it)->getName()]));
-    }
+    (*it)->serialization(trame(trame[CONTENT]["HEALS"][(*it)->getName()]));
   return (ret);
 }
 

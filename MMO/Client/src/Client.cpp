@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Fri Mar  7 16:15:26 2014 guillaume marescaux
+// Last update Mon Mar 10 11:47:55 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -84,7 +84,7 @@ void				Client::craft(std::string const &craftName, std::string const &jobName)
 
 // void				Client::gather();
 
-void				Client::useObject(unsigned int target, AItem const &item) { _core->useObject(target, item); }
+void				Client::useObject(unsigned int target, unsigned int item) { _core->useObject(target, item); }
 
 // void				Client::unsigned interaction();
 

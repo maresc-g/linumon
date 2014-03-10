@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Mon Mar 10 11:40:52 2014 laurent ansel
+// Last update Mon Mar 10 16:05:25 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -40,6 +40,8 @@ void				Client::clear()
 {
   if (_state == TRADE && _player)
     TradeManager::getInstance()->disconnectPlayer(_player->getId());
+  // if (_state == BATTLE && _player)
+  //   BattleManager::getInstance()->disconnect(_player->getId());
   _state = NONE;
   if (_player)
     {
@@ -63,6 +65,8 @@ void				Client::disconnectUser()
 {
   if (_state == TRADE && _player)
     TradeManager::getInstance()->disconnectPlayer(_player->getId());
+  // if (_state == BATTLE && _player)
+  //   BattleManager::getInstance()->disconnect(_player->getId());
   _state = GAME;
   if (_player)
     {
@@ -80,6 +84,8 @@ void				Client::disconnectPlayer()
 {
   if (_state == TRADE && _player)
     TradeManager::getInstance()->disconnectPlayer(_player->getId());
+  // if (_state == BATTLE && _player)
+  //   BattleManager::getInstance()->disconnect(_player->getId());
   _state = GAME;
   if (_player)
     {
@@ -277,7 +283,7 @@ void				Client::useObject(unsigned int const target, unsigned int const item)
   if (_state == GAME && _player)
     {
       _player->useObject(target, item);
-      Server::getInstance()->callProtocol<Stats const *>("OBJECTEFFECT", _id, &(_player->getMob(target).getCurrentStats()));
+      Server::getInstance()->callProtocol<unsigned int, Stats const *>("OBJECTEFFECT", _id, target, &(_player->getMob(target).getCurrentStats()));
     }
 }
 

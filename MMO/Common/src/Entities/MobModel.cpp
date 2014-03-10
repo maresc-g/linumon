@@ -5,10 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:39:45 2014 alexis mestag
-// Last update Sun Mar  9 16:19:32 2014 laurent ansel
+// Last update Mon Mar 10 15:44:08 2014 laurent ansel
 //
 
 #include			"Entities/MobModel.hh"
+#include			"Loader/LoaderManager.hh"
 
 MobModel::MobModel() :
   Persistent(), AStatEntity("", eStatEntity::MOBMODEL),
@@ -66,6 +67,7 @@ bool				MobModel::serialization(Trame &trame) const
   this->getType().serialization(trame(trame));
   this->getStats().serialization(trame(trame["STATS"]));
   this->getSpells().serialization(trame(trame));
+  trame["KEY"] = this->getAuthorizedStatKeys().getName();
   return (ret);
 }
 
@@ -74,6 +76,8 @@ MobModel			*MobModel::deserialization(Trame const &trame)
   MobModel			*model = NULL;
 
   model = new MobModel;
+  if (trame.isMember("KEY"))
+    model->setAuthorizedStatKeys(*(**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->getValue(trame["KEY"].asString()));
   model->setType(*Type::deserialization(trame(trame)));
   model->setSpells(*Spells::deserialization(trame(trame)));
   model->setStats(*Stats::deserialization(trame(trame["STATS"])));

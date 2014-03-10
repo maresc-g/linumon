@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Fri Mar  7 16:12:07 2014 guillaume marescaux
+// Last update Mon Mar 10 11:48:18 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -92,7 +92,7 @@ public:
   // void			talents();
   void			craft(std::string const &craftName, std::string const &jobName);
   // void			gather();
-  void			useObject(unsigned int target, AItem const &item);
+  void			useObject(unsigned int target, unsigned int item);
   // void			unsigned interaction();
   void			putItem(AItem const &item);
   void			getItem(AItem const &item);

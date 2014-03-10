@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Sat Mar  8 16:11:37 2014 laurent ansel
+// Last update Mon Mar 10 15:59:02 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -85,7 +85,7 @@ bool				stuff(unsigned int const id, int action, unsigned int idItem, unsigned i
   // bool				talents();'
 bool				craft(unsigned int const id, std::string craftName, std::string jobName);
   // bool				gather();
-bool				objectEffect(unsigned int const id, Stats *stats);
+bool				objectEffect(unsigned int const id, unsigned int const target, Stats const *stats);
 bool				useObject(unsigned int const id, unsigned int target, unsigned int idItem);
 // bool				interaction();
 bool				launchTrade(unsigned int const id, unsigned int const idTrade, std::string namePlayer);

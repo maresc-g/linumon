@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Sun Mar  9 01:39:51 2014 cyril jourdain
+// Last update Mon Mar 10 15:03:22 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -35,6 +35,7 @@ private:
   Sprite			*_spellSpriteCase;
   std::string			_selectedSpell;
   BattleSpellUpdater		*_spellUpdater;
+  unsigned int			_currentTurn;
 
 public:
   BattleView(SFMLView *, WindowManager *);
@@ -56,6 +57,8 @@ public:
   std::list<MobSprite*>		*getPlayerList() const;
   std::list<MobSprite*>		*getEnemyList() const;
   MobSprite			*findMobById(unsigned int id) const;
+  void				resetHUDPos();
+  void				setLifeVisibility(bool v);
 
 private:
   void				setPlayingMob();

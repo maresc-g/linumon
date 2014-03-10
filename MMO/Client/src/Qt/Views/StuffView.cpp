@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Mon Mar 10 01:21:19 2014 alexis mestag
+// Last update Mon Mar 10 15:02:01 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -78,6 +78,7 @@ void				StuffView::initStuff(Player const &player)
 {
   if (_last == &player && !_changed)
     return;
+  bool				visible = isVisible();
   _last = &player;
   _changed = false;
   ui.l_name->setText(player.getName().c_str());
@@ -108,7 +109,8 @@ void				StuffView::initStuff(Player const &player)
       _labels->push_back(label);
       i++;
     }
-  _wMan->getSFMLView()->displayView(this);
+  if (visible)
+    _wMan->getSFMLView()->displayView(this);
 }
 
 void				StuffView::initStuff(Mob const &mob)
@@ -116,6 +118,7 @@ void				StuffView::initStuff(Mob const &mob)
   if (_last == &mob && !_changed)
     return;
   _last = &mob;
+  bool				visible = isVisible();
   Equipment const		*equipment = &mob.getEquipment();
 
   _changed = false;
@@ -142,7 +145,8 @@ void				StuffView::initStuff(Mob const &mob)
       _labels->push_back(label);
       i++;
     }
-  _wMan->getSFMLView()->displayView(this);
+  if (visible)
+    _wMan->getSFMLView()->displayView(this);
 }
 
 void				StuffView::itemAction(ItemView *item)
