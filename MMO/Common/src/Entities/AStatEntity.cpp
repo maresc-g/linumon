@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Mon Mar 10 01:18:21 2014 alexis mestag
+// Last update Mon Mar 10 09:52:37 2014 alexis mestag
 //
 
 #include			"Entities/AStatEntity.hh"
@@ -75,7 +75,9 @@ void				AStatEntity::setAuthorizedStatKeys(AuthorizedStatKeys const &keys)
 
 StatKey const			*AStatEntity::getKey(std::string const &key) const
 {
-  return (_authKeys->getKey(key));
+  if (!_authKeys)
+    std::cerr << "Warning : AStatEntity::_authKeys should not be NULL, fix that !" << std::endl;
+  return (_authKeys ? _authKeys->getKey(key) : NULL);
 }
 
 /*
