@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 16:18:45 2014 laurent ansel
-// Last update Wed Mar  5 16:22:08 2014 laurent ansel
+// Last update Sun Mar  9 22:22:25 2014 alexis mestag
 //
 
 #include				"SuperPotionEffect.hh"
@@ -23,6 +23,6 @@ SuperPotionEffect::~SuperPotionEffect()
 
 bool					SuperPotionEffect::apply(Mob &mob)
 {
-  mob.setTmpStat("HP", 40, true);
+  // mob.setBattleStat("HP", 50, true);
   return (true);
 }

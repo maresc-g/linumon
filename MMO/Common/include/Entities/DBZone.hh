@@ -5,15 +5,18 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb 10 14:17:03 2014 alexis mestag
-// Last update Mon Feb 10 16:09:28 2014 alexis mestag
+// Last update Fri Mar  7 14:50:25 2014 alexis mestag
 //
 
 #ifndef				__DBZONE_HH__
 # define			__DBZONE_HH__
 
+# include			<list>
 # include			"Database/Persistent.hh"
 # include			"Utility/Nameable.hh"
-# include			"Entities/Mob.hh"
+
+class				Mob;
+class				MobModel;
 
 class				DBZone : public Persistent, public Nameable
 {
@@ -42,6 +45,8 @@ public:
 
   Mob				*getRandomMob() const;
 };
+
+# include			"Entities/Mob.hh"
 
 # ifdef	ODB_COMPILER
 #  pragma db object(DBZone)

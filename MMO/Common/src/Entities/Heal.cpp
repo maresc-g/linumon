@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb 21 13:05:16 2014 laurent ansel
-// Last update Mon Mar  3 14:12:27 2014 alexis mestag
+// Last update Sun Mar  9 22:03:08 2014 alexis mestag
 //
 
 #include			"Entities/Heal.hh"
@@ -49,12 +49,10 @@ bool				Heal::action(Player *player)
 bool				Heal::heal(Digitaliser const &digitaliser) const
 {
 #ifndef CLIENT_COMPILATION
-  // Repository<StatKey>		*rsk = &Database::getRepository<StatKey>();
-  // StatKey			*sk = rsk->getByName("HP");
   Digitaliser::Mobs const	*mobs = &digitaliser.getBattleMobs();
 
-  for (auto it = mobs->begin() ; it !=mobs->end() ; ++it)
-    (*it)->setTmpStat("HP", (*it)->getStat("HP"), true);
+  // for (auto it = mobs->begin() ; it !=mobs->end() ; ++it)
+  //   (*it)->setBattleStat("HP", (*it)->getStat("HP"), true);
   return (true);
 #else
 (void)digitaliser;

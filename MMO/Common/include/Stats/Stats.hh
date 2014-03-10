@@ -5,25 +5,30 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:58:39 2013 alexis mestag
-// Last update Mon Mar  3 16:56:24 2014 alexis mestag
+// Last update Mon Mar 10 00:40:48 2014 alexis mestag
 //
 
 #ifndef				__STATS_HH__
 # define			__STATS_HH__
 
-# include			<odb/core.hxx>
 # include			<list>
-# include			"Stats/Stat.hh"
-# include			"Utility/ISerialization.hh"
 # include			"Stats/AuthorizedStatKeys.hh"
+# include			"Stats/Stat.hh"
 # include			"Stats/StatKey.hh"
+# include			"Utility/ISerialization.hh"
 # include			"Utility/Wrapper.hpp"
 
 class				Stats : public ContainerWrapper<std::list<Stat *>>
 {
 private:
-  container_type		&getStatsDeepCopy() const;
   void				deleteStats();
+  container_type const		&getStats() const;
+  void				setStats(container_type const &c);
+
+  void				add(Stats const &rhs);
+  void				sub(Stats const &rhs);
+
+  Stat				*get(StatKey const &key);
 
 public:
   Stats();
@@ -33,32 +38,18 @@ public:
   Stats				&operator=(Stats const &rhs);
   Stats				&operator+=(Stats const &rhs);
   Stats				&operator-=(Stats const &rhs);
-  void				add(Stats const &rhs);
-  void				sub(Stats const &rhs);
-  // Stats				operator+(Stats const &rhs) const;
-  // Stats				operator-(Stats const &rhs) const;
+  Stats				operator+(Stats const &rhs) const;
+  Stats				operator-(Stats const &rhs) const;
 
   Stat::value_type		operator[](StatKey const &key) const;
-  Stat::value_type		operator[](std::string const &key) const;
 
-  Stat				*get(StatKey const &key) const;
-  Stat				*get(std::string const &key) const;
+  Stat const			*get(StatKey const &key) const;
 
-  // Do not assign if !Stat.isShortLived() sauf s'il n'y est pas
-  void				smartAssign(Stats const &rhs);
+  void				resetShortLivedStats(Stats const &rhs);
   void				removeShortLivedStats();
 
-  void				setStats(container_type const &stats);
-  container_type const		&getStats() const;
-
   Stat::value_type		getStat(StatKey const &key) const;
-  Stat::value_type		getStat(std::string const &key) const;
-
-  void				setStat(StatKey const &key, Stat::value_type const value,
-					bool const add = false);
-  // This one below should not be called
-  // void				setStat(std::string const &key, Stat::value_type const value,
-  // 					bool const add = false);
+  void				setStat(StatKey const &key, Stat::value_type const value);
 
   virtual bool			serialization(Trame &trame) const;
   static Stats			*deserialization(Trame const &trame);

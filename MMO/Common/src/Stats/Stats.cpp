@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Tue Mar  4 11:41:37 2014 laurent ansel
+// Last update Sun Mar  9 23:52:56 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -34,7 +34,6 @@ Stats				&Stats::operator=(Stats const &rhs)
 {
   if (this != &rhs)
     {
-      // this->setStats(rhs.getStatsDeepCopy());
       this->setStats(rhs.getStats());
     }
   return (*this);
@@ -45,9 +44,52 @@ Stat::value_type		Stats::operator[](StatKey const &key) const
   return (this->getStat(key));
 }
 
-Stat::value_type		Stats::operator[](std::string const &key) const
+Stat				*Stats::get(StatKey const &key)
 {
-  return (this->getStat(key));
+  std::function<bool(Stat *)>	statSeeker = [&](Stat *s) -> bool {
+    return (s->getKey() == key);
+  };
+  auto				it = std::find_if(this->begin(), this->end(), statSeeker);
+
+  return (it != this->end() ? *it : NULL);  
+}
+
+Stat const			*Stats::get(StatKey const &key) const
+{
+  std::function<bool(Stat const *)>	statSeeker = [&](Stat const *s) -> bool {
+    return (s->getKey() == key);
+  };
+  auto				it = std::find_if(this->cbegin(), this->cend(), statSeeker);
+
+  return (it != this->cend() ? *it : NULL);
+}
+
+Stats				&Stats::operator+=(Stats const &rhs)
+{
+  this->add(rhs);
+  return (*this);
+}
+
+Stats				&Stats::operator-=(Stats const &rhs)
+{
+  this->sub(rhs);
+  return (*this);
+}
+
+Stats				Stats::operator+(Stats const &rhs) const
+{
+  Stats				ret(*this);
+
+  ret += rhs;
+  return (ret);
+}
+
+Stats				Stats::operator-(Stats const &rhs) const
+{
+  Stats				ret(*this);
+
+  ret -= rhs;
+  return (ret);
 }
 
 void				Stats::add(Stats const &rhs)
@@ -61,14 +103,8 @@ void				Stats::add(Stats const &rhs)
     if (stat)
       *stat += *rhsStat;
     else
-      this->setStat(rhsStat->getKey(), rhsStat->getValue(), true);
+      this->setStat(rhsStat->getKey(), rhsStat->getValue());
   }
-}
-
-Stats				&Stats::operator+=(Stats const &rhs)
-{
-  this->add(rhs);
-  return (*this);
 }
 
 void				Stats::sub(Stats const &rhs)
@@ -82,42 +118,15 @@ void				Stats::sub(Stats const &rhs)
     if (stat) {
       *stat -= *rhsStat;
     }
-    // Nothing to do if the key's not found
   }
 }
 
-Stats				&Stats::operator-=(Stats const &rhs)
+void				Stats::resetShortLivedStats(Stats const &rhs)
 {
-  this->sub(rhs);
-  return (*this);
-}
-
-Stat				*Stats::get(StatKey const &key) const
-{
-  return (this->get(key.getName()));
-}
-
-Stat				*Stats::get(std::string const &key) const
-{
-  /*
-  ** Warning :	the std::function below cannot be static, remember it !
-  **		It would be instanciated only ONE time so
-  **		it would screw up the comparison with the key parameter
-  */
-  std::function<bool(Stat *)>	statSeeker = [&](Stat *s) -> bool {
-    return (s->getKey().getName() == key);
-  };
-  auto				it = std::find_if(this->begin(), this->end(), statSeeker);
-
-  return (it != this->end() ? *it : NULL);  
-}
-
-void				Stats::smartAssign(Stats const &rhs)
-{
-  for (auto it = rhs.getStats().begin() ; it != rhs.getStats().end() ; ++it)
+  for (auto it = rhs.begin() ; it != rhs.end() ; ++it)
     {
       if ((*it)->isShortLived() || !this->get((*it)->getKey())) {
-	this->setStat((*it)->getKey(), (*it)->getValue(), true);
+	this->setStat((*it)->getKey(), (*it)->getValue());
       }
     }
 }
@@ -135,67 +144,22 @@ void				Stats::removeShortLivedStats()
   this->getContainer().remove_if(shortLivedStatSeeker);
 }
 
-void				Stats::setStats(container_type const &stats)
-{
-  Stat const			*rhsStat;
-  Stat				*stat;
-
-  for (auto it = stats.begin() ; it != stats.end() ; ++it) {
-    rhsStat = *it;
-    stat = this->get(rhsStat->getKey());
-    if (stat)
-      *stat = *rhsStat;
-    else
-      this->setStat(rhsStat->getKey(), rhsStat->getValue(), true);
-  }
-}
-
-Stats::container_type const	&Stats::getStats() const
-{
-  return (this->getContainer());
-}
-
 Stat::value_type		Stats::getStat(StatKey const &key) const
 {
-  return (this->getStat(key.getName()));
-}
-
-Stat::value_type		Stats::getStat(std::string const &key) const
-{
-  Stat				*s = this->get(key);
+  Stat const			*s = this->get(key);
 
   return (s ? s->getValue() : Stat::value_type());
 }
 
-void				Stats::setStat(StatKey const &key, Stat::value_type const value,
-					       bool const add)
+void				Stats::setStat(StatKey const &key, Stat::value_type const value)
 {
   Stat				*s = this->get(key);
 
   if (s)
     s->setValue(value);
-  else if (add) {
+  else
     this->getContainer().push_back(new Stat(key, value));
-  }
 }
-
-/*
-** These 2 functions (above and below) are " duplicated " for persisting issues
-** The one above is very useful for the Stats::smartAssign method (for the server ONLY)
-** In fact, the one below should not be called at all
-*/
-
-// void				Stats::setStat(std::string const &key, Stat::value_type const value,
-// 					       bool const add)
-// {
-//   Stat				*s = this->get(key);
-
-//   if (s)
-//     s->setValue(value);
-//   else if (add)
-//     _stats.push_back(new Stat(StatKey(key), value));
-//   std::cout << "WARNING FROM MESTAG : Stats::setStat with string key parameter should not be called" << std::endl;
-// }
 
 void				Stats::deleteStats()
 {
@@ -205,6 +169,21 @@ void				Stats::deleteStats()
   };
 
   this->getContainer().remove_if(f);
+}
+
+Stats::container_type const	&Stats::getStats() const
+{
+  return (this->getContainer());
+}
+
+void				Stats::setStats(container_type const &rhs)
+{
+  std::function<void(Stat const *)> statCopier = [&](Stat const *s) -> void {
+    this->getContainer().push_back(new Stat(*s));
+  };
+
+  this->deleteStats();
+  std::for_each(rhs.begin(), rhs.end(), statCopier);
 }
 
 bool				Stats::serialization(Trame &trame) const

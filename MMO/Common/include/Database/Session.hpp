@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb 17 14:49:11 2014 alexis mestag
-// Last update Tue Mar  4 14:57:35 2014 alexis mestag
+// Last update Fri Mar  7 16:22:30 2014 alexis mestag
 //
 
 #ifndef				__SESSION_HPP__
@@ -14,9 +14,9 @@
 # include			<map>
 # include			<memory>
 # include			<cassert>
+# include			<iostream>
 # include			<typeinfo>
 # include			<type_traits>
-// # include			<iostream>
 # include			<odb/database.hxx>
 # include			<odb/traits.hxx>
 # include			<odb/details/type-info.hxx>
@@ -92,13 +92,13 @@ public:
     void			erase() const {
       if (_map)
 	{
-	  // std::cout << "Erasing an iterator";
-	  if (std::is_pointer<typename odb::object_traits<T>::pointer_type>::value) {
-	    // std::cout << " (was a pointer, deleting it ... ";
-	    delete _it->second;
-	    // std::cout << " Done)";
-	  }
-	  // std::cout << std::endl;
+	  // // std::cout << "Erasing an iterator";
+	  // if (std::is_pointer<typename odb::object_traits<T>::pointer_type>::value) {
+	  //   // std::cout << " (was a pointer, deleting it ... ";
+	  //   delete _it->second;
+	  //   // std::cout << " Done)";
+	  // }
+	  // // std::cout << std::endl;
 	  _map->erase(_it);
 	}
     }
@@ -196,6 +196,30 @@ private:
     _mtx->unlock();
   }
 
+  template<typename T>
+  void				cache_erase(odb::database &db __attribute__((unused)),
+					    const typename odb::object_traits<T>::id_type &id) {
+    // std::cout << "Calling Session::_cache_erase(odb::database &db, const typename odb::object_traits<T>::id_type &id);" << std::endl;
+    // typename odb::object_traits<T>::pointer_type	pointer = this->cache_find<T>(db, id);
+    // std::cout << "\t Object " << (pointer ? "found" : "not found") << " !" << std::endl;
+
+    _mtx->lock();
+    map_type::iterator		it = _cache.find(&typeid(T));
+
+    if (it != _cache.end()) {
+      object_map<T>					*pm = static_cast<object_map<T> *>(it->second);
+      typename cache_position<T>::t_map::iterator	jt = pm->map.find(id);
+
+      if (jt != pm->map.end()) {
+	(cache_position<T>(pm->map, jt)).erase();
+      }
+    }
+    _mtx->unlock();
+
+    // pointer = this->cache_find<T>(db, id);
+    // std::cout << "\t Object " << (pointer ? "found" : "not found") << " !" << std::endl;
+  }
+
 public:
   /*
   ** Cache management functions.
@@ -216,6 +240,7 @@ public:
 
   template <typename T>
   static void			_cache_erase(const cache_position<T> &pos) {
+    // std::cout << "Calling Session::_cache_erase(const cache_position<T> &pos);" << std::endl;
     Session::getInstance()->cache_erase<T>(pos);
   }
 
@@ -233,8 +258,10 @@ public:
   static void			_cache_update(odb::database &, const T &) {}
 
   template <typename T>
-  static void			_cache_erase(odb::database &,
-					     const typename odb::object_traits<T>::id_type &) {}
+  static void			_cache_erase(odb::database &db,
+					     const typename odb::object_traits<T>::id_type &id) {
+    Session::getInstance()->cache_erase<T>(db, id);
+  }
 };
 
 #endif

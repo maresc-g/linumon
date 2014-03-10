@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar  5 17:27:21 2014 laurent ansel
+// Last update Sun Mar  9 21:59:51 2014 alexis mestag
 //
 
 #include			<functional>
@@ -17,6 +17,7 @@
 # include			"Stats/StatKey-odb.hxx"
 # include			"Entities/DBZone-odb.hxx"
 # include			"Database/Repositories/FactionRepository.hpp"
+# include			"Entities/Player-odb.hxx"
 #endif
 #include			"Entities/Consumable.hh"
 
@@ -75,6 +76,10 @@ Player::~Player()
   delete _jobs;
   // this->deleteTalents();
   // delete _faction; // Causes an invalid pointer delete
+#ifndef		CLIENT_COMPILATION
+  Repository<Player>		*rp = &Database::getRepository<Player>();
+  rp->removeFromCache(*this);
+#endif
 }
 
 Player				&Player::operator=(Player const &rhs)
@@ -98,7 +103,7 @@ void					Player::initConstPointersForNewPlayers()
   Repository<DBZone>			*rdbz = &Database::getRepository<DBZone>();
 
   this->setTalentTree(*rtt->getById(1));
-  this->setStatKeys(*rask->getById(1));
+  this->setAuthorizedStatKeys(*rask->getById(1));
   this->setDBZone(*rdbz->getById(1));
 }
 
@@ -353,7 +358,7 @@ bool				Player::serialization(Trame &trame) const
     this->_guild->serialization(trame(trame["PLAYER"]));
   this->_digitaliser->serialization(trame(trame["PLAYER"]));
   this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
-  this->getTmpStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
+  // this->getBattleStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
   this->getLevelObject().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
@@ -408,9 +413,9 @@ Player				*Player::deserialization(Trame const &trame)
       if (stats)
       	player->setStats(*stats);
 
-      stats = Stats::deserialization(trame(trame["PLAYER"]));
-      if (stats)
-      	player->setTmpStats(*stats);
+      // stats = Stats::deserialization(trame(trame["PLAYER"]));
+      // if (stats)
+      // 	player->setBattleStats(*stats);
 
       if (!trame["PLAYER"]["TALENTS"].empty())
 	{

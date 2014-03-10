@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Feb  1 15:22:57 2014 alexis mestag
-// Last update Fri Feb 21 00:23:57 2014 alexis mestag
+// Last update Fri Mar  7 15:30:35 2014 alexis mestag
 //
 
 #ifndef				__REPOSITORY_HPP__
@@ -62,6 +62,18 @@ public:
     Database::getInstance()->getDb()->update(o);
 
     t.commit();
+  }
+
+  void				erase(T const &o) {
+    Database::Transaction	t(Database::getInstance()->getDb()->begin());
+
+    Database::getInstance()->getDb()->erase(o);
+
+    t.commit();
+  }
+
+  void				removeFromCache(T const &o) {
+    Session::_cache_erase<T>(*Database::getInstance()->getDb(), o.getPersistentId());
   }
 };
 

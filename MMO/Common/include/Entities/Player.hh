@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Wed Mar  5 16:07:26 2014 laurent ansel
+// Last update Fri Mar  7 14:43:04 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -163,7 +163,7 @@ public:
 # include			"Entities/Faction.hh"
 
 # ifdef	ODB_COMPILER
-#  pragma db object(Player) session(false)
+#  pragma db object(Player) //session(false)
 #  pragma db member(Player::_coord) transient
 #  pragma db member(Player::_digitaliser) transient
 #  pragma db member(Player::_talents) transient
