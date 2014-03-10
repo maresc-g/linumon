@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Sat Mar  8 19:35:14 2014 antoine maitre
+// Last update Mon Mar 10 11:59:57 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -170,25 +170,23 @@ void					Battle::next()
       return;
     }
   else if (this->checkEnd())
-    {
-      return;
-    } 
+    return;
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
-    if ((*it)->isMyMob(tmp->getId()))
-      {
-	if ((*it)->getType() == Player::PlayerType::PLAYER)
-	  {
-	    std::cout << "ID PLAYER =" << (*it)->getUser().getId() << "; ID MOB =" << tmp->getId() << std::endl;
-	    this->trameTurnTo((*it)->getUser().getId(), tmp->getId());
-	  }
-	else
+    {
+      if ((*it)->getType() == Player::PlayerType::PLAYER)
+	{
+	  std::cout << "ID PLAYER =" << (*it)->getUser().getId() << "; ID MOB =" << tmp->getId() << std::endl;
+	  this->trameTurnTo((*it)->getUser().getId(), tmp->getId());
+	}
+      else
+	if ((*it)->isMyMob(tmp->getId()))
 	  {
 	    auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
 	    if (!this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2)))
 	      this->next();
 	    return;
 	  }
-      }
+    }
 }
 
 bool					Battle::isInThisBattle(unsigned int const idPlayer)
