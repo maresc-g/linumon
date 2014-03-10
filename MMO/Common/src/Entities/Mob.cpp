@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Mon Mar 10 01:24:06 2014 alexis mestag
+// Last update Mon Mar 10 11:33:38 2014 laurent ansel
 //
 
 #include			<algorithm>
@@ -143,7 +143,7 @@ bool				Mob::setCurrentStat(std::string const &key, Stat::value_type const v)
     if (!sk->isShortLived()) {
       Stat::value_type		maxValue = this->getMaxStat(key);
 
-      newValue = v > maxValue ? maxValue : v;	
+      newValue = v > maxValue ? maxValue : v;
     }
     _currentStats->setStat(*sk, newValue);
     ret = true;
@@ -211,7 +211,7 @@ bool				Mob::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  this->getStats().serialization(trame(trame["STATS"]));
+  this->getCurrentStats().serialization(trame(trame["STATS"]));
   trame["NAME"] = this->getName();
   trame["CEXP"] = this->getCurrentExp();
   trame["ID"] = static_cast<unsigned int>(this->getId());
@@ -229,7 +229,7 @@ Mob				*Mob::deserialization(Trame const &trame)
 
   if (trame.isMember("KEY"))
     mob->setAuthorizedStatKeys(*(**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->getValue(trame["KEY"].asString()));
-  mob->setStats(*Stats::deserialization(trame(trame["STATS"])));
+  mob->setCurrentStats(*Stats::deserialization(trame(trame["STATS"])));
   // mob->setCurrentStats(*Stats::deserialization(trame(trame["TMP"])));
   mob->setLevelObject(*Level::deserialization(trame));
   mob->setName(trame["NAME"].asString());
