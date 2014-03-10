@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Mon Mar 10 16:05:25 2014 laurent ansel
+// Last update Mon Mar 10 17:43:46 2014 alexis mestag
 //
 
 #include			"ClientManager/Client.hh"
@@ -283,7 +283,7 @@ void				Client::useObject(unsigned int const target, unsigned int const item)
   if (_state == GAME && _player)
     {
       _player->useObject(target, item);
-      Server::getInstance()->callProtocol<unsigned int, Stats const *>("OBJECTEFFECT", _id, target, &(_player->getMob(target).getCurrentStats()));
+      Server::getInstance()->callProtocol<unsigned int, Stats const *>("OBJECTEFFECT", _id, target, &(_player->getMob(target).getRawCurrentStats()));
     }
 }
 
