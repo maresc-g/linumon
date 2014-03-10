@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Thu Mar  6 17:12:06 2014 laurent ansel
+// Last update Mon Mar 10 01:17:29 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -13,6 +13,11 @@
 #include			"Entities/Stuff.hh"
 #include			"Entities/Consumable.hh"
 #include			"Loader/LoaderManager.hh"
+
+#ifndef			CLIENT_COMPILATION
+# include		"Entities/Job-odb.hxx"
+# include		"Database/Repositories/Repository.hpp"
+#endif
 
 Job::Job():
   Persistent(),
@@ -25,6 +30,10 @@ Job::Job():
 Job::~Job()
 {
   delete _level;
+#ifndef			CLIENT_COMPILATION
+  Repository<Job>	*rj = &Database::getRepository<Job>();
+  rj->removeFromCache(*this);
+#endif
 }
 
 Job::Job(Job const &rhs):

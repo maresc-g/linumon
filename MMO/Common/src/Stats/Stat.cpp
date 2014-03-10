@@ -5,11 +5,15 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:08:36 2013 alexis mestag
-// Last update Thu Mar  6 14:15:02 2014 laurent ansel
+// Last update Mon Mar 10 01:14:10 2014 alexis mestag
 //
 
 #include			<sstream>
 #include			"Stats/Stat.hh"
+#ifndef			CLIENT_COMPILATION
+# include		"Stats/Stat-odb.hxx"
+# include		"Database/Database.hpp"
+#endif
 
 Stat::Stat() :
   Persistent(), _key(NULL), _value(0)
@@ -31,7 +35,10 @@ Stat::Stat(Stat const &rhs) :
 
 Stat::~Stat()
 {
-
+#ifndef			CLIENT_COMPILATION
+  Repository<Stat>	*rs = &Database::getRepository<Stat>();
+  rs->removeFromCache(*this);
+#endif
 }
 
 Stat				&Stat::operator=(Stat const &rhs)
@@ -91,7 +98,7 @@ void				Stat::add(Stat const &rhs)
 void				Stat::sub(Stat const &rhs)
 {
   if (this->getKey() == rhs.getKey())
-    this->setValue(this->getValue() > rhs.getValue() ? this->getValue() - rhs.getValue() : 0);
+    this->setValue(rhs.getValue() >= this->getValue() ? 0 : this->getValue() - rhs.getValue());
 }
 
 StatKey const			&Stat::getKey() const

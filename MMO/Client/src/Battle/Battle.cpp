@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Fri Mar  7 16:56:25 2014 cyril jourdain
+// Last update Sat Mar  8 23:42:33 2014 cyril jourdain
 //
 
 #include			"Battle/Battle.hh"
@@ -46,12 +46,14 @@ void				Battle::setTurnTo(unsigned int id)
 void				Battle::pushSpell(SpellContainer *container)
 {
   _spells->push_back(container);
+  std::cout << "Adding spell : " << container->getSpell().getName() << std::endl;
 }
 
 SpellContainer			*Battle::getSpell(void)
 {
   SpellContainer		*ret = _spells->front();
 
+  if (ret) std::cout << "NAME OF SPELL : [" << ret->getSpell().getName() << "]" << std::endl;
   _spells->remove(ret);
   return (ret);
 }

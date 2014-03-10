@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Thu Mar  6 15:29:25 2014 laurent ansel
+// Last update Mon Mar 10 09:52:37 2014 alexis mestag
 //
 
 #include			"Entities/AStatEntity.hh"
@@ -16,20 +16,20 @@
 
 AStatEntity::AStatEntity() :
   AEntity("", eEntity::STATENTITY), _statEntityType(eStatEntity::NONE),
-  _authKeys(NULL), _stats(new Stats), _tmpStats(new Stats), _inBattle(false)
+  _authKeys(NULL), _stats(new Stats)
 {
 
 }
 
 AStatEntity::AStatEntity(std::string const &name, AStatEntity::eStatEntity const statEntityType) :
   AEntity(name, eEntity::STATENTITY), _statEntityType(statEntityType),
-  _authKeys(NULL), _stats(new Stats), _tmpStats(new Stats), _inBattle(false)
+  _authKeys(NULL), _stats(new Stats)
 {
 
 }
 
 AStatEntity::AStatEntity(AStatEntity const &rhs) :
-  AEntity(rhs), _stats(new Stats), _tmpStats(new Stats)
+  AEntity(rhs), _stats(new Stats)
 {
   *this = rhs;
 }
@@ -37,7 +37,6 @@ AStatEntity::AStatEntity(AStatEntity const &rhs) :
 AStatEntity::~AStatEntity()
 {
   delete _stats;
-  delete _tmpStats;
 }
 
 AStatEntity			&AStatEntity::operator=(AStatEntity const &rhs)
@@ -45,10 +44,8 @@ AStatEntity			&AStatEntity::operator=(AStatEntity const &rhs)
   if (this != &rhs)
     {
       this->setStatEntityType(rhs.getStatEntityType());
-      this->setStatKeys(rhs.getStatKeys());
+      this->setAuthorizedStatKeys(rhs.getAuthorizedStatKeys());
       this->setStats(rhs.getStats());
-      this->setTmpStats(rhs.getTmpStats());
-      this->setInBattle(rhs.isInBattle());
     }
   return (*this);
 }
@@ -63,6 +60,29 @@ void				AStatEntity::setStatEntityType(AStatEntity::eStatEntity const statEntity
   _statEntityType = statEntityType;
 }
 
+/*
+** Authorized keys management
+*/
+AuthorizedStatKeys const	&AStatEntity::getAuthorizedStatKeys() const
+{
+  return (*_authKeys);
+}
+
+void				AStatEntity::setAuthorizedStatKeys(AuthorizedStatKeys const &keys)
+{
+  _authKeys = &keys;
+}
+
+StatKey const			*AStatEntity::getKey(std::string const &key) const
+{
+  if (!_authKeys)
+    std::cerr << "Warning : AStatEntity::_authKeys should not be NULL, fix that !" << std::endl;
+  return (_authKeys ? _authKeys->getKey(key) : NULL);
+}
+
+/*
+** Simple stats management
+*/
 Stats const			&AStatEntity::getStats() const
 {
   return (*_stats);
@@ -70,152 +90,28 @@ Stats const			&AStatEntity::getStats() const
 
 void				AStatEntity::setStats(Stats const &stats)
 {
-  if (!_stats)
-    _stats = new Stats(stats);
-  else
-    *_stats = stats;
+  *_stats = stats;
 }
 
-Stats const			&AStatEntity::getTmpStats() const
-{
-  return (*_tmpStats);
-}
-
-void				AStatEntity::setTmpStats(Stats const &stats)
-{
-  if (!_tmpStats)
-    _tmpStats = new Stats(stats);
-  else
-    *_tmpStats = stats;
-}
-
-AuthorizedStatKeys const	&AStatEntity::getStatKeys() const
-{
-  return (*_authKeys);
-}
-
-void				AStatEntity::setStatKeys(AuthorizedStatKeys const &keys)
-{
-  _authKeys = &keys;
-}
-
-bool				AStatEntity::isKeyAuthorized(StatKey const &key) const
-{
-  return (_authKeys->isAuthorized(key));
-}
-
-StatKey const			*AStatEntity::getKey(std::string const &key) const
-{
-  return (_authKeys->getKey(key));
-}
-
-Stat::value_type		AStatEntity::getStat(StatKey const &key) const
-{
-  return (_stats->getStat(key));
-}
+/*
+** Stat values getter and setter
+*/
 
 Stat::value_type		AStatEntity::getStat(std::string const &key) const
 {
   StatKey const			*sk = this->getKey(key);
 
-  return (sk ? this->getStat(*sk) : Stat::value_type());
+  return (sk ? _stats->getStat(*sk) : Stat::value_type());
 }
 
-bool				AStatEntity::setStat(StatKey const &key, Stat::value_type const value,
-						     bool const add)
+bool				AStatEntity::setStat(std::string const &key, Stat::value_type const value)
 {
-  bool				ret = true;
+  StatKey const			*sk = this->getKey(key);
+  bool				ret = false;
 
-  if (this->isKeyAuthorized(key))
-    _stats->setStat(key, value, add);
-  else
-    ret = false;
+  if (sk) {
+    _stats->setStat(*sk, value);
+    ret = true;
+  }
   return (ret);
-}
-
-bool				AStatEntity::setStat(std::string const &key,
-						     Stat::value_type const value,
-						     bool const add)
-{
-  StatKey const			*sk = this->getKey(key);
-
-  return (sk ? this->setStat(*sk, value, add) : false);
-}
-
-bool				AStatEntity::setTmpStat(std::string const &key,
-							Stat::value_type const value,
-							bool const add)
-{
-  StatKey const			*sk = this->getKey(key);
-
-  return (sk ? this->setTmpStat(*sk, value, add) : false);
-}
-
-
-Stat::value_type		AStatEntity::getTmpStat(StatKey const &key) const
-{
-  return (_tmpStats->getStat(key));
-}
-
-Stat::value_type		AStatEntity::getTmpStat(std::string const &key) const
-{
-  StatKey const			*sk = this->getKey(key);
-
-  return (sk ? this->getTmpStat(*sk) : Stat::value_type());
-}
-
-bool				AStatEntity::setTmpStat(StatKey const &key,
-							Stat::value_type const value,
-							bool const add)
-{
-  bool				ret = true;
-
-  if (this->isKeyAuthorized(key))
-    _tmpStats->setStat(key, value, add);
-  else
-    ret = false;
-  return (ret);
-}
-
-void				AStatEntity::initTmpStats()
-{
-  _tmpStats->smartAssign(this->getStats());
-}
-
-void				AStatEntity::endTmpStats()
-{
-  _tmpStats->removeShortLivedStats();
-}
-
-void				AStatEntity::enterBattle()
-{
-  this->initTmpStats();
-}
-
-void				AStatEntity::leaveBattle()
-{
-  this->endTmpStats();
-}
-
-bool				AStatEntity::isInBattle() const
-{
-  return (_inBattle);
-}
-
-void				AStatEntity::setInBattle(bool const inBattle)
-{
-  _inBattle = inBattle;
-}
-
-#include			<iostream>
-
-void				AStatEntity::displayTmpStats() const
-{
-  std::cout << "Mob : " << this->getName() << std::endl;
-  for (auto it = this->getTmpStats().begin() ; it != this->getTmpStats().end() ; ++it)
-    {
-      Stat			*s = *it;
-
-      std::cout << "\t" << s->getKey().getName() << " : " << s->getValue() << std::endl;
-    }
 }

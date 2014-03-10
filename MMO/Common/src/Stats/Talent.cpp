@@ -5,10 +5,14 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 14:51:25 2014 alexis mestag
-// Last update Fri Mar  7 17:26:40 2014 laurent ansel
+// Last update Mon Mar 10 01:13:08 2014 alexis mestag
 //
 
 #include			"Stats/Talent.hh"
+#ifndef			CLIENT_COMPILATION
+# include		"Stats/Talent-odb.hxx"
+# include		"Database/Database.hpp"
+#endif
 #include			"Loader/LoaderManager.hh"
 
 Talent::Talent() :
@@ -25,7 +29,10 @@ Talent::Talent(Talent const &rhs) :
 
 Talent::~Talent()
 {
-
+#ifndef			CLIENT_COMPILATION
+  Repository<Talent>	*rt = &Database::getRepository<Talent>();
+  rt->removeFromCache(*this);
+#endif
 }
 
 Talent				&Talent::operator=(Talent const &rhs)

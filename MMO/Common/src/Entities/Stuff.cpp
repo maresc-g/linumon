@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Fri Mar  7 13:11:43 2014 laurent ansel
+// Last update Sun Mar  9 16:20:13 2014 laurent ansel
 //
 
 #include			"Entities/Stuff.hh"
@@ -90,7 +90,7 @@ Stuff				*Stuff::deserialization(Trame const &trame, bool const client)
       if (client)
 	stuff->setId(trame["ID"].asUInt());
       stuff->setItemType(static_cast<AItem::eItem>(trame["TYPE"].asInt()));
-      stuff->setStats(*Stats::deserialization(trame(trame)));
+      stuff->setStats(*Stats::deserialization(trame(trame["STATS"])));
     }
   return (stuff);
 }

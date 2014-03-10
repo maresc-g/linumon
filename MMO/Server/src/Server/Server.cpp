@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Sat Mar  8 12:34:31 2014 laurent ansel
+// Last update Sun Mar  9 00:21:51 2014 laurent ansel
 //
 
 #include			<list>
@@ -68,6 +68,7 @@ Server::~Server()
   delete _poll;
   this->_mutex->lock();
   delete this->_actionServer;
+  BattleManager::deleteInstance();
   ClientManager::deleteInstance();
   this->debug("Deleting ClientWriter ...");
   ClientWriter::deleteInstance();

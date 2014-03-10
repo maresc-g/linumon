@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 13:39:52 2014 alexis mestag
-// Last update Fri Feb 21 00:10:06 2014 alexis mestag
+// Last update Fri Mar  7 14:45:41 2014 alexis mestag
 //
 
 #ifndef			__DATABASE_HPP__
@@ -59,6 +59,11 @@ public:
   static Repository<T>	&getRepository() {
     return (*Repository<T>::getInstance());
   }
+
+  // template<typename T>
+  // void			removeFromCache(ObjectTraits<T>::pointer_type) {
+    
+  // }
 };
 
 # include		"Database/Repositories/Repository.hpp"

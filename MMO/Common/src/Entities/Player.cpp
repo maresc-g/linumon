@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Sat Mar  8 16:34:09 2014 laurent ansel
+// Last update Mon Mar 10 01:36:25 2014 alexis mestag
 //
 
 #include			<functional>
@@ -17,6 +17,7 @@
 # include			"Stats/StatKey-odb.hxx"
 # include			"Entities/DBZone-odb.hxx"
 # include			"Database/Repositories/FactionRepository.hpp"
+# include			"Entities/Player-odb.hxx"
 #endif
 #include			"Entities/Consumable.hh"
 #include			"Loader/LoaderManager.hh"
@@ -74,8 +75,11 @@ Player::~Player()
   delete _talents;
   delete _inventory;
   delete _jobs;
-  // this->deleteTalents();
   // delete _faction; // Causes an invalid pointer delete
+#ifndef		CLIENT_COMPILATION
+  Repository<Player>		*rp = &Database::getRepository<Player>();
+  rp->removeFromCache(*this);
+#endif
 }
 
 Player				&Player::operator=(Player const &rhs)
@@ -99,7 +103,7 @@ void					Player::initConstPointersForNewPlayers()
   Repository<DBZone>			*rdbz = &Database::getRepository<DBZone>();
 
   this->setTalentTree(*rtt->getById(1));
-  this->setStatKeys(*rask->getById(1));
+  this->setAuthorizedStatKeys(*rask->getById(1));
   this->setDBZone(*rdbz->getById(1));
 }
 
@@ -366,7 +370,6 @@ bool				Player::serialization(Trame &trame) const
     this->_guild->serialization(trame(trame["PLAYER"]));
   this->_digitaliser->serialization(trame(trame["PLAYER"]));
   this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
-  // this->getTmpStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
   this->getLevelObject().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
@@ -375,7 +378,7 @@ bool				Player::serialization(Trame &trame) const
   this->getEquipment().serialization(trame(trame["PLAYER"]));
   this->_talents->serialization(trame(trame["PLAYER"]));
   this->_jobs->serialization(trame(trame["PLAYER"]));
-  trame["PLAYER"]["KEY"] = this->getStatKeys().getName();
+  trame["PLAYER"]["KEY"] = this->getAuthorizedStatKeys().getName();
   return (ret);
 }
 
@@ -388,7 +391,7 @@ Player				*Player::deserialization(Trame const &trame)
     {
       player = new Player(trame["PLAYER"]["NAME"].asString());
       if (trame["PLAYER"].isMember("KEY"))
-	player->setStatKeys(*(**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->getValue(trame["PLAYER"]["KEY"].asString()));
+	player->setAuthorizedStatKeys(*(**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->getValue(trame["PLAYER"]["KEY"].asString()));
       player->setId(trame["PLAYER"]["ID"].asUInt());
       player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame["PLAYER"]["TYPE"].asInt()));
       player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));
@@ -419,7 +422,7 @@ Player				*Player::deserialization(Trame const &trame)
       if (equipment)
 	player->setEquipment(equipment);
 
-      Stats			*stats = Stats::deserialization(trame(trame["PLAYER"]));
+      Stats			*stats = Stats::deserialization(trame(trame["PLAYER"]["STATS"]));
       if (stats)
       	player->setStats(*stats);
 
@@ -507,16 +510,6 @@ User const			&Player::getUser() const
 void				Player::setUser(User const &user)
 {
   _user = &user;
-}
-
-void				Player::deleteTalents()
-{
-  static std::function<bool(Talent *)>	talentsDeleter = [](Talent *t) {
-    delete t;
-    return (true);
-  };
-
-  _talents->getContainer().remove_if(talentsDeleter);
 }
 
 Talents const			&Player::getTalents() const

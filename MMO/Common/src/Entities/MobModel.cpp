@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:39:45 2014 alexis mestag
-// Last update Fri Mar  7 13:07:12 2014 laurent ansel
+// Last update Sun Mar  9 16:19:32 2014 laurent ansel
 //
 
 #include			"Entities/MobModel.hh"
@@ -76,6 +76,6 @@ MobModel			*MobModel::deserialization(Trame const &trame)
   model = new MobModel;
   model->setType(*Type::deserialization(trame(trame)));
   model->setSpells(*Spells::deserialization(trame(trame)));
-  model->setStats(*Stats::deserialization(trame(trame)));
+  model->setStats(*Stats::deserialization(trame(trame["STATS"])));
   return (model);
 }

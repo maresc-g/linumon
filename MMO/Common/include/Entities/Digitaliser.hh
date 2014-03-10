@@ -5,16 +5,17 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Fri Mar  7 14:07:26 2014 laurent ansel
+// Last update Mon Mar 10 01:19:18 2014 alexis mestag
 //
 
 #ifndef			__DIGITALISER_HH__
 # define		__DIGITALISER_HH__
 
 # include		<list>
-# include		"Entities/Mob.hh"
 # include		"Utility/ISerialization.hh"
 # include		"Utility/Wrapper.hpp"
+
+class			Mob;
 
 class			Digitaliser : public ISerialization, public ContainerWrapper<std::list<Mob *>>
 {
@@ -56,5 +57,7 @@ public:
   virtual bool		serialization(Trame &trame) const;
   static Digitaliser	*deserialization(Trame const &trame);
 };
+
+# include		"Entities/Mob.hh"
 
 #endif

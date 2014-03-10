@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Mar 10 11:59:57 2014 antoine maitre
+// Last update Mon Mar 10 12:04:36 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -26,17 +26,17 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
   i = 0;
   for (auto it = player1->getDigitaliser().getBattleMobs().begin(); it != player1->getDigitaliser().getBattleMobs().end() && i++ < mobNumber+1; it++)
     {
-      (*it)->setTmpStat("HP", 50, true);
-      (*it)->setTmpStat("Attack", 10, true);
-      (*it)->setTmpStat("Speed", 4000, true);
+      (*it)->setCurrentStat("HP", 50);
+      (*it)->setCurrentStat("Attack", 10);
+      (*it)->setCurrentStat("Speed", 4000);
       (*it)->enterBattle();
     }
   i = 0;
   for (auto it = player2->getDigitaliser().getBattleMobs().begin(); it != player2->getDigitaliser().getBattleMobs().end() && i++ < mobNumber+1; it++)
     {
-      (*it)->setTmpStat("HP", 50, true);
-      (*it)->setTmpStat("Attack", 10, true);
-      (*it)->setTmpStat("Speed", 4000, true);
+      (*it)->setCurrentStat("HP", 50);
+      (*it)->setCurrentStat("Attack", 10);
+      (*it)->setCurrentStat("Speed", 4000);
       (*it)->enterBattle();
     }
   if (player1->getType() == Player::PlayerType::PLAYER)
@@ -79,8 +79,8 @@ bool					Battle::checkEnd()
       i = 0;
       for (auto itb = this->_mobs.begin(); itb != this->_mobs.end(); itb++)
 	{
-	  // statMob = &(*it)->getTmpStats();
-	  if ((*it)->isMyMob((*itb)->getId()) && (*itb)->getTmpStat("HP") <= 0)
+	  // statMob = &(*it)->getCurrentStats();
+	  if ((*it)->isMyMob((*itb)->getId()) && (*itb)->getCurrentStat("HP") <= 0)
 	    i++;
 	  if (i == _mobNumber)
 	    {
@@ -105,7 +105,7 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
 	mobLauncher = (*it);
       if ((*it)->getId() == target)
 	mobTarget = (*it);
-      (*it)->displayTmpStats();
+      (*it)->displayCurrentStats();
     }
   if (mobLauncher && mobTarget)
     {
@@ -116,7 +116,7 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
 	    this->trameSpell((*it)->getUser().getId(), spell, launcher, target);
 	    this->trameSpellEffect((*it)->getUser().getId(), target, 10);
 	  } 
-      Stats statMob = mobTarget->getTmpStats();
+      Stats const			&statMob = mobTarget->getCurrentStats();
       if (statMob.getStat(*hpKey) <= 0)
 	for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	  if ((*it)->getType() == Player::PlayerType::PLAYER)
@@ -163,7 +163,7 @@ void					Battle::next()
   auto tmp = this->_mobs.front();
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);
-  Stats statMob = tmp->getTmpStats();
+  Stats const &statMob = tmp->getCurrentStats();
   if (statMob.getStat(*hpKey) <= 0 && !this->checkEnd())
     {
       this->next();
@@ -254,9 +254,8 @@ void					Battle::trameEndBattle()
 
 bool					compareSpeed(Mob *mob1, Mob *mob2)
 {
-  static StatKey const			*speedKey = Database::getRepository<StatKey>().getByName("Speed");
-  int speed1 = mob1->getTmpStats().getStat(*speedKey);
-  int speed2 = mob2->getTmpStats().getStat(*speedKey);
+  Stat::value_type			speed1 = mob1->getCurrentStat("Speed");
+  Stat::value_type			speed2 = mob2->getCurrentStat("Speed");
 
   if (speed1 < speed2)
     return (true);

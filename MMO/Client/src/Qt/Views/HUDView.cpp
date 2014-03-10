@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Mar  6 13:10:17 2014 guillaume marescaux
-// Last update Fri Mar  7 15:26:04 2014 cyril jourdain
+// Last update Mon Mar 10 01:22:14 2014 alexis mestag
 //
 
 #include			"Qt/Views/HUDView.hh"
@@ -40,8 +40,9 @@ void				HUDView::setInfos(Mob const *mob)
   _mobView->setInfos(mob);
   if (mob)
     {
-      unsigned int		current = mob->getTmpStat("HP");
-      unsigned int		max = mob->getStat("HP");
+      unsigned int		current = mob->getCurrentStat("HP");
+      unsigned int		max = mob->getMaxStat("HP");
+
       ui.pb_hp->setMaximum(max);
       ui.pb_hp->setValue(current);
       if (current / max * 100 <= 20)

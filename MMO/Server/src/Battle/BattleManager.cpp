@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Sat Mar  8 12:39:06 2014 laurent ansel
+// Last update Sun Mar  9 00:19:58 2014 laurent ansel
 //
 
 #include			"Battle/BattleManager.hh"
@@ -31,6 +31,13 @@ BattleManager::BattleManager()
 
 BattleManager::~BattleManager()
 {
+  _mutex->lock();
+  for (auto it = _battleUpdaters.begin() ; it != _battleUpdaters.end() ; ++it)
+    {
+      (*it)->setQuit(true);
+      (*it)->join();
+    }
+  _mutex->unlock();
   this->deleteBattleUpdaters();
   this->_mutex->destroy();
   delete _mutex;
@@ -95,7 +102,7 @@ bool				BattleManager::spell(Trame *trame)
   std::list<Battle *>		tmp;
   
   if ((*trame)[CONTENT]["SPELL"].isMember("IDBATTLE") &&
-      (*trame)[CONTENT]["SPELL"].isMember("SPELL") &&
+      (*trame)[CONTENT]["SPELL"].isMember("NAME") &&
       (*trame)[CONTENT]["SPELL"].isMember("TARGET") &&
       (*trame)[CONTENT]["SPELL"].isMember("LAUNCHER"))
     {

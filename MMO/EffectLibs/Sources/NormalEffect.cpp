@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 27 16:57:56 2014 alexis mestag
-// Last update Thu Mar  6 16:05:40 2014 antoine maitre
+// Last update Mon Mar 10 01:12:12 2014 alexis mestag
 //
 
 #include				"NormalEffect.hh"
@@ -31,9 +31,9 @@ void					NormalEffect::initialize(Mob &caster, Spell &spell, Mob &target)
   // ((Pui
   hp = spell.getPower() * (caster.getType() == spell.getType() ? 1.5 : 1);
   // × Att × (2 + 0.4 × Niv))
-  hp *= caster.getTmpStat("Attack") * (2 + 0.4 * caster.getLevel());
+  hp *= caster.getCurrentStat("Attack") * (2 + 0.4 * caster.getLevel());
   // ÷ (Def × 50)
-  hp /= target.getTmpStat("Defense") * 50;
+  hp /= target.getCurrentStat("Defense") * 50;
   // + 2) * CE
   hp += 2;
   hp *= caster.getType().getCoeffAgainst(target.getType());
@@ -43,7 +43,7 @@ void					NormalEffect::initialize(Mob &caster, Spell &spell, Mob &target)
 bool					NormalEffect::apply(Mob &mob)
 {
   std::cout << mob.getName() << " was hit by " << (int)_hp << std::endl;
-  mob.setTmpStat("HP", mob.getTmpStat("HP") - _hp);
+  mob.setCurrentStat("HP", mob.getCurrentStat("HP") - _hp);
   return (true);
 }
 

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Sun Mar  2 22:33:20 2014 antoine maitre
-// Last update Fri Mar  7 16:11:01 2014 antoine maitre
+// Last update Mon Mar 10 01:31:38 2014 alexis mestag
 //
 
 #include			"AI/AI.hh"
@@ -43,9 +43,9 @@ int				AI::getRandomMob()
   int i = rand() % this->_mobs.size();
   for (auto it = this->_mobs.begin(); it != this->_mobs.end() && i >= 0; it++)
     {
-      if (i == 0 && (*it)->getTmpStat("HP") != 0)
+      if (i == 0 && (*it)->getCurrentStat("HP") != 0)
 	return ((*it)->getId());
-      else if (i == 0 && (*it)->getTmpStat("HP") == 0)
+      else if (i == 0 && (*it)->getCurrentStat("HP") == 0)
 	return (this->getRandomMob());
       i--;
     }

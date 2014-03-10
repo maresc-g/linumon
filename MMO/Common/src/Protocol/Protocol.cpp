@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sat Mar  8 18:03:17 2014 antoine maitre
+// Last update Sun Mar  9 00:07:43 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -570,7 +570,8 @@ bool			spell(unsigned int const id,
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["SPELL"]["IDBATTLE"] = idBattle;
-      spell->serialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
+      //      spell->serialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
+      (*trame)[CONTENT]["SPELL"]["NAME"] = spell->getName();
       (*trame)[CONTENT]["SPELL"]["LAUNCHER"] = launcher;
       (*trame)[CONTENT]["SPELL"]["TARGET"] = target;
       trame->setEnd(true);
