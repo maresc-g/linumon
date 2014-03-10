@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 14:34:08 2014 guillaume marescaux
-// Last update Thu Mar  6 13:28:21 2014 guillaume marescaux
+// Last update Mon Mar 10 10:44:10 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/DigitaliserView.hh"
@@ -46,7 +46,7 @@ void				DigitaliserView::paintEvent(QPaintEvent *)
 
 void				DigitaliserView::initDigit(Digitaliser const &digit)
 {
-  Digitaliser::Mobs const	mobs = digit.getMobs();
+  Digitaliser::Mobs const	mobs = digit.getBattleMobs();
   MobView			*mobView;
   int				i = 0;
 

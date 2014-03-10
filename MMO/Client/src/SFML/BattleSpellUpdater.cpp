@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:56 2014 cyril jourdain
-// Last update Sun Mar  9 01:26:55 2014 cyril jourdain
+// Last update Sun Mar  9 17:07:37 2014 guillaume marescaux
 //
 
 #include			"SFML/BattleSpellUpdater.hh"
@@ -29,10 +29,13 @@ void				BattleSpellUpdater::update(BattleView *battle)
     {
       if ((tmp = (**_wMan->getBattle())->getSpell()))
 	{
+	  std::cout << "SPELL NOT NULL" << std::endl;
 	  _sfmlView->getSpriteManager()->copySprite(tmp->getSpell().getName(), *_currentSpell);
 	  mob = battle->findMobById(tmp->getTarget());
 	  if (!mob)
 	    return;
+	  std::cout << "MOB NOT NULL" << std::endl;
+	  mob->upHealthBar();
 	  _currentSpell->setPosition(mob->getPos()->x * CASE_SIZE,
 				     mob->getPos()->y * CASE_SIZE - CASE_SIZE / 2);
 	  (*_currentSpell)["onEnemy"]->setLoopPlay(false);

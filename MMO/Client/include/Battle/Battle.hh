@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:22:49 2014 guillaume marescaux
-// Last update Fri Mar  7 13:17:21 2014 guillaume marescaux
+// Last update Mon Mar 10 11:04:45 2014 guillaume marescaux
 //
 
 #ifndef 			__BATTLE_HH__
@@ -26,11 +26,11 @@ private:
 private:
 
   unsigned int			_id;
-  unsigned int			_turnTo;
   std::list<Mob *>		*_mobs;
   Player			*_enemy;
   unsigned int			_maxMobs;
   std::list<SpellContainer *>	*_spells;
+  std::list<unsigned int>	*_turnTo;
 
 public:
 
@@ -40,7 +40,7 @@ public:
 public:
 
   void				setInfos(MutexVar<Player *> *player, unsigned int id, Player *enemy, unsigned int maxMobs = 3);
-  void				setTurnTo(unsigned int id);
+  void				pushTurnTo(unsigned int id);
   void				pushSpell(SpellContainer *container);
   SpellContainer		*getSpell(void);
   unsigned int			getId(void) const;
@@ -48,6 +48,7 @@ public:
   std::list<Mob *> const	&getMobs(void) const;
   Player const			&getEnemy(void) const;
   unsigned int			getMaxMobs(void) const;
+  Mob				*getMobById(unsigned int id);
 };
 
 #endif
