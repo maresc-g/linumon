@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sun Mar  9 00:07:43 2014 laurent ansel
+// Last update Mon Mar 10 15:50:04 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -35,7 +35,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, Zone *>("MAP", &map);
       this->_container->load<unsigned int, Trame *, Zone *, bool>("SENDTOALLCLIENT", &sendToAllClient);
       this->_container->load<unsigned int, Trame *>("ALREADYREADY", &sendTrameAlreadyReady);
-      this->_container->load<unsigned int, Stats *>("OBJECTEFFECT", &objectEffect);
+      this->_container->load<unsigned int, Stats const *>("OBJECTEFFECT", &objectEffect);
       this->_container->load<unsigned int, ACharacter const *>("UPDATECHARACTER", &updateCharacter);
 
       this->_container->load<unsigned int, unsigned int, std::string>("LAUNCHTRADE", &launchTrade);
@@ -470,7 +470,7 @@ bool                    map(unsigned int const id, Zone *zone)
   return (ret);
 }
 
-bool                    objectEffect(unsigned int const id, Stats *stats)
+bool                    objectEffect(unsigned int const id, Stats const *stats)
 {
   Trame                 *trame;
   Header                *header;
@@ -482,7 +482,7 @@ bool                    objectEffect(unsigned int const id, Stats *stats)
       ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
       header->setIdClient(id);
       header->setProtocole("TCP");
-      if (header->serialization(*trame) && stats->serialization((*trame)))
+      if (header->serialization(*trame) && stats->serialization((*trame)((*trame)[CONTENT]["STATS"])))
 	{
 	  trame->setEnd(true);
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
