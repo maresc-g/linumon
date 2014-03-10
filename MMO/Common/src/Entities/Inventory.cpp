@@ -5,12 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Wed Mar  5 16:27:27 2014 laurent ansel
+// Last update Thu Mar  6 17:59:15 2014 laurent ansel
 //
 
 #include			<sstream>
 #include			"Entities/Inventory.hh"
 #include			"ObjectPool/ObjectPoolManager.hpp"
+#include			"Loader/LoaderManager.hh"
 
 Inventory::Inventory():
   Persistent(),
@@ -128,6 +129,39 @@ void				Inventory::addItem(AItem *item)
     this->getContainer().push_back(std::make_pair(item, 1));
 }
 
+void				Inventory::addItem(AItem *item, unsigned int const nb)
+{
+  bool				set = false;
+
+  for (auto it = this->begin() ; !set && it != this->end() ; ++it)
+    {
+      if (it->first->getName() == item->getName())
+	{
+	  std::cout << "NB = " << nb << std::endl;
+	  if (it->second + nb < 99)
+	    {
+	      it->second += nb;
+	      delete item;
+	    }
+	  else
+	    {
+	      it->second += nb;
+	      this->getContainer().push_back(std::make_pair(item, it->second - 99));
+	      if (it->second > 99)
+		it->second = 99;
+	    }
+	  set = true;
+	}
+    }
+  if (!set)
+    {
+      unsigned int	i = nb;
+      for (; i > 99 ; i -= 99)
+	this->getContainer().push_back(std::make_pair(item, 99));
+      this->getContainer().push_back(std::make_pair(item, i));
+    }
+}
+
 AItem				*Inventory::getItem(unsigned int const id) const
 {
   auto				it = this->begin();
@@ -184,13 +218,17 @@ void				Inventory::loadInventory()
       this->getContainer().clear();
 
       auto			members = file->getMemberNames();
-      AItem			*toPush;
+      AItem			*item;
 
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	{
-	  toPush = AItem::deserialization((*file)((*file)[*it]), false);
-	  if (toPush)
-	    this->addItem(toPush);
+	  item = LoaderManager::getInstance()->getItemLoader(*it);
+	  if (item)
+	    this->addItem(item, (*file)[*it].asUInt());
+
+	  // toPush = AItem::deserialization((*file)((*file)[*it]), false);
+	  // if (toPush)
+	  //   this->addItem(toPush, (*file)[*it]["NB"].asUInt());
 	}
     }
 }
@@ -198,21 +236,27 @@ void				Inventory::loadInventory()
 void				Inventory::serializationInventory()
 {
   Trame				*file;
-  int				nb = 0;
-  std::ostringstream		str;
+  // int				nb = 0;
+  // std::ostringstream		str;
 
   if (!this->_path.empty())
     {
       ObjectPoolManager::getInstance()->setObject(file, "trame");
       for (auto it = this->begin() ; it != this->end() ; ++it)
 	{
-	  for (unsigned int i = 0 ; i < it->second ; ++i)
-	    {
-	      str << nb;
-	      it->first->serialization((*file)((*file)[str.str()]));
-	      str.str("");
-	      nb++;
-	    }
+	  // for (unsigned int i = 0 ; i < it->second ; ++i)
+	  //   {
+	  // str << nb;
+	  if (file->isMember(it->first->getName()))
+	    (*file)[it->first->getName()] = (*file)[it->first->getName()].asUInt() + it->second;
+	  else
+	    (*file)[it->first->getName()] = it->second;
+
+	  // it->first->serialization((*file)((*file)[str.str()]));
+	  // (*file)[str.str()]["NB"] = it->second;
+	  // str.str("");
+	  // nb++;
+	    // }
 	}
       file->writeInFile(this->_path);
     }
@@ -221,19 +265,22 @@ void				Inventory::serializationInventory()
 bool				Inventory::serialization(Trame &trame) const
 {
   bool				ret = true;
-  int				nb = 0;
-  std::ostringstream		str;
+  // int				nb = 0;
+  // std::ostringstream		str;
 
   trame["INV"]["MO"] = this->getMoney();
   trame["INV"]["LI"] = this->getLimit();
   trame["INV"]["ITS"];
   for (auto it = this->begin() ; it != this->end() ; ++it)
     {
-      str << nb;
-      ret = it->first->serialization(trame(trame["INV"]["ITS"][str.str()]));
-      trame["INV"]["ITS"][str.str()]["NB"] = it->second;
-      str.str("");
-      nb++;
+      // str << nb;
+      //      ret = it->first->serialization(trame(trame["INV"]["ITS"][str.str()]));
+      if (trame["INV"]["ITS"].isMember(it->first->getName()))
+	trame["INV"]["ITS"][it->first->getName()] = trame["INV"]["ITS"][it->first->getName()].asUInt() + it->second;
+      else
+	trame["INV"]["ITS"][it->first->getName()] = it->second;
+      // str.str("");
+      // nb++;
     }
   return (ret);
 }
@@ -241,30 +288,37 @@ bool				Inventory::serialization(Trame &trame) const
 Inventory			*Inventory::deserialization(Trame const &trame)
 {
   Inventory			*inventory = NULL;
-  // container_type		*items = NULL;
+  AItem				*item;
 
   if (trame.isMember("INV"))
     {
       inventory = new Inventory;
-      // items = new container_type;
       inventory->setMoney(trame["INV"]["MO"].asUInt());
       inventory->setLimit(trame["INV"]["LI"].asUInt());
-      // (mestag_a) Je pense que la ligne en dessous n'est plus utile mntnt
-      // inventory->setInventory(items);
       if (trame["INV"].isMember("ITS"))
 	{
 	  auto			members = trame["INV"]["ITS"].getMemberNames();
 
 	  for (auto it = members.begin() ; it != members.end() ; ++it)
 	    {
-	      for (unsigned int i = 0 ; i < trame["INV"]["ITS"][*it]["NB"].asUInt() ; ++i)
-		{
+	      // for (unsigned int i = 0 ; i < trame["INV"]["ITS"][*it]/*["NB"]*/.asUInt() ; ++i)
+	      // 	{
 		  std::cout << "IN FOR INVENTORY" << std::endl;
-		  inventory->addItem(AItem::deserialization(trame(trame["INV"]["ITS"][*it])));
+		  item = LoaderManager::getInstance()->getItemLoader(*it);
+		  if (item)
+		    inventory->addItem(item, trame["INV"]["ITS"][*it].asUInt());
+		  // item = (**LoaderManager::getInstance()->getStuffLoader())->getValue(*it);
+		  // if (item)
+		  //   inventory->addItem(item, trame["INV"]["ITS"][*it]/*["NB"]*/.asUInt());
+		  // else
+		  //   {
+		  //     item = (**LoaderManager::getInstance()->getConsumableLoader())->getValue(*it);
+		  //     if (item)
+		  // 	inventory->addItem(item, trame["INV"]["ITS"][*it]/*["NB"]*/.asUInt());
+		  //   }
 		  std::cout << "INVENTORY SIZE AFTER ADD " << inventory->size() << std::endl;
-		}
+		// }
 	    }
-	    //	    items->push_back(AItem::deserialization(trame(trame["EQUIPMENT"]["ITEMS"][*it])));
 	}
     }
   return (inventory);

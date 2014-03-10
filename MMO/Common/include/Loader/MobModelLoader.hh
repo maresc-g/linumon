@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 12:04:25 2014 laurent ansel
-// Last update Wed Mar  5 14:29:04 2014 laurent ansel
+// Last update Wed Mar  5 17:31:25 2014 laurent ansel
 //
 
 #ifndef 			__MOBMODELLOADER_HH__

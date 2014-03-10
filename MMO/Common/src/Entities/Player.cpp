@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Sun Mar  9 21:59:51 2014 alexis mestag
+// Last update Mon Mar 10 01:36:25 2014 alexis mestag
 //
 
 #include			<functional>
@@ -20,6 +20,7 @@
 # include			"Entities/Player-odb.hxx"
 #endif
 #include			"Entities/Consumable.hh"
+#include			"Loader/LoaderManager.hh"
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _type(PlayerType::PLAYER),
@@ -74,7 +75,6 @@ Player::~Player()
   delete _talents;
   delete _inventory;
   delete _jobs;
-  // this->deleteTalents();
   // delete _faction; // Causes an invalid pointer delete
 #ifndef		CLIENT_COMPILATION
   Repository<Player>		*rp = &Database::getRepository<Player>();
@@ -238,6 +238,17 @@ AItem				*Player::getAndDeleteItem(unsigned int const item) const
   return (this->_inventory->getAndDeleteItem(item));
 }
 
+void				Player::addMob(Mob *mob)
+{
+  this->_digitaliser->addMob(mob);
+}
+
+Mob				*Player::getAndDeleteMob(unsigned int const mob) const
+{
+  return (this->_digitaliser->getAndDeleteMob(mob));
+}
+
+
 void				Player::addMoney(int const money)
 {
   this->_inventory->addMoney(money);
@@ -353,32 +364,34 @@ bool				Player::serialization(Trame &trame) const
   trame["PLAYER"]["NAME"] = this->getName();
   trame["PLAYER"]["TYPE"] = this->getStatEntityType();
   this->_coord->serialization(trame(trame["PLAYER"]));
-  this->_faction->serialization(trame(trame["PLAYER"]));
+  if (this->_faction)
+    this->_faction->serialization(trame(trame["PLAYER"]));
   if (this->_guild)
     this->_guild->serialization(trame(trame["PLAYER"]));
   this->_digitaliser->serialization(trame(trame["PLAYER"]));
   this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
-  // this->getBattleStats().serialization(trame(trame["PLAYER"]["TMPSTATS"]));
   this->getLevelObject().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CEXP"] = this->getCurrentExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
   this->_inventory->serialization(trame(trame["PLAYER"]));
   this->_talentTree->serialization(trame(trame["PLAYER"]));
   this->getEquipment().serialization(trame(trame["PLAYER"]));
-  for (auto it = this->_talents->begin() ; it != this->_talents->end() ; ++it)
-    (*it)->serialization(trame(trame["PLAYER"]["TALENTS"]));
+  this->_talents->serialization(trame(trame["PLAYER"]));
   this->_jobs->serialization(trame(trame["PLAYER"]));
+  trame["PLAYER"]["KEY"] = this->getAuthorizedStatKeys().getName();
   return (ret);
 }
 
 Player				*Player::deserialization(Trame const &trame)
 {
   Player			*player = NULL;
-  Talents			*talents = NULL;
+  // Talents			*talents = NULL;
 
   if (trame.isMember("PLAYER"))
     {
       player = new Player(trame["PLAYER"]["NAME"].asString());
+      if (trame["PLAYER"].isMember("KEY"))
+	player->setAuthorizedStatKeys(*(**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->getValue(trame["PLAYER"]["KEY"].asString()));
       player->setId(trame["PLAYER"]["ID"].asUInt());
       player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame["PLAYER"]["TYPE"].asInt()));
       player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));
@@ -409,25 +422,29 @@ Player				*Player::deserialization(Trame const &trame)
       if (equipment)
 	player->setEquipment(equipment);
 
-      Stats			*stats = Stats::deserialization(trame(trame["PLAYER"]));
+      Stats			*stats = Stats::deserialization(trame(trame["PLAYER"]["STATS"]));
       if (stats)
       	player->setStats(*stats);
 
+      Talents			*talents = Talents::deserialization(trame(trame["PLAYER"]));
+      if (talents)
+      	player->setTalents(*talents);
+
       // stats = Stats::deserialization(trame(trame["PLAYER"]));
       // if (stats)
-      // 	player->setBattleStats(*stats);
+      // 	player->setTmpStats(*stats);
 
-      if (!trame["PLAYER"]["TALENTS"].empty())
-	{
-	  auto			members = trame["PLAYER"]["TALENTS"].getMemberNames();
+      // if (!trame["PLAYER"]["TALENTS"].empty())
+      // 	{
+      // 	  auto			members = trame["PLAYER"]["TALENTS"].getMemberNames();
 
-	  talents = new Talents;
-	  for (auto it = members.begin() ; it != members.end() ; ++it)
-	    {
-	      talents->getContainer().push_back(Talent::deserialization(trame(trame["PLAYER"]["TALENTS"][*it])));
-	    }
-	  player->setTalents(*talents);
-	}
+      // 	  talents = new Talents;
+      // 	  for (auto it = members.begin() ; it != members.end() ; ++it)
+      // 	    {
+      // 	      talents->getContainer().push_back(Talent::deserialization(trame(trame["PLAYER"]["TALENTS"][*it])));
+      // 	    }
+      // 	  player->setTalents(*talents);
+      // 	}
 
       Jobs			*jobs = Jobs::deserialization(trame(trame["PLAYER"]));
       if (jobs)
@@ -495,16 +512,6 @@ void				Player::setUser(User const &user)
   _user = &user;
 }
 
-void				Player::deleteTalents()
-{
-  static std::function<bool(Talent *)>	talentsDeleter = [](Talent *t) {
-    delete t;
-    return (true);
-  };
-
-  _talents->getContainer().remove_if(talentsDeleter);
-}
-
 Talents const			&Player::getTalents() const
 {
   return (*_talents);
@@ -560,4 +567,9 @@ bool				Player::doGather(std::string const &job, std::string const &res, std::li
 	}
     }
   return (ret);
+}
+
+void				Player::mobtoBattleMob(unsigned int const id)
+{
+  this->_digitaliser->mobtoBattleMob(id);
 }

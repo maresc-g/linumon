@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Wed Mar  5 12:39:59 2014 guillaume marescaux
+// Last update Fri Mar  7 16:14:57 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -59,7 +59,7 @@ public:
   bool				move(CLIENT::eDirection dir);
   void				sendChat(std::string const &msg);
   MutexVar<Chat *>		*getChat();
-  void				spell(unsigned int idBattle, Spell const &spell, unsigned int target);
+  void				spell(unsigned int idBattle, Spell const &spell, unsigned int launcher, unsigned int target);
   void				capture(unsigned int idBattle, unsigned int target);
   void				sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob);
   void				stuff(int action, unsigned int idItem, unsigned int target);

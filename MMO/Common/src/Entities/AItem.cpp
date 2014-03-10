@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:18:02 2013 alexis mestag
-// Last update Fri Feb 28 15:38:56 2014 laurent ansel
+// Last update Thu Mar  6 17:44:01 2014 laurent ansel
 //
 
 #include			"Entities/AItem.hh"
@@ -21,6 +21,13 @@ AItem::AItem() :
 
 AItem::AItem(std::string const &name, AItem::eItem const type) :
   AEntity(name, eEntity::ITEM),
+  _itemType(type)
+{
+
+}
+
+AItem::AItem(std::string const &name, AItem::eItem const type, AEntity::eEntity const entity) :
+  AEntity(name, entity),
   _itemType(type)
 {
 

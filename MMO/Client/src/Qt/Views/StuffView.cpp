@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Wed Mar  5 12:14:29 2014 guillaume marescaux
+// Last update Mon Mar 10 01:21:19 2014 alexis mestag
 //
 
 #include			<iostream>
@@ -94,7 +94,7 @@ void				StuffView::initStuff(Player const &player)
     delete *it;
   _labels->clear();
   unsigned int			i = 0;
-  for (auto it = player.getStats().getStats().begin() ; it != player.getStats().getStats().end() ; it ++)
+  for (auto it = player.getStats().begin() ; it != player.getStats().end() ; it ++)
     {
       QLabel			*label = new QLabel(this);
       label->setText((*it)->getKey().getName().c_str());
@@ -108,7 +108,7 @@ void				StuffView::initStuff(Player const &player)
       _labels->push_back(label);
       i++;
     }
-  show();
+  _wMan->getSFMLView()->displayView(this);
 }
 
 void				StuffView::initStuff(Mob const &mob)
@@ -128,7 +128,7 @@ void				StuffView::initStuff(Mob const &mob)
   for (auto it = _labels->begin() ; it != _labels->end() ; it++)
     delete *it;
   _labels->clear();
-  for (auto it = mob.getStats().getStats().begin() ; it != mob.getStats().getStats().end() ; it ++)
+  for (auto it = mob.getStats().begin() ; it != mob.getStats().end() ; it ++)
     {
       QLabel			*label = new QLabel(this);
       label->setText((*it)->getKey().getName().c_str());
@@ -142,7 +142,7 @@ void				StuffView::initStuff(Mob const &mob)
       _labels->push_back(label);
       i++;
     }
-  show();
+  _wMan->getSFMLView()->displayView(this);
 }
 
 void				StuffView::itemAction(ItemView *item)

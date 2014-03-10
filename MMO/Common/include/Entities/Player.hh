@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Fri Mar  7 14:43:04 2014 alexis mestag
+// Last update Mon Mar 10 01:36:39 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -55,8 +55,8 @@ protected:
   Digitaliser			*_digitaliser;
 
 private:
-  PlayerCoordinate		*_coord; //1
-  Faction const			*_faction; //2
+  PlayerCoordinate		*_coord;
+  Faction const			*_faction;
   TalentTree const		*_talentTree;
   Talents			*_talents;
   User const			*_user;
@@ -75,8 +75,6 @@ private:
   Player(Player const &rhs);
 
   Player		&operator=(Player const &rhs);
-
-  void			deleteTalents();
 
   void			setDigitaliser(Digitaliser const &digit);
 
@@ -138,6 +136,9 @@ public:
   void				addItem(AItem *item);
   AItem				*getAndDeleteItem(unsigned int const item) const;
 
+  void				addMob(Mob *mob);
+  Mob				*getAndDeleteMob(unsigned int const mob) const;
+
   void				addMoney(int const money);
 
   void				setJobs(Jobs *jobs);
@@ -155,6 +156,7 @@ public:
 
   void				useObject(unsigned int const target, unsigned int const item);
 
+  void				mobtoBattleMob(unsigned int const id);
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);
 };
@@ -163,7 +165,7 @@ public:
 # include			"Entities/Faction.hh"
 
 # ifdef	ODB_COMPILER
-#  pragma db object(Player) //session(false)
+#  pragma db object(Player)
 #  pragma db member(Player::_coord) transient
 #  pragma db member(Player::_digitaliser) transient
 #  pragma db member(Player::_talents) transient

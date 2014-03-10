@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb  3 14:02:47 2014 cyril jourdain
-// Last update Sun Feb 16 04:00:31 2014 cyril jourdain
+// Last update Fri Mar  7 11:47:07 2014 cyril jourdain
 //
 
 #ifndef 		__SPRITEMANAGER_HH__
@@ -33,7 +33,7 @@ public:
   void			loadAnimations(std::string const &jsonPath);
   Sprite		*getSprite(std::string const &name) const;
   Sprite		*copySprite(std::string const &name);
-  void			copySprite(std::string const &name, Sprite &);
+  bool			copySprite(std::string const &name, Sprite &);
 };
 
 #endif

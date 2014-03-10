@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Sun Mar  9 23:52:56 2014 alexis mestag
+// Last update Mon Mar 10 01:13:33 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -208,39 +208,55 @@ Stats				*Stats::deserialization(Trame const &trame)
   std::list<Stat *>		*stat;
   Stat				*st;
 
-  if (trame.isMember("STATS"))
-    {
-      auto				members = trame["STATS"].getMemberNames();
+  // if (trame.isMember("STATS"))
+  //   {
+  //     auto				members = trame["STATS"].getMemberNames();
 
-      stats = new Stats;
-      stat = new std::list<Stat *>;
-      for (auto it = members.begin() ; it != members.end() ; ++it)
-	{
-	  st = Stat::deserialization(trame(trame["STATS"][*it]));
-	  if (st)
-	    {
-	      st->setKey(*new StatKey(*it));
-	      stat->push_back(st);
-	    }
-	}
-      stats->setStats(*stat);
-    }
-  else if (trame.isMember("TMPSTATS"))
-    {
-      auto				members = trame["TMPSTATS"].getMemberNames();
+  //     stats = new Stats;
+  //     stat = new std::list<Stat *>;
+  //     for (auto it = members.begin() ; it != members.end() ; ++it)
+  // 	{
+  // 	  st = Stat::deserialization(trame(trame["STATS"][*it]));
+  // 	  if (st)
+  // 	    {
+  // 	      st->setKey(*new StatKey(*it));
+  // 	      stat->push_back(st);
+  // 	    }
+  // 	}
+  //     stats->setStats(*stat);
+  //   }
+  // else if (trame.isMember("TMPSTATS"))
+  //   {
+  //     auto				members = trame["TMPSTATS"].getMemberNames();
 
-      stats = new Stats;
-      stat = new std::list<Stat *>;
-      for (auto it = members.begin() ; it != members.end() ; ++it)
+  //     stats = new Stats;
+  //     stat = new std::list<Stat *>;
+  //     for (auto it = members.begin() ; it != members.end() ; ++it)
+  // 	{
+  // 	  st = Stat::deserialization(trame(trame["TMPSTATS"][*it]));
+  // 	  if (st)
+  // 	    {
+  // 	      st->setKey(*new StatKey(*it));
+  // 	      stat->push_back(st);
+  // 	    }
+  // 	}
+  //     stats->setStats(*stat);
+  //   }
+
+  auto				members = trame.getMemberNames();
+
+  stats = new Stats;
+  stat = new std::list<Stat *>;
+  for (auto it = members.begin() ; it != members.end() ; ++it)
+    {
+      st = Stat::deserialization(trame(trame[*it]));
+      if (st)
 	{
-	  st = Stat::deserialization(trame(trame["TMPSTATS"][*it]));
-	  if (st)
-	    {
-	      st->setKey(*new StatKey(*it));
-	      stat->push_back(st);
-	    }
+      std::cout << "STAT = " << *it << std::endl;
+	  st->setKey(*new StatKey(*it));
+	  stat->push_back(st);
 	}
-      stats->setStats(*stat);
     }
+  stats->setStats(*stat);
   return (stats);
 }

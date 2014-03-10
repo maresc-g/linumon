@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Thu Feb 27 12:51:19 2014 laurent ansel
+// Last update Wed Mar  5 21:54:58 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -205,6 +205,22 @@ bool				ClientUpdater::setInfo(FD const fd, Player::PlayerCoordinate *coord) con
     }
   this->_mutex->unlock();
   return (false);
+}
+
+void				ClientUpdater::sendAllInformationModel(FD const fd) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() && !set ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  (*it).first->sendAllInformationModel();
+	  set = true;
+	}
+    }
+  this->_mutex->unlock();
 }
 
 bool				ClientUpdater::sendListPlayers(FD const fd) const

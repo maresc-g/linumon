@@ -5,13 +5,13 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Wed Mar  5 13:48:32 2014 guillaume marescaux
+// Last update Sat Mar  8 23:42:33 2014 cyril jourdain
 //
 
 #include			"Battle/Battle.hh"
 
 Battle::Battle():
-  _id(0), _turnTo(0), _mobs(new std::list<Mob *>), _enemy(NULL), _nbMobs(0)
+  _id(0), _turnTo(0), _mobs(new std::list<Mob *>), _enemy(NULL), _maxMobs(0), _spells(new std::list<SpellContainer *>)
 {
 }
 
@@ -20,19 +20,46 @@ Battle::~Battle()
   delete _enemy;
 }
 
-void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *enemy, unsigned int nbMobs)
+void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *enemy, unsigned int maxMobs)
 {
-  std::list<Mob *>		mobs = (**player)->getDigitaliser().getBattleMobs();
+  std::list<Mob *> const	mobs = (**player)->getDigitaliser().getBattleMobs();
+  unsigned int			i = 0;
 
   _mobs->clear();
-  for (auto it = mobs.begin() ; it != mobs.end() ; it++)
-    _mobs->push_back(*it);
+  std::cout << "BEFORE PUTTING MOBS IN THE FUCKING LISTTTTTTTTTTTTTTTTTTTTTTTTTTTT" << std::endl;
+  for (auto it = mobs.begin() ; it != mobs.end() && i < 3; it++)
+    {
+      std::cout << "I AM PUTTING MOBS IN THE FUCKING LISTTTTTTTTTTTTTTTTTTTTTTTTTTTT" << std::endl;
+      _mobs->push_back(*it);
+      i++;
+    }
   _id = id;
   _enemy = enemy;
-  _nbMobs = nbMobs;
+  _maxMobs = maxMobs;
 }
 
 void				Battle::setTurnTo(unsigned int id)
 {
   _turnTo = id;
 }
+
+void				Battle::pushSpell(SpellContainer *container)
+{
+  _spells->push_back(container);
+  std::cout << "Adding spell : " << container->getSpell().getName() << std::endl;
+}
+
+SpellContainer			*Battle::getSpell(void)
+{
+  SpellContainer		*ret = _spells->front();
+
+  if (ret) std::cout << "NAME OF SPELL : [" << ret->getSpell().getName() << "]" << std::endl;
+  _spells->remove(ret);
+  return (ret);
+}
+
+unsigned int			Battle::getId() const { return (_id); }
+unsigned int			Battle::getTurnTo() const { return (_turnTo); }
+std::list<Mob *> const		&Battle::getMobs() const { return (*_mobs); }
+Player const 			&Battle::getEnemy() const { return (*_enemy); }
+unsigned int			Battle::getMaxMobs() const { return (_maxMobs); }

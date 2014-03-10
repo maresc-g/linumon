@@ -5,12 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Mar  4 13:10:32 2014 laurent ansel
+// Last update Sun Mar  9 00:07:43 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
 #include		"Error/Error.hpp"
 #include		"Entities/User.hh"
+#include		"Loader/LoaderManager.hh"
 
 Protocol::Protocol(bool const server):
   //  _container(new std::map<std::string, funcProtocol>),
@@ -40,6 +41,8 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, std::string>("LAUNCHTRADE", &launchTrade);
       this->_container->load<unsigned int, unsigned int, AItem const *>("PUTITEM", &putItem);
       this->_container->load<unsigned int, unsigned int, AItem const *>("GETITEM", &getItem);
+      this->_container->load<unsigned int, unsigned int, Mob const *>("PUTMOB", &putMob);
+      this->_container->load<unsigned int, unsigned int, Mob const *>("GETMOB", &getMob);
       this->_container->load<unsigned int, unsigned int, unsigned int>("PUTMONEY", &putMoney);
       this->_container->load<unsigned int, unsigned int, unsigned int>("GETMONEY", &getMoney);
       this->_container->load<unsigned int, unsigned int>("ACCEPT", &accept);
@@ -51,7 +54,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, bool>("CAPTUREEFFECT", &captureEffect);
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, unsigned int>("DEADMOB", &deadMob);
-      this->_container->load<unsigned int, unsigned int, unsigned int>("TURNTO", &turnTo);
+      this->_container->load<unsigned int, unsigned int>("TURNTO", &turnTo);
       this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, std::list<AItem *>*>("ENDBATTLE", &endBattle);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
       this->_container->load<unsigned int, int, Zone *>("REMOVEENTITY", &removeEntity);
@@ -62,6 +65,16 @@ Protocol::Protocol(bool const server):
 
       this->_container->load<unsigned int, Player *, Zone *, Zone *>("NEWZONE", &newZone);
       this->_container->load<unsigned int, unsigned int, bool, Zone *>("VISIBLE", &visible);
+
+      this->_container->load<unsigned int>("MOBMODELS", &mobModels);
+      this->_container->load<unsigned int>("JOBMODELS", &jobModels);
+      this->_container->load<unsigned int>("STUFFS", &stuffs);
+      this->_container->load<unsigned int>("CONSUMABLES", &consumables);
+      this->_container->load<unsigned int>("TALENTMODELS", &talentModels);
+      this->_container->load<unsigned int>("RESSOURCES", &ressources);
+      this->_container->load<unsigned int>("HEALS", &heals);
+      this->_container->load<unsigned int>("SPELLSLIST", &spells);
+      this->_container->load<unsigned int>("AUTHORIZEDSTATKEYSLIST", &authorizedStatKeys);
     }
   else
     {
@@ -521,7 +534,9 @@ bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player c
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
+  std::cout << "LAURENT EST VRAIEMENT UN GROS ENCULE" << std::endl;
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
@@ -529,12 +544,13 @@ bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player c
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"] = idBattle;
-      (*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"] = player->serialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"]));
+      player->serialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			spell(unsigned int const id,
@@ -545,6 +561,7 @@ bool			spell(unsigned int const id,
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -553,14 +570,16 @@ bool			spell(unsigned int const id,
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["SPELL"]["IDBATTLE"] = idBattle;
-      (*trame)[CONTENT]["SPELL"]["SPELL"] = spell->serialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
+      //      spell->serialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
+      (*trame)[CONTENT]["SPELL"]["NAME"] = spell->getName();
       (*trame)[CONTENT]["SPELL"]["LAUNCHER"] = launcher;
       (*trame)[CONTENT]["SPELL"]["TARGET"] = target;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			spellEffect(unsigned int const id, 
@@ -570,6 +589,7 @@ bool			spellEffect(unsigned int const id,
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -582,15 +602,17 @@ bool			spellEffect(unsigned int const id,
       (*trame)[CONTENT]["SPELLEFFECT"]["TARGET"] = target;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			captureEffect(unsigned int const id, unsigned int const idBattle, bool success)
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -602,9 +624,10 @@ bool			captureEffect(unsigned int const id, unsigned int const idBattle, bool su
       (*trame)[CONTENT]["CAPTUREEFFECT"]["SUCCESS"] = success;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			dswitch(unsigned int const id, 
@@ -614,6 +637,7 @@ bool			dswitch(unsigned int const id,
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -626,15 +650,17 @@ bool			dswitch(unsigned int const id,
       (*trame)[CONTENT]["SWITCH"]["NEWMOB"] = newMob;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			deadMob(unsigned int const id, unsigned int const idBattle, unsigned int const idMob)
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -646,15 +672,17 @@ bool			deadMob(unsigned int const id, unsigned int const idBattle, unsigned int 
       (*trame)[CONTENT]["DEADMOB"]["ID"] = idMob;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
-bool			turnTo(unsigned int const id, unsigned int const idBattle, unsigned int const idMob)
+bool			turnTo(unsigned int const id, unsigned int const idMob)
 {
-    Trame			*trame;
+  Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -662,13 +690,14 @@ bool			turnTo(unsigned int const id, unsigned int const idBattle, unsigned int c
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["TURNTO"]["IDBATTLE"] = idBattle;
-      (*trame)[CONTENT]["TURNTO"]["ID"] = idMob;
+      std::cout << "JE SUIS DANS LE PROTOCOL" << std::endl;
+      (*trame)[CONTENT]["TURNTO"] = idMob;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			endBattle(unsigned int const id, 
@@ -680,6 +709,7 @@ bool			endBattle(unsigned int const id,
 {
   Trame			*trame;
   Header		*header;
+  bool			ret = false;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -695,9 +725,10 @@ bool			endBattle(unsigned int const id,
       // (*trame)[CONTENT]["ENDBATTLE"]["ITEMS"] = std::get<1>(*params);
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
     }
   delete header;
-  return (false);
+  return (ret);
 }
 
 bool			useObject(unsigned int const id, unsigned int target, unsigned int idItem)
@@ -736,6 +767,48 @@ bool			launchTrade(unsigned int const id, unsigned int const idTrade, std::strin
     {
       (*trame)[CONTENT]["LAUNCHTRADE"]["IDTRADE"] = idTrade;
       (*trame)[CONTENT]["LAUNCHTRADE"]["NAMEPLAYER"] = namePlayer;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			putMob(unsigned int const id, unsigned int const idTrade, Mob const *mob)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame) && mob->serialization((*trame)((*trame)[CONTENT]["PUTMOB"])))
+    {
+      (*trame)[CONTENT]["PUTMOB"]["IDTRADE"] = idTrade;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			getMob(unsigned int const id, unsigned int const idTrade, Mob const *mob)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame) && mob->serialization((*trame)((*trame)[CONTENT]["GETMOB"])))
+    {
+      (*trame)[CONTENT]["GETMOB"]["IDTRADE"] = idTrade;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
@@ -867,6 +940,187 @@ bool			refuse(unsigned int const id, unsigned int const idTrade)
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			mobModels(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getMobModelLoader())->serialization(*trame);;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			jobModels(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getJobModelLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			stuffs(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getStuffLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			consumables(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getConsumableLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			talentModels(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getTalentModelLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			ressources(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getRessourceLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			heals(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getHealLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+
+bool			spells(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getSpellLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			authorizedStatKeys(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }
   delete header;
   return (ret);

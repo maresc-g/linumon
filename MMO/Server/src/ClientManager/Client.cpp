@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar  5 16:16:07 2014 laurent ansel
+// Last update Sat Mar  8 16:14:59 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -106,6 +106,19 @@ void				Client::use(FD const id)
   _state = GAME;
   this->_id = id;
   this->_use = true;
+}
+
+void				Client::sendAllInformationModel() const
+{
+  Server::getInstance()->callProtocol("STUFFS", _id);
+  Server::getInstance()->callProtocol("CONSUMABLES", _id);
+  Server::getInstance()->callProtocol("RESSOURCES", _id);
+  Server::getInstance()->callProtocol("AUTHORIZEDSTATKEYSLIST", _id);
+  Server::getInstance()->callProtocol("HEALS", _id);
+  Server::getInstance()->callProtocol("SPELLSLIST", _id);
+  Server::getInstance()->callProtocol("TALENTMODELS", _id);
+  Server::getInstance()->callProtocol("JOBMODELS", _id);
+  Server::getInstance()->callProtocol("MOBMODELS", _id);
 }
 
 void				Client::setSocket(ISocketClient const *socket, std::string const &proto)
@@ -240,9 +253,12 @@ void				Client::move(Player::PlayerCoordinate *coord)
 		  //     _state = BATTLE;
 		}
 	    }
-	  // if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
-	  //   if (BattleManager::getInstance()->inBattle(_player))
-	  //     _state = BATTLE;
+	  if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
+	    {
+	      std::cout << "Le getSafe RENVOIE TRUE, JE VAIS RENTRER DANS INBATTLE" << std::endl;
+	      if (BattleManager::getInstance()->inBattle(_player))
+		_state = BATTLE;
+	    }
 	}
     }
 }

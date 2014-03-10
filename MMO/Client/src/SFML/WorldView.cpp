@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Wed Mar  5 15:03:30 2014 cyril jourdain
+// Last update Fri Mar  7 22:47:54 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -20,7 +20,7 @@
 
 WorldView::WorldView(SFMLView *v, WindowManager *w) :
   ContextView(v, w), _mainPerso(NULL), _playerList(new std::vector<OPlayerSprite *>),
-  _entities(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(sf::Keyboard::Unknown),
+  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(sf::Keyboard::Unknown),
   _clickView(new PlayerClickView(v, w))
 {
   (*_keyMap)[sf::Keyboard::Up] = &WorldView::keyUp;
@@ -31,6 +31,7 @@ WorldView::WorldView(SFMLView *v, WindowManager *w) :
   (*_keyMap)[sf::Keyboard::I] = &WorldView::keyI;
   (*_keyMap)[sf::Keyboard::S] = &WorldView::keyS;
   (*_keyMap)[sf::Keyboard::J] = &WorldView::keyJ;
+  (*_keyMap)[sf::Keyboard::D] = &WorldView::keyD;
   (*_keyMap)[sf::Keyboard::Escape] = &WorldView::keyEscape;
   (*_keyMap)[sf::Keyboard::Return] = &WorldView::keyReturn;
   _clickView->hide();
@@ -93,33 +94,43 @@ void			WorldView::onMouseEvent(QMouseEvent *event)
 {
   sf::Vector2f	v = _sfmlView->mapPixelToCoords(sf::Vector2i(event->x(), event->y()));
 
-  _clickView->hide();
+  if (event->button() != Qt::NoButton)
+    _clickView->hide();
   if (event->button() == Qt::RightButton && _mainPerso->isClicked(v.x, v.y))
     {
       _mainPerso->onClick();
       _clickView->move(event->x(), event->y());
       _clickView->show();
+      return;
     }
-  for (auto it = _playerList->begin(); it != _playerList->end(); it++)
-    {
-      if ((*it)->getPlayerId() != _mainPerso->getPlayerId())
-  	{
-  	  if ((*it)->isClicked(v.x, v.y))
-  	    {
-  	      _clickView->move(event->x(), event->y());
-  	      _clickView->show();
-  	      (*it)->onClick();
-  	    }
-  	}
-    }
-  for (auto it = _entities->begin(); it != _entities->end(); it++)
-    {
-      if ((*it)->isVisible())
-  	{
-  	  if ((*it)->isClicked(v.x, v.y))
-  	    (*it)->onClick();
-  	}
-    }
+  if (event->button() == Qt::RightButton){
+    for (auto it = _playerList->begin(); it != _playerList->end(); it++)
+      {
+	if ((*it)->getPlayerId() != _mainPerso->getPlayerId())
+	  {
+	    if ((*it)->isClicked(v.x, v.y))
+	      {
+		_clickView->move(event->x(), event->y());
+		_clickView->show();
+		(*it)->onClick();
+		return;
+	      }
+	  }
+      }
+    for (auto it = _entities->begin(); it != _entities->end(); it++)
+      {
+	if ((*it)->isVisible())
+	  {
+	    if ((*it)->isClicked(v.x, v.y))
+	      {
+		(*it)->onClick();
+		_clickView->move(event->x(), event->y());
+		_clickView->show();
+		return;
+	      }
+	  }
+      }
+  }
 }
 
 void			WorldView::resetView()
@@ -144,22 +155,33 @@ void			WorldView::drawView()
 {
   _backgroundSprite->setTexture(_backgroundTexture->getTexture());
   _sfmlView->draw(*_backgroundSprite);
-  if (_mainPerso) {
-    _sfmlView->draw(*_mainPerso);
-  }
   for (auto it = _entities->begin(); it != _entities->end(); ++it)
     {
-      (*it)->update(*_sfmlView->getMainClock());
-      _sfmlView->draw(**it);
+      if (*it){
+	(*it)->update(*_sfmlView->getMainClock());
+	_sfmlView->draw(**it);
+      }
     }
   for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
     {
       if ((**(_wMan->getMainPlayer()))->getId() == ((*it)->getPlayerId()))
       	continue;
-      (*it)->moveFromServer();
-      (*it)->updateMoves(_sfmlView->getMainClock(), NULL);
-      (*it)->update(*_sfmlView->getMainClock());
-      _sfmlView->draw(**it);
+      if (*it){
+	(*it)->moveFromServer();
+	(*it)->updateMoves(_sfmlView->getMainClock(), NULL);
+	(*it)->update(*_sfmlView->getMainClock());
+	_sfmlView->draw(**it);
+      }
+    }
+  if (_mainPerso) {
+    _sfmlView->draw(*_mainPerso);
+  }
+  for (auto it = _topLayer->begin(); it != _topLayer->end(); ++it)
+    {
+      if (*it){
+	(*it)->update(*_sfmlView->getMainClock());
+	_sfmlView->draw(**it);
+      }
     }
   _sfmlView->setView(*(_sfmlView->getMainView()));
 }
@@ -167,6 +189,7 @@ void			WorldView::drawView()
 void			WorldView::loadPlayerList()
 {
   std::list<AEntity *>	list = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getPlayers();
+  OPlayerSprite		*tmp = NULL;
 
   for (auto it = _playerList->begin(); it != _playerList->end(); it++)
     delete *it;
@@ -175,15 +198,16 @@ void			WorldView::loadPlayerList()
     {
       if ((static_cast<Player*>(*it))->getId() == _mainPerso->getPlayerId())
   	continue;
-      _playerList->push_back(new OPlayerSprite((static_cast<Player*>(*it))->getName(),
-					       _sfmlView->getFont()));
-      _sfmlView->getSpriteManager()->copySprite("perso1", *_playerList->back());
-      _playerList->back()->setPlayerZone(Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getName());
-      _playerList->back()->setPlayerId((static_cast<Player*>(*it))->getId());
-      _playerList->back()->play("default_down");
-      _playerList->back()->generateOffset();
-      _playerList->back()->setPosition((static_cast<Player*>(*it))->getX() * CASE_SIZE,
-  				       (static_cast<Player*>(*it))->getY() * CASE_SIZE - _playerList->back()->getCurrentBound()->height / 2 + 4);
+      tmp = new OPlayerSprite((*it)->getName(),
+			      _sfmlView->getFont());
+      _sfmlView->getSpriteManager()->copySprite("perso1", *tmp);
+      tmp->setPlayerZone(Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getName());
+      tmp->setPlayerId((static_cast<Player*>(*it))->getId());
+      tmp->play("default_down");
+      tmp->generateOffset();
+      tmp->setPosition((static_cast<Player*>(*it))->getX() * CASE_SIZE,
+		       (static_cast<Player*>(*it))->getY() * CASE_SIZE - tmp->getCurrentBound()->height / 2 + 4);
+      _playerList->push_back(tmp);
     }
 }
 
@@ -191,6 +215,8 @@ void			WorldView::loadEntities()
 {
   Zone	*zone = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone());
   std::list<AEntity*>	*list;
+  RessourceSprite	*tmp;
+  sf::Vector2i		*pos = new sf::Vector2i(0,0);
 
   for (int y = 0; y < zone->getSizeY(); y++)
     {
@@ -200,18 +226,47 @@ void			WorldView::loadEntities()
 	  if (list && list->size() > 0)
 	    {
 	      for (auto it = list->begin(); it != list->end(); it++)
-	  	{
-	  	  if ((*it)->getEntityType() == AEntity::RESSOURCE) {
-	  	    _entities->push_back(new RessourceSprite(static_cast<Ressource*>(*it)));
-	  	    _sfmlView->getSpriteManager()->copySprite(static_cast<Ressource*>(*it)->getName(),
-							      *_entities->back());
-	  	    _entities->back()->play("default");
-	  	    _entities->back()->setPosition(static_cast<Ressource*>(*it)->getX() * CASE_SIZE,
-	  					   static_cast<Ressource*>(*it)->getY() * CASE_SIZE);
-		    _entities->back()->setPos(static_cast<Ressource*>(*it)->getX(),
-					      static_cast<Ressource*>(*it)->getY());
-	  	  }
-	  	}
+		{
+		  std::cout << "RESSOURCE NAME : " << (*it)->getName() << std::endl;
+		  if ((*it)->getEntityType() == AEntity::RESSOURCE)
+		    {
+		      pos->x = static_cast<Ressource*>(*it)->getX();
+		      pos->y = static_cast<Ressource*>(*it)->getY();
+		      if ((*it)->getName() == "Tree")
+			{
+			  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
+			  if (!_sfmlView->getSpriteManager()->copySprite("tree_trunk", *tmp))
+			    continue;
+			  tmp->play("default");
+			  tmp->setPosition(pos->x * CASE_SIZE,
+					   pos->y * CASE_SIZE);
+			  tmp->setPos(pos->x,
+				      pos->y);
+			  _entities->push_back(tmp);
+			  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
+			  if (_sfmlView->getSpriteManager()->copySprite("tree_top", *tmp))
+			    continue;
+			  tmp->play("default");
+			  tmp->setPosition(pos->x * CASE_SIZE- 64,
+					   pos->y * CASE_SIZE - 128);
+			  tmp->setPos(pos->x,
+				      pos->y);
+			  _topLayer->push_back(tmp);
+			}
+		      else
+			{
+			  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
+			  if (!_sfmlView->getSpriteManager()->copySprite((*it)->getName(), *tmp))
+			    continue;
+			  tmp->play("default");
+			  tmp->setPosition(pos->x * CASE_SIZE,
+					   pos->y * CASE_SIZE);
+			  tmp->setPos(pos->x,
+				      pos->y);
+			  _entities->push_back(tmp);
+			}
+		    }
+		}
 	    }
 	}
     }
@@ -292,7 +347,7 @@ void			WorldView::keyRight()
 void			WorldView::keyControl()
 {
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
-    _mainPerso->setSpeed(PX_PER_SECOND + 100);
+    _mainPerso->setSpeed(PX_PER_SECOND + 200);
   else
     _mainPerso->setSpeed(PX_PER_SECOND);
 }
@@ -304,10 +359,10 @@ void			WorldView::keyI()
       if (!_sfmlView->getInventoryView()->isVisible())
 	{
 	  _sfmlView->getInventoryView()->initInventory();
-	  _sfmlView->getInventoryView()->show();
+	  _sfmlView->displayView(_sfmlView->getInventoryView());
 	}
       else
-	_sfmlView->getInventoryView()->hide();
+	_sfmlView->hideView(_sfmlView->getInventoryView());
       _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::I, 100000);
     }
 }
@@ -319,10 +374,10 @@ void			WorldView::keyS()
       if (!_sfmlView->getStuffView()->isVisible())
 	{
 	  _sfmlView->getStuffView()->initStuff(***(_wMan->getMainPlayer()));
-	  _sfmlView->getStuffView()->show();
+	  _sfmlView->displayView(_sfmlView->getStuffView());
 	}
       else
-	_sfmlView->getStuffView()->hide();
+	_sfmlView->hideView(_sfmlView->getStuffView());
       _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::S, 100000);
     }
 }
@@ -332,10 +387,22 @@ void			WorldView::keyJ()
   if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::J) && !_sfmlView->getChatView()->getFocused())
     {
       if (!_sfmlView->getJobMenuView()->isVisible())
-	_sfmlView->getJobMenuView()->show();
+	  _sfmlView->displayView(_sfmlView->getJobMenuView());
       else
-	_sfmlView->getJobMenuView()->hide();
+	  _sfmlView->hideView(_sfmlView->getJobMenuView());
       _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::J, 100000);
+    }
+}
+
+void			WorldView::keyD()
+{
+  if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::D) && !_sfmlView->getChatView()->getFocused())
+    {
+      if (!_sfmlView->getDigitaliserView()->isVisible())
+	  _sfmlView->displayView(_sfmlView->getDigitaliserView());
+      else
+	  _sfmlView->hideView(_sfmlView->getDigitaliserView());
+      _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::D, 100000);
     }
 }
 
@@ -369,4 +436,6 @@ void			WorldView::resetPOV()
   _sfmlView->getMainView()->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
   _sfmlView->getMainView()->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
 				 (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
+  if ((**(_wMan->getMainPlayer()))->getX() <= 15)
+    _sfmlView->getMainView()->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE, 0);
 }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 20 13:26:38 2014 alexis mestag
-// Last update Mon Mar  3 14:49:27 2014 alexis mestag
+// Last update Thu Mar  6 14:14:51 2014 laurent ansel
 //
 
 #ifndef					__AUTHORIZEDSTATKEYS_HH__
@@ -16,8 +16,9 @@
 # include				"Stats/StatKey.hh"
 # include				"Utility/Nameable.hh"
 # include				"Utility/Wrapper.hpp"
+# include				"Utility/ISerialization.hh"
 
-class					AuthorizedStatKeys : public Persistent, public Nameable, public ContainerWrapper<std::list<StatKey const *>>
+class					AuthorizedStatKeys : public Persistent, public Nameable, public ContainerWrapper<std::list<StatKey const *>>, public ISerialization
 {
   friend class				odb::access;
 
@@ -37,6 +38,9 @@ public:
   void					setKeys(container_type const &keys);
 
   StatKey const				*getKey(std::string const &key) const;
+
+  virtual bool				serialization(Trame &trame) const;
+  static AuthorizedStatKeys		*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

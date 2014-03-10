@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Wed Mar  5 12:40:24 2014 guillaume marescaux
+// Last update Fri Mar  7 16:15:26 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -48,7 +48,7 @@ Client::~Client()
 void				Client::init(int ac, char **av)
 {
   _core->init();
-  _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer);
+  _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer, _battle);
   _manager->exec();
   _core->quit();
 }
@@ -66,8 +66,8 @@ bool				Client::move(CLIENT::eDirection dir) { return (_core->move(dir)); }
 void				Client::sendChat(std::string const &msg) { _core->sendChat(msg); }
 MutexVar<Chat *>		*Client::getChat() {return _chat;}
 
-void				Client::spell(unsigned int idBattle, Spell const &spell, unsigned int target)
-{ _core->spell(idBattle, spell, target); }
+void				Client::spell(unsigned int idBattle, Spell const &spell, unsigned int launcher, unsigned int target)
+{ _core->spell(idBattle, spell, launcher, target); }
 
 void				Client::capture(unsigned int idBattle, unsigned int target) { _core->capture(idBattle, target); }
 

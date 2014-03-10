@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 20 13:36:32 2014 alexis mestag
-// Last update Mon Mar  3 14:54:35 2014 alexis mestag
+// Last update Thu Mar  6 15:19:54 2014 laurent ansel
 //
 
 #include				<algorithm>
@@ -91,4 +91,23 @@ StatKey const					*AuthorizedStatKeys::getKey(std::string const &key) const
   if (it != this->cend())
     ret = *it;
   return (ret);
+}
+
+bool						AuthorizedStatKeys::serialization(Trame &trame) const
+{
+  bool						ret = true;
+
+  for (auto it = this->begin() ; it != this->end() ; ++it)
+    trame[(*it)->getName()] = (*it)->isShortLived();;
+  return (ret);
+}
+
+AuthorizedStatKeys				*AuthorizedStatKeys::deserialization(Trame const &trame)
+{
+  AuthorizedStatKeys				*authorizedStatKeys = new AuthorizedStatKeys;
+  auto						members = trame.getMemberNames();
+
+  for (auto it = members.begin() ; it != members.end() ; ++it)
+    authorizedStatKeys->addKey(*new StatKey(*it, trame[*it].asBool()));
+  return (authorizedStatKeys);
 }

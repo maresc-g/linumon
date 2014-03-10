@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Mon Mar 10 01:06:04 2014 alexis mestag
+// Last update Mon Mar 10 01:31:00 2014 alexis mestag
 //
 
 #ifndef			__MOB_HH__
@@ -33,10 +33,7 @@ private:
   Mob();
 
   void			setModel(MobModel const &model);
-
-  Stats const		&getCurrentStats() const;
   void			setCurrentStats(Stats const &stats);
-
   void			setInBattle(bool const inBattle);
 
 public:
@@ -57,6 +54,8 @@ public:
   */
   Stats			getMaxStats() const;
   Stat::value_type	getMaxStat(std::string const &key) const;
+
+  Stats const		&getCurrentStats() const;
   Stat::value_type	getCurrentStat(std::string const &key) const;
   bool			setCurrentStat(std::string const &key, Stat::value_type const value);
 

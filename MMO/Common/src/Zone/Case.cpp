@@ -5,10 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Fri Feb 28 13:42:28 2014 laurent ansel
+// Last update Fri Mar  7 15:34:07 2014 laurent ansel
 //
 
 #include		"Zone/Case.hh"
+#include		"Loader/LoaderManager.hh"
 
 Case::Case(int const x, int const y, bool const safe) :
   _entities(new std::list<AEntity *>),
@@ -84,12 +85,17 @@ bool			Case::serialization(Trame &trame) const
 	  else if ((*it)->getEntityType() == AEntity::RESSOURCE)
 	    {
 	      auto tmp = static_cast<Ressource *>(*it);
-	      tmp->serialization(trame(trame[std::to_string(i)]));
+	      trame[std::to_string(i)]["RES"] = tmp->getName();
+	      tmp->getCoord().serialization(trame(trame[std::to_string(i)]));
+	      //	      tmp->serialization(trame(trame[std::to_string(i)]));
 	    }
 	  else
 	    {
 	      auto tmp = static_cast<PNJ *>(*it);
-	      tmp->serialization(trame(trame[std::to_string(i)]));
+	      trame[std::to_string(i)]["NAME"] = tmp->getName();
+	      tmp->getCoord().serialization(trame(trame[std::to_string(i)]));
+
+	      // tmp->serialization(trame(trame[std::to_string(i)]));
 	    }
 	  i++;
   	}
@@ -100,6 +106,9 @@ bool			Case::serialization(Trame &trame) const
 
 void			Case::deserialization(Trame const &trame)
 {
+  Ressource		*item;
+  Heal			*heal;
+
   for (int i = 0; trame.isMember(std::to_string(i)); i++)
     {
       if (trame[std::to_string(i)].isMember("PLAYER"))
@@ -113,9 +122,23 @@ void			Case::deserialization(Trame const &trame)
 	  player->setZone((trame[std::to_string(i)]["PLAYER"]["ZONE"].asString()));
 	  this->_entities->push_back(player);
 	}
-      else if (trame[std::to_string(i)]["EN"] == AEntity::eEntity::RESSOURCE)
-	this->_entities->push_back(Ressource::deserialization(trame(trame[std::to_string(i)])));
+      else if (trame[std::to_string(i)].isMember("RES"))
+	{
+	  item = (**LoaderManager::getInstance()->getRessourceLoader())->getValue(trame[std::to_string(i)]["RES"].asString());//Ressource::deserialization(trame(trame[std::to_string(i)])));
+	  if (item)
+	    {
+	      item->setCoord(*Ressource::RessourceCoordinate::deserialization(trame(trame[std::to_string(i)])));
+	      this->_entities->push_back(item);
+	    }
+	}
       else
-	this->_entities->push_back(PNJ::deserialization(trame(trame[std::to_string(i)])));
+	{
+	  heal = (**LoaderManager::getInstance()->getHealLoader())->getValue(trame[std::to_string(i)]["NAME"].asString());
+	  if (heal)
+	    {
+	      heal->setCoord(*Ressource::RessourceCoordinate::deserialization(trame(trame[std::to_string(i)])));
+	      this->_entities->push_back(heal);
+	    }
+	}
     }
 }

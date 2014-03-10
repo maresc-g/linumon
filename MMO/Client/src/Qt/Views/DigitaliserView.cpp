@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 14:34:08 2014 guillaume marescaux
-// Last update Mon Mar  3 14:14:29 2014 guillaume marescaux
+// Last update Thu Mar  6 13:28:21 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/DigitaliserView.hh"
@@ -52,7 +52,6 @@ void				DigitaliserView::initDigit(Digitaliser const &digit)
 
   for (auto it = mobs.begin() ; it != mobs.end() ; it++)
     {
-      std::cout << "test" << std::endl;
       mobView = new MobView(ui.f_battleMobs, _wMan, *it);
       mobView->move(i * 80 + i, 0);
       mobView->resize(80, 80);

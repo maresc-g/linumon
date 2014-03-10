@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Wed Feb 26 13:56:06 2014 laurent ansel
+// Last update Sun Mar  9 00:21:51 2014 laurent ansel
 //
 
 #include			<list>
@@ -21,6 +21,7 @@
 #include			"ClientWriter/ClientWriter.hh"
 #include			"RessourceManager/RessourceManager.hh"
 #include			"Battle/BattleManager.hh"
+#include			"Loader/LoaderManager.hh"
 
 bool				quit = false;
 
@@ -67,6 +68,7 @@ Server::~Server()
   delete _poll;
   this->_mutex->lock();
   delete this->_actionServer;
+  BattleManager::deleteInstance();
   ClientManager::deleteInstance();
   this->debug("Deleting ClientWriter ...");
   ClientWriter::deleteInstance();
@@ -86,6 +88,9 @@ Server::~Server()
   delete _codeBreaker;
   Crypto::deleteInstance();
   delete _protocol;
+  this->debug("Deleting BDD ...");
+  LoaderManager::deleteInstance();
+  this->debug("Done");
   ObjectPoolManager::deleteInstance();
   CircularBufferManager::deleteInstance();
   this->_mutex->unlock();
@@ -121,8 +126,10 @@ void				Server::init(int const port)
   this->debug("Initialing Map ...");
   Map::getInstance();
   this->debug("Done");
+  this->debug("Initialing BDD ...");
+  LoaderManager::getInstance()->init();
+  this->debug("Done");
   this->debug("Initialing RessourceManager ...");
-  RessourceLoader::getInstance();
   RessourceManager::getInstance();
   this->debug("Done");
   _codeBreaker->start();
@@ -237,6 +244,7 @@ bool				Server::recvUdp()
 	      this->_mutex->unlock();
 	      this->callProtocol("CHECK", (*trame)[HEADER]["IDCLIENT"].asInt());
 	      this->_mutex->lock();
+	      ClientManager::getInstance()->sendAllInformationModel((*trame)[HEADER]["IDCLIENT"].asInt());
 	    }
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
 	// }
@@ -286,8 +294,8 @@ bool				Server::writeSomething(std::map<FD, std::pair<bool, bool> >::iterator &i
   if (this->_actionServer->find(it->first) != this->_actionServer->end() && it->second.second)
     {
       it->second.second = false;
-      ClientManager::getInstance()->setInfoClient(it->first, "TCP", false);
       ClientManager::getInstance()->setInfoClient(it->first, "UDP", false);
+      ClientManager::getInstance()->setInfoClient(it->first, "TCP", false);
       this->_poll->pushFd(it->first, IPoll::RDDC);
     }
   this->_mutex->unlock();

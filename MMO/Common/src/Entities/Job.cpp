@@ -5,13 +5,14 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Fri Mar  7 16:32:10 2014 alexis mestag
+// Last update Mon Mar 10 01:17:29 2014 alexis mestag
 //
 
 #include			<sstream>
 #include			"Entities/Job.hh"
 #include			"Entities/Stuff.hh"
 #include			"Entities/Consumable.hh"
+#include			"Loader/LoaderManager.hh"
 
 #ifndef			CLIENT_COMPILATION
 # include		"Entities/Job-odb.hxx"
@@ -116,10 +117,11 @@ bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, s
       {
 	for (auto ic = (*it)->begin() ; ic != (*it)->end() ; ++ic)
 	  object.push_back(std::make_pair(ic->first->getName(), ic->second));
-	if ((*it)->getResult().getItemType() == AItem::STUFF)
-	  item = new Stuff(static_cast<Stuff const &>((*it)->getResult()));
-	else if ((*it)->getResult().getItemType() == AItem::CONSUMABLE)
-	  item = new Consumable(static_cast<Consumable const &>((*it)->getResult()));
+	// if ((*it)->getResult().getItemType() == AItem::STUFF)
+	//   item = new Stuff(static_cast<Stuff const &>((*it)->getResult()));
+	// else if ((*it)->getResult().getItemType() == AItem::CONSUMABLE)
+	//   item = new Consumable(static_cast<Consumable const &>((*it)->getResult()));
+	item = LoaderManager::getInstance()->getItemLoader((*it)->getResult().getName());
 	if (item)
 	  result.push_back(item);
 	exp = this->_currentExp + (*it)->getExp();
@@ -138,15 +140,19 @@ bool				Job::doGather(std::string const &nameRessource, std::list<AItem *> &resu
 {
   bool				ret = false;
   unsigned int			exp = 0;
+  Ressource			*item;
 
   for (auto it = this->getJobModel().getGathers().begin() ; it != this->getJobModel().getGathers().end() && !ret; ++it)
     if ((*it).getRessource().getName() == nameRessource)
       {
-	int			i = rand() % 4 + 1;
+	// int			i = rand() % 4 + 1;
 
 	idRessource = (*it).getRessource().getId();
-	for (auto nb = 0 ; nb < i ; ++nb)
-	  result.push_back(new Ressource((*it).getRessource()));
+	// for (auto nb = 0 ; nb < i ; ++nb)
+	//   result.push_back(new Ressource((*it).getRessource()));
+	item = (**LoaderManager::getInstance()->getRessourceLoader())->getValue((*it).getRessource().getName());
+	if (item)
+	  result.push_back(item);
 	exp = this->_currentExp + it->getExp();
 	while (this->getExp() < exp)
 	  {
@@ -164,7 +170,8 @@ bool				Job::serialization(Trame &trame) const
   bool				ret = true;
 
   this->_level->serialization(trame);
-  this->_jobModel->serialization(trame(trame["MOD"]));
+  //  this->_jobModel->serialization(trame(trame["MOD"]));
+  trame["MOD"] = this->_jobModel->getName();
   trame["CEXP"] = this->_currentExp;
   return (ret);
 }
@@ -174,7 +181,9 @@ Job				*Job::deserialization(Trame const &trame)
   Job				*job = new Job;
 
   job->setLevelObject(*Level::deserialization(trame));
-  job->setJobModel(*JobModel::deserialization(trame));
+  if (trame.isMember("MOD"))
+    //    job->setJobModel(*JobModel::deserialization(trame));
+    job->setJobModel(*(**LoaderManager::getInstance()->getJobModelLoader())->getValue(trame["MOD"].asString()));
   job->setCurrentExp(trame["CEXP"].asUInt());
   return (job);
 }

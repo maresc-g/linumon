@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar  5 15:37:36 2014 guillaume marescaux
+// Last update Sun Mar  9 00:07:14 2014 laurent ansel
 //
 
 #include			<unistd.h>
@@ -15,6 +15,7 @@
 #include			"Crypto/Crypto.hh"
 #include			"Map/Map.hh"
 #include			"Entities/User.hh"
+#include			"Loader/LoaderManager.hh"
 
 static void			*runThread(void *data)
 {
@@ -81,6 +82,13 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("LAUNCHBATTLE", func);
   func = std::bind1st(std::mem_fun(&Core::turnTo), this);
   _proto->addFunc("TURNTO", func);
+  func = std::bind1st(std::mem_fun(&Core::spell), this);
+  _proto->addFunc("SPELL", func);
+  func = std::bind1st(std::mem_fun(&Core::spellEffect), this);
+  _proto->addFunc("SPELLEFFECT", func);
+
+  LoaderManager::getInstance()->init();
+  LoaderManager::getInstance()->initReception(*_proto);
 
   (*_sockets)[TCP] = new Socket;
   (*_sockets)[UDP] = new Socket;
@@ -105,6 +113,7 @@ Core::~Core()
   delete _handler;
   delete _initialized;
   delete _running;
+  LoaderManager::deleteInstance();
   ObjectPoolManager::deleteInstance();
 }
 
@@ -232,8 +241,15 @@ bool				Core::turnTo(Trame *trame)
   return (true);
 }
 
-bool				Core::spell(Trame *)
+bool				Core::spell(Trame *trame)
 {
+  //  Spell				*spell = Spell::deserialization((*trame)((*trame)[CONTENT]["SPELL"]["SPELL"]));
+  Spell				*spell = (**LoaderManager::getInstance()->getSpellLoader())->getValue((*trame)[CONTENT]["SPELL"]["NAME"].asString());
+  unsigned int			target = (*trame)[CONTENT]["SPELL"]["TARGET"].asUInt();
+  unsigned int			launcher = (*trame)[CONTENT]["SPELL"]["LAUNCHER"].asUInt();
+  SpellContainer		*container = new SpellContainer(target, launcher, spell);
+
+  (**_battle)->pushSpell(container);
   return (true);
 }
 
@@ -251,6 +267,7 @@ bool				Core::switchMob(Trame *)
 {
   return (true);
 }
+
 
 bool				Core::deadMob(Trame *)
 {
@@ -370,7 +387,7 @@ bool				Core::entity(Trame *trame)
 {
   Map				*map = Map::getInstance();
   AEntity			*entity = map->getEntityById((**_player)->getZone(),
-							     (*trame)[CONTENT]["ENTITY"]["ID"].asUInt());
+  							     (*trame)[CONTENT]["ENTITY"]["ID"].asUInt());
 
   if (entity)
     {
@@ -498,9 +515,9 @@ void				Core::sendChat(std::string const &msg)
 							     (**_player)->getName() + ": " + msg);
 }
 
-void				Core::spell(unsigned int idBattle, Spell const &spell, unsigned int target)
+void				Core::spell(unsigned int idBattle, Spell const &spell, unsigned int launcher, unsigned int target)
 {
-  (*_proto).operator()<unsigned int const, unsigned int, Spell const *, unsigned int>("SPELL", _id, idBattle, &spell, target);
+  (*_proto).operator()<unsigned int const, unsigned int, Spell const *, unsigned int, unsigned int>("SPELL", _id, idBattle, &spell, launcher, target);
 }
 
 void				Core::capture(unsigned int idBattle, unsigned int target)

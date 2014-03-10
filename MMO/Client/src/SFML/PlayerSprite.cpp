@@ -19,7 +19,7 @@ PlayerSprite::PlayerSprite() :
 {
   _name->setString("!_uninitialized");
   _name->setCharacterSize(14);
-  _name->setColor(sf::Color(15,15,240));
+  _name->setColor(sf::Color(27,1,155));
   _name->setStyle(sf::Text::Bold);
   _dir = NONE;
   _speed = PX_PER_SECOND;
@@ -33,7 +33,7 @@ PlayerSprite::PlayerSprite(sf::String const &name, sf::Font *font) :
   _name->setString(name);
   _name->setFont(*_textFont);
   _name->setCharacterSize(14);
-  _name->setColor(sf::Color(15,15,240));
+  _name->setColor(sf::Color(27,1,155));
   _name->setStyle(sf::Text::Bold);
   _dir = NONE;
   _speed = PX_PER_SECOND;
@@ -410,14 +410,15 @@ void			PlayerSprite::setSpeed(unsigned int speed)
   _speed = speed;
 }
 
-void			PlayerSprite::setPlayerId(unsigned int id)
+void			PlayerSprite::setPlayerId(unsigned int id, bool setPos)
 {
   _playerId = id;
-  Player *player = Map::getInstance()->getPlayerById(_playerId);
-
-  _pos.x = player->getX();
-  _pos.y = player->getY();
-  std::cout << "INITIAL PLAYER POS IN X : " <<  _pos.x << std::endl;
+  if (setPos){
+    Player *player = Map::getInstance()->getPlayerById(_playerId);
+    
+    _pos.x = player->getX();
+    _pos.y = player->getY();
+  }
 }
 
 unsigned int		PlayerSprite::getPlayerId() const

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Sun Mar  2 22:33:20 2014 antoine maitre
-// Last update Mon Mar  3 17:06:11 2014 alexis mestag
+// Last update Mon Mar 10 01:31:38 2014 alexis mestag
 //
 
 #include			"AI/AI.hh"
@@ -38,22 +38,37 @@ void				AI::remove(unsigned int const target)
       this->_mobs.erase(it);
 }
 
+int				AI::getRandomMob()
+{
+  int i = rand() % this->_mobs.size();
+  for (auto it = this->_mobs.begin(); it != this->_mobs.end() && i >= 0; it++)
+    {
+      if (i == 0 && (*it)->getCurrentStat("HP") != 0)
+	return ((*it)->getId());
+      else if (i == 0 && (*it)->getCurrentStat("HP") == 0)
+	return (this->getRandomMob());
+      i--;
+    }
+  return (-1);
+}
+
 std::tuple<unsigned int const, unsigned int const, Spell const *>			AI::action(unsigned int const mob)
 {
   Spell const			*tmp;
   // int				target;
 
-  for (auto it = this->getDigitaliser().begin(); it != this->getDigitaliser().end(); it++)
+  for (auto it = this->getDigitaliser().getBattleMobs().begin(); it != this->getDigitaliser().getBattleMobs().end(); ++it)
     if ((*it)->getId() == mob)
       {
 	int i = rand() % (*it)->getModel().getSpells().size();
-	for (auto itb = (*it)->getModel().getSpells().begin(); itb != (*it)->getModel().getSpells().end() && i >= 0; it++)
+	for (auto itb = (*it)->getModel().getSpells().begin(); itb != (*it)->getModel().getSpells().end() && i >= 0; itb++)
 	  {
 	    if (i == 0)
 	      tmp = (*itb);
 	    i--;
 	  }
       }
-  std::tuple<unsigned int const, unsigned int const, Spell const *> ret(mob, this->_mobs.front()->getId(), tmp);
+  std::tuple<unsigned int const, unsigned int const, Spell const *> ret(mob, this->getRandomMob(), tmp);
   return (ret);
 }
+

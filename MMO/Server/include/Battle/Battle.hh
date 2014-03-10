@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Mon Mar  3 04:56:48 2014 antoine maitre
+// Last update Fri Mar  7 14:10:32 2014 antoine maitre
 //
 
 #ifndef				__BATTLE_HH__
@@ -31,6 +31,9 @@ private:
   int const			_mobNumber;
   std::list<Mob *>		_mobs;
   std::list<Player *>		_players;
+  int				_money;
+  int				_exp;
+  unsigned int			_idLooser;
 public:
   Battle(unsigned int const id, eBattle const type, int const mobNumber, Player *player1, Player *player2);
   ~Battle();
@@ -40,6 +43,7 @@ public:
   bool				capture(unsigned int const);
   bool				spell(unsigned int const, unsigned int const, Spell *);
   bool				checkEnd();
+  bool				isInThisBattle(unsigned int const idPlayer);
   void				trameSpell(unsigned int const idPlayer, Spell const *spell, unsigned int const launcher, unsigned int const target) const;
   void				trameSwitch(unsigned int const idPlayer, unsigned int const target, unsigned int const newMob) const;
   void				trameSpellEffect(unsigned int const idPlayer, unsigned int const target, int const hpChange) const;
@@ -47,6 +51,7 @@ public:
   void				trameCapture(unsigned int const idPlayer, unsigned int const idMob) const;
   void				trameLaunchBattle(unsigned int const idPlayer, Player *player) const;
   void				trameTurnTo(unsigned int const idPlayer, unsigned int const idMob) const;
+  void				trameEndBattle();
   void				next();
 };
 

@@ -6,8 +6,8 @@ TEMPLATE = app
 TARGET = ../pfa-client
 DEPENDPATH += . src
 INCLUDEPATH += . include ../Common/include
-FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbarview.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui ../Res/craftview.ui ../Res/digitaliserview.ui
-LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lcryptopp -ljsoncpp -ldl
+FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbarview.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui ../Res/craftview.ui ../Res/digitaliserview.ui ../Res/hudview.ui
+LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio -lcryptopp -ljsoncpp -ldl
 QMAKE_CXXFLAGS += -std=c++0x -DCLIENT_COMPILATION -g
 OBJECTS_DIR = ./obj
 MOC_DIR = ./moc
@@ -32,6 +32,8 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Qt/Views/DigitaliserView.hh \
                 include/Qt/Views/MobView.hh \
                 include/Qt/Views/PlayerClickView.hh \
+                include/Qt/Views/HUDView.hh \
+                include/Qt/Views/TinyHUDView.hh \
                 include/Qt/WindowManager.hh \
                 include/Qt/CharDescription/CharDescription.hh \
                 include/SFML/SFMLView.hpp \
@@ -41,9 +43,11 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/SFML/PlayerSprite.hh \
                 include/SFML/OPlayerSprite.hh \
                 include/SFML/RessourceSprite.hh \
+                include/SFML/MobSprite.hh \
                 include/SFML/Clickable.hh \
                 include/SFML/GraphicEntities.hh \
                 include/SFML/KeyDelayer.hh \
+                include/SFML/BattleSpellUpdater.hh \
                 include/SFML/Sprite/Sprite.hh \
                 include/SFML/Sprite/Animation.hh \
                 include/Client.hh \
@@ -53,6 +57,8 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Core/ErrorHandler.hh \
                 include/Chat/Chat.hh \
                 include/Battle/Battle.hh \
+                include/Battle/SpellContainer.hh \
+                include/Sound/SoundManager.hh
 
 SOURCES +=      src/main.cpp \
                 src/Qt/QSFMLWidget.cpp \
@@ -72,6 +78,8 @@ SOURCES +=      src/main.cpp \
                 src/Qt/Views/DigitaliserView.cpp \
                 src/Qt/Views/MobView.cpp \
                 src/Qt/Views/PlayerClickView.cpp \
+                src/Qt/Views/HUDView.cpp \
+                src/Qt/Views/TinyHUDView.cpp \
                 src/Qt/WindowManager.cpp \
                 src/Qt/CharDescription.cpp \
                 src/SFML/SFMLView.cpp \
@@ -81,8 +89,10 @@ SOURCES +=      src/main.cpp \
                 src/SFML/PlayerSprite.cpp \
                 src/SFML/OPlayerSprite.cpp \
                 src/SFML/RessourceSprite.cpp \
+                src/SFML/MobSprite.cpp \
                 src/SFML/Clickable.cpp \
                 src/SFML/KeyDelayer.cpp \
+                src/SFML/BattleSpellUpdater.cpp \
                 src/SFML/Sprite/Sprite.cpp \
                 src/SFML/Sprite/Animation.cpp \
                 src/SFML/Sprite/SpriteManager.cpp \
@@ -91,6 +101,8 @@ SOURCES +=      src/main.cpp \
                 src/Core/Core.cpp \
                 src/Core/ErrorHandler.cpp \
                 src/Battle/Battle.cpp \
+                src/Battle/SpellContainer.cpp \
+                src/Sound/SoundManager.cpp \
                 ../Common/src/Map/Map.cpp \
                 ../Common/src/Crypto/Crypto.cpp \ 
                 ../Common/src/Mutex/AMutex.cpp \ 
@@ -154,5 +166,15 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/Consumable.cpp \ 
                 ../Common/src/Entities/Inventory.cpp \ 
                 ../Common/src/Entities/Faction.cpp \ 
+                ../Common/src/Loader/MobModelLoader.cpp \
+                ../Common/src/Loader/JobModelLoader.cpp \ 
+                ../Common/src/Loader/StuffLoader.cpp \ 
+                ../Common/src/Loader/ConsumableLoader.cpp \ 
+                ../Common/src/Loader/SpellLoader.cpp \ 
+                ../Common/src/Loader/TalentModelLoader.cpp \ 
+                ../Common/src/Loader/HealLoader.cpp \ 
+                ../Common/src/Loader/RessourceLoader.cpp \ 
+                ../Common/src/Loader/AuthorizedStatKeysLoader.cpp \ 
+                ../Common/src/Loader/LoaderManager.cpp \ 
                 ../Common/src/Utility/Nameable.cpp \ 
                 ../Common/src/Utility/Id.cpp

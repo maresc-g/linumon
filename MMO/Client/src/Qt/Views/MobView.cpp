@@ -5,14 +5,14 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Mon Mar  3 15:15:54 2014 guillaume marescaux
+// Last update Thu Mar  6 13:26:24 2014 guillaume marescaux
 //
 
 #include			<QMenu>
 #include			<boost/algorithm/string.hpp>
 #include			"Qt/Views/MobView.hh"
 
-MobView::MobView(QWidget *parent, WindowManager *wMan, Mob *mob):
+MobView::MobView(QWidget *parent, WindowManager *wMan, Mob const *mob):
   QWidget(parent), _wMan(wMan), _mob(mob)
 {
   ui.setupUi(this);
@@ -29,20 +29,7 @@ MobView::MobView(QWidget *parent, WindowManager *wMan, Mob *mob):
   std::cout << "NAME = " << name << std::endl;
   this->setStyleSheet(std::string("MobView QFrame#" + name + "{ border-image: url(./Res/Mobs/" + name + ".png); }").c_str());
   setContextMenuPolicy(Qt::CustomContextMenu);
-  connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(test(const QPoint&)));
-}
-
-void MobView::test(const QPoint &pos)
-{
-  QPoint globalPos = this->mapToGlobal(pos);
-  QMenu myMenu;
-  myMenu.addAction("Show stats");
-
-  QAction* selectedItem = myMenu.exec(globalPos);
-  if (selectedItem)
-    {
-      _wMan->getSFMLView()->getStuffView()->initStuff(*_mob);
-    }
+  connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayMenu(const QPoint&)));
 }
 
 MobView::MobView(QWidget *parent, WindowManager *wMan):
@@ -56,6 +43,40 @@ MobView::MobView(QWidget *parent, WindowManager *wMan):
 
 MobView::~MobView()
 {
+}
+
+void				MobView::setInfos(Mob const *mob)
+{
+  _mob = mob;
+  ui.l_nb->hide();
+  std::string name = mob->getName();
+  auto it = name.find(' ');
+  while (it != std::string::npos)
+    {
+      name.replace(it, 1, "_");
+      it = name.find(' ');
+    }
+  boost::algorithm::to_lower(name);
+  ui.frame->setObjectName(name.c_str());
+  std::cout << "NAME = " << name << std::endl;
+  this->setStyleSheet(std::string("MobView QFrame#" + name + "{ border-image: url(./Res/Mobs/" + name + ".png); }").c_str());
+  setContextMenuPolicy(Qt::CustomContextMenu);
+  connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayMenu(const QPoint&)));
+}
+
+void				MobView::displayMenu(const QPoint &pos)
+{
+  QPoint			globalPos = this->mapToGlobal(pos);
+  QMenu				myMenu;
+
+  myMenu.addAction("Show stats");
+
+  QAction			*selectedItem = myMenu.exec(globalPos);
+
+  if (selectedItem)
+    {
+      _wMan->getSFMLView()->getStuffView()->initStuff(*_mob);
+    }
 }
 
 void				MobView::paintEvent(QPaintEvent *)

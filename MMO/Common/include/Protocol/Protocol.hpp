@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Tue Mar  4 12:55:23 2014 guillaume marescaux
+// Last update Sat Mar  8 16:11:37 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -63,7 +63,7 @@ bool				captureEffect(unsigned int const id, unsigned int const idBattle, bool s
 bool				dswitch(unsigned int const id, unsigned int const idBattle, unsigned int const target, unsigned int const newMob);
 bool				deadMob(unsigned int const id, unsigned int const idBattle, unsigned int const idMob);
 bool				endBattle(unsigned int const id, unsigned int const idBattle, bool win, unsigned int const money, unsigned int const exp, std::list<AItem *> *items);
-bool				turnTo(unsigned int const id, unsigned int const idBattle, unsigned int const idMob);
+bool				turnTo(unsigned int const id, unsigned int const idMob);
 
 bool				welcome(unsigned int const id);
 bool				check(unsigned int const id);
@@ -89,6 +89,8 @@ bool				objectEffect(unsigned int const id, Stats *stats);
 bool				useObject(unsigned int const id, unsigned int target, unsigned int idItem);
 // bool				interaction();
 bool				launchTrade(unsigned int const id, unsigned int const idTrade, std::string namePlayer);
+bool				putMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
+bool				getMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
 bool				putItem(unsigned int const id, unsigned int const idTrade, AItem const *item);
 bool				getItem(unsigned int const id, unsigned int const idTrade, AItem const *item);
 bool				putMoney(unsigned int const id, unsigned int const idTrade, unsigned int const money);
@@ -107,5 +109,15 @@ bool				job(unsigned int const id, Job const *job);
 bool				newPlayer(unsigned int const id, Player *player, Zone *zone);
 bool				newZone(unsigned int const id, Player *player, Zone *oldZone, Zone *zone);
 bool				visible(unsigned int const id, unsigned int const idRessource, bool const visible, Zone *zone);
+
+bool				mobModels(unsigned int const id);
+bool				jobModels(unsigned int const id);
+bool				stuffs(unsigned int const id);
+bool				consumables(unsigned int const id);
+bool				talentModels(unsigned int const id);
+bool				ressources(unsigned int const id);
+bool				heals(unsigned int const id);
+bool				spells(unsigned int const id);
+bool				authorizedStatKeys(unsigned int const id);
 
 #endif

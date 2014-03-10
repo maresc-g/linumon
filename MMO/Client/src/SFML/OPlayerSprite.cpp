@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Feb 25 14:25:26 2014 cyril jourdain
-// Last update Fri Feb 28 19:35:29 2014 cyril jourdain
+// Last update Fri Mar  7 14:48:20 2014 cyril jourdain
 //
 
 #include		"SFML/OPlayerSprite.hh"
@@ -25,12 +25,6 @@ void			OPlayerSprite::moveUp(float px, sf::View *)
   play("up");
   move(0,-px);
   _deltaPos.y += px;
-  // if (_deltaPos.y <= CASE_SIZE - 10 && !_receivedInput)
-  //   _isInputable = false;
-  // if (_deltaPos.y >= CASE_SIZE - 10 && !_receivedInput)
-  //   _isInputable = true;
-  // else if (_deltaPos.y >= CASE_SIZE - 10 && _receivedInput)
-  //   _isInputable = false;
   if (_deltaPos.y >= CASE_SIZE)
     {
       _pos.y -= 1;

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb 17 15:32:06 2014 cyril jourdain
-// Last update Wed Mar  5 14:36:10 2014 cyril jourdain
+// Last update Fri Mar  7 21:37:39 2014 cyril jourdain
 //
 
 #ifndef				__WORLDVIEW_HH__
@@ -27,6 +27,7 @@ private:
   PlayerSprite			*_mainPerso;
   std::vector<OPlayerSprite *>	*_playerList;
   std::list<RessourceSprite*>	*_entities;
+  std::list<RessourceSprite*>	*_topLayer;
   KeyMap			*_keyMap;
   sf::Keyboard::Key		_pressedKey;
 
@@ -56,6 +57,7 @@ private:
   void				keyI();
   void				keyS();
   void				keyJ();
+  void				keyD();
   void				keyEscape();
   void				keyReturn();
   void				keyControl();

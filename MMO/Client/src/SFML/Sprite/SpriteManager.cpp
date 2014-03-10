@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Feb  4 11:04:13 2014 cyril jourdain
-// Last update Wed Mar  5 12:40:00 2014 cyril jourdain
+// Last update Fri Mar  7 12:42:13 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -42,6 +42,7 @@ void		SpriteManager::loadAnimations(std::string const &jsonPath)
 {
   JsonFile	jFile;
   int		size = 0;
+  sf::Vector2i	customSize;
   Json::Value	sprites;
   std::string	id;
   std::string	iName;
@@ -53,23 +54,36 @@ void		SpriteManager::loadAnimations(std::string const &jsonPath)
   for (unsigned int i = 0; i < jFile["sprites"].getMemberNames().size();i++)
     {
       id = jFile["sprites"].getMemberNames()[i]; // Name of global sprite
-      std::cout << "Adding anim : " << id << std::endl;
+      // std::cout << "Adding anim : " << id << std::endl;
       (*_anims)[id] = new Sprite();
+      (*_anims)[id]->setName(id);
       (*_anims)[id]->setTexture((*_textures)[jFile["info"]["texture"].asString()]);
       for (unsigned int j = 0; j < jFile["sprites"][id].getMemberNames().size(); j++)
 	{
 	  iName = jFile["sprites"][id].getMemberNames()[j];
-	  std::cout << "\t" << iName << std::endl;
+	  // std::cout << "\t" << iName << std::endl;
 	  (*_anims)[id]->addAnim(iName);
 	  for (unsigned int k = 0; k < jFile["sprites"][id][iName].getMemberNames().size(); k++)
 	    {
 	      numSprite = jFile["sprites"][id][iName].getMemberNames()[k];
+	      if (jFile["sprites"][id][iName][numSprite]["sx"].asInt() != 0 &&
+		  jFile["sprites"][id][iName][numSprite]["sy"].asInt() != 0)
+		{
+		  customSize.x = jFile["sprites"][id][iName][numSprite]["sx"].asInt();
+		  customSize.y = jFile["sprites"][id][iName][numSprite]["sy"].asInt();
+		}
+	      else
+		{
+		  customSize.x = size;
+		  customSize.y = size;
+		}
+		
 	      (*(*_anims)[id])[iName]->
 		addSprite(sf::IntRect(jFile["sprites"][id][iName][numSprite]["x"].asInt(),
 				      jFile["sprites"][id][iName][numSprite]["y"].asInt(),
-				      size,
-				      size));
-	      std::cout << "\t\t" << k << std::endl;
+				      customSize.x,
+				      customSize.y));
+	      // std::cout << "\t\t" << k << std::endl;
 	    }
 	}
     }
@@ -87,19 +101,23 @@ Sprite		*SpriteManager::getSprite(std::string const &anim) const
 
 Sprite		*SpriteManager::copySprite(std::string const &anim)
 {
+  Sprite *tmp = NULL;
   try {
-    return new Sprite(*(_anims->at(anim)));
+    tmp = _anims->at(anim);
+    return new Sprite(*tmp);
   } catch (std::out_of_range const &e) {
     std::cerr << "Sprite *copySprite in SpriteManager: No animation named " << anim << std::endl;
     return NULL;
   }
 }
 
-void		SpriteManager::copySprite(std::string const &anim, Sprite &dest)
+bool		SpriteManager::copySprite(std::string const &anim, Sprite &dest)
 {
   try {
     dest = (*(_anims->at(anim)));
+    return true;
   } catch (std::out_of_range const &e) {
     std::cerr << "void copySprite in SpriteManager: No animation named " << anim << std::endl;
+    return false;
   }
 }

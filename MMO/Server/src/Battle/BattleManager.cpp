@@ -5,14 +5,14 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Wed Feb 26 12:04:26 2014 antoine maitre
+// Last update Sun Mar  9 00:19:58 2014 laurent ansel
 //
 
 #include			"Battle/BattleManager.hh"
 #include			"Server/Server.hh"
 
 BattleManager::BattleManager()
-  : Singleton<BattleManager>(), _mutex(new Mutex)
+  : Singleton<BattleManager>(), _id(0), _mutex(new Mutex)
 {
   this->_mutex->init();
   std::function<bool (Trame *)> func;
@@ -23,10 +23,21 @@ BattleManager::BattleManager()
   Server::getInstance()->addFuncProtocol("SPELL", func);
   func = std::bind1st(std::mem_fun(&BattleManager::dswitch), this);
   Server::getInstance()->addFuncProtocol("SWITCH", func);
+  this->_battleUpdaters.push_back(new BattleUpdater);
+  this->_battleUpdaters.push_back(new BattleUpdater);
+  this->_battleUpdaters.push_back(new BattleUpdater);
+  this->_battleUpdaters.push_back(new BattleUpdater);
 }
 
 BattleManager::~BattleManager()
 {
+  _mutex->lock();
+  for (auto it = _battleUpdaters.begin() ; it != _battleUpdaters.end() ; ++it)
+    {
+      (*it)->setQuit(true);
+      (*it)->join();
+    }
+  _mutex->unlock();
   this->deleteBattleUpdaters();
   this->_mutex->destroy();
   delete _mutex;
@@ -36,8 +47,7 @@ bool				BattleManager::inBattle(Player *player)
 {
   if ((rand() % 100) < 74)
     {
-      std::cout << "Yolo" << std::endl;
-      this->newBattle(player, player);
+      this->newBattle(player, NULL);
       return (true);
     }
   else
@@ -68,7 +78,7 @@ void				BattleManager::newBattle(Player *player1, Player *player2)
       if (i == j)
 	{
 	  (*it)->lock();
-	  (*it)->newBattle(player1, player2);
+	  (*it)->newBattle(player1, player2, this->_id++);
 	  (*it)->unlock();
 	}
       i++;
@@ -89,10 +99,10 @@ void				BattleManager::deleteBattleUpdaters()
 
 bool				BattleManager::spell(Trame *trame)
 {
-  std::list<Battle *>		*tmp;
+  std::list<Battle *>		tmp;
   
   if ((*trame)[CONTENT]["SPELL"].isMember("IDBATTLE") &&
-      (*trame)[CONTENT]["SPELL"].isMember("SPELL") &&
+      (*trame)[CONTENT]["SPELL"].isMember("NAME") &&
       (*trame)[CONTENT]["SPELL"].isMember("TARGET") &&
       (*trame)[CONTENT]["SPELL"].isMember("LAUNCHER"))
     {
@@ -100,9 +110,10 @@ bool				BattleManager::spell(Trame *trame)
 	{
 	  (*it)->lock();
 	  tmp = (*it)->getBattles();
-	  for (auto itb = tmp->begin(); itb != tmp->end(); it++)
+	  for (auto itb = tmp.begin(); itb != tmp.end(); itb++)
 	    if ((*itb)->getID() == (*trame)[CONTENT]["SPELL"]["IDBATTLE"].asUInt())
-	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	      //	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	      (*it)->addTrame((*trame));
 	  (*it)->unlock();
 	}
       return (true);
@@ -112,7 +123,7 @@ bool				BattleManager::spell(Trame *trame)
 
 bool				BattleManager::capture(Trame *trame)
 {
-  std::list<Battle *>		*tmp;
+  std::list<Battle *>		tmp;
 
   if ((*trame)[CONTENT]["CAPTURE"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["CAPTURE"].isMember("TARGET"))
@@ -121,9 +132,10 @@ bool				BattleManager::capture(Trame *trame)
 	{
 	  (*it)->lock();
 	  tmp = (*it)->getBattles();
-	  for (auto itb = tmp->begin(); itb != tmp->end(); it++)
+	  for (auto itb = tmp.begin(); itb != tmp.end(); itb++)
 	    if ((*itb)->getID() == (*trame)[CONTENT]["CAPTURE"]["IDBATTLE"].asUInt())
-	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	      //	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	      (*it)->addTrame((*trame));
 	  (*it)->unlock();
 	}
       return (true);
@@ -133,7 +145,7 @@ bool				BattleManager::capture(Trame *trame)
 
 bool				BattleManager::dswitch(Trame *trame)
 {
-  std::list<Battle *>		*tmp;
+  std::list<Battle *>		tmp;
 
   if ((*trame)[CONTENT]["SWITCH"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["SWITCH"].isMember("TARGET") &&
@@ -143,9 +155,10 @@ bool				BattleManager::dswitch(Trame *trame)
 	{
 	  (*it)->lock();
 	  tmp = (*it)->getBattles();
-	  for (auto itb = tmp->begin(); itb != tmp->end(); it++)
+	  for (auto itb = tmp.begin(); itb != tmp.end(); itb++)
 	    if ((*itb)->getID() == (*trame)[CONTENT]["SWITCH"]["IDBATTLE"].asUInt())
-	      (*it)->addTrame((*trame)((*trame)[CONTENT]));
+	      //(*it)->addTrame((*trame)((*trame)[CONTENT]));
+	      (*it)->addTrame((*trame));
 	  (*it)->unlock();
 	}
       return (true);
@@ -153,3 +166,12 @@ bool				BattleManager::dswitch(Trame *trame)
   return (false);
 }
 
+void				BattleManager::disconnect(unsigned int const idPlayer)
+{
+  for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
+    {
+      (*it)->lock();
+      (*it)->disconnect(idPlayer);
+      (*it)->unlock();
+    }
+}

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Wed Mar  5 15:29:01 2014 cyril jourdain
+// Last update Sat Mar  8 02:40:15 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -61,9 +61,9 @@ private:
   sf::Font		*_textFont;
   bool			_reset;
   bool			_grow;
+  bool			_enterBattle;
 
   /* Child Views */
-  SpellBarView		*_spellBar;
   InventoryView		*_inventory;
   StuffView		*_stuff;
   ChatView		*_chat;
@@ -76,7 +76,8 @@ private:
   ContextView		*_worldView;
   ContextView		*_battleView;
   ContextView		*_currentView;
-
+  QWidget		*_view1;
+  QWidget		*_view2;
 
 public:
   SFMLView(QWidget *, QPoint const &, QSize const &, WindowManager *_wMan);
@@ -98,6 +99,10 @@ private:
   virtual void		        mousePressEvent(QMouseEvent *);
   virtual void			mouseMoveEvent(QMouseEvent *);
 
+public:
+  void				displayView(QWidget *view);
+  void				hideView(QWidget *view);
+
 public: /* Child view accessors for World and Battle view, not const */
   SpellBarView			*getSpellBarView(void);
   InventoryView			*getInventoryView(void);
@@ -106,6 +111,8 @@ public: /* Child view accessors for World and Battle view, not const */
   MenuView			*getMenuView(void);
   JobMenuView			*getJobMenuView(void);
   JobView			*getJobView(void);
+  DigitaliserView		*getDigitaliserView(void);
+  ContextView			*getBattleView(void);
 
 };
 

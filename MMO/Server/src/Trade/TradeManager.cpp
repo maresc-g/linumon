@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Feb 12 20:20:01 2014 laurent ansel
-// Last update Sat Feb 15 13:08:06 2014 laurent ansel
+// Last update Fri Mar  7 13:46:16 2014 laurent ansel
 //
 
 #include			<functional>
@@ -19,6 +19,13 @@ TradeManager::TradeManager():
   _mutex->init();
 
   std::function<bool (Trame *)> func;
+
+
+  func = std::bind1st(std::mem_fun(&TradeManager::putMob), this);
+  Server::getInstance()->addFuncProtocol("PUTMOB", func);
+
+  func = std::bind1st(std::mem_fun(&TradeManager::getMob), this);
+  Server::getInstance()->addFuncProtocol("GETMOB", func);
 
   func = std::bind1st(std::mem_fun(&TradeManager::putItem), this);
   Server::getInstance()->addFuncProtocol("PUTITEM", func);
@@ -75,26 +82,83 @@ void				TradeManager::newTrade(Player *player1, Player *player2)
   this->_mutex->unlock();
 }
 
+bool				TradeManager::getMob(Trame *trame)
+{
+  bool				ret = false;
+  unsigned int			idTrade;
+  unsigned int			idPlayer;
+  //  AMob				*mob;
+  unsigned int			idMob;
+
+  this->_mutex->lock();
+  idTrade = (*trame)[CONTENT]["TRADE"]["IDTRADE"].asUInt();
+  idMob = (*trame)[CONTENT]["TRADE"]["IDMOB"].asUInt();
+  // mob = AMob::deserialization((*trame)((*trame)[CONTENT]["TRADE"]));
+  // if (mob)
+  //   {
+  for (auto it = _list->begin() ; it != _list->end() ; ++it)
+    if (it->first && it->second && it->second->getId() == idTrade)
+      {
+	idPlayer = it->second->getIdPlayer((*trame)[HEADER]["IDCLIENT"].asUInt());
+	ret = it->second->getMob(idPlayer, idMob);//mob->getId());
+      }
+  //   }
+  // else
+  //   ret = false;
+  this->_mutex->unlock();
+  return (ret);
+}
+
+bool				TradeManager::putMob(Trame *trame)
+{
+  bool				ret = false;
+  unsigned int			idTrade;
+  unsigned int			idPlayer;
+  // AMob				*mob;
+  unsigned int			idMob;
+
+  this->_mutex->lock();
+  idTrade = (*trame)[CONTENT]["TRADE"]["IDTRADE"].asUInt();
+  idMob = (*trame)[CONTENT]["TRADE"]["IDMOB"].asUInt();
+  // mob = Mob::deserialization((*trame)((*trame)[CONTENT]["TRADE"]));
+  // if (mob)
+  // {
+  for (auto it = _list->begin() ; it != _list->end() ; ++it)
+    if (it->first && it->second && it->second->getId() == idTrade)
+      {
+	idPlayer = it->second->getIdPlayer((*trame)[HEADER]["IDCLIENT"].asUInt());
+	ret = it->second->putMob(idPlayer, idMob);//mob->getId());
+      }
+  //   }
+  // else
+  //   ret = false;
+  this->_mutex->unlock();
+  return (ret);
+}
+
 bool				TradeManager::getItem(Trame *trame)
 {
   bool				ret = false;
   unsigned int			idTrade;
   unsigned int			idPlayer;
-  AItem				*item;
+  // AItem				*item;
+  unsigned int			idItem;
 
   this->_mutex->lock();
   idTrade = (*trame)[CONTENT]["TRADE"]["IDTRADE"].asUInt();
-  item = AItem::deserialization((*trame)((*trame)[CONTENT]["TRADE"]));
-  if (item)
-    {  for (auto it = _list->begin() ; it != _list->end() ; ++it)
-	if (it->first && it->second && it->second->getId() == idTrade)
-	  {
-	    idPlayer = it->second->getIdPlayer((*trame)[HEADER]["IDCLIENT"].asUInt());
-	    ret = it->second->getItem(idPlayer, item->getId());
-	  }
-    }
-  else
-    ret = false;
+  // item = AItem::deserialization((*trame)((*trame)[CONTENT]["TRADE"]));
+  // if (item)
+  //   {
+  idItem = (*trame)[CONTENT]["TRADE"]["IDITEM"].asUInt();
+  for (auto it = _list->begin() ; it != _list->end() ; ++it)
+    if (it->first && it->second && it->second->getId() == idTrade)
+      {
+	idPlayer = it->second->getIdPlayer((*trame)[HEADER]["IDCLIENT"].asUInt());
+	ret = it->second->getItem(idPlayer, idItem);//item->getId());
+      }
+  //   }
+  // else
+  //   ret = false;
   this->_mutex->unlock();
   return (ret);
 }
@@ -104,22 +168,24 @@ bool				TradeManager::putItem(Trame *trame)
   bool				ret = false;
   unsigned int			idTrade;
   unsigned int			idPlayer;
-  AItem				*item;
+  // AItem				*item;
+  unsigned int			idItem;
 
   this->_mutex->lock();
   idTrade = (*trame)[CONTENT]["TRADE"]["IDTRADE"].asUInt();
-  item = AItem::deserialization((*trame)((*trame)[CONTENT]["TRADE"]));
-  if (item)
-    {
-      for (auto it = _list->begin() ; it != _list->end() ; ++it)
-	if (it->first && it->second && it->second->getId() == idTrade)
-	  {
-	    idPlayer = it->second->getIdPlayer((*trame)[HEADER]["IDCLIENT"].asUInt());
-	    ret = it->second->putItem(idPlayer, item->getId());
-	  }
-    }
-  else
-    ret = false;
+  // item = AItem::deserialization((*trame)((*trame)[CONTENT]["TRADE"]));
+  // if (item)
+  //   {
+  idItem = (*trame)[CONTENT]["TRADE"]["IDITEM"].asUInt();
+  for (auto it = _list->begin() ; it != _list->end() ; ++it)
+    if (it->first && it->second && it->second->getId() == idTrade)
+      {
+	idPlayer = it->second->getIdPlayer((*trame)[HEADER]["IDCLIENT"].asUInt());
+	ret = it->second->putItem(idPlayer, idItem);//item->getId());
+      }
+  //   }
+  // else
+  //   ret = false;
   this->_mutex->unlock();
   return (ret);
 }

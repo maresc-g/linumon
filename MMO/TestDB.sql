@@ -33,6 +33,12 @@ INSERT INTO `TalentModel`(`id`, `name`, `maxPoints`, `effectLib`) VALUES
        (1, 'MinAtkTalentModel', 10, 1),
        (2, 'MinDefTalentModel', 10, 2);
 
+/* Inserting TalentModels_talents */
+DELETE FROM `TalentModel_talents`;
+
+INSERT INTO `TalentModel_talents`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 2);
+
 /* Inserting Talents */
 DELETE FROM `Talent`;
 
@@ -222,54 +228,54 @@ INSERT INTO `Stat`(`id`, `key`, `value`) VALUES
        (23, 7, 100),
        (24, 8, 100),
 
-       (25, 1, 551),
-       (26, 2, 54),
-       (27, 3, 84),
-       (28, 4, 98),
-       (29, 5, 684),
-       (30, 6, 68),
-       (31, 7, 68),
-       (32, 8, 963),
-       (33, 1, 7),
-       (34, 2, 5684),
-       (35, 3, 54),
-       (36, 4, 57),
-       (37, 5, 5864),
-       (38, 6, 574),
-       (39, 7, 47),
-       (40, 8, 1),
-       (41, 1, 681),
-       (42, 2, 5684),
-       (43, 3, 684),
-       (44, 4, 568),
-       (45, 5, 6871),
-       (46, 6, 51),
-       (47, 7, 867),
-       (48, 8, 68),
-       (49, 1, 68),
-       (50, 2, 41),
-       (51, 3, 856741),
-       (52, 4, 8),
-       (53, 5, 8671),
-       (54, 6, 58),
-       (55, 7, 6),
-       (56, 8, 7861),
-       (57, 1, 8671),
-       (58, 2, 85671),
-       (59, 3, 271),
-       (60, 4, 58),
-       (61, 5, 92),
-       (62, 6, 587),
-       (63, 7, 56),
-       (64, 8, 56),
-       (65, 1, 57),
-       (66, 2, 3084),
-       (67, 3, 5),
-       (68, 4, 684),
-       (69, 5, 5784),
-       (70, 6, 5),
-       (71, 7, 57),
-       (72, 8, 78),
+       (25, 1, 0),
+       (26, 2, 0),
+       (27, 3, 0),
+       (28, 4, 0),
+       (29, 5, 0),
+       (30, 6, 0),
+       (31, 7, 0),
+       (32, 8, 0),
+       (33, 1, 0),
+       (34, 2, 0),
+       (35, 3, 0),
+       (36, 4, 0),
+       (37, 5, 0),
+       (38, 6, 0),
+       (39, 7, 0),
+       (40, 8, 0),
+       (41, 1, 0),
+       (42, 2, 0),
+       (43, 3, 0),
+       (44, 4, 0),
+       (45, 5, 0),
+       (46, 6, 0),
+       (47, 7, 0),
+       (48, 8, 0),
+       (49, 1, 0),
+       (50, 2, 0),
+       (51, 3, 0),
+       (52, 4, 0),
+       (53, 5, 0),
+       (54, 6, 0),
+       (55, 7, 0),
+       (56, 8, 0),
+       (57, 1, 0),
+       (58, 2, 0),
+       (59, 3, 0),
+       (60, 4, 0),
+       (61, 5, 0),
+       (62, 6, 0),
+       (63, 7, 0),
+       (64, 8, 0),
+       (65, 1, 0),
+       (66, 2, 0),
+       (67, 3, 0),
+       (68, 4, 0),
+       (69, 5, 0),
+       (70, 6, 0),
+       (71, 7, 0),
+       (72, 8, 0),
 
        (73, 9, 10),
        (74, 10, 12),
@@ -282,7 +288,16 @@ INSERT INTO `Stat`(`id`, `key`, `value`) VALUES
        (81, 11, 60),
        (82, 9, 40),
        (83, 10, 42),
-       (84, 11, 70);
+       (84, 11, 70),
+
+       (85, 1, 20),
+       (86, 2, 5),
+       (87, 3, 5),
+       (88, 4, 15),
+       (89, 5, 8),
+       (90, 6, 4),
+       (91, 7, 1),
+       (92, 8, 3);
 
 /* Assigning Stats to MobModels */
 DELETE FROM `MobModel_stats`;
@@ -474,6 +489,16 @@ INSERT INTO `Player_mobs`(`object_id`, `index`, `value`) VALUES
        (2, 1, 5),
        (2, 2, 6);
 
+DELETE FROM `DBZone_mobModels`;
+
+INSERT INTO `DBZone_mobModels`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 1),
+       (1, 1, 2),
+       (1, 2, 3),
+       (2, 0, 1),
+       (2, 1, 2),
+       (2, 2, 3);
+
 /* Assigning Mobs to Players */
 DELETE FROM `Player_battleMobs`;
 
@@ -497,7 +522,33 @@ INSERT INTO `Stuff`(`id`, `name`, `stuffType`) VALUES
        (6, 'Plastron Bouftou', 'BREASTPLATE'),
        (7, 'Anneau Bouftou', 'RING'),
        (8, 'Ceinture Bouftou', 'BELT'),
-       (9, 'Marteau Bouftou', 'WEAPON');
+       (9, 'Marteau Bouftou', 'WEAPON'),
+       (10, 'Casque Piou', 'HELMET');
+
+/* Inserting Stuff */
+DELETE FROM `Stuff_stats`;
+
+INSERT INTO `Stuff_stats`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 85),
+       (1, 1, 86),
+       (2, 0, 85),
+       (2, 1, 87),
+       (3, 0, 87),
+       (3, 1, 88),
+       (4, 0, 85),
+       (4, 1, 92),
+       (5, 0, 90),
+       (5, 1, 86),
+       (6, 0, 85),
+       (6, 1, 87),
+       (7, 0, 85),
+       (7, 1, 90),
+       (8, 0, 85),
+       (8, 1, 86),
+       (9, 0, 85),
+       (9, 1, 86),
+       (10, 0, 88),
+       (10, 1, 86);
 
 /* Assigning Stuff to Players */
 DELETE FROM `Player_equipment`;
@@ -532,9 +583,19 @@ INSERT INTO `Player_stats`(`object_id`, `index`, `value`) VALUES
 /* Inserting Ressources */
 DELETE FROM `Ressource`;
 
-INSERT INTO `Ressource`(`id`, `name`, `level`, `exp`) VALUES
-       (1, 'Orchidee', 10, 100),
-       (2, 'Peau de bouftou', 1, 10);
+INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
+       (1, 'Orchidee', 1, 10, 100),
+       (2, 'Peau de bouftou', 1, 1, 10),
+       (3, 'Tree', 0, 0, 0);
+
+/* Inserting Heals */
+DELETE FROM `Heal`;
+
+INSERT INTO `Heal`(`id`, `name`, `pnjType`, `zone`, `x`, `y`) VALUES
+       (1, 'Connard0', 'HEAL', 'Plain', 10, 70),
+       (2, 'Connard1', 'HEAL', 'Plain', 30, 30),
+       (3, 'Connard2', 'HEAL', 'Plain', 40, 40);
+
 
 /* Inserting Consumable */
 DELETE FROM `Consumable`;

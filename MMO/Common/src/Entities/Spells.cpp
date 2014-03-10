@@ -5,11 +5,12 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:54:19 2014 alexis mestag
-// Last update Tue Mar  4 11:46:18 2014 laurent ansel
+// Last update Sat Mar  8 18:33:37 2014 laurent ansel
 //
 
 #include			<sstream>
 #include			"Entities/Spells.hh"
+#include			"Loader/LoaderManager.hh"
 
 Spells::Spells() :
   ContainerWrapper<container_type>()
@@ -42,6 +43,11 @@ void				Spells::addSpell(Spell const &spell)
   this->getContainer().push_back(&spell);
 }
 
+void				Spells::addSpell(Spell *spell)
+{
+  this->getContainer().push_back(spell);
+}
+
 bool				Spells::serialization(Trame &trame) const
 {
   bool				ret = true;
@@ -51,9 +57,10 @@ bool				Spells::serialization(Trame &trame) const
   for (auto it = this->begin() ; it != this->end() && ret; ++it)
     {
       // str << nb;
-      (*it)->serialization(trame(trame["SPS"]));
+      //      (*it)->serialization(trame(trame["SPS"]));
       // str.str("");
       // nb++;
+      trame["SPS"][(*it)->getName()];
     }
   return (ret);
 }
@@ -70,11 +77,17 @@ Spells				*Spells::deserialization(Trame const &trame)
       spells = new Spells;
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	{
-	  spell = Spell::deserialization(trame(trame["SPS"][*it]));
+	  // spell = Spell::deserialization(trame(trame["SPS"][*it]));
+	  // if (spell)
+	  //   {
+	  //     spell->setName(*it);
+	  //     spells->addSpell(*spell);
+	  //   }
+	  spell = (**LoaderManager::getInstance()->getSpellLoader())->getValue(*it);
 	  if (spell)
 	    {
-	      spell->setName(*it);
-	      spells->addSpell(*spell);
+	      std::cout << "NAME = " << spell->getName() << std::endl;
+	      spells->addSpell(spell);
 	    }
 	}
     }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:59:30 2013 alexis mestag
-// Last update Mon Feb 24 19:49:13 2014 laurent ansel
+// Last update Fri Mar  7 14:34:55 2014 laurent ansel
 //
 
 #ifndef			__AITEM_HH__
@@ -33,6 +33,7 @@ private:
 protected:
   AItem();
   AItem(std::string const &name, AItem::eItem const type);
+  AItem(std::string const &name, AItem::eItem const type, AEntity::eEntity const entity);
   AItem(AItem const &rhs);
 
   void			setItemType(AItem::eItem const type);

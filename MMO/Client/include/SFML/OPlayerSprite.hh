@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Feb 25 14:10:55 2014 cyril jourdain
-// Last update Fri Feb 28 19:46:19 2014 cyril jourdain
+// Last update Fri Mar  7 14:44:32 2014 cyril jourdain
 //
 
 #ifndef 		__OPLAYERSPRITE_HH__
