@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Mar 10 12:32:42 2014 antoine maitre
+// Last update Mon Mar 10 16:57:07 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -25,20 +25,10 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
     this->_mobs.push_back((*it));
   i = 0;
   for (auto it = player1->getDigitaliser().getBattleMobs().begin(); it != player1->getDigitaliser().getBattleMobs().end() && i++ < mobNumber+1; it++)
-    {
-      (*it)->setCurrentStat("HP", 50);
-      (*it)->setCurrentStat("Attack", 10);
-      (*it)->setCurrentStat("Speed", 4000);
-      (*it)->enterBattle();
-    }
+    (*it)->enterBattle();
   i = 0;
   for (auto it = player2->getDigitaliser().getBattleMobs().begin(); it != player2->getDigitaliser().getBattleMobs().end() && i++ < mobNumber+1; it++)
-    {
-      (*it)->setCurrentStat("HP", 50);
-      (*it)->setCurrentStat("Attack", 10);
-      (*it)->setCurrentStat("Speed", 4000);
-      (*it)->enterBattle();
-    }
+    (*it)->enterBattle();
   if (player1->getType() == Player::PlayerType::PLAYER)
     this->trameLaunchBattle(player1->getUser().getId(), player2);
   if (player2->getType() == Player::PlayerType::PLAYER)

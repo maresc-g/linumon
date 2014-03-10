@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Sun Mar  9 00:18:19 2014 laurent ansel
+// Last update Mon Mar 10 13:01:05 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -52,7 +52,6 @@ BattleUpdater::~BattleUpdater()
       delete *it;
   delete _battles;
   _mutex->unlock();
-  delete _funcs;
   _mutex->destroy();
   delete _mutex;
 }
