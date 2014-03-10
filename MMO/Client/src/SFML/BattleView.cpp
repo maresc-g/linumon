@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Sun Mar  9 16:16:28 2014 guillaume marescaux
+// Last update Mon Mar 10 15:22:04 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -16,7 +16,7 @@ BattleView::BattleView(SFMLView *v, WindowManager *w) :
   ContextView(v,w), _buttonMap(new ButtonMap), _playerList(new std::list<MobSprite*>()),
   _enemyList(new std::list<MobSprite*>()), _playingMob(NULL), _selectedMob(NULL),
   _selection(new Sprite()), _spellSprite(new Sprite()), _spellSpriteCase(new Sprite()),
-  _selectedSpell(""), _spellUpdater(new BattleSpellUpdater(v, w))
+  _selectedSpell(""), _spellUpdater(new BattleSpellUpdater(v, w)), _currentTurn(-1)
 {
   (*_buttonMap)[Qt::NoButton] = &BattleView::noButton;
   (*_buttonMap)[Qt::LeftButton] = &BattleView::leftButton;
@@ -83,7 +83,7 @@ void			BattleView::onInit()
 }
 void			BattleView::onUpdate()
 {
-  setPlayingMob();
+  if (_currentTurn == (unsigned int)-1) setPlayingMob();
   _spellUpdater->update(this);
   if (_playingMob)
     _selection->setPosition((_playingMob->getPosition().x), (_playingMob->getPosition().y - CASE_SIZE));
@@ -116,11 +116,13 @@ void			BattleView::drawView()
   _sfmlView->draw(*_spellSpriteCase);
   for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
     {
+      (*it)->resetHUDPos();
       (*it)->update(*_sfmlView->getMainClock());
       _sfmlView->draw(*(*it));
     }
   for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
     {
+      (*it)->resetHUDPos();
       (*it)->update(*_sfmlView->getMainClock());
       _sfmlView->draw(*(*it));
     }
@@ -188,19 +190,40 @@ MobSprite		*BattleView::findMobById(unsigned int id) const
   return NULL;
 }
 
+void			BattleView::resetHUDPos()
+{
+  // for (auto it = _playerList->begin(); it != _playerList->end(); it++)
+  //   (*it)->resetHUDPos();
+  // for (auto it = _enemyList->begin(); it != _enemyList->end(); it++)
+  //   (*it)->resetHUDPos();
+}
+
+void			BattleView::setLifeVisibility(bool v)
+{
+  for (auto it = _playerList->begin(); it != _playerList->end(); it++)
+    (*it)->setLifeVisibility(v);
+  for (auto it = _enemyList->begin(); it != _enemyList->end(); it++)
+    (*it)->setLifeVisibility(v);
+}
 
 void			BattleView::setPlayingMob()
 {
-  if ((!_playingMob) || (**_wMan->getBattle())->getTurnTo() != _playingMob->getPlayerId())
+  int turn = (**_wMan->getBattle())->getTurnTo();
+
+  if (turn == -1)
+    return;
+  else
+    _currentTurn = turn;
+  if ((!_playingMob) || _currentTurn != _playingMob->getPlayerId())
     {
       auto it = find_if(_playerList->begin(), _playerList->end(), [&](const MobSprite *val){
-	  if (val->getPlayerId() == (**_wMan->getBattle())->getTurnTo())
+	  if (val->getPlayerId() == _currentTurn)
 	    return true;
 	  return false;
 	});
       if (it == _playerList->end())
 	it = find_if(_enemyList->begin(), _enemyList->end(), [&](const MobSprite *val){
-	    if (val->getPlayerId() == (**_wMan->getBattle())->getTurnTo())
+	    if (val->getPlayerId() == _currentTurn)
 	      return true;
 	    return false;
 	  });
@@ -219,7 +242,7 @@ bool			BattleView::playerTurn() const
   std::list<Mob*> const 	mobs = (**_wMan->getBattle())->getMobs();
   for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
     {
-      if ((**_wMan->getBattle())->getTurnTo() == (*it)->getPlayerId())
+      if (_currentTurn == (*it)->getPlayerId())
 	return true;
     }
   return false;
@@ -228,6 +251,7 @@ bool			BattleView::playerTurn() const
 void			BattleView::leftButton(QMouseEvent *)
 {
   std::list<Mob* >	enemyMobs = (**_wMan->getBattle())->getEnemy().getDigitaliser().getBattleMobs();
+  std::list<Mob* >	playerMobs = (**_wMan->getBattle())->getMobs();
   Mob			*tmp = NULL;
 
   if (_selectedMob && playerTurn() && _selectedSpell != "")
@@ -239,18 +263,27 @@ void			BattleView::leftButton(QMouseEvent *)
 	  return false;
 	});
       if (it != enemyMobs.end())
+	std::cout << "Found enemy" << std::endl;
+      auto it2 = find_if(playerMobs.begin(), playerMobs.end(), [&](const Mob *val){
+	  std::cout << "Mob ID : " << _playingMob->getPlayerId() << "/" << val->getId() << std::endl;
+	  if (_playingMob->getPlayerId() == val->getId())
+	    return true;
+	  return false;
+	});
+      if (it2 != playerMobs.end())
 	{
-	  std::cout << "Enemy found in list" << std::endl;
-	  tmp = *it;
-	  auto it = find_if(tmp->getModel().getSpells().begin(),
+	  std::cout << "Found player mob" << std::endl;
+	  tmp = *it2;
+	  auto it3 = find_if(tmp->getModel().getSpells().begin(),
 			    tmp->getModel().getSpells().end(), [&](const Spell *val){
+			      std::cout << "Looking for " << val->getName() << std::endl;
 			      if (val->getName() == _spellSprite->getName())
 				return true;
 			      return false;
 			    });
-	  if (it != tmp->getModel().getSpells().end()){
+	  if (it3 != tmp->getModel().getSpells().end()){
 	    std::cout << "Found Spell" << std::endl;
-	    Client::getInstance()->spell( (**_wMan->getBattle())->getId(), **it,
+	    Client::getInstance()->spell( (**_wMan->getBattle())->getId(), **it3,
 					  (**_wMan->getBattle())->getTurnTo(),
 					  _selectedMob->getPlayerId());
 	    _selectedMob = NULL;
