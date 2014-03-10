@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Thu Mar  6 17:59:15 2014 laurent ansel
+// Last update Mon Mar 10 11:58:06 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -97,13 +97,18 @@ void				Inventory::deleteItem(unsigned int const id)
   for ( ; it != this->end() && it->first->getId() != id ; ++it);
   if (it != this->end() && it->first->getId() == id)
     {
+      std::cout << "DELETE" << std::endl;
       if (it->second == 1)
 	{
+	  std::cout << "ERASE" << std::endl;
 	  delete it->first;
 	  this->getContainer().erase(it);
 	}
       else
-	it->second--;
+	{
+	  std::cout << "----" << std::endl;
+	  it->second--;
+	}
     }
 }
 

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Mar 10 11:42:05 2014 laurent ansel
+// Last update Mon Mar 10 11:55:23 2014 laurent ansel
 //
 
 #include			<functional>
@@ -528,19 +528,24 @@ bool				Player::doCraft(std::string const &job, std::string const &craft, std::l
   Job				*tmp = NULL;
   std::list<std::pair<std::string, unsigned int> >	tmpObject;
 
+  std::cout << "JOB = " << job << std::endl;
   tmp = this->getJob(job);
   if (tmp)
     {
-      tmp->doCraft(craft, result, tmpObject);
+      std::cout << "CRAFT = " << craft << std::endl;
+      ret = tmp->doCraft(craft, result, tmpObject);
       for (auto it = result.begin() ; it != result.end() ; ++it)
 	{
 	  unsigned int		id = _inventory->getIdItem((*it)->getName());
+
+	  std::cout << "RESULT = " << (*it)->getName() << " <=> " << id << std::endl;
 	  if (id != 0)
 	    (*it)->setId(id);
 	  this->addItem(*it);
 	}
       for (auto it = tmpObject.begin() ; it != tmpObject.end() ; ++it)
 	{
+	  std::cout << "IDDELETE = " << it->first << " <=> " << it->second << std::endl;
 	  object.push_back(std::make_pair(_inventory->getIdItem(it->first), it->second));
 	  for (unsigned int i = 0 ; i < it->second ; ++i)
 	    this->deleteItem(object.back().first);
@@ -557,7 +562,7 @@ bool				Player::doGather(std::string const &job, std::string const &res, std::li
   tmp = this->getJob(job);
   if (tmp)
     {
-      tmp->doGather(res, result, idRessource);
+      ret = tmp->doGather(res, result, idRessource);
       for (auto it = result.begin() ; it != result.end() ; ++it)
 	{
 	  unsigned int		id = _inventory->getIdItem((*it)->getName());
