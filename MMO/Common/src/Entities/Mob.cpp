@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Mon Mar 10 11:33:38 2014 laurent ansel
+// Last update Mon Mar 10 14:58:15 2014 laurent ansel
 //
 
 #include			<algorithm>
@@ -58,6 +58,7 @@ Mob				&Mob::operator=(Mob const &rhs)
 {
   if (this != &rhs)
     {
+      this->setAuthorizedStatKeys(rhs.getAuthorizedStatKeys());
       this->setPlayer(rhs.getPlayer());
       this->setModel(rhs.getModel());
       this->setCurrentStats(rhs.getCurrentStats());
@@ -235,7 +236,7 @@ Mob				*Mob::deserialization(Trame const &trame)
   mob->setName(trame["NAME"].asString());
   mob->setId(trame["ID"].asUInt());
   if (trame.isMember("MOD"))
-  //   mob->setModel(*MobModel::deserialization(trame(trame["MOD"])));
+    //   mob->setModel(*MobModel::deserialization(trame(trame["MOD"])));
     mob->setModel(*(**LoaderManager::getInstance()->getMobModelLoader())->getValue(trame["MOD"].asString()));
   mob->setCurrentExp(trame["CEXP"].asUInt());
 

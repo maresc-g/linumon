@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Fri Mar  7 17:21:03 2014 laurent ansel
+// Last update Mon Mar 10 14:48:15 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -205,6 +205,7 @@ Digitaliser			*Digitaliser::deserialization(Trame const &trame)
 	}
       digit->setMobs(*mobs);
       digit->setBattleMobs(*battle);
+      std::cout << "totototototototototototo123456789" << std::endl;
     }
   return (digit);
 }

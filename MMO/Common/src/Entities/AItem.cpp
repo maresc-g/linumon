@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:18:02 2013 alexis mestag
-// Last update Thu Mar  6 17:44:01 2014 laurent ansel
+// Last update Mon Mar 10 14:06:42 2014 laurent ansel
 //
 
 #include			"Entities/AItem.hh"
@@ -75,6 +75,21 @@ AItem				*AItem::deserialization(Trame const &trame, bool const client)
 }
 
 AItem				*AItem::createCopy(AItem *rhs)
+{
+  AItem				*item = NULL;
+
+  if (rhs->getItemType() == AItem::STUFF)
+    item = new Stuff(static_cast<Stuff const &>(*rhs));
+  else if (rhs->getItemType() == AItem::CONSUMABLE)
+    item = new Consumable(static_cast<Consumable const &>(*rhs));
+  else
+    item = new Ressource(static_cast<Ressource const &>(*rhs));
+  if (item)
+    item->setId(rhs->getId());
+  return (item);
+}
+
+AItem				*AItem::createCopy(AItem const *rhs)
 {
   AItem				*item = NULL;
 
