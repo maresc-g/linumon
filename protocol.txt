@@ -64,8 +64,7 @@
 
 			#  use object
 			USEOBJECT : {target : idCharacter, item : id} -> client
-			-OBJECTEFFECT : {target : ACharacter} -> server
-			-DELETEOBJECT : {item : AItem} -> client
+			-OBJECTEFFECT : {target : Stats} -> server
 			#  end
 			# end
 

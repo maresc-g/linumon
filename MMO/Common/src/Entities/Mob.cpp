@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Mon Mar 10 11:30:02 2014 laurent ansel
+// Last update Mon Mar 10 11:33:38 2014 laurent ansel
 //
 
 #include			<algorithm>
@@ -210,9 +210,6 @@ void				Mob::displayCurrentStats() const
 bool				Mob::serialization(Trame &trame) const
 {
   bool				ret = true;
-
-  std::cout << "MOB  = " << this->getName() << std::endl;
-  this->displayCurrentStats();
 
   this->getCurrentStats().serialization(trame(trame["STATS"]));
   trame["NAME"] = this->getName();
