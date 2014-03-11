@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Tue Mar 11 13:56:44 2014 guillaume marescaux
+// Last update Wed Mar 12 00:14:40 2014 laurent ansel
 //
 
 #include			<algorithm>
@@ -61,10 +61,15 @@ void				Battle::pushSpell(SpellContainer *container)
 
 SpellContainer			*Battle::getSpell(void)
 {
-  SpellContainer		*ret = _spells->front();
+  SpellContainer		*ret = NULL;
 
-  if (ret) std::cout << "NAME OF SPELL : [" << ret->getSpell().getName() << "]" << std::endl;
-  _spells->remove(ret);
+  if (!this->_spells->empty())
+    {
+      ret = _spells->front();
+      if (ret)
+	std::cout << "NAME OF SPELL : [" << ret->getSpell().getName() << "]" << std::endl;
+      _spells->remove(ret);
+    }
   return (ret);
 }
 

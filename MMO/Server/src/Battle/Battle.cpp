@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Mar 11 17:16:52 2014 laurent ansel
+// Last update Tue Mar 11 19:44:52 2014 laurent ansel
 //
 
 #include				"Battle/Battle.hh"
