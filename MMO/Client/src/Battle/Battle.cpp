@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Mon Mar 10 11:06:55 2014 guillaume marescaux
+// Last update Tue Mar 11 13:56:44 2014 guillaume marescaux
 //
 
 #include			<algorithm>
@@ -31,7 +31,6 @@ void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *en
   _mobs->clear();
   for (auto it = mobs.begin() ; it != mobs.end() && i < 3; it++)
     {
-      (*it)->setStat("HP", 80);
       (*it)->enterBattle();
       _mobs->push_back(*it);
       i++;
@@ -42,11 +41,8 @@ void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *en
   i = 0;
   for (auto it = mobs2.begin() ; it != mobs2.end() && i < 3; it++)
     {
-      std::cout << "I AM CHANGING ENEMY MOBS HP" << std::endl;
-      (*it)->setStat("HP", 80);
       std::cout << (*it)->getStat("HP") << std::endl;
       (*it)->enterBattle();
-      // _mobs->push_back(*it);
       i++;
     }
   _maxMobs = maxMobs;
