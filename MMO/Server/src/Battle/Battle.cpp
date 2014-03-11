@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Mar 10 16:57:07 2014 antoine maitre
+// Last update Tue Mar 11 14:03:39 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -41,11 +41,14 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
 
 Battle::~Battle()
 {
-  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
-    {
-      if ((*it)->getType() == Player::PlayerType::PLAYER)
-	ClientManager::getInstance()->endBattle((*it)->getId());
-    }
+  this->trameEndBattle();
+  // for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+  //   {
+  //     if ((*it)->getType() == Player::PlayerType::PLAYER)
+  // 	{
+  // 	  ClientManager::getInstance()->endBattle((*it)->getId());
+  // 	}
+  //   }
 }
 
 unsigned int				Battle::getID() const
@@ -86,8 +89,8 @@ bool					Battle::checkEnd()
 bool					Battle::spell(unsigned int const launcher, unsigned int const target, Spell *spell) //, int id_lanceur
 {
   static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
-  Mob					*mobLauncher;
-  Mob					*mobTarget;
+  Mob					*mobLauncher = NULL;
+  Mob					*mobTarget = NULL;
 
   for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
     {
@@ -148,13 +151,13 @@ bool					Battle::capture(unsigned int const target)
 
 void					Battle::next()
 {
-  static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
+  //  static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
 
   auto tmp = this->_mobs.front();
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);
-  Stats const &statMob = tmp->getCurrentStats();
-  if (statMob.getStat(*hpKey) <= 0 && !this->checkEnd())
+  //  Stats const &statMob = tmp->getCurrentStats();
+  if (tmp->getCurrentStat("HP") <= 0 && !this->checkEnd())
     {
       this->next();
       return;
