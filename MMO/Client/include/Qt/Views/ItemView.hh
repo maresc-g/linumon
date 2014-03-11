@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:16:30 2014 guillaume marescaux
-// Last update Wed Mar  5 11:20:45 2014 guillaume marescaux
+// Last update Tue Mar 11 13:49:28 2014 guillaume marescaux
 //
 
 #ifndef 		__ITEMVIEW_HH__
@@ -44,13 +44,12 @@ private:
   virtual void		mouseDoubleClickEvent(QMouseEvent *event);
   void			setInfos(AItem const *item, unsigned int nb);
   virtual void		mousePressEvent(QMouseEvent *);
+  void			makeDrag();
 
 public:
   virtual void		resize(int, int);
   virtual void		move(int, int);
 
-public slots:
-  void			makeDrag();
 protected:
   void			dropEvent(QDropEvent *de);
   void			dragMoveEvent(QDragMoveEvent *de);

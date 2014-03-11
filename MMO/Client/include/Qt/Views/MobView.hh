@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:41:39 2014 guillaume marescaux
-// Last update Mon Mar 10 14:02:07 2014 guillaume marescaux
+// Last update Tue Mar 11 13:49:25 2014 guillaume marescaux
 //
 
 #ifndef 		__MOBVIEW_HH__
@@ -45,7 +45,6 @@ private:
   virtual void		paintEvent(QPaintEvent *);
 
 private slots:
-
   void			displayMenu(const QPoint&);
 
 protected:
