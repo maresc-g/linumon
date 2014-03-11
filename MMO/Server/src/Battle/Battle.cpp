@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Mar 11 15:48:19 2014 laurent ansel
+// Last update Tue Mar 11 17:16:52 2014 laurent ansel
 //
 
 #include				"Battle/Battle.hh"
@@ -245,10 +245,13 @@ void					Battle::trameTurnTo(unsigned int const idPlayer, unsigned int const idM
 
 void					Battle::trameEndBattle()
 {
-  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+  for (auto it = this->_players.begin(); it != this->_players.end(); ++it)
     {
       if ((*it)->getType() == Player::PlayerType::PLAYER)
-	Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, std::list<AItem *> *>("ENDBATTLE", (*it)->getUser().getId(), this->_id, ((*it)->getId() == this->_idLooser)?(false):(true), this->_money, this->_exp, NULL);
+	{
+	  Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, std::list<AItem *> *>("ENDBATTLE", (*it)->getUser().getId(), this->_id, ((*it)->getId() == this->_idLooser)?(false):(true), this->_money, this->_exp, NULL);
+  	  ClientManager::getInstance()->endBattle((*it)->getUser().getId());
+	}
     }
 }
 
