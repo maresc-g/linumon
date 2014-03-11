@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 26 13:59:15 2014 alexis mestag
-// Last update Mon Mar 10 01:34:01 2014 alexis mestag
+// Last update Tue Mar 11 14:57:03 2014 alexis mestag
 //
 
 #include				"CelestiaEffect.hh"
@@ -23,6 +23,6 @@ CelestiaEffect::~CelestiaEffect()
 
 bool					CelestiaEffect::apply(Player &player)
 {
-  player.setStat("Defense", 10);
+  player.incStat("Defense", 10);
   return (true);
 }
