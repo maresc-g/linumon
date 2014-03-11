@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 19 14:53:12 2014 alexis mestag
-// Last update Tue Feb 25 15:22:32 2014 alexis mestag
+// Last update Tue Mar 11 16:18:36 2014 alexis mestag
 //
 
 #ifndef				__STATKEY_HH__
@@ -39,6 +39,7 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(StatKey)
+#  pragma db member(StatKey::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 # endif
 
 #endif

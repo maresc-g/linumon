@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:16 2013 alexis mestag
-// Last update Wed Feb 19 01:23:23 2014 alexis mestag
+// Last update Tue Mar 11 16:18:14 2014 alexis mestag
 //
 
 #ifndef			__USER_HH__
@@ -26,7 +26,6 @@ class			User : public Persistent, public ISerialization
 private:
   std::string		_pseudo;
   std::string		_password;
-  // Players		_players;
   unsigned int		_id;
 
   User();
@@ -43,7 +42,6 @@ public:
   std::string const	&getPassword() const;
   void			setPassword(std::string const &password);
 
-  // Players const		&getPlayers() const;
   bool			addPlayer(Player &player);
 
   unsigned int		getId() const;
@@ -56,10 +54,9 @@ public:
 # include		"Entities/Views/PlayerView.hh"
 
 # ifdef	ODB_COMPILER
-#  pragma db object(User) session(true)
-#  pragma db member(User::_pseudo)
+#  pragma db object(User)
+#  pragma db member(User::_pseudo) unique type("VARCHAR(24)")
 #  pragma db member(User::_password)
-// #  pragma db member(User::_players) inverse(_user)
 #  pragma db member(User::_id) transient
 # endif
 

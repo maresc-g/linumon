@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:27:32 2014 laurent ansel
-// Last update Mon Mar  3 21:24:33 2014 alexis mestag
+// Last update Tue Mar 11 16:13:24 2014 alexis mestag
 //
 
 #ifndef 		__CRAFT_HH__
@@ -60,6 +60,7 @@ public:
 #  pragma db object(Craft)
 #  pragma db member(Craft::_level) transient
 #  pragma db member(Craft::_result) transient
+#  pragma db member(Craft::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 #  pragma db member(Craft::level) virtual(Level::type) get(getLevel()) set(setLevel(?))
 #  pragma db member(Craft::exp) virtual(Level::type) get(getExp()) set(setExp(?))
 # endif

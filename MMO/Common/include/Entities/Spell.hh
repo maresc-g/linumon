@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:32:05 2013 alexis mestag
-// Last update Thu Feb 27 16:51:58 2014 alexis mestag
+// Last update Tue Mar 11 16:17:49 2014 alexis mestag
 //
 
 #ifndef			__SPELL_HH__
@@ -58,7 +58,8 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Spell)
-#  pragma db member(Spell::_type) not_null column("type_id")
+#  pragma db member(Spell::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
+#  pragma db member(Spell::_type) not_null
 #  pragma db member(Spell::_power)
 #  pragma db member(Spell::_useLimit)
 #  pragma db member(Spell::_effectLib) not_null

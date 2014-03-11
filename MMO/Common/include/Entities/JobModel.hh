@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:21:21 2014 laurent ansel
-// Last update Mon Mar  3 22:41:07 2014 alexis mestag
+// Last update Tue Mar 11 21:41:10 2014 alexis mestag
 //
 
 #ifndef 		__JOBMODEL_HH__
@@ -59,7 +59,8 @@ public:
 #  pragma db member(JobModel::_crafts) transient
 #  pragma db member(JobModel::_gathers) transient
 #  pragma db member(JobModel::_path) get(getPath()) set(setPath(?))
-#  pragma db member(JobModel::gathers) virtual(JobModel::gathers_container_type) get(getGathers()) set(setGathers(?))
+#  pragma db member(JobModel::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
+#  pragma db member(JobModel::gathers) virtual(JobModel::gathers_container_type) get(getGathers()) set(setGathers(?)) value_not_null
 # endif
 
 #endif

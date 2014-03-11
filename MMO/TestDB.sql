@@ -136,8 +136,8 @@ DELETE FROM Player;
 INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`) VALUES
        (1, 'Thinenus', 1, 13, 4, 10, 1, 1, 1, 1, 1, 10, 30, 'Res/Inventories/Thinenus.json', 10000, 30),
        (2, 'Sezu-Kho', 1, 20, 6, 10, 1, 1, 2, 1, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30),
-       (3, 'WeshWeshCabillaud', 1, 15, 5, 10, 2, 1, 1, 2, 2, 10, 30, 'Res/Inventories/WeshWeshCabillaud.json', 20000, 20),
-       (4, 'EnThéorieCaDevraitMarcher', 1, 584, 10, 10, 2, 1, 2, 2, 2, 20, 20, 'Res/Inventories/EnThéorieCaDevraitMarcher.json', 20000, 20);
+       (3, 'WeshWesh', 1, 15, 5, 10, 2, 1, 1, 2, 2, 10, 30, 'Res/Inventories/WeshWesh.json', 20000, 20),
+       (4, 'BibiBobo', 1, 584, 10, 10, 2, 1, 2, 2, 2, 20, 20, 'Res/Inventories/BibiBobo.json', 20000, 20);
 
 /* Assigning Talents to Players */
 DELETE FROM `Player_talents`;
@@ -168,7 +168,7 @@ INSERT INTO `DBZone_mobModels`(`object_id`, `index`, `value`) VALUES
 /* Inserting Spells */
 DELETE FROM `Spell`;
 
-INSERT INTO `Spell`(`id`, `name`, `type_id`, `power`, `useLimit`, `effectLib`) VALUES
+INSERT INTO `Spell`(`id`, `name`, `type`, `power`, `useLimit`, `effectLib`) VALUES
        (1,  'Lance-Flamme',  1,  90, 0, 5),
        (2,  'Flammèche',     1,  40, 0, 5),
        (3,  'Crocs Feu',     1,  65, 0, 5),
@@ -331,7 +331,7 @@ INSERT INTO `MobModel_stats`(`object_id`, `index`, `value`) VALUES
 /* Inserting Mobs */
 DELETE FROM `Mob`;
 
-INSERT INTO `Mob`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `model_id`) VALUES
+INSERT INTO `Mob`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `model`) VALUES
        (1, 'TinyLezard', 2, 412, 6, 500, 1),
        (2, 'BigTurtle', 2, 789, 7, 1000, 2),
        (3, 'VastFlowerPot', 2, 350, 5, 400, 3),
@@ -620,7 +620,7 @@ DROP VIEW IF EXISTS `MobView`;
 CREATE VIEW `MobView` AS
        SELECT Mob.id, Mob.name, Mob.level, MobModelView.model, MobModelView.type, MobModelView.stat, MobModelView.value AS modelValue, StatView.value AS mobValue
        	      FROM Mob, MobModelView, Mob_stats, StatView
-       	      WHERE Mob.model_id = MobModelView.id
+       	      WHERE Mob.model = MobModelView.id
 	      	    AND Mob_stats.object_id = Mob.id
 	      	    AND StatView.id = Mob_stats.value
 		    AND StatView.name = MobModelView.stat;

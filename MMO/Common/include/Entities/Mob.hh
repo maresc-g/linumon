@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Tue Mar 11 14:28:16 2014 alexis mestag
+// Last update Tue Mar 11 21:41:59 2014 alexis mestag
 //
 
 #ifndef			__MOB_HH__
@@ -86,7 +86,8 @@ public:
 #  pragma db object(Mob)
 #  pragma db member(Mob::_currentStats) transient
 #  pragma db member(Mob::_inBattle) transient
-#  pragma db member(Mob::_model) not_null column("model_id")
+#  pragma db member(Mob::name) virtual(std::string) get(getName()) set(setName(?)) type("VARCHAR(24)")
+#  pragma db member(Mob::_model) not_null
 #  pragma db member(Mob::_player) inverse(mobs)
 #  pragma db member(Mob::currentStats) virtual(Stats::container_type) get(_currentStats->getContainer()) set(_currentStats->setContainer(?))
 # endif

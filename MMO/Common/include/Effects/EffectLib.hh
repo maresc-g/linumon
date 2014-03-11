@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Jan 30 12:30:55 2014 alexis mestag
-// Last update Wed Feb 26 16:18:06 2014 alexis mestag
+// Last update Tue Mar 11 21:24:26 2014 alexis mestag
 //
 
 #ifndef				__EFFECTLIB_HH__
@@ -46,6 +46,7 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(EffectLib)
 #  pragma db member(EffectLib::_dl) transient
+#  pragma db member(EffectLib::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 #  pragma db member(EffectLib::_path) virtual(std::string) get(getPath()) set(setPath(?))
 # endif
 

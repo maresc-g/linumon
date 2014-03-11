@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb 10 14:17:03 2014 alexis mestag
-// Last update Fri Mar  7 14:50:25 2014 alexis mestag
+// Last update Tue Mar 11 21:37:50 2014 alexis mestag
 //
 
 #ifndef				__DBZONE_HH__
@@ -50,6 +50,7 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(DBZone)
+#  pragma db member(DBZone::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 # endif
 
 #endif
