@@ -5,11 +5,12 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Mon Mar 10 13:31:58 2014 cyril jourdain
+// Last update Tue Mar 11 12:45:52 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
 #include		<stdexcept>
+#include <QDebug>
 
 /*
   Load player list
@@ -61,10 +62,16 @@ void			WorldView::onInit()
   // 		  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
   if (zone)
     _backgroundTexture->create(zone->getSizeX() * CASE_SIZE, zone->getSizeY()*CASE_SIZE);
+  qDebug() << "################### SFML INITIALIZE DEBUG ######################";
+  qDebug() << "Load Background map";
   loadBackgroundMap();
+  qDebug() << "Load Background Sprite";
   loadBackgroundSprite();
+  qDebug() << "Load player list";
   loadPlayerList();
+  qDebug() << "Load Entities";
   loadEntities();
+  qDebug() << "#########################################################";
 }
 
 void			WorldView::onUpdate()

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Mar 10 01:30:02 2014 alexis mestag
+// Last update Tue Mar 11 11:11:30 2014 cyril jourdain
 //
 
 #include				"Battle/Battle.hh"
@@ -96,8 +96,8 @@ bool					Battle::checkEnd()
 bool					Battle::spell(unsigned int const launcher, unsigned int const target, Spell *spell) //, int id_lanceur
 {
   static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
-  Mob					*mobLauncher;
-  Mob					*mobTarget;
+  Mob					*mobLauncher = NULL;
+  Mob					*mobTarget = NULL;
 
   for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
     {
