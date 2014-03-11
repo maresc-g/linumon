@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Mon Mar 10 16:32:32 2014 alexis mestag
+// Last update Tue Mar 11 14:09:55 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -18,7 +18,6 @@ BattleUpdater::BattleUpdater()
     _mutex(new Mutex),
     _trames(new std::list<std::pair<Trame *, bool> >),
     _battles(new std::list<Battle *>),
-    _funcs(NULL),
     _nbTrame(0)
 {
   // std::string str = "CAPTURE";
@@ -53,7 +52,6 @@ BattleUpdater::~BattleUpdater()
       delete *it;
   delete _battles;
   _mutex->unlock();
-  delete _funcs;
   _mutex->destroy();
   delete _mutex;
 }
@@ -150,7 +148,7 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2, unsigned int 
 	  tmp->capture(*tmpMob);
 	  tmp->mobtoBattleMob(tmpMob->getId());
 	}
-      tmp->addEnemy(player1->getDigitaliser().getMobs());
+      tmp->addEnemy(player1->getDigitaliser().getBattleMobs());
       std::cout << mobInBattle << " IS THE NUMBER OF MOB IN BATTLE" << player1->getDigitaliser().getBattleMobs().size() << std::endl;
       this->_battles->push_back(new Battle(id, Battle::PVP, mobInBattle, player1, tmp));
     }
@@ -226,15 +224,19 @@ int				BattleUpdater::getNumOfBattle() const
 
 void				BattleUpdater::disconnect(unsigned int const idPlayer)
 {
+  std::cout << "Je rentre dans le disconnect de BattleUpdater" << std::endl;
   for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     {
       if ((*it)->isInThisBattle(idPlayer))
 	{
+	  std::cout << "C est gagne!" << std::endl;
 	  this->_battles->remove((*it));
+	  std::cout << "C est gagne a peu pres!" << std::endl;
 	  delete (*it);
 	  break;
 	}
     }
+  std::cout << "Je sors du disconnect de BattleUpdater" << std::endl;
 }
 
 void				BattleUpdater::setQuit(bool const quit)

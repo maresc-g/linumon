@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Mon Mar 10 15:16:17 2014 cyril jourdain
+// Last update Tue Mar 11 13:28:39 2014 cyril jourdain
 //
 
 /*
@@ -62,6 +62,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _sMan->loadAnimations("./Res/Spell/Lance-Flamme.json");
   _sMan->loadAnimations("./Res/Spell/Surf.json");
   _sMan->loadAnimations("./Res/Spell/Boutefeu.json");
+  _sMan->loadAnimations("./Res/Spell/Danse-Fleur.json");
   _grow = false;
   _enterBattle = false;
 
@@ -103,8 +104,6 @@ void			SFMLView::onUpdate()
       if (event.type == sf::Event::KeyPressed)
 	_currentView->onKeyEvent(event);
     }
-  /* Not used here but SFML need it to handle internal events */
-
   CLIENT::eState s = **(_wMan->getState());
   switch (s)
     {
@@ -118,7 +117,7 @@ void			SFMLView::onUpdate()
 	  static_cast<BattleView*>(_battleView)->resetHUDPos();
 	  static_cast<BattleView*>(_battleView)->setLifeVisibility(true);
 	  std::cout << "SET VISIBILITY TRUE HERE" << std::endl;
-	  SoundManager::getInstance()->playMusic(BATTLE_THEME);
+	  // SoundManager::getInstance()->playMusic(BATTLE_THEME);
 	}
       break;
     case CLIENT::LOADING_BATTLE:

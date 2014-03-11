@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Mon Mar 10 16:22:23 2014 guillaume marescaux
+// Last update Mon Mar 10 16:47:41 2014 guillaume marescaux
 //
 
 #include			<QMenu>
@@ -27,7 +27,6 @@ MobView::MobView(QWidget *parent, WindowManager *wMan, Mob const *mob):
     }
   boost::algorithm::to_lower(name);
   ui.frame->setObjectName(name.c_str());
-  std::cout << "NAME = " << name << std::endl;
   this->setStyleSheet(std::string("MobView QFrame#" + name + "{ border-image: url(./Res/Mobs/" + name + ".png); }").c_str());
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayMenu(const QPoint&)));
@@ -59,7 +58,6 @@ void				MobView::setInfos(Mob const *mob)
     }
   boost::algorithm::to_lower(name);
   ui.frame->setObjectName(name.c_str());
-  std::cout << "NAME = " << name << std::endl;
   this->setStyleSheet(std::string("MobView QFrame#" + name + "{ border-image: url(./Res/Mobs/" + name + ".png); }").c_str());
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayMenu(const QPoint&)));
@@ -122,7 +120,6 @@ void				MobView::dropEvent(QDropEvent *de)
       Consumable const		*consumable = static_cast<Consumable const *>(pair->first);
       bool			ret;
 
-      std::cout << "I WILL USE THE OBJECT " << consumable->getName() << " ON " << _mob->getName() << std::endl;
       (**_wMan->getMainPlayer())->useObject(_mob->getId(), consumable->getId());
       Client::getInstance()->useObject(_mob->getId(), consumable->getId());
       _wMan->getSFMLView()->getInventoryView()->initInventory();

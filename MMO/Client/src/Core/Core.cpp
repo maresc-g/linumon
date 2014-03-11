@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Mar 10 16:14:59 2014 guillaume marescaux
+// Last update Tue Mar 11 13:46:59 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -230,7 +230,7 @@ bool				Core::map(Trame *trame)
 bool				Core::launchBattle(Trame *trame)
 {
   *_state = CLIENT::LOADING_BATTLE;
-  (**_battle)->setInfos(_player, (*trame)[CONTENT]["LAUNCHBATTLE"]["ID"].asUInt(),
+  (**_battle)->setInfos(_player, (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"].asUInt(),
 			Player::deserialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"])));
   return (true);
 }
@@ -258,11 +258,7 @@ bool				Core::spellEffect(Trame *trame)
   Mob				*mob = (**_battle)->getMobById((*trame)[CONTENT]["SPELLEFFECT"]["TARGET"].asUInt());
 
   if (mob)
-    {
-      std::cout << "BEFORE = " << mob->getCurrentStat("HP") << std::endl;
-      mob->setCurrentStat("HP", mob->getCurrentStat("HP") - (*trame)[CONTENT]["SPELLEFFECT"]["HPCHANGE"].asUInt());
-      std::cout << "AFTER = " << mob->getCurrentStat("HP") << " SHOULD HAVE BEEN " << mob->getCurrentStat("HP") - (*trame)[CONTENT]["SPELLEFFECT"]["HPCHANGE"].asUInt() << std::endl;
-    }
+    mob->setCurrentStat("HP", mob->getCurrentStat("HP") + (*trame)[CONTENT]["SPELLEFFECT"]["HPCHANGE"].asInt());
   return (true);
 }
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Mon Mar 10 17:43:46 2014 alexis mestag
+// Last update Tue Mar 11 12:33:08 2014 antoine maitre
 //
 
 #include			"ClientManager/Client.hh"
@@ -40,8 +40,8 @@ void				Client::clear()
 {
   if (_state == TRADE && _player)
     TradeManager::getInstance()->disconnectPlayer(_player->getId());
-  // if (_state == BATTLE && _player)
-  //   BattleManager::getInstance()->disconnect(_player->getId());
+  if (_state == BATTLE && _player)
+    BattleManager::getInstance()->disconnect(_player->getId());
   _state = NONE;
   if (_player)
     {
@@ -65,8 +65,8 @@ void				Client::disconnectUser()
 {
   if (_state == TRADE && _player)
     TradeManager::getInstance()->disconnectPlayer(_player->getId());
-  // if (_state == BATTLE && _player)
-  //   BattleManager::getInstance()->disconnect(_player->getId());
+  if (_state == BATTLE && _player)
+    BattleManager::getInstance()->disconnect(_player->getId());
   _state = GAME;
   if (_player)
     {
@@ -84,8 +84,8 @@ void				Client::disconnectPlayer()
 {
   if (_state == TRADE && _player)
     TradeManager::getInstance()->disconnectPlayer(_player->getId());
-  // if (_state == BATTLE && _player)
-  //   BattleManager::getInstance()->disconnect(_player->getId());
+  if (_state == BATTLE && _player)
+    BattleManager::getInstance()->disconnect(_player->getId());
   _state = GAME;
   if (_player)
     {

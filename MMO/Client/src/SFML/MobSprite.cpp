@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:46:04 2014 cyril jourdain
-// Last update Mon Mar 10 15:25:47 2014 cyril jourdain
+// Last update Tue Mar 11 14:04:49 2014 cyril jourdain
 //
 
 #include		"SFML/MobSprite.hh"
@@ -50,10 +50,10 @@ void			MobSprite::upHealthBar()
 {
   double		current = _mob->getCurrentStat("HP");
   unsigned int		max = _mob->getMaxStat("HP");
-  std::cout << "CURRENT = " << current << std::endl;
-  std::cout << "MAX = " << max << std::endl;
-  std::cout << "CUR / MAX = " << (double)(current / max) << std::endl;
-  std::cout << "CUR / MAX in % = " << (double)(current / max) * 100 << std::endl;
+  // std::cout << "CURRENT = " << current << std::endl;
+  // std::cout << "MAX = " << max << std::endl;
+  // std::cout << "CUR / MAX = " << (double)(current / max) << std::endl;
+  // std::cout << "CUR / MAX in % = " << (double)(current / max) * 100 << std::endl;
   _pb->setMaximum(max);
   _pb->setValue(current);
   if (max)
@@ -72,7 +72,6 @@ void			MobSprite::upHealthBar()
 
 void			MobSprite::setInfoVisibility(bool v)
 {
-  std::cout << "lol" << std::endl;
   _hud->setVisible(v);
   _spellBar->setVisible(v);
 }
@@ -93,12 +92,17 @@ void			MobSprite::setLifeVisibility(bool v)
 
 void			MobSprite::onClick()
 {
-  std::cout << "other player clicked" << std::endl;
+  // std::cout << "other player clicked" << std::endl;
 }
 
 void			MobSprite::setPosition(int x, int y)
 {
   sf::Transformable::setPosition(x, y);
   _pb->move(x, y - 20);
-  std::cout << "toto" << std::endl;
+}
+
+void			MobSprite::update(sf::Clock &clock)
+{
+  upHealthBar();
+  Sprite::update(clock);
 }

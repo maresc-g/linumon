@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 13:38:44 2014 cyril jourdain
-// Last update Sun Mar  9 00:59:51 2014 cyril jourdain
+// Last update Tue Mar 11 14:04:10 2014 cyril jourdain
 //
 
 #ifndef 		__SPRITE_HH__
