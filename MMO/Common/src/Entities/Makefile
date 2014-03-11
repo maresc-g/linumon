@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Fri Mar  7 14:33:55 2014 laurent ansel
+## Last update Mon Mar 10 16:07:57 2014 antoine maitre
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
@@ -16,6 +16,7 @@ ENTITIES_SRC=		AEntity.cpp		\
 			Craft.cpp		\
 			DBZone.cpp		\
 			Digitaliser.cpp		\
+			Drop.cpp		\
 			Equipment.cpp		\
 			Faction.cpp		\
 			Heal.cpp		\
@@ -50,6 +51,7 @@ ODB_ENTITIES+=		ACharacter.hh		\
 			Consumable.hh		\
 			Craft.hh		\
 			DBZone.hh		\
+			Drop.hh			\
 			Faction.hh		\
 			Heal.hh			\
 			PNJ.hh			\

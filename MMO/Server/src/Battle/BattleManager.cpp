@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Sun Mar  9 00:19:58 2014 laurent ansel
+// Last update Tue Mar 11 12:32:00 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -168,10 +168,15 @@ bool				BattleManager::dswitch(Trame *trame)
 
 void				BattleManager::disconnect(unsigned int const idPlayer)
 {
+  std::cout << "Je rentre dans le disconnect de BattleManager" << std::endl;
+  int i = 0;
   for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
     {
+      std::cout << i << std::endl;
       (*it)->lock();
       (*it)->disconnect(idPlayer);
       (*it)->unlock();
+      i++;
     }
+  std::cout << "Je sors du disconnect de BattleManager" << std::endl;
 }

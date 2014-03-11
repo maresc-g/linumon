@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Tue Mar 11 12:43:11 2014 guillaume marescaux
+// Last update Tue Mar 11 13:53:49 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/InventoryView.hh"
@@ -78,25 +78,25 @@ void				InventoryView::itemAction(ItemView *item)
 {
   if (item->getItem().getItemType() == AItem::STUFF)
     {
-      Stuff const		*stuff = static_cast<Stuff const *>(&item->getItem());
-      bool			ret;
+      Stuff const               *stuff = static_cast<Stuff const *>(&item->getItem());
+      bool                      ret;
 
       if (!_wMan->getSFMLView()->getStuffView()->getLast() || _wMan->getSFMLView()->getStuffView()->getLast()->getCharacterType() == ACharacter::PLAYER)
-	ret = (**(_wMan->getMainPlayer()))->putPlayerEquipment(stuff->getId());
+        ret = (**(_wMan->getMainPlayer()))->putPlayerEquipment(stuff->getId());
       else
-	ret = (**(_wMan->getMainPlayer()))->putMobEquipment(_wMan->getSFMLView()->getStuffView()->getLast()->getId(), stuff->getId());
+        ret = (**(_wMan->getMainPlayer()))->putMobEquipment(_wMan->getSFMLView()->getStuffView()->getLast()->getId(), stuff->getId());
       if (ret)
-	{
+        {
 	  Client::getInstance()->stuff(eStuffAction::PUT, stuff->getId(), (**(_wMan->getMainPlayer()))->getId());
-	  _wMan->getSFMLView()->getStuffView()->setChanged(true);
-	  ACharacter const		*last = _wMan->getSFMLView()->getStuffView()->getLast();
-	  if (!last)
-	    _wMan->getSFMLView()->getStuffView()->initStuff(*static_cast<Player const *>(**_wMan->getMainPlayer()));
-	  else if (last->getCharacterType() == ACharacter::MOB)
-	    _wMan->getSFMLView()->getStuffView()->initStuff(*static_cast<Mob const *>(last));
-	  else
-	    _wMan->getSFMLView()->getStuffView()->initStuff(*static_cast<Player const *>(last));
-	  initInventory();
-	}
+          _wMan->getSFMLView()->getStuffView()->setChanged(true);
+          ACharacter const              *last = _wMan->getSFMLView()->getStuffView()->getLast();
+          if (!last)
+            _wMan->getSFMLView()->getStuffView()->initStuff(*static_cast<Player const *>(**_wMan->getMainPlayer()));
+          else if (last->getCharacterType() == ACharacter::MOB)
+            _wMan->getSFMLView()->getStuffView()->initStuff(*static_cast<Mob const *>(last));
+          else
+            _wMan->getSFMLView()->getStuffView()->initStuff(*static_cast<Player const *>(last));
+          initInventory();
+        }
     }
 }

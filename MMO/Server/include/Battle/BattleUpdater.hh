@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:25:25 2014 antoine maitre
-// Last update Sun Mar  9 00:18:38 2014 laurent ansel
+// Last update Tue Mar 11 13:54:24 2014 antoine maitre
 //
 
 #ifndef					__BATTLEUPDATER_HH__
@@ -33,7 +33,6 @@ private:
   Mutex		                        *_mutex;
   std::list<std::pair<Trame *, bool> >	*_trames;
   std::list<Battle *>			*_battles;
-  std::map<std::string, funcBattle>     *_funcs;
   unsigned int				_nbTrame;
 
 public:

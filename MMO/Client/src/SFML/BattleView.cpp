@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Mon Mar 10 16:59:31 2014 cyril jourdain
+// Last update Tue Mar 11 11:35:16 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -276,12 +276,19 @@ void			BattleView::leftButton(QMouseEvent *)
 	{
 	  std::cout << "Found player mob" << std::endl;
 	  tmp = *it2;
+	  if (!tmp)
+	    std::cout << "playerMob is null" << std::endl;
 	  auto it3 = find_if(tmp->getModel().getSpells().begin(),
 			    tmp->getModel().getSpells().end(), [&](const Spell *val){
-			      std::cout << "Looking for " << val->getName() << std::endl;
-			      if (val->getName() == _spellSprite->getName())
-				return true;
-			      return false;
+			       if (!val)
+				 {
+				   std::cout << "How is that NULL ?!" << std::endl;
+				   return false;
+				 }
+			       std::cout << "Looking in spell : " << val->getName() << std::endl;
+			       if (val->getName() == _spellSprite->getName())
+				 return true;
+			       return false;
 			    });
 	  if (it3 != tmp->getModel().getSpells().end()){
 	    std::cout << "Found Spell" << std::endl;
