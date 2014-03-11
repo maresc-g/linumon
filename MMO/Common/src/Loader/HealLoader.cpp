@@ -5,13 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar  7 14:18:07 2014 laurent ansel
-// Last update Mon Mar 10 14:01:43 2014 laurent ansel
+// Last update Mon Mar 10 19:11:37 2014 alexis mestag
 //
 
 #ifndef CLIENT_COMPILATION
-#include			"Entities/Heal-odb.hxx"
+# include			"Entities/Heal-odb.hxx"
+# include			"Database/Repositories/Repository.hpp"
 #endif
-#include			"Database/Repositories/Repository.hpp"
 #include			"Loader/HealLoader.hh"
 #include			"Map/Map.hh"
 

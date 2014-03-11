@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Mon Mar 10 15:43:34 2014 laurent ansel
+// Last update Mon Mar 10 16:19:50 2014 alexis mestag
 //
 
 #include			<algorithm>
@@ -176,9 +176,17 @@ void				Mob::setInBattle(bool const inBattle)
   _inBattle = inBattle;
 }
 
-Stats const			&Mob::getCurrentStats() const
+Stats const			&Mob::getRawCurrentStats() const
 {
   return (*_currentStats);
+}
+
+Stats				Mob::getCurrentStats() const
+{
+  Stats				ret(this->getRawCurrentStats());
+
+  ret.resetShortLivedStats(this->getMaxStats());
+  return (ret);
 }
 
 void				Mob::setCurrentStats(Stats const &stats)

@@ -5,13 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 12:21:17 2014 laurent ansel
-// Last update Wed Mar  5 23:40:55 2014 laurent ansel
+// Last update Mon Mar 10 19:11:54 2014 alexis mestag
 //
 
 #ifndef CLIENT_COMPILATION
-#include			"Entities/MobModel-odb.hxx"
+# include			"Entities/MobModel-odb.hxx"
+# include			"Database/Repositories/Repository.hpp"
 #endif
-#include			"Database/Repositories/Repository.hpp"
 #include			"Loader/MobModelLoader.hh"
 
 /*

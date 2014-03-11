@@ -3,5 +3,7 @@
     "textures" : "./Res/textures.png",
     "selectedPlayer" : "./Res/selectedPlayer.png",
     "Lance-Flamme" : "./Res/Spell/Lance-Flamme.png",
-    "Boutefeu" : "./Res/Spell/Boutefeu.png"
+    "Boutefeu" : "./Res/Spell/Boutefeu.png",
+    "Surf":"./Res/Spell/Surf.png",
+    "Danse-Fleur":"./Res/Spell/Danse-Fleur.png"
 }

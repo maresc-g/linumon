@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb 10 15:24:18 2014 alexis mestag
-// Last update Mon Feb 10 15:44:07 2014 alexis mestag
+// Last update Mon Mar 10 20:28:58 2014 alexis mestag
 //
 
 #ifndef				__DBZONEREPOSITORY_HPP__
@@ -24,8 +24,8 @@ private:
   virtual ~Repository() {}
 
 public:
-  DBZone			*getByName(std::string const &name) {
-    Database::Transaction	t(Database::getInstance()->getDb()->begin());
+  DBZone			*getByName(std::string const &name, bool const inTr = false) {
+    Database::Transaction	*t = Database::getNewTransaction(inTr);
     Database::Query<DBZone>	query(Database::Query<DBZone>::name == name);
     Database::Result<DBZone>	result(Database::getInstance()->getDb()->query<DBZone>(query));
     DBZone			*ret = NULL;
@@ -33,7 +33,10 @@ public:
     if (result.size())
       ret = result.begin().load();
 
-    t.commit();
+    if (t) {
+      t->commit();
+      delete t;
+    }
     return (ret);
   }
 };

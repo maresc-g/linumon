@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Mar 10 11:47:45 2014 guillaume marescaux
+// Last update Mon Mar 10 16:14:59 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -290,6 +290,14 @@ bool				Core::endBattle(Trame *)
 
 bool				Core::upStats(Trame *)
 {
+  return (true);
+}
+
+bool				Core::stats(Trame *trame)
+{
+  Mob				*mob = (**_player)->getDigitaliser().getMob((*trame)[CONTENT]["OBJECTEFFECT"]["TARGET"].asUInt());
+
+  mob->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["OBJECTEFFECT"]["STATS"])));
   return (true);
 }
 

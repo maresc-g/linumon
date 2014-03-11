@@ -5,13 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Mar  6 11:54:34 2014 laurent ansel
-// Last update Sat Mar  8 16:03:08 2014 laurent ansel
+// Last update Mon Mar 10 19:11:30 2014 alexis mestag
 //
 
 #ifndef CLIENT_COMPILATION
-#include			"Entities/Consumable-odb.hxx"
+# include			"Entities/Consumable-odb.hxx"
+# include			"Database/Repositories/Repository.hpp"
 #endif
-#include			"Database/Repositories/Repository.hpp"
 #include			"Loader/ConsumableLoader.hh"
 
 /*

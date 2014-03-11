@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Mar 10 14:53:44 2014 laurent ansel
+// Last update Mon Mar 10 20:02:36 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -116,8 +116,8 @@ public:
   Inventory const		&getInventory() const;
   void				setInventory(Inventory *inventory);
 
-  void				addTalent(Talent *talent);
-  Talents const	&getTalents() const;
+  void				addTalent(Talent const &talent);
+  Talents const			&getTalents() const;
   void				setTalents(Talents const &list);
 
   TalentTree const		&getTalentTree() const;
@@ -141,6 +141,7 @@ public:
 
   void				addMoney(int const money);
 
+  Jobs const			&getJobs() const;
   void				setJobs(Jobs *jobs);
   void				setJob(Job *job);
   void				setJob(std::string const &name, Job *job);

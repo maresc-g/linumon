@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 14:34:15 2014 alexis mestag
-// Last update Fri Mar  7 14:04:52 2014 alexis mestag
+// Last update Mon Mar 10 19:55:14 2014 alexis mestag
 //
 
 #ifndef				__TALENT_HH__
@@ -31,6 +31,7 @@ private:
   void				setModel(TalentModel const &model);
 
 public:
+  Talent(TalentModel const &model, int const currentPoints = 0);
   Talent(Talent const &rhs);
   virtual ~Talent();
 
@@ -44,7 +45,7 @@ public:
 };
 
 # ifdef	ODB_COMPILER
-#  pragma db object(Talent) //session(false)
+#  pragma db object(Talent)
 # endif
 
 #endif

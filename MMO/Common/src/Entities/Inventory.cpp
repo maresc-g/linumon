@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Mon Mar 10 12:05:24 2014 guillaume marescaux
+// Last update Mon Mar 10 16:34:16 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -161,6 +161,7 @@ void				Inventory::addItem(AItem *item, unsigned int const nb)
   if (!set)
     {
       unsigned int	i = nb;
+
       for (; i > 99 ; i -= 99)
 	this->getContainer().push_back(std::make_pair(item, 99));
       this->getContainer().push_back(std::make_pair(item, i));
@@ -194,7 +195,8 @@ AItem				*Inventory::getAndDeleteItem(unsigned int const id)
       else
 	{
 	  it->second--;
-	  item = AItem::createCopy(it->first);
+	  //	  item = AItem::createCopy(it->first);
+	  item = it->first;
 	  return (item);
 	}
     }

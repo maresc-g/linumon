@@ -5,13 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Mar  6 11:09:09 2014 laurent ansel
-// Last update Thu Mar  6 13:38:29 2014 laurent ansel
+// Last update Mon Mar 10 19:12:15 2014 alexis mestag
 //
 
 #ifndef CLIENT_COMPILATION
-#include			"Entities/Stuff-odb.hxx"
+# include			"Entities/Stuff-odb.hxx"
+# include			"Database/Repositories/Repository.hpp"
 #endif
-#include			"Database/Repositories/Repository.hpp"
 #include			"Loader/StuffLoader.hh"
 
 /*

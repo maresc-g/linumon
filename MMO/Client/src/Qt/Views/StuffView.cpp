@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Mon Mar 10 15:02:01 2014 guillaume marescaux
+// Last update Mon Mar 10 16:05:06 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -118,7 +118,6 @@ void				StuffView::initStuff(Mob const &mob)
   if (_last == &mob && !_changed)
     return;
   _last = &mob;
-  bool				visible = isVisible();
   Equipment const		*equipment = &mob.getEquipment();
 
   _changed = false;
@@ -131,22 +130,21 @@ void				StuffView::initStuff(Mob const &mob)
   for (auto it = _labels->begin() ; it != _labels->end() ; it++)
     delete *it;
   _labels->clear();
-  for (auto it = mob.getStats().begin() ; it != mob.getStats().end() ; it ++)
+  for (auto it = mob.getAuthorizedStatKeys().begin() ; it != mob.getAuthorizedStatKeys().end() ; it ++)
     {
       QLabel			*label = new QLabel(this);
-      label->setText((*it)->getKey().getName().c_str());
+      label->setText((*it)->getName().c_str());
       label->move(520, 170 + i * 40);
       _labels->push_back(label);
       label->show();
       label = new QLabel(this);
-      label->setText(std::to_string((*it)->getValue()).c_str());
+      label->setText(std::to_string(mob.getCurrentStat((*it)->getName())).c_str());
       label->move(710, 170 + i * 40);
       label->show();
       _labels->push_back(label);
       i++;
     }
-  if (visible)
-    _wMan->getSFMLView()->displayView(this);
+  _wMan->getSFMLView()->displayView(this);
 }
 
 void				StuffView::itemAction(ItemView *item)

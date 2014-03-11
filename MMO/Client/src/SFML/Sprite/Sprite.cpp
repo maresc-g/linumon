@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Sun Mar  9 00:40:40 2014 cyril jourdain
+// Last update Mon Mar 10 16:20:22 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -215,7 +215,9 @@ sf::IntRect		*Sprite::getCurrentBound() const
 
 bool			Sprite::isAnimFinished() const
 {
-  if ((*_anim)[_current]->isEnded())
+  if (!(*_anim)[_current])
+    return true;
+  if ((*_anim)[_current] && (*_anim)[_current]->isEnded())
     return true;
   return false;
 }

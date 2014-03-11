@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Mon Mar 10 13:01:05 2014 antoine maitre
+// Last update Tue Mar 11 11:56:19 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -18,6 +18,7 @@ BattleUpdater::BattleUpdater()
     _mutex(new Mutex),
     _trames(new std::list<std::pair<Trame *, bool> >),
     _battles(new std::list<Battle *>),
+    _funcs(NULL),
     _nbTrame(0)
 {
   // std::string str = "CAPTURE";
