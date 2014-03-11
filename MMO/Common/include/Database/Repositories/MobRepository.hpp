@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Mar 10 18:59:26 2014 alexis mestag
-// Last update Mon Mar 10 20:35:48 2014 alexis mestag
+// Last update Tue Mar 11 12:56:39 2014 alexis mestag
 //
 
 #ifndef				__MOBREPOSITORY_HH__
@@ -26,8 +26,32 @@ private:
 public:
   virtual void			smartUpdate(Mob &m, bool const inTr = false) {
     Database::Transaction	*t = Database::getNewTransaction(inTr);
+    bool			isInTr = (t || inTr) ? true : false;
 
-    BaseRepository<Mob>::smartUpdate(m, !inTr ? !inTr : inTr);
+    /*
+    ** Updating Stats
+    */
+    Repository<Stat>		*rStat = &Database::getRepository<Stat>();
+    for (auto it = m.getStats().begin() ; it != m.getStats().end() ; ++it) {
+      rStat->smartUpdate(**it, isInTr);
+    }
+
+    /*
+    ** Updating Current Stats
+    */
+    for (auto it = m.getRawCurrentStats().begin() ; it != m.getRawCurrentStats().end() ; ++it) {
+      rStat->smartUpdate(**it, isInTr);
+    }
+
+    /*
+    ** Updating Equipments
+    */
+    // Repository<Stuff>		*rStuff = &Database::getRepository<Stuff>();
+    // for (auto it = m.getEquipment().begin() ; it != m.getEquipment().end() ; ++it) {
+    //   rStuff->smartUpdate(**it, isInTr);
+    // }
+
+    BaseRepository<Mob>::smartUpdate(m, isInTr);
 
     if (t) {
       t->commit();

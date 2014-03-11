@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Mon Mar 10 16:34:16 2014 laurent ansel
+// Last update Tue Mar 11 13:30:07 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -13,9 +13,10 @@
 #include			"ObjectPool/ObjectPoolManager.hpp"
 #include			"Loader/LoaderManager.hh"
 
-Inventory::Inventory():
+Inventory::Inventory(std::string const &path):
   Persistent(),
   ContainerWrapper<container_type>(),
+  _path(path),
   _money(0),
   _limit(0)
 {
@@ -240,7 +241,7 @@ void				Inventory::loadInventory()
     }
 }
 
-void				Inventory::serializationInventory()
+void				Inventory::serializationInventory() const
 {
   Trame				*file;
   // int				nb = 0;

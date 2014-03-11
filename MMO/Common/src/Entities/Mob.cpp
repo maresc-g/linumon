@@ -5,15 +5,14 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Mon Mar 10 16:19:50 2014 alexis mestag
+// Last update Tue Mar 11 14:44:42 2014 alexis mestag
 //
 
 #include			<algorithm>
 #include			"Entities/Mob.hh"
 #ifndef		CLIENT_COMPILATION
 # include			"Stats/AuthorizedStatKeys-odb.hxx"
-# include			"Entities/Mob-odb.hxx"
-# include			"Database/Repositories/Repository.hpp"
+# include			"Database/Repositories/MobRepository.hpp"
 #endif
 #include			"Loader/LoaderManager.hh"
 
@@ -150,6 +149,19 @@ bool				Mob::setCurrentStat(std::string const &key, Stat::value_type const v)
     ret = true;
   }
   return (ret);
+}
+
+bool				Mob::incCurrentStat(std::string const &key, Stat::value_type const inc)
+{
+  return (this->setCurrentStat(key, this->getCurrentStat(key) + inc));
+}
+
+bool				Mob::decCurrentStat(std::string const &key, Stat::value_type const dec)
+{
+  Stat::value_type		oldValue = this->getCurrentStat(key);
+  Stat::value_type		newValue = dec >= oldValue ? 0 : oldValue - dec;
+
+  return (this->setCurrentStat(key, newValue));
 }
 
 /*

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Thu Mar  6 12:59:36 2014 laurent ansel
+// Last update Tue Mar 11 13:29:47 2014 alexis mestag
 //
 
 #ifndef 			__INVENTORY_HH__
@@ -30,13 +30,13 @@ private:
   void				loadInventory();
 
 public:
-  Inventory();
+  Inventory(std::string const &path = "");
   Inventory(Inventory const &rhs);
   virtual ~Inventory();
 
   Inventory			&operator=(Inventory const &rhs);
 
-  void				serializationInventory();
+  void				serializationInventory() const;
 
   std::string const		&getPath() const;
   void				setPath(std::string const &path);

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Mar 10 20:02:36 2014 alexis mestag
+// Last update Tue Mar 11 13:51:43 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -84,7 +84,7 @@ private:
   # endif
 
 public:
-  Player(std::string const &name, std::string const &factionName = "");
+  Player(std::string const &name, std::string const &factionName = "", User const *user = NULL);
   virtual ~Player();
 
   PlayerCoordinate const	&getCoord() const;
@@ -167,6 +167,7 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Player)
+#  pragma db member(Player::_type) transient
 #  pragma db member(Player::_coord) transient
 #  pragma db member(Player::_digitaliser) transient
 #  pragma db member(Player::_talents) transient
