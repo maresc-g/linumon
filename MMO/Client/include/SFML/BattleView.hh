@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Mon Mar 10 15:03:22 2014 cyril jourdain
+// Last update Tue Mar 11 15:02:39 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -59,6 +59,7 @@ public:
   MobSprite			*findMobById(unsigned int id) const;
   void				resetHUDPos();
   void				setLifeVisibility(bool v);
+  void				quitBattle();
 
 private:
   void				setPlayingMob();

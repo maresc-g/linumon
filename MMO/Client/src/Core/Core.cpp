@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Mar 11 13:46:59 2014 guillaume marescaux
+// Last update Tue Mar 11 14:48:42 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -86,6 +86,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("SPELL", func);
   func = std::bind1st(std::mem_fun(&Core::spellEffect), this);
   _proto->addFunc("SPELLEFFECT", func);
+  func = std::bind1st(std::mem_fun(&Core::endBattle), this);
+  _proto->addFunc("ENDBATTLE", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -280,7 +282,8 @@ bool				Core::deadMob(Trame *)
 
 bool				Core::endBattle(Trame *)
 {
-  *_state = CLIENT::PLAYING;
+  *_state = CLIENT::LEAVING_BATTLE;
+  std::cout << "------------ END BATTLE" << std::endl;
   return (true);
 }
 
