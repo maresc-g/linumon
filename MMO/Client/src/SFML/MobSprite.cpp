@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:46:04 2014 cyril jourdain
-// Last update Tue Mar 11 14:04:49 2014 cyril jourdain
+// Last update Tue Mar 11 16:15:53 2014 guillaume marescaux
 //
 
 #include		"SFML/MobSprite.hh"
@@ -25,6 +25,8 @@ MobSprite::MobSprite(sf::String const &name, sf::Font * font, WindowManager *wMa
   _pb->hide();
   _pb->resize(100,20);
   _isVisible = false;
+  _pb->setFormat("%v/%m");
+  _pb->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 }
 
 MobSprite::~MobSprite()
