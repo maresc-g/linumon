@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Tue Mar 11 13:28:39 2014 cyril jourdain
+// Last update Tue Mar 11 15:16:50 2014 cyril jourdain
 //
 
 /*
@@ -107,6 +107,13 @@ void			SFMLView::onUpdate()
   CLIENT::eState s = **(_wMan->getState());
   switch (s)
     {
+    case CLIENT::LEAVING_BATTLE:
+      _currentView = _worldView;
+      _currentView->resetPOV();
+      static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
+      static_cast<BattleView*>(_battleView)->quitBattle();
+      *(_wMan->getState()) = CLIENT::PLAYING;      
+      break;
     case CLIENT::ENTER_BATTLE:
       _mainView->rotate(-10);
       _mainView->zoom(1.2);
@@ -116,7 +123,6 @@ void			SFMLView::onUpdate()
 	  _battleView->resetPOV();
 	  static_cast<BattleView*>(_battleView)->resetHUDPos();
 	  static_cast<BattleView*>(_battleView)->setLifeVisibility(true);
-	  std::cout << "SET VISIBILITY TRUE HERE" << std::endl;
 	  // SoundManager::getInstance()->playMusic(BATTLE_THEME);
 	}
       break;

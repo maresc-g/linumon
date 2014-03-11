@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:56 2014 cyril jourdain
-// Last update Tue Mar 11 14:01:26 2014 cyril jourdain
+// Last update Tue Mar 11 16:13:47 2014 cyril jourdain
 //
 
 #include			"SFML/BattleSpellUpdater.hh"
@@ -60,3 +60,4 @@ bool				BattleSpellUpdater::endTurn()
     return true;
   return false;
 }
+

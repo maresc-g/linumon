@@ -5,25 +5,25 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb 10 14:23:57 2014 alexis mestag
-// Last update Mon Feb 10 16:27:15 2014 alexis mestag
+// Last update Tue Mar 11 16:31:20 2014 laurent ansel
 //
 
 #include			"Entities/DBZone.hh"
 
 DBZone::DBZone() :
-  Persistent(), Nameable(), _averageLevel(0)
+  Persistent(), Nameable(), ContainerWrapper<container_type>(), _averageLevel(0)
 {
 
 }
 
 DBZone::DBZone(std::string const &name, unsigned int const averageLevel) :
-  Persistent(), Nameable(name), _averageLevel(averageLevel)
+  Persistent(), Nameable(name), ContainerWrapper<container_type>(), _averageLevel(averageLevel)
 {
 
 }
 
 DBZone::DBZone(DBZone const &rhs) :
-  Persistent(rhs), Nameable(rhs)
+  Persistent(rhs), Nameable(rhs), ContainerWrapper<container_type>()
 {
   *this = rhs;
 }
@@ -45,12 +45,12 @@ DBZone				&DBZone::operator=(DBZone const &rhs)
 
 std::list<MobModel *> const	&DBZone::getMobModels() const
 {
-  return (_mobModels);
+  return (getContainer());
 }
 
 void				DBZone::setMobModels(std::list<MobModel *> const &mobModels)
 {
-  _mobModels = mobModels;
+  setContainer(mobModels);
 }
 
 unsigned int			DBZone::getAverageLevel() const
@@ -67,8 +67,9 @@ Mob				*DBZone::getRandomMob() const
 {
   Mob				*ret = NULL;
 
-  if (this->getMobModels().size()) {
-    ret = new Mob(**this->getMobModels().begin(), this->getAverageLevel());
-  }
+  if (this->getMobModels().size())
+    {
+      ret = new Mob(*(*randomElement()), this->getAverageLevel());
+    }
   return (ret);
 }
