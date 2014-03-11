@@ -59,6 +59,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Chat/Chat.hh \
                 include/Battle/Battle.hh \
                 include/Battle/SpellContainer.hh \
+                include/Trade/Trade.hh \
                 include/Sound/SoundManager.hh
 
 SOURCES +=      src/main.cpp \
@@ -103,6 +104,7 @@ SOURCES +=      src/main.cpp \
                 src/Core/ErrorHandler.cpp \
                 src/Battle/Battle.cpp \
                 src/Battle/SpellContainer.cpp \
+                src/Trade/Trade.cpp \
                 src/Sound/SoundManager.cpp \
                 ../Common/src/Map/Map.cpp \
                 ../Common/src/Crypto/Crypto.cpp \ 
