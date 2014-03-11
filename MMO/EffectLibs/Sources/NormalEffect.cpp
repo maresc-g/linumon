@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 27 16:57:56 2014 alexis mestag
-// Last update Tue Mar 11 15:01:57 2014 alexis mestag
+// Last update Tue Mar 11 16:08:48 2014 alexis mestag
 //
 
 #include				"NormalEffect.hh"
@@ -37,6 +37,7 @@ void					NormalEffect::initialize(Mob &caster, Spell &spell, Mob &target)
   // + 2) * CE
   hp += 2;
   hp *= caster.getType().getCoeffAgainst(target.getType());
+  _hp = hp;
 }
 
 bool					NormalEffect::apply(Mob &mob)
