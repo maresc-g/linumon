@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Mar 11 14:15:40 2014 antoine maitre
+// Last update Tue Mar 11 14:32:51 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -91,6 +91,7 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
   static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
   Mob					*mobLauncher = NULL;
   Mob					*mobTarget = NULL;
+  int					hpChange = 0;
 
   for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
     {
@@ -102,12 +103,14 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
     }
   if (mobLauncher && mobTarget)
     {
+      hpChange = mobTarget->getCurrentStat("HP");
       (*spell)(*mobLauncher, *mobTarget);
       for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	if ((*it)->getType() == Player::PlayerType::PLAYER)
 	  {
+	    hpChange = mobTarget->getCurrentStat("HP") - hpChange;
 	    this->trameSpell((*it)->getUser().getId(), spell, launcher, target);
-	    this->trameSpellEffect((*it)->getUser().getId(), target, 10);
+	    this->trameSpellEffect((*it)->getUser().getId(), target, hpChange);
 	  } 
       Stats const			&statMob = mobTarget->getCurrentStats();
       if (statMob.getStat(*hpKey) <= 0)
