@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Mar 11 14:32:51 2014 antoine maitre
+// Last update Tue Mar 11 17:16:52 2014 laurent ansel
 //
 
 #include				"Battle/Battle.hh"
@@ -19,16 +19,16 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
   int i = 0;
 
   for (auto it = player1->getDigitaliser().getBattleMobs().begin(); it != player1->getDigitaliser().getBattleMobs().end() && i++ < mobNumber+1; it++)
-    this->_mobs.push_back((*it));
+    {
+      (*it)->enterBattle();
+      this->_mobs.push_back((*it));
+    }
   i = 0;
   for (auto it = player2->getDigitaliser().getBattleMobs().begin(); it != player2->getDigitaliser().getBattleMobs().end() && i++ < mobNumber+1; it++)
-    this->_mobs.push_back((*it));
-  i = 0;
-  for (auto it = player1->getDigitaliser().getBattleMobs().begin(); it != player1->getDigitaliser().getBattleMobs().end() && i++ < mobNumber+1; it++)
-    (*it)->enterBattle();
-  i = 0;
-  for (auto it = player2->getDigitaliser().getBattleMobs().begin(); it != player2->getDigitaliser().getBattleMobs().end() && i++ < mobNumber+1; it++)
-    (*it)->enterBattle();
+    {
+      (*it)->enterBattle();
+      this->_mobs.push_back((*it));
+    }
   if (player1->getType() == Player::PlayerType::PLAYER)
     this->trameLaunchBattle(player1->getUser().getId(), player2);
   if (player2->getType() == Player::PlayerType::PLAYER)
@@ -169,6 +169,7 @@ void					Battle::next()
     return;
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     {
+      std::cout << "PLAYER(" << (*it)->getName() << ") = " << (*it)->getType() << std::endl;
       if ((*it)->getType() == Player::PlayerType::PLAYER)
 	{
 	  std::cout << "ID PLAYER =" << (*it)->getUser().getId() << "; ID MOB =" << tmp->getId() << std::endl;
@@ -244,10 +245,13 @@ void					Battle::trameTurnTo(unsigned int const idPlayer, unsigned int const idM
 
 void					Battle::trameEndBattle()
 {
-  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+  for (auto it = this->_players.begin(); it != this->_players.end(); ++it)
     {
       if ((*it)->getType() == Player::PlayerType::PLAYER)
-	Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, std::list<AItem *> *>("ENDBATTLE", (*it)->getUser().getId(), this->_id, ((*it)->getId() == this->_idLooser)?(false):(true), this->_money, this->_exp, NULL);
+	{
+	  Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, std::list<AItem *> *>("ENDBATTLE", (*it)->getUser().getId(), this->_id, ((*it)->getId() == this->_idLooser)?(false):(true), this->_money, this->_exp, NULL);
+  	  ClientManager::getInstance()->endBattle((*it)->getUser().getId());
+	}
     }
 }
 

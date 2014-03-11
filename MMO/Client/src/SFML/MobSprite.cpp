@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:46:04 2014 cyril jourdain
-// Last update Tue Mar 11 16:15:53 2014 guillaume marescaux
+// Last update Tue Mar 11 18:12:32 2014 guillaume marescaux
 //
 
 #include		"SFML/MobSprite.hh"
@@ -31,6 +31,9 @@ MobSprite::MobSprite(sf::String const &name, sf::Font * font, WindowManager *wMa
 
 MobSprite::~MobSprite()
 {
+  delete _spellBar;
+  delete _hud;
+  delete _pb;
 }
 
 void			MobSprite::setHUDInfo(Mob const &mob)
@@ -82,7 +85,7 @@ void			MobSprite::resetHUDPos()
 {
   if (_pb && _isVisible){
     sf::Vector2i p = _wMan->getSFMLView()->mapCoordsToPixel(getPosition());
-    _pb->move(p.x, p.y + getCurrentBound()->height);
+    _pb->move(p.x, p.y - (getCurrentBound()->height / 2 + 5));
   }
 }
 

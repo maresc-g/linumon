@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Tue Mar 11 14:18:00 2014 cyril jourdain
+// Last update Tue Mar 11 15:17:44 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -35,6 +35,8 @@ void			BattleView::onInit()
   int			limit = 0;
   MobSprite		*tmp;
 
+  if (!_spellUpdater)
+    _spellUpdater = new BattleSpellUpdater(_sfmlView, _wMan);
   _backgroundTexture->create(BATTLE_SIZE * CASE_SIZE, BATTLE_SIZE*CASE_SIZE);
   loadBackgroundMap();
   loadBackgroundSprite();
@@ -210,6 +212,27 @@ void			BattleView::setLifeVisibility(bool v)
     (*it)->setLifeVisibility(v);
   for (auto it = _enemyList->begin(); it != _enemyList->end(); it++)
     (*it)->setLifeVisibility(v);
+}
+
+void			BattleView::quitBattle()
+{
+  delete _buttonMap;
+  for (auto it = _playerList->begin(); it != _playerList->end(); it++)
+    {
+      // (*it)->setInfoVisibility(false);
+      delete *it;
+    }
+  _playerList->clear();
+  for (auto it = _enemyList->begin(); it != _enemyList->end(); it++)
+    delete *it;
+  _enemyList->clear();
+  _playingMob = NULL;
+  _selectedMob = NULL;
+  _spellSprite = NULL;
+  _spellSpriteCase = NULL;
+  _selectedSpell = "";
+  delete _spellUpdater;
+  _currentTurn = -1;
 }
 
 void			BattleView::setPlayingMob()

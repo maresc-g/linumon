@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 01:15:31 2014 cyril jourdain
-// Last update Fri Mar  7 22:59:32 2014 cyril jourdain
+// Last update Tue Mar 11 16:01:24 2014 cyril jourdain
 //
 
 #include		"SFML/ContextView.hh"
@@ -26,14 +26,13 @@ ContextView::~ContextView()
 void			ContextView::loadBackgroundMap()
 {
   Zone	*zone = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone());
-  std::list<AEntity*>	*list;
 
   srand(time(NULL));
   for (int y = 0; y < zone->getSizeY(); y++)
     {
       for (int x = 0; x < zone->getSizeX(); x++)
 	{
-	  int rnd = rand() % 100;
+	  //int rnd = rand() % 100;
 	  if (zone->getCase(x,y) && !zone->getCase(x,y)->getSafe())
 	    {
 	      // if (rnd < 85)

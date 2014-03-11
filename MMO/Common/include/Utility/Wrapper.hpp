@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Feb 28 13:17:26 2014 alexis mestag
-// Last update Mon Mar  3 17:07:25 2014 alexis mestag
+// Last update Tue Mar 11 16:31:13 2014 laurent ansel
 //
 
 #ifndef				__WRAPPER_HPP__
@@ -50,6 +50,14 @@ public:
     *_container = c;
   }
 
+  const_iterator		randomElement() const
+  {
+    unsigned long		k = rand() % getContainer().size();
+    const_iterator		it = begin();
+
+    std::advance(it, k);
+    return (it);
+  }
 public:
   ContainerWrapper() : _container(new T) {}
   virtual ~ContainerWrapper() {

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb 10 14:17:03 2014 alexis mestag
-// Last update Fri Mar  7 14:50:25 2014 alexis mestag
+// Last update Tue Mar 11 16:27:17 2014 laurent ansel
 //
 
 #ifndef				__DBZONE_HH__
@@ -14,16 +14,16 @@
 # include			<list>
 # include			"Database/Persistent.hh"
 # include			"Utility/Nameable.hh"
+# include			"Utility/Wrapper.hpp"
 
 class				Mob;
 class				MobModel;
 
-class				DBZone : public Persistent, public Nameable
+class				DBZone : public Persistent, public Nameable, public ContainerWrapper<std::list<MobModel *> >
 {
   friend class			odb::access;
 
 private:
-  std::list<MobModel *>		_mobModels;
   unsigned int			_averageLevel;
 
 private:
@@ -50,6 +50,7 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(DBZone)
+#  pragma db member(DBZone::mobModels) virtual(DBZone::container_type) get(getContainer()) set(setContainer(?))
 # endif
 
 #endif
