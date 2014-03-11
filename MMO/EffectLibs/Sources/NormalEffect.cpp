@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 27 16:57:56 2014 alexis mestag
-// Last update Mon Mar 10 01:12:12 2014 alexis mestag
+// Last update Tue Mar 11 14:57:41 2014 alexis mestag
 //
 
 #include				"NormalEffect.hh"
@@ -37,13 +37,12 @@ void					NormalEffect::initialize(Mob &caster, Spell &spell, Mob &target)
   // + 2) * CE
   hp += 2;
   hp *= caster.getType().getCoeffAgainst(target.getType());
-  _hp = 10;
 }
 
 bool					NormalEffect::apply(Mob &mob)
 {
   std::cout << mob.getName() << " was hit by " << (int)_hp << std::endl;
-  mob.setCurrentStat("HP", mob.getCurrentStat("HP") - _hp);
+  mob.decCurrentStat("HP", _hp);
   return (true);
 }
 
