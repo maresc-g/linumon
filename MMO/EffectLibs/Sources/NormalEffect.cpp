@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 27 16:57:56 2014 alexis mestag
-// Last update Tue Mar 11 14:57:41 2014 alexis mestag
+// Last update Tue Mar 11 15:01:57 2014 alexis mestag
 //
 
 #include				"NormalEffect.hh"
@@ -45,13 +45,3 @@ bool					NormalEffect::apply(Mob &mob)
   mob.decCurrentStat("HP", _hp);
   return (true);
 }
-
-// void					NormalEffect::initializeByCaster(Mob &caster)
-// {
-
-// }
-
-// void					NormalEffect::initializeBySpell(Spell &spell)
-// {
-//   _power *= spell.getPower();
-// }

@@ -5,14 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Sat Mar  8 01:45:50 2014 cyril jourdain
+// Last update Tue Mar 11 14:33:28 2014 laurent ansel
 //
 
 #include	"Qt/WindowManager.hh"
 #include	"Sound/SoundManager.hh"
 #include	<iostream>
 
-WindowManager::WindowManager(int ac, char **av, MutexVar<CLIENT::eState> *state,
+WindowManager::WindowManager(int &ac, char **av, MutexVar<CLIENT::eState> *state,
 			     MutexVar<std::list<PlayerView *> *> *players,
 			     MutexVar<Player*> *player,
 			     MutexVar<bool> *newPlayer,

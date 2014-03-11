@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Mon Mar 10 15:23:27 2014 guillaume marescaux
+// Last update Tue Mar 11 13:46:39 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -33,7 +33,6 @@ ItemView::ItemView(QWidget *parent, WindowManager *wMan, unsigned int nb, AItem 
     }
   boost::algorithm::to_lower(name);
   ui.frame->setObjectName(name.c_str());
-  std::cout << "NAME = " << name << std::endl;
   this->setStyleSheet(std::string("ItemView QFrame#" + name + "{ border-image: url(./Res/Items/" + name + ".png); }").c_str());
 }
 
@@ -59,10 +58,13 @@ void				ItemView::paintEvent(QPaintEvent *)
   style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
-void				ItemView::mousePressEvent(QMouseEvent *)
+void				ItemView::mousePressEvent(QMouseEvent *mEvent)
 {
-  if (this->parentWidget()->objectName() != "f_craft")
-    makeDrag();
+  if (mEvent->button() == Qt::LeftButton)
+    {
+      if (this->parentWidget()->objectName() != "f_craft")
+	makeDrag();
+    }
 }
 
 void				ItemView::mouseDoubleClickEvent(QMouseEvent *)
@@ -82,6 +84,7 @@ void				ItemView::enterEvent(QEvent *)
 
 void				ItemView::setInfos(AItem const *item, unsigned int nb)
 {
+  std::cout << "ITEM VIEW SET INFOS" << std::endl;
   _item = item;
   _nb = nb;
   if (nb > 0)
@@ -129,19 +132,28 @@ AItem const			&ItemView::getItem() const { return (*_item); }
 
 void				ItemView::makeDrag()
 {
-  if (_item)
-    {
-      std::pair<AItem const *, unsigned int>	*pair = new std::pair<AItem const *, unsigned int>(_item, _nb);
-      std::ostringstream       oss;
+  // if (_item)
+  //   {
+  //     std::pair<AItem const *, unsigned int>	*pair = new std::pair<AItem const *, unsigned int>(_item, _nb);
+  //     std::ostringstream	oss;
 
-      oss << pair;
-      QDrag			*dr = new QDrag(this);
-      QMimeData			*data = new QMimeData;
+  //     oss << pair;
+  //     QDrag			*dr = new QDrag(this);
+  //     QMimeData			*data = new QMimeData;
 
-      data->setText(oss.str().c_str());
-      dr->setMimeData(data);
-      dr->exec();
-    }
+  //     data->setText(oss.str().c_str());
+  //     dr->setMimeData(data);
+  //     dr->start();
+  //   }
+  // The data to be transferred by the drag and drop operation is contained in a QMimeData object
+  QMimeData *data = new QMimeData;
+  QDrag *dr = new QDrag(this);
+  data->setText("This is a test");
+  // Assign ownership of the QMimeData object to the QDrag object.
+  dr->setMimeData(data);
+  // Start the drag and drop operation
+  if (dr->start(Qt::MoveAction))
+    deleteLater();
 }
  
 void				ItemView::dragMoveEvent(QDragMoveEvent *de)
@@ -156,12 +168,13 @@ void				ItemView::dragEnterEvent(QDragEnterEvent *event)
  
 void				ItemView::dropEvent(QDropEvent *de)
 {
-  if (_item && this->parentWidget()->objectName() != "stuffview")
-    {
-      std::pair<AItem const *, unsigned int>	*pair =
-  	reinterpret_cast<std::pair<AItem const *, unsigned int> *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
+  qDebug("Contents: %s", de->mimeData()->text().toLatin1().data());
+  // if (_item && this->parentWidget()->objectName() != "stuffview")
+  //   {
+  //     std::pair<AItem const *, unsigned int>	*pair =
+  // 	reinterpret_cast<std::pair<AItem const *, unsigned int> *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
 
-      static_cast<ItemView *>(de->source())->setInfos(_item, _nb);
-      setInfos(pair->first, pair->second);
-    }
+  //     static_cast<ItemView *>(de->source())->setInfos(_item, _nb);
+  //     setInfos(pair->first, pair->second);
+  //   }
 }

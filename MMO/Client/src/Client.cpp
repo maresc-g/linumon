@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Mon Mar 10 11:47:55 2014 guillaume marescaux
+// Last update Tue Mar 11 14:32:47 2014 laurent ansel
 //
 
 #include			"Client.hh"
@@ -45,7 +45,7 @@ Client::~Client()
 
 //-------------------------------------BEGIN METHODS-------------------------------------------
 
-void				Client::init(int ac, char **av)
+void				Client::init(int &ac, char **av)
 {
   _core->init();
   _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer, _battle);

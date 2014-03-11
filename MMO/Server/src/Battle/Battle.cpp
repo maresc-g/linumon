@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Mar 10 01:30:02 2014 alexis mestag
+// Last update Tue Mar 11 14:32:51 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -25,20 +25,10 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
     this->_mobs.push_back((*it));
   i = 0;
   for (auto it = player1->getDigitaliser().getBattleMobs().begin(); it != player1->getDigitaliser().getBattleMobs().end() && i++ < mobNumber+1; it++)
-    {
-      (*it)->setCurrentStat("HP", 50);
-      (*it)->setCurrentStat("Attack", 10);
-      (*it)->setCurrentStat("Speed", 4000);
-      (*it)->enterBattle();
-    }
+    (*it)->enterBattle();
   i = 0;
   for (auto it = player2->getDigitaliser().getBattleMobs().begin(); it != player2->getDigitaliser().getBattleMobs().end() && i++ < mobNumber+1; it++)
-    {
-      (*it)->setCurrentStat("HP", 50);
-      (*it)->setCurrentStat("Attack", 10);
-      (*it)->setCurrentStat("Speed", 4000);
-      (*it)->enterBattle();
-    }
+    (*it)->enterBattle();
   if (player1->getType() == Player::PlayerType::PLAYER)
     this->trameLaunchBattle(player1->getUser().getId(), player2);
   if (player2->getType() == Player::PlayerType::PLAYER)
@@ -51,11 +41,14 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
 
 Battle::~Battle()
 {
-  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
-    {
-      if ((*it)->getType() == Player::PlayerType::PLAYER)
-	ClientManager::getInstance()->endBattle((*it)->getId());
-    }
+  this->trameEndBattle();
+  // for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+  //   {
+  //     if ((*it)->getType() == Player::PlayerType::PLAYER)
+  // 	{
+  // 	  ClientManager::getInstance()->endBattle((*it)->getId());
+  // 	}
+  //   }
 }
 
 unsigned int				Battle::getID() const
@@ -96,8 +89,9 @@ bool					Battle::checkEnd()
 bool					Battle::spell(unsigned int const launcher, unsigned int const target, Spell *spell) //, int id_lanceur
 {
   static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
-  Mob					*mobLauncher;
-  Mob					*mobTarget;
+  Mob					*mobLauncher = NULL;
+  Mob					*mobTarget = NULL;
+  int					hpChange = 0;
 
   for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
     {
@@ -109,12 +103,14 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
     }
   if (mobLauncher && mobTarget)
     {
+      hpChange = mobTarget->getCurrentStat("HP");
       (*spell)(*mobLauncher, *mobTarget);
       for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	if ((*it)->getType() == Player::PlayerType::PLAYER)
 	  {
+	    hpChange = mobTarget->getCurrentStat("HP") - hpChange;
 	    this->trameSpell((*it)->getUser().getId(), spell, launcher, target);
-	    this->trameSpellEffect((*it)->getUser().getId(), target, 10);
+	    this->trameSpellEffect((*it)->getUser().getId(), target, hpChange);
 	  } 
       Stats const			&statMob = mobTarget->getCurrentStats();
       if (statMob.getStat(*hpKey) <= 0)
@@ -158,37 +154,38 @@ bool					Battle::capture(unsigned int const target)
 
 void					Battle::next()
 {
-  static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
+  //  static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
 
   auto tmp = this->_mobs.front();
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);
-  Stats const &statMob = tmp->getCurrentStats();
-  if (statMob.getStat(*hpKey) <= 0 && !this->checkEnd())
+  //  Stats const &statMob = tmp->getCurrentStats();
+  if (tmp->getCurrentStat("HP") <= 0 && !this->checkEnd())
     {
       this->next();
       return;
     }
   else if (this->checkEnd())
-    {
-      return;
-    } 
+    return;
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
-    if ((*it)->isMyMob(tmp->getId()))
-      {
-	if ((*it)->getType() == Player::PlayerType::PLAYER)
-	  {
-	    std::cout << "ID PLAYER =" << (*it)->getUser().getId() << "; ID MOB =" << tmp->getId() << std::endl;
-	    this->trameTurnTo((*it)->getUser().getId(), tmp->getId());
-	  }
-	else
-	  {
-	    auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
-	    if (!this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2)))
-	      this->next();
-	    return;
-	  }
-      }
+    {
+      if ((*it)->getType() == Player::PlayerType::PLAYER)
+	{
+	  std::cout << "ID PLAYER =" << (*it)->getUser().getId() << "; ID MOB =" << tmp->getId() << std::endl;
+	  this->trameTurnTo((*it)->getUser().getId(), tmp->getId());
+	}
+      else
+	{
+	  std::cout << (*it)->isMyMob(tmp->getId()) << " totokekek " << tmp->getId() << std::endl;
+	  if ((*it)->isMyMob(tmp->getId()))
+	    {
+	      auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
+	      if (!this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2)))
+		this->next();
+	      return;
+	    }
+	}
+    }
 }
 
 bool					Battle::isInThisBattle(unsigned int const idPlayer)

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Mon Mar 10 16:59:31 2014 cyril jourdain
+// Last update Tue Mar 11 14:18:00 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -83,7 +83,13 @@ void			BattleView::onInit()
 }
 void			BattleView::onUpdate()
 {
-  if (_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn()) setPlayingMob();
+  if (_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn())
+    {
+      unsigned int turn = (**_wMan->getBattle())->getTurnTo();
+      if (turn != (unsigned int) -1)
+	_currentTurn = turn;
+      setPlayingMob();
+    }
   _spellUpdater->update(this);
   if (_playingMob)
     _selection->setPosition((_playingMob->getPosition().x), (_playingMob->getPosition().y - CASE_SIZE));
@@ -183,10 +189,10 @@ MobSprite		*BattleView::findMobById(unsigned int id) const
 	  return true;
 	return false;
       });
+  else
+    return *it;
   if (it != _enemyList->end())
-    {
-      return *it;
-    }
+    return *it;
   return NULL;
 }
 
@@ -208,14 +214,14 @@ void			BattleView::setLifeVisibility(bool v)
 
 void			BattleView::setPlayingMob()
 {
-  int turn = -1;
-  if (_currentTurn == -1 || _spellUpdater->endTurn())
-    turn = (**_wMan->getBattle())->getTurnTo();
+  // int turn = -1;
+  // if (_currentTurn == -1 || _spellUpdater->endTurn())
+  //   turn = (**_wMan->getBattle())->getTurnTo();
 
-  if (turn == -1)
-    return;
-  else
-    _currentTurn = turn;
+  // if (turn == -1)
+  //   return;
+  // else
+  //   _currentTurn = turn;
   if ((!_playingMob) || _currentTurn != _playingMob->getPlayerId())
     {
       auto it = find_if(_playerList->begin(), _playerList->end(), [&](const MobSprite *val){
@@ -223,18 +229,26 @@ void			BattleView::setPlayingMob()
 	    return true;
 	  return false;
 	});
-      if (it == _playerList->end())
-	it = find_if(_enemyList->begin(), _enemyList->end(), [&](const MobSprite *val){
-	    if (val->getPlayerId() == _currentTurn)
-	      return true;
-	    return false;
-	  });
-      if (it != _enemyList->end())
+      if (it != _playerList->end())
 	{
 	  if (_playingMob)
 	    _playingMob->setInfoVisibility(false);
 	  _playingMob = *it;
 	  _playingMob->setInfoVisibility(true);
+	}
+      else
+	{
+	  it = find_if(_enemyList->begin(), _enemyList->end(), [&](const MobSprite *val){
+	      if (val->getPlayerId() == _currentTurn)
+		return true;
+	      return false;
+	    });
+	  if (it != _enemyList->end())
+	    {
+	      if (_playingMob)
+		_playingMob->setInfoVisibility(false);
+	      _playingMob = *it;
+	    }
 	}
     }
 }
@@ -276,12 +290,19 @@ void			BattleView::leftButton(QMouseEvent *)
 	{
 	  std::cout << "Found player mob" << std::endl;
 	  tmp = *it2;
+	  if (!tmp)
+	    std::cout << "playerMob is null" << std::endl;
 	  auto it3 = find_if(tmp->getModel().getSpells().begin(),
 			    tmp->getModel().getSpells().end(), [&](const Spell *val){
-			      std::cout << "Looking for " << val->getName() << std::endl;
-			      if (val->getName() == _spellSprite->getName())
-				return true;
-			      return false;
+			       if (!val)
+				 {
+				   std::cout << "How is that NULL ?!" << std::endl;
+				   return false;
+				 }
+			       std::cout << "Looking in spell : " << val->getName() << std::endl;
+			       if (val->getName() == _spellSprite->getName())
+				 return true;
+			       return false;
 			    });
 	  if (it3 != tmp->getModel().getSpells().end()){
 	    std::cout << "Found Spell" << std::endl;

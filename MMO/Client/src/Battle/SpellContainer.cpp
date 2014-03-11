@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Mar  7 11:36:05 2014 guillaume marescaux
-// Last update Fri Mar  7 12:34:13 2014 guillaume marescaux
+// Last update Tue Mar 11 12:38:46 2014 cyril jourdain
 //
 
 #include			"Battle/SpellContainer.hh"
@@ -17,7 +17,6 @@ SpellContainer::SpellContainer(unsigned int target, unsigned int launcher, Spell
 
 SpellContainer::~SpellContainer()
 {
-  delete _spell;
 }
 
 unsigned int			SpellContainer::getTarget() const { return (_target); }
