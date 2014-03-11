@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Feb 25 12:42:22 2014 alexis mestag
-// Last update Wed Feb 26 00:09:49 2014 alexis mestag
+// Last update Mon Mar 10 20:29:01 2014 alexis mestag
 //
 
 #ifndef				__FACTIONREPOSITORY_HPP__
@@ -24,8 +24,8 @@ private:
   virtual ~Repository() {}
 
 public:
-    Faction			*getByName(std::string const &name) {
-    Database::Transaction	t(Database::getInstance()->getDb()->begin());
+  Faction			*getByName(std::string const &name, bool const inTr = false) {
+    Database::Transaction	*t = Database::getNewTransaction(inTr);
     Database::Query<Faction>	query(Database::Query<Faction>::name == name);
     Database::Result<Faction>	result(Database::getInstance()->getDb()->query<Faction>(query));
     Faction			*ret = NULL;
@@ -33,7 +33,10 @@ public:
     if (result.size())
       ret = result.begin().load();
 
-    t.commit();
+    if (t) {
+      t->commit();
+      delete t;
+    }
     return (ret);
   }
 };

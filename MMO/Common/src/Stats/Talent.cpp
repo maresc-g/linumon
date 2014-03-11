@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 14:51:25 2014 alexis mestag
-// Last update Mon Mar 10 01:13:08 2014 alexis mestag
+// Last update Mon Mar 10 19:55:44 2014 alexis mestag
 //
 
 #include			"Stats/Talent.hh"
@@ -17,6 +17,12 @@
 
 Talent::Talent() :
   Persistent(), _model(NULL), _currentPoints(0)
+{
+
+}
+
+Talent::Talent(TalentModel const &model, int const currentPoints) :
+  Persistent(), _model(&model), _currentPoints(currentPoints)
 {
 
 }

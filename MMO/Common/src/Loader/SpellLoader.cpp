@@ -5,13 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Mar  8 16:02:52 2014 laurent ansel
-// Last update Sat Mar  8 16:11:23 2014 laurent ansel
+// Last update Mon Mar 10 19:12:09 2014 alexis mestag
 //
 
 #ifndef CLIENT_COMPILATION
-#include			"Entities/Spell-odb.hxx"
+# include			"Entities/Spell-odb.hxx"
+# include			"Database/Repositories/Repository.hpp"
 #endif
-#include			"Database/Repositories/Repository.hpp"
 #include			"Loader/SpellLoader.hh"
 
 /*

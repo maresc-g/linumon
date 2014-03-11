@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:23:10 2014 laurent ansel
-// Last update Tue Mar  4 00:25:40 2014 alexis mestag
+// Last update Mon Mar 10 20:05:49 2014 alexis mestag
 //
 
 #include			<functional>
@@ -46,9 +46,9 @@ void				TalentManager::updateTalents(Trame *trame, Player *player)
 
   if (player)
     {
-      Repository<Talent>	*rp = &Database::getRepository<Talent>();
+      // Repository<Talent>	*rp = &Database::getRepository<Talent>();
       auto			members = (*trame)["TALENTS"].getMemberNames();
-      Talents			talent = player->getTalents();
+      Talents const		&talent = player->getTalents();
 
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	{
@@ -58,7 +58,7 @@ void				TalentManager::updateTalents(Trame *trame, Player *player)
 		if ((*search)->getCurrentPoints() != (*trame)["TALENTS"][*it]["CURRENTPTS"].asInt())
 		  {
 		    (*search)->setCurrentPoints((*trame)["TALENTS"][*it]["CURRENTPTS"].asInt());
-		    rp->update(**search);
+		    // rp->update(**search);
 		  }
 		set = true;
 	      }
@@ -68,8 +68,9 @@ void				TalentManager::updateTalents(Trame *trame, Player *player)
 
 	      if (newTalent)
 		{
-		  player->addTalent(newTalent);
-		  rp->persist(*newTalent);
+		  player->addTalent(*newTalent);
+		  // rp->persist(*newTalent);
+		  delete newTalent;
 		}
 	    }
 	  set = false;

@@ -5,19 +5,19 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Mar 10 16:20:48 2014 guillaume marescaux
+// Last update Mon Mar 10 20:16:44 2014 alexis mestag
 //
 
 #include			<functional>
 #include			"Entities/Player.hh"
 #include			"Map/Map.hh"
 #ifndef			CLIENT_COMPILATION
-# include			"Database/Repositories/Repository.hpp"
 # include			"Stats/TalentTree-odb.hxx"
 # include			"Stats/StatKey-odb.hxx"
 # include			"Entities/DBZone-odb.hxx"
-# include			"Database/Repositories/FactionRepository.hpp"
 # include			"Entities/Player-odb.hxx"
+# include			"Database/Repositories/FactionRepository.hpp"
+# include			"Database/Repositories/PlayerRepository.hpp"
 #endif
 #include			"Entities/Consumable.hh"
 #include			"Loader/LoaderManager.hh"
@@ -188,6 +188,11 @@ Inventory const			&Player::getInventory() const
 void				Player::setInventory(Inventory *inventory)
 {
   this->_inventory = inventory;
+}
+
+Jobs const			&Player::getJobs() const
+{
+  return (*_jobs);
 }
 
 void				Player::setJobs(Jobs *jobs)
@@ -457,9 +462,9 @@ Player				*Player::deserialization(Trame const &trame)
   return (player);
 }
 
-void				Player::addTalent(Talent *talent)
+void				Player::addTalent(Talent const &talent)
 {
-  this->_talents->getContainer().push_back(talent);
+  this->_talents->getContainer().push_back(new Talent(talent));
 }
 
 TalentTree const		&Player::getTalentTree() const

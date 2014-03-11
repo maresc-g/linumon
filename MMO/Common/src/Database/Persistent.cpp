@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Dec  2 16:25:00 2013 alexis mestag
-// Last update Thu Dec  5 20:17:08 2013 alexis mestag
+// Last update Mon Mar 10 18:05:53 2014 alexis mestag
 //
 
 #include			"Database/Persistent.hh"
@@ -38,4 +38,9 @@ Persistent			&Persistent::operator=(Persistent const &rhs)
 unsigned long			Persistent::getPersistentId() const
 {
   return (_persistentId);
+}
+
+bool				Persistent::isPersistent() const
+{
+  return (this->getPersistentId() ? true : false);
 }

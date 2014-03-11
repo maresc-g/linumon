@@ -5,13 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 17:33:09 2014 laurent ansel
-// Last update Thu Mar  6 11:11:24 2014 laurent ansel
+// Last update Mon Mar 10 19:11:45 2014 alexis mestag
 //
 
 #ifndef CLIENT_COMPILATION
-#include			"Entities/JobModel-odb.hxx"
+# include			"Entities/JobModel-odb.hxx"
+# include			"Database/Repositories/Repository.hpp"
 #endif
-#include			"Database/Repositories/Repository.hpp"
 #include			"Loader/JobModelLoader.hh"
 
 /*

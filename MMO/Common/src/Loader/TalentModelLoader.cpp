@@ -5,13 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar  7 15:56:40 2014 laurent ansel
-// Last update Fri Mar  7 21:14:01 2014 laurent ansel
+// Last update Mon Mar 10 19:12:21 2014 alexis mestag
 //
 
 #ifndef CLIENT_COMPILATION
-#include			"Stats/TalentModel-odb.hxx"
+# include			"Stats/TalentModel-odb.hxx"
+# include			"Database/Repositories/Repository.hpp"
 #endif
-#include			"Database/Repositories/Repository.hpp"
 #include			"Loader/TalentModelLoader.hh"
 
 /*

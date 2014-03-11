@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Feb  1 15:22:57 2014 alexis mestag
-// Last update Fri Mar  7 15:30:35 2014 alexis mestag
+// Last update Mon Mar 10 20:37:26 2014 alexis mestag
 //
 
 #ifndef				__REPOSITORY_HPP__
@@ -26,16 +26,19 @@ protected:
   virtual ~BaseRepository() {}
 
 public:
-  T				*getById(unsigned long id) {
-    Database::Transaction	t(Database::getInstance()->getDb()->begin());
+  T				*getById(unsigned long id, bool const inTr = false) {
+    Database::Transaction	*t = Database::getNewTransaction(inTr);
     T				*ret = Database::getInstance()->getDb()->find<T>(id);
 
-    t.commit();
+    if (t) {
+      t->commit();
+      delete t;
+    }
     return (ret);
   }
 
-  std::list<typename Database::ObjectTraits<T>::pointer_type>	getAll() {
-    Database::Transaction	t(Database::getInstance()->getDb()->begin());
+  std::list<typename Database::ObjectTraits<T>::pointer_type>	getAll(bool const inTr = false) {
+    Database::Transaction	*t = Database::getNewTransaction(inTr);
     Database::Result<T>		result(Database::getInstance()->getDb()->query<T>());
     std::list<typename Database::ObjectTraits<T>::pointer_type>		ret;
 
@@ -43,33 +46,59 @@ public:
       ret.push_back(it.load());
     }
 
-    t.commit();
+    if (t) {
+      t->commit();
+      delete t;
+    }
     return (ret);
   }
 
-  unsigned long			persist(T &o) {
-    Database::Transaction	t(Database::getInstance()->getDb()->begin());
+  unsigned long			persist(T &o, bool const inTr = false) {
+    Database::Transaction	*t = Database::getNewTransaction(inTr);
 
     Database::getInstance()->getDb()->persist(o);
 
-    t.commit();
+    if (t) {
+      t->commit();
+      delete t;
+    }
     return (o.getPersistentId());
   }
 
-  void				update(T const &o) {
-    Database::Transaction	t(Database::getInstance()->getDb()->begin());
+  void				update(T const &o, bool const inTr = false) {
+    Database::Transaction	*t = Database::getNewTransaction(inTr);
 
     Database::getInstance()->getDb()->update(o);
 
-    t.commit();
+    if (t) {
+      t->commit();
+      delete t;
+    }
   }
 
-  void				erase(T const &o) {
-    Database::Transaction	t(Database::getInstance()->getDb()->begin());
+  virtual void			smartUpdate(T &o, bool const inTr = false) {
+    Database::Transaction	*t = Database::getNewTransaction(inTr);
+
+    if (o.isPersistent())
+      this->update(o, !inTr ? !inTr : inTr);
+    else
+      this->persist(o, !inTr ? !inTr : inTr);
+
+    if (t) {
+      t->commit();
+      delete t;
+    }
+  }
+
+  void				erase(T const &o, bool const inTr = false) {
+    Database::Transaction	*t = Database::getNewTransaction(inTr);
 
     Database::getInstance()->getDb()->erase(o);
 
-    t.commit();
+    if (t) {
+      t->commit();
+      delete t;
+    }
   }
 
   void				removeFromCache(T const &o) {

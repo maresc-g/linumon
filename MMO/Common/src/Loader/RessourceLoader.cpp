@@ -5,13 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Mar  6 13:16:43 2014 laurent ansel
-// Last update Thu Mar  6 16:56:17 2014 laurent ansel
+// Last update Mon Mar 10 19:12:02 2014 alexis mestag
 //
 
 #ifndef CLIENT_COMPILATION
-#include			"Entities/Ressource-odb.hxx"
+# include			"Entities/Ressource-odb.hxx"
+# include			"Database/Repositories/Repository.hpp"
 #endif
-#include			"Database/Repositories/Repository.hpp"
 #include			"Loader/RessourceLoader.hh"
 
 /*

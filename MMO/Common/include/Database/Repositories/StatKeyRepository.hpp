@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 26 00:07:09 2014 alexis mestag
-// Last update Wed Feb 26 00:18:36 2014 alexis mestag
+// Last update Mon Mar 10 20:29:18 2014 alexis mestag
 //
 
 #ifndef				__STATKEYREPOSITORY_HPP__
@@ -24,8 +24,8 @@ private:
   virtual ~Repository() {}
 
 public:
-  StatKey			*getByName(std::string const &name) {
-    Database::Transaction	t(Database::getInstance()->getDb()->begin());
+  StatKey			*getByName(std::string const &name, bool const inTr = false) {
+    Database::Transaction	*t = Database::getNewTransaction(inTr);
     Database::Query<StatKey>	query(Database::Query<StatKey>::name == name);
     Database::Result<StatKey>	result(Database::getInstance()->getDb()->query<StatKey>(query));
     StatKey			*ret = NULL;
@@ -33,7 +33,10 @@ public:
     if (result.size())
       ret = result.begin().load();
 
-    t.commit();
+    if (t) {
+      t->commit();
+      delete t;
+    }
     return (ret);
   }
 };

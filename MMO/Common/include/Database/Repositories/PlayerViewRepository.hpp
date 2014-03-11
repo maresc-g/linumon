@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 15:38:27 2014 alexis mestag
-// Last update Tue Feb  4 13:33:49 2014 alexis mestag
+// Last update Mon Mar 10 20:29:12 2014 alexis mestag
 //
 
 #ifndef				__PLAYERVIEWREPOSITORY_HPP__
@@ -26,8 +26,8 @@ private:
   virtual ~Repository() {}
 
 public:
-  std::list<PlayerView *>		*getByUserId(unsigned long userId) {
-    Database::Transaction		t(Database::getInstance()->getDb()->begin());
+  std::list<PlayerView *>		*getByUserId(unsigned long userId, bool const inTr = false) {
+    Database::Transaction		*t = Database::getNewTransaction(inTr);
     Database::Query<PlayerView>		query(Database::Query<PlayerView>::User::persistentId == userId);
     Database::Result<PlayerView>	result(Database::getInstance()->getDb()->query<PlayerView>(query));
     std::list<PlayerView *>		*ret = NULL;
@@ -37,6 +37,11 @@ public:
       for (auto it = result.begin() ; it != result.end() ; ++it) {
 	ret->push_back(new PlayerView(*it));
       }
+    }
+
+    if (t) {
+      t->commit();
+      delete t;
     }
     return (ret);
   }

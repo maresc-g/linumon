@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Dec  2 16:18:34 2013 alexis mestag
-// Last update Tue Dec  3 14:06:19 2013 alexis mestag
+// Last update Mon Mar 10 18:04:29 2014 alexis mestag
 //
 
 #ifndef			__PERSISTENT_HH__
@@ -30,6 +30,7 @@ public:
   virtual ~Persistent();
 
   unsigned long		getPersistentId() const;
+  bool			isPersistent() const;
 };
 
 # ifdef	ODB_COMPILER

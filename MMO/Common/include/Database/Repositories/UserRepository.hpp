@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Feb  1 15:25:50 2014 alexis mestag
-// Last update Tue Feb 25 12:45:02 2014 alexis mestag
+// Last update Mon Mar 10 20:29:21 2014 alexis mestag
 //
 
 #ifndef				__USERREPOSITORY_HPP__
@@ -27,8 +27,8 @@ private:
   virtual ~Repository() {}
 
 public:
-  User				*getByPseudo(std::string const &pseudo) {
-    Database::Transaction	t(Database::getInstance()->getDb()->begin());
+  User				*getByPseudo(std::string const &pseudo, bool const inTr = false) {
+    Database::Transaction	*t = Database::getNewTransaction(inTr);
     Database::Query<User>	query(Database::Query<User>::pseudo == pseudo);
     Database::Result<User>	result(Database::getInstance()->getDb()->query<User>(query));
     User			*ret = NULL;
@@ -36,7 +36,10 @@ public:
     if (result.size())
       ret = result.begin().load();
 
-    t.commit();
+    if (t) {
+      t->commit();
+      delete t;
+    }
     return (ret);
   }
 };
