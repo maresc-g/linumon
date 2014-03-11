@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:44:23 2014 cyril jourdain
-// Last update Mon Mar 10 15:18:48 2014 cyril jourdain
+// Last update Tue Mar 11 14:04:22 2014 cyril jourdain
 //
 
 #ifndef 		__MOBSPRITE_HH__
@@ -40,6 +40,7 @@ public:
   void				setLifeVisibility(bool);
   virtual void			onClick();
   virtual void			setPosition(int x, int y);
+  virtual void			update(sf::Clock &);
 };
 
 #endif
