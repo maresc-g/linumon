@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Mon Mar 10 15:59:02 2014 laurent ansel
+// Last update Wed Mar 12 12:17:34 2014 antoine maitre
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -56,7 +56,7 @@ private:
   // bool				choosePlayer(unsigned int const id, int playerId);
 };
 
-bool				launchBattle(unsigned int const id, unsigned int const idBatlle, Player const*);
+bool				launchBattle(unsigned int const id, unsigned int const idBatlle, Player const*, unsigned int limit);
 bool				spell(unsigned int const id, unsigned int const idBattle, Spell const *spell, unsigned int const launcher, unsigned int const target);
 bool				spellEffect(unsigned int const id, unsigned int const idBattle, int const hpChange, unsigned int const target);
 bool				captureEffect(unsigned int const id, unsigned int const idBattle, bool success);

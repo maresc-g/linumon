@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Tue Mar 11 17:16:14 2014 antoine maitre
+// Last update Wed Mar 12 12:04:27 2014 antoine maitre
 //
 
 #ifndef				__BATTLE_HH__
@@ -28,7 +28,7 @@ public:
 private:
   unsigned int const		_id;
   eBattle const			_type;
-  int const			_mobNumber;
+  unsigned int const		_mobNumber;
   std::list<Mob *>		_mobs;
   std::list<Player *>		_players;
   int				_money;

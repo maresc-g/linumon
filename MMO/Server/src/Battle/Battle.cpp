@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Wed Mar 12 11:55:43 2014 antoine maitre
+// Last update Wed Mar 12 12:21:26 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -16,7 +16,7 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
     _mobNumber(mobNumber), _money(0), _exp(0), _success(true)
 {
   // static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
-  int i = 0;
+  unsigned int i = 0;
 
   for (auto it = player1->getDigitaliser().getBattleMobs().begin(); it != player1->getDigitaliser().getBattleMobs().end() && i++ < mobNumber; it++)
     {
@@ -238,7 +238,7 @@ void					Battle::trameCapture(unsigned int const idPlayer, unsigned int const id
 
 void					Battle::trameLaunchBattle(unsigned int const idPlayer, Player *player) const
 {
-  Server::getInstance()->callProtocol<unsigned int const, Player const *>("LAUNCHBATTLE", idPlayer, this->_id, player);
+  Server::getInstance()->callProtocol<unsigned int const, Player const *, unsigned int const>("LAUNCHBATTLE", idPlayer, this->_id, player, this->_mobNumber);
 }
 
 void					Battle::trameTurnTo(unsigned int const idPlayer, unsigned int const idMob) const

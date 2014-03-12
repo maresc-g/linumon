@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Mar 10 16:01:49 2014 laurent ansel
+// Last update Wed Mar 12 12:17:47 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -48,7 +48,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int>("ACCEPT", &accept);
       this->_container->load<unsigned int, unsigned int>("REFUSE", &refuse);
 
-      this->_container->load<unsigned int, unsigned int, Player const *>("LAUNCHBATTLE", &launchBattle);
+      this->_container->load<unsigned int, unsigned int, Player const *, unsigned int>("LAUNCHBATTLE", &launchBattle);
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int, unsigned int>("SPELL", &spell);
       this->_container->load<unsigned int, unsigned int, int, unsigned int>("SPELLEFFECT", &spellEffect);
       this->_container->load<unsigned int, unsigned int, bool>("CAPTUREEFFECT", &captureEffect);
@@ -531,7 +531,7 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
   return (ret);
 }
 
-bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player const *player)
+bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player const *player, unsigned int limit)
 {
   Trame			*trame;
   Header		*header;
@@ -545,6 +545,7 @@ bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player c
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"] = idBattle;
+      (*trame)[CONTENT]["LAUNCHBATTLE"]["LIMIT"] = limit;
       player->serialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
