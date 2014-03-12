@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar 12 11:13:25 2014 laurent ansel
+// Last update Wed Mar 12 13:45:53 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -284,11 +284,11 @@ void				Client::move(Player::PlayerCoordinate *coord)
     }
 }
 
-void				Client::updateTalents(Trame *trame) const
+void				Client::updateTalents(std::string const &talent, unsigned int const pts) const
 {
   if (_state == GAME && _player)
     {
-      TalentManager::updateTalents(trame, _player);
+      _player->modifyTalent(pts, talent);
       Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
     }
 }

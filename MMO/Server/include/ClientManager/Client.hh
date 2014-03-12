@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Wed Mar  5 21:52:11 2014 laurent ansel
+// Last update Wed Mar 12 13:46:12 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -57,7 +57,7 @@ public:
   void				sendListPlayers();
   void				choosePlayer(unsigned int const idPlayer, bool const send);
   void				move(Player::PlayerCoordinate *coord);
-  void				updateTalents(Trame *trame) const;
+  void				updateTalents(std::string const &talent, unsigned int const pts) const;
   void				useObject(unsigned int const target, unsigned int const item);
   void				deleteObject(unsigned int const item, int const nb);
   void				startBattle(Player *&player);

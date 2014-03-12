@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Wed Mar  5 21:53:15 2014 laurent ansel
+// Last update Wed Mar 12 13:48:41 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -210,14 +210,14 @@ void				ClientManager::sendListPlayers(FD const fd) const
   this->_mutex->unlock();
 }
 
-void				ClientManager::setPlayerTalents(Trame *trame) const
+void				ClientManager::setPlayerTalent(FD const fd, std::string const &talent, unsigned int const pts) const
 {
   bool				set = false;
 
   this->_mutex->lock();
   for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
     if ((*it).first && (*it).second)
-      set = (*it).first->setTalents(trame);
+      set = (*it).first->setTalents(fd, talent, pts);
   this->_mutex->unlock();
 }
 
