@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Wed Mar 12 13:48:41 2014 laurent ansel
+// Last update Wed Mar 12 16:26:41 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -240,6 +240,28 @@ void				ClientManager::playerObject(FD const fd, unsigned int const item, int co
   for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
     if ((*it).first && (*it).second)
       set = (*it).first->playerObject(fd, item, nb);
+  this->_mutex->unlock();
+}
+
+void				ClientManager::merge(FD const fd, unsigned int const idStack, unsigned int const idStack2) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->merge(fd, idStack, idStack2);
+  this->_mutex->unlock();
+}
+
+void				ClientManager::newStack(FD const fd, unsigned int const idStack, unsigned int const nb) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->newStack(fd, idStack, nb);
   this->_mutex->unlock();
 }
 

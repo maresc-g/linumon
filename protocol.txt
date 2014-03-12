@@ -39,7 +39,8 @@
 			#  end
 
 			#  stuff
-			STUFF : {action : eActionStuff, idItem : unsigned int, target : unsgined int} -> client
+			PUT : {idStack : unsigned int, target : unsgined int} -> client
+			GET : {idItem : unsigned int, target : unsgined int} -> client
 			[not equippable] = ERROR : {not equippable : eError} -> server
 			[else] = UPDATECHARACTER : {character : ACharacter} -> server
 			#  end
@@ -51,19 +52,19 @@
 
 			#  craft
 			CRAFT : {nameCraft : string, nameJob : string} -> client
-			-ADDTOINVENTORY : {items : list<pair<AItem, uint>>} -> server
-			-DELETEFROMINVENTORY : {items : list<pair<AItem, uint>>} -> server
+			-ADDTOINVENTORY : {items : list<Stack>} -> server
+			-DELETEFROMINVENTORY : {items : list<Stack>} -> server
 			-JOB : {job : Job} -> server
 			#  end
 
 			#  gather
 			GATHER : {nameRessource : string, nameJob : string, CoordinateRessource : coordinate} -> client
-			-ADDTOINVENTORY : {item : list<pair<AItem, uint>>} -> server
+			-ADDTOINVENTORY : {item : list<Stack>} -> server
 			-JOB : {job : Job} -> server
 			#  end
 
 			#  use object
-			USEOBJECT : {target : idCharacter, item : id} -> client
+			USEOBJECT : {target : idCharacter, idStack : id} -> client
 			-OBJECTEFFECT : {target : id, stats : Stats} -> server
 			#  end
 			# end
@@ -76,12 +77,12 @@
 			LAUNCHTRADE : {idTrade : int, namePlayer : string} -> server
 			PUTMOB : {idTrade : int, idMob : int} -> client
 			GETMOB : {idTrade : int, idMob : int} -> client
-			PUTITEM : {idTrade : int, idItem : int} -> client
-			GETITEM : {idTrade : int, idItem : int} -> client
+			PUTITEM : {idTrade : int, idStack : int} -> client
+			GETITEM : {idTrade : int, idStack : int} -> client
 			PUTMOB : {idTrade : int, Mob : mob} -> server
 			GETMOB : {idTrade : int, Mob : mob} -> server
-			PUTITEM : {idTrade : int, Item : item} -> server
-			GETITEM : {idTrade : int, Item : item} -> server
+			PUTITEM : {idTrade : int, Stack : stack} -> server
+			GETITEM : {idTrade : int, Stack : stack} -> server
 			PUTMONEY : {idTrade : int, money : int} -> client / server
 			GETMONEY : {idTrade : int, money : int} -> client / server
 			ACCEPT : {idTrade : int} -> client / server
@@ -89,6 +90,10 @@
 			#  end
 			# end
 
+			# inventory
+			MERGE : {idStack : unsigned int * 2}
+			NEWSTACK : {idStack : unsigned int, nbNewStack : unsigned int}
+			# end
 
 			# others
 			NEWPLAYER : {Id : int, name : string, faction : string, zone : string, coord : Coordinate} -> server

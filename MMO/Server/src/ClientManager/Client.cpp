@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar 12 13:45:53 2014 laurent ansel
+// Last update Wed Mar 12 16:35:50 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -407,4 +407,16 @@ bool				Client::stuff(bool const get, unsigned int const idItem, unsigned int co
 	}
     }
   return (ret);
+}
+
+void				Client::merge(unsigned int const idStack, unsigned int const idStack2)
+{
+  if (_state == GAME && _player)
+    _player->mergeStack(idStack, idStack2);
+}
+
+void				Client::newStack(unsigned int const idStack, unsigned int const nb)
+{
+  if (_state == GAME && _player)
+    _player->newStack(idStack, nb);
 }

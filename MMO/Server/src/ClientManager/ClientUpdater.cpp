@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Wed Mar 12 13:48:18 2014 laurent ansel
+// Last update Wed Mar 12 16:59:18 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -391,6 +391,38 @@ bool				ClientUpdater::playerObject(FD const fd, unsigned int const item, int co
       if (fd == (*it).first->getId() && (*it).first->isUse())
 	{
 	  (*it).first->deleteObject(item, nb);
+	  this->_mutex->unlock();
+	  return (true);
+	}
+    }
+  this->_mutex->unlock();
+  return (false);
+}
+
+bool				ClientUpdater::merge(FD const fd, unsigned int const idStack, unsigned int const idStack2) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  (*it).first->merge(idStack, idStack2);
+	  this->_mutex->unlock();
+	  return (true);
+	}
+    }
+  this->_mutex->unlock();
+  return (false);
+}
+
+bool				ClientUpdater::newStack(FD const fd, unsigned int const idStack, unsigned int const nb) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  (*it).first->newStack(idStack, nb);
 	  this->_mutex->unlock();
 	  return (true);
 	}
