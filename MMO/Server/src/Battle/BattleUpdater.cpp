@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Tue Mar 11 14:09:55 2014 antoine maitre
+// Last update Tue Mar 11 17:17:32 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -224,19 +224,16 @@ int				BattleUpdater::getNumOfBattle() const
 
 void				BattleUpdater::disconnect(unsigned int const idPlayer)
 {
-  std::cout << "Je rentre dans le disconnect de BattleUpdater" << std::endl;
   for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     {
       if ((*it)->isInThisBattle(idPlayer))
 	{
-	  std::cout << "C est gagne!" << std::endl;
+	  (*it)->setSuccess(false);
 	  this->_battles->remove((*it));
-	  std::cout << "C est gagne a peu pres!" << std::endl;
 	  delete (*it);
 	  break;
 	}
     }
-  std::cout << "Je sors du disconnect de BattleUpdater" << std::endl;
 }
 
 void				BattleUpdater::setQuit(bool const quit)
