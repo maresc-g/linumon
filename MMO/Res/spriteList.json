@@ -1,0 +1,9 @@
+{
+    "Boutefeu":"./Res/Spell/Boutefeu.json",
+    "Danse-Fleur":"./Res/Spell/Danse-Fleur.json",
+    "Lance-Flamme":"./Res/Spell/Lance-Flamme.json",
+    "Surf":"./Res/Spell/Surf.json",
+    "Perso1":"./Res/perso1.json",
+    "Textures":"./Res/textures.json",
+    "SelectedPlayer":"./Res/selectedPlayer.json"
+}

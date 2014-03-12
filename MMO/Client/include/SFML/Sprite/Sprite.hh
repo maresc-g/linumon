@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 13:38:44 2014 cyril jourdain
-// Last update Tue Mar 11 14:04:10 2014 cyril jourdain
+// Last update Tue Mar 11 23:45:45 2014 cyril jourdain
 //
 
 #ifndef 		__SPRITE_HH__
@@ -29,6 +29,7 @@ protected /* attributs */:
   bool			_playing;
   bool			_visible;
   std::string		_name;
+  sf::Clock		_clock;
   
 
 public /* class specific */ :
@@ -43,6 +44,7 @@ public /* inherited functions */ :
   virtual void		update(sf::Clock &);
   virtual bool		isClicked(float const x, float const y) const;
   virtual void		onClick();
+  // virtual void		setPosition(float x, float y);
 
 public /* methods */ :
   void			setTexture(sf::Texture *);
@@ -59,6 +61,7 @@ public /* methods */ :
   std::string		getLastPlayed();
   sf::IntRect		*getCurrentBound() const;
   bool			isAnimFinished() const;
+  sf::Vector2f		*getCurrentOffset() const;
 };
 
 #endif

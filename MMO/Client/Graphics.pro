@@ -51,6 +51,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/SFML/BattleSpellUpdater.hh \
                 include/SFML/Sprite/Sprite.hh \
                 include/SFML/Sprite/Animation.hh \
+                include/SFML/Sprite/Frame.hh \
                 include/Client.hh \
                 include/Common/eState.hh \
                 include/Common/eDirection.hh \
@@ -97,6 +98,7 @@ SOURCES +=      src/main.cpp \
                 src/SFML/BattleSpellUpdater.cpp \
                 src/SFML/Sprite/Sprite.cpp \
                 src/SFML/Sprite/Animation.cpp \
+                src/SFML/Sprite/Frame.cpp \
                 src/SFML/Sprite/SpriteManager.cpp \
                 src/Client.cpp \
                 src/Chat/Chat.cpp \
