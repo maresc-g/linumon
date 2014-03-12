@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Tue Feb 25 17:09:12 2014 laurent ansel
+// Last update Wed Mar 12 16:01:24 2014 cyril jourdain
 //
 
 #include			"Map/Map.hh"
@@ -134,6 +134,8 @@ std::list<AEntity *>		*Map::getPlayers(std::string const &zone)
 
 Player				*Map::getPlayerById(unsigned int const id)
 {
+  Player *tmp = NULL;
+
   this->lock();
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
     {
@@ -141,13 +143,16 @@ Player				*Map::getPlayerById(unsigned int const id)
 	{
 	  if ((*itb)->getId() == id)
 	    {
-	      this->unlock();
-	      return (static_cast<Player *>(*itb));
+	      // this->unlock();
+	      // return (static_cast<Player *>(*itb));
+	      tmp = (static_cast<Player *>(*itb));
+	      std::cout << "Entity with id " << id << "found !" << std::endl;
 	    }
 	}
     }
+  std::cout << "\n" << std::endl;
   this->unlock();
-  return (NULL);
+  return (tmp);
 }
 
 void				Map::changeZone(std::string const &source, std::string const &dest, AEntity *entity)

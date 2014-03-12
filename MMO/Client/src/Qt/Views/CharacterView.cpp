@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:05:10 2013 cyril jourdain
-// Last update Fri Feb 28 14:36:05 2014 guillaume marescaux
+// Last update Wed Mar 12 13:58:28 2014 cyril jourdain
 //
 
 #include		"Qt/Views/CharacterView.hh"
@@ -163,7 +163,7 @@ void		CharacterView::on_b_play_clicked()
       Client::getInstance()->choosePlayer((*_charList)[_charNumber]->getPlayer());
       while (**(_wMan->getState()) == CLIENT::CHOOSE_PLAYER || **(_wMan->getState()) == CLIENT::LOADING)
 	usleep(100);
-      if (**(_wMan->getState()) == CLIENT::PLAYING) {
+      if (**(_wMan->getState()) == CLIENT::LOADED) {
 	_wMan->hideCharacter();
 	_wMan->showSfmlView();
       }

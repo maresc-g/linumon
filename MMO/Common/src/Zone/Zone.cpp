@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Wed Mar 12 15:22:13 2014 antoine maitre
+// Last update Wed Mar 12 15:56:44 2014 cyril jourdain
 //
 
 #include			<iostream>
@@ -89,7 +89,7 @@ void				Zone::delPlayer(AEntity *player)
       tmp = static_cast<Player *>(player);
       cas = this->getCase(tmp->getX(), tmp->getY());
       if (cas)
-	cas->delAEntity(player);
+	cas->delAEntity(player->getId());
     }
 }
 
