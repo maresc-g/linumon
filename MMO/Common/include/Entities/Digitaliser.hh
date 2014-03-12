@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Wed Mar 12 17:09:23 2014 laurent ansel
+// Last update Wed Mar 12 20:34:31 2014 laurent ansel
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -18,13 +18,13 @@
 class			Mob;
 class			Player;
 
-class			Digitaliser : public ISerialization, public ContainerWrapper<std::list<Mob *>>
+class			Digitaliser : public ISerialization, public ContainerWrapper<std::list<Mob *> >
 {
 public:
   typedef container_type	Mobs;
 
 private:
-  container_type		_battleMobs;
+  container_type	_battleMobs;
   Player const		*_player;
 
 private:
@@ -66,5 +66,6 @@ public:
 };
 
 # include		"Entities/Player.hh"
+# include		"Entities/Mob.hh"
 
 #endif

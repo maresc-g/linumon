@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Wed Mar 12 19:27:44 2014 guillaume marescaux
+// Last update Wed Mar 12 20:26:46 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -24,6 +24,7 @@
 #include			"Error/Error.hpp"
 #include			"Entities/Players.hh"
 #include			"Zone/Zone.hh"
+#include			"Entities/Spell.hh"
 
 class				Protocol;
 

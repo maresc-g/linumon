@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Wed Mar 12 17:19:55 2014 laurent ansel
+// Last update Wed Mar 12 20:55:40 2014 laurent ansel
 //
 
 #include			<stdlib.h>
@@ -141,7 +141,7 @@ void				Inventory::addItem(AItem *item, unsigned int const nb)
 	tmp = *it;
       if (**it == item->getName())
 	{
-	  if (**it + nbTmp < 99)
+	  if (**it + nbTmp <= 99)
 	    {
 	      **it += nbTmp;
 	      set = true;
@@ -290,18 +290,23 @@ void				Inventory::loadInventory()
       auto			membersNb = file->getMemberNames();
 
       for (auto inb = membersNb.begin() ; inb != membersNb.end() ; ++inb)
-	{
-	  auto			members = (*file)[*inb].getMemberNames();
-	  AItem			*item;
+      	{
+      	  auto			members = (*file)[*inb].getMemberNames();
+      	  AItem			*item;
 
-	  this->getContainer().push_back(new Stack(atol((*inb).c_str())));
-	  for (auto it = members.begin() ; it != members.end() ; ++it)
-	    {
-	      item = LoaderManager::getInstance()->getItemLoader(*it);
-	      if (item)
-		this->addItem(item, (*file)[*it].asUInt());
-	    }
-	}
+	  std::cout << "ID = " << *inb << std::endl;
+		  //		  this->getContainer().push_back(new Stack(atol((*inb).c_str())));
+      	  for (auto it = members.begin() ; it != members.end() ; ++it)
+      	    {
+	      std::cout << "ITEM = " << *it << std::endl;
+      	      item = LoaderManager::getInstance()->getItemLoader(*it);
+      	      if (item)
+		{
+		  std::cout << "NB = " << (*file)[*inb][*it].asUInt() << std::endl;
+		  this->addItem(item, (*file)[*inb][*it].asUInt());
+		}
+      	    }
+      	}
     }
 }
 
