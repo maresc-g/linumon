@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Wed Mar 12 22:39:38 2014 laurent ansel
+// Last update Wed Mar 12 23:29:50 2014 laurent ansel
 //
 
 #include			<list>
@@ -381,6 +381,8 @@ void				Server::run()
 	this->actionServer();
       if (!quit)
 	this->actionClient();
+      if (!quit)
+	this->newClientStateInStandBy(0, Client::eState::GAME, true);
     }
   this->debug("Shutdown Server ...");
   this->debug("GoobBye !");
