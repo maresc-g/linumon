@@ -246,6 +246,9 @@ void			PlayerSprite::moveFromServer(sf::View *v)
   if (_dir == NONE || _dir == WAITING)
     {
       // std::cout << "Server player pos : " << Map::getInstance()->getPlayerById(_playerId)->getY() << std::endl;
+      std::cout << "ID : " << _playerId << "pos : " << _pos.x << "/" << _pos.y << "-" <<
+	Map::getInstance()->getPlayerById(_playerId)->getX() << "/" <<
+	Map::getInstance()->getPlayerById(_playerId)->getY() << std::endl;
       _deltaPos.x = (_pos.x - Map::getInstance()->getPlayerById(_playerId)->getX()) * -CASE_SIZE;
       _deltaPos.y = (_pos.y - Map::getInstance()->getPlayerById(_playerId)->getY()) * -CASE_SIZE;
       if (_deltaPos.y != 0)
@@ -263,6 +266,7 @@ void			PlayerSprite::updateMoves(sf::Clock *clock, sf::View *view)
   float elapsedTime = clock->getElapsedTime().asMicroseconds();
   float px = elapsedTime * _speed / 1000000;
 
+  // std::cout << "PLAYER DIR : "<< _dir << std::endl;
   if (_dir == eDir::DOWN)
     moveDown(px, view);
   else if (_dir == eDir::UP)

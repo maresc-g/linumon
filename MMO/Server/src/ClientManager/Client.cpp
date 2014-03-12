@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar 12 16:35:50 2014 laurent ansel
+// Last update Wed Mar 12 17:55:34 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -260,6 +260,7 @@ void				Client::move(Player::PlayerCoordinate *coord)
 	      ret = Map::getInstance()->move(_player);
 	      if (ret)
 		{
+		  std::cout << "ENVOIE DU NEW ZONE" << std::endl;
 		  Server::getInstance()->callProtocol<Player * , Zone *, Zone *>("NEWZONE", _id, _player, Map::getInstance()->getZone(oldZone), Map::getInstance()->getZone(_player->getZone()));
 		  delete trame;
 		  delete header;
@@ -274,12 +275,12 @@ void				Client::move(Player::PlayerCoordinate *coord)
 		  //     _state = BATTLE;
 		}
 	    }
-	  if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
-	    {
-	      std::cout << "Le getSafe RENVOIE TRUE, JE VAIS RENTRER DANS INBATTLE" << std::endl;
-	      if (BattleManager::getInstance()->inBattle(_player))
-	  	_state = BATTLE;
-	    }
+	  // if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
+	  //   {
+	  //     std::cout << "Le getSafe RENVOIE TRUE, JE VAIS RENTRER DANS INBATTLE" << std::endl;
+	  //     if (BattleManager::getInstance()->inBattle(_player))
+	  // 	_state = BATTLE;
+	  //   }
 	}
     }
 }
