@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Wed Mar  5 21:52:26 2014 laurent ansel
+// Last update Wed Mar 12 13:47:57 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -44,7 +44,7 @@ public:
   void				canWrite(FD const fd, std::string const &protocole);
   bool				search(FD const fd) const;
   void				getClients(std::list<FD> &list) const;
-  bool				setTalents(Trame *trame) const;
+  bool				setTalents(FD const fd, std::string const &talent, unsigned int const pts) const;
   bool				playerObject(FD const fd, unsigned int const target, unsigned int const item) const;
   bool				playerObject(FD const fd, unsigned int const item, int const nb) const;
   bool				stateBattle(FD const fd, bool const start, bool const end, Player *&player) const;
