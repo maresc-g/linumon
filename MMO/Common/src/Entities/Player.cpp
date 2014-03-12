@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Mar 11 13:46:37 2014 alexis mestag
+// Last update Wed Mar 12 16:09:55 2014 guillaume marescaux
 //
 
 #include			<functional>
@@ -588,4 +588,9 @@ bool				Player::doGather(std::string const &job, std::string const &res, std::li
 void				Player::mobtoBattleMob(unsigned int const id)
 {
   this->_digitaliser->mobtoBattleMob(id);
+}
+
+void				Player::battleMobtoMob(unsigned int const id)
+{
+  this->_digitaliser->battleMobtoMob(id);
 }

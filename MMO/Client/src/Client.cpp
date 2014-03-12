@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Tue Mar 11 19:25:39 2014 guillaume marescaux
+// Last update Wed Mar 12 16:57:08 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -112,5 +112,11 @@ void				Client::heal(void) { _core->heal(); }
 void				Client::disconnect(void) { _core->disconnect(); }
 
 void				Client::switchPlayer(void) { _core->switchPlayer(); }
+
+void				Client::mobtoBattleMob(unsigned int idMob) { _core->mobtoBattleMob(idMob); }
+
+void				Client::battleMobtoMob(unsigned int idMob) { _core->battleMobtoMob(idMob); }
+
+void				Client::switchMobs(unsigned int idMob1, unsigned int idMob2) { _core->switchMobs(idMob1, idMob2); }
 
 //--------------------------------------END METHODS--------------------------------------------
