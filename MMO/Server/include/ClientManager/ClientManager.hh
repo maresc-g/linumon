@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Wed Mar  5 21:52:21 2014 laurent ansel
+// Last update Wed Mar 12 13:48:47 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -42,7 +42,7 @@ public:
   void				setInfoClient(FD const fd, User *user) const;
   void				setInfoClient(FD const fd, Player::PlayerCoordinate *coord) const;
   void				sendListPlayers(FD const fd) const;
-  void				setPlayerTalents(Trame *trame) const;
+  void				setPlayerTalent(FD const fd, std::string const &talent, unsigned int const pts) const;
   void				playerObject(FD const fd, unsigned int const target, unsigned int const item) const;
   void				playerObject(FD const fd, unsigned int const item, int const nb) const;
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Mar 11 23:55:37 2014 cyril jourdain
+// Last update Wed Mar 12 15:26:27 2014 cyril jourdain
 //
 
 #include			"ClientManager/Client.hh"
@@ -57,7 +57,11 @@ void				Client::clear()
   if (_user)
     _user->setId(0);
   _user = NULL;
-  //  delete _player;
+
+  Repository<Player>	*rp = &Database::getRepository<Player>();
+
+  rp->smartUpdate(*_player);
+  delete _player;
   _player = NULL;
 }
 
@@ -76,8 +80,13 @@ void				Client::disconnectUser()
   if (_user)
     _user->setId(0);
   _user = NULL;
+
+  Repository<Player>	*rp = &Database::getRepository<Player>();
+
+  rp->smartUpdate(*_player);
+  delete _player;
+
   _player = NULL;
-  /*persist player*/
 }
 
 void				Client::disconnectPlayer()
@@ -92,8 +101,14 @@ void				Client::disconnectPlayer()
       Map::getInstance()->delPlayer(_player->getZone(), _player);
       Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
     }
+
+  Repository<Player>	*rp = &Database::getRepository<Player>();
+
+  rp->smartUpdate(*_player);
+  delete _player;
+
   _player = NULL;
-  /*persist player*/
+
   this->sendListPlayers();
 }
 
@@ -245,6 +260,7 @@ void				Client::move(Player::PlayerCoordinate *coord)
 	      ret = Map::getInstance()->move(_player);
 	      if (ret)
 		{
+		  std::cout << "ENVOIE DU NEW ZONE" << std::endl;
 		  Server::getInstance()->callProtocol<Player * , Zone *, Zone *>("NEWZONE", _id, _player, Map::getInstance()->getZone(oldZone), Map::getInstance()->getZone(_player->getZone()));
 		  delete trame;
 		  delete header;
@@ -259,21 +275,21 @@ void				Client::move(Player::PlayerCoordinate *coord)
 		  //     _state = BATTLE;
 		}
 	    }
-	  if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
-	    {
-	      std::cout << "Le getSafe RENVOIE TRUE, JE VAIS RENTRER DANS INBATTLE" << std::endl;
-	      if (BattleManager::getInstance()->inBattle(_player))
-	  	_state = BATTLE;
-	    }
+	  // if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
+	  //   {
+	  //     std::cout << "Le getSafe RENVOIE TRUE, JE VAIS RENTRER DANS INBATTLE" << std::endl;
+	  //     if (BattleManager::getInstance()->inBattle(_player))
+	  // 	_state = BATTLE;
+	  //   }
 	}
     }
 }
 
-void				Client::updateTalents(Trame *trame) const
+void				Client::updateTalents(std::string const &talent, unsigned int const pts) const
 {
   if (_state == GAME && _player)
     {
-      TalentManager::updateTalents(trame, _player);
+      _player->modifyTalent(pts, talent);
       Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
     }
 }

@@ -5,13 +5,14 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Nov 14 18:56:32 2013 guillaume marescaux
-// Last update Thu Jan 30 14:50:09 2014 guillaume marescaux
+// Last update Wed Mar 12 13:18:28 2014 cyril jourdain
 //
 
 #ifndef 		__MUTEXVAR_HPP__
 # define 		__MUTEXVAR_HPP__
 
 #include		"Mutex/Mutex.hpp"
+#include		<iostream>
 
 template<class T>
 class			MutexVar

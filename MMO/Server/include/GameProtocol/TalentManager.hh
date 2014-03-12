@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:23:53 2014 laurent ansel
-// Last update Mon Feb 10 14:43:25 2014 laurent ansel
+// Last update Wed Mar 12 13:46:42 2014 laurent ansel
 //
 
 #ifndef 			__TALENTMANAGER_HH__
@@ -21,8 +21,6 @@ private:
 public:
   TalentManager();
   virtual ~TalentManager();
-
-  static void			updateTalents(Trame *trame, Player *player);
 };
 
 #endif

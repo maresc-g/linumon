@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Wed Mar 12 16:09:02 2014 guillaume marescaux
+// Last update Wed Mar 12 19:27:18 2014 guillaume marescaux
 //
 
 #ifndef			__PLAYER_HH__
@@ -119,6 +119,7 @@ public:
   void				addTalent(Talent const &talent);
   Talents const			&getTalents() const;
   void				setTalents(Talents const &list);
+  bool				modifyTalent(unsigned int const pts, std::string const &talentModel);
 
   TalentTree const		&getTalentTree() const;
   void				setTalentTree(TalentTree const &tree);
@@ -186,6 +187,7 @@ public:
 #  pragma db member(Player::_limit) virtual(unsigned int) get(_inventory->getLimit()) set(_inventory->setLimit(?))
 #  pragma db member(Player::jobs) virtual(Jobs::container_type) get(_jobs->getContainer()) set(_jobs->setContainer(?)) value_not_null
 #  pragma db member(Player::talents) virtual(Talents::container_type) get(_talents->getContainer()) set(_talents->setContainer(?)) value_not_null
+#  pragma db member(Player::currentPts) virtual(unsigned int) get(_talents->getCurrentPts()) set(_talents->setCurrentPts(?))
 #  pragma db member(Player::_talentTree) not_null
 #  pragma db member(Player::_user) not_null
 # endif

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Sun Mar  2 22:33:20 2014 antoine maitre
-// Last update Mon Mar 10 01:31:38 2014 alexis mestag
+// Last update Wed Mar 12 11:54:03 2014 antoine maitre
 //
 
 #include			"AI/AI.hh"
@@ -40,7 +40,8 @@ void				AI::remove(unsigned int const target)
 
 int				AI::getRandomMob()
 {
-  int i = rand() % this->_mobs.size();
+  int i = rand() % this->getDigitaliser().getBattleMobs().size();
+
   for (auto it = this->_mobs.begin(); it != this->_mobs.end() && i >= 0; it++)
     {
       if (i == 0 && (*it)->getCurrentStat("HP") != 0)
@@ -71,4 +72,3 @@ std::tuple<unsigned int const, unsigned int const, Spell const *>			AI::action(u
   std::tuple<unsigned int const, unsigned int const, Spell const *> ret(mob, this->getRandomMob(), tmp);
   return (ret);
 }
-

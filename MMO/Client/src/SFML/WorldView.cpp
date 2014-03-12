@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Wed Mar 12 16:20:22 2014 guillaume marescaux
+// Last update Wed Mar 12 19:28:27 2014 guillaume marescaux
 //
 
 #include		"SFML/WorldView.hh"
@@ -62,16 +62,10 @@ void			WorldView::onInit()
   // 		  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
   if (zone)
     _backgroundTexture->create(zone->getSizeX() * CASE_SIZE, zone->getSizeY()*CASE_SIZE);
-  qDebug() << "################### SFML INITIALIZE DEBUG ######################";
-  qDebug() << "Load Background map";
   loadBackgroundMap();
-  qDebug() << "Load Background Sprite";
   loadBackgroundSprite();
-  qDebug() << "Load player list";
   loadPlayerList();
-  qDebug() << "Load Entities";
   loadEntities();
-  qDebug() << "#########################################################";
 }
 
 void			WorldView::onUpdate()
@@ -90,10 +84,13 @@ void			WorldView::onUpdate()
 
 void			WorldView::onKeyEvent(sf::Event const &event)
 {
-  try {
-    (this->*(_keyMap->at(event.key.code)))();
-  }
-  catch (std::out_of_range const &e) {
+  CLIENT::eState s = **(_wMan->getState());
+  if (s == CLIENT::PLAYING){
+    try {
+      (this->*(_keyMap->at(event.key.code)))();
+    }
+    catch (std::out_of_range const &e) {
+    }
   }
 }
 
@@ -149,6 +146,9 @@ void			WorldView::resetView()
   for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
     delete *it;
   _playerList->clear();
+  for (auto it = _topLayer->begin(); it != _topLayer->end(); ++it)
+    delete *it;
+  _topLayer->clear();
   for (auto it = _spriteMap->begin(); it != _spriteMap->end(); it++)
     {
       for (auto it2 = it->second.begin(); it2 != it->second.end(); it2++)

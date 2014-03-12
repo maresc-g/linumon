@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 17:41:44 2014 alexis mestag
-// Last update Tue Mar 11 13:22:52 2014 alexis mestag
+// Last update Wed Mar 12 11:12:02 2014 alexis mestag
 //
 
 #ifndef				__PLAYERREPOSITORY_HPP__
@@ -33,6 +33,7 @@ public:
     /*
     ** Updating Inventory
     */
+    p.getInventory().serializationInventory();
 
     /*
     ** Updating Talents

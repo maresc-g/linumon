@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Wed Mar 12 00:40:26 2014 laurent ansel
+// Last update Wed Mar 12 15:04:50 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -101,18 +101,6 @@ void				BattleUpdater::run()
   this->_mutex->lock();
   while (!_quit)
     {
-      // if (!this->_trames.empty())
-      // 	{
-      // 	  auto tmp = this->_trames.front();
-      // 	  if (this->_trames.front()->isMember("CAPTURE"))
-      // 	    this->capture(_trames.front());
-      // 	  else if (this->_trames.front()->isMember("SPELL"))
-      // 	    this->spell(_trames.front());
-      // 	  else if (this->_trames.front()->isMember("SWITCH"))
-      // 	    this->dswitch(_trames.front());
-      // 	  this->_trames.pop_front();
-      // 	  delete tmp;
-      // 	}
       if (_nbTrame > 0)
 	for (auto it = _trames->begin() ; it != _trames->end() ; ++it)
 	  {
@@ -128,6 +116,16 @@ void				BattleUpdater::run()
 		_nbTrame--;
 	      }
 	  }
+      else
+	{
+	  for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
+	    if ((*it)->checkEnd())
+	      {
+		this->_battles->remove((*it));
+		delete ((*it));
+		break;
+	      }
+	}
       this->_mutex->unlock();
       usleep(10000);
       this->_mutex->lock();
@@ -224,20 +222,16 @@ int				BattleUpdater::getNumOfBattle() const
 
 void				BattleUpdater::disconnect(unsigned int const idPlayer)
 {
-  std::cout << "Je rentre dans le disconnect de BattleUpdater" << std::endl;
   for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     {
       if ((*it)->isInThisBattle(idPlayer))
 	{
-	  std::cout << "C est gagne!" << std::endl;
-	  auto tmp = *it;
+	  (*it)->setSuccess(false);
 	  this->_battles->remove((*it));
-	  std::cout << "C est gagne a peu pres!" << std::endl;
-	  delete tmp;
+	  delete (*it);
 	  break;
 	}
     }
-  std::cout << "Je sors du disconnect de BattleUpdater" << std::endl;
 }
 
 void				BattleUpdater::setQuit(bool const quit)
