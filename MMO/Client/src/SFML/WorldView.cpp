@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Tue Mar 11 23:52:52 2014 cyril jourdain
+// Last update Wed Mar 12 10:49:11 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -90,10 +90,13 @@ void			WorldView::onUpdate()
 
 void			WorldView::onKeyEvent(sf::Event const &event)
 {
-  try {
-    (this->*(_keyMap->at(event.key.code)))();
-  }
-  catch (std::out_of_range const &e) {
+  CLIENT::eState s = **(_wMan->getState());
+  if (s == CLIENT::PLAYING){
+    try {
+      (this->*(_keyMap->at(event.key.code)))();
+    }
+    catch (std::out_of_range const &e) {
+    }
   }
 }
 

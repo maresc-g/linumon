@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:40:51 2014 laurent ansel
-// Last update Fri Mar  7 13:49:42 2014 laurent ansel
+// Last update Wed Mar 12 12:48:39 2014 laurent ansel
 //
 
 #include			<functional>
@@ -70,12 +70,12 @@ bool				Trade::stopTrade(unsigned int const idPlayer)
       if (_player2->getId() == idPlayer)
 	{
 	  Server::getInstance()->callProtocol<unsigned int>("REFUSE", _player1->getUser().getId(), getId());
-	  ClientManager::getInstance()->endTrade(_player1->getUser().getId());
+	  //	  ClientManager::getInstance()->endTrade(_player1->getUser().getId()); probleme mutex
 	}
       if (_player1->getId() == idPlayer)
 	{
 	  Server::getInstance()->callProtocol<unsigned int>("REFUSE", _player2->getUser().getId(), getId());
-	  ClientManager::getInstance()->endTrade(_player2->getUser().getId());
+	  //	  ClientManager::getInstance()->endTrade(_player2->getUser().getId()); probleme mutex
 	}
       return (true);
     }

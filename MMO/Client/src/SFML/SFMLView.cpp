@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Mar 12 00:49:43 2014 cyril jourdain
+// Last update Wed Mar 12 11:13:44 2014 cyril jourdain
 //
 
 /*
@@ -21,6 +21,7 @@
 		check if it can move (map border)
  */
 
+#include <QDebug>
 #include		<stdexcept>
 #include		"SFML/SFMLView.hpp"
 #include		"Map/Map.hh"
@@ -114,6 +115,7 @@ void			SFMLView::onUpdate()
       static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
       static_cast<BattleView*>(_battleView)->quitBattle();
       *(_wMan->getState()) = CLIENT::PLAYING;      
+      _grow = false;
       break;
     case CLIENT::ENTER_BATTLE:
       _mainView->rotate(-10);

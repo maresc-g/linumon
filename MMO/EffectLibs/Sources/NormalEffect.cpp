@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 27 16:57:56 2014 alexis mestag
-// Last update Tue Mar 11 16:08:48 2014 alexis mestag
+// Last update Wed Mar 12 13:35:54 2014 antoine maitre
 //
 
 #include				"NormalEffect.hh"

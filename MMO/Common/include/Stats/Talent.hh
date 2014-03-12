@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 14:34:15 2014 alexis mestag
-// Last update Tue Mar 11 21:47:37 2014 alexis mestag
+// Last update Wed Mar 12 13:23:20 2014 laurent ansel
 //
 
 #ifndef				__TALENT_HH__
@@ -39,6 +39,7 @@ public:
 
   int				getCurrentPoints() const;
   void				setCurrentPoints(int const currentPoints);
+  bool				addPts(unsigned int const pts);
 
   virtual bool			serialization(Trame &trame) const;
   static Talent			*deserialization(Trame const &trame);
