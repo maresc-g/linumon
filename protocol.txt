@@ -45,8 +45,8 @@
 			#  end
 
 			#  talents
-			TALENTS : {talents : List of Talent} -> client
-			UPDATETALENTS : {player : Player} -> server
+			TALENTS : {talentModel : string => unsigned int : pts, ...} -> client
+			UPDATETALENTS : {playerStat : Stat} -> server
 			#  end
 
 			#  craft

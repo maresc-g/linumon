@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Mar 11 23:55:37 2014 cyril jourdain
+// Last update Wed Mar 12 11:13:25 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -57,7 +57,11 @@ void				Client::clear()
   if (_user)
     _user->setId(0);
   _user = NULL;
-  //  delete _player;
+
+  Repository<Player>	*rp = &Database::getRepository<Player>();
+
+  rp->smartUpdate(*_player);
+  delete _player;
   _player = NULL;
 }
 
@@ -76,8 +80,13 @@ void				Client::disconnectUser()
   if (_user)
     _user->setId(0);
   _user = NULL;
+
+  Repository<Player>	*rp = &Database::getRepository<Player>();
+
+  rp->smartUpdate(*_player);
+  delete _player;
+
   _player = NULL;
-  /*persist player*/
 }
 
 void				Client::disconnectPlayer()
@@ -92,8 +101,14 @@ void				Client::disconnectPlayer()
       Map::getInstance()->delPlayer(_player->getZone(), _player);
       Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
     }
+
+  Repository<Player>	*rp = &Database::getRepository<Player>();
+
+  rp->smartUpdate(*_player);
+  delete _player;
+
   _player = NULL;
-  /*persist player*/
+
   this->sendListPlayers();
 }
 

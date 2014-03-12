@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 14:51:25 2014 alexis mestag
-// Last update Mon Mar 10 19:55:44 2014 alexis mestag
+// Last update Wed Mar 12 13:29:52 2014 laurent ansel
 //
 
 #include			"Stats/Talent.hh"
@@ -69,6 +69,18 @@ int				Talent::getCurrentPoints() const
 void				Talent::setCurrentPoints(int const currentPoints)
 {
   _currentPoints = currentPoints;
+}
+
+bool				Talent::addPts(unsigned int const pts)
+{
+  bool				ret = false;
+
+  if (pts + _currentPoints <= static_cast<unsigned int>(_model->getMaxPoints()))
+    {
+      _currentPoints += pts;
+      ret = true;
+    }
+  return (ret);
 }
 
 bool				Talent::serialization(Trame &trame) const
