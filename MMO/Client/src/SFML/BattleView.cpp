@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Tue Mar 11 15:17:44 2014 cyril jourdain
+// Last update Wed Mar 12 01:00:13 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -125,14 +125,14 @@ void			BattleView::drawView()
   for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
     {
       (*it)->resetHUDPos();
-      (*it)->update(*_sfmlView->getMainClock());
       _sfmlView->draw(*(*it));
+      (*it)->update(*_sfmlView->getMainClock());
     }
   for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
     {
       (*it)->resetHUDPos();
-      (*it)->update(*_sfmlView->getMainClock());
       _sfmlView->draw(*(*it));
+      (*it)->update(*_sfmlView->getMainClock());
     }
   _sfmlView->draw(*_selection);
   _sfmlView->draw(*_spellSprite);

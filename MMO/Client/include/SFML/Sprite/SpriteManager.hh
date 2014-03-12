@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb  3 14:02:47 2014 cyril jourdain
-// Last update Fri Mar  7 11:47:07 2014 cyril jourdain
+// Last update Tue Mar 11 23:11:33 2014 cyril jourdain
 //
 
 #ifndef 		__SPRITEMANAGER_HH__
@@ -30,6 +30,7 @@ public:
 
 public:
   void			loadTextures(std::string const &filePath);
+  void			loadSprites(std::string const &filePath);
   void			loadAnimations(std::string const &jsonPath);
   Sprite		*getSprite(std::string const &name) const;
   Sprite		*copySprite(std::string const &name);

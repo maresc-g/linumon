@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 20 13:26:38 2014 alexis mestag
-// Last update Thu Mar  6 14:14:51 2014 laurent ansel
+// Last update Tue Mar 11 16:18:29 2014 alexis mestag
 //
 
 #ifndef					__AUTHORIZEDSTATKEYS_HH__
@@ -45,6 +45,7 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(AuthorizedStatKeys)
+#  pragma db member(AuthorizedStatKeys::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 #  pragma db member(AuthorizedStatKeys::keys) virtual(AuthorizedStatKeys::container_type) get(getContainer()) set(setContainer(?))
 # endif
 

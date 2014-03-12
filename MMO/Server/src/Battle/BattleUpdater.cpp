@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Tue Mar 11 14:09:55 2014 antoine maitre
+// Last update Wed Mar 12 00:40:26 2014 laurent ansel
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -230,9 +230,10 @@ void				BattleUpdater::disconnect(unsigned int const idPlayer)
       if ((*it)->isInThisBattle(idPlayer))
 	{
 	  std::cout << "C est gagne!" << std::endl;
+	  auto tmp = *it;
 	  this->_battles->remove((*it));
 	  std::cout << "C est gagne a peu pres!" << std::endl;
-	  delete (*it);
+	  delete tmp;
 	  break;
 	}
     }

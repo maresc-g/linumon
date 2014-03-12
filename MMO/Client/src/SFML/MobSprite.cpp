@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:46:04 2014 cyril jourdain
-// Last update Tue Mar 11 18:12:32 2014 guillaume marescaux
+// Last update Tue Mar 11 20:43:33 2014 cyril jourdain
 //
 
 #include		"SFML/MobSprite.hh"
@@ -22,8 +22,8 @@ MobSprite::MobSprite(sf::String const &name, sf::Font * font, WindowManager *wMa
 {
   _hud->hide();
   _spellBar->hide();
-  _pb->hide();
   _pb->resize(100,20);
+  _pb->hide();
   _isVisible = false;
   _pb->setFormat("%v/%m");
   _pb->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -48,7 +48,7 @@ void			MobSprite::initHealthBar(Mob const &mob)
 {
   _mob = &mob;
   // std::cout << "MOB NAME = " << mob.getName() << " HP MAX = " << mob.getStat("HP") << " HP CUR = " << mob.getTmpStat("HP") << std::endl;
-  upHealthBar();
+  // upHealthBar();
 }
 
 void			MobSprite::upHealthBar()
@@ -72,7 +72,7 @@ void			MobSprite::upHealthBar()
     }
   else
     _pb->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(GREEN) + "; }").c_str());
-  _pb->show();
+  // _pb->show();
 }
 
 void			MobSprite::setInfoVisibility(bool v)

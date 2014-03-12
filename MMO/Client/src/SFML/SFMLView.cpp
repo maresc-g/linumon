@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Tue Mar 11 15:16:50 2014 cyril jourdain
+// Last update Wed Mar 12 00:49:43 2014 cyril jourdain
 //
 
 /*
@@ -56,13 +56,14 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
      std::cout << "Error while loading font" << std::endl;
   _reset = false;
   _sMan->loadTextures("./Res/textureList.json");
-  _sMan->loadAnimations("./Res/perso1.json");
-  _sMan->loadAnimations("./Res/textures.json");
-  _sMan->loadAnimations("./Res/selectedPlayer.json");
-  _sMan->loadAnimations("./Res/Spell/Lance-Flamme.json");
-  _sMan->loadAnimations("./Res/Spell/Surf.json");
-  _sMan->loadAnimations("./Res/Spell/Boutefeu.json");
-  _sMan->loadAnimations("./Res/Spell/Danse-Fleur.json");
+  _sMan->loadSprites("./Res/spriteList.json");
+  // _sMan->loadAnimations("./Res/perso1.json");
+  // _sMan->loadAnimations("./Res/textures.json");
+  // _sMan->loadAnimations("./Res/selectedPlayer.json");
+  // _sMan->loadAnimations("./Res/Spell/Lance-Flamme.json");
+  // _sMan->loadAnimations("./Res/Spell/Surf.json");
+  // _sMan->loadAnimations("./Res/Spell/Boutefeu.json");
+  // _sMan->loadAnimations("./Res/Spell/Danse-Fleur.json");
   _grow = false;
   _enterBattle = false;
 

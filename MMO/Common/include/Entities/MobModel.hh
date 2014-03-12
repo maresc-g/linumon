@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:21:00 2014 alexis mestag
-// Last update Mon Mar  3 22:45:27 2014 alexis mestag
+// Last update Tue Mar 11 21:42:18 2014 alexis mestag
 //
 
 #ifndef			__MOBMODEL_HH__
@@ -47,9 +47,10 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(MobModel)
-#  pragma db member(MobModel::_type) not_null column(type_id)
 #  pragma db member(MobModel::_spells) transient
-#  pragma db member(MobModel::spells) virtual(Spells::container_type) get(_spells->getContainer()) set(_spells->setContainer(?))
+#  pragma db member(MobModel::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
+#  pragma db member(MobModel::_type) not_null
+#  pragma db member(MobModel::spells) virtual(Spells::container_type) get(_spells->getContainer()) set(_spells->setContainer(?)) value_not_null
 # endif
 
 #endif

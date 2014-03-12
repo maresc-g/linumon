@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Mon Mar 10 16:07:57 2014 antoine maitre
+## Last update Tue Mar 11 21:28:13 2014 alexis mestag
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
@@ -45,8 +45,6 @@ ENTITIES_SRC:=		$(addprefix $(ENTITIES)/, $(ENTITIES_SRC))
 SRCCOMMON+=		$(ENTITIES_SRC)
 
 ODB_ENTITIES+=		ACharacter.hh		\
-			AEntity.hh		\
-			AItem.hh		\
 			AStatEntity.hh		\
 			Consumable.hh		\
 			Craft.hh		\

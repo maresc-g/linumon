@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb 28 15:08:25 2014 laurent ansel
-// Last update Mon Mar  3 22:01:18 2014 alexis mestag
+// Last update Tue Mar 11 21:38:49 2014 alexis mestag
 //
 
 #ifndef			__GATHER_HH__
@@ -53,7 +53,7 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db value(Gather)
 #  pragma db member(Gather::_level) transient
-#  pragma db member(Gather::_ressource)
+#  pragma db member(Gather::_ressource) not_null
 #  pragma db member(Gather::level) virtual(Level::type) get(getLevel()) set(setLevel(?))
 #  pragma db member(Gather::exp) virtual(Level::type) get(getExp()) set(setExp(?))
 # endif

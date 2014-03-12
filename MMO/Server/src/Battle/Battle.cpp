@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Mar 11 17:16:52 2014 laurent ansel
+// Last update Wed Mar 12 00:37:15 2014 laurent ansel
 //
 
 #include				"Battle/Battle.hh"
@@ -194,10 +194,10 @@ bool					Battle::isInThisBattle(unsigned int const idPlayer)
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     if ((*it)->getId() == idPlayer)
       {
-	this->_money = 0;
-	this->_exp = 0;
-	this->_idLooser = idPlayer;
-	this->trameEndBattle();
+	// this->_money = 0;
+	// this->_exp = 0;
+	// this->_idLooser = idPlayer;
+	// this->trameEndBattle();
 	return (true);
       }
   return (false);

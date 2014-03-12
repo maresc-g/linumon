@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:07:00 2014 alexis mestag
-// Last update Fri Mar  7 21:45:51 2014 laurent ansel
+// Last update Tue Mar 11 21:48:12 2014 alexis mestag
 //
 
 #ifndef				__TALENTMODEL_HH__
@@ -55,6 +55,8 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(TalentModel)
+#  pragma db member(TalentModel::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
+#  pragma db member(TalentModel::_effectLib) not_null
 # endif
 
 #endif

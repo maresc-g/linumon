@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Wed Mar  5 16:36:15 2014 laurent ansel
+// Last update Tue Mar 11 21:37:13 2014 alexis mestag
 //
 
 #ifndef 		__CONSUMABLE_HH__
@@ -48,7 +48,6 @@ protected:
 
 public:
   Consumable(Consumable const &rhs);
-
   virtual ~Consumable();
 
 # ifndef		CLIENT_COMPILATION
@@ -64,6 +63,8 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(Consumable)
 #  pragma db member(Consumable::_consumableType) transient
+#  pragma db member(Consumable::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
+#  pragma db member(Consumable::_effectLib) not_null
 # endif
 
 #endif

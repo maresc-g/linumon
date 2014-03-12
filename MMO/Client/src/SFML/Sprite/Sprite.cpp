@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Tue Mar 11 16:20:10 2014 cyril jourdain
+// Last update Wed Mar 12 00:58:53 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -90,7 +90,7 @@ Animation		*Sprite::operator[](std::string const &id)
 
 void			Sprite::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-  if (_visible && _texture && _vertex) {
+  if (_visible && _texture && _vertex && _current != "" && !(*_anim)[_current]->isEnded()) {
     states.texture = _texture;
     states.transform *= getTransform();
     target.draw(_vertex, 4, sf::Quads, states);
@@ -103,7 +103,7 @@ void			Sprite::update(sf::Clock &clock)
 
   if (_current != "" && (*_anim)[_current] && _playing && !(*_anim)[_current]->isEnded())
     {
-      (*_anim)[_current]->update(clock); /* NOT WORKING */
+      (*_anim)[_current]->update(_clock); /* NOT WORKING */
       frame = (*_anim)[_current]->getCurrentCoord();
       _vertex[0].texCoords = sf::Vector2f(frame->left, frame->top);
       _vertex[1].texCoords = sf::Vector2f(frame->left, frame->top + frame->height);
@@ -116,6 +116,7 @@ void			Sprite::update(sf::Clock &clock)
     }
   else
     _current = "";
+  _clock.restart();
 }
 
 bool			Sprite::isClicked(float const x, float const y) const
@@ -149,11 +150,12 @@ void			Sprite::addAnim(std::string const &name)
 
 void			Sprite::play(std::string const &name)
 {
+  if (_current == "" || (*_anim)[_current]->isEnded())
+    _clock.restart();
   _current = name;
   _playing = true;
   if (_current != "")
     (*_anim)[_current]->play(true);
-
 }
 
 void			Sprite::play()
@@ -220,4 +222,11 @@ bool			Sprite::isAnimFinished() const
   if ((*_anim)[_current] && (*_anim)[_current]->isEnded())
     return true;
   return false;
+}
+
+sf::Vector2f		*Sprite::getCurrentOffset() const
+{
+  if (_current != "" && (*_anim)[_current])
+    return _anim->at(_current)->getFrameOffset();
+  return NULL;
 }

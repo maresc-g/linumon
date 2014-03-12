@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Tue Mar 11 12:32:00 2014 antoine maitre
+// Last update Tue Mar 11 19:16:23 2014 laurent ansel
 //
 
 #include			"Battle/BattleManager.hh"
@@ -45,7 +45,7 @@ BattleManager::~BattleManager()
 
 bool				BattleManager::inBattle(Player *player)
 {
-  if ((rand() % 100) < 74)
+  if ((rand() % 10) == 5)
     {
       this->newBattle(player, NULL);
       return (true);
