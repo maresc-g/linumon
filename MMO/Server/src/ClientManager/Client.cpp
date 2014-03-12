@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar 12 17:55:34 2014 laurent ansel
+// Last update Wed Mar 12 22:44:23 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -140,6 +140,11 @@ void				Client::sendAllInformationModel() const
   Server::getInstance()->callProtocol("TALENTMODELS", _id);
   Server::getInstance()->callProtocol("JOBMODELS", _id);
   Server::getInstance()->callProtocol("MOBMODELS", _id);
+}
+
+void				Client::state(eState const state)
+{
+  _state = state;
 }
 
 void				Client::setSocket(ISocketClient const *socket, std::string const &proto)

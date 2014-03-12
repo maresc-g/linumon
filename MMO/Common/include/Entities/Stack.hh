@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar 12 13:49:57 2014 laurent ansel
-// Last update Wed Mar 12 16:03:25 2014 laurent ansel
+// Last update Wed Mar 12 23:23:24 2014 laurent ansel
 //
 
 #ifndef 			__STACK_HH__
@@ -28,6 +28,7 @@ private:
 
 public:
   Stack(unsigned int const id, AItem *item = NULL, unsigned int const nb = 1);
+  Stack(unsigned int const id, AItem const *item, unsigned int const nb = 1);
   virtual ~Stack();
 
   unsigned int			getId() const;

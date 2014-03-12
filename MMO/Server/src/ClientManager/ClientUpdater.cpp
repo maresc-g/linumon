@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Wed Mar 12 16:59:18 2014 laurent ansel
+// Last update Wed Mar 12 22:44:57 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -467,6 +467,21 @@ bool				ClientUpdater::stateTrade(FD const fd, bool const start, bool const end,
     }
   this->_mutex->unlock();
   return (false);
+}
+
+void				ClientUpdater::newState(FD const fd, Client::eState const st) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  it->first->state(st);
+	  this->_mutex->unlock();
+	  return;
+	}
+    }
+  this->_mutex->unlock();
 }
 
 bool				ClientUpdater::stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:55:36 2014 guillaume marescaux
-// Last update Wed Mar 12 20:32:14 2014 laurent ansel
+// Last update Wed Mar 12 23:00:59 2014 laurent ansel
 //
 
 #include			<QMessageBox>
@@ -33,7 +33,7 @@ void				JobView::handleChange()
   if (!list.isEmpty())
     {
       Craft const			*craft = _job->getJobModel().getCraft(list.first()->text().toStdString());
-      std::list<std::pair<AItem *, unsigned int>> const	items = craft->getIngredients();
+      auto				items = craft->getIngredients();
       auto				inventory = (**(_wMan->getMainPlayer()))->getInventory().getInventory();
       bool				ret = true;
 
@@ -45,9 +45,9 @@ void				JobView::handleChange()
 	{
 	  auto itb = inventory.begin();
 	  auto end = inventory.end();
-	  while (itb != end && **itb != it->first->getName())
+	  while (itb != end && **itb != (*it)->getItem()->getName())
 	    itb++;
-	  if (itb == end || it->second > (*itb)->getNb())
+	  if (itb == end || (*it)->getNb() > (*itb)->getNb())
 	    {
 	      ret = false;
 	      break;

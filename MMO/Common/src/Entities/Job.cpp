@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Mon Mar 10 01:17:29 2014 alexis mestag
+// Last update Wed Mar 12 23:26:32 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -110,20 +110,17 @@ bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, s
 {
   bool				ret = false;
   unsigned int			exp = 0;
-  AItem				*item;
 
   for (auto it = this->getJobModel().getCrafts().begin() ; it != this->getJobModel().getCrafts().end() && !ret; ++it)
     if ((*it)->getName() == nameCraft)
       {
 	for (auto ic = (*it)->begin() ; ic != (*it)->end() ; ++ic)
-	  object.push_back(std::make_pair(ic->first->getName(), ic->second));
+	  object.push_back(std::make_pair((*ic)->getItem()->getName(), (*ic)->getNb()));
 	// if ((*it)->getResult().getItemType() == AItem::STUFF)
 	//   item = new Stuff(static_cast<Stuff const &>((*it)->getResult()));
 	// else if ((*it)->getResult().getItemType() == AItem::CONSUMABLE)
 	//   item = new Consumable(static_cast<Consumable const &>((*it)->getResult()));
-	item = LoaderManager::getInstance()->getItemLoader((*it)->getResult().getName());
-	if (item)
-	  result.push_back(item);
+	result.push_back((*it)->getResult().getItem());
 	exp = this->_currentExp + (*it)->getExp();
 	while (this->getExp() < exp)
 	  {

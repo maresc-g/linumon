@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar 12 14:05:11 2014 laurent ansel
-// Last update Wed Mar 12 16:14:49 2014 laurent ansel
+// Last update Wed Mar 12 23:23:12 2014 laurent ansel
 //
 
 #include				<sstream>
@@ -15,6 +15,14 @@
 Stack::Stack(unsigned int const id, AItem *item, unsigned int const nb):
   _id(id),
   _item(item),
+  _nb(nb)
+{
+
+}
+
+Stack::Stack(unsigned int const id, AItem const *item, unsigned int const nb):
+  _id(id),
+  _item(const_cast<AItem *>(item)),
   _nb(nb)
 {
 

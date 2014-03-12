@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Wed Mar 12 16:26:41 2014 laurent ansel
+// Last update Wed Mar 12 22:45:31 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -308,6 +308,17 @@ void				ClientManager::endTrade(FD const fd) const
   for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
     if ((*it).first && (*it).second)
       set = (*it).first->stateTrade(fd, false, true, player);
+  this->_mutex->unlock();
+}
+
+void				ClientManager::newState(FD const fd, Client::eState const state) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      (*it).first->newState(fd, state);
   this->_mutex->unlock();
 }
 

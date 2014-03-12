@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Sun Mar  9 00:21:51 2014 laurent ansel
+// Last update Wed Mar 12 22:39:38 2014 laurent ansel
 //
 
 #include			<list>
@@ -37,6 +37,7 @@ Server::Server():
   _socket(new std::map<std::string, Socket *>),
   _poll(new Poll),
   _actionServer(new std::map<FD, std::pair<bool, bool> >),
+  _stateList(new std::list<std::pair<FD, Client::eState> >),
   _mutex(new Mutex),
   _protoMutex(new Mutex),
   _codeBreaker(new CodeBreaker),
@@ -67,6 +68,7 @@ Server::~Server()
   delete _socket;
   delete _poll;
   this->_mutex->lock();
+  delete _stateList;
   delete this->_actionServer;
   BattleManager::deleteInstance();
   ClientManager::deleteInstance();
@@ -305,8 +307,8 @@ bool				Server::writeSomething(std::map<FD, std::pair<bool, bool> >::iterator &i
 bool				Server::disconnectClient(std::map<FD, std::pair<bool, bool> >::iterator &it)
 {
   this->debug("disconnect ...");
-  this->_mutex->lock();
   ClientManager::getInstance()->setInfoClient(it->first);
+  this->_mutex->lock();
   this->_poll->rmFd(it->first);
   it = this->_actionServer->erase(it);
   if (it != this->_actionServer->begin())
@@ -314,6 +316,28 @@ bool				Server::disconnectClient(std::map<FD, std::pair<bool, bool> >::iterator 
   this->_mutex->unlock();
   this->debug("Done");
   return (true);
+}
+
+void				Server::newClientStateInStandBy(FD const fd, Client::eState const state, bool const set) const
+{
+  FD				tmpFd;
+  Client::eState		tmpState;
+
+  this->_mutex->lock();
+  if (!set)
+    _stateList->push_back(std::make_pair(fd, state));
+  else
+    {
+      for (auto it = _stateList->begin() ; it != _stateList->end() ; ++it)
+	{
+	  tmpFd = it->first;
+	  tmpState = it->second;
+	  this->_mutex->unlock();
+	  ClientManager::getInstance()->newState(tmpFd, tmpState);
+	  this->_mutex->lock();
+	}
+    }
+  this->_mutex->unlock();
 }
 
 void				Server::actionClient()

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:40:15 2014 laurent ansel
-// Last update Thu Mar  6 17:01:54 2014 laurent ansel
+// Last update Wed Mar 12 23:06:24 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -30,7 +30,8 @@ Craft::Craft(Craft const &rhs):
   Persistent(rhs),
   Nameable(rhs),
   ContainerWrapper<container_type>(),
-  _level(new Level)
+  _level(new Level),
+  _result(NULL)
 {
   *this = rhs;
 }
@@ -89,12 +90,12 @@ void				Craft::setExp(Level::type const exp)
   _level->setExp(exp);
 }
 
-AItem const			&Craft::getResult() const
+Stack const			&Craft::getResult() const
 {
   return (*this->_result);
 }
 
-void				Craft::setResult(AItem const &result)
+void				Craft::setResult(Stack const &result)
 {
   this->_result = &result;
 }
@@ -109,10 +110,10 @@ bool				Craft::serialization(Trame &trame) const
   trame["INGS"];
   this->_level->serialization(trame);
   // this->_result->serialization(trame(trame["RES"]));
-  trame["RES"] = this->_result->getName();
+  trame["RES"] = this->_result->getItem()->getName();
   for (auto it = this->begin() ; it != this->end() && ret; ++it)
     {
-      trame["INGS"][it->first->getName()] = it->second;
+      trame["INGS"][(*it)->getItem()->getName()] = (*it)->getNb();
       // str <<  nb;
       // ret = it->first->serialization(trame(trame["INGS"][str.str()]));
       // trame["INGS"][str.str()]["NB"] = it->second;
@@ -135,7 +136,7 @@ Craft				*Craft::deserialization(Trame const &trame, bool const)
   craft->setLevelObject(*Level::deserialization(trame(trame)));
   item = LoaderManager::getInstance()->getItemLoader(trame["RES"].asString());
   if (item)
-    craft->setResult(*item);
+    craft->setResult(*new Stack(0, item, 1));
   // craft->setResult(*AItem::deserialization(trame(trame["RES"]), client));
   ingredients = new container_type;
   auto			members = trame["INGS"].getMemberNames();
@@ -144,7 +145,7 @@ Craft				*Craft::deserialization(Trame const &trame, bool const)
     {
       item = LoaderManager::getInstance()->getItemLoader(*it);
       if (item)
-	ingredients->push_back(std::make_pair(item, trame["INGS"][*it].asUInt()));
+	ingredients->push_back(new Stack(0, item, trame["INGS"][*it].asUInt()));
       // if ((item = AItem::deserialization(trame(trame["INGS"][*it]), client)))
       // 	ingredients->push_back(std::make_pair(item, trame["INGS"][*it]["NB"].asUInt()));
     }
