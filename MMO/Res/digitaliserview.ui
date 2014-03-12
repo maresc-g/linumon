@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>549</width>
-    <height>541</height>
+    <width>630</width>
+    <height>470</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,27 +44,11 @@
     <rect>
      <x>120</x>
      <y>160</y>
-     <width>411</width>
+     <width>501</width>
      <height>291</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gl_scroll"/>
-  </widget>
-  <widget class="QFrame" name="f_battleMobs">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>10</y>
-     <width>411</width>
-     <height>80</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
   </widget>
  </widget>
  <resources/>

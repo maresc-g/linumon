@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Wed Mar 12 12:26:53 2014 antoine maitre
+// Last update Wed Mar 12 19:27:44 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -123,5 +123,8 @@ bool				ressources(unsigned int const id);
 bool				heals(unsigned int const id);
 bool				spells(unsigned int const id);
 bool				authorizedStatKeys(unsigned int const id);
+bool				mobtoBattleMob(unsigned int const id, unsigned int const idMob);
+bool				battleMobtoMob(unsigned int const id, unsigned int const idMob);
+bool				switchMobs(unsigned int const id, unsigned int const idMob1, unsigned int const idMob2);
 
 #endif

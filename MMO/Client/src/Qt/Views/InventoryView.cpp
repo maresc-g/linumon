@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Tue Mar 11 13:53:49 2014 guillaume marescaux
+// Last update Wed Mar 12 16:32:18 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/InventoryView.hh"
@@ -45,8 +45,8 @@ void				InventoryView::initInventory()
   auto				it = items.begin();
   ItemView			*item;
 
-  // for (auto it = _hidden->begin() ; it != _hidden->end() ; it++)
-  //   delete *it;
+  for (auto it = _hidden->begin() ; it != _hidden->end() ; it++)
+    delete *it;
   _hidden->clear();
   for (auto it = _items->begin() ; it != _items->end() ; it++)
     {

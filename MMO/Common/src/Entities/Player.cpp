@@ -5,7 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
+<<<<<<< HEAD
 // Last update Wed Mar 12 17:26:35 2014 laurent ansel
+=======
+// Last update Wed Mar 12 19:28:05 2014 guillaume marescaux
+>>>>>>> 02a69109f5373b352d2acc7485fc8823b780265f
 //
 
 #include			<functional>
@@ -593,6 +597,7 @@ void				Player::mobtoBattleMob(unsigned int const id)
   this->_digitaliser->mobtoBattleMob(id);
 }
 
+<<<<<<< HEAD
 
 
 
@@ -605,4 +610,9 @@ void				Player::mergeStack(unsigned int const idStack, unsigned int const idStac
 void				Player::newStack(unsigned int const idStack, unsigned int const nb)
 {
   this->_inventory->splitStack(idStack, nb);
+=======
+void				Player::battleMobtoMob(unsigned int const id)
+{
+  this->_digitaliser->battleMobtoMob(id);
+>>>>>>> 02a69109f5373b352d2acc7485fc8823b780265f
 }

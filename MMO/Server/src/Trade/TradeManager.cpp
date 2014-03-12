@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Feb 12 20:20:01 2014 laurent ansel
-// Last update Fri Mar  7 13:46:16 2014 laurent ansel
+// Last update Wed Mar 12 18:00:05 2014 laurent ansel
 //
 
 #include			<functional>
@@ -149,7 +149,7 @@ bool				TradeManager::getItem(Trame *trame)
   // item = AItem::deserialization((*trame)((*trame)[CONTENT]["TRADE"]));
   // if (item)
   //   {
-  idItem = (*trame)[CONTENT]["TRADE"]["IDITEM"].asUInt();
+  idItem = (*trame)[CONTENT]["TRADE"]["IDSTACK"].asUInt();
   for (auto it = _list->begin() ; it != _list->end() ; ++it)
     if (it->first && it->second && it->second->getId() == idTrade)
       {
@@ -176,7 +176,7 @@ bool				TradeManager::putItem(Trame *trame)
   // item = AItem::deserialization((*trame)((*trame)[CONTENT]["TRADE"]));
   // if (item)
   //   {
-  idItem = (*trame)[CONTENT]["TRADE"]["IDITEM"].asUInt();
+  idItem = (*trame)[CONTENT]["TRADE"]["IDSTACK"].asUInt();
   for (auto it = _list->begin() ; it != _list->end() ; ++it)
     if (it->first && it->second && it->second->getId() == idTrade)
       {

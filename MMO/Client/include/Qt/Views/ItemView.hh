@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:16:30 2014 guillaume marescaux
-// Last update Tue Mar 11 13:49:28 2014 guillaume marescaux
+// Last update Wed Mar 12 15:16:17 2014 guillaume marescaux
 //
 
 #ifndef 		__ITEMVIEW_HH__
@@ -16,6 +16,7 @@
 #include		"ui_itemview.h"
 #include		"Qt/WindowManager.hh"
 #include		"Entities/AItem.hh"
+#include		"ParentInfos.hh"
 
 class			ItemView : public QWidget
 {
@@ -45,6 +46,7 @@ private:
   void			setInfos(AItem const *item, unsigned int nb);
   virtual void		mousePressEvent(QMouseEvent *);
   void			makeDrag();
+  ParentInfos		*getNameFirstParent(QWidget *parent);
 
 public:
   virtual void		resize(int, int);

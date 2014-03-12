@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Wed Mar 12 14:16:35 2014 cyril jourdain
+// Last update Wed Mar 12 19:28:27 2014 guillaume marescaux
 //
 
 #include		"SFML/WorldView.hh"
@@ -406,9 +406,12 @@ void			WorldView::keyD()
   if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::D) && !_sfmlView->getChatView()->getFocused())
     {
       if (!_sfmlView->getDigitaliserView()->isVisible())
+	{
+	  _sfmlView->getDigitaliserView()->initDigit((**_wMan->getMainPlayer())->getDigitaliser());
 	  _sfmlView->displayView(_sfmlView->getDigitaliserView());
+	}
       else
-	  _sfmlView->hideView(_sfmlView->getDigitaliserView());
+	_sfmlView->hideView(_sfmlView->getDigitaliserView());
       _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::D, 100000);
     }
 }
