@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Mar 11 14:16:44 2014 guillaume marescaux
-// Last update Tue Mar 11 15:15:15 2014 guillaume marescaux
+// Last update Tue Mar 11 19:26:53 2014 guillaume marescaux
 //
 
 #include				"Trade/Trade.hh"
@@ -49,6 +49,7 @@ std::list<AItem const*> const	&Trade::getOtherItems(void) const { return (*_othe
 std::list<Mob const*> const	&Trade::getPlayerMobs(void) const { return (*_playerMobs); }
 std::list<Mob const*> const	&Trade::getOtherMobs(void) const { return (*_otherMobs); }
 std::string const		&Trade::getName(void) const { return (_name); }
+unsigned int			Trade::getId(void) const { return (_id); }
 bool				Trade::getChanged(void) const { return (_changed); }
 
 void				Trade::reset(unsigned int id, std::string const &name)

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Mar 10 16:56:18 2014 guillaume marescaux
-// Last update Tue Mar 11 15:12:01 2014 guillaume marescaux
+// Last update Tue Mar 11 19:26:07 2014 guillaume marescaux
 //
 
 #ifndef 			__TRADE_HH__
@@ -77,6 +77,7 @@ public:
   std::list<Mob const*> const	&getPlayerMobs(void) const;
   std::list<Mob const*> const	&getOtherMobs(void) const;
   std::string const		&getName(void) const;
+  unsigned int			getId(void) const;
   bool				getChanged(void) const;
 
   void				reset(unsigned int id, std::string const &name);

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Mar 11 14:48:42 2014 cyril jourdain
+// Last update Tue Mar 11 19:25:01 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -33,7 +33,8 @@ static void			*runThread(void *data)
 Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
 	   MutexVar<std::list<PlayerView *> *> *players,
 	   MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer,
-	   MutexVar<Battle *> *battle):
+	   MutexVar<Battle *> *battle,
+	   MutexVar<Trade *> *trade):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
@@ -49,6 +50,7 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _chat(chat),
   _newPlayer(newPlayer),
   _battle(battle),
+  _trade(trade),
   _handler(new ErrorHandler)
 {
   std::function<bool (Trame *)> func;
@@ -88,6 +90,18 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("SPELLEFFECT", func);
   func = std::bind1st(std::mem_fun(&Core::endBattle), this);
   _proto->addFunc("ENDBATTLE", func);
+  func = std::bind1st(std::mem_fun(&Core::objectEffect), this);
+  _proto->addFunc("OBJECTEFFECT", func);
+  func = std::bind1st(std::mem_fun(&Core::launchTrade), this);
+  _proto->addFunc("LAUNCHTRADE", func);
+  func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::putItem), this);
+  _proto->addFunc("PUTITEM", func);
+  func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::getItem), this);
+  _proto->addFunc("GETITEM", func);
+  func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::putMob), this);
+  _proto->addFunc("PUTMOB", func);
+  func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::getMob), this);
+  _proto->addFunc("GETMOB", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -202,7 +216,6 @@ bool				Core::handleError(Trame *trame)
 
 bool				Core::playerlist(Trame *trame)
 {
-  std::cout << "PLAYERLIST" << std::endl;
   *_players = User::deserialization(*trame);
   *_state = CLIENT::CHOOSE_PLAYER;
   return (true);
@@ -292,14 +305,6 @@ bool				Core::upStats(Trame *)
   return (true);
 }
 
-bool				Core::stats(Trame *trame)
-{
-  Mob				*mob = (**_player)->getDigitaliser().getMob((*trame)[CONTENT]["OBJECTEFFECT"]["TARGET"].asUInt());
-
-  mob->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["OBJECTEFFECT"]["STATS"])));
-  return (true);
-}
-
 bool				Core::upTalents(Trame *)
 {
   return (true);
@@ -344,29 +349,54 @@ bool				Core::caseMap(Trame *)
   return (true);
 }
 
-bool				Core::objectEffect(Trame *)
+bool				Core::objectEffect(Trame *trame)
 {
+  Mob				*mob = (**_player)->getDigitaliser().getMob((*trame)[CONTENT]["OBJECTEFFECT"]["TARGET"].asUInt());
+
+  mob->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["OBJECTEFFECT"]["STATS"])));
   return (true);
 }
 
-bool				Core::launchTrade(Trame *)
+bool				Core::launchTrade(Trame *trame)
 {
   *_state = CLIENT::TRADE;
+  (**_trade)->reset((*trame)[CONTENT]["IDTRADE"].asUInt(), (*trame)[CONTENT]["NAMEPLAYER"].asString());
   return (true);
 }
 
-bool				Core::putItem(Trame *)
+bool				Core::putItem(Trame *trame)
 {
+  (**_trade)->putOtherItem(AItem::deserialization((*trame)((*trame)[CONTENT]["ITEM"])));
   return (true);
 }
 
-bool				Core::getItem(Trame *)
+bool				Core::getItem(Trame *trame)
 {
+  (**_trade)->getOtherItem(AItem::deserialization((*trame)((*trame)[CONTENT]["ITEM"])));
   return (true);
 }
 
-bool				Core::getMoney(Trame *)
+bool				Core::putMob(Trame *trame)
 {
+  (**_trade)->putOtherMob(Mob::deserialization((*trame)((*trame)[CONTENT]["MOB"])));
+  return (true);
+}
+
+bool				Core::getMob(Trame *trame)
+{
+  (**_trade)->getOtherMob(Mob::deserialization((*trame)((*trame)[CONTENT]["MOB"])));
+  return (true);
+}
+
+bool				Core::putMoney(Trame *trame)
+{
+  (**_trade)->putOtherMoney((*trame)[CONTENT]["PUTMONEY"]["MONEY"].asInt());
+  return (true);
+}
+
+bool				Core::getMoney(Trame *trame)
+{
+  (**_trade)->getOtherMoney((*trame)[CONTENT]["PUTMONEY"]["MONEY"].asInt());
   return (true);
 }
 
@@ -567,29 +597,44 @@ void				Core::useObject(unsigned int target, unsigned int item)
 
 // void				unsigned interaction();
 
-void				Core::putItem(AItem const &item)
+void				Core::putItem(unsigned int idTrade, unsigned int idItem)
 {
-  (*_proto).operator()<unsigned int const, AItem const *>("PUTITEM", _id, &item);  
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("PUTITEM", _id, idTrade, idItem);
 }
 
-void				Core::getItem(AItem const &item)
+void				Core::getItem(unsigned int idTrade, unsigned int idItem)
 {
-  (*_proto).operator()<unsigned int const, AItem const *>("GETITEM", _id, &item);  
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("GETITEM", _id, idTrade, idItem);
 }
 
-void				Core::sendMoney(unsigned int money)
+void				Core::putMob(unsigned int idTrade, unsigned int idMob)
 {
-  (*_proto).operator()<unsigned int const, unsigned int>("MONEY", _id, money);  
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("PUTMOB", _id, idTrade, idMob);
 }
 
-void				Core::accept(void)
+void				Core::getMob(unsigned int idTrade, unsigned int idMob)
 {
-  (*_proto).operator()<unsigned int const>("ACCEPT", _id);  
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("GETMOB", _id, idTrade, idMob);
 }
 
-void				Core::refuse(void)
+void				Core::putMoney(unsigned int idTrade, unsigned int money)
 {
-  (*_proto).operator()<unsigned int const>("REFUSE", _id);  
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("PUTMONEY", _id, idTrade, money);
+}
+
+void				Core::getMoney(unsigned int idTrade, unsigned int money)
+{
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("GETMONEY", _id, idTrade, money);
+}
+
+void				Core::accept()
+{
+  (*_proto).operator()<unsigned int const, unsigned int>("ACCEPT", _id, (**_trade)->getId());
+}
+
+void				Core::refuse()
+{
+  (*_proto).operator()<unsigned int const, unsigned int>("REFUSE", _id, (**_trade)->getId());
 }
 
 void				Core::heal(void)
@@ -600,13 +645,13 @@ void				Core::heal(void)
 void				Core::disconnect(void)
 {
   *_state = CLIENT::LOGIN;
-  (*_proto).operator()<unsigned int const>("DISCONNECT", _id);  
+  (*_proto).operator()<unsigned int const>("DISCONNECT", _id);
 }
 
 void				Core::switchPlayer(void)
 {
   *_state = CLIENT::CHOOSE_PLAYER;
-  (*_proto).operator()<unsigned int const>("SWITCHPLAYER", _id);  
+  (*_proto).operator()<unsigned int const>("SWITCHPLAYER", _id);
 }
 
 void				Core::init(void)

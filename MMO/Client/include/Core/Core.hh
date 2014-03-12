@@ -5,28 +5,29 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Mon Mar 10 16:01:48 2014 guillaume marescaux
+// Last update Tue Mar 11 19:24:36 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
 # define 		__CORE_HH__
 
-#include		<map>
-#include		<string>
-#include		"Trame/Trame.hh"
-#include		"Socket/Socket.hpp"
-#include		"Entities/Views/PlayerView.hh"
-#include		"Poll/Poll.hpp"
-#include		"Protocol/Protocol.hpp"
-#include		"Thread/Thread.hpp"
-#include		"Mutex/MutexVar.hpp"
-#include		"Common/eState.hh"
-#include		"Common/eDirection.hh"
-#include		"ErrorHandler.hh"
-#include		"Entities/Faction.hh"
-#include		"Chat/Chat.hh"
-#include		"Battle/Battle.hh"
-#include		"Utility/CommonDefine.hh"
+# include		<map>
+# include		<string>
+# include		"Trame/Trame.hh"
+# include		"Socket/Socket.hpp"
+# include		"Entities/Views/PlayerView.hh"
+# include		"Poll/Poll.hpp"
+# include		"Protocol/Protocol.hpp"
+# include		"Thread/Thread.hpp"
+# include		"Mutex/MutexVar.hpp"
+# include		"Common/eState.hh"
+# include		"Common/eDirection.hh"
+# include		"ErrorHandler.hh"
+# include		"Entities/Faction.hh"
+# include		"Chat/Chat.hh"
+# include		"Battle/Battle.hh"
+# include		"Trade/Trade.hh"
+# include		"Utility/CommonDefine.hh"
 
 # define		CONNECT_FILE	"Res/Connection.json"
 
@@ -63,13 +64,14 @@ private:
   MutexVar<Chat *>			*_chat;
   MutexVar<bool>			*_newPlayer;
   MutexVar<Battle *>			*_battle;
+  MutexVar<Trade *>			*_trade;
   ErrorHandler				*_handler;
 
 public:
 
   // Ctor / Dtor
   Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players,
-       MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer, MutexVar<Battle *> *battle);
+       MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer, MutexVar<Battle *> *battle, MutexVar<Trade *> *trade);
   virtual ~Core();
 
   // Methods
@@ -94,9 +96,12 @@ public:
   // void			gather();
   void			useObject(unsigned int target, unsigned int item);
   // void			unsigned interaction();
-  void			putItem(AItem const &item);
-  void			getItem(AItem const &item);
-  void			sendMoney(unsigned int money);
+  void			putItem(unsigned int idTrade, unsigned int idItem);
+  void			getItem(unsigned int idTrade, unsigned int idItem);
+  void			putMob(unsigned int idTrade, unsigned int idMob);
+  void			getMob(unsigned int idTrade, unsigned int idMob);
+  void			putMoney(unsigned int idTrade, unsigned int money);
+  void			getMoney(unsigned int idTrade, unsigned int money);
   void			accept(void);
   void			refuse(void);
   void			heal(void);
@@ -127,7 +132,6 @@ private:
   bool			deadMob(Trame *);
   bool			endBattle(Trame *);
   bool			upStats(Trame *);
-  bool			stats(Trame *);
   bool			upTalents(Trame *);
   bool			addToInventory(Trame *);
   bool			deleteFromInventory(Trame *);
@@ -137,6 +141,9 @@ private:
   bool			launchTrade(Trame *);
   bool			putItem(Trame *);
   bool			getItem(Trame *);
+  bool			putMob(Trame *);
+  bool			getMob(Trame *);
+  bool			putMoney(Trame *);
   bool			getMoney(Trame *);
   bool			accept(Trame *);
   bool			refuse(Trame *);

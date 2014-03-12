@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Mon Mar 10 15:59:02 2014 laurent ansel
+// Last update Tue Mar 11 18:56:04 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -89,10 +89,14 @@ bool				objectEffect(unsigned int const id, unsigned int const target, Stats con
 bool				useObject(unsigned int const id, unsigned int target, unsigned int idItem);
 // bool				interaction();
 bool				launchTrade(unsigned int const id, unsigned int const idTrade, std::string namePlayer);
-bool				putMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
-bool				getMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
 bool				putItem(unsigned int const id, unsigned int const idTrade, AItem const *item);
 bool				getItem(unsigned int const id, unsigned int const idTrade, AItem const *item);
+bool				putMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
+bool				getMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
+bool				putItem(unsigned int const id, unsigned int const idTrade, unsigned int const idItem);
+bool				getItem(unsigned int const id, unsigned int const idTrade, unsigned int const idItem);
+bool				putMob(unsigned int const id, unsigned int const idTrade, unsigned int const idMob);
+bool				getMob(unsigned int const id, unsigned int const idTrade, unsigned int const idMob);
 bool				putMoney(unsigned int const id, unsigned int const idTrade, unsigned int const money);
 bool				getMoney(unsigned int const id, unsigned int const idTrade, unsigned int const money);
 bool				accept(unsigned int const id, unsigned int const idTrade);

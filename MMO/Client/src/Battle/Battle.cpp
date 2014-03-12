@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Tue Mar 11 13:56:44 2014 guillaume marescaux
+// Last update Tue Mar 11 18:30:30 2014 guillaume marescaux
 //
 
 #include			<algorithm>
@@ -20,6 +20,11 @@ Battle::Battle():
 Battle::~Battle()
 {
   delete _enemy;
+  delete _mobs;
+  delete _turnTo;
+  for (auto it = _spells->begin() ; it != _spells->end() ; it++)
+    delete *it;
+  delete _spells;
 }
 
 void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *enemy, unsigned int maxMobs)
@@ -29,7 +34,7 @@ void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *en
 
   _turnTo->clear();
   _mobs->clear();
-  for (auto it = mobs.begin() ; it != mobs.end() && i < 3; it++)
+  for (auto it = mobs.begin() ; it != mobs.end() && i < maxMobs; it++)
     {
       (*it)->enterBattle();
       _mobs->push_back(*it);
@@ -39,9 +44,8 @@ void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *en
   _enemy = enemy;
   std::list<Mob *> const	mobs2 = enemy->getDigitaliser().getBattleMobs();
   i = 0;
-  for (auto it = mobs2.begin() ; it != mobs2.end() && i < 3; it++)
+  for (auto it = mobs2.begin() ; it != mobs2.end() && i < maxMobs; it++)
     {
-      std::cout << (*it)->getStat("HP") << std::endl;
       (*it)->enterBattle();
       i++;
     }
