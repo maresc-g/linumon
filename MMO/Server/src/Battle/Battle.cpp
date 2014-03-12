@@ -5,26 +5,26 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Wed Mar 12 00:37:15 2014 laurent ansel
+// Last update Wed Mar 12 13:52:15 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
 #include				"Database/Repositories/StatKeyRepository.hpp"
 
-Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, Player *player1, Player *player2)
+Battle::Battle(unsigned int const id, eBattle const type, unsigned int const mobNumber, Player *player1, Player *player2)
   : _id(id), _type(type),
-    _mobNumber(mobNumber), _money(0), _exp(0)
+    _mobNumber(mobNumber), _money(0), _exp(0), _success(true)
 {
   // static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
-  int i = 0;
+  unsigned int i = 0;
 
-  for (auto it = player1->getDigitaliser().getBattleMobs().begin(); it != player1->getDigitaliser().getBattleMobs().end() && i++ < mobNumber+1; it++)
+  for (auto it = player1->getDigitaliser().getBattleMobs().begin(); it != player1->getDigitaliser().getBattleMobs().end() && i++ < mobNumber; it++)
     {
       (*it)->enterBattle();
       this->_mobs.push_back((*it));
     }
   i = 0;
-  for (auto it = player2->getDigitaliser().getBattleMobs().begin(); it != player2->getDigitaliser().getBattleMobs().end() && i++ < mobNumber+1; it++)
+  for (auto it = player2->getDigitaliser().getBattleMobs().begin(); it != player2->getDigitaliser().getBattleMobs().end() && i++ < mobNumber; it++)
     {
       (*it)->enterBattle();
       this->_mobs.push_back((*it));
@@ -41,14 +41,13 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
 
 Battle::~Battle()
 {
-  this->trameEndBattle();
-  // for (auto it = this->_players.begin(); it != this->_players.end(); it++)
-  //   {
-  //     if ((*it)->getType() == Player::PlayerType::PLAYER)
-  // 	{
-  // 	  ClientManager::getInstance()->endBattle((*it)->getId());
-  // 	}
-  //   }
+  if (this->_success)
+    {
+      this->trameEndBattle();
+      for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+	if ((*it)->getType() == Player::PlayerType::PLAYER)
+	  ClientManager::getInstance()->endBattle((*it)->getId());
+    }
 }
 
 unsigned int				Battle::getID() const
@@ -65,7 +64,7 @@ bool					Battle::checkEnd()
 {
   // static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
   // Stats const				*statMob;
-  int					i;
+  unsigned int				i;
 
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     {
@@ -93,6 +92,7 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
   Mob					*mobTarget = NULL;
   int					hpChange = 0;
 
+  std::cout << "SPEELLLELELELELELELELELER" << std::endl;
   for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
     {
       if ((*it)->getId() == launcher)
@@ -117,6 +117,10 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
 	for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	  if ((*it)->getType() == Player::PlayerType::PLAYER)
 	    this->trameDeadMob((*it)->getUser().getId(), target);
+    }
+  else
+    {
+      std::cout << "Les valeurs sont erronees" << std::endl;
     }
   return (this->checkEnd());
 }
@@ -168,23 +172,18 @@ void					Battle::next()
   else if (this->checkEnd())
     return;
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+    if ((*it)->getType() == Player::PlayerType::PLAYER)
+      this->trameTurnTo((*it)->getUser().getId(), tmp->getId());
+  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     {
-      std::cout << "PLAYER(" << (*it)->getName() << ") = " << (*it)->getType() << std::endl;
-      if ((*it)->getType() == Player::PlayerType::PLAYER)
+      std::cout << "FAIL FAIL FAIL FAIL FAIL FAIL FAIL " << std::endl;
+      if ((*it)->isMyMob(tmp->getId()) && (*it)->getType() == Player::PlayerType::AI)
 	{
-	  std::cout << "ID PLAYER =" << (*it)->getUser().getId() << "; ID MOB =" << tmp->getId() << std::endl;
-	  this->trameTurnTo((*it)->getUser().getId(), tmp->getId());
-	}
-      else
-	{
-	  std::cout << (*it)->isMyMob(tmp->getId()) << " totokekek " << tmp->getId() << std::endl;
-	  if ((*it)->isMyMob(tmp->getId()))
-	    {
-	      auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
-	      if (!this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2)))
-		this->next();
-	      return;
-	    }
+	  std::cout << "YOLOYOLOLYOLOYL" << std::endl;
+	  auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
+	  if (!this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2)))
+	    this->next();
+	  return;
 	}
     }
 }
@@ -201,6 +200,11 @@ bool					Battle::isInThisBattle(unsigned int const idPlayer)
 	return (true);
       }
   return (false);
+}
+
+void					Battle::setSuccess(bool const val)
+{
+  this->_success = val;
 }
 
 void					Battle::trameSpell(unsigned int const idPlayer,
@@ -235,7 +239,7 @@ void					Battle::trameCapture(unsigned int const idPlayer, unsigned int const id
 
 void					Battle::trameLaunchBattle(unsigned int const idPlayer, Player *player) const
 {
-  Server::getInstance()->callProtocol<unsigned int const, Player const *>("LAUNCHBATTLE", idPlayer, this->_id, player);
+  Server::getInstance()->callProtocol<unsigned int const, Player const *, unsigned int const>("LAUNCHBATTLE", idPlayer, this->_id, player, this->_mobNumber);
 }
 
 void					Battle::trameTurnTo(unsigned int const idPlayer, unsigned int const idMob) const
