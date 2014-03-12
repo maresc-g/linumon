@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Mar 11 23:55:37 2014 cyril jourdain
+// Last update Wed Mar 12 15:33:26 2014 antoine maitre
 //
 
 #include			"ClientManager/Client.hh"
@@ -245,6 +245,7 @@ void				Client::move(Player::PlayerCoordinate *coord)
 	      ret = Map::getInstance()->move(_player);
 	      if (ret)
 		{
+		  std::cout << "ENVOIE DU NEW ZONE" << std::endl;
 		  Server::getInstance()->callProtocol<Player * , Zone *, Zone *>("NEWZONE", _id, _player, Map::getInstance()->getZone(oldZone), Map::getInstance()->getZone(_player->getZone()));
 		  delete trame;
 		  delete header;

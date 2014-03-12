@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Tue Mar 11 19:16:23 2014 laurent ansel
+// Last update Wed Mar 12 15:02:26 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -101,6 +101,7 @@ bool				BattleManager::spell(Trame *trame)
 {
   std::list<Battle *>		tmp;
   
+  this->_mutex->lock();
   if ((*trame)[CONTENT]["SPELL"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["SPELL"].isMember("NAME") &&
       (*trame)[CONTENT]["SPELL"].isMember("TARGET") &&
@@ -116,8 +117,10 @@ bool				BattleManager::spell(Trame *trame)
 	      (*it)->addTrame((*trame));
 	  (*it)->unlock();
 	}
+      this->_mutex->unlock();
       return (true);
     }
+  this->_mutex->unlock();
   return (false);
 }
 
@@ -125,6 +128,7 @@ bool				BattleManager::capture(Trame *trame)
 {
   std::list<Battle *>		tmp;
 
+  this->_mutex->lock();
   if ((*trame)[CONTENT]["CAPTURE"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["CAPTURE"].isMember("TARGET"))
     {
@@ -138,8 +142,10 @@ bool				BattleManager::capture(Trame *trame)
 	      (*it)->addTrame((*trame));
 	  (*it)->unlock();
 	}
+      this->_mutex->unlock();
       return (true);
     }
+  this->_mutex->unlock();
   return (false);
 }
 
@@ -147,6 +153,7 @@ bool				BattleManager::dswitch(Trame *trame)
 {
   std::list<Battle *>		tmp;
 
+  this->_mutex->lock();
   if ((*trame)[CONTENT]["SWITCH"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["SWITCH"].isMember("TARGET") &&
       (*trame)[CONTENT]["SWITCH"].isMember("NEWMOB"))
@@ -161,22 +168,24 @@ bool				BattleManager::dswitch(Trame *trame)
 	      (*it)->addTrame((*trame));
 	  (*it)->unlock();
 	}
+      this->_mutex->unlock();
       return (true);
     }
+  this->_mutex->unlock();
   return (false);
 }
 
 void				BattleManager::disconnect(unsigned int const idPlayer)
 {
-  std::cout << "Je rentre dans le disconnect de BattleManager" << std::endl;
   int i = 0;
+
+  this->_mutex->lock();
   for (auto it = this->_battleUpdaters.begin(); it != this->_battleUpdaters.end(); it++)
     {
-      std::cout << i << std::endl;
       (*it)->lock();
       (*it)->disconnect(idPlayer);
       (*it)->unlock();
       i++;
     }
-  std::cout << "Je sors du disconnect de BattleManager" << std::endl;
+  this->_mutex->unlock();
 }
