@@ -5,11 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-<<<<<<< HEAD
-// Last update Wed Mar 12 17:23:29 2014 laurent ansel
-=======
-// Last update Wed Mar 12 19:27:18 2014 guillaume marescaux
->>>>>>> 02a69109f5373b352d2acc7485fc8823b780265f
+// Last update Wed Mar 12 19:46:37 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -163,14 +159,12 @@ public:
   void				useObject(unsigned int const target, unsigned int const stack);
 
   void				mobtoBattleMob(unsigned int const id);
-<<<<<<< HEAD
+  void				battleMobtoMob(unsigned int const id);
 
   void				mergeStack(unsigned int const idStack, unsigned int const idStack2);
   void				newStack(unsigned int const idStack, unsigned int const nb);
 
-=======
-  void				battleMobtoMob(unsigned int const id);
->>>>>>> 02a69109f5373b352d2acc7485fc8823b780265f
+
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);
 };
