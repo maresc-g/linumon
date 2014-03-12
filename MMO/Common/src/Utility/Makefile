@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Tue Dec  3 10:53:24 2013 alexis mestag
-## Last update Thu Dec  5 15:32:22 2013 alexis mestag
+## Last update Tue Mar 11 21:48:37 2014 alexis mestag
 ##
 
 UTILITY_SRC=		Id.cpp		\
@@ -15,7 +15,7 @@ UTILITY_SRC:=		$(addprefix $(UTILITY)/,$(UTILITY_SRC))
 
 SRCCOMMON+=		$(UTILITY_SRC)
 
-ODB_UTILITY+=		Nameable.hh
+ODB_UTILITY+=		
 
 UTILITY_H_DIR=		$(subst src,include,$(UTILITY))
 

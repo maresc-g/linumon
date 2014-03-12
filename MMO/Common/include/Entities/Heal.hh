@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb 21 12:49:18 2014 laurent ansel
-// Last update Fri Mar  7 14:59:00 2014 laurent ansel
+// Last update Tue Mar 11 16:14:41 2014 alexis mestag
 //
 
 #ifndef 		__HEAL_HH__
@@ -39,6 +39,7 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Heal)
+#  pragma db member(Heal::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 #endif
 
 #endif

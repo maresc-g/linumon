@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Fri Mar  7 14:50:41 2014 laurent ansel
+// Last update Tue Mar 11 16:17:30 2014 alexis mestag
 //
 
 #ifndef 		__RESSOURCE_HH__
@@ -73,6 +73,7 @@ public:
 #  pragma db member(Ressource::_coord) transient
 #  pragma db member(Ressource::_level) transient
 #  pragma db member(Ressource::_visible) transient
+#  pragma db member(Ressource::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 #  pragma db member(Ressource::level) virtual(Level::type) get(getLevel()) set(setLevel(?))
 #  pragma db member(Ressource::exp) virtual(Level::type) get(getExp()) set(setExp(?))
 # endif

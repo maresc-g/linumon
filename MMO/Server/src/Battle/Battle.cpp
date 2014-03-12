@@ -5,13 +5,13 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Wed Mar 12 12:21:26 2014 antoine maitre
+// Last update Wed Mar 12 13:52:15 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
 #include				"Database/Repositories/StatKeyRepository.hpp"
 
-Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, Player *player1, Player *player2)
+Battle::Battle(unsigned int const id, eBattle const type, unsigned int const mobNumber, Player *player1, Player *player2)
   : _id(id), _type(type),
     _mobNumber(mobNumber), _money(0), _exp(0), _success(true)
 {
@@ -41,12 +41,13 @@ Battle::Battle(unsigned int const id, eBattle const type, int const mobNumber, P
 
 Battle::~Battle()
 {
-  if (!this->_success)
-    this->trameEndBattle();
-  else
-    for (auto it = this->_players.begin(); it != this->_players.end(); it++)
-      if ((*it)->getType() == Player::PlayerType::PLAYER)
-	ClientManager::getInstance()->endBattle((*it)->getId());
+  if (this->_success)
+    {
+      this->trameEndBattle();
+      for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+	if ((*it)->getType() == Player::PlayerType::PLAYER)
+	  ClientManager::getInstance()->endBattle((*it)->getId());
+    }
 }
 
 unsigned int				Battle::getID() const
@@ -63,7 +64,7 @@ bool					Battle::checkEnd()
 {
   // static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
   // Stats const				*statMob;
-  int					i;
+  unsigned int				i;
 
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     {
@@ -192,10 +193,10 @@ bool					Battle::isInThisBattle(unsigned int const idPlayer)
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     if ((*it)->getId() == idPlayer)
       {
-	this->_money = 0;
-	this->_exp = 0;
-	this->_idLooser = idPlayer;
-	this->trameEndBattle();
+	// this->_money = 0;
+	// this->_exp = 0;
+	// this->_idLooser = idPlayer;
+	// this->trameEndBattle();
 	return (true);
       }
   return (false);
@@ -248,10 +249,13 @@ void					Battle::trameTurnTo(unsigned int const idPlayer, unsigned int const idM
 
 void					Battle::trameEndBattle()
 {
-  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+  for (auto it = this->_players.begin(); it != this->_players.end(); ++it)
     {
       if ((*it)->getType() == Player::PlayerType::PLAYER)
-	Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, std::list<AItem *> *>("ENDBATTLE", (*it)->getUser().getId(), this->_id, ((*it)->getId() == this->_idLooser)?(false):(true), this->_money, this->_exp, NULL);
+	{
+	  Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, std::list<AItem *> *>("ENDBATTLE", (*it)->getUser().getId(), this->_id, ((*it)->getId() == this->_idLooser)?(false):(true), this->_money, this->_exp, NULL);
+  	  ClientManager::getInstance()->endBattle((*it)->getUser().getId());
+	}
     }
 }
 

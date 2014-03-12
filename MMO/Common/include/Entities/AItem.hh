@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:59:30 2013 alexis mestag
-// Last update Mon Mar 10 14:05:26 2014 laurent ansel
+// Last update Tue Mar 11 15:15:27 2014 alexis mestag
 //
 
 #ifndef			__AITEM_HH__
@@ -17,8 +17,6 @@
 
 class			AItem : public AEntity, public ISerialization
 {
-  friend class		odb::access;
-
 public:
   typedef enum		eItem
     {
@@ -50,10 +48,10 @@ public:
   static AItem		*createCopy(AItem const *rhs);
 };
 
-# ifdef	ODB_COMPILER
-#  pragma db object(AItem) abstract
-#  pragma db member(AItem::_itemType) transient
-# endif
+// # ifdef	ODB_COMPILER
+// #  pragma db object(AItem) abstract
+// #  pragma db member(AItem::_itemType) transient
+// # endif
 
 
 #endif

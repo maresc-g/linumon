@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Tue Mar 11 13:28:39 2014 cyril jourdain
+// Last update Wed Mar 12 11:13:44 2014 cyril jourdain
 //
 
 /*
@@ -21,6 +21,7 @@
 		check if it can move (map border)
  */
 
+#include <QDebug>
 #include		<stdexcept>
 #include		"SFML/SFMLView.hpp"
 #include		"Map/Map.hh"
@@ -56,13 +57,14 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
      std::cout << "Error while loading font" << std::endl;
   _reset = false;
   _sMan->loadTextures("./Res/textureList.json");
-  _sMan->loadAnimations("./Res/perso1.json");
-  _sMan->loadAnimations("./Res/textures.json");
-  _sMan->loadAnimations("./Res/selectedPlayer.json");
-  _sMan->loadAnimations("./Res/Spell/Lance-Flamme.json");
-  _sMan->loadAnimations("./Res/Spell/Surf.json");
-  _sMan->loadAnimations("./Res/Spell/Boutefeu.json");
-  _sMan->loadAnimations("./Res/Spell/Danse-Fleur.json");
+  _sMan->loadSprites("./Res/spriteList.json");
+  // _sMan->loadAnimations("./Res/perso1.json");
+  // _sMan->loadAnimations("./Res/textures.json");
+  // _sMan->loadAnimations("./Res/selectedPlayer.json");
+  // _sMan->loadAnimations("./Res/Spell/Lance-Flamme.json");
+  // _sMan->loadAnimations("./Res/Spell/Surf.json");
+  // _sMan->loadAnimations("./Res/Spell/Boutefeu.json");
+  // _sMan->loadAnimations("./Res/Spell/Danse-Fleur.json");
   _grow = false;
   _enterBattle = false;
 
@@ -107,6 +109,14 @@ void			SFMLView::onUpdate()
   CLIENT::eState s = **(_wMan->getState());
   switch (s)
     {
+    case CLIENT::LEAVING_BATTLE:
+      _currentView = _worldView;
+      _currentView->resetPOV();
+      static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
+      static_cast<BattleView*>(_battleView)->quitBattle();
+      *(_wMan->getState()) = CLIENT::PLAYING;      
+      _grow = false;
+      break;
     case CLIENT::ENTER_BATTLE:
       _mainView->rotate(-10);
       _mainView->zoom(1.2);
@@ -116,7 +126,6 @@ void			SFMLView::onUpdate()
 	  _battleView->resetPOV();
 	  static_cast<BattleView*>(_battleView)->resetHUDPos();
 	  static_cast<BattleView*>(_battleView)->setLifeVisibility(true);
-	  std::cout << "SET VISIBILITY TRUE HERE" << std::endl;
 	  // SoundManager::getInstance()->playMusic(BATTLE_THEME);
 	}
       break;

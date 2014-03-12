@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Feb  4 11:04:13 2014 cyril jourdain
-// Last update Fri Mar  7 12:42:13 2014 cyril jourdain
+// Last update Tue Mar 11 23:20:33 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -36,6 +36,19 @@ void		SpriteManager::loadTextures(std::string const &path)
       (*_textures)[name]->loadFromFile(file[name].asString());
     }
   _textureLoaded = true;
+}
+
+void		SpriteManager::loadSprites(std::string const &filePath)
+{
+  JsonFile	file;
+  std::string	name;
+
+  JsonFile::readFile(file, filePath);
+  for (unsigned int i = 0; i < file.getMemberNames().size();i++)
+    {
+      name = file[file.getMemberNames()[i]].asString();
+      loadAnimations(name);
+    }
 }
 
 void		SpriteManager::loadAnimations(std::string const &jsonPath)
@@ -82,7 +95,9 @@ void		SpriteManager::loadAnimations(std::string const &jsonPath)
 		addSprite(sf::IntRect(jFile["sprites"][id][iName][numSprite]["x"].asInt(),
 				      jFile["sprites"][id][iName][numSprite]["y"].asInt(),
 				      customSize.x,
-				      customSize.y));
+				      customSize.y),
+			  sf::Vector2f(jFile["sprites"][id][iName][numSprite]["ox"].asInt(),
+				       jFile["sprites"][id][iName][numSprite]["oy"].asInt()));
 	      // std::cout << "\t\t" << k << std::endl;
 	    }
 	}

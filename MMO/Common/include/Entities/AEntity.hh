@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:48:29 2013 alexis mestag
-// Last update Tue Feb 25 14:21:19 2014 laurent ansel
+// Last update Tue Mar 11 15:12:56 2014 alexis mestag
 //
 
 #ifndef			__AENTITY_HH__
@@ -48,9 +48,9 @@ public:
   static AEntity	*deserialization(Trame const &trame);
 };
 
-# ifdef	ODB_COMPILER
-#  pragma db object(AEntity) abstract
-#  pragma db member(AEntity::_entityType) transient
-# endif
+// # ifdef	ODB_COMPILER
+// #  pragma db object(AEntity) abstract
+// #  pragma db member(AEntity::_entityType) transient
+// # endif
 
 #endif

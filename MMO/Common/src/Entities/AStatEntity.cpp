@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Mon Mar 10 15:01:10 2014 laurent ansel
+// Last update Tue Mar 11 14:48:37 2014 alexis mestag
 //
 
 #include			"Entities/AStatEntity.hh"
@@ -111,6 +111,26 @@ bool				AStatEntity::setStat(std::string const &key, Stat::value_type const valu
 
   if (sk) {
     _stats->setStat(*sk, value);
+    ret = true;
+  }
+  return (ret);
+}
+
+bool				AStatEntity::incStat(std::string const &key, Stat::value_type const inc)
+{
+  return (this->setStat(key, this->getStat(key) + inc));
+}
+
+bool				AStatEntity::decStat(std::string const &key, Stat::value_type const dec)
+{
+  StatKey const			*sk = this->getKey(key);
+  bool				ret = false;
+
+  if (sk) {
+    Stat::value_type		oldValue = this->getStats().getStat(key);
+    Stat::value_type		newValue = dec >= oldValue ? 0 : oldValue - dec;
+
+    _stats->setStat(*sk, newValue);
     ret = true;
   }
   return (ret);

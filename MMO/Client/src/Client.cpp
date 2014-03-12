@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Mon Mar 10 11:47:55 2014 guillaume marescaux
+// Last update Tue Mar 11 19:25:39 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -19,7 +19,8 @@ Client::Client():
   _chat(new MutexVar<Chat *>(new Chat)),
   _newPlayer(new MutexVar<bool>(false)),
   _battle(new MutexVar<Battle *>(new Battle)),
-  _core(new Core(_state, _player, _players, _chat, _newPlayer, _battle)),
+  _trade(new MutexVar<Trade *>(new Trade)),
+  _core(new Core(_state, _player, _players, _chat, _newPlayer, _battle, _trade)),
   _manager(NULL)
 {
 }
@@ -37,6 +38,8 @@ Client::~Client()
   delete _player;
   delete _players;
   delete _chat;
+  delete _battle;
+  delete _trade;
   delete _newPlayer;
   delete _manager;
 }
@@ -45,10 +48,10 @@ Client::~Client()
 
 //-------------------------------------BEGIN METHODS-------------------------------------------
 
-void				Client::init(int ac, char **av)
+void				Client::init(int &ac, char **av)
 {
   _core->init();
-  _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer, _battle);
+  _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer, _battle, _trade);
   _manager->exec();
   _core->quit();
 }
@@ -88,15 +91,21 @@ void				Client::useObject(unsigned int target, unsigned int item) { _core->useOb
 
 // void				Client::unsigned interaction();
 
-void				Client::putItem(AItem const &item) { _core->putItem(item); }
+void				Client::putItem(unsigned int idTrade, unsigned int idItem) { _core->putItem(idTrade, idItem); }
 
-void				Client::getItem(AItem const &item) { _core->getItem(item); }
+void				Client::getItem(unsigned int idTrade, unsigned int idItem) { _core->getItem(idTrade, idItem); }
 
-void				Client::sendMoney(unsigned int money) { _core->sendMoney(money); }
+void				Client::putMob(unsigned int idTrade, unsigned int idMob) { _core->putItem(idTrade, idMob); }
 
-void				Client::accept(void) { _core->accept(); }
+void				Client::getMob(unsigned int idTrade, unsigned int idMob) { _core->getItem(idTrade, idMob); }
 
-void				Client::refuse(void) { _core->refuse(); }
+void				Client::putMoney(unsigned int idTrade, unsigned int money) { _core->putItem(idTrade, money); }
+
+void				Client::getMoney(unsigned int idTrade, unsigned int money) { _core->getItem(idTrade, money); }
+
+void				Client::accept() { _core->accept(); }
+
+void				Client::refuse() { _core->refuse(); }
 
 void				Client::heal(void) { _core->heal(); }
 

@@ -5,22 +5,22 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Tue Mar 11 14:18:00 2014 cyril jourdain
+// Last update Wed Mar 12 11:13:18 2014 cyril jourdain
 //
 
 #include		<stdexcept>
 #include		"SFML/BattleView.hh"
 #include		"Entities/Digitaliser.hh"
+#include <QDebug>
 
 BattleView::BattleView(SFMLView *v, WindowManager *w) :
-  ContextView(v,w), _buttonMap(new ButtonMap), _playerList(new std::list<MobSprite*>()),
+  ContextView(v,w), _playerList(new std::list<MobSprite*>()),
   _enemyList(new std::list<MobSprite*>()), _playingMob(NULL), _selectedMob(NULL),
-  _selection(new Sprite()), _spellSprite(new Sprite()), _spellSpriteCase(new Sprite()),
-  _selectedSpell(""), _spellUpdater(new BattleSpellUpdater(v, w)), _currentTurn(-1)
+  _selectedSpell(""), _currentTurn(-1)
 {
-  (*_buttonMap)[Qt::NoButton] = &BattleView::noButton;
-  (*_buttonMap)[Qt::LeftButton] = &BattleView::leftButton;
-  (*_buttonMap)[Qt::RightButton] = &BattleView::rightButton;
+  // (*_buttonMap)[Qt::NoButton] = &BattleView::noButton;
+  // (*_buttonMap)[Qt::LeftButton] = &BattleView::leftButton;
+  // (*_buttonMap)[Qt::RightButton] = &BattleView::rightButton;
 }
 
 BattleView::~BattleView()
@@ -34,6 +34,18 @@ void			BattleView::onInit()
   int			posY = 2 * CASE_SIZE;
   int			limit = 0;
   MobSprite		*tmp;
+
+  _spellUpdater = new BattleSpellUpdater(_sfmlView, _wMan);
+  _buttonMap = new ButtonMap;
+  (*_buttonMap)[Qt::NoButton] = &BattleView::noButton;
+  (*_buttonMap)[Qt::LeftButton] = &BattleView::leftButton;
+  (*_buttonMap)[Qt::RightButton] = &BattleView::rightButton;
+  _selection = new Sprite();
+  _spellSprite = new Sprite();
+  _spellSpriteCase = new Sprite();
+  _selectedSpell = "";
+  _currentTurn = -1;
+
 
   _backgroundTexture->create(BATTLE_SIZE * CASE_SIZE, BATTLE_SIZE*CASE_SIZE);
   loadBackgroundMap();
@@ -123,14 +135,14 @@ void			BattleView::drawView()
   for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
     {
       (*it)->resetHUDPos();
-      (*it)->update(*_sfmlView->getMainClock());
       _sfmlView->draw(*(*it));
+      (*it)->update(*_sfmlView->getMainClock());
     }
   for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
     {
       (*it)->resetHUDPos();
-      (*it)->update(*_sfmlView->getMainClock());
       _sfmlView->draw(*(*it));
+      (*it)->update(*_sfmlView->getMainClock());
     }
   _sfmlView->draw(*_selection);
   _sfmlView->draw(*_spellSprite);
@@ -160,6 +172,7 @@ void			BattleView::resetPOV()
 void			BattleView::centerView()
 {
   _sfmlView->getMainView()->setCenter(sf::Vector2f(BATTLE_SIZE * CASE_SIZE / 2, BATTLE_SIZE * CASE_SIZE / 2));
+  qDebug() << "View centered";
 }
 
 void			BattleView::spellClick(std::string const &spell)
@@ -210,6 +223,28 @@ void			BattleView::setLifeVisibility(bool v)
     (*it)->setLifeVisibility(v);
   for (auto it = _enemyList->begin(); it != _enemyList->end(); it++)
     (*it)->setLifeVisibility(v);
+}
+
+void			BattleView::quitBattle()
+{
+  delete _buttonMap;
+  for (auto it = _playerList->begin(); it != _playerList->end(); it++)
+    {
+      // (*it)->setInfoVisibility(false);
+      delete *it;
+    }
+  _playerList->clear();
+  for (auto it = _enemyList->begin(); it != _enemyList->end(); it++)
+    delete *it;
+  _enemyList->clear();
+  // _playingMob = NULL;
+  // _selectedMob = NULL;
+  // _spellSprite = NULL;
+  // _spellSpriteCase = NULL;
+  _selectedSpell = "";
+  delete _spellUpdater;
+  _spellUpdater = NULL;
+  _currentTurn = -1;
 }
 
 void			BattleView::setPlayingMob()

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 26 13:55:45 2014 alexis mestag
-// Last update Mon Mar 10 01:34:07 2014 alexis mestag
+// Last update Tue Mar 11 14:57:12 2014 alexis mestag
 //
 
 #include				"HesodeEffect.hh"
@@ -23,6 +23,6 @@ HesodeEffect::~HesodeEffect()
 
 bool					HesodeEffect::apply(Player &player)
 {
-  player.setStat("Attack", 10);
+  player.incStat("Attack", 10);
   return (true);
 }

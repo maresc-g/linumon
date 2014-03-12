@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Tue Mar 11 12:45:52 2014 cyril jourdain
+// Last update Wed Mar 12 10:49:11 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -90,10 +90,13 @@ void			WorldView::onUpdate()
 
 void			WorldView::onKeyEvent(sf::Event const &event)
 {
-  try {
-    (this->*(_keyMap->at(event.key.code)))();
-  }
-  catch (std::out_of_range const &e) {
+  CLIENT::eState s = **(_wMan->getState());
+  if (s == CLIENT::PLAYING){
+    try {
+      (this->*(_keyMap->at(event.key.code)))();
+    }
+    catch (std::out_of_range const &e) {
+    }
   }
 }
 
@@ -165,8 +168,8 @@ void			WorldView::drawView()
   for (auto it = _entities->begin(); it != _entities->end(); ++it)
     {
       if (*it){
-	(*it)->update(*_sfmlView->getMainClock());
-	_sfmlView->draw(**it);
+  	(*it)->update(*_sfmlView->getMainClock());
+  	_sfmlView->draw(**it);
       }
     }
   for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
@@ -174,10 +177,10 @@ void			WorldView::drawView()
       if ((**(_wMan->getMainPlayer()))->getId() == ((*it)->getPlayerId()))
       	continue;
       if (*it){
-	(*it)->moveFromServer();
-	(*it)->updateMoves(_sfmlView->getMainClock(), NULL);
-	(*it)->update(*_sfmlView->getMainClock());
-	_sfmlView->draw(**it);
+  	(*it)->moveFromServer();
+  	(*it)->updateMoves(_sfmlView->getMainClock(), NULL);
+  	(*it)->update(*_sfmlView->getMainClock());
+  	_sfmlView->draw(**it);
       }
     }
   if (_mainPerso) {
@@ -186,8 +189,8 @@ void			WorldView::drawView()
   for (auto it = _topLayer->begin(); it != _topLayer->end(); ++it)
     {
       if (*it){
-	(*it)->update(*_sfmlView->getMainClock());
-	_sfmlView->draw(**it);
+  	(*it)->update(*_sfmlView->getMainClock());
+  	_sfmlView->draw(**it);
       }
     }
   _sfmlView->setView(*(_sfmlView->getMainView()));

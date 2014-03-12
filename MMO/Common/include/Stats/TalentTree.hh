@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 12:39:07 2014 alexis mestag
-// Last update Thu Feb 27 14:29:18 2014 laurent ansel
+// Last update Tue Mar 11 16:18:51 2014 alexis mestag
 //
 
 #ifndef				__TALENTTREE_HH__
@@ -42,6 +42,7 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(TalentTree)
+#  pragma db member(TalentTree::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 # endif
 
 #endif

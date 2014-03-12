@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Mar 10 20:16:44 2014 alexis mestag
+// Last update Tue Mar 11 13:46:37 2014 alexis mestag
 //
 
 #include			<functional>
@@ -25,7 +25,7 @@
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _type(PlayerType::PLAYER),
   _digitaliser(new Digitaliser), _coord(new PlayerCoordinate),
-  _faction(NULL), _talentTree(NULL), _talents(new Talents),
+  _faction(NULL), _talentTree(NULL), _talents(new Talents), _user(NULL),
   _inventory(new Inventory), _jobs(new Jobs), _guild(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
@@ -36,10 +36,10 @@ Player::Player() :
 
 }
 
-Player::Player(std::string const &name, std::string const &factionName) :
+Player::Player(std::string const &name, std::string const &factionName, User const *user) :
   Persistent(), ACharacter(name, eCharacter::PLAYER), _type(PlayerType::PLAYER),
   _digitaliser(new Digitaliser), _coord(new PlayerCoordinate),
-  _faction(NULL), _talentTree(NULL), _talents(new Talents),
+  _faction(NULL), _talentTree(NULL), _talents(new Talents), _user(user),
   _inventory(new Inventory), _jobs(new Jobs), _guild(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
@@ -47,6 +47,8 @@ Player::Player(std::string const &name, std::string const &factionName) :
   , _zone("NONE")
 # endif
 {
+  this->_inventory->setPath("Res/Inventories/" + this->getName() + ".json");
+
   # ifndef	CLIENT_COMPILATION
   this->initConstPointersForNewPlayers();
 

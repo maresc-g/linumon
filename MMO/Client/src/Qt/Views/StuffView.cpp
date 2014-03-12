@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Mon Mar 10 16:05:06 2014 guillaume marescaux
+// Last update Tue Mar 11 15:53:40 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -53,7 +53,7 @@ void				StuffView::setItem(Equipment const *equipment, Stuff::eStuff stuff, int 
     {
       item = new ItemView(this, _wMan, 0, &(equipment->getStuff(stuff)));
       item->move(x, y);
-      item->resize(120, 80);
+      item->resize(50, 50);
       item->show();
       _items->push_back(item);
     }
@@ -64,14 +64,14 @@ void				StuffView::setEquipment(Equipment const *equipment)
   for (auto it = _items->begin() ; it != _items->end() ; it++)
     delete *it;
   _items->clear();
-  setItem(equipment, Stuff::HELMET, 0, 70);
-  setItem(equipment, Stuff::SHOULDERS, 0, 170);
-  setItem(equipment, Stuff::BREASTPLATE, 0, 270);
-  setItem(equipment, Stuff::CLOAK, 0, 370);
-  setItem(equipment, Stuff::BOOTS, 0, 470);
-  setItem(equipment, Stuff::NECKLACE, 380, 70);
-  setItem(equipment, Stuff::RING, 380, 170);
-  setItem(equipment, Stuff::WEAPON, 380, 270);
+  setItem(equipment, Stuff::HELMET, 80, 130);
+  setItem(equipment, Stuff::NECKLACE, 80, 220);
+  setItem(equipment, Stuff::CLOAK, 80, 310);
+  setItem(equipment, Stuff::RING, 80, 400);
+  setItem(equipment, Stuff::SHOULDERS, 350, 130);
+  setItem(equipment, Stuff::BREASTPLATE, 350, 220);
+  setItem(equipment, Stuff::WEAPON, 350, 310);
+  setItem(equipment, Stuff::BOOTS, 350, 400);
 }
 
 void				StuffView::initStuff(Player const &player)

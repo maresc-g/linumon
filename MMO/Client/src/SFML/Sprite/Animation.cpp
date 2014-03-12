@@ -5,28 +5,23 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:08:26 2014 cyril jourdain
-// Last update Sun Mar  9 01:00:27 2014 cyril jourdain
+// Last update Wed Mar 12 00:59:57 2014 cyril jourdain
 //
 
 #include		"SFML/Sprite/Animation.hh"
 #include		<iostream>
 
 Animation::Animation() :
-  _spriteList(new std::vector<sf::IntRect*>), _currentId(0), _frameCount(0),
+  _spriteList(new std::vector<Frame*>), _initialPos(new sf::Vector2f()), _currentId(0), _frameCount(0),
   _frameLenght(120000), _cFrameTime(0), _playing(false), _loopPlay(true)
 {
-  //_spriteList->push_back(new sf::IntRect(0,0,100,100));
-  // _spriteList->push_back(new sf::IntRect(20,0,100,100));
-  // _spriteList->push_back(new sf::IntRect(40,0,100,100));
-  // _spriteList->push_back(new sf::IntRect(60,0,100,100));
-
 }
 
 Animation::Animation(Animation const &other) :
-  _spriteList(new std::vector<sf::IntRect*>)
+  _spriteList(new std::vector<Frame*>)
 {
   for (auto it = other._spriteList->begin(); it != other._spriteList->end(); it++)
-    _spriteList->push_back(new sf::IntRect(**it));
+    _spriteList->push_back(new Frame(**it));
   _currentId = 0;
   _frameCount = other._frameCount;
   _frameLenght = other._frameLenght;
@@ -37,6 +32,8 @@ Animation::Animation(Animation const &other) :
 
 Animation::~Animation()
 {
+  for (auto it = _spriteList->begin(); it != _spriteList->end(); ++it)
+    delete *it;
   delete _spriteList;
 }
 
@@ -60,14 +57,19 @@ void			Animation::update(sf::Clock &clock)
   }
 }
 
-sf::IntRect		*Animation::getCurrentCoord() const
+sf::Vector2f		*Animation::getFrameOffset() const
 {
-  return ((*_spriteList)[_currentId]);
+  return ((*_spriteList)[_currentId]->getOffset());
 }
 
-void			Animation::addSprite(sf::IntRect const &coord)
+sf::IntRect		*Animation::getCurrentCoord() const
 {
-  _spriteList->push_back(new sf::IntRect(coord));
+  return ((*_spriteList)[_currentId]->getSpriteRect());
+}
+
+void			Animation::addSprite(sf::IntRect const &coord, sf::Vector2f const &offset)
+{
+  _spriteList->push_back(new Frame(coord, offset));
   _frameCount++;
 }
 
@@ -91,4 +93,11 @@ bool			Animation::isEnded() const
 void			Animation::setLoopPlay(bool loop)
 {
   _loopPlay = loop;
+}
+
+void	Animation::printFrameId()
+{
+  // std::cout << _currentId << std::endl;
+  // if (_over)
+  //   std::cout << "Frame [" << _currentId << "] is over" << std::endl;
 }

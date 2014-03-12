@@ -5,22 +5,22 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:15:41 2013 cyril jourdain
-// Last update Fri Mar  7 13:14:28 2014 cyril jourdain
+// Last update Tue Mar 11 18:17:09 2014 guillaume marescaux
 //
 
 #ifndef 		__WINDOWMANAGER_HH__
 # define 		__WINDOWMANAGER_HH__
 
-#include        <Qt/qapplication.h>
-#include        <Qt/qframe.h>
-#include	<Qt/qpushbutton.h>
-#include	<Qt/qfile.h>
-#include	<Qt/qgridlayout.h>
-#include	"Qt/Views/LoginView.hh"
-#include	"Qt/Views/CharacterView.hh"
-#include	"SFML/SFMLView.hpp"
-#include	"Client.hh"
-#include	"Entities/Views/PlayerView.hh"
+# include        <Qt/qapplication.h>
+# include        <Qt/qframe.h>
+# include	<Qt/qpushbutton.h>
+# include	<Qt/qfile.h>
+# include	<Qt/qgridlayout.h>
+# include	"Qt/Views/LoginView.hh"
+# include	"Qt/Views/CharacterView.hh"
+# include	"SFML/SFMLView.hpp"
+# include	"Client.hh"
+# include	"Entities/Views/PlayerView.hh"
 
 # define	ITEM_SIZE	50	
 
@@ -41,13 +41,14 @@ private:
   MutexVar<std::list<PlayerView *> *>	*_players;
   MutexVar<bool>	*_newPlayer;
   MutexVar<Battle*>	*_battle;
+  MutexVar<Trade *>	*_trade;
   LoginView		*_loginView;
   CharacterView		*_characterView;
   SFMLView		*_sfmlView;
 
 public:
-  WindowManager(int, char **, MutexVar<CLIENT::eState> *, MutexVar<std::list<PlayerView *> *> *,
-		MutexVar<Player *>*, MutexVar<bool>*, MutexVar<Battle*>*);
+  WindowManager(int &, char **, MutexVar<CLIENT::eState> *, MutexVar<std::list<PlayerView *> *> *,
+		MutexVar<Player *>*, MutexVar<bool>*, MutexVar<Battle*>*, MutexVar<Trade*>*);
   virtual ~WindowManager();
 
 public:
@@ -62,6 +63,7 @@ public:
   MutexVar<Player*>		*getMainPlayer();
   MutexVar<bool>		*getNewPlayer();
   MutexVar<Battle*>		*getBattle();
+  MutexVar<Trade*>		*getTrade();
   SFMLView		*getSFMLView(void);
 };
 

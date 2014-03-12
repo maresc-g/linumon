@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:56 2014 cyril jourdain
-// Last update Tue Mar 11 14:01:26 2014 cyril jourdain
+// Last update Wed Mar 12 01:02:35 2014 cyril jourdain
 //
 
 #include			"SFML/BattleSpellUpdater.hh"
@@ -29,7 +29,6 @@ void				BattleSpellUpdater::update(BattleView *battle)
     {
       if ((tmp = (**_wMan->getBattle())->getSpell()))
 	{
-	  std::cout << "Playing SPELL" << std::endl;
 	  _sfmlView->getSpriteManager()->copySprite("Danse-Fleur", *_currentSpell);
 	  mob = battle->findMobById(tmp->getTarget());
 	  if (!mob)
@@ -40,17 +39,26 @@ void				BattleSpellUpdater::update(BattleView *battle)
 	  (*_currentSpell)["onEnemy"]->setLoopPlay(false);
 	  (*_currentSpell)["onEnemy"]->setFrameLength(80000);
 	  _currentSpell->play("onEnemy");
-	  _currentSpell->update(*_sfmlView->getMainClock());
+	  //_currentSpell->update(*_sfmlView->getMainClock());
 	  delete tmp;
 	}
     }
-  _currentSpell->update(*_sfmlView->getMainClock());
+  else
+    _currentSpell->update(*_sfmlView->getMainClock());
 }
 
 void				BattleSpellUpdater::draw()
 {
+  sf::Vector2f			tmp;
+
   if (_currentSpell->getLastPlayed() != "")
-    _sfmlView->draw(*_currentSpell);
+    {
+      tmp = _currentSpell->getPosition();
+      _currentSpell->setPosition(tmp.x + _currentSpell->getCurrentOffset()->x,
+				 tmp.y + _currentSpell->getCurrentOffset()->y);
+      _sfmlView->draw(*_currentSpell);
+      _currentSpell->setPosition(tmp);
+    }
 }
 
 
@@ -60,3 +68,4 @@ bool				BattleSpellUpdater::endTurn()
     return true;
   return false;
 }
+

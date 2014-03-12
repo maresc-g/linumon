@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Wed Mar 12 12:04:27 2014 antoine maitre
+// Last update Wed Mar 12 13:51:51 2014 antoine maitre
 //
 
 #ifndef				__BATTLE_HH__
@@ -36,7 +36,7 @@ private:
   unsigned int			_idLooser;
   bool				_success;
 public:
-  Battle(unsigned int const id, eBattle const type, int const mobNumber, Player *player1, Player *player2);
+  Battle(unsigned int const id, eBattle const type, unsigned int const mobNumber, Player *player1, Player *player2);
   ~Battle();
   unsigned int			getID() const;
   eBattle 			getType() const;

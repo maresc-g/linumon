@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Feb 25 12:42:29 2014 laurent ansel
-// Last update Tue Feb 25 12:43:06 2014 laurent ansel
+// Last update Tue Mar 11 16:14:32 2014 alexis mestag
 //
 
 #ifndef 		__GUILD_HH__
@@ -36,8 +36,7 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Guild)
+#  pragma db member(Guild::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 # endif
-
-
 
 #endif

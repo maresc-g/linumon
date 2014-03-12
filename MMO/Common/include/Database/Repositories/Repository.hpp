@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Feb  1 15:22:57 2014 alexis mestag
-// Last update Mon Mar 10 20:37:26 2014 alexis mestag
+// Last update Tue Mar 11 11:16:49 2014 alexis mestag
 //
 
 #ifndef				__REPOSITORY_HPP__
@@ -78,11 +78,12 @@ public:
 
   virtual void			smartUpdate(T &o, bool const inTr = false) {
     Database::Transaction	*t = Database::getNewTransaction(inTr);
+    bool			isInTr = (t || inTr) ? true : false;
 
     if (o.isPersistent())
-      this->update(o, !inTr ? !inTr : inTr);
+      this->update(o, isInTr);
     else
-      this->persist(o, !inTr ? !inTr : inTr);
+      this->persist(o, isInTr);
 
     if (t) {
       t->commit();

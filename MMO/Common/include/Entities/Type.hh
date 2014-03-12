@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 21:03:13 2013 alexis mestag
-// Last update Tue Mar  4 00:38:23 2014 alexis mestag
+// Last update Tue Mar 11 21:46:24 2014 alexis mestag
 //
 
 #ifndef			__TYPE_HH__
@@ -78,11 +78,12 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db value(Link)
 #  pragma db member(Link::type) not_null column("oType_id")
-#  pragma db member(Link::coeff) not_null column("coeff")
+#  pragma db member(Link::coeff) not_null
 
 #  pragma db object(Type)
 #  pragma db member(Type::_relations) transient
-#  pragma db member(Type::relations) virtual(TypeRelations::container_type) get(_relations->getContainer()) set(_relations->setContainer(?))
+#  pragma db member(Type::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
+#  pragma db member(Type::relations) virtual(TypeRelations::container_type) get(_relations->getContainer()) set(_relations->setContainer(?)) value_not_null
 # endif
 
 #endif

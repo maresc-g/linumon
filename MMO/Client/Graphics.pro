@@ -51,6 +51,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/SFML/BattleSpellUpdater.hh \
                 include/SFML/Sprite/Sprite.hh \
                 include/SFML/Sprite/Animation.hh \
+                include/SFML/Sprite/Frame.hh \
                 include/Client.hh \
                 include/Common/eState.hh \
                 include/Common/eDirection.hh \
@@ -59,6 +60,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Chat/Chat.hh \
                 include/Battle/Battle.hh \
                 include/Battle/SpellContainer.hh \
+                include/Trade/Trade.hh \
                 include/Sound/SoundManager.hh
 
 SOURCES +=      src/main.cpp \
@@ -96,6 +98,7 @@ SOURCES +=      src/main.cpp \
                 src/SFML/BattleSpellUpdater.cpp \
                 src/SFML/Sprite/Sprite.cpp \
                 src/SFML/Sprite/Animation.cpp \
+                src/SFML/Sprite/Frame.cpp \
                 src/SFML/Sprite/SpriteManager.cpp \
                 src/Client.cpp \
                 src/Chat/Chat.cpp \
@@ -103,6 +106,7 @@ SOURCES +=      src/main.cpp \
                 src/Core/ErrorHandler.cpp \
                 src/Battle/Battle.cpp \
                 src/Battle/SpellContainer.cpp \
+                src/Trade/Trade.cpp \
                 src/Sound/SoundManager.cpp \
                 ../Common/src/Map/Map.cpp \
                 ../Common/src/Crypto/Crypto.cpp \ 

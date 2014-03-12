@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Mar 10 20:02:36 2014 alexis mestag
+// Last update Tue Mar 11 21:44:30 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -84,7 +84,7 @@ private:
   # endif
 
 public:
-  Player(std::string const &name, std::string const &factionName = "");
+  Player(std::string const &name, std::string const &factionName = "", User const *user = NULL);
   virtual ~Player();
 
   PlayerCoordinate const	&getCoord() const;
@@ -167,22 +167,26 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Player)
+#  pragma db member(Player::_type) transient
 #  pragma db member(Player::_coord) transient
 #  pragma db member(Player::_digitaliser) transient
 #  pragma db member(Player::_talents) transient
 #  pragma db member(Player::_inventory) transient
 #  pragma db member(Player::_jobs) transient
+#  pragma db member(Player::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 #  pragma db member(Player::_x) virtual(Player::Coordinate::type) get(_coord->getX()) set(_coord->setX(?))
 #  pragma db member(Player::_y) virtual(Player::Coordinate::type) get(_coord->getY()) set(_coord->setY(?))
 #  pragma db member(Player::_faction) not_null
-#  pragma db member(Player::mobs) virtual(Digitaliser::container_type) get(_digitaliser->getContainer()) set(_digitaliser->setContainer(?))
-#  pragma db member(Player::battleMobs) virtual(Digitaliser::container_type) get(_digitaliser->getBattleMobs()) set(_digitaliser->setBattleMobs(?))
-#  pragma db member(Player::_dbZone)
+#  pragma db member(Player::mobs) virtual(Digitaliser::container_type) get(_digitaliser->getContainer()) set(_digitaliser->setContainer(?)) value_not_null
+#  pragma db member(Player::battleMobs) virtual(Digitaliser::container_type) get(_digitaliser->getBattleMobs()) set(_digitaliser->setBattleMobs(?)) value_not_null
+#  pragma db member(Player::_dbZone) not_null
 #  pragma db member(Player::_inventoryPath) virtual(std::string) get(_inventory->getPath()) set(_inventory->setPath(?))
 #  pragma db member(Player::_money) virtual(unsigned int) get(_inventory->getMoney()) set(_inventory->setMoney(?))
 #  pragma db member(Player::_limit) virtual(unsigned int) get(_inventory->getLimit()) set(_inventory->setLimit(?))
-#  pragma db member(Player::jobs) virtual(Jobs::container_type) get(_jobs->getContainer()) set(_jobs->setContainer(?))
-#  pragma db member(Player::talents) virtual(Talents::container_type) get(_talents->getContainer()) set(_talents->setContainer(?))
+#  pragma db member(Player::jobs) virtual(Jobs::container_type) get(_jobs->getContainer()) set(_jobs->setContainer(?)) value_not_null
+#  pragma db member(Player::talents) virtual(Talents::container_type) get(_talents->getContainer()) set(_talents->setContainer(?)) value_not_null
+#  pragma db member(Player::_talentTree) not_null
+#  pragma db member(Player::_user) not_null
 # endif
 
 #endif

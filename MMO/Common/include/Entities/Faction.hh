@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:28:40 2013 alexis mestag
-// Last update Wed Mar  5 15:49:39 2014 laurent ansel
+// Last update Tue Mar 11 21:38:37 2014 alexis mestag
 //
 
 #ifndef			__FACTION_HH__
@@ -57,6 +57,8 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Faction)
+#  pragma db member(Faction::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
+#  pragma db member(Faction::_effectLib) not_null
 # endif
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 27 16:57:56 2014 alexis mestag
-// Last update Tue Mar 11 15:30:29 2014 antoine maitre
+// Last update Wed Mar 12 13:35:54 2014 antoine maitre
 //
 
 #include				"NormalEffect.hh"
@@ -43,19 +43,6 @@ void					NormalEffect::initialize(Mob &caster, Spell &spell, Mob &target)
 bool					NormalEffect::apply(Mob &mob)
 {
   std::cout << mob.getName() << " was hit by " << (int)_hp << std::endl;
-  if (_hp > mob.getCurrentStat("HP"))
-    _hp = mob.getCurrentStat("HP");
-  std::cout << mob.getName() << " was at " << mob.getCurrentStat("HP") << "hp, now " << mob.getName() << " have " << mob.getCurrentStat("HP") - _hp << "hp." << std::endl;
-  mob.setCurrentStat("HP", mob.getCurrentStat("HP") - _hp);
+  mob.decCurrentStat("HP", _hp);
   return (true);
 }
-
-// void					NormalEffect::initializeByCaster(Mob &caster)
-// {
-
-// }
-
-// void					NormalEffect::initializeBySpell(Spell &spell)
-// {
-//   _power *= spell.getPower();
-// }
