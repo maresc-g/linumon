@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Sun Mar  2 22:33:20 2014 antoine maitre
-// Last update Thu Mar 13 14:58:59 2014 antoine maitre
+// Last update Thu Mar 13 16:02:23 2014 antoine maitre
 //
 
 #include			"AI/AI.hh"
@@ -73,10 +73,10 @@ int				AI::getRandomMob(int mob)
   return (-1);
 }
 
-std::tuple<unsigned int const, unsigned int const, Spell const *>			AI::action(unsigned int const mob)
+std::tuple<unsigned int const, unsigned int const, Spell const *>			AI::action(unsigned int const mob, unsigned int const nb)
 {
   Spell const			*tmp;
-  // int				target;
+  //int				target;
 
   for (auto it = this->getDigitaliser().getBattleMobs().begin(); it != this->getDigitaliser().getBattleMobs().end(); ++it)
     if ((*it)->getId() == mob)
@@ -89,6 +89,6 @@ std::tuple<unsigned int const, unsigned int const, Spell const *>			AI::action(u
 	    i--;
 	  }
       }
-  std::tuple<unsigned int const, unsigned int const, Spell const *> ret(mob, this->getRandomMob(mob), tmp);
+  std::tuple<unsigned int const, unsigned int const, Spell const *> ret(mob, this->getRandomMob(nb), tmp);
   return (ret);
 }

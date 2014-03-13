@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Sun Mar  2 22:31:17 2014 antoine maitre
-// Last update Thu Mar 13 14:58:20 2014 antoine maitre
+// Last update Thu Mar 13 16:00:48 2014 antoine maitre
 //
 
 #ifndef			__AI_HH__
@@ -21,7 +21,7 @@ class			AI : public Player
 public:
   AI(std::string const &name, std::string const &factionName = "");
   virtual ~AI();
-  std::tuple<unsigned int const, unsigned int const, Spell const *>		action(unsigned int const);
+  std::tuple<unsigned int const, unsigned int const, Spell const *>		action(unsigned int const, unsigned int const);
   void		setAdv(Player *);
   void		addMob(Mob *mob);
   void		addEnemy(std::list<Mob *> mob);

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Thu Mar 13 15:06:20 2014 antoine maitre
+// Last update Thu Mar 13 17:10:10 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -18,17 +18,15 @@ Battle::Battle(unsigned int const id, eBattle const type, unsigned int const mob
   // static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
   unsigned int i = 0;
 
+  for (auto it = player1->getDigitaliser().getBattleMobs().begin(); it != player1->getDigitaliser().getBattleMobs().end(); it++)
+    (*it)->enterBattle();
+  for (auto it = player2->getDigitaliser().getBattleMobs().begin(); it != player2->getDigitaliser().getBattleMobs().end(); it++)
+    (*it)->enterBattle();
   for (auto it = player1->getDigitaliser().getBattleMobs().begin(); it != player1->getDigitaliser().getBattleMobs().end() && i++ < mobNumber; it++)
-    {
-      (*it)->enterBattle();
-      this->_mobs.push_back((*it));
-    }
+    this->_mobs.push_back((*it));
   i = 0;
   for (auto it = player2->getDigitaliser().getBattleMobs().begin(); it != player2->getDigitaliser().getBattleMobs().end() && i++ < mobNumber; it++)
-    {
-      (*it)->enterBattle();
-      this->_mobs.push_back((*it));
-    }
+    this->_mobs.push_back((*it));
   if (player1->getType() == Player::PlayerType::PLAYER)
     this->trameLaunchBattle(player1->getUser().getId(), player2);
   if (player2->getType() == Player::PlayerType::PLAYER)
@@ -69,6 +67,7 @@ bool					Battle::checkEnd()
       i = 0;
       for (auto itb = this->_mobs.begin(); itb != this->_mobs.end(); itb++)
 	{
+	  std::cout << (*itb)->getId() << std::endl;
 	  if ((*it)->isMyMob((*itb)->getId()) && (*itb)->getCurrentStat("HP") <= 0)
 	    i++;
 	  if (i == _mobNumber)
@@ -110,9 +109,12 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
 	  } 
       Stats const			&statMob = mobTarget->getCurrentStats();
       if (statMob.getStat(*hpKey) <= 0)
-	for (auto it = this->_players.begin(); it != this->_players.end(); it++)
-	  if ((*it)->getType() == Player::PlayerType::PLAYER)
-	    this->trameDeadMob((*it)->getUser().getId(), target);
+	{
+	  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+	    if ((*it)->getType() == Player::PlayerType::PLAYER)
+	      this->trameDeadMob((*it)->getUser().getId(), target);
+	  this->replace();
+	}
     }
   return (this->checkEnd());
 }
@@ -123,7 +125,11 @@ bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
     if ((*itMob)->getId() == target)
       for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	if ((*it)->isMyMob((*itMob)->getId()))
-	  (*itMob) = (Mob *)(&(*it)->getMob(target));
+	  {
+	    std::cout << "EPIC VICTORY " << (*itMob)->getId() << std::endl;
+	    (*itMob) = (Mob *)(&(*it)->getMob(newmob));
+	    std::cout << "EPIC VICTORY " << (*itMob)->getId() << std::endl;
+	  }
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     {
       if ((*it)->getType() == Player::PlayerType::PLAYER)
@@ -155,23 +161,41 @@ bool					Battle::capture(unsigned int const target)
 void					Battle::replace()
 {
   for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
-    if ((*it)->getStat("HP") == 0)
-      for (auto itb = this->_players.begin(); itb != this->_players.end(); itb++)
-	if ((*itb)->isMyMob((*it)->getId()))
-	  for (auto itc = (*itb)->getDigitaliser().getBattleMobs().begin(); itc != (*itb)->getDigitaliser().getBattleMobs().end(); itc++)
+    {
+      std::cout << "ONE" << std::endl;
+      if ((*it)->getCurrentStat("HP") == 0)
+	{
+	  std::cout << "TWO" << std::endl;
+	  for (auto itb = this->_players.begin(); itb != this->_players.end(); itb++)
 	    {
-	      auto tmp = std::find(this->_mobs.begin(), this->_mobs.end(), (*itc));
-	      if ((*itc)->getStat("HP") > 0 && tmp != this->_mobs.end())
-		dswitch((*it)->getId(), (*itc)->getId());
-	     }
+	      std::cout << "THREE" << std::endl;
+	      if ((*itb)->isMyMob((*it)->getId()))
+		{
+		  std::cout << "FOUR" << std::endl;
+		  for (auto itc = (*itb)->getDigitaliser().getBattleMobs().begin(); itc != (*itb)->getDigitaliser().getBattleMobs().end(); itc++)
+		    {
+		      std::cout << "REPLACE EN ACTION" << std::endl;
+		      auto tmp = std::find(this->_mobs.begin(), this->_mobs.end(), (*itc));
+		      if ((*itc)->getCurrentStat("HP") > 0 && tmp == this->_mobs.end())
+			{
+			  dswitch((*it)->getId(), (*itc)->getId());
+			  std::cout << "SA DEVRAIT MARCHER" << std::endl;
+			  break;
+			}
+		    }
+		}
+	    }
+	}
+    }
 }
 
 void					Battle::next()
 {
+  if (this->_mobs.front()->getStat("HP"))
+    this->replace();
   auto tmp = this->_mobs.front();
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);
-  this->replace();
   if (tmp->getCurrentStat("HP") <= 0 && !this->checkEnd())
     {
       this->next();
@@ -186,7 +210,7 @@ void					Battle::next()
     {
       if ((*it)->isMyMob(tmp->getId()) && (*it)->getType() == Player::PlayerType::AI)
 	{
-	  auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
+	  auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId(), this->_mobNumber);
 	  if (!this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2)))
 	    this->next();
 	  return;
