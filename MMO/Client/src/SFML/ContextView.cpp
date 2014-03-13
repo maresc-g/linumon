@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 01:15:31 2014 cyril jourdain
-// Last update Tue Mar 11 16:01:24 2014 cyril jourdain
+// Last update Thu Mar 13 12:46:07 2014 cyril jourdain
 //
 
 #include		"SFML/ContextView.hh"
@@ -13,8 +13,8 @@
 
 
 ContextView::ContextView(SFMLView *v, WindowManager *w) :
-  _sfmlView(v), _wMan(w), _spriteMap(new SpriteMap()), _backgroundTexture(new sf::RenderTexture()),
-  _backgroundSprite(new sf::Sprite())
+  _sfmlView(v), _wMan(w), _spriteMap(new SpriteMap()), _backgroundTexture(NULL),
+  _backgroundSprite(NULL)
 {
 }
 
@@ -32,6 +32,7 @@ void			ContextView::loadBackgroundMap()
     {
       for (int x = 0; x < zone->getSizeX(); x++)
 	{
+	  // std::cout << x << "/" << y << std::endl;
 	  //int rnd = rand() % 100;
 	  if (zone->getCase(x,y) && !zone->getCase(x,y)->getSafe())
 	    {
