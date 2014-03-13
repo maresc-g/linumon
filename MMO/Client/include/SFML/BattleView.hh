@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Tue Mar 11 15:02:39 2014 cyril jourdain
+// Last update Thu Mar 13 14:17:51 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -19,8 +19,23 @@
 
 class BattleSpellUpdater;
 
+enum				BattleMobType
+  {
+    PLAYER,
+    ENEMY,
+    NOMOB
+  };
+
+struct				BattleMob
+{
+  BattleMob(BattleMobType t, MobSprite *m):type(t), mob(m){};
+  BattleMobType			type;
+  MobSprite			*mob;
+};
+
 class				BattleView : public ContextView
 {
+
 private:
   typedef std::map<Qt::MouseButton, void (BattleView::*)(QMouseEvent *)> ButtonMap;
 
@@ -56,7 +71,7 @@ public:
 public:
   std::list<MobSprite*>		*getPlayerList() const;
   std::list<MobSprite*>		*getEnemyList() const;
-  MobSprite			*findMobById(unsigned int id) const;
+  BattleMob			*findMobById(unsigned int id) const;
   void				resetHUDPos();
   void				setLifeVisibility(bool v);
   void				quitBattle();
@@ -67,6 +82,7 @@ private:
   void				leftButton(QMouseEvent *);
   void				rightButton(QMouseEvent *);
   void				noButton(QMouseEvent *);
+  void				switchMobs();
 };
 
 #endif

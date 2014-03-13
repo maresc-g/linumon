@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 13 14:15:32 2014 guillaume marescaux
+// Last update Thu Mar 13 14:33:01 2014 guillaume marescaux
 //
 
 #include			<functional>
@@ -180,6 +180,7 @@ Digitaliser const		&Player::getDigitaliser() const
 void				Player::setDigitaliser(Digitaliser const &digit)
 {
   *this->_digitaliser = digit;
+  this->_digitaliser->setPlayer(this);
 }
 
 Inventory const			&Player::getInventory() const

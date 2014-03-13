@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Thu Mar 13 13:45:14 2014 guillaume marescaux
+// Last update Thu Mar 13 14:29:38 2014 cyril jourdain
 //
 
 /*
@@ -114,13 +114,9 @@ void			SFMLView::onUpdate()
       *(_wMan->getState()) = CLIENT::LOADING;
       break;
     case CLIENT::LOADED:
-      qDebug() << "############## Loading zone ##############";
       _worldView->resetView();
-      qDebug() << "onInit";
       _worldView->onInit();
-      qDebug() << "resetPOV";
       _worldView->resetPOV();
-      qDebug() << "centerView";
       _worldView->centerView();
       _currentView = _worldView;
       *(_wMan->getState()) = CLIENT::PLAYING;
@@ -175,6 +171,7 @@ void			SFMLView::onUpdate()
       break;
     case CLIENT::LOGIN:
       _wMan->hideSfmlView();
+      _menu->hide();
       _wMan->showLogin();
       break;
     default:
