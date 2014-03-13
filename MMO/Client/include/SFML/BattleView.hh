@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Thu Mar 13 14:17:51 2014 cyril jourdain
+// Last update Thu Mar 13 15:47:25 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -16,6 +16,7 @@
 # include			"SFML/ContextView.hh"
 # include			"SFML/MobSprite.hh"
 # include			"SFML/BattleSpellUpdater.hh"
+# include			"Qt/Views/SwitchMobView.hh"
 
 class BattleSpellUpdater;
 

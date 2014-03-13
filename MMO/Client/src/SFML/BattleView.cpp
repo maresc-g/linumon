@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Thu Mar 13 14:19:51 2014 cyril jourdain
+// Last update Thu Mar 13 15:47:39 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -432,4 +432,6 @@ void			BattleView::noButton(QMouseEvent *event)
 void				BattleView::switchMobs()
 {
   std::cout << "switch mobs here" << std::endl;
+  SwitchMobView	*v = new SwitchMobView(_sfmlView, (**_wMan->getMainPlayer())->getDigitaliser());
+  v->exec();
 }

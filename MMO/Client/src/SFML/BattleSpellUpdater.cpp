@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:56 2014 cyril jourdain
-// Last update Thu Mar 13 14:38:05 2014 cyril jourdain
+// Last update Thu Mar 13 14:39:11 2014 cyril jourdain
 //
 
 #include			"SFML/BattleSpellUpdater.hh"
@@ -31,7 +31,7 @@ void				BattleSpellUpdater::update(BattleView *battle)
 	{
 	  _sfmlView->getSpriteManager()->copySprite("Danse-Fleur", *_currentSpell);
 	  mob = battle->findMobById(tmp->getTarget());
-	  if (!mob)
+	  if (!mob || mob->type == NOMOB)
 	    return;
 	  mob->mob->upHealthBar();
 	  _currentSpell->setPosition(mob->mob->getPos()->x * CASE_SIZE,

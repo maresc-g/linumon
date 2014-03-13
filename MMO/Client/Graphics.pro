@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = ../pfa-client
 DEPENDPATH += . src
 INCLUDEPATH += . include ../Common/include
-FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbarview.ui ../Res/stackview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui ../Res/craftview.ui ../Res/digitaliserview.ui ../Res/hudview.ui ../Res/splitstackview.ui
+FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbarview.ui ../Res/stackview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui ../Res/craftview.ui ../Res/digitaliserview.ui ../Res/hudview.ui ../Res/splitstackview.ui ../Res/switchmobview.ui
 LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio -lcryptopp -ljsoncpp -ldl
 QMAKE_CXXFLAGS += -std=c++0x -DCLIENT_COMPILATION -g
 OBJECTS_DIR = ./obj
@@ -38,6 +38,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Qt/Views/SplitStackView.hh \
                 include/Qt/Views/ParentInfos.hh \
                 include/Qt/Views/FrameMobs.hh \
+                include/Qt/Views/SwitchMobView.hh \
                 include/Qt/WindowManager.hh \
                 include/Qt/CharDescription/CharDescription.hh \
                 include/SFML/SFMLView.hpp \
@@ -88,6 +89,7 @@ SOURCES +=      src/main.cpp \
                 src/Qt/Views/TinyHUDView.cpp \
                 src/Qt/Views/SplitStackView.cpp \
                 src/Qt/Views/FrameMobs.cpp \
+                src/Qt/Views/SwitchMobView.cpp \
                 src/Qt/WindowManager.cpp \
                 src/Qt/CharDescription.cpp \
                 src/SFML/SFMLView.cpp \
