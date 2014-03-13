@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Wed Mar 12 16:01:24 2014 cyril jourdain
+// Last update Wed Mar 12 18:18:29 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -146,7 +146,6 @@ Player				*Map::getPlayerById(unsigned int const id)
 	      // this->unlock();
 	      // return (static_cast<Player *>(*itb));
 	      tmp = (static_cast<Player *>(*itb));
-	      std::cout << "Entity with id " << id << "found !" << std::endl;
 	    }
 	}
     }
