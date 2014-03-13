@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Feb  1 15:22:57 2014 alexis mestag
-// Last update Wed Mar 12 22:39:46 2014 alexis mestag
+// Last update Thu Mar 13 19:50:19 2014 alexis mestag
 //
 
 #ifndef				__REPOSITORY_HPP__
@@ -56,8 +56,16 @@ public:
   unsigned long			persist(T &o, bool const inTr = false) {
     Database::Transaction	*t = Database::getNewTransaction(inTr);
 
-    Database::getInstance()->getDb()->persist(o);
-
+    try {
+      Database::getInstance()->getDb()->persist(o);
+    }
+    catch (odb::exception const &e) {
+      if (t) {
+	t->rollback();
+	delete t;
+      }
+      throw ;
+    }
     if (t) {
       t->commit();
       delete t;
