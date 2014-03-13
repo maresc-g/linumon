@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Wed Mar 12 22:44:57 2014 laurent ansel
+// Last update Thu Mar 13 18:50:55 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -367,6 +367,23 @@ bool				ClientUpdater::setTalents(FD const fd, std::string const &talent, unsign
   return (false);
 }
 
+bool				ClientUpdater::modifyDigitaliser(FD const fd, unsigned int const idMob1, unsigned int const idMob2, bool const toBattleMob) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  (*it).first->modifyDigitaliser(idMob1, idMob2, toBattleMob);
+	  this->_mutex->unlock();
+	  return (true);
+	}
+    }
+  this->_mutex->unlock();
+  return (false);
+}
+
+
 bool				ClientUpdater::playerObject(FD const fd, unsigned int const target, unsigned int const item) const
 {
   this->_mutex->lock();
@@ -397,6 +414,37 @@ bool				ClientUpdater::playerObject(FD const fd, unsigned int const item, int co
     }
   this->_mutex->unlock();
   return (false);
+}
+
+bool				ClientUpdater::newGuild(FD const fd, Guild *guild) const
+{
+  bool				ret = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	ret = (*it).first->newGuild(guild);
+    }
+  this->_mutex->unlock();
+  return (ret);
+}
+
+bool				ClientUpdater::inGuild(FD const fd, bool &guild) const
+{
+  bool				ret = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  guild = (*it).first->inGuild();
+	  ret = true;
+	}
+    }
+  this->_mutex->unlock();
+  return (ret);
 }
 
 bool				ClientUpdater::merge(FD const fd, unsigned int const idStack, unsigned int const idStack2) const

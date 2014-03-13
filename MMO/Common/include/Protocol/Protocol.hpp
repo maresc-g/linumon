@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Thu Mar 13 13:53:30 2014 guillaume marescaux
+// Last update Thu Mar 13 16:40:39 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -129,5 +129,10 @@ bool				battleMobtoMob(unsigned int const id, unsigned int const idMob);
 bool				switchMobs(unsigned int const id, unsigned int const idMob1, unsigned int const idMob2);
 bool				merge(unsigned int const id, unsigned int const idStack1, unsigned int const idStack2);
 bool				newStack(unsigned int const id, unsigned int const idStack, unsigned int const nb);
+bool				newGuild(unsigned int const id, std::string guild);
+bool				guild(unsigned int const id, Guild *g);
+bool				newMember(unsigned int const id, std::string player, Zone *zone);
+bool				deleteMember(unsigned int const id, std::string player, Zone *zone);
+bool				invite(unsigned int const id, std::string guild);
 
 #endif

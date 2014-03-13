@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Wed Mar 12 23:00:33 2014 guillaume marescaux
+// Last update Thu Mar 13 15:48:42 2014 guillaume marescaux
 //
 
 #include <iostream>
@@ -57,13 +57,17 @@ void				InventoryView::initInventory()
   _stacks->clear();
   for (unsigned int i = 0 ; i < limit ; i++)
     {
-      if (it != stacks.end())
+      if (it != stacks.end() && !(*it)->empty())
       	{
       	  stack = new StackView(ui.f_stacks, _wMan, (*it));
       	  it++;
       	}
       else
+	{
+	  if (it != stacks.end() && (*it)->empty())
+	    it++;
 	  stack = new StackView(ui.f_stacks, _wMan);
+	}
       _stacks->push_back(stack);
       stack->move(i % 5 * ITEM_SIZE + i % 5, i / 5 * ITEM_SIZE);
       stack->resize(ITEM_SIZE, ITEM_SIZE);

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Thu Mar 13 14:15:13 2014 antoine maitre
+// Last update Thu Mar 13 17:46:04 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -18,17 +18,15 @@ Battle::Battle(unsigned int const id, eBattle const type, unsigned int const mob
   // static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
   unsigned int i = 0;
 
+  for (auto it = player1->getDigitaliser().getBattleMobs().begin(); it != player1->getDigitaliser().getBattleMobs().end(); it++)
+    (*it)->enterBattle();
+  for (auto it = player2->getDigitaliser().getBattleMobs().begin(); it != player2->getDigitaliser().getBattleMobs().end(); it++)
+    (*it)->enterBattle();
   for (auto it = player1->getDigitaliser().getBattleMobs().begin(); it != player1->getDigitaliser().getBattleMobs().end() && i++ < mobNumber; it++)
-    {
-      (*it)->enterBattle();
-      this->_mobs.push_back((*it));
-    }
+    this->_mobs.push_back((*it));
   i = 0;
   for (auto it = player2->getDigitaliser().getBattleMobs().begin(); it != player2->getDigitaliser().getBattleMobs().end() && i++ < mobNumber; it++)
-    {
-      (*it)->enterBattle();
-      this->_mobs.push_back((*it));
-    }
+    this->_mobs.push_back((*it));
   if (player1->getType() == Player::PlayerType::PLAYER)
     this->trameLaunchBattle(player1->getUser().getId(), player2);
   if (player2->getType() == Player::PlayerType::PLAYER)
@@ -110,9 +108,12 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
 	  } 
       Stats const			&statMob = mobTarget->getCurrentStats();
       if (statMob.getStat(*hpKey) <= 0)
-	for (auto it = this->_players.begin(); it != this->_players.end(); it++)
-	  if ((*it)->getType() == Player::PlayerType::PLAYER)
-	    this->trameDeadMob((*it)->getUser().getId(), target);
+	{
+	  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+	    if ((*it)->getType() == Player::PlayerType::PLAYER)
+	      this->trameDeadMob((*it)->getUser().getId(), target);
+	  this->replace();
+	}
     }
   return (this->checkEnd());
 }
@@ -123,10 +124,14 @@ bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
     if ((*itMob)->getId() == target)
       for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	if ((*it)->isMyMob((*itMob)->getId()))
-	  (*itMob) = (Mob *)(&(*it)->getMob(target));
+	  (*itMob) = (Mob *)(&(*it)->getMob(newmob));
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
-    if ((*it)->getType() == Player::PlayerType::PLAYER)
-      this->trameSwitch((*it)->getUser().getId(), target, newmob);
+    {
+      if ((*it)->getType() == Player::PlayerType::PLAYER)
+	this->trameSwitch((*it)->getUser().getId(), target, newmob);
+      else
+	static_cast<AI *>((*it))->dswitch(target, newmob);
+    }
   return (this->checkEnd());
 }
 
@@ -148,9 +153,41 @@ bool					Battle::capture(unsigned int const target)
   return (this->checkEnd());
 }
 
+void					Battle::replace()
+{
+  for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
+    {
+      std::cout << "ONE" << std::endl;
+      if ((*it)->getCurrentStat("HP") == 0)
+	{
+	  std::cout << "TWO" << std::endl;
+	  for (auto itb = this->_players.begin(); itb != this->_players.end(); itb++)
+	    {
+	      std::cout << "THREE" << std::endl;
+	      if ((*itb)->isMyMob((*it)->getId()))
+		{
+		  std::cout << "FOUR" << std::endl;
+		  for (auto itc = (*itb)->getDigitaliser().getBattleMobs().begin(); itc != (*itb)->getDigitaliser().getBattleMobs().end(); itc++)
+		    {
+		      std::cout << "REPLACE EN ACTION" << std::endl;
+		      auto tmp = std::find(this->_mobs.begin(), this->_mobs.end(), (*itc));
+		      if ((*itc)->getCurrentStat("HP") > 0 && tmp == this->_mobs.end())
+			{
+			  dswitch((*it)->getId(), (*itc)->getId());
+			  std::cout << "SA DEVRAIT MARCHER" << std::endl;
+			  break;
+			}
+		    }
+		}
+	    }
+	}
+    }
+}
+
 void					Battle::next()
 {
-
+  if (this->_mobs.front()->getStat("HP"))
+    this->replace();
   auto tmp = this->_mobs.front();
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);
@@ -166,11 +203,9 @@ void					Battle::next()
       this->trameTurnTo((*it)->getUser().getId(), tmp->getId());
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     {
-      std::cout << "FAIL FAIL FAIL FAIL FAIL FAIL FAIL " << std::endl;
       if ((*it)->isMyMob(tmp->getId()) && (*it)->getType() == Player::PlayerType::AI)
 	{
-	  std::cout << "YOLOYOLOLYOLOYL" << std::endl;
-	  auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
+	  auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId(), this->_mobNumber);
 	  if (!this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2)))
 	    this->next();
 	  return;

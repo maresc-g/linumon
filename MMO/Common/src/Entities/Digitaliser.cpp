@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Thu Mar 13 14:27:01 2014 laurent ansel
+// Last update Thu Mar 13 18:25:03 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -167,6 +167,49 @@ void				Digitaliser::deleteMobs()
   };
 
   this->getContainer().remove_if(mobDeleter);
+}
+
+bool				Digitaliser::switchMobs(unsigned int const id1, unsigned int const id2)
+{
+  auto				mob1 = this->begin();
+  bool				setMob1 = false;
+  auto				mob2 = this->begin();
+  bool				setMob2 = false;
+  Mob				*tmp;
+
+  for (auto it = this->begin() ; it != this->end() && (!setMob1 || !setMob2); ++it)
+    {
+      if ((*it)->getId() == id1)
+	{
+	  setMob1 = true;
+	  mob1 = it;
+	}
+      if ((*it)->getId() == id2)
+	{
+	  setMob2 = true;
+	  mob2 = it;
+	}
+    }
+  for (auto it = this->_battleMobs.begin() ; it != this->_battleMobs.end() && (!setMob1 || !setMob2) ; ++it)
+    {
+      if ((*it)->getId() == id1)
+	{
+	  setMob1 = true;
+	  mob1 = it;
+	}
+      if ((*it)->getId() == id2)
+	{
+	  setMob2 = true;
+	  mob2 = it;
+	}
+    }
+  if (setMob1 && setMob2)
+    {
+      tmp = *mob1;
+      *mob1 = *mob2;
+      *mob2 = tmp;
+    }
+  return (false);
 }
 
 bool				Digitaliser::serialization(Trame &trame) const

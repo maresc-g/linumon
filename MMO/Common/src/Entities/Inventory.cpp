@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Thu Mar 13 14:20:46 2014 laurent ansel
+// Last update Thu Mar 13 16:58:34 2014 laurent ansel
 //
 
 #include			<stdlib.h>
@@ -261,16 +261,21 @@ void				Inventory::mergeStack(unsigned int const idStack, unsigned int const idS
   Stack				*stack1 = getStack(idStack);
   Stack				*stack2 = getStack(idStack2);
 
+  std::cout << "MERGE => "<< idStack << " <=> " << idStack2 << std::endl;
   if (stack1 && stack2)
     {
+      std::cout << "STACK (" << stack1->getNb() << ") <=> STACK2 (" << stack2->getNb() << ")" << std::endl;
       if (stack2->getNb() + stack1->getNb() <= 99)
 	{
+	  std::cout << "MERGE S1 ET S2" << std::endl;
 	  *stack1 += stack2->getNb();
 	  stack2->setNb(0);
 	  stack2->setItem(NULL);
+	  std::cout << "STACK (" << stack1->getNb() << ") <=> STACK2 (" << stack2->getNb() << ")" << std::endl;
 	}
       else
 	{
+	  std::cout << "SEMIMERGE" << std::endl;
 	  unsigned int		nb = stack2->getNb() + stack1->getNb() - 99;
 
 	  stack1->setNb(99);
@@ -284,7 +289,7 @@ void				Inventory::splitStack(unsigned int const idStack, unsigned int const nb)
   Stack				*stack = getStack(idStack);
   Stack				*tmp = NULL;
 
-  if (stack && stack->getNb() > nb)
+  if (stack && stack->getNb() >= nb)
     {
       for (auto it = this->begin() ; it != this->end() ; ++it)
 	if (!tmp && **it)

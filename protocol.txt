@@ -27,6 +27,7 @@
 			CHAT : {Message (pseudo + msg)} -> server
 
 			#  battle
+			ISINBATTLE : {id : int, inBattle : bool} -> server
 			LAUNCHBATTLE : {idBattle: int, enemy : APlayer} -> server
 			SPELL : {idBattle: int, spell : Spell, launcher : int, target : int} -> client / server
 			SPELLEFFECT : {idBattle: int, hpChange : int, target : int} -> server
@@ -93,6 +94,24 @@
 			# inventory
 			MERGE : {idStack : unsigned int * 2}
 			NEWSTACK : {idStack : unsigned int, nbNewStack : unsigned int}
+			# end
+
+			# Guild
+			GCREATE : {name : string} -> client
+			-ERROR : {guild already exist : eError} -> server
+
+			INVITE : {idPlayer : unsigned int, nameGuild : string} -> client
+			-INVITE : {nameGuild : string} -> server
+			-ERROR : {already in guild : eError} -> server
+
+			ACCEPT : {nameGuild : string} -> client
+			REFUSE : {} -> client
+			NEWGUILD : {guild : name} -> server
+			GUILD : {list of members : list<string>} -> server
+			NEWMEMBER : {name : std::string} -> server
+
+			GQUIT : {} -> client
+			DELETEMEMBER : {name : std::string} -> server
 			# end
 
 			# others
