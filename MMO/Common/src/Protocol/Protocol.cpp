@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Mar 12 19:25:55 2014 guillaume marescaux
+// Last update Thu Mar 13 13:01:08 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -59,8 +59,8 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
       this->_container->load<unsigned int, int, Zone *>("REMOVEENTITY", &removeEntity);
 
-      this->_container->load<unsigned int, std::list<AItem *> *>("ADDTOINVENTORY", &addToInventory);
-      this->_container->load<unsigned int, std::list<std::pair<unsigned int, unsigned int> > *>("DELETEFROMINVENTORY", &deleteFromInventory);
+      this->_container->load<unsigned int, Stack *>("ADDTOINVENTORY", &addToInventory);
+      this->_container->load<unsigned int, std::list<Stack *> *>("DELETEFROMINVENTORY", &deleteFromInventory);
       this->_container->load<unsigned int, Job const *>("JOB", &job);
 
       this->_container->load<unsigned int, Player *, Zone *, Zone *>("NEWZONE", &newZone);
@@ -1310,13 +1310,11 @@ bool			updateCharacter(unsigned int const id, ACharacter const *character)
   return (ret);
 }
 
-bool			addToInventory(unsigned int const id, std::list<AItem *> *list)
+bool			addToInventory(unsigned int const id, Stack *stack)
 {
   bool			ret = false;
   Trame			*trame;
   Header		*header;
-  int			nb = 0;
-  std::ostringstream	str;
 
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
@@ -1324,13 +1322,7 @@ bool			addToInventory(unsigned int const id, std::list<AItem *> *list)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      for (auto it = list->begin() ; it != list->end() ; ++it)
-	{
-	  str << "ITEM" << nb;
-	  (*it)->serialization((*trame)((*trame)[CONTENT]["ADDTOINVENTORY"][str.str()]));
-	  str.str("");
-	  nb++;
-	}
+      (*trame)[CONTENT]["ADDTOINVENTORY"][stack->getItem()->getName()] = stack->getNb();
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
@@ -1339,7 +1331,7 @@ bool			addToInventory(unsigned int const id, std::list<AItem *> *list)
   return (ret);
 }
 
-bool			deleteFromInventory(unsigned int const id, std::list<std::pair<unsigned int, unsigned int> > *list)
+bool			deleteFromInventory(unsigned int const id, std::list<Stack *> *stacks)
 {
   bool			ret = false;
   Trame			*trame;
@@ -1353,11 +1345,10 @@ bool			deleteFromInventory(unsigned int const id, std::list<std::pair<unsigned i
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      for (auto it = list->begin() ; it != list->end() ; ++it)
+      for (auto it = stacks->begin() ; it != stacks->end() ; ++it)
 	{
-	  str << "ITEM" << nb;
-	  (*trame)[CONTENT]["DELETEFROMINVENTORY"][str.str()]["ID"] = it->first;
-	  (*trame)[CONTENT]["DELETEFROMINVENTORY"][str.str()]["NB"] = it->second;
+	  str << nb;
+	  (*trame)[CONTENT]["DELETEFROMINVENTORY"][str.str()][(*it)->getItem()->getName()] = (*it)->getNb();
 	  str.str("");
 	  nb++;
 	}

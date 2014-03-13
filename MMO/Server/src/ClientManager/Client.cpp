@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Mar 13 12:31:09 2014 laurent ansel
+// Last update Thu Mar 13 12:36:19 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -352,16 +352,18 @@ bool				Client::craft(std::string const &craft, std::string const &job) const
 {
   bool				ret = false;
   Stack				*result;
-  std::list<std::pair<unsigned int, unsigned int> >	object;
+  std::list<Stack *>		*object;
 
   if (_state == GAME && _player && _user)
     {
       result = new Stack(0);
+      object = new std::list<Stack *>;
       ret = _player->doCraft(job, craft, result, object);
       if (ret)
 	{
 	  Server::getInstance()->callProtocol<Stack *>("ADDTOINVENTORY", _id, result);
-	  Server::getInstance()->callProtocol<std::list<std::pair<unsigned int, unsigned int> > *>("DELETEFROMINVENTORY", _id, &object);
+	  Server::getInstance()->callProtocol<std::list<Stack *> *>("DELETEFROMINVENTORY", _id, object);
+	  //	  Server::getInstance()->callProtocol<std::list<std::pair<unsigned int, unsigned int> > *>("DELETEFROMINVENTORY", _id, &object);
 	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
 	}
     }
