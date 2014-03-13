@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Mar 13 08:03:50 2014 alexis mestag
+// Last update Thu Mar 13 08:43:30 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -120,6 +120,7 @@ public:
   void				setInventory(Inventory *inventory);
 
   virtual ExperienceCurve const	&getExperienceCurve() const;
+  virtual void			levelUp();
 
   void				addTalent(Talent const &talent);
   Talents const			&getTalents() const;

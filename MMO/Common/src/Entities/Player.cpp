@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 13 08:30:37 2014 alexis mestag
+// Last update Thu Mar 13 08:45:45 2014 alexis mestag
 //
 
 #include			<functional>
@@ -199,6 +199,12 @@ void				Player::setInventory(Inventory *inventory)
 ExperienceCurve const		&Player::getExperienceCurve() const
 {
   return (*_expCurve);
+}
+
+void				Player::levelUp()
+{
+  ACharacter::levelUp();
+  _talents->setCurrentPts(_talents->getCurrentPts() + 5);
 }
 
 void				Player::setExperienceCurve(ExperienceCurve const &expCurve)

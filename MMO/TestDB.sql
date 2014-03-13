@@ -343,12 +343,12 @@ INSERT INTO `MobModel_stats`(`object_id`, `index`, `value`) VALUES
 DELETE FROM `Mob`;
 
 INSERT INTO `Mob`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `model`) VALUES
-       (1, 'TinyLezard',	2, 36435, 35,   500, 1),
-       (2, 'BigTurtle',		2,  2035, 15,  1000, 2),
-       (3, 'VastFlowerPot',	2,  3120, 17,   400, 3),
-       (4, 'MegaFist',		2,  3120, 17, 25000, 1),
-       (5, 'SuperWet',		2, 36435, 35, 15000, 2),
-       (6, 'UltraBushy',	2,  2035, 15,    20, 3);
+       (1, 'TinyLezard',	2, 36435, 35, 40007, 1),
+       (2, 'BigTurtle',		2,  2035, 15,  2535, 2),
+       (3, 'VastFlowerPot',	2,  3120, 17,  3798, 3),
+       (4, 'MegaFist',		2,  3120, 17,  3798, 1),
+       (5, 'SuperWet',		2, 36435, 35, 40007, 2),
+       (6, 'UltraBushy',	2,  2035, 15,  2535, 3);
 
 /* Assigning Stats to Mobs */
 DELETE FROM `Mob_stats`;

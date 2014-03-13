@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:33:45 2013 alexis mestag
-// Last update Wed Mar 12 23:01:02 2014 alexis mestag
+// Last update Thu Mar 13 08:42:23 2014 alexis mestag
 //
 
 #ifndef			__ACHARACTER_HH__
@@ -67,7 +67,7 @@ public:
   ** Useful methods to level up
   */
   virtual ExperienceCurve const	&getExperienceCurve() const = 0;
-  void				levelUp();
+  virtual void			levelUp();
 
   Equipment const	&getEquipment() const;
   void			setEquipment(Equipment const &equipment);
