@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Mar 12 14:03:27 2014 cyril jourdain
+// Last update Thu Mar 13 11:29:15 2014 cyril jourdain
 //
 
 /*
@@ -178,6 +178,7 @@ void			SFMLView::onUpdate()
     }
 
   // Need to : Destroy map, entites, etc ...
+  // std::cout << "clear screen" << std::endl;
   clear(sf::Color(0,183,235));
   if (_reset)
     return;

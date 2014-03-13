@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Fri Mar  7 15:34:07 2014 laurent ansel
+// Last update Wed Mar 12 17:53:12 2014 antoine maitre
 //
 
 #include		"Zone/Case.hh"
@@ -46,6 +46,8 @@ void			Case::addAEntity(AEntity *entity)
 
 void			Case::delAEntity(AEntity *entity)
 {
+  if (this->_entities->size())
+    std::cout << "HE SUIS LEHAT " << this->_entities->size() << std::endl;
   this->_entities->remove(entity);
 }
 

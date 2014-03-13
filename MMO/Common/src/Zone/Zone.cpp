@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Wed Mar 12 15:56:44 2014 cyril jourdain
+// Last update Thu Mar 13 12:01:40 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -159,6 +159,12 @@ Case				*Zone::getCase(int const x, int const y) const
   return (tmp);
 }
 
+void				Zone::cleanEntity(AEntity *entity)
+{
+  for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
+    (*it)->delAEntity(entity->getId());
+}
+
 std::list<Case *>		*Zone::getCases() const
 {
   return (this->_cases);
@@ -218,8 +224,9 @@ int				Zone::getPosY() const { return (_posY); }
 
 bool				Zone::move(AEntity *entity)
 {
+
   for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
-    (*it)->delAEntity(entity);
+    (*it)->delAEntity(entity->getId());
   if (static_cast<Player *>(entity)->getX() >= Map::getInstance()->getZone(static_cast<Player *>(entity)->getZone())->getSizeX() ||
       static_cast<Player *>(entity)->getY() >= Map::getInstance()->getZone(static_cast<Player *>(entity)->getZone())->getSizeY() ||
       static_cast<Player *>(entity)->getX() <= -1 ||
@@ -232,11 +239,10 @@ bool				Zone::move(AEntity *entity)
 						 Map::getInstance()->getZone(static_cast<Player *>(entity)->getZone())->getPosY());
 	  if (tmp)
 	    {
-	      std::cout	<< tmp->getName() << std::endl;
 	      Player::Coordinate::type const x = 0;
-	      static_cast<Player *>(entity)->setZone(tmp->getName());
 	      static_cast<Player *>(entity)->setX(x);
 	      Map::getInstance()->changeZone(static_cast<Player *>(entity)->getZone(), tmp->getName(), entity);
+	      static_cast<Player *>(entity)->setZone(tmp->getName());
 	      return (true);
 	    }
 	  else
@@ -254,9 +260,9 @@ bool				Zone::move(AEntity *entity)
 	  if (tmp)
 	    {
 	      Player::Coordinate::type const y = 0;
-	      static_cast<Player *>(entity)->setZone(tmp->getName());
 	      static_cast<Player *>(entity)->setY(y);
 	      Map::getInstance()->changeZone(static_cast<Player *>(entity)->getZone(), tmp->getName(), entity);
+	      static_cast<Player *>(entity)->setZone(tmp->getName());
 	      return (true);
 	    }
 	  else
@@ -274,9 +280,9 @@ bool				Zone::move(AEntity *entity)
 	  if (tmp)
 	    {
 	      Player::Coordinate::type const y = tmp->getSizeY() - 1;
-	      static_cast<Player *>(entity)->setZone(tmp->getName());
 	      static_cast<Player *>(entity)->setY(y);
 	      Map::getInstance()->changeZone(static_cast<Player *>(entity)->getZone(), tmp->getName(), entity);
+	      static_cast<Player *>(entity)->setZone(tmp->getName());
 	      return (true);
 	    }
 	  else
@@ -294,9 +300,9 @@ bool				Zone::move(AEntity *entity)
 	  if (tmp)
 	    {
 	      Player::Coordinate::type const x = tmp->getSizeX() - 1;
-	      static_cast<Player *>(entity)->setZone(tmp->getName());
 	      static_cast<Player *>(entity)->setX(x);
 	      Map::getInstance()->changeZone(static_cast<Player *>(entity)->getZone(), tmp->getName(), entity);
+	      static_cast<Player *>(entity)->setZone(tmp->getName());
 	      return (true);
 	    }
 	  else

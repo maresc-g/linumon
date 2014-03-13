@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Wed Mar 12 17:17:08 2014 laurent ansel
+// Last update Thu Mar 13 11:03:09 2014 laurent ansel
 //
 
 #ifndef 			__INVENTORY_HH__
@@ -53,6 +53,7 @@ public:
 
   void				deleteItem(unsigned int const stack);
   void				addItem(AItem *item);
+  void				addItem(Stack *stack);
   void				addItem(AItem *item, unsigned int const nb);
 
   AItem				*getItem(unsigned int const stack) const;

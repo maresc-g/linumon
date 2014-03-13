@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 12 19:46:00 2014 laurent ansel
+// Last update Thu Mar 13 12:29:56 2014 laurent ansel
 //
 
 #include			<functional>
@@ -238,6 +238,11 @@ void				Player::deleteItem(unsigned int const item)
 void				Player::addItem(AItem *item)
 {
   this->_inventory->addItem(item);
+}
+
+void				Player::addItem(Stack *stack)
+{
+  this->_inventory->addItem(stack);
 }
 
 AItem				*Player::getAndDeleteItem(unsigned int const item) const
@@ -536,7 +541,7 @@ void				Player::capture(Mob const &mob)
   this->_digitaliser->addMob(mob);
 }
 
-bool				Player::doCraft(std::string const &job, std::string const &craft, std::list<AItem *> &result, std::list<std::pair<unsigned int, unsigned int> > &object)
+bool				Player::doCraft(std::string const &job, std::string const &craft, Stack *&result, std::list<std::pair<unsigned int, unsigned int> > &object)
 {
   bool				ret = false;
   Job				*tmp = NULL;
@@ -548,15 +553,16 @@ bool				Player::doCraft(std::string const &job, std::string const &craft, std::l
     {
       std::cout << "CRAFT = " << craft << std::endl;
       ret = tmp->doCraft(craft, result, tmpObject);
-      for (auto it = result.begin() ; it != result.end() ; ++it)
-	{
-	  unsigned int		id = _inventory->getIdItem((*it)->getName());
+      // for (auto it = result.begin() ; it != result.end() ; ++it)
+      // 	{
+      // 	  unsigned int		id = _inventory->getIdItem((*it)->getName());
 
-	  std::cout << "RESULT = " << (*it)->getName() << " <=> " << id << std::endl;
-	  if (id != 0)
-	    (*it)->setId(id);
-	  this->addItem(*it);
-	}
+      // 	  std::cout << "RESULT = " << (*it)->getName() << " <=> " << id << std::endl;
+      // 	  if (id != 0)
+      // 	    (*it)->setId(id);
+      // 	  this->addItem(*it);
+      // 	}
+      this->addItem(result);
       for (auto it = tmpObject.begin() ; it != tmpObject.end() ; ++it)
 	{
 	  std::cout << "IDDELETE = " << it->first << " <=> " << it->second << std::endl;
@@ -568,7 +574,7 @@ bool				Player::doCraft(std::string const &job, std::string const &craft, std::l
   return (ret);
 }
 
-bool				Player::doGather(std::string const &job, std::string const &res, std::list<AItem *> &result, unsigned int &idRessource)
+bool				Player::doGather(std::string const &job, std::string const &res, Stack *&result, unsigned int &idRessource)
 {
   bool				ret = false;
   Job				*tmp = NULL;
@@ -577,13 +583,14 @@ bool				Player::doGather(std::string const &job, std::string const &res, std::li
   if (tmp)
     {
       ret = tmp->doGather(res, result, idRessource);
-      for (auto it = result.begin() ; it != result.end() ; ++it)
-	{
-	  unsigned int		id = _inventory->getIdItem((*it)->getName());
-	  if (id != 0)
-	    (*it)->setId(id);
-	  this->addItem(*it);
-	}
+      this->addItem(result);
+      // for (auto it = result.begin() ; it != result.end() ; ++it)
+      // 	{
+      // 	  unsigned int		id = _inventory->getIdItem((*it)->getName());
+      // 	  if (id != 0)
+      // 	    (*it)->setId(id);
+      // 	  this->addItem(*it);
+      // 	}
     }
   return (ret);
 }

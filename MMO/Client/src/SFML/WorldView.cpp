@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Wed Mar 12 19:28:27 2014 guillaume marescaux
+// Last update Thu Mar 13 11:18:39 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -178,7 +178,7 @@ void			WorldView::drawView()
   	(*it)->updateMoves(_sfmlView->getMainClock(), NULL);
   	(*it)->update(*_sfmlView->getMainClock());
   	_sfmlView->draw(**it);
-      }
+      }      
     }
   if (_mainPerso) {
     _sfmlView->draw(*_mainPerso);
@@ -446,6 +446,6 @@ void			WorldView::resetPOV()
   _sfmlView->getMainView()->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
   _sfmlView->getMainView()->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
 				 (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
-  if ((**(_wMan->getMainPlayer()))->getX() <= 15)
-    _sfmlView->getMainView()->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE, 0);
+  // if ((**(_wMan->getMainPlayer()))->getX() <= 15)
+  //   _sfmlView->getMainView()->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE, 0);
 }

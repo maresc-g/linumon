@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Wed Mar 12 20:55:40 2014 laurent ansel
+// Last update Thu Mar 13 11:03:56 2014 laurent ansel
 //
 
 #include			<stdlib.h>
@@ -178,6 +178,12 @@ void				Inventory::addItem(AItem *item, unsigned int const nb)
 	if (!tmp && **it)
 	  tmp = *it;
     }
+}
+
+void				Inventory::addItem(Stack *stack)
+{
+  if (stack)
+    this->addItem(stack->getItem(), stack->getNb());
 }
 
 AItem				*Inventory::getItem(unsigned int const stack) const

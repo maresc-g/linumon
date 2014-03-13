@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar 12 22:44:23 2014 laurent ansel
+// Last update Thu Mar 13 12:31:09 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -58,9 +58,12 @@ void				Client::clear()
     _user->setId(0);
   _user = NULL;
 
-  Repository<Player>	*rp = &Database::getRepository<Player>();
+  if (_player)
+    {
+      Repository<Player>	*rp = &Database::getRepository<Player>();
 
-  rp->smartUpdate(*_player);
+      rp->smartUpdate(*_player);
+    }
   delete _player;
   _player = NULL;
 }
@@ -81,9 +84,12 @@ void				Client::disconnectUser()
     _user->setId(0);
   _user = NULL;
 
-  Repository<Player>	*rp = &Database::getRepository<Player>();
+  if (_player)
+    {
+      Repository<Player>	*rp = &Database::getRepository<Player>();
 
-  rp->smartUpdate(*_player);
+      rp->smartUpdate(*_player);
+    }
   delete _player;
 
   _player = NULL;
@@ -102,9 +108,12 @@ void				Client::disconnectPlayer()
       Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
     }
 
-  Repository<Player>	*rp = &Database::getRepository<Player>();
+  if (_player)
+    {
+      Repository<Player>	*rp = &Database::getRepository<Player>();
 
-  rp->smartUpdate(*_player);
+      rp->smartUpdate(*_player);
+    }
   delete _player;
 
   _player = NULL;
@@ -342,15 +351,16 @@ void				Client::endTrade()
 bool				Client::craft(std::string const &craft, std::string const &job) const
 {
   bool				ret = false;
-  std::list<AItem *>		result;
+  Stack				*result;
   std::list<std::pair<unsigned int, unsigned int> >	object;
 
   if (_state == GAME && _player && _user)
     {
+      result = new Stack(0);
       ret = _player->doCraft(job, craft, result, object);
       if (ret)
 	{
-	  Server::getInstance()->callProtocol<std::list<AItem *> *>("ADDTOINVENTORY", _id, &result);
+	  Server::getInstance()->callProtocol<Stack *>("ADDTOINVENTORY", _id, result);
 	  Server::getInstance()->callProtocol<std::list<std::pair<unsigned int, unsigned int> > *>("DELETEFROMINVENTORY", _id, &object);
 	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
 	}
@@ -361,16 +371,18 @@ bool				Client::craft(std::string const &craft, std::string const &job) const
 bool				Client::gather(std::string const &ressource, std::string const &job, Ressource::RessourceCoordinate const &) const
 {
   bool				ret = false;
-  std::list<AItem *>		result;
+  Stack				*result;
   unsigned int			idRessource;
   AEntity			*entity;
 
   if (_state == GAME && _player && _user)
     {
+      result = new Stack(0);
       ret = _player->doGather(job, ressource, result, idRessource);
       if (ret)
 	{
-	  Server::getInstance()->callProtocol<std::list<AItem *> *>("ADDTOINVENTORY", _id, &result);
+	  //	  Server::getInstance()->callProtocol<std::list<AItem *> *>("ADDTOINVENTORY", _id, &result);
+	  Server::getInstance()->callProtocol<Stack *>("ADDTOINVENTORY", _id, result);
 	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
 	  entity = Map::getInstance()->getEntityById(_player->getZone(), idRessource);
 	  if (entity)
