@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Thu Mar 13 12:46:02 2014 guillaume marescaux
+// Last update Thu Mar 13 14:27:01 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -61,7 +61,9 @@ Digitaliser::container_type const	&Digitaliser::getMobs() const
 
 unsigned int			Digitaliser::getLimit() const
 {
-  return (_player->getStat("Limit mob"));
+  if (_player)
+    return (_player->getStat("Limit mob"));
+  return (0);
 }
 
 void				Digitaliser::setMobs(Digitaliser::container_type const &mobs)
