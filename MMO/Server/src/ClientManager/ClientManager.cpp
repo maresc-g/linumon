@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Thu Mar 13 16:30:20 2014 laurent ansel
+// Last update Thu Mar 13 18:52:48 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -218,6 +218,17 @@ void				ClientManager::setPlayerTalent(FD const fd, std::string const &talent, u
   for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
     if ((*it).first && (*it).second)
       set = (*it).first->setTalents(fd, talent, pts);
+  this->_mutex->unlock();
+}
+
+void				ClientManager::modifyDigitaliser(FD const fd, unsigned int const idMob1, unsigned int const idMob2, bool const toBattleMob) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->modifyDigitaliser(fd, idMob1, idMob2, toBattleMob);
   this->_mutex->unlock();
 }
 
