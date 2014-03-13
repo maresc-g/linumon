@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Wed Mar 12 20:26:46 2014 laurent ansel
+// Last update Thu Mar 13 12:57:32 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -108,8 +108,8 @@ bool				disconnect(unsigned int const id);
 bool				switchPlayer(unsigned int const id);
 bool				sendTrameAlreadyReady(unsigned int const id, Trame *trame);
 
-bool				addToInventory(unsigned int const id, std::list<AItem *> *list);
-bool				deleteFromInventory(unsigned int const id, std::list<std::pair<unsigned int, unsigned int> > *list);
+bool				addToInventory(unsigned int const id, Stack *stack);
+bool				deleteFromInventory(unsigned int const id, std::list<Stack *> *stacks);
 bool				job(unsigned int const id, Job const *job);
 bool				newPlayer(unsigned int const id, Player *player, Zone *zone);
 bool				newZone(unsigned int const id, Player *player, Zone *oldZone, Zone *zone);

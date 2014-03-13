@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Wed Mar 12 17:17:08 2014 laurent ansel
+// Last update Thu Mar 13 12:48:51 2014 laurent ansel
 //
 
 #ifndef 			__INVENTORY_HH__
@@ -52,7 +52,10 @@ public:
   void				setLimit(unsigned int const limit);
 
   void				deleteItem(unsigned int const stack);
+  void				deleteItem(Stack *stack);
+
   void				addItem(AItem *item);
+  void				addItem(Stack *stack);
   void				addItem(AItem *item, unsigned int const nb);
 
   AItem				*getItem(unsigned int const stack) const;

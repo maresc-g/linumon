@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Wed Mar 12 23:26:32 2014 laurent ansel
+// Last update Thu Mar 13 12:55:27 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -106,7 +106,7 @@ void				Job::setJobModel(JobModel const &jobModel)
   this->_jobModel = &jobModel;
 }
 
-bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, std::list<std::pair<std::string, unsigned int> > &object)
+bool				Job::doCraft(std::string const &nameCraft, Stack *&result, std::list<Stack *> *&object)
 {
   bool				ret = false;
   unsigned int			exp = 0;
@@ -115,12 +115,9 @@ bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, s
     if ((*it)->getName() == nameCraft)
       {
 	for (auto ic = (*it)->begin() ; ic != (*it)->end() ; ++ic)
-	  object.push_back(std::make_pair((*ic)->getItem()->getName(), (*ic)->getNb()));
-	// if ((*it)->getResult().getItemType() == AItem::STUFF)
-	//   item = new Stuff(static_cast<Stuff const &>((*it)->getResult()));
-	// else if ((*it)->getResult().getItemType() == AItem::CONSUMABLE)
-	//   item = new Consumable(static_cast<Consumable const &>((*it)->getResult()));
-	result.push_back((*it)->getResult().getItem());
+	  object->push_back(*ic);
+	result->setItem((*it)->getResult().getItem());
+	result->setNb((*it)->getResult().getNb());
 	exp = this->_currentExp + (*it)->getExp();
 	while (this->getExp() < exp)
 	  {
@@ -133,7 +130,7 @@ bool				Job::doCraft(std::string const &nameCraft, std::list<AItem *> &result, s
   return (ret);
 }
 
-bool				Job::doGather(std::string const &nameRessource, std::list<AItem *> &result, unsigned int &idRessource)
+bool				Job::doGather(std::string const &nameRessource, Stack *&result, unsigned int &idRessource)
 {
   bool				ret = false;
   unsigned int			exp = 0;
@@ -142,14 +139,17 @@ bool				Job::doGather(std::string const &nameRessource, std::list<AItem *> &resu
   for (auto it = this->getJobModel().getGathers().begin() ; it != this->getJobModel().getGathers().end() && !ret; ++it)
     if ((*it).getRessource().getName() == nameRessource)
       {
-	// int			i = rand() % 4 + 1;
+	int			i = rand() % 4 + 1;
 
 	idRessource = (*it).getRessource().getId();
 	// for (auto nb = 0 ; nb < i ; ++nb)
 	//   result.push_back(new Ressource((*it).getRessource()));
 	item = (**LoaderManager::getInstance()->getRessourceLoader())->getValue((*it).getRessource().getName());
 	if (item)
-	  result.push_back(item);
+	  {
+	    result->setItem(item);
+	    result->setNb(i);
+	  }
 	exp = this->_currentExp + it->getExp();
 	while (this->getExp() < exp)
 	  {

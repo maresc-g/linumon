@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Wed Mar 12 20:55:40 2014 laurent ansel
+// Last update Thu Mar 13 12:48:32 2014 laurent ansel
 //
 
 #include			<stdlib.h>
@@ -102,6 +102,29 @@ void				Inventory::deleteItem(unsigned int const stack)
       *(*it) -= 1;
 }
 
+void				Inventory::deleteItem(Stack *stack)
+{
+  auto				it = this->begin();
+  unsigned int			supp = stack->getNb();
+  bool				set = false;
+
+  for ( ; it != this->end() && !set ; ++it)
+    if (((*it)->getId() != 0 && (*it)->getId() != stack->getId()) || (**it != stack->getItem()->getName()))
+      {
+	if ((*it)->getNb() - supp > 0)
+	  {
+	    *(*it) -= supp;
+	    supp = 0;
+	    set = true;
+	  }
+	else
+	  {
+	    supp -= (*it)->getNb();
+	    (*it)->setNb(0);
+	  }
+      }
+}
+
 void				Inventory::addItem(AItem *item)
 {
   bool				set = false;
@@ -178,6 +201,12 @@ void				Inventory::addItem(AItem *item, unsigned int const nb)
 	if (!tmp && **it)
 	  tmp = *it;
     }
+}
+
+void				Inventory::addItem(Stack *stack)
+{
+  if (stack)
+    this->addItem(stack->getItem(), stack->getNb());
 }
 
 AItem				*Inventory::getItem(unsigned int const stack) const
