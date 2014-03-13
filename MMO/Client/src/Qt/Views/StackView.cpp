@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Thu Mar 13 14:04:50 2014 guillaume marescaux
+// Last update Thu Mar 13 14:55:12 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -199,6 +199,7 @@ void				StackView::dropEvent(QDropEvent *de)
     {
       (**_wMan->getMainPlayer())->mergeStack(stack->getId(), _stack->getId());
       Client::getInstance()->merge(stack->getId(), _stack->getId());
+      _wMan->getSFMLView()->getInventoryView()->initInventory();
     }
   else if (infos && infos->name != "stuffview" && sourceInfos->name != "stuffview")
     setInfos(stack);
