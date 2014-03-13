@@ -5,22 +5,23 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Wed Mar 12 20:29:43 2014 laurent ansel
+// Last update Wed Mar 12 23:00:33 2014 guillaume marescaux
 //
 
+#include <iostream>
 #include			"Qt/Views/InventoryView.hh"
 
 InventoryView::InventoryView(QWidget *parent, WindowManager *wMan):
-  QWidget(parent), _wMan(wMan), _items(new std::list<ItemView *>), _hidden(new std::list<ItemView *>)
+  QWidget(parent), _wMan(wMan), _stacks(new std::list<StackView *>), _hidden(new std::list<StackView *>)
 {
   ui.setupUi(this);
 }
 
 InventoryView::~InventoryView()
 {
-  for (auto it = _items->begin() ; it != _items->end() ; it++)
+  for (auto it = _stacks->begin() ; it != _stacks->end() ; it++)
     delete *it;
-  delete _items;
+  delete _stacks;
   for (auto it = _hidden->begin() ; it != _hidden->end() ; it++)
     delete *it;
   delete _hidden;
@@ -41,57 +42,58 @@ void				InventoryView::initInventory()
   Inventory const		*inventory = &(**player)->getInventory();
   ui.money->setText(std::to_string(inventory->getMoney()).c_str());
   unsigned int			limit = inventory->getLimit();
-  auto				items = inventory->getInventory();
-  auto				it = items.begin();
-  ItemView			*item;
+  auto				stacks = inventory->getInventory();
+  auto				it = stacks.begin();
+  StackView			*stack;
 
   for (auto it = _hidden->begin() ; it != _hidden->end() ; it++)
     delete *it;
   _hidden->clear();
-  for (auto it = _items->begin() ; it != _items->end() ; it++)
+  for (auto it = _stacks->begin() ; it != _stacks->end() ; it++)
     {
       (*it)->hide();
       _hidden->push_back(*it);
     }
-  _items->clear();
+  _stacks->clear();
   for (unsigned int i = 0 ; i < limit ; i++)
     {
-      if (it != items.end())
+      if (it != stacks.end())
       	{
-      	  item = new ItemView(ui.f_items, _wMan, (*it)->getNb(), (*it)->getItem());
+      	  stack = new StackView(ui.f_stacks, _wMan, (*it));
       	  it++;
       	}
       else
-	  item = new ItemView(ui.f_items, _wMan);
-      _items->push_back(item);
-      item->move(i % 5 * ITEM_SIZE + i % 5, i / 5 * ITEM_SIZE);
-      item->resize(ITEM_SIZE, ITEM_SIZE);
-      item->show();
+	  stack = new StackView(ui.f_stacks, _wMan);
+      _stacks->push_back(stack);
+      stack->move(i % 5 * ITEM_SIZE + i % 5, i / 5 * ITEM_SIZE);
+      stack->resize(ITEM_SIZE, ITEM_SIZE);
+      stack->show();
     }
-  ui.f_items->resize(5 * ITEM_SIZE + 5, limit / 5 * ITEM_SIZE);
-  ui.f_items->move(5, 5 + 40);
+  ui.f_stacks->resize(5 * ITEM_SIZE + 5, limit / 5 * ITEM_SIZE);
+  ui.f_stacks->move(5, 5 + 40);
   this->resize(5 * ITEM_SIZE + 20, limit / 5 * ITEM_SIZE + 100);
   ui.money->move(5 * ITEM_SIZE - 120, limit / 5 * ITEM_SIZE + 20 + 40);
 }
 
-void				InventoryView::itemAction(ItemView *item)
+void				InventoryView::stackAction(StackView *stackView)
 {
-  if (item->getItem().getItemType() == AItem::STUFF)
+  if (stackView->getStack().getItem()->getItemType() == AItem::STUFF)
     {
-      Stuff const               *stuff = static_cast<Stuff const *>(&item->getItem());
+      Stuff const               *stuff = static_cast<Stuff const *>(stackView->getStack().getItem());
+      Stack const		*stack = &stackView->getStack();
       bool                      ret;
 
       if (!_wMan->getSFMLView()->getStuffView()->getLast() || _wMan->getSFMLView()->getStuffView()->getLast()->getCharacterType() == ACharacter::PLAYER)
-        ret = (**(_wMan->getMainPlayer()))->putPlayerEquipment(stuff->getId());
+	ret = (**(_wMan->getMainPlayer()))->putPlayerEquipment(stack->getId());
       else
-        ret = (**(_wMan->getMainPlayer()))->putMobEquipment(_wMan->getSFMLView()->getStuffView()->getLast()->getId(), stuff->getId());
+        ret = (**(_wMan->getMainPlayer()))->putMobEquipment(_wMan->getSFMLView()->getStuffView()->getLast()->getId(), stack->getId());
       if (ret)
         {
-	  Client::getInstance()->stuff(eStuffAction::PUT, stuff->getId(), (**(_wMan->getMainPlayer()))->getId());
+	  Client::getInstance()->stuff(eStuffAction::PUT, stack->getId(), (**(_wMan->getMainPlayer()))->getId());
           _wMan->getSFMLView()->getStuffView()->setChanged(true);
           ACharacter const              *last = _wMan->getSFMLView()->getStuffView()->getLast();
           if (!last)
-            _wMan->getSFMLView()->getStuffView()->initStuff(*static_cast<Player const *>(**_wMan->getMainPlayer()));
+	    _wMan->getSFMLView()->getStuffView()->initStuff(*static_cast<Player const *>(**_wMan->getMainPlayer()));
           else if (last->getCharacterType() == ACharacter::MOB)
             _wMan->getSFMLView()->getStuffView()->initStuff(*static_cast<Mob const *>(last));
           else

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:41:39 2014 guillaume marescaux
-// Last update Wed Mar 12 14:25:30 2014 guillaume marescaux
+// Last update Wed Mar 12 21:55:38 2014 guillaume marescaux
 //
 
 #ifndef 		__MOBVIEW_HH__
@@ -13,7 +13,7 @@
 
 #include		<Qt/qwidget.h>
 #include		<Qt/qpainter.h>
-#include		"ui_itemview.h"
+#include		"ui_stackview.h"
 #include		"Qt/WindowManager.hh"
 #include		"Entities/AItem.hh"
 #include		"ParentInfos.hh"
@@ -30,7 +30,7 @@ public:
 
 private:
 
-  Ui::itemview		ui;
+  Ui::stackview		ui;
   WindowManager		*_wMan;
   Mob const		*_mob;
   int			_x;

@@ -5,15 +5,17 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar 12 13:59:24 2014 guillaume marescaux
-// Last update Wed Mar 12 14:09:43 2014 guillaume marescaux
+// Last update Thu Mar 13 13:41:01 2014 guillaume marescaux
 //
 
+#include			<QValidator>
 #include			"Qt/Views/SplitStackView.hh"
 
 SplitStackView::SplitStackView(QWidget *parent, WindowManager *wMan):
-  QWidget(parent), _wMan(wMan)
+  QWidget(parent), _wMan(wMan), _stack(NULL)
 {
   ui.setupUi(this);
+  ui.le_nb->setValidator(new QIntValidator);
 }
 
 SplitStackView::~SplitStackView()
@@ -31,8 +33,25 @@ void				SplitStackView::paintEvent(QPaintEvent *)
 
 void				SplitStackView::on_b_accept_clicked()
 {
+  unsigned int			nb = ui.le_nb->text().toUInt();
+
+  if (nb > _stack->getNb())
+    ui.le_nb->setText(std::to_string(_stack->getNb()).c_str());
+  else
+    {
+      std::cout << "STACK ID = " << _stack->getId() << std::endl;
+      (**_wMan->getMainPlayer())->newStack(_stack->getId(), nb);
+      _wMan->getSFMLView()->getInventoryView()->initInventory();
+      hide();
+    }
 }
 
 void				SplitStackView::on_b_cancel_clicked()
 {
+  hide();
+}
+
+void				SplitStackView::setInfos(Stack const *stack)
+{
+  _stack = stack;
 }

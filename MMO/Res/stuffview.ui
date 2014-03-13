@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>860</width>
+    <width>809</width>
     <height>550</height>
    </rect>
   </property>
@@ -16,71 +16,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="l_curExp">
-   <property name="geometry">
-    <rect>
-     <x>710</x>
-     <y>110</y>
-     <width>120</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>TextLabel</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>110</y>
-     <width>120</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Current Exp</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_6">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>70</y>
-     <width>120</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Level</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="l_expToUp">
-   <property name="geometry">
-    <rect>
-     <x>710</x>
-     <y>150</y>
-     <width>120</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>TextLabel</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_12">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>150</y>
-     <width>120</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Exp to level up</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
@@ -168,18 +103,120 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="l_level">
+  <widget class="QFrame" name="f_stats">
    <property name="geometry">
     <rect>
-     <x>710</x>
+     <x>520</x>
      <y>70</y>
-     <width>120</width>
-     <height>20</height>
+     <width>271</width>
+     <height>351</height>
     </rect>
    </property>
-   <property name="text">
-    <string>TextLabel</string>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
    </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="l_level">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>10</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="l_curExp">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>50</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>120</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Current Exp</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="l_expToUp">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>90</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>120</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Exp to level up</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>120</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Level</string>
+    </property>
+   </widget>
+   <zorder>l_level</zorder>
+   <zorder>l_curExp</zorder>
+   <zorder>label_4</zorder>
+   <zorder>l_expToUp</zorder>
+   <zorder>label_6</zorder>
+   <zorder>label_12</zorder>
+   <zorder>l_level</zorder>
+   <zorder>l_curExp</zorder>
+   <zorder>label_4</zorder>
+   <zorder>l_expToUp</zorder>
+   <zorder>label_12</zorder>
+   <zorder>label_6</zorder>
   </widget>
  </widget>
  <resources/>

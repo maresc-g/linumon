@@ -89,7 +89,7 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QFrame" name="f_items">
+   <widget class="QFrame" name="f_stacks">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -137,7 +137,7 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QFrame" name="f_otherItems">
+   <widget class="QFrame" name="f_otherStacks">
     <property name="geometry">
      <rect>
       <x>0</x>
