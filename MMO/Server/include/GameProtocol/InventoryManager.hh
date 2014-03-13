@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:33:41 2014 laurent ansel
-// Last update Wed Mar 12 16:22:26 2014 laurent ansel
+// Last update Thu Mar 13 15:57:04 2014 laurent ansel
 //
 
 #ifndef 			__INVENTORYMANAGER_HH__

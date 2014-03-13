@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar 12 13:59:24 2014 guillaume marescaux
-// Last update Thu Mar 13 14:03:35 2014 guillaume marescaux
+// Last update Thu Mar 13 15:55:50 2014 guillaume marescaux
 //
 
 #include			<QValidator>
@@ -15,7 +15,6 @@ SplitStackView::SplitStackView(QWidget *parent, WindowManager *wMan):
   QWidget(parent), _wMan(wMan), _stack(NULL)
 {
   ui.setupUi(this);
-  ui.le_nb->setValidator(new QIntValidator);
 }
 
 SplitStackView::~SplitStackView()
@@ -33,17 +32,12 @@ void				SplitStackView::paintEvent(QPaintEvent *)
 
 void				SplitStackView::on_b_accept_clicked()
 {
-  unsigned int			nb = ui.le_nb->text().toUInt();
+  unsigned int			nb = ui.sb_nb->value();
 
-  if (nb > _stack->getNb())
-    ui.le_nb->setText(std::to_string(_stack->getNb()).c_str());
-  else
-    {
-      (**_wMan->getMainPlayer())->newStack(_stack->getId(), nb);
-      Client::getInstance()->newStack(_stack->getId(), nb);
-      _wMan->getSFMLView()->getInventoryView()->initInventory();
-      hide();
-    }
+  (**_wMan->getMainPlayer())->newStack(_stack->getId(), nb);
+  Client::getInstance()->newStack(_stack->getId(), nb);
+  _wMan->getSFMLView()->getInventoryView()->initInventory();
+  hide();
 }
 
 void				SplitStackView::on_b_cancel_clicked()
@@ -54,4 +48,6 @@ void				SplitStackView::on_b_cancel_clicked()
 void				SplitStackView::setInfos(Stack const *stack)
 {
   _stack = stack;
+  ui.sb_nb->setMaximum(stack->getNb());
+  ui.sb_nb->setValue(stack->getNb());
 }
