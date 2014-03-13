@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Mar 12 12:26:16 2014 antoine maitre
+// Last update Wed Mar 12 19:25:55 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -96,6 +96,9 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, unsigned int>("GETMONEY", &getMoney);
       this->_container->load<unsigned int, unsigned int>("ACCEPT", &accept);
       this->_container->load<unsigned int, unsigned int>("REFUSE", &refuse);
+      this->_container->load<unsigned int, unsigned int>("MOBTOBATTLEMOB", &mobtoBattleMob);
+      this->_container->load<unsigned int, unsigned int>("BATTLEMOBTOMOB", &battleMobtoMob);
+      this->_container->load<unsigned int, unsigned int, unsigned int>("SWITCHMOBS", &switchMobs);
       this->_container->load<unsigned int, std::string, std::string>("CRAFT", &craft);
       this->_container->load<unsigned int>("HEAL", &heal);
       this->_container->load<unsigned int>("DISCONNECT", &disconnect);
@@ -354,11 +357,12 @@ bool                    newZone(unsigned int const id, Player *player, Zone *old
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["NEWZONE"]["ZONE"] = player->getZone();
+      zone->serialization((*trame)((*trame)[CONTENT]));
       player->getCoord().serialization((*trame)((*trame)[CONTENT]["NEWZONE"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
-      ret = map(id, zone);
+      //      ret = map(id, zone);
       ret = newPlayer(id, player, zone);
       ret = removeEntity(id, player->getId(), oldZone);
     }
@@ -1029,6 +1033,70 @@ bool			refuse(unsigned int const id, unsigned int const idTrade)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["REFUSE"] = idTrade;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			mobtoBattleMob(unsigned int const id, unsigned int const idMob)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["MOBTOBATTLEMOB"] = idMob;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			switchMobs(unsigned int const id, unsigned int const idMob1, unsigned int const idMob2)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["SWITCHMOBS"]["IDMOB1"] = idMob1;
+      (*trame)[CONTENT]["SWITCHMOBS"]["IDMOB2"] = idMob2;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			battleMobtoMob(unsigned int const id, unsigned int const idMob)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["BATTLEMOBTOMOB"] = idMob;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;

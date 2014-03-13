@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Tue Mar 11 19:24:36 2014 guillaume marescaux
+// Last update Wed Mar 12 16:55:48 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -102,6 +102,9 @@ public:
   void			getMob(unsigned int idTrade, unsigned int idMob);
   void			putMoney(unsigned int idTrade, unsigned int money);
   void			getMoney(unsigned int idTrade, unsigned int money);
+  void			mobtoBattleMob(unsigned int idMob);
+  void			battleMobtoMob(unsigned int idMob);
+  void			switchMobs(unsigned int idMob1, unsigned int idMob2);
   void			accept(void);
   void			refuse(void);
   void			heal(void);

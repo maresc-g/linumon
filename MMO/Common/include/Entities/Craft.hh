@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:27:32 2014 laurent ansel
-// Last update Tue Mar 11 16:13:24 2014 alexis mestag
+// Last update Wed Mar 12 22:59:47 2014 laurent ansel
 //
 
 #ifndef 		__CRAFT_HH__
@@ -17,22 +17,24 @@
 # include		"Utility/ISerialization.hh"
 # include		"Utility/Nameable.hh"
 # include		"Utility/Wrapper.hpp"
+# include		"Entities/Stack.hh"
 
-typedef std::pair<AItem *, unsigned int>	itemStack;
+// typedef std::pair<AItem *, unsigned int>	itemStack;
 
 class			Craft : public ISerialization, public Persistent, public Nameable,
-				public ContainerWrapper<std::list<itemStack>>
+				public ContainerWrapper<std::list<Stack *> >
 {
   friend class		odb::access;
 
 private:
   Level			*_level;
-  AItem const		*_result;
+  //  AItem const		*_result;
+  Stack const		*_result;
 
   Craft();
 
   void			setLevelObject(Level const &level);
-  void			setResult(AItem const &item);
+  void			setResult(Stack const &item);
   void			setIngredients(container_type const &items);
 
 public:
@@ -49,7 +51,7 @@ public:
   Level::type		getExp() const;
   void			setExp(Level::type const exp);
 
-  AItem const		&getResult() const;
+  Stack const		&getResult() const;
   container_type const	&getIngredients() const;
 
   virtual bool		serialization(Trame &trame) const;

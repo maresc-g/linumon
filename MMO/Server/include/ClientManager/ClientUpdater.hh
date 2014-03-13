@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Wed Mar 12 13:47:57 2014 laurent ansel
+// Last update Wed Mar 12 22:42:20 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -47,8 +47,15 @@ public:
   bool				setTalents(FD const fd, std::string const &talent, unsigned int const pts) const;
   bool				playerObject(FD const fd, unsigned int const target, unsigned int const item) const;
   bool				playerObject(FD const fd, unsigned int const item, int const nb) const;
+
+  bool				merge(FD const fd, unsigned int const idStack, unsigned int const idStack2) const;
+  bool				newStack(FD const fd, unsigned int const idStack, unsigned int const nb) const;
+
   bool				stateBattle(FD const fd, bool const start, bool const end, Player *&player) const;
   bool				stateTrade(FD const fd, bool const start, bool const end, Player *&player) const;
+
+  void				newState(FD const fd, Client::eState const state) const;
+
   void				sendAllInformationModel(FD const fd) const;
   bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;
 

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Wed Mar 12 22:13:41 2014 alexis mestag
+// Last update Thu Mar 13 08:31:27 2014 alexis mestag
 //
 
 #include			<algorithm>
@@ -274,7 +274,7 @@ Mob				*Mob::deserialization(Trame const &trame)
   if (trame.isMember("MOD"))
     //   mob->setModel(*MobModel::deserialization(trame(trame["MOD"])));
     mob->setModel(*(**LoaderManager::getInstance()->getMobModelLoader())->getValue(trame["MOD"].asString()));
-  mob->setCurrentExp(trame["CEXP"].asUInt());
+  mob->setCurrentExp(trame["CEXP"].asUInt(), false);
 
   Equipment			*equipment = Equipment::deserialization(trame);
   if (equipment)

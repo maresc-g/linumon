@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 12 22:36:07 2014 alexis mestag
+// Last update Thu Mar 13 08:30:37 2014 alexis mestag
 //
 
 #include			<functional>
@@ -25,7 +25,7 @@
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _type(PlayerType::PLAYER),
-  _digitaliser(new Digitaliser), _coord(new PlayerCoordinate),
+  _digitaliser(new Digitaliser(this)), _coord(new PlayerCoordinate),
   _faction(NULL), _talentTree(NULL), _talents(new Talents), _user(NULL),
   _inventory(new Inventory), _jobs(new Jobs), _guild(NULL), _expCurve(NULL)
 # ifndef	CLIENT_COMPILATION
@@ -39,7 +39,7 @@ Player::Player() :
 
 Player::Player(std::string const &name, std::string const &factionName, User const *user) :
   Persistent(), ACharacter(name, eCharacter::PLAYER), _type(PlayerType::PLAYER),
-  _digitaliser(new Digitaliser), _coord(new PlayerCoordinate),
+  _digitaliser(new Digitaliser(this)), _coord(new PlayerCoordinate),
   _faction(NULL), _talentTree(NULL), _talents(new Talents), _user(user),
   _inventory(new Inventory), _jobs(new Jobs), _guild(NULL), _expCurve(NULL)
 # ifndef	CLIENT_COMPILATION
@@ -65,7 +65,7 @@ Player::Player(std::string const &name, std::string const &factionName, User con
 }
 
 Player::Player(Player const &rhs) :
-  Persistent(rhs), ACharacter(rhs), _digitaliser(new Digitaliser), _coord(new PlayerCoordinate),
+  Persistent(rhs), ACharacter(rhs), _digitaliser(new Digitaliser(this)), _coord(new PlayerCoordinate),
   _talents(new Talents), _jobs(new Jobs)
 {
   *this = rhs;
@@ -315,17 +315,17 @@ bool				Player::getMobEquipment(unsigned int const idMod, unsigned int const idI
   return (ret);
 }
 
-bool				Player::putPlayerEquipment(unsigned int const idItem)
+bool				Player::putPlayerEquipment(unsigned int const idStack)
 {
   bool				ret = false;
   AItem				*item;
   Stuff				*old;
 
   /*effect item*/
-  item = this->getAndDeleteItem(idItem);
+  item = this->getAndDeleteItem(idStack);
   if (item && item->getItemType() == AItem::STUFF)
     {
-      ret = this->addStuff(dynamic_cast<Stuff *>(item), old);
+      ret = this->addStuff(static_cast<Stuff *>(item), old);
       if (ret && old)
 	this->addItem(old);
     }
@@ -334,7 +334,7 @@ bool				Player::putPlayerEquipment(unsigned int const idItem)
   return (ret);
 }
 
-bool				Player::putMobEquipment(unsigned int const idMod,unsigned int const idItem)
+bool				Player::putMobEquipment(unsigned int const idMod,unsigned int const idStack)
 {
   bool				ret = false;
   AItem				*item;
@@ -344,10 +344,10 @@ bool				Player::putMobEquipment(unsigned int const idMod,unsigned int const idIt
   mob = this->_digitaliser->getMob(idMod);
   if (mob)
     {
-      item = this->getAndDeleteItem(idItem);
+      item = this->getAndDeleteItem(idStack);
       if (item && item->getItemType() == AItem::STUFF)
 	{
-	  ret = mob->addStuff(dynamic_cast<Stuff *>(item), old);
+	  ret = mob->addStuff(static_cast<Stuff *>(item), old);
 	  if (ret && old)
 	    this->addItem(old);
 	}
@@ -357,7 +357,7 @@ bool				Player::putMobEquipment(unsigned int const idMod,unsigned int const idIt
   return (ret);
 }
 
-void				Player::useObject(unsigned int const target, unsigned int const idItem)
+void				Player::useObject(unsigned int const target, unsigned int const idStack)
 {
   AItem				*item;
   Mob				*mob;
@@ -365,12 +365,12 @@ void				Player::useObject(unsigned int const target, unsigned int const idItem)
   mob = this->_digitaliser->getMob(target);
   if (mob)
     {
-      item = this->getAndDeleteItem(idItem);
+      item = this->getAndDeleteItem(idStack);
       if (!item)
 	std::cout << "ITEM IS NULL" << std::endl;
 #ifndef		CLIENT_COMPILATION
       if (item && item->getItemType() == AItem::CONSUMABLE)
-	dynamic_cast<Consumable *>(item)->applyEffect(*mob);
+	static_cast<Consumable *>(item)->applyEffect(*mob);
       else if (item)
 	this->addItem(item);
 #else
@@ -448,7 +448,7 @@ Player				*Player::deserialization(Trame const &trame)
 	player->setLevelObject(*lvl);
 
       if (trame["PLAYER"].isMember("CEXP"))
-	player->setCurrentExp(trame["PLAYER"]["CEXP"].asUInt());
+	player->setCurrentExp(trame["PLAYER"]["CEXP"].asUInt(), false); /* Pass true (or ommit the parameter) if the ExperienceCurve is set */
 
       TalentTree		*tree = TalentTree::deserialization(trame(trame["PLAYER"]));
       if (tree)
@@ -473,22 +473,6 @@ Player				*Player::deserialization(Trame const &trame)
       Talents			*talents = Talents::deserialization(trame(trame["PLAYER"]));
       if (talents)
       	player->setTalents(*talents);
-
-      // stats = Stats::deserialization(trame(trame["PLAYER"]));
-      // if (stats)
-      // 	player->setTmpStats(*stats);
-
-      // if (!trame["PLAYER"]["TALENTS"].empty())
-      // 	{
-      // 	  auto			members = trame["PLAYER"]["TALENTS"].getMemberNames();
-
-      // 	  talents = new Talents;
-      // 	  for (auto it = members.begin() ; it != members.end() ; ++it)
-      // 	    {
-      // 	      talents->getContainer().push_back(Talent::deserialization(trame(trame["PLAYER"]["TALENTS"][*it])));
-      // 	    }
-      // 	  player->setTalents(*talents);
-      // 	}
 
       Jobs			*jobs = Jobs::deserialization(trame(trame["PLAYER"]));
       if (jobs)
@@ -621,4 +605,19 @@ bool				Player::doGather(std::string const &job, std::string const &res, std::li
 void				Player::mobtoBattleMob(unsigned int const id)
 {
   this->_digitaliser->mobtoBattleMob(id);
+}
+
+void				Player::battleMobtoMob(unsigned int const id)
+{
+  this->_digitaliser->battleMobtoMob(id);
+}
+
+void				Player::mergeStack(unsigned int const idStack, unsigned int const idStack2)
+{
+  this->_inventory->mergeStack(idStack, idStack2);
+}
+
+void				Player::newStack(unsigned int const idStack, unsigned int const nb)
+{
+  this->_inventory->splitStack(idStack, nb);
 }

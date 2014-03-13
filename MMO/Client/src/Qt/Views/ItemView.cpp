@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Tue Mar 11 14:39:27 2014 guillaume marescaux
+// Last update Wed Mar 12 14:33:20 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -69,10 +69,12 @@ void				ItemView::mousePressEvent(QMouseEvent *mEvent)
 
 void				ItemView::mouseDoubleClickEvent(QMouseEvent *)
 {
-  if (_item && this->parentWidget()->objectName() == "f_items")
-    static_cast<InventoryView *>(this->parentWidget()->parentWidget())->itemAction(this);
-  else if (_item && this->parentWidget()->objectName() == "stuffview")
-    static_cast<StuffView *>(this->parentWidget())->itemAction(this);
+  ParentInfos			*infos = getNameFirstParent(this);
+
+  if (_item && infos->name == "inventoryview")
+    static_cast<InventoryView *>(infos->parent)->itemAction(this);
+  else if (_item && infos->name == "stuffview")
+    static_cast<StuffView *>(infos->parent)->itemAction(this);
   else
     std::cout << "FAIL = " << this->parentWidget()->objectName().toStdString() << std::endl;
 }
@@ -156,14 +158,47 @@ void				ItemView::dragEnterEvent(QDragEnterEvent *event)
 {
   event->acceptProposedAction();
 }
+
+ParentInfos			*ItemView::getNameFirstParent(QWidget *parent)
+{
+  static std::string		parentNames[] =
+    {
+      "stuffview",
+      "tradeview",
+      "inventoryview"
+    };
+  static unsigned int		size = sizeof(parentNames) / sizeof(std::string);
+  unsigned int			i;
+
+  while ((parent = parent->parentWidget()))
+    {
+      i = 0;
+      while (i < size)
+	{
+	  if (parentNames[i] == parent->objectName().toStdString())
+	    {
+	      ParentInfos	*infos = new ParentInfos;
+
+	      infos->name = parentNames[i];
+	      infos->parent = parent;
+	      return (infos);
+	    }
+	  i++;
+	}
+    }
+  return (NULL);
+}
  
 void				ItemView::dropEvent(QDropEvent *de)
 {
-  if (_item && this->parentWidget()->objectName() != "stuffview")
+  ParentInfos			*infos = getNameFirstParent(this);
+  ParentInfos			*sourceInfos = getNameFirstParent(de->source());
+
+  std::cout << "NAME OF THE PARENT I SEEK = '" << infos->name << "'" << std::endl;
+  if (infos && infos->name != "stuffview" && sourceInfos->name != "stuffview")
     {
       std::pair<AItem const *, unsigned int>	*pair =
   	reinterpret_cast<std::pair<AItem const *, unsigned int> *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
-
       static_cast<ItemView *>(de->source())->setInfos(_item, _nb);
       setInfos(pair->first, pair->second);
     }

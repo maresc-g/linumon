@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Feb 28 23:06:40 2014 cyril jourdain
-// Last update Sat Mar  1 18:56:08 2014 cyril jourdain
+// Last update Wed Mar 12 12:47:17 2014 guillaume marescaux
 //
 
 #include		"Qt/Views/PlayerClickView.hh"
@@ -48,5 +48,7 @@ void				PlayerClickView::bAggroClicked()
 void				PlayerClickView::bTradeClicked()
 {
   std::cout << "SO UR TELLIN ME U WANNA TRADE ? GOOBY PLZ" << std::endl;
+  _tradeView->move(1400, 0);
   _tradeView->show();
+  _tradeView->setInfos("Alexis le noob overkill");
 }

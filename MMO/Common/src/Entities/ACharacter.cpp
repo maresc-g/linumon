@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:37:01 2013 alexis mestag
-// Last update Wed Mar 12 23:41:47 2014 alexis mestag
+// Last update Thu Mar 13 08:28:07 2014 alexis mestag
 //
 
 #include			"Entities/ACharacter.hh"
@@ -41,7 +41,7 @@ ACharacter			&ACharacter::operator=(ACharacter const &rhs)
   if (this != &rhs)
     {
       this->setCharacterType(rhs.getCharacterType());
-      this->setCurrentExp(rhs.getCurrentExp());
+      this->setCurrentExp(rhs.getCurrentExp(), false);
       this->setLevelObject(rhs.getLevelObject());
       this->setEquipment(rhs.getEquipment());
     }

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Sun Mar  2 13:02:43 2014 antoine maitre
+// Last update Wed Mar 12 15:56:44 2014 cyril jourdain
 //
 
 #include			<iostream>
@@ -89,7 +89,7 @@ void				Zone::delPlayer(AEntity *player)
       tmp = static_cast<Player *>(player);
       cas = this->getCase(tmp->getX(), tmp->getY());
       if (cas)
-	cas->delAEntity(player);
+	cas->delAEntity(player->getId());
     }
 }
 
@@ -222,8 +222,8 @@ bool				Zone::move(AEntity *entity)
     (*it)->delAEntity(entity);
   if (static_cast<Player *>(entity)->getX() >= Map::getInstance()->getZone(static_cast<Player *>(entity)->getZone())->getSizeX() ||
       static_cast<Player *>(entity)->getY() >= Map::getInstance()->getZone(static_cast<Player *>(entity)->getZone())->getSizeY() ||
-      static_cast<Player *>(entity)->getX() == -1 ||
-      static_cast<Player *>(entity)->getY() == -1)
+      static_cast<Player *>(entity)->getX() <= -1 ||
+      static_cast<Player *>(entity)->getY() <= -1)
     {
       Zone *tmp = NULL;
       if (static_cast<Player *>(entity)->getX() >= Map::getInstance()->getZone(static_cast<Player *>(entity)->getZone())->getSizeX())

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Mar 12 11:13:44 2014 cyril jourdain
+// Last update Wed Mar 12 14:03:27 2014 cyril jourdain
 //
 
 /*
@@ -32,7 +32,7 @@
 
 SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, WindowManager *w) :
   QSFMLWidget(parent, position, size), _wMan(w), _sMan(new SpriteManager()),
-  _clock(new sf::Clock()), _keyDelayer(new KeyDelayer()),
+  _clock(new sf::Clock()),  _keyDelayer(new KeyDelayer()),
   _inventory(new InventoryView(this, w)),
   _stuff(new StuffView(this, w)), _chat(new ChatView(this, w)), _menu(new MenuView(this, w)),
   _jobMenu(new JobMenuView(this, w)), _job(new JobView(this, w)), _digit(new DigitaliserView(this, w)),
@@ -78,16 +78,16 @@ SFMLView::~SFMLView()
 
 void			SFMLView::onInit()
 {
+  std::cout << "INIT SFML" << std::endl;
   SoundManager::getInstance()->stopMusic(MENU_THEME);
   SoundManager::getInstance()->playMusic(WORLD_THEME);
   _reset = false;
   _clock->restart();
   _inventory->initInventory();
   _digit->initDigit((**_wMan->getMainPlayer())->getDigitaliser());
-  _worldView->onInit();
-  // *(_wMan->getState()) = CLIENT::LOADING_BATTLE;
-  _currentView = _worldView;
-  _currentView->resetPOV();
+  // _worldView->onInit();
+  // _currentView = _worldView;
+  // _currentView->resetPOV();
   static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
 }
 
@@ -109,6 +109,19 @@ void			SFMLView::onUpdate()
   CLIENT::eState s = **(_wMan->getState());
   switch (s)
     {
+    case CLIENT::NEWZONE:
+      *(_wMan->getState()) = CLIENT::LOADING;
+      break;
+    case CLIENT::LOADED:
+      qDebug() << "############## Loading zone ##############";
+      _worldView->resetView();
+      _worldView->onInit();
+      _worldView->resetPOV();
+      _worldView->centerView();
+      _currentView = _worldView;
+      *(_wMan->getState()) = CLIENT::PLAYING;
+      return;
+      break;
     case CLIENT::LEAVING_BATTLE:
       _currentView = _worldView;
       _currentView->resetPOV();
@@ -163,6 +176,7 @@ void			SFMLView::onUpdate()
     default:
       break;
     }
+
   // Need to : Destroy map, entites, etc ...
   clear(sf::Color(0,183,235));
   if (_reset)

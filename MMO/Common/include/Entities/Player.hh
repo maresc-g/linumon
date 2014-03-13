@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Wed Mar 12 22:34:31 2014 alexis mestag
+// Last update Thu Mar 13 08:03:50 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -138,9 +138,9 @@ public:
 
   bool				isMyMob(unsigned int const id);
 
-  void				deleteItem(unsigned int const item);
+  void				deleteItem(unsigned int const stack);
   void				addItem(AItem *item);
-  AItem				*getAndDeleteItem(unsigned int const item) const;
+  AItem				*getAndDeleteItem(unsigned int const stack) const;
 
   void				addMob(Mob *mob);
   Mob				*getAndDeleteMob(unsigned int const mob) const;
@@ -158,12 +158,18 @@ public:
 
   bool				getPlayerEquipment(unsigned int const idItem);
   bool				getMobEquipment(unsigned int const idMod, unsigned int const idItem);
-  bool				putPlayerEquipment(unsigned int const idItem);
-  bool				putMobEquipment(unsigned int const idMod, unsigned int const idItem);
+  bool				putPlayerEquipment(unsigned int const idStack);
+  bool				putMobEquipment(unsigned int const idMod, unsigned int const idStack);
 
-  void				useObject(unsigned int const target, unsigned int const item);
+  void				useObject(unsigned int const target, unsigned int const stack);
 
   void				mobtoBattleMob(unsigned int const id);
+  void				battleMobtoMob(unsigned int const id);
+
+  void				mergeStack(unsigned int const idStack, unsigned int const idStack2);
+  void				newStack(unsigned int const idStack, unsigned int const nb);
+
+
   virtual bool			serialization(Trame &trame) const;
   static Player			*deserialization(Trame const &trame);
 };

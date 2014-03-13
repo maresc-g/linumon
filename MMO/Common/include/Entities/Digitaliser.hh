@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Mon Mar 10 01:19:18 2014 alexis mestag
+// Last update Wed Mar 12 20:34:31 2014 laurent ansel
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -16,14 +16,16 @@
 # include		"Utility/Wrapper.hpp"
 
 class			Mob;
+class			Player;
 
-class			Digitaliser : public ISerialization, public ContainerWrapper<std::list<Mob *>>
+class			Digitaliser : public ISerialization, public ContainerWrapper<std::list<Mob *> >
 {
 public:
   typedef container_type	Mobs;
 
 private:
-  container_type		_battleMobs;
+  container_type	_battleMobs;
+  Player const		*_player;
 
 private:
   Digitaliser(Digitaliser const &rhs);
@@ -31,7 +33,7 @@ private:
   void			deleteMobs();
 
 public:
-  Digitaliser();
+  Digitaliser(Player const *player);
 
   Digitaliser		&operator=(Digitaliser const &rhs);
 
@@ -43,6 +45,11 @@ public:
   Mobs const		&getBattleMobs() const;
   void			setBattleMobs(Mobs const &mobs);
 
+  void			setPlayer(Player const *player);
+  Player const		*getPlayer() const;
+
+  unsigned int		getLimit() const;
+
   Mob			*getMob(unsigned int const id) const;
 
   void			addMob(Mob const &mob);
@@ -51,13 +58,14 @@ public:
   void			addMob(Mob  *mob);
   Mob			*getAndDeleteMob(unsigned int const mob);
 
-  void			battleMobtoMob(unsigned int const id);
-  void			mobtoBattleMob(unsigned int const id);
+  bool			battleMobtoMob(unsigned int const id);
+  bool			mobtoBattleMob(unsigned int const id);
 
   virtual bool		serialization(Trame &trame) const;
   static Digitaliser	*deserialization(Trame const &trame);
 };
 
+# include		"Entities/Player.hh"
 # include		"Entities/Mob.hh"
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Wed Mar 12 13:52:15 2014 antoine maitre
+// Last update Wed Mar 12 14:39:51 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -62,8 +62,6 @@ Battle::eBattle 			Battle::getType() const
 
 bool					Battle::checkEnd()
 {
-  // static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
-  // Stats const				*statMob;
   unsigned int				i;
 
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
@@ -71,7 +69,6 @@ bool					Battle::checkEnd()
       i = 0;
       for (auto itb = this->_mobs.begin(); itb != this->_mobs.end(); itb++)
 	{
-	  // statMob = &(*it)->getCurrentStats();
 	  if ((*it)->isMyMob((*itb)->getId()) && (*itb)->getCurrentStat("HP") <= 0)
 	    i++;
 	  if (i == _mobNumber)
@@ -92,7 +89,6 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
   Mob					*mobTarget = NULL;
   int					hpChange = 0;
 
-  std::cout << "SPEELLLELELELELELELELELER" << std::endl;
   for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
     {
       if ((*it)->getId() == launcher)
@@ -117,10 +113,6 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
 	for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	  if ((*it)->getType() == Player::PlayerType::PLAYER)
 	    this->trameDeadMob((*it)->getUser().getId(), target);
-    }
-  else
-    {
-      std::cout << "Les valeurs sont erronees" << std::endl;
     }
   return (this->checkEnd());
 }
@@ -158,12 +150,10 @@ bool					Battle::capture(unsigned int const target)
 
 void					Battle::next()
 {
-  //  static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
 
   auto tmp = this->_mobs.front();
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);
-  //  Stats const &statMob = tmp->getCurrentStats();
   if (tmp->getCurrentStat("HP") <= 0 && !this->checkEnd())
     {
       this->next();

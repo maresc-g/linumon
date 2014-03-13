@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Wed Mar  5 15:37:00 2014 laurent ansel
+// Last update Wed Mar 12 22:45:04 2014 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -37,6 +37,7 @@ private:
   std::map<std::string, Socket *>	*_socket;
   Poll				*_poll;
   std::map<FD, std::pair<bool, bool> >	*_actionServer; /*[client] = {write, disconnect}*/
+  std::list<std::pair<FD, Client::eState> >	*_stateList;
   Mutex				*_mutex;
   Mutex				*_protoMutex;
   CodeBreaker			*_codeBreaker;
@@ -66,6 +67,7 @@ public:
 
   bool				callProtocol(Trame *trame);
   bool				addFuncProtocol(std::string const &key, std::function<bool (Trame *)> func);
+  void				newClientStateInStandBy(FD const fd, Client::eState const state, bool const set = false) const;
 
 private:
   void				initializePoll() const;

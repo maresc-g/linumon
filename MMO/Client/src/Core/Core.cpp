@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Mar 11 19:25:01 2014 guillaume marescaux
+// Last update Wed Mar 12 19:28:45 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -237,7 +237,9 @@ bool				Core::getChat(Trame *trame)
 bool				Core::map(Trame *trame)
 {
   Map::getInstance()->getZone((**_player)->getZone())->deserialization(*trame);
-  *_state = CLIENT::PLAYING;
+  if (**_state == CLIENT::NEWZONE)
+    while (**_state == CLIENT::NEWZONE);
+  *_state = CLIENT::LOADED;
   std::cout << "PLAYERS IN MAP = " << Map::getInstance()->getPlayers((**_player)->getZone())->size() << std::endl;
   return (true);
 }
@@ -436,6 +438,7 @@ bool				Core::entity(Trame *trame)
 
   if (entity)
     {
+      std::cout << "MOVING ENTITY WITH ID : " << (*trame)[CONTENT]["ENTITY"]["ID"].asUInt() << std::endl;
       static_cast<Player *>(entity)->setX((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["X"].asInt());
       static_cast<Player *>(entity)->setY((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["Y"].asInt());
       map->move(entity);
@@ -454,9 +457,40 @@ bool				Core::newPlayer(Trame *trame)
 
 bool				Core::newZone(Trame *trame)
 {
-  *_state = CLIENT::LOADING;
-  (**_player)->setCoord((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asUInt(),
-			(*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asUInt());
+  std::cout << "NEW ZONE HERE" << std::endl;
+  Map::getInstance()->getZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString())->deserialization(*trame);
+  (**_player)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
+  (**_player)->setY((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt());
+  Map::getInstance()->changeZone((**_player)->getZone(), (*trame)[CONTENT]["NEWZONE"]["ZONE"].asString(), (**_player));
+   (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString()); 
+  std::cout << " NEW PLAYER ZONE : " <<  (**_player)->getZone() << std::endl;
+  *_state = CLIENT::LOADED;
+  // (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString());
+  // (**_player)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
+  // (**_player)->setY((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt());
+  // Map::getInstance()->move((**_player));
+
+  // Map				*map = Map::getInstance();
+  // AEntity			*entity = map->getEntityById((**_player)->getZone(),
+  // 							     (**_player)->getId());
+
+  // if (entity)
+  //   {
+  //     std::cout << "NEW PLAYER POSITION :" << (*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt()
+  // 		<< "/" << (*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt() << std::endl;
+  //     static_cast<Player *>(entity)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
+  //     static_cast<Player *>(entity)->setY((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt());
+  //     map->move(entity);
+  //   }
+  // else
+  //   {
+  //     std::cout << "THE ENTITY IS NOT FOUND, SORRY" << std::endl;
+  //   }
+
+  // (**_player)->setCoord((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asUInt(),
+  // 			(*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asUInt());
+
+
   return (true);
 }
 
@@ -625,6 +659,21 @@ void				Core::putMoney(unsigned int idTrade, unsigned int money)
 void				Core::getMoney(unsigned int idTrade, unsigned int money)
 {
   (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("GETMONEY", _id, idTrade, money);
+}
+
+void				Core::mobtoBattleMob(unsigned int idMob)
+{
+  (*_proto).operator()<unsigned int const, unsigned int>("MOBTOBATTLEMOB", _id, idMob);
+}
+
+void				Core::battleMobtoMob(unsigned int idMob)
+{
+  (*_proto).operator()<unsigned int const, unsigned int>("BATTLEMOBTOMOB", _id, idMob);
+}
+
+void				Core::switchMobs(unsigned int idMob1, unsigned int idMob2)
+{
+  (*_proto).operator()<unsigned int const, unsigned int>("SWITCHMOBS", _id, idMob1, idMob2);
 }
 
 void				Core::accept()

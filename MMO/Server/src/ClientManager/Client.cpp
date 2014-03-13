@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar 12 13:45:53 2014 laurent ansel
+// Last update Wed Mar 12 22:44:23 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -142,6 +142,11 @@ void				Client::sendAllInformationModel() const
   Server::getInstance()->callProtocol("MOBMODELS", _id);
 }
 
+void				Client::state(eState const state)
+{
+  _state = state;
+}
+
 void				Client::setSocket(ISocketClient const *socket, std::string const &proto)
 {
   if ((*_sockets)[proto])
@@ -260,6 +265,7 @@ void				Client::move(Player::PlayerCoordinate *coord)
 	      ret = Map::getInstance()->move(_player);
 	      if (ret)
 		{
+		  std::cout << "ENVOIE DU NEW ZONE" << std::endl;
 		  Server::getInstance()->callProtocol<Player * , Zone *, Zone *>("NEWZONE", _id, _player, Map::getInstance()->getZone(oldZone), Map::getInstance()->getZone(_player->getZone()));
 		  delete trame;
 		  delete header;
@@ -274,12 +280,12 @@ void				Client::move(Player::PlayerCoordinate *coord)
 		  //     _state = BATTLE;
 		}
 	    }
-	  if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
-	    {
-	      std::cout << "Le getSafe RENVOIE TRUE, JE VAIS RENTRER DANS INBATTLE" << std::endl;
-	      if (BattleManager::getInstance()->inBattle(_player))
-	  	_state = BATTLE;
-	    }
+	  // if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
+	  //   {
+	  //     std::cout << "Le getSafe RENVOIE TRUE, JE VAIS RENTRER DANS INBATTLE" << std::endl;
+	  //     if (BattleManager::getInstance()->inBattle(_player))
+	  // 	_state = BATTLE;
+	  //   }
 	}
     }
 }
@@ -407,4 +413,16 @@ bool				Client::stuff(bool const get, unsigned int const idItem, unsigned int co
 	}
     }
   return (ret);
+}
+
+void				Client::merge(unsigned int const idStack, unsigned int const idStack2)
+{
+  if (_state == GAME && _player)
+    _player->mergeStack(idStack, idStack2);
+}
+
+void				Client::newStack(unsigned int const idStack, unsigned int const nb)
+{
+  if (_state == GAME && _player)
+    _player->newStack(idStack, nb);
 }
