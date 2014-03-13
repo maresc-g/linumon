@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 17:41:44 2014 alexis mestag
-// Last update Wed Mar 12 11:12:02 2014 alexis mestag
+// Last update Thu Mar 13 13:23:45 2014 alexis mestag
 //
 
 #ifndef				__PLAYERREPOSITORY_HPP__
@@ -29,6 +29,8 @@ public:
   virtual void			smartUpdate(Player &p, bool const inTr = false) {
     Database::Transaction	*t = Database::getNewTransaction(inTr);
     bool			isInTr = (t || inTr) ? true : false;
+
+    std::cout << "=================================> Smart Updating " << &p << " (needed " << this->getById(p.getPersistentId()) << ")" << std::endl;
 
     /*
     ** Updating Inventory

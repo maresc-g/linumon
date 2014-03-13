@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:19 2014 laurent ansel
-// Last update Thu Mar 13 08:04:33 2014 alexis mestag
+// Last update Thu Mar 13 12:38:35 2014 alexis mestag
 //
 
 #ifndef 		__JOB_HH__
@@ -26,6 +26,7 @@ private:
   Job();
 
 public:
+  Job(JobModel const &model, Level::type const level = 0);
   Job(Job const &rhs);
   virtual ~Job();
 

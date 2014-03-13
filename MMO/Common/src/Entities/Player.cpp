@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 13 08:45:45 2014 alexis mestag
+// Last update Thu Mar 13 12:55:11 2014 alexis mestag
 //
 
 #include			<functional>
@@ -14,11 +14,13 @@
 #ifndef			CLIENT_COMPILATION
 # include			"Stats/TalentTree-odb.hxx"
 # include			"Entities/DBZone-odb.hxx"
-# include			"Database/Repositories/FactionRepository.hpp"
-# include			"Database/Repositories/PlayerRepository.hpp"
-# include			"Database/Repositories/StatKeyRepository.hpp"
+# include			"Entities/JobModel-odb.hxx"
 # include			"Database/Repositories/AuthorizedStatKeysRepository.hpp"
 # include			"Database/Repositories/ExperienceCurveRepository.hpp"
+# include			"Database/Repositories/FactionRepository.hpp"
+# include			"Database/Repositories/PlayerRepository.hpp"
+# include			"Database/Repositories/MobModelRepository.hpp"
+# include			"Database/Repositories/StatKeyRepository.hpp"
 #endif
 #include			"Entities/Consumable.hh"
 #include			"Loader/LoaderManager.hh"
@@ -53,12 +55,43 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   # ifndef	CLIENT_COMPILATION
   this->initConstPointersForNewPlayers();
 
+  /*
+  ** Capture a Pikachu
+  */
+  Repository<MobModel>		*rm = &Database::getRepository<MobModel>();
+  MobModel const		*m = rm->getByName("Pikachu");
+
+  this->capture(Mob(*m, 15));
+
+  /*
+  ** Init Faction
+  */
   Faction			*faction = Database::getRepository<Faction>().getByName(factionName);
 
   if (faction) {
     this->setFaction(*faction);
     this->applyFactionEffect();
   }
+
+  /*
+  ** Init Jobs
+  */
+  Repository<JobModel>		&rjm = Database::getRepository<JobModel>();
+  std::list<JobModel *>		jms = rjm.getAll();
+
+  for (auto jmt = jms.begin() ; jmt != jms.end() ; ++jmt) {
+    Job				*j = new Job(**jmt, 0);
+
+    j->resetExp();
+    this->setJob(j);
+  }
+
+  /*
+  ** Init Player Stats
+  */
+  this->setStat("Limit mob", 3);
+  this->setStat("Bag capacity", 30);
+
   # else
   (void)factionName;
   # endif

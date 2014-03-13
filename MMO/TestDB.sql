@@ -77,7 +77,8 @@ DELETE FROM `Type`;
 INSERT INTO `Type`(`id`, `name`) VALUES
        (1, 'Fire'),
        (2, 'Water'),
-       (3, 'Grass');
+       (3, 'Grass'),
+       (4, 'Electric');
 
 /* Assigning Types to Types */
 DELETE FROM `Type_relations`;
@@ -86,12 +87,19 @@ INSERT INTO `Type_relations`(`object_id`, `index`, `value_oType_id`, `value_coef
        (1, 0, 1, 0.5),
        (1, 1, 2, 0.5),
        (1, 2, 3, 2),
+       (1, 3, 4, 2),
        (2, 0, 1, 2),
        (2, 1, 2, 0.5),
        (2, 2, 3, 0.5),
+       (2, 3, 4, 1),
        (3, 0, 1, 0.5),
        (3, 1, 2, 2),
-       (3, 2, 3, 0.5);
+       (3, 2, 3, 0.5),
+       (3, 3, 4, 1),
+       (4, 0, 1, 1),
+       (4, 1, 2, 2),
+       (4, 2, 3, 0.5),
+       (4, 3, 4, 0.5);
 
 /* Inserting StatKeys */
 DELETE FROM `StatKey`;
@@ -146,9 +154,7 @@ DELETE FROM Player;
 
 INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`, `expCurve`) VALUES
        (1, 'Thinenus', 1, 0, 1, 10, 1, 1, 1, 1, 1, 10, 30, 'Res/Inventories/Thinenus.json', 10000, 30, 6),
-       (2, 'Sezu-Kho', 1, 0, 1, 10, 1, 1, 2, 1, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30, 6),
-       (3, 'WeshWesh', 1, 0, 1, 10, 2, 1, 1, 2, 2, 10, 30, 'Res/Inventories/WeshWesh.json', 20000, 20, 6),
-       (4, 'BibiBobo', 1, 0, 1, 10, 2, 1, 2, 2, 2, 20, 20, 'Res/Inventories/BibiBobo.json', 20000, 20, 6);
+       (2, 'Sezu-Kho', 1, 0, 1, 10, 1, 1, 2, 1, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30, 6);
 
 /* Assigning Talents to Players */
 DELETE FROM `Player_talents`;
@@ -163,7 +169,8 @@ DELETE FROM `MobModel`;
 INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`, `expCurve`) VALUES
        (1, 'Charizard', 2, 1, 3),
        (2, 'Blastoise', 2, 2, 3),
-       (3, 'Venusaur', 2, 3, 3);
+       (3, 'Venusaur',  2, 3, 3),
+       (4, 'Pikachu',   2, 4, 2);
 
 /* Assignin MobModels to DBZones */
 DELETE FROM `DBZone_mobModels`;
@@ -172,9 +179,11 @@ INSERT INTO `DBZone_mobModels`(`object_id`, `index`, `value`) VALUES
        (1, 0, 1),
        (1, 1, 2),
        (1, 2, 3),
+       (1, 3, 4),
        (2, 0, 1),
        (2, 1, 2),
-       (2, 2, 3);
+       (2, 2, 3),
+       (2, 3, 4);
 
 /* Inserting Spells */
 DELETE FROM `Spell`;
@@ -191,153 +200,135 @@ INSERT INTO `Spell`(`id`, `name`, `type`, `power`, `useLimit`, `effectLib`) VALU
        (9,  'Tranch''Herbe', 3,  55, 0, 5),
        (10, 'Fouet Lianes',  3,  35, 0, 5),
        (11, 'Danse-Fleur',   3, 120, 0, 5),
-       (12, 'Lance-Soleil',  3, 120, 0, 5);
+       (12, 'Lance-Soleil',  3, 120, 0, 5),
+       (13, 'Crocs Eclair',  4,  65, 0, 5),
+       (14, 'Fatal-Foudre',  4, 110, 0, 5),
+       (15, 'Onde de Choc',  4,  60, 0, 5),
+       (16, 'Tonnerre',      4,  90, 0, 5);
 
 /* Assigning Spells to MobModels */
 DELETE FROM `MobModel_spells`;
 
 INSERT INTO `MobModel_spells`(`object_id`, `index`, `value`) VALUES
+       /* Charizard */
        (1, 0, 1),
        (1, 1, 2),
        (1, 2, 3),
        (1, 3, 4),
+       /* Blastoise */
        (2, 0, 5),
        (2, 1, 6),
        (2, 2, 7),
        (2, 3, 8),
+       /* Venusaur */
        (3, 0, 9),
        (3, 1, 10),
        (3, 2, 11),
-       (3, 3, 12);
+       (3, 3, 12),
+       /* Pikachu */
+       (4, 0, 13),
+       (4, 1, 14),
+       (4, 2, 15),
+       (4, 3, 16);
 
 /* Inserting Stats */
 DELETE FROM `Stat`;
 
 INSERT INTO `Stat`(`id`, `key`, `value`) VALUES
-       (1, 1, 78),
-       (2, 2, 84),
-       (3, 3, 78),
-       (4, 4, 100),
-       (5, 5, 109),
-       (6, 6, 100),
-       (7, 7, 85),
-       (8, 8, 109),
-       (9, 1, 79),
-       (10, 2, 83),
-       (11, 3, 100),
-       (12, 4, 78),
-       (13, 5, 85),
-       (14, 6, 78),
-       (15, 7, 105),
-       (16, 8, 85),
-       (17, 1, 80),
-       (18, 2, 82),
-       (19, 3, 83),
-       (20, 4, 80),
-       (21, 5, 100),
-       (22, 6, 80),
-       (23, 7, 100),
-       (24, 8, 100),
+       /* Charizard */
+       (  1,  1, 78),
+       (  2,  2, 84),
+       (  3,  3, 78),
+       (  4,  4, 100),
+       (  5,  5, 109),
+       (  6,  6, 100),
+       (  7,  7, 85),
+       (  8,  8, 109),
+       /* Blastoise  */
+       (  9,  1,  79),
+       ( 10,  2,  83),
+       ( 11,  3, 100),
+       ( 12,  4,  78),
+       ( 13,  5,  85),
+       ( 14,  6,  78),
+       ( 15,  7, 105),
+       ( 16,  8,  85),
+       /* Venusaur */
+       ( 17,  1,  80),
+       ( 18,  2,  82),
+       ( 19,  3,  83),
+       ( 20,  4,  80),
+       ( 21,  5, 100),
+       ( 22,  6,  80),
+       ( 23,  7, 100),
+       ( 24,  8, 100),
+       /* Pikachu */
+       ( 25,  1,  35),
+       ( 26,  2,  55),
+       ( 27,  3,  40),
+       ( 28,  4,  90),
+       ( 29,  5,  50),
+       ( 30,  6,  90),
+       ( 31,  7,  50),
+       ( 32,  8,  50),
+       /* Players */
+       ( 33,  9,  10),
+       ( 34, 10,  12),
+       ( 35, 11,  40),
+       ( 36,  9,  20),
+       ( 37, 10,  22),
+       ( 38, 11,  50),
 
-       (25, 1, 0),
-       (26, 2, 0),
-       (27, 3, 0),
-       (28, 4, 0),
-       (29, 5, 0),
-       (30, 6, 0),
-       (31, 7, 0),
-       (32, 8, 0),
-       (33, 1, 0),
-       (34, 2, 0),
-       (35, 3, 0),
-       (36, 4, 0),
-       (37, 5, 0),
-       (38, 6, 0),
-       (39, 7, 0),
-       (40, 8, 0),
-       (41, 1, 0),
-       (42, 2, 0),
-       (43, 3, 0),
-       (44, 4, 0),
-       (45, 5, 0),
-       (46, 6, 0),
-       (47, 7, 0),
-       (48, 8, 0),
-       (49, 1, 0),
-       (50, 2, 0),
-       (51, 3, 0),
-       (52, 4, 0),
-       (53, 5, 0),
-       (54, 6, 0),
-       (55, 7, 0),
-       (56, 8, 0),
-       (57, 1, 0),
-       (58, 2, 0),
-       (59, 3, 0),
-       (60, 4, 0),
-       (61, 5, 0),
-       (62, 6, 0),
-       (63, 7, 0),
-       (64, 8, 0),
-       (65, 1, 0),
-       (66, 2, 0),
-       (67, 3, 0),
-       (68, 4, 0),
-       (69, 5, 0),
-       (70, 6, 0),
-       (71, 7, 0),
-       (72, 8, 0),
-
-       (73, 9, 10),
-       (74, 10, 12),
-       (75, 11, 40),
-       (76, 9, 20),
-       (77, 10, 22),
-       (78, 11, 50),
-       (79, 9, 30),
-       (80, 10, 32),
-       (81, 11, 60),
-       (82, 9, 40),
-       (83, 10, 42),
-       (84, 11, 70),
-
-       (85, 1, 20),
-       (86, 2, 5),
-       (87, 3, 5),
-       (88, 4, 15),
-       (89, 5, 8),
-       (90, 6, 4),
-       (91, 7, 1),
-       (92, 8, 3);
+       /* Stuffs */
+       ( 39,  1,  20),
+       ( 40,  2,   5),
+       ( 41,  3,   5),
+       ( 42,  4,  15),
+       ( 43,  5,   8),
+       ( 44,  6,   4),
+       ( 45,  7,   1),
+       ( 46,  8,   3);
 
 /* Assigning Stats to MobModels */
 DELETE FROM `MobModel_stats`;
 
 INSERT INTO `MobModel_stats`(`object_id`, `index`, `value`) VALUES
-       (1, 0, 1),
-       (1, 1, 2),
-       (1, 2, 3),
-       (1, 3, 4),
-       (1, 4, 5),
-       (1, 5, 6),
-       (1, 6, 7),
-       (1, 7, 8),
-       (2, 0, 9),
-       (2, 1, 10),
-       (2, 2, 11),
-       (2, 3, 12),
-       (2, 4, 13),
-       (2, 5, 14),
-       (2, 6, 15),
-       (2, 7, 16),
-       (3, 0, 17),
-       (3, 1, 18),
-       (3, 2, 19),
-       (3, 3, 20),
-       (3, 4, 21),
-       (3, 5, 22),
-       (3, 6, 23),
-       (3, 7, 24);
+       /* Charizard */
+       ( 1,  0,   1),
+       ( 1,  1,   2),
+       ( 1,  2,   3),
+       ( 1,  3,   4),
+       ( 1,  4,   5),
+       ( 1,  5,   6),
+       ( 1,  6,   7),
+       ( 1,  7,   8),
+       /* Blastoise */
+       ( 2,  0,   9),
+       ( 2,  1,  10),
+       ( 2,  2,  11),
+       ( 2,  3,  12),
+       ( 2,  4,  13),
+       ( 2,  5,  14),
+       ( 2,  6,  15),
+       ( 2,  7,  16),
+       /* Venusaur */
+       ( 3,  0,  17),
+       ( 3,  1,  18),
+       ( 3,  2,  19),
+       ( 3,  3,  20),
+       ( 3,  4,  21),
+       ( 3,  5,  22),
+       ( 3,  6,  23),
+       ( 3,  7,  24),
+       /* Pikachu */
+       ( 4,  0,  25),
+       ( 4,  1,  26),
+       ( 4,  2,  27),
+       ( 4,  3,  28),
+       ( 4,  4,  29),
+       ( 4,  5,  30),
+       ( 4,  6,  31),
+       ( 4,  7,  32);
 
 /* Inserting Mobs */
 DELETE FROM `Mob`;
@@ -348,114 +339,52 @@ INSERT INTO `Mob`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `model
        (3, 'VastFlowerPot',	2,  3120, 17,  3798, 3),
        (4, 'MegaFist',		2,  3120, 17,  3798, 1),
        (5, 'SuperWet',		2, 36435, 35, 40007, 2),
-       (6, 'UltraBushy',	2,  2035, 15,  2535, 3);
+       (6, 'UltraBushy',	2,  2035, 15,  2535, 3),
+       (7, 'Pikabillaud',	2,      0, 1,     1, 4),
+       (8, 'Pikatheorie',	2,      0, 1,     1, 4);
 
 /* Assigning Stats to Mobs */
 DELETE FROM `Mob_stats`;
 
-INSERT INTO `Mob_stats`(`object_id`, `index`, `value`) VALUES
-       (1, 0, 25),
-       (1, 1, 26),
-       (1, 2, 27),
-       (1, 3, 28),
-       (1, 4, 29),
-       (1, 5, 30),
-       (1, 6, 31),
-       (1, 7, 32),
-       (2, 0, 33),
-       (2, 1, 34),
-       (2, 2, 35),
-       (2, 3, 36),
-       (2, 4, 37),
-       (2, 5, 38),
-       (2, 6, 39),
-       (2, 7, 40),
-       (3, 0, 41),
-       (3, 1, 42),
-       (3, 2, 43),
-       (3, 3, 44),
-       (3, 4, 45),
-       (3, 5, 46),
-       (3, 6, 47),
-       (3, 7, 48),
-       (4, 0, 49),
-       (4, 1, 50),
-       (4, 2, 51),
-       (4, 3, 52),
-       (4, 4, 53),
-       (4, 5, 54),
-       (4, 6, 55),
-       (4, 7, 56),
-       (5, 0, 57),
-       (5, 1, 58),
-       (5, 2, 59),
-       (5, 3, 60),
-       (5, 4, 61),
-       (5, 5, 62),
-       (5, 6, 63),
-       (5, 7, 64),
-       (6, 0, 65),
-       (6, 1, 66),
-       (6, 2, 67),
-       (6, 3, 68),
-       (6, 4, 69),
-       (6, 5, 70),
-       (6, 6, 71),
-       (6, 7, 72);
-
-/* JobModel */
+/* Inserting JobModels */
 DELETE FROM `JobModel`;
 
 INSERT INTO `JobModel`(`id`, `name`, `path`, `expCurve`) VALUES
-        (1, 'Developpeur', 'Res/JobCraft/developpeur.json', 5),
-        (2, 'Armurier', 'Res/JobCraft/armurier.json', 5),
-        (3, 'Ingenieur', 'Res/JobCraft/ingenieur.json', 5),
+        (1, 'Developpeur',        'Res/JobCraft/developpeur.json', 5),
+        (2, 'Armurier',	          'Res/JobCraft/armurier.json', 5),
+        (3, 'Ingenieur',          'Res/JobCraft/ingenieur.json', 5),
         (4, 'Maitre des Potions', 'Res/JobCraft/potions.json', 5),
-	(5, 'Herboriste', 'Res/JobCraft/herboriste.json', 5),
-	(6, 'Mineur', 'Res/JobCraft/mineur.json', 5),
-	(7, 'Trappeur', 'Res/JobCraft/trappeur.json', 5);
+	(5, 'Herboriste',	  'Res/JobCraft/herboriste.json', 5),
+	(6, 'Mineur',		  'Res/JobCraft/mineur.json', 5),
+	(7, 'Trappeur',		  'Res/JobCraft/trappeur.json', 5);
 
-/* JobModel_gathers */
+/* Assigning gathers to JobModels */
 DELETE FROM `JobModel_gathers`;
 
 INSERT INTO `JobModel_gathers`(`object_id`, `index`, `value_level`, `value_exp`, `value_ressource`) VALUES
        (5, 0, 1, 10, 1),
        (7, 0, 1, 10, 2);
 
-/* Job */
+/* Inserting Job */
 DELETE FROM `Job`;
 
 INSERT INTO `Job`(`id`, `currentExp`, `level`, `exp`, `jobModel`) VALUES
-       (1, 10, 20, 0684, 1),
-       (2, 00, 28, 1684, 2),
-       (3, 80, 10, 2684, 3),
-       (4, 55, 05, 3684, 4),
-       (5, 24, 50, 4684, 5),
-       (6, 01, 87, 5684, 6),
-       (7, 98, 99, 6684, 7),
-       (8, 10, 20, 0684, 1),
-       (9, 00, 28, 1684, 2),
-       (10, 80, 10, 2684, 3),
-       (11, 55, 05, 3684, 4),
-       (12, 24, 50, 4684, 5),
-       (13, 01, 87, 5684, 6),
-       (14, 98, 99, 6684, 7),
-       (15, 10, 20, 0684, 1),
-       (16, 00, 28, 1684, 2),
-       (17, 80, 10, 2684, 3),
-       (18, 55, 05, 3684, 4),
-       (19, 24, 50, 4684, 5),
-       (20, 01, 87, 5684, 6),
-       (21, 98, 99, 6684, 7),
-       (22, 10, 20, 0684, 1),
-       (23, 00, 28, 1684, 2),
-       (24, 80, 10, 2684, 3),
-       (25, 55, 05, 3684, 4),
-       (26, 24, 50, 4684, 5),
-       (27, 01, 87, 5684, 6),
-       (28, 98, 99, 6684, 7);
+       (  1, 0, 0, 100, 1),
+       (  2, 0, 0, 100, 2),
+       (  3, 0, 0, 100, 3),
+       (  4, 0, 0, 100, 4),
+       (  5, 0, 0, 100, 5),
+       (  6, 0, 0, 100, 6),
+       (  7, 0, 0, 100, 7),
+       (  8, 0, 0, 100, 1),
+       (  9, 0, 0, 100, 2),
+       ( 10, 0, 0, 100, 3),
+       ( 11, 0, 0, 100, 4),
+       ( 12, 0, 0, 100, 5),
+       ( 13, 0, 0, 100, 6),
+       ( 14, 0, 0, 100, 7);
 
-/*Player_job_job*/
+/*  Assigning Jobs to Players */
 DELETE FROM `Player_jobs`;
 
 INSERT INTO `Player_jobs`(`object_id`, `index`, `value`) VALUES
@@ -472,54 +401,36 @@ INSERT INTO `Player_jobs`(`object_id`, `index`, `value`) VALUES
        (2, 3, 11),
        (2, 4, 12),
        (2, 5, 13),
-       (2, 6, 14),
-       (3, 0, 15),
-       (3, 1, 16),
-       (3, 2, 17),
-       (3, 3, 18),
-       (3, 4, 19),
-       (3, 5, 20),
-       (3, 6, 21),
-       (4, 0, 22),
-       (4, 1, 23),
-       (4, 2, 24),
-       (4, 3, 25),
-       (4, 4, 26),
-       (4, 5, 27),
-       (4, 6, 82);
-
+       (2, 6, 14);
 
 /* Assigning Mobs to Players */
 DELETE FROM `Player_mobs`;
 
-INSERT INTO `Player_mobs`(`object_id`, `index`, `value`) VALUES
+/* Assigning Mobs to Players */
+DELETE FROM `Player_battleMobs`;
+
+INSERT INTO `Player_battleMobs`(`object_id`, `index`, `value`) VALUES
        (1, 0, 1),
        (1, 1, 2),
        (1, 2, 3),
+       (1, 3, 7),
        (2, 0, 4),
        (2, 1, 5),
-       (2, 2, 6);
+       (2, 2, 6),
+       (2, 3, 8);
 
+/* Assigning Mobmodels to DBZone */
 DELETE FROM `DBZone_mobModels`;
 
 INSERT INTO `DBZone_mobModels`(`object_id`, `index`, `value`) VALUES
        (1, 0, 1),
        (1, 1, 2),
        (1, 2, 3),
+       (1, 3, 4),
        (2, 0, 1),
        (2, 1, 2),
-       (2, 2, 3);
-
-/* Assigning Mobs to Players */
-DELETE FROM `Player_battleMobs`;
-
-INSERT INTO `Player_battleMobs`(`object_id`, `index`, `value`) VALUES
-       (1, 0, 4),
-       (1, 1, 5),
-       (1, 2, 6),
-       (2, 0, 1),
-       (2, 1, 2),
-       (2, 2, 3);
+       (2, 2, 3),
+       (2, 3, 4);
 
 /* Inserting Stuff */
 DELETE FROM `Stuff`;
@@ -540,26 +451,26 @@ INSERT INTO `Stuff`(`id`, `name`, `stuffType`) VALUES
 DELETE FROM `Stuff_stats`;
 
 INSERT INTO `Stuff_stats`(`object_id`, `index`, `value`) VALUES
-       (1, 0, 85),
-       (1, 1, 86),
-       (2, 0, 85),
-       (2, 1, 87),
-       (3, 0, 87),
-       (3, 1, 88),
-       (4, 0, 85),
-       (4, 1, 92),
-       (5, 0, 90),
-       (5, 1, 86),
-       (6, 0, 85),
-       (6, 1, 87),
-       (7, 0, 85),
-       (7, 1, 90),
-       (8, 0, 85),
-       (8, 1, 86),
-       (9, 0, 85),
-       (9, 1, 86),
-       (10, 0, 88),
-       (10, 1, 86);
+       (1, 0, 39),
+       (1, 1, 40),
+       (2, 0, 39),
+       (2, 1, 41),
+       (3, 0, 41),
+       (3, 1, 42),
+       (4, 0, 39),
+       (4, 1, 44),
+       (5, 0, 44),
+       (5, 1, 40),
+       (6, 0, 39),
+       (6, 1, 41),
+       (7, 0, 39),
+       (7, 1, 44),
+       (8, 0, 39),
+       (8, 1, 40),
+       (9, 0, 39),
+       (9, 1, 40),
+       (10, 0, 42),
+       (10, 1, 40);
 
 /* Assigning Stuff to Players */
 DELETE FROM `Player_equipment`;
@@ -578,18 +489,12 @@ INSERT INTO `Player_equipment`(`object_id`, `key`, `value`) VALUES
 DELETE FROM `Player_stats`;
 
 INSERT INTO `Player_stats`(`object_id`, `index`, `value`) VALUES
-       (1, 0, 73),
-       (1, 1, 74),
-       (1, 2, 75),
-       (2, 0, 76),
-       (2, 1, 77),
-       (2, 2, 78),
-       (3, 0, 79),
-       (3, 1, 80),
-       (3, 2, 81),
-       (4, 0, 82),
-       (4, 1, 83),
-       (4, 2, 84);
+       (1, 0, 33),
+       (1, 1, 34),
+       (1, 2, 35),
+       (2, 0, 36),
+       (2, 1, 37),
+       (2, 2, 38);
 
 /* Inserting Ressources */
 DELETE FROM `Ressource`;
@@ -609,7 +514,6 @@ INSERT INTO `Heal`(`id`, `name`, `pnjType`, `zone`, `x`, `y`) VALUES
        (1, 'Connard0', 'HEAL', 'Plain', 10, 70),
        (2, 'Connard1', 'HEAL', 'Plain', 30, 30),
        (3, 'Connard2', 'HEAL', 'Plain', 40, 40);
-
 
 /* Inserting Consumable */
 DELETE FROM `Consumable`;

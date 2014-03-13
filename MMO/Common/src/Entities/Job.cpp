@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Thu Mar 13 08:31:39 2014 alexis mestag
+// Last update Thu Mar 13 12:37:21 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -25,6 +25,12 @@ Job::Job():
   _level(new Level),
   _jobModel(NULL)
 {
+}
+
+Job::Job(JobModel const &model, Level::type const level) :
+  Persistent(), _currentExp(0), _level(new Level(level)), _jobModel(&model)
+{
+
 }
 
 Job::~Job()
