@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Thu Mar 13 17:10:10 2014 antoine maitre
+// Last update Thu Mar 13 17:46:04 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -67,7 +67,6 @@ bool					Battle::checkEnd()
       i = 0;
       for (auto itb = this->_mobs.begin(); itb != this->_mobs.end(); itb++)
 	{
-	  std::cout << (*itb)->getId() << std::endl;
 	  if ((*it)->isMyMob((*itb)->getId()) && (*itb)->getCurrentStat("HP") <= 0)
 	    i++;
 	  if (i == _mobNumber)
@@ -125,11 +124,7 @@ bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
     if ((*itMob)->getId() == target)
       for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	if ((*it)->isMyMob((*itMob)->getId()))
-	  {
-	    std::cout << "EPIC VICTORY " << (*itMob)->getId() << std::endl;
-	    (*itMob) = (Mob *)(&(*it)->getMob(newmob));
-	    std::cout << "EPIC VICTORY " << (*itMob)->getId() << std::endl;
-	  }
+	  (*itMob) = (Mob *)(&(*it)->getMob(newmob));
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     {
       if ((*it)->getType() == Player::PlayerType::PLAYER)
