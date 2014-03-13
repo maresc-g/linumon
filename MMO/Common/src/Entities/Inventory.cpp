@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Thu Mar 13 15:48:31 2014 laurent ansel
+// Last update Thu Mar 13 16:58:34 2014 laurent ansel
 //
 
 #include			<stdlib.h>
@@ -289,7 +289,7 @@ void				Inventory::splitStack(unsigned int const idStack, unsigned int const nb)
   Stack				*stack = getStack(idStack);
   Stack				*tmp = NULL;
 
-  if (stack && stack->getNb() > nb)
+  if (stack && stack->getNb() >= nb)
     {
       for (auto it = this->begin() ; it != this->end() ; ++it)
 	if (!tmp && **it)

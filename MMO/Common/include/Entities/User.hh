@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:34:16 2013 alexis mestag
-// Last update Tue Mar 11 16:18:14 2014 alexis mestag
+// Last update Thu Mar 13 19:48:58 2014 alexis mestag
 //
 
 #ifndef			__USER_HH__
@@ -14,9 +14,9 @@
 # include		<list>
 # include		<string>
 # include		"Database/Persistent.hh"
-# include		"Entities/Players.hh"
 # include		"Utility/ISerialization.hh"
 
+class			Player;
 class			PlayerView;
 
 class			User : public Persistent, public ISerialization
@@ -51,6 +51,7 @@ public:
   static std::list<PlayerView *>	*deserialization(Trame const &trame);
 };
 
+# include		"Entities/Player.hh"
 # include		"Entities/Views/PlayerView.hh"
 
 # ifdef	ODB_COMPILER

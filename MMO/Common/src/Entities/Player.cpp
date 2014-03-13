@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 13 15:09:25 2014 alexis mestag
+// Last update Thu Mar 13 19:00:59 2014 laurent ansel
 //
 
 #include			<functional>
@@ -638,6 +638,11 @@ bool				Player::mobtoBattleMob(unsigned int const id)
 bool				Player::battleMobtoMob(unsigned int const id)
 {
   return (this->_digitaliser->battleMobtoMob(id));
+}
+
+bool				Player::switchMobs(unsigned int const idMob1, unsigned int const idMob2)
+{
+  return (this->_digitaliser->switchMobs(idMob1, idMob2));
 }
 
 void				Player::mergeStack(unsigned int const idStack, unsigned int const idStack2)

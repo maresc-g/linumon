@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 10:15:18 2014 alexis mestag
-// Last update Mon Mar  3 21:28:48 2014 alexis mestag
+// Last update Thu Mar 13 19:42:59 2014 alexis mestag
 //
 
 #ifndef				__PLAYERVIEW_HH__
@@ -13,6 +13,8 @@
 
 # include			<string>
 # include			"Entities/Player.hh"
+# include			"Entities/User.hh"
+# include			"Entities/Faction.hh"
 
 class				PlayerView
 {
@@ -22,10 +24,14 @@ public:
   unsigned int			level;
   unsigned long			userId;
   std::string			faction;
+  std::string			guild;
 
 public:
-  PlayerView(unsigned long const id = 0, std::string const &playerName = "", int const playerLevel = 0, unsigned long const user = 0, std::string const &playerFaction = "")
-    : persistentId(id), name(playerName), level(playerLevel), userId(user), faction(playerFaction) {}
+  PlayerView(unsigned long const id = 0, std::string const &playerName = "", int const playerLevel = 0,
+	     unsigned long const user = 0, std::string const &playerFaction = "", std::string const &playerGuild = "") :
+    persistentId(id), name(playerName), level(playerLevel), userId(user), faction(playerFaction),
+    guild(playerGuild)
+  {}
   PlayerView(PlayerView const &rhs) {
     *this = rhs;
   }
@@ -38,18 +44,20 @@ public:
       this->level = rhs.level;
       this->userId = rhs.userId;
       this->faction = rhs.faction;
+      this->guild = rhs.guild;
     }
     return (*this);
   }
 };
 
 # ifdef	ODB_COMPILER
-#  pragma db view(PlayerView) object(Player) object(User: Player::_user) object(Faction)
+#  pragma db view(PlayerView) object(Player) object(User: Player::_user) object(Faction: Player::_faction) object(Guild: Player::_guild)
 #  pragma db member(PlayerView::persistentId) column(Player::_persistentId)
 #  pragma db member(PlayerView::name) column(Player::_name)
 #  pragma db member(PlayerView::level) column(Player::level)
 #  pragma db member(PlayerView::userId) column(User::_persistentId)
 #  pragma db member(PlayerView::faction) column(Faction::_name)
+#  pragma db member(PlayerView::guild) column(Guild::_name)
 # endif
 
 #endif

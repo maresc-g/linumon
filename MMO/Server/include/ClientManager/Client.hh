@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Thu Mar 13 16:34:30 2014 laurent ansel
+// Last update Thu Mar 13 18:51:51 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -72,6 +72,7 @@ public:
   bool				stuff(bool const get, unsigned int const idItem, unsigned int const target);
   bool				newGuild(Guild * guild);
   bool				inGuild() const;
+  void				modifyDigitaliser(unsigned int const idMob1, unsigned int const idMob2, bool const toBattleMob) const;
 };
 
 #endif

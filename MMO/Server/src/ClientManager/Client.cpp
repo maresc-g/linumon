@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Mar 13 16:45:25 2014 laurent ansel
+// Last update Thu Mar 13 19:01:32 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -460,4 +460,20 @@ bool				Client::inGuild() const
   if (_player && _player->getGuild())
     return (true);
   return (false);
+}
+
+void				Client::modifyDigitaliser(unsigned int const idMob1, unsigned int const idMob2, bool const toBattleMob) const
+{
+  if (_player)
+    {
+      if (!idMob2)
+	{
+	  if (toBattleMob)
+	    _player->mobtoBattleMob(idMob1);
+	  else
+	    _player->battleMobtoMob(idMob1);
+	}
+      else
+	_player->switchMobs(idMob1, idMob2);
+    }
 }

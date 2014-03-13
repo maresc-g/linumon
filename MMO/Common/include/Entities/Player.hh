@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Mar 13 14:53:54 2014 alexis mestag
+// Last update Thu Mar 13 18:58:07 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -168,6 +168,7 @@ public:
 
   bool				mobtoBattleMob(unsigned int const id);
   bool				battleMobtoMob(unsigned int const id);
+  bool				switchMobs(unsigned int const idMob1, unsigned int const idMob2);
 
   void				mergeStack(unsigned int const idStack, unsigned int const idStack2);
   void				newStack(unsigned int const idStack, unsigned int const nb);
