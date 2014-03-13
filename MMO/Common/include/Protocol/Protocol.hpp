@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Thu Mar 13 12:57:32 2014 laurent ansel
+// Last update Thu Mar 13 13:53:30 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -127,5 +127,7 @@ bool				authorizedStatKeys(unsigned int const id);
 bool				mobtoBattleMob(unsigned int const id, unsigned int const idMob);
 bool				battleMobtoMob(unsigned int const id, unsigned int const idMob);
 bool				switchMobs(unsigned int const id, unsigned int const idMob1, unsigned int const idMob2);
+bool				merge(unsigned int const id, unsigned int const idStack1, unsigned int const idStack2);
+bool				newStack(unsigned int const id, unsigned int const idStack, unsigned int const nb);
 
 #endif

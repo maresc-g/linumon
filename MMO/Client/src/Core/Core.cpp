@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Mar 13 13:29:43 2014 antoine maitre
+// Last update Thu Mar 13 13:51:10 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -702,6 +702,16 @@ void				Core::switchPlayer(void)
 {
   *_state = CLIENT::CHOOSE_PLAYER;
   (*_proto).operator()<unsigned int const>("SWITCHPLAYER", _id);
+}
+
+void				Core::merge(unsigned int idStack1, unsigned int idStack2)
+{
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("MERGE", _id, idStack1, idStack2);
+}
+
+void				Core::newStack(unsigned int idStack, unsigned int nb)
+{
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("NEWSTACK", _id, idStack, nb);
 }
 
 void				Core::init(void)
