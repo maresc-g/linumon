@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Thu Mar 13 12:27:24 2014 laurent ansel
+// Last update Thu Mar 13 12:55:27 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -106,7 +106,7 @@ void				Job::setJobModel(JobModel const &jobModel)
   this->_jobModel = &jobModel;
 }
 
-bool				Job::doCraft(std::string const &nameCraft, Stack *&result, std::list<std::pair<std::string, unsigned int> > &object)
+bool				Job::doCraft(std::string const &nameCraft, Stack *&result, std::list<Stack *> *&object)
 {
   bool				ret = false;
   unsigned int			exp = 0;
@@ -115,7 +115,7 @@ bool				Job::doCraft(std::string const &nameCraft, Stack *&result, std::list<std
     if ((*it)->getName() == nameCraft)
       {
 	for (auto ic = (*it)->begin() ; ic != (*it)->end() ; ++ic)
-	  object.push_back(std::make_pair((*ic)->getItem()->getName(), (*ic)->getNb()));
+	  object->push_back(*ic);
 	result->setItem((*it)->getResult().getItem());
 	result->setNb((*it)->getResult().getNb());
 	exp = this->_currentExp + (*it)->getExp();

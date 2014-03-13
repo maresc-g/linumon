@@ -104,7 +104,7 @@
 			QUIT : {} -> client / server
 			REMOVEENTITY : {id : int} -> server
 			ENTITY : {id : int, coord : Coordinate} -> server/client
-			HEAL : {} -> client
+			HEAL : {} -> client, server
 			DISCONNECT : {} -> client
 			SWITCHPLAYER : {} -> client
 			NEWZONE : {zone : string, coord : Coordinate} -> server

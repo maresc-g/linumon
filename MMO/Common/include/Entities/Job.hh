@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:19 2014 laurent ansel
-// Last update Thu Mar 13 12:29:12 2014 laurent ansel
+// Last update Thu Mar 13 12:53:08 2014 laurent ansel
 //
 
 #ifndef 		__JOB_HH__
@@ -46,7 +46,7 @@ public:
   JobModel const	&getJobModel() const;
   void			setJobModel(JobModel const &jobModel);
 
-  bool			doCraft(std::string const &nameCraft, Stack *&result, std::list<std::pair<std::string, unsigned int> > &object);
+  bool			doCraft(std::string const &nameCraft, Stack *&result, std::list<Stack *> *&object);
   bool			doGather(std::string const &nameRessource, Stack *&result, unsigned int &idRessource);
 
   virtual bool		serialization(Trame &trame) const;
