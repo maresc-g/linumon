@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Mar 13 13:51:10 2014 guillaume marescaux
+// Last update Thu Mar 13 14:11:53 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -248,7 +248,8 @@ bool				Core::launchBattle(Trame *trame)
 {
   *_state = CLIENT::LOADING_BATTLE;
   (**_battle)->setInfos(_player, (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"].asUInt(),
-			Player::deserialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"])));
+			Player::deserialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"])),
+			(*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"].asInt());
   return (true);
 }
 

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 13 14:29:32 2014 laurent ansel
+// Last update Thu Mar 13 14:33:01 2014 guillaume marescaux
 //
 
 #include			<functional>
@@ -577,14 +577,14 @@ bool				Player::doGather(std::string const &job, std::string const &res, Stack *
   return (ret);
 }
 
-void				Player::mobtoBattleMob(unsigned int const id)
+bool				Player::mobtoBattleMob(unsigned int const id)
 {
-  this->_digitaliser->mobtoBattleMob(id);
+  return (this->_digitaliser->mobtoBattleMob(id));
 }
 
-void				Player::battleMobtoMob(unsigned int const id)
+bool				Player::battleMobtoMob(unsigned int const id)
 {
-  this->_digitaliser->battleMobtoMob(id);
+  return (this->_digitaliser->battleMobtoMob(id));
 }
 
 void				Player::mergeStack(unsigned int const idStack, unsigned int const idStack2)
