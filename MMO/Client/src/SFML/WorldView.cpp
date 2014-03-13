@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Wed Mar 12 14:16:35 2014 cyril jourdain
+// Last update Wed Mar 12 17:08:22 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -171,6 +171,7 @@ void			WorldView::drawView()
     }
   for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
     {
+      std::cout << "draw player" << std::endl;
       if ((**(_wMan->getMainPlayer()))->getId() == ((*it)->getPlayerId()))
       	continue;
       if (*it){
@@ -178,8 +179,9 @@ void			WorldView::drawView()
   	(*it)->updateMoves(_sfmlView->getMainClock(), NULL);
   	(*it)->update(*_sfmlView->getMainClock());
   	_sfmlView->draw(**it);
-      }
+      }      
     }
+  std::cout << std::endl;
   if (_mainPerso) {
     _sfmlView->draw(*_mainPerso);
   }
