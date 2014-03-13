@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:18:40 2014 alexis mestag
-// Last update Fri Mar  7 21:46:58 2014 laurent ansel
+// Last update Wed Mar 12 13:45:24 2014 alexis mestag
 //
 
 #include			<functional>
@@ -32,11 +32,7 @@ TalentModel::TalentModel(TalentModel const &rhs) :
 
 TalentModel::~TalentModel()
 {
-  /*
-  ** Do not delete them : they will be deleted by the Session
-  */
-  // delete _effectLib;
-  // this->deleteTalents();
+
 }
 
 TalentModel			&TalentModel::operator=(TalentModel const &rhs)
@@ -49,12 +45,12 @@ TalentModel			&TalentModel::operator=(TalentModel const &rhs)
   return (*this);
 }
 
-int				TalentModel::getMaxPoints() const
+TalentModel::point_type		TalentModel::getMaxPoints() const
 {
   return (_maxPoints);
 }
 
-void				TalentModel::setMaxPoints(int const maxPoints)
+void				TalentModel::setMaxPoints(point_type const maxPoints)
 {
   _maxPoints = maxPoints;
 }

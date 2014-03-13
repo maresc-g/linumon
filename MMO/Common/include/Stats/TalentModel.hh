@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:07:00 2014 alexis mestag
-// Last update Tue Mar 11 21:48:12 2014 alexis mestag
+// Last update Wed Mar 12 13:45:42 2014 alexis mestag
 //
 
 #ifndef				__TALENTMODEL_HH__
@@ -21,10 +21,13 @@ class				TalentModel : public Persistent, public Nameable, public ISerialization
 {
   friend class			odb::access;
 
+public:
+  typedef unsigned int		point_type;
+
 private:
-  int					_maxPoints;
-  EffectLib const			*_effectLib;
-  std::list<TalentModel *>		_talents;
+  point_type			_maxPoints;
+  EffectLib const		*_effectLib;
+  std::list<TalentModel *>	_talents;
 
 private:
   TalentModel();
@@ -39,8 +42,8 @@ public:
 
   TalentModel			&operator=(TalentModel const &rhs);
 
-  int				getMaxPoints() const;
-  void				setMaxPoints(int const maxPoints);
+  point_type			getMaxPoints() const;
+  void				setMaxPoints(point_type const maxPoints);
 
   EffectLib const		&getEffectLib() const;
   void				setEffectLib(EffectLib const &effectLib);

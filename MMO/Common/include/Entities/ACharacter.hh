@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:33:45 2013 alexis mestag
-// Last update Wed Mar  5 17:03:39 2014 laurent ansel
+// Last update Thu Mar 13 08:42:23 2014 alexis mestag
 //
 
 #ifndef			__ACHARACTER_HH__
@@ -14,6 +14,7 @@
 # include		"Entities/AStatEntity.hh"
 # include		"Entities/Level.hh"
 # include		"Entities/Equipment.hh"
+# include		"Stats/ExperienceCurve.hh"
 
 class			ACharacter : public AStatEntity
 {
@@ -51,18 +52,22 @@ public:
   eCharacter		getCharacterType() const;
 
   Level::type		getCurrentExp() const;
-  void			setCurrentExp(Level::type const currentExp);
+  unsigned int		setCurrentExp(Level::type const currentExp,
+				      bool const checkLevelUp = true); // Returns nb of reached levels
 
   // Required xp to level up
   Level::type		getExp() const;
   void			setExp(Level::type const exp);
+  void			resetExp(); // Will be useful only once
 
   Level::type		getLevel() const;
   void			setLevel(Level::type const lvl);
 
-  // Level const		&getLevel() const;
-  // void			setLevel(Level const &level);
-  void			levelUp();
+  /*
+  ** Useful methods to level up
+  */
+  virtual ExperienceCurve const	&getExperienceCurve() const = 0;
+  virtual void			levelUp();
 
   Equipment const	&getEquipment() const;
   void			setEquipment(Equipment const &equipment);
@@ -78,7 +83,7 @@ public:
 #  pragma db member(ACharacter::_characterType) transient
 #  pragma db member(ACharacter::_level) transient
 #  pragma db member(ACharacter::_equipment) transient
-#  pragma db member(ACharacter::_currentExp) get(getCurrentExp()) set(setCurrentExp(?))
+#  pragma db member(ACharacter::_currentExp) get(getCurrentExp()) set(setCurrentExp((?), false))
 #  pragma db member(ACharacter::level) virtual(Level::type) get(getLevel()) set(setLevel(?))
 #  pragma db member(ACharacter::exp) virtual(Level::type) get(getExp()) set(setExp(?))
 #  pragma db member(ACharacter::equipment) virtual(Equipment::container_type) get(_equipment->getContainer()) set(_equipment->setContainer(?))

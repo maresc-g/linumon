@@ -140,6 +140,7 @@ SOURCES +=      src/main.cpp \
 		../Common/src/DynamicLibrary/ADynamicLibrary.cpp \
 		../Common/src/DynamicLibrary/DynamicLibrary.cpp \
                 ../Common/src/Stats/AuthorizedStatKeys.cpp \ 
+                ../Common/src/Stats/ExperienceCurve.cpp \ 
                 ../Common/src/Stats/Stats.cpp \ 
                 ../Common/src/Stats/Stat.cpp \ 
                 ../Common/src/Stats/StatKey.cpp \ 

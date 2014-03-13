@@ -5,10 +5,11 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Tue Dec  3 13:09:41 2013 alexis mestag
-## Last update Tue Mar  4 00:10:48 2014 alexis mestag
+## Last update Wed Mar 12 15:24:10 2014 alexis mestag
 ##
 
 STATS_SRC=		AuthorizedStatKeys.cpp	\
+			ExperienceCurve.cpp	\
 			Stat.cpp		\
 			Stats.cpp		\
 			StatKey.cpp		\
@@ -28,6 +29,7 @@ ODB_STATS_OPTIONS:=	$(addprefix $(STATS_H_DIR)/,$(ODB_STATS_OPTIONS))
 ODB_OPTIONS+=		$(ODB_STATS_OPTIONS)
 
 ODB_STATS=		AuthorizedStatKeys.hh	\
+			ExperienceCurve.hh	\
 			Stat.hh			\
 			StatKey.hh		\
 			Talent.hh		\
