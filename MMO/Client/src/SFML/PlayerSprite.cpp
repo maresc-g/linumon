@@ -245,10 +245,10 @@ void			PlayerSprite::moveFromServer(sf::View *v)
     }
   if (_dir == NONE || _dir == WAITING)
     {
-      // std::cout << "Server player pos : " << Map::getInstance()->getPlayerById(_playerId)->getY() << std::endl;
-      std::cout << "ID : " << _playerId << "pos : " << _pos.x << "/" << _pos.y << "-" <<
-	Map::getInstance()->getPlayerById(_playerId)->getX() << "/" <<
-	Map::getInstance()->getPlayerById(_playerId)->getY() << std::endl;
+      // std::cout << "pos : " << _pos.x << "/" << _pos.y << "-"
+      // 		<< Map::getInstance()->getPlayerById(_playerId)->getX()
+      // 		<< "/"
+      // 		<< Map::getInstance()->getPlayerById(_playerId)->getY() <<std::endl;
       _deltaPos.x = (_pos.x - Map::getInstance()->getPlayerById(_playerId)->getX()) * -CASE_SIZE;
       _deltaPos.y = (_pos.y - Map::getInstance()->getPlayerById(_playerId)->getY()) * -CASE_SIZE;
       if (_deltaPos.y != 0)
@@ -257,7 +257,6 @@ void			PlayerSprite::moveFromServer(sf::View *v)
 	_dir = (_deltaPos.x < 0 ? LEFT : RIGHT);
       _deltaPos.x = 0;
       _deltaPos.y = 0;
-      // std::cout << (_dir == DOWN ? "dir = DOWN" : _dir == WAITING ? "dir = WAITING" : "NONE") << std::endl;
     }
 }
 

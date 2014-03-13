@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Mar 13 12:07:03 2014 antoine maitre
+// Last update Thu Mar 13 11:23:35 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -461,9 +461,9 @@ bool				Core::newZone(Trame *trame)
   Map::getInstance()->getZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString())->deserialization(*trame);
   (**_player)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
   (**_player)->setY((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt());
-  //  Map::getInstance()->changeZone((**_player)->getZone(), (*trame)[CONTENT]["NEWZONE"]["ZONE"].asString(), (**_player));
+   Map::getInstance()->changeZone((**_player)->getZone(), (*trame)[CONTENT]["NEWZONE"]["ZONE"].asString(), (**_player));
    (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString()); 
-  std::cout << " NEW PLAYER ZONE : " <<  (**_player)->getZone() << std::endl;
+  std::cout << "NEW PLAYER ZONE : " <<  (**_player)->getZone() << std::endl;
   *_state = CLIENT::LOADED;
   // (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString());
   // (**_player)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
