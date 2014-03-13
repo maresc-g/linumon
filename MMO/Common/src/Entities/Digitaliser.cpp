@@ -5,15 +5,16 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Mon Mar 10 14:48:15 2014 laurent ansel
+// Last update Wed Mar 12 17:11:34 2014 laurent ansel
 //
 
 #include			<sstream>
 #include			<functional>
 #include			"Entities/Digitaliser.hh"
 
-Digitaliser::Digitaliser() :
-  ContainerWrapper<container_type>()
+Digitaliser::Digitaliser(Player const *player) :
+  ContainerWrapper<container_type>(),
+  _player(player)
 {
 
 }
@@ -38,13 +39,29 @@ Digitaliser			&Digitaliser::operator=(Digitaliser const &rhs)
       	this->getContainer().push_back(new Mob(**it));
       for (auto it = rhs.getBattleMobs().begin() ; it != rhs.getBattleMobs().end(); ++it)
       	this->_battleMobs.push_back(new Mob(**it));
+      this->setPlayer(rhs.getPlayer());
     }
   return (*this);
+}
+
+void				Digitaliser::setPlayer(Player const *player)
+{
+  _player = player;
+}
+
+Player const			*Digitaliser::getPlayer() const
+{
+  return (_player);
 }
 
 Digitaliser::container_type const	&Digitaliser::getMobs() const
 {
   return (this->getContainer());
+}
+
+unsigned int			Digitaliser::getLimit() const
+{
+  return (_player->getStat("Limit mob"));
 }
 
 void				Digitaliser::setMobs(Digitaliser::container_type const &mobs)
@@ -93,7 +110,7 @@ void				Digitaliser::addBattleMob(Mob const &mob)
   _battleMobs.push_back(new Mob(mob));
 }
 
-void				Digitaliser::battleMobtoMob(unsigned int const id)
+bool				Digitaliser::battleMobtoMob(unsigned int const id)
 {
   for (auto it = _battleMobs.begin() ; it != _battleMobs.end() ; ++it)
     {
@@ -101,23 +118,29 @@ void				Digitaliser::battleMobtoMob(unsigned int const id)
 	{
 	  _battleMobs.erase(it);
 	  this->addMob(**it);
-	  break;
+	  return (true);
 	}
     }
+  return (false);
 }
 
-void				Digitaliser::mobtoBattleMob(unsigned int const id)
+bool				Digitaliser::mobtoBattleMob(unsigned int const id)
 {
-  for (auto it = this->begin() ; it != this->end() ; ++it)
+  if (_battleMobs.size() < this->getLimit())
     {
-      if ((*it)->getId() == id)
+      for (auto it = this->begin() ; it != this->end() ; ++it)
 	{
-	  this->getContainer().erase(it);
-	  this->addBattleMob(**it);
-	  break;
+	  if ((*it)->getId() == id)
+	    {
+	      this->getContainer().erase(it);
+	      this->addBattleMob(**it);
+	      return (true);
+	    }
 	}
     }
+  return (false);
 }
+
 
 Mob				*Digitaliser::getMob(unsigned int const id) const
 {
@@ -178,7 +201,7 @@ Digitaliser			*Digitaliser::deserialization(Trame const &trame)
 
   if (trame.isMember("DIGITALISER"))
     {
-      digit = new Digitaliser;
+      digit = new Digitaliser(NULL);
       mobs = new Mobs;
       battle = new Mobs;
       if (trame["DIGITALISER"].isMember("LIST"))
@@ -205,7 +228,6 @@ Digitaliser			*Digitaliser::deserialization(Trame const &trame)
 	}
       digit->setMobs(*mobs);
       digit->setBattleMobs(*battle);
-      std::cout << "totototototototototototo123456789" << std::endl;
     }
   return (digit);
 }

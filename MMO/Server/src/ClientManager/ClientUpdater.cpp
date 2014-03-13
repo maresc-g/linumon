@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Wed Mar 12 13:48:18 2014 laurent ansel
+// Last update Wed Mar 12 22:44:57 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -399,6 +399,38 @@ bool				ClientUpdater::playerObject(FD const fd, unsigned int const item, int co
   return (false);
 }
 
+bool				ClientUpdater::merge(FD const fd, unsigned int const idStack, unsigned int const idStack2) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  (*it).first->merge(idStack, idStack2);
+	  this->_mutex->unlock();
+	  return (true);
+	}
+    }
+  this->_mutex->unlock();
+  return (false);
+}
+
+bool				ClientUpdater::newStack(FD const fd, unsigned int const idStack, unsigned int const nb) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  (*it).first->newStack(idStack, nb);
+	  this->_mutex->unlock();
+	  return (true);
+	}
+    }
+  this->_mutex->unlock();
+  return (false);
+}
+
 bool				ClientUpdater::stateBattle(FD const fd, bool const start, bool const end, Player *&player) const
 {
   this->_mutex->lock();
@@ -435,6 +467,21 @@ bool				ClientUpdater::stateTrade(FD const fd, bool const start, bool const end,
     }
   this->_mutex->unlock();
   return (false);
+}
+
+void				ClientUpdater::newState(FD const fd, Client::eState const st) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  it->first->state(st);
+	  this->_mutex->unlock();
+	  return;
+	}
+    }
+  this->_mutex->unlock();
 }
 
 bool				ClientUpdater::stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const

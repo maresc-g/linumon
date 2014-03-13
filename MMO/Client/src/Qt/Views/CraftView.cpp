@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Feb 26 14:24:07 2014 guillaume marescaux
-// Last update Mon Mar 10 12:08:36 2014 guillaume marescaux
+// Last update Wed Mar 12 23:01:46 2014 laurent ansel
 //
 
 #include			"Qt/Views/CraftView.hh"
@@ -33,13 +33,13 @@ void				CraftView::setInfos(Craft const &craft)
 {
   _craft = &craft;
   ui.l_name->setText(craft.getName().c_str());
-  std::list<std::pair<AItem *, unsigned int>>		items = craft.getIngredients();
+  auto				items = craft.getIngredients();
   ItemView			*item;
   int				i = 0;
 
   for (auto it = items.begin() ; it != items.end() ; it++)
     {
-      item = new ItemView(ui.f_craft, _wMan, it->second, it->first);
+      item = new ItemView(ui.f_craft, _wMan, (*it)->getNb(), (*it)->getItem());
       item->move(i * ITEM_SIZE + i, 0);
       item->resize(ITEM_SIZE, ITEM_SIZE);
       i++;

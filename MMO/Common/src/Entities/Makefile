@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Tue Mar 11 21:28:13 2014 alexis mestag
+## Last update Wed Mar 12 14:12:04 2014 laurent ansel
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
@@ -35,6 +35,7 @@ ENTITIES_SRC=		AEntity.cpp		\
 			Ressource.cpp		\
 			Spell.cpp		\
 			Spells.cpp		\
+			Stack.cpp		\
 			Stuff.cpp		\
 			Type.cpp		\
 			TypeRelations.cpp	\

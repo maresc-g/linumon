@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Wed Mar 12 13:48:47 2014 laurent ansel
+// Last update Wed Mar 12 22:45:37 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -45,11 +45,16 @@ public:
   void				setPlayerTalent(FD const fd, std::string const &talent, unsigned int const pts) const;
   void				playerObject(FD const fd, unsigned int const target, unsigned int const item) const;
   void				playerObject(FD const fd, unsigned int const item, int const nb) const;
+  void				merge(FD const fd, unsigned int const idStack, unsigned int const idStack2) const;
+  void				newStack(FD const fd, unsigned int const idStack, unsigned int const nb) const;
 
   void				startBattle(FD const fd, Player *&player) const;
   void				endBattle(FD const fd) const;
   void				startTrade(FD const fd, Player *&player) const;
   void				endTrade(FD const fd) const;
+
+  void				newState(FD const fd, Client::eState const state) const;
+
   void				sendAllInformationModel(FD const fd) const;
   bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;
 

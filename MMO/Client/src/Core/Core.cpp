@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Mar 13 12:05:37 2014 antoine maitre
+// Last update Thu Mar 13 12:07:03 2014 antoine maitre
 //
 
 #include			<unistd.h>
@@ -659,6 +659,21 @@ void				Core::putMoney(unsigned int idTrade, unsigned int money)
 void				Core::getMoney(unsigned int idTrade, unsigned int money)
 {
   (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("GETMONEY", _id, idTrade, money);
+}
+
+void				Core::mobtoBattleMob(unsigned int idMob)
+{
+  (*_proto).operator()<unsigned int const, unsigned int>("MOBTOBATTLEMOB", _id, idMob);
+}
+
+void				Core::battleMobtoMob(unsigned int idMob)
+{
+  (*_proto).operator()<unsigned int const, unsigned int>("BATTLEMOBTOMOB", _id, idMob);
+}
+
+void				Core::switchMobs(unsigned int idMob1, unsigned int idMob2)
+{
+  (*_proto).operator()<unsigned int const, unsigned int>("SWITCHMOBS", _id, idMob1, idMob2);
 }
 
 void				Core::accept()

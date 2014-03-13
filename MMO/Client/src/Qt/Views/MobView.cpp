@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Mon Mar 10 16:47:41 2014 guillaume marescaux
+// Last update Wed Mar 12 17:13:24 2014 guillaume marescaux
 //
 
 #include			<QMenu>
@@ -18,7 +18,7 @@ MobView::MobView(QWidget *parent, WindowManager *wMan, Mob const *mob):
 {
   ui.setupUi(this);
   ui.l_nb->hide();
-  std::string name = mob->getName();
+  std::string name = mob->getModel().getName();
   auto it = name.find(' ');
   while (it != std::string::npos)
     {
@@ -49,7 +49,7 @@ void				MobView::setInfos(Mob const *mob)
 {
   _mob = mob;
   ui.l_nb->hide();
-  std::string name = mob->getName();
+  std::string name = mob->getModel().getName();
   auto it = name.find(' ');
   while (it != std::string::npos)
     {
@@ -87,6 +87,59 @@ void				MobView::paintEvent(QPaintEvent *)
   style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
+void				MobView::mousePressEvent(QMouseEvent *mEvent)
+{
+  if (mEvent->button() == Qt::LeftButton)
+    {
+      makeDrag();
+    }
+}
+
+void				MobView::makeDrag()
+{
+  if (_mob)
+    {
+      std::ostringstream	oss;
+
+      oss << _mob;
+      QDrag			*dr = new QDrag(this);
+      QMimeData			*data = new QMimeData;
+
+      data->setText(oss.str().c_str());
+      dr->setMimeData(data);
+      dr->start();
+    }
+}
+
+ParentInfos			*MobView::getNameFirstParent(QWidget *parent)
+{
+  static std::string		parentNames[] =
+    {
+      "inventoryview",
+      "digitaliserview",
+    };
+  static unsigned int		size = sizeof(parentNames) / sizeof(std::string);
+  unsigned int			i;
+
+  while ((parent = parent->parentWidget()))
+    {
+      i = 0;
+      while (i < size)
+	{
+	  if (parentNames[i] == parent->objectName().toStdString())
+	    {
+	      ParentInfos	*infos = new ParentInfos;
+
+	      infos->name = parentNames[i];
+	      infos->parent = parent;
+	      return (infos);
+	    }
+	  i++;
+	}
+    }
+  return (NULL);
+}
+
 void				MobView::resize(int x, int y)
 {
   QWidget::resize(x, y);
@@ -112,16 +165,29 @@ void				MobView::dragEnterEvent(QDragEnterEvent *event)
 
 void				MobView::dropEvent(QDropEvent *de)
 {
-  std::pair<AItem const *, unsigned int>	*pair =
-    reinterpret_cast<std::pair<AItem const *, unsigned int> *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
+  ParentInfos			*infos = getNameFirstParent(this);
+  ParentInfos			*sourceInfos = getNameFirstParent(de->source());
 
-  if (pair->first->getItemType() == AItem::CONSUMABLE)
+  if (sourceInfos && sourceInfos->name == "inventoryview")
     {
-      Consumable const		*consumable = static_cast<Consumable const *>(pair->first);
-      bool			ret;
+      std::pair<AItem const *, unsigned int>	*pair =
+	reinterpret_cast<std::pair<AItem const *, unsigned int> *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
 
-      (**_wMan->getMainPlayer())->useObject(_mob->getId(), consumable->getId());
-      Client::getInstance()->useObject(_mob->getId(), consumable->getId());
-      _wMan->getSFMLView()->getInventoryView()->initInventory();
+      if (pair->first->getItemType() == AItem::CONSUMABLE)
+	{
+	  Consumable const		*consumable = static_cast<Consumable const *>(pair->first);
+	  bool			ret;
+
+	  (**_wMan->getMainPlayer())->useObject(_mob->getId(), consumable->getId());
+	  Client::getInstance()->useObject(_mob->getId(), consumable->getId());
+	  _wMan->getSFMLView()->getInventoryView()->initInventory();
+	}
+    }
+  else if (sourceInfos && sourceInfos->name == "digitaliserview")
+    {
+      Mob const			*mob = reinterpret_cast<Mob const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
+      static_cast<MobView *>(de->source())->setInfos(_mob);
+      Client::getInstance()->switchMobs(_mob->getId(), mob->getId());
+      setInfos(mob);
     }
 }

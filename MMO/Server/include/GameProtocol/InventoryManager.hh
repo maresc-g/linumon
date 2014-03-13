@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:33:41 2014 laurent ansel
-// Last update Sat Feb  8 17:55:46 2014 laurent ansel
+// Last update Wed Mar 12 16:22:26 2014 laurent ansel
 //
 
 #ifndef 			__INVENTORYMANAGER_HH__
@@ -17,7 +17,8 @@ class				InventoryManager
 {
 private:
   bool				useObject(Trame *trame);
-  bool				deleteObject(Trame *trame);
+  bool				merge(Trame *trame);
+  bool				newStack(Trame *trame);
 
 public:
   InventoryManager();
