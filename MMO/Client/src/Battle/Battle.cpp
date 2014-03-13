@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Wed Mar 12 10:27:47 2014 guillaume marescaux
+// Last update Thu Mar 13 14:20:10 2014 guillaume marescaux
 //
 
 #include			<algorithm>
@@ -37,8 +37,11 @@ void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *en
   for (auto it = mobs.begin() ; it != mobs.end() && i < maxMobs; it++)
     {
       (*it)->enterBattle();
-      _mobs->push_back(*it);
-      i++;
+      if ((*it)->getCurrentStat("HP") > 0)
+	{
+	  _mobs->push_back(*it);
+	  i++;
+	}
     }
   _id = id;
   _enemy = enemy;
