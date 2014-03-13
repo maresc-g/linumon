@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 13 14:56:44 2014 alexis mestag
+// Last update Thu Mar 13 15:09:25 2014 alexis mestag
 //
 
 #include			<functional>
@@ -61,8 +61,7 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   Repository<MobModel>		*rm = &Database::getRepository<MobModel>();
   MobModel const		*m = rm->getByName("Pikachu");
 
-  this->capture(Mob(*m, 15, this));
-  _digitaliser->mobtoBattleMob((*_digitaliser->begin())->getId());
+  this->_digitaliser->addBattleMob(Mob(*m, 15, this));
 
   /*
   ** Init Faction
