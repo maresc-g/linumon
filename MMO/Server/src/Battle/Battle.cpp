@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Thu Mar 13 14:15:13 2014 antoine maitre
+// Last update Thu Mar 13 15:06:20 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -125,8 +125,12 @@ bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
 	if ((*it)->isMyMob((*itMob)->getId()))
 	  (*itMob) = (Mob *)(&(*it)->getMob(target));
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
-    if ((*it)->getType() == Player::PlayerType::PLAYER)
-      this->trameSwitch((*it)->getUser().getId(), target, newmob);
+    {
+      if ((*it)->getType() == Player::PlayerType::PLAYER)
+	this->trameSwitch((*it)->getUser().getId(), target, newmob);
+      else
+	static_cast<AI *>((*it))->dswitch(target, newmob);
+    }
   return (this->checkEnd());
 }
 
@@ -148,12 +152,26 @@ bool					Battle::capture(unsigned int const target)
   return (this->checkEnd());
 }
 
+void					Battle::replace()
+{
+  for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
+    if ((*it)->getStat("HP") == 0)
+      for (auto itb = this->_players.begin(); itb != this->_players.end(); itb++)
+	if ((*itb)->isMyMob((*it)->getId()))
+	  for (auto itc = (*itb)->getDigitaliser().getBattleMobs().begin(); itc != (*itb)->getDigitaliser().getBattleMobs().end(); itc++)
+	    {
+	      auto tmp = std::find(this->_mobs.begin(), this->_mobs.end(), (*itc));
+	      if ((*itc)->getStat("HP") > 0 && tmp != this->_mobs.end())
+		dswitch((*it)->getId(), (*itc)->getId());
+	     }
+}
+
 void					Battle::next()
 {
-
   auto tmp = this->_mobs.front();
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);
+  this->replace();
   if (tmp->getCurrentStat("HP") <= 0 && !this->checkEnd())
     {
       this->next();
@@ -166,10 +184,8 @@ void					Battle::next()
       this->trameTurnTo((*it)->getUser().getId(), tmp->getId());
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     {
-      std::cout << "FAIL FAIL FAIL FAIL FAIL FAIL FAIL " << std::endl;
       if ((*it)->isMyMob(tmp->getId()) && (*it)->getType() == Player::PlayerType::AI)
 	{
-	  std::cout << "YOLOYOLOLYOLOYL" << std::endl;
 	  auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId());
 	  if (!this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2)))
 	    this->next();

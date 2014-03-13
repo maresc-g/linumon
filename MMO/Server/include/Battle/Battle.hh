@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Wed Mar 12 13:51:51 2014 antoine maitre
+// Last update Thu Mar 13 14:31:27 2014 antoine maitre
 //
 
 #ifndef				__BATTLE_HH__
@@ -39,6 +39,7 @@ public:
   Battle(unsigned int const id, eBattle const type, unsigned int const mobNumber, Player *player1, Player *player2);
   ~Battle();
   unsigned int			getID() const;
+  void				replace();
   eBattle 			getType() const;
   bool				dswitch(unsigned int const, unsigned int const);
   bool				capture(unsigned int const);
