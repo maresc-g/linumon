@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Feb 25 12:43:18 2014 laurent ansel
-// Last update Thu Mar 13 17:29:10 2014 alexis mestag
+// Last update Thu Mar 13 20:19:45 2014 laurent ansel
 //
 
 #include			<algorithm>
@@ -136,6 +136,14 @@ Guild				*Guild::createAndPersist(std::string const &name)
     delete ret;
     ret = NULL;
   }
+  return (ret);
+}
+
+Guild				*Guild::getGuild(std::string const &name)
+{
+  Repository<Guild>		&rg = Database::getRepository<Guild>();
+  Guild				*ret = new Guild(name);
+
   return (ret);
 }
 
