@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Mar 13 13:01:08 2014 laurent ansel
+// Last update Thu Mar 13 13:12:58 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -364,7 +364,9 @@ bool                    newZone(unsigned int const id, Player *player, Zone *old
       ret = true;
       //      ret = map(id, zone);
       ret = newPlayer(id, player, zone);
+      std::cout << "RET = " << ret << std::endl;
       ret = removeEntity(id, player->getId(), oldZone);
+      std::cout << "RET = " << ret << std::endl;
     }
   delete header;
   return (ret);
@@ -532,7 +534,9 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
 	  ObjectPoolManager::getInstance()->setObject(tmp, "trame");
 	  *tmp = *trame;
 	  CircularBufferManager::getInstance()->pushTrame(tmp, CircularBufferManager::WRITE_BUFFER);
+	  ret = true;
 	}
+      ret = true;
     }
   return (ret);
 }
