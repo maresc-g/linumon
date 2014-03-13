@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Mar 13 18:32:05 2014 laurent ansel
-// Last update Thu Mar 13 18:38:50 2014 laurent ansel
+// Last update Thu Mar 13 19:56:34 2014 laurent ansel
 //
 
 #include			<functional>
@@ -35,7 +35,7 @@ bool				DigitaliserManager::mobToBattleMob(Trame *trame)
 {
   if ((*trame)[CONTENT].isMember("MOBTOBATTLEMOB"))
     {
-      ClientManager::getInstance()->modifyDigitaliser((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["MOBTOBATTLEMOB"]["IDMOB"].asUInt(), 0, true);
+      ClientManager::getInstance()->modifyDigitaliser((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["MOBTOBATTLEMOB"].asUInt(), 0, true);
       return (true);
     }
   return (false);
@@ -45,7 +45,7 @@ bool				DigitaliserManager::battleMobToMob(Trame *trame)
 {
   if ((*trame)[CONTENT].isMember("BATTLEMOBTOMOB"))
     {
-      ClientManager::getInstance()->modifyDigitaliser((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["BATTLEMOBTOMOB"]["IDMOB"].asUInt(), 0, false);
+      ClientManager::getInstance()->modifyDigitaliser((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["BATTLEMOBTOMOB"].asUInt(), 0, false);
       return (true);
     }
   return (false);
