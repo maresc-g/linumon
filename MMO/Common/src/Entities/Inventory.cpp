@@ -5,9 +5,10 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Tue Mar 11 13:30:07 2014 alexis mestag
+// Last update Wed Mar 12 20:55:40 2014 laurent ansel
 //
 
+#include			<stdlib.h>
 #include			<sstream>
 #include			"Entities/Inventory.hh"
 #include			"ObjectPool/ObjectPoolManager.hpp"
@@ -91,114 +92,115 @@ void				Inventory::setLimit(unsigned int const limit)
   _limit = limit;
 }
 
-void				Inventory::deleteItem(unsigned int const id)
+void				Inventory::deleteItem(unsigned int const stack)
 {
   auto				it = this->begin();
 
-  for ( ; it != this->end() && it->first->getId() != id ; ++it);
-  if (it != this->end() && it->first->getId() == id)
-    {
-      std::cout << "DELETE" << std::endl;
-      if (it->second == 1)
-	{
-	  std::cout << "ERASE" << std::endl;
-	  // delete it->first;
-	  this->getContainer().erase(it);
-	}
-      else
-	{
-	  std::cout << "----" << std::endl;
-	  it->second--;
-	}
-    }
+  for ( ; it != this->end() && (*it)->getId() != stack ; ++it);
+  if (it != this->end() && (*it)->getId() == stack)
+    if ((*it)->getNb() > 0)
+      *(*it) -= 1;
 }
 
 void				Inventory::addItem(AItem *item)
 {
   bool				set = false;
+  Stack				*tmp = NULL;
 
   for (auto it = this->begin() ; !set && it != this->end() ; ++it)
     {
-      if (it->first->getName() == item->getName())
+      if (!tmp && (**it))
+	tmp = *it;
+      if (**it == item->getName())
 	{
-	  if (it->second < 99)
+	  if ((*it)->getNb() < 99)
 	    {
-	      it->second++;
-	      delete item;
+	      **it += 1;
+	      set = true;
 	    }
-	  else
-	    this->getContainer().push_back(std::make_pair(item, 1));
-	  set = true;
 	}
     }
-  if (!set)
-    this->getContainer().push_back(std::make_pair(item, 1));
+  if (!set && tmp)
+    {
+      tmp->setItem(item);
+      tmp->setNb(1);
+    }
+  else if (!set)
+    this->getContainer().push_back(new Stack(this->getContainer().size(), item, 1));
 }
 
 void				Inventory::addItem(AItem *item, unsigned int const nb)
 {
   bool				set = false;
+  Stack				*tmp = NULL;
+  unsigned int			nbTmp = nb;
 
   for (auto it = this->begin() ; !set && it != this->end() ; ++it)
     {
-      if (it->first->getName() == item->getName())
+      if (!tmp && (**it))
+	tmp = *it;
+      if (**it == item->getName())
 	{
-	  std::cout << "NB = " << nb << std::endl;
-	  if (it->second + nb < 99)
+	  if (**it + nbTmp <= 99)
 	    {
-	      it->second += nb;
-	      delete item;
+	      **it += nbTmp;
+	      set = true;
 	    }
 	  else
 	    {
-	      it->second += nb;
-	      this->getContainer().push_back(std::make_pair(item, it->second - 99));
-	      if (it->second > 99)
-		it->second = 99;
+	      nbTmp = (**it + nbTmp - 99);
+	      (*it)->setNb(99);
 	    }
-	  set = true;
 	}
     }
-  if (!set)
+  while (!set && nbTmp > 0)
     {
-      unsigned int	i = nb;
-
-      for (; i > 99 ; i -= 99)
-	this->getContainer().push_back(std::make_pair(item, 99));
-      this->getContainer().push_back(std::make_pair(item, i));
+      if (!set && !tmp)
+	{
+	  tmp = new Stack(this->getContainer().size(), item, 0);
+	  this->getContainer().push_back(tmp);
+	}
+      if (!set && tmp)
+	{
+	  tmp->setItem(item);
+	  if (nbTmp > 99)
+	    {
+	      tmp->setNb(99);
+	      nbTmp -= 99;
+	    }
+	  else
+	    {
+	      tmp->setNb(nbTmp);
+	      set = true;
+	    }
+	}
+      for (auto it = this->begin() ; !set && it != this->end() ; ++it)
+	if (!tmp && **it)
+	  tmp = *it;
     }
 }
 
-AItem				*Inventory::getItem(unsigned int const id) const
+AItem				*Inventory::getItem(unsigned int const stack) const
 {
   auto				it = this->begin();
 
-  for ( ; it != this->end() && it->first->getId() != id ; ++it);
-  if (it != this->end() && it->first->getId() == id)
-    return (it->first);
+  for ( ; it != this->end() && (*it)->getId() != stack ; ++it);
+  if (it != this->end() && (*it)->getId() == stack)
+    return ((*it)->getItem());
   return (NULL);
 }
 
-AItem				*Inventory::getAndDeleteItem(unsigned int const id)
+AItem				*Inventory::getAndDeleteItem(unsigned int const stack)
 {
   auto				it = this->begin();
-  AItem				*item;
 
-  for ( ; it != this->end() && it->first->getId() != id ; ++it);
-  if (it != this->end() && it->first->getId() == id)
+  for ( ; it != this->end() && (*it)->getId() != stack ; ++it);
+  if (it != this->end() && (*it)->getId() == stack)
     {
-      if (it->second == 1)
+      if ((*it)->getNb() > 0)
 	{
-	  item = it->first;
-	  this->getContainer().erase(it);
-	  return (item);
-	}
-      else
-	{
-	  it->second--;
-	  //	  item = AItem::createCopy(it->first);
-	  item = it->first;
-	  return (item);
+	  **it -= 1;
+	  return ((*it)->getItem());
 	}
     }
   return (NULL);
@@ -208,11 +210,71 @@ unsigned int			Inventory::getIdItem(std::string const &name) const
 {
   auto				it = this->begin();
 
-  for ( ; it != this->end() && it->first->getName() != name ; ++it);
-  if (it != this->end() && it->first->getName() == name)
-    return (it->first->getId());
+  for ( ; it != this->end() && **it != name ; ++it);
+  if (it != this->end() && **it == name)
+    return ((*it)->getItem()->getId());
   return (0);
 }
+
+Stack				*Inventory::getStack(unsigned int const id) const
+{
+  for (auto it = this->begin() ; it != this->end() ; ++it)
+    if ((*it)->getId() != id)
+      return (*it);
+  return (NULL);
+}
+
+void				Inventory::mergeStack(unsigned int const idStack, unsigned int const idStack2)
+{
+  Stack				*stack1 = getStack(idStack);
+  Stack				*stack2 = getStack(idStack2);
+
+  if (stack1 && stack2)
+    {
+      if (stack2->getNb() + stack1->getNb() <= 99)
+	{
+	  *stack1 += stack2->getNb();
+	  stack2->setNb(0);
+	  stack2->setItem(NULL);
+	}
+      else
+	{
+	  unsigned int		nb = stack2->getNb() + stack1->getNb() - 99;
+
+	  stack1->setNb(99);
+	  stack2->setNb(nb);
+	}
+    }
+}
+
+void				Inventory::splitStack(unsigned int const idStack, unsigned int const nb)
+{
+  Stack				*stack = getStack(idStack);
+  Stack				*tmp = NULL;
+
+  if (stack && stack->getNb() > nb)
+    {
+      for (auto it = this->begin() ; it != this->end() ; ++it)
+	if (!tmp && **it)
+	  {
+	    tmp = *it;
+	    break;
+	  }
+      if (!tmp)
+	{
+	  tmp = new Stack(this->getContainer().size(), stack->getItem(), nb);
+	  this->getContainer().push_back(tmp);
+	}
+      else
+	{
+	  tmp->setNb(nb);
+	  tmp->setItem(stack->getItem());
+	  *stack -= nb;
+	}
+
+    }
+}
+
 
 void				Inventory::loadInventory()
 {
@@ -222,49 +284,46 @@ void				Inventory::loadInventory()
   if (JsonFile::readFile(*file, this->_path))
     {
       for (auto it = this->begin() ; it != this->end() ; ++it)
-	delete it->first;
+	delete (*it);
       this->getContainer().clear();
 
-      auto			members = file->getMemberNames();
-      AItem			*item;
+      auto			membersNb = file->getMemberNames();
 
-      for (auto it = members.begin() ; it != members.end() ; ++it)
-	{
-	  item = LoaderManager::getInstance()->getItemLoader(*it);
-	  if (item)
-	    this->addItem(item, (*file)[*it].asUInt());
+      for (auto inb = membersNb.begin() ; inb != membersNb.end() ; ++inb)
+      	{
+      	  auto			members = (*file)[*inb].getMemberNames();
+      	  AItem			*item;
 
-	  // toPush = AItem::deserialization((*file)((*file)[*it]), false);
-	  // if (toPush)
-	  //   this->addItem(toPush, (*file)[*it]["NB"].asUInt());
-	}
+	  std::cout << "ID = " << *inb << std::endl;
+		  //		  this->getContainer().push_back(new Stack(atol((*inb).c_str())));
+      	  for (auto it = members.begin() ; it != members.end() ; ++it)
+      	    {
+	      std::cout << "ITEM = " << *it << std::endl;
+      	      item = LoaderManager::getInstance()->getItemLoader(*it);
+      	      if (item)
+		{
+		  std::cout << "NB = " << (*file)[*inb][*it].asUInt() << std::endl;
+		  this->addItem(item, (*file)[*inb][*it].asUInt());
+		}
+      	    }
+      	}
     }
 }
 
 void				Inventory::serializationInventory() const
 {
   Trame				*file;
-  // int				nb = 0;
-  // std::ostringstream		str;
+  std::ostringstream		str;
 
   if (!this->_path.empty())
     {
       ObjectPoolManager::getInstance()->setObject(file, "trame");
       for (auto it = this->begin() ; it != this->end() ; ++it)
 	{
-	  // for (unsigned int i = 0 ; i < it->second ; ++i)
-	  //   {
-	  // str << nb;
-	  if (file->isMember(it->first->getName()))
-	    (*file)[it->first->getName()] = (*file)[it->first->getName()].asUInt() + it->second;
-	  else
-	    (*file)[it->first->getName()] = it->second;
-
-	  // it->first->serialization((*file)((*file)[str.str()]));
-	  // (*file)[str.str()]["NB"] = it->second;
+	  // str << (*it)->getId();
+	  // (*file)[str.str()][(*it)->getItem()->getName()] = (*it)->getNb();
 	  // str.str("");
-	  // nb++;
-	    // }
+	  (*it)->serialization(*file);
 	}
       file->writeInFile(this->_path);
     }
@@ -273,22 +332,21 @@ void				Inventory::serializationInventory() const
 bool				Inventory::serialization(Trame &trame) const
 {
   bool				ret = true;
-  // int				nb = 0;
-  // std::ostringstream		str;
+  //  std::otringstream		str;
 
   trame["INV"]["MO"] = this->getMoney();
   trame["INV"]["LI"] = this->getLimit();
   trame["INV"]["ITS"];
   for (auto it = this->begin() ; it != this->end() ; ++it)
     {
-      // str << nb;
-      //      ret = it->first->serialization(trame(trame["INV"]["ITS"][str.str()]));
-      if (trame["INV"]["ITS"].isMember(it->first->getName()))
-	trame["INV"]["ITS"][it->first->getName()] = trame["INV"]["ITS"][it->first->getName()].asUInt() + it->second;
-      else
-	trame["INV"]["ITS"][it->first->getName()] = it->second;
-      // str.str("");
-      // nb++;
+      //      str << (*it)->getId();
+      // if (trame["INV"]["ITS"].isMember((*it)->getId()->getName()))
+      // 	trame["INV"]["ITS"][(*it)->getId()->getName()] = trame["INV"]["ITS"][(*it)->getId()->getName()].asUInt() + (*it);
+      // else
+      // 	trame["INV"]["ITS"][(*it)->getId()->getName()] = (*it);
+      //      trame["INV"]["ITS"][str.str()][(*it)->getItem()->getName()] = (*it)->getNb();
+      (*it)->serialization(trame(trame["INV"]["ITS"]));
+	//     str.str("");
     }
   return (ret);
 }
@@ -296,7 +354,8 @@ bool				Inventory::serialization(Trame &trame) const
 Inventory			*Inventory::deserialization(Trame const &trame)
 {
   Inventory			*inventory = NULL;
-  AItem				*item;
+  // AItem				*item;
+  Stack				*tmp = NULL;
 
   if (trame.isMember("INV"))
     {
@@ -309,23 +368,24 @@ Inventory			*Inventory::deserialization(Trame const &trame)
 
 	  for (auto it = members.begin() ; it != members.end() ; ++it)
 	    {
-	      // for (unsigned int i = 0 ; i < trame["INV"]["ITS"][*it]/*["NB"]*/.asUInt() ; ++i)
+	      // auto		membersItem = trame["INV"]["ITS"][*it].getMemberNames();
+
+	      // for (auto itItem = membersItem.begin() ; itItem != membersItem.end() ; ++itItem)
 	      // 	{
-		  std::cout << "IN FOR INVENTORY" << std::endl;
-		  item = LoaderManager::getInstance()->getItemLoader(*it);
-		  if (item)
-		    inventory->addItem(item, trame["INV"]["ITS"][*it].asUInt());
-		  // item = (**LoaderManager::getInstance()->getStuffLoader())->getValue(*it);
-		  // if (item)
-		  //   inventory->addItem(item, trame["INV"]["ITS"][*it]/*["NB"]*/.asUInt());
-		  // else
-		  //   {
-		  //     item = (**LoaderManager::getInstance()->getConsumableLoader())->getValue(*it);
-		  //     if (item)
-		  // 	inventory->addItem(item, trame["INV"]["ITS"][*it]/*["NB"]*/.asUInt());
-		  //   }
-		  std::cout << "INVENTORY SIZE AFTER ADD " << inventory->size() << std::endl;
-		// }
+	      std::cout << "IN FOR INVENTORY" << std::endl;
+	      tmp = Stack::deserialization(trame(trame["INV"]["ITS"][*it]));
+	      if (tmp)
+		{
+		  tmp->setId(atol((*it).c_str()));
+		  inventory->getContainer().push_back(tmp);
+		}
+
+	      //		  inventory->getContainer().push_back(new Stack(atol((*it).c_str())));
+	      // item = LoaderManager::getInstance()->getItemLoader(*itItem);
+	      // if (item)
+	      //   inventory->addItem(item, trame["INV"]["ITS"][*it][*itItem].asUInt());
+	      std::cout << "INVENTORY SIZE AFTER ADD " << inventory->size() << std::endl;
+	      //	    }
 	    }
 	}
     }

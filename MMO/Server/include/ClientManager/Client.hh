@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Wed Mar 12 13:46:12 2014 laurent ansel
+// Last update Wed Mar 12 22:44:40 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -47,6 +47,7 @@ public:
   void				disconnectPlayer();
   bool				isUse() const;
   void				use(FD const fd);
+  void				state(eState const state);
   void				sendAllInformationModel() const;
   FD				getId() const;
   void				setSocket(ISocketClient const *socket, std::string const &proto);
@@ -60,6 +61,8 @@ public:
   void				updateTalents(std::string const &talent, unsigned int const pts) const;
   void				useObject(unsigned int const target, unsigned int const item);
   void				deleteObject(unsigned int const item, int const nb);
+  void				merge(unsigned int const idStack, unsigned int const idStack2);
+  void				newStack(unsigned int const idStack, unsigned int const nb);
   void				startBattle(Player *&player);
   void				endBattle();
   void				startTrade(Player *&player);

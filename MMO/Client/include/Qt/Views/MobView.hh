@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:41:39 2014 guillaume marescaux
-// Last update Tue Mar 11 13:49:25 2014 guillaume marescaux
+// Last update Wed Mar 12 14:25:30 2014 guillaume marescaux
 //
 
 #ifndef 		__MOBVIEW_HH__
@@ -16,6 +16,7 @@
 #include		"ui_itemview.h"
 #include		"Qt/WindowManager.hh"
 #include		"Entities/AItem.hh"
+#include		"ParentInfos.hh"
 
 class			MobView : public QWidget
 {
@@ -43,6 +44,9 @@ public:
 
 private:
   virtual void		paintEvent(QPaintEvent *);
+  virtual void		mousePressEvent(QMouseEvent *);
+  void			makeDrag();
+  ParentInfos		*getNameFirstParent(QWidget *parent);
 
 private slots:
   void			displayMenu(const QPoint&);
@@ -51,13 +55,6 @@ protected:
   virtual void		dropEvent(QDropEvent *de);
   virtual void		dragMoveEvent(QDragMoveEvent *de);
   virtual void		dragEnterEvent(QDragEnterEvent *event);
-
-//   virtual void		enterEvent(QEvent *event);
-//   virtual void		mouseDoubleClickEvent(QMouseEvent *event);
-//   void			setInfos(AItem *item, unsigned int nb);
-
-// public slots:
-//   void			makeDrag();
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:26:08 2014 laurent ansel
-// Last update Wed Mar  5 16:59:01 2014 laurent ansel
+// Last update Wed Mar 12 23:14:33 2014 laurent ansel
 //
 
 #ifndef 			__EQUIPMENT_HH__
@@ -17,7 +17,7 @@
 # include			"Entities/Stuff.hh"
 
 class				Equipment : public ISerialization,
-					    public ContainerWrapper<std::map<Stuff::eStuff, Stuff *>>
+					    public ContainerWrapper<std::map<Stuff::eStuff, Stuff *> >
 {
 public:
   Equipment();

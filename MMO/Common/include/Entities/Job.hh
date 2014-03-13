@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:19 2014 laurent ansel
-// Last update Tue Mar 11 21:39:42 2014 alexis mestag
+// Last update Wed Mar 12 23:07:00 2014 laurent ansel
 //
 
 #ifndef 		__JOB_HH__
