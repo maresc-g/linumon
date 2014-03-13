@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Thu Mar 13 12:48:32 2014 laurent ansel
+// Last update Thu Mar 13 13:59:28 2014 laurent ansel
 //
 
 #include			<stdlib.h>
@@ -109,7 +109,7 @@ void				Inventory::deleteItem(Stack *stack)
   bool				set = false;
 
   for ( ; it != this->end() && !set ; ++it)
-    if (((*it)->getId() != 0 && (*it)->getId() != stack->getId()) || (**it != stack->getItem()->getName()))
+    if (((*it)->getId() != 0 && (*it)->getId() == stack->getId()) || (**it == stack->getItem()->getName()))
       {
 	if ((*it)->getNb() - supp > 0)
 	  {
@@ -248,7 +248,7 @@ unsigned int			Inventory::getIdItem(std::string const &name) const
 Stack				*Inventory::getStack(unsigned int const id) const
 {
   for (auto it = this->begin() ; it != this->end() ; ++it)
-    if ((*it)->getId() != id)
+    if ((*it)->getId() == id)
       return (*it);
   return (NULL);
 }
@@ -293,6 +293,7 @@ void				Inventory::splitStack(unsigned int const idStack, unsigned int const nb)
 	{
 	  tmp = new Stack(this->getContainer().size(), stack->getItem(), nb);
 	  this->getContainer().push_back(tmp);
+	  *stack -= nb;
 	}
       else
 	{

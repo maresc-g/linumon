@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Wed Mar 12 16:56:05 2014 guillaume marescaux
+// Last update Thu Mar 13 13:51:32 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -85,6 +85,8 @@ public:
   void				mobtoBattleMob(unsigned int id);
   void				battleMobtoMob(unsigned int id);
   void				switchMobs(unsigned int idMob1, unsigned int idMob2);
+  void				merge(unsigned int idStack1, unsigned int idStack2);
+  void				newStack(unsigned int idStack, unsigned int nb);
 };
 
 #endif

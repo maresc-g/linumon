@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 12:56:12 2014 guillaume marescaux
-// Last update Thu Mar  6 12:15:01 2014 guillaume marescaux
+// Last update Thu Mar 13 12:35:19 2014 guillaume marescaux
 //
 
 #include			"SFML/SFMLView.hpp"
@@ -36,7 +36,7 @@ void				JobMenuView::initJob(std::string const &name)
   JobView		*job = sfml->getJobView();
 
   job->setInfos(*(**(_wMan)->getMainPlayer())->getJob(name));
-  job->move(300, 100);
+  // job->move(300, 100);
   _wMan->getSFMLView()->displayView(job);
 }
 

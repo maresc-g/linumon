@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Mar 13 13:12:58 2014 laurent ansel
+// Last update Thu Mar 13 13:56:17 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -99,6 +99,8 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int>("MOBTOBATTLEMOB", &mobtoBattleMob);
       this->_container->load<unsigned int, unsigned int>("BATTLEMOBTOMOB", &battleMobtoMob);
       this->_container->load<unsigned int, unsigned int, unsigned int>("SWITCHMOBS", &switchMobs);
+      this->_container->load<unsigned int, unsigned int, unsigned int>("MERGE", &merge);
+      this->_container->load<unsigned int, unsigned int, unsigned int>("NEWSTACK", &newStack);
       this->_container->load<unsigned int, std::string, std::string>("CRAFT", &craft);
       this->_container->load<unsigned int>("HEAL", &heal);
       this->_container->load<unsigned int>("DISCONNECT", &disconnect);
@@ -1101,6 +1103,50 @@ bool			battleMobtoMob(unsigned int const id, unsigned int const idMob)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["BATTLEMOBTOMOB"] = idMob;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			merge(unsigned int const id, unsigned int const idStack1, unsigned int const idStack2)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["MERGE"]["IDSTACK1"] = idStack1;
+      (*trame)[CONTENT]["MERGE"]["IDSTACK2"] = idStack2;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			newStack(unsigned int const id, unsigned int const idStack, unsigned int const nb)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["NEWSTACK"]["IDSTACK"] = idStack;
+      (*trame)[CONTENT]["NEWSTACK"]["NB"] = nb;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
