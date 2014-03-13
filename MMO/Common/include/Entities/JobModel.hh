@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:21:21 2014 laurent ansel
-// Last update Tue Mar 11 21:41:10 2014 alexis mestag
+// Last update Wed Mar 12 21:36:26 2014 alexis mestag
 //
 
 #ifndef 		__JOBMODEL_HH__
@@ -16,23 +16,27 @@
 #include		"Entities/Craft.hh"
 #include		"Entities/Gather.hh"
 #include		"Entities/Ressource.hh"
+#include		"Stats/ExperienceCurve.hh"
 
-class			JobModel : public Persistent, public Nameable, public ISerialization
+class				JobModel : public Persistent, public Nameable, public ISerialization
 {
-  friend class		odb::access;
+  friend class			odb::access;
 
 public:
   typedef std::list<Gather>	gathers_container_type;
 
 private:
-  std::string		_path;
-  std::list<Craft *>	*_crafts;
-  std::list<Gather>	*_gathers;
+  std::string			_path;
+  std::list<Craft *>		*_crafts;
+  std::list<Gather>		*_gathers;
+  ExperienceCurve const		*_expCurve;
 
   JobModel();
 
-  void			setCrafts(std::list<Craft *> const &crafts);
-  void			setGathers(std::list<Gather> const &gathers);
+  void				setCrafts(std::list<Craft *> const &crafts);
+  void				setGathers(std::list<Gather> const &gathers);
+
+  void				setExperienceCurve(ExperienceCurve const &expCurve);
 
 public:
   JobModel(JobModel const &rhs);
@@ -47,11 +51,13 @@ public:
   Craft const			*getCraft(std::string const &name) const;
   std::list<Gather> const	&getGathers() const;
 
-  std::string const	&getPath() const;
-  void			setPath(std::string const &path);
+  std::string const		&getPath() const;
+  void				setPath(std::string const &path);
 
-  virtual bool		serialization(Trame &trame) const;
-  static JobModel	*deserialization(Trame const &trame);
+  ExperienceCurve const		&getExperienceCurve() const;
+
+  virtual bool			serialization(Trame &trame) const;
+  static JobModel		*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER
@@ -61,6 +67,7 @@ public:
 #  pragma db member(JobModel::_path) get(getPath()) set(setPath(?))
 #  pragma db member(JobModel::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 #  pragma db member(JobModel::gathers) virtual(JobModel::gathers_container_type) get(getGathers()) set(setGathers(?)) value_not_null
+#  pragma db member(JobModel::_expCurve) not_null
 # endif
 
 #endif

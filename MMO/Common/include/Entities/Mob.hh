@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Tue Mar 11 21:41:59 2014 alexis mestag
+// Last update Wed Mar 12 22:12:20 2014 alexis mestag
 //
 
 #ifndef			__MOB_HH__
@@ -61,6 +61,11 @@ public:
   bool			setCurrentStat(std::string const &key, Stat::value_type const value);
   bool			incCurrentStat(std::string const &key, Stat::value_type const inc);
   bool			decCurrentStat(std::string const &key, Stat::value_type const dec);
+
+  /*
+  ** Mobs'ExperienceCurve
+  */
+  virtual ExperienceCurve const	&getExperienceCurve() const;
 
   /*
   ** Battle state management

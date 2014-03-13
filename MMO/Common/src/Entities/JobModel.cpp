@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:53:29 2014 laurent ansel
-// Last update Thu Mar  6 17:08:10 2014 laurent ansel
+// Last update Wed Mar 12 21:35:50 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -15,7 +15,8 @@ JobModel::JobModel():
   Persistent(),
   Nameable(),
   _crafts(new std::list<Craft *>),
-  _gathers(new gathers_container_type)
+  _gathers(new gathers_container_type),
+  _expCurve(NULL)
 {
 }
 
@@ -31,7 +32,8 @@ JobModel::JobModel(JobModel const &rhs):
   Persistent(rhs),
   Nameable(rhs),
   _crafts(new std::list<Craft *>),
-  _gathers(new gathers_container_type)
+  _gathers(new gathers_container_type),
+  _expCurve(NULL)
 {
   *this = rhs;
 }
@@ -43,6 +45,7 @@ JobModel			&JobModel::operator=(JobModel const &rhs)
       this->setName(this->getName());
       this->setCrafts(rhs.getCrafts());
       this->setGathers(rhs.getGathers());
+      this->setExperienceCurve(rhs.getExperienceCurve());
     }
   return (*this);
 }
@@ -127,6 +130,16 @@ void				JobModel::setPath(std::string const &path)
 {
   this->_path = path;
   this->loadCrafts();
+}
+
+ExperienceCurve const		&JobModel::getExperienceCurve() const
+{
+  return (*_expCurve);
+}
+
+void				JobModel::setExperienceCurve(ExperienceCurve const &expCurve)
+{
+  _expCurve = &expCurve;
 }
 
 bool				JobModel::serialization(Trame &trame) const

@@ -5,14 +5,14 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Tue Mar 11 22:08:53 2014 alexis mestag
+// Last update Wed Mar 12 22:13:41 2014 alexis mestag
 //
 
 #include			<algorithm>
 #include			"Entities/Mob.hh"
 #ifndef		CLIENT_COMPILATION
-# include			"Stats/AuthorizedStatKeys-odb.hxx"
 # include			"Database/Repositories/MobRepository.hpp"
+# include			"Database/Repositories/AuthorizedStatKeysRepository.hpp"
 #endif
 #include			"Loader/LoaderManager.hh"
 
@@ -169,6 +169,15 @@ bool				Mob::decCurrentStat(std::string const &key, Stat::value_type const dec)
   Stat::value_type		newValue = dec >= oldValue ? 0 : oldValue - dec;
 
   return (this->setCurrentStat(key, newValue));
+}
+
+/*
+** Mobs'ExperienceCurve
+*/
+
+ExperienceCurve const		&Mob::getExperienceCurve() const
+{
+  return (this->getModel().getExperienceCurve());
 }
 
 /*

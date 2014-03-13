@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:06:15 2013 laurent ansel
-## Last update Wed Mar  5 19:43:47 2014 alexis mestag
+## Last update Wed Mar 12 15:56:51 2014 alexis mestag
 ##
 
 NAMESERVER=	pfa-server
@@ -19,7 +19,7 @@ COMMON_SRC=	$(COMMON)/src
 
 CLIENT=		Client
 
-EFFECT_LIBS=	EffectLibs
+EFFECT_LIBS=	Libs
 
 SCHEMA=		schema.sql
 

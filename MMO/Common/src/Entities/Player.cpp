@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 12 13:28:31 2014 laurent ansel
+// Last update Wed Mar 12 22:36:07 2014 alexis mestag
 //
 
 #include			<functional>
@@ -13,11 +13,12 @@
 #include			"Map/Map.hh"
 #ifndef			CLIENT_COMPILATION
 # include			"Stats/TalentTree-odb.hxx"
-# include			"Stats/StatKey-odb.hxx"
 # include			"Entities/DBZone-odb.hxx"
-# include			"Entities/Player-odb.hxx"
 # include			"Database/Repositories/FactionRepository.hpp"
 # include			"Database/Repositories/PlayerRepository.hpp"
+# include			"Database/Repositories/StatKeyRepository.hpp"
+# include			"Database/Repositories/AuthorizedStatKeysRepository.hpp"
+# include			"Database/Repositories/ExperienceCurveRepository.hpp"
 #endif
 #include			"Entities/Consumable.hh"
 #include			"Loader/LoaderManager.hh"
@@ -26,7 +27,7 @@ Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _type(PlayerType::PLAYER),
   _digitaliser(new Digitaliser), _coord(new PlayerCoordinate),
   _faction(NULL), _talentTree(NULL), _talents(new Talents), _user(NULL),
-  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL)
+  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL), _expCurve(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
@@ -40,7 +41,7 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   Persistent(), ACharacter(name, eCharacter::PLAYER), _type(PlayerType::PLAYER),
   _digitaliser(new Digitaliser), _coord(new PlayerCoordinate),
   _faction(NULL), _talentTree(NULL), _talents(new Talents), _user(user),
-  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL)
+  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL), _expCurve(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
@@ -93,6 +94,7 @@ Player				&Player::operator=(Player const &rhs)
       this->setFaction(rhs.getFaction());
       this->setGuild(*rhs.getGuild());
       this->setZone(rhs.getZone());
+      this->setExperienceCurve(rhs.getExperienceCurve());
     }
   return (*this);
 }
@@ -103,10 +105,12 @@ void					Player::initConstPointersForNewPlayers()
   Repository<TalentTree>		*rtt = &Database::getRepository<TalentTree>();
   Repository<AuthorizedStatKeys>	*rask = &Database::getRepository<AuthorizedStatKeys>();
   Repository<DBZone>			*rdbz = &Database::getRepository<DBZone>();
+  Repository<ExperienceCurve>		*rec = &Database::getRepository<ExperienceCurve>();
 
   this->setTalentTree(*rtt->getById(1));
-  this->setAuthorizedStatKeys(*rask->getById(1));
+  this->setAuthorizedStatKeys(*rask->getByName("PlayerKeys"));
   this->setDBZone(*rdbz->getById(1));
+  this->setExperienceCurve(*rec->getByName("PlayerCurve"));
 }
 
 void					Player::applyFactionEffect()
@@ -190,6 +194,16 @@ Inventory const			&Player::getInventory() const
 void				Player::setInventory(Inventory *inventory)
 {
   this->_inventory = inventory;
+}
+
+ExperienceCurve const		&Player::getExperienceCurve() const
+{
+  return (*_expCurve);
+}
+
+void				Player::setExperienceCurve(ExperienceCurve const &expCurve)
+{
+  _expCurve = &expCurve;
 }
 
 Jobs const			&Player::getJobs() const

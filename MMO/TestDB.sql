@@ -11,13 +11,13 @@ INSERT INTO `User`(`id`, `pseudo`, `password`) VALUES
 DELETE FROM `EffectLib`;
 
 INSERT INTO `EffectLib`(`id`, `name`, `path`) VALUES
-       (1, 'Rugissement', 'EffectLibs/Rugissement.so'),
-       (2, 'Mimi-Queue', 'EffectLibs/Mimi-Queue.so'),
-       (3, 'HesodeEffect', 'EffectLibs/HesodeEffect.so'),
-       (4, 'CelestiaEffect', 'EffectLibs/CelestiaEffect.so'),
-       (5, 'NormalEffect', 'EffectLibs/NormalEffect.so'),
-       (6, 'PotionEffect', 'EffectLibs/PotionEffect.so'),
-       (7, 'SuperPotionEffect', 'EffectLibs/SuperPotionEffect.so');
+       (1, 'Rugissement', 'Libs/Rugissement.so'),
+       (2, 'Mimi-Queue', 'Libs/Mimi-Queue.so'),
+       (3, 'HesodeEffect', 'Libs/HesodeEffect.so'),
+       (4, 'CelestiaEffect', 'Libs/CelestiaEffect.so'),
+       (5, 'NormalEffect', 'Libs/NormalEffect.so'),
+       (6, 'PotionEffect', 'Libs/PotionEffect.so'),
+       (7, 'SuperPotionEffect', 'Libs/SuperPotionEffect.so');
 
 /* Inserting Factions */
 DELETE FROM `Faction`;
@@ -25,6 +25,17 @@ DELETE FROM `Faction`;
 INSERT INTO `Faction`(`id`, `name`, `effectLib`) VALUES
        (1, 'Hesode', 3),
        (2, 'Celestia', 4);
+
+/* Inserting ExperiencesCurves */
+DELETE FROM `ExperienceCurve`;
+
+INSERT INTO `ExperienceCurve`(`id`, `name`, `path`) VALUES
+       (1, 'FastCurve',		'Libs/FastFunction.so'),
+       (2, 'MediumCurve',	'Libs/MediumFunction.so'),
+       (3, 'ParabolicCurve',	'Libs/ParabolicFunction.so'),
+       (4, 'SlowCurve',		'Libs/SlowFunction.so'),
+       (5, 'JobCurve',		'Libs/JobFunction.so'),
+       (6, 'PlayerCurve',	'Libs/SlowFunction.so');
 
 /* Inserting TalentModels */
 DELETE FROM `TalentModel`;
@@ -57,7 +68,7 @@ INSERT INTO `TalentTree`(`id`, `name`, `talent`) VALUES
 DELETE FROM `DBZone`;
 
 INSERT INTO `DBZone`(`id`, `name`, `averageLevel`) VALUES
-       (1, 'Plain', 10),
+       (1, 'Plain', 20),
        (2, 'Rock', 40);
 
 /* Inserting Types */
@@ -133,11 +144,11 @@ INSERT INTO `Guild`(`id`, `name`) VALUES
 /* Inserting Players */
 DELETE FROM Player;
 
-INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`) VALUES
-       (1, 'Thinenus', 1, 13, 4, 10, 1, 1, 1, 1, 1, 10, 30, 'Res/Inventories/Thinenus.json', 10000, 30),
-       (2, 'Sezu-Kho', 1, 20, 6, 10, 1, 1, 2, 1, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30),
-       (3, 'WeshWesh', 1, 15, 5, 10, 2, 1, 1, 2, 2, 10, 30, 'Res/Inventories/WeshWesh.json', 20000, 20),
-       (4, 'BibiBobo', 1, 584, 10, 10, 2, 1, 2, 2, 2, 20, 20, 'Res/Inventories/BibiBobo.json', 20000, 20);
+INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`, `expCurve`) VALUES
+       (1, 'Thinenus', 1, 0, 1, 10, 1, 1, 1, 1, 1, 10, 30, 'Res/Inventories/Thinenus.json', 10000, 30, 6),
+       (2, 'Sezu-Kho', 1, 0, 1, 10, 1, 1, 2, 1, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30, 6),
+       (3, 'WeshWesh', 1, 0, 1, 10, 2, 1, 1, 2, 2, 10, 30, 'Res/Inventories/WeshWesh.json', 20000, 20, 6),
+       (4, 'BibiBobo', 1, 0, 1, 10, 2, 1, 2, 2, 2, 20, 20, 'Res/Inventories/BibiBobo.json', 20000, 20, 6);
 
 /* Assigning Talents to Players */
 DELETE FROM `Player_talents`;
@@ -149,10 +160,10 @@ INSERT INTO `Player_talents`(`object_id`, `index`, `value`) VALUES
 /* Inserting MobModels */
 DELETE FROM `MobModel`;
 
-INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`) VALUES
-       (1, 'Charizard', 2, 1),
-       (2, 'Blastoise', 2, 2),
-       (3, 'Venuzaur', 2, 3);
+INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`, `expCurve`) VALUES
+       (1, 'Charizard', 2, 1, 3),
+       (2, 'Blastoise', 2, 2, 3),
+       (3, 'Venusaur', 2, 3, 3);
 
 /* Assignin MobModels to DBZones */
 DELETE FROM `DBZone_mobModels`;
@@ -332,12 +343,12 @@ INSERT INTO `MobModel_stats`(`object_id`, `index`, `value`) VALUES
 DELETE FROM `Mob`;
 
 INSERT INTO `Mob`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `model`) VALUES
-       (1, 'TinyLezard', 2, 412, 6, 500, 1),
-       (2, 'BigTurtle', 2, 789, 7, 1000, 2),
-       (3, 'VastFlowerPot', 2, 350, 5, 400, 3),
-       (4, 'MegaFist', 2, 15659, 12, 25000, 1),
-       (5, 'SuperWet', 2, 11087, 11, 15000, 2),
-       (6, 'UltraBushy', 2, 12, 1, 20, 3);
+       (1, 'TinyLezard',	2, 36435, 35,   500, 1),
+       (2, 'BigTurtle',		2,  2035, 15,  1000, 2),
+       (3, 'VastFlowerPot',	2,  3120, 17,   400, 3),
+       (4, 'MegaFist',		2,  3120, 17, 25000, 1),
+       (5, 'SuperWet',		2, 36435, 35, 15000, 2),
+       (6, 'UltraBushy',	2,  2035, 15,    20, 3);
 
 /* Assigning Stats to Mobs */
 DELETE FROM `Mob_stats`;
@@ -395,14 +406,14 @@ INSERT INTO `Mob_stats`(`object_id`, `index`, `value`) VALUES
 /* JobModel */
 DELETE FROM `JobModel`;
 
-INSERT INTO `JobModel`(`id`, `name`, `path`) VALUES
-        (1, 'Developpeur', 'Res/JobCraft/developpeur.json'),
-        (2, 'Armurier', 'Res/JobCraft/armurier.json'),
-        (3, 'Ingenieur', 'Res/JobCraft/ingenieur.json'),
-        (4, 'Maitre des Potions', 'Res/JobCraft/potions.json'),
-	(5, 'Herboriste', 'Res/JobCraft/herboriste.json'),
-	(6, 'Mineur', 'Res/JobCraft/mineur.json'),
-	(7, 'Trappeur', 'Res/JobCraft/trappeur.json');
+INSERT INTO `JobModel`(`id`, `name`, `path`, `expCurve`) VALUES
+        (1, 'Developpeur', 'Res/JobCraft/developpeur.json', 5),
+        (2, 'Armurier', 'Res/JobCraft/armurier.json', 5),
+        (3, 'Ingenieur', 'Res/JobCraft/ingenieur.json', 5),
+        (4, 'Maitre des Potions', 'Res/JobCraft/potions.json', 5),
+	(5, 'Herboriste', 'Res/JobCraft/herboriste.json', 5),
+	(6, 'Mineur', 'Res/JobCraft/mineur.json', 5),
+	(7, 'Trappeur', 'Res/JobCraft/trappeur.json', 5);
 
 /* JobModel_gathers */
 DELETE FROM `JobModel_gathers`;
@@ -584,9 +595,12 @@ INSERT INTO `Player_stats`(`object_id`, `index`, `value`) VALUES
 DELETE FROM `Ressource`;
 
 INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
-       (1, 'Orchidee', 1, 10, 100),
-       (2, 'Peau de bouftou', 1, 1, 10),
-       (3, 'Tree', 0, 0, 0);
+       (1, 'Orchidee',			1, 10, 100),
+       (2, 'Peau de bouftou',		1,  1,  10),
+       (3, 'Tree',			0,  0,   0),
+       (4, 'Feuille de Venuzaur',	1,  0,   0),
+       (5, 'Dent de Charizard',		1,  0,   0),
+       (6, 'Ecaille de Blastoise',	1,  0,   0);
 
 /* Inserting Heals */
 DELETE FROM `Heal`;

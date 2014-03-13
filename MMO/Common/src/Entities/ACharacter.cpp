@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:37:01 2013 alexis mestag
-// Last update Mon Mar  3 20:57:20 2014 alexis mestag
+// Last update Wed Mar 12 23:41:47 2014 alexis mestag
 //
 
 #include			"Entities/ACharacter.hh"
@@ -63,9 +63,17 @@ Level::type			ACharacter::getCurrentExp() const
   return (_currentExp);
 }
 
-void				ACharacter::setCurrentExp(Level::type const currentExp)
+unsigned int			ACharacter::setCurrentExp(Level::type const currentExp, bool const checkLevelUp)
 {
+  unsigned int			ret = 0;
+
   _currentExp = currentExp;
+  if (checkLevelUp)
+    while (_currentExp >= this->getExp()) {
+      this->levelUp();
+      ret++;
+    }
+  return (ret);
 }
 
 Level::type			ACharacter::getLevel() const
@@ -88,6 +96,14 @@ void				ACharacter::setExp(Level::type const exp)
   _level->setExp(exp);
 }
 
+void				ACharacter::resetExp()
+{
+  this->setExp(this->getExperienceCurve()(this->getLevel()));
+  if (this->getCurrentExp() < this->getExperienceCurve()(this->getLevel() - 1) ||
+      this->getCurrentExp() >= this->getExperienceCurve()(this->getLevel()))
+    this->setCurrentExp(this->getExperienceCurve()(this->getLevel() - 1));
+}
+
 Level const			&ACharacter::getLevelObject() const
 {
   return (*_level);
@@ -103,7 +119,8 @@ void				ACharacter::setLevelObject(Level const &level)
 
 void				ACharacter::levelUp()
 {
-  _level->levelUp();
+  this->setLevel(this->getLevel() + 1);
+  this->setExp(this->getExperienceCurve()(this->getLevel()));
 }
 
 Equipment const			&ACharacter::getEquipment() const

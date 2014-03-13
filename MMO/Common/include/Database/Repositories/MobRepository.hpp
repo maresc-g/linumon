@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Mar 10 18:59:26 2014 alexis mestag
-// Last update Tue Mar 11 12:56:39 2014 alexis mestag
+// Last update Wed Mar 12 21:40:23 2014 alexis mestag
 //
 
 #ifndef				__MOBREPOSITORY_HH__
@@ -27,6 +27,9 @@ public:
   virtual void			smartUpdate(Mob &m, bool const inTr = false) {
     Database::Transaction	*t = Database::getNewTransaction(inTr);
     bool			isInTr = (t || inTr) ? true : false;
+
+    if (m.isInBattle())
+      m.leaveBattle();
 
     /*
     ** Updating Stats

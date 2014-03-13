@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:19 2014 laurent ansel
-// Last update Tue Mar 11 21:39:42 2014 alexis mestag
+// Last update Wed Mar 12 23:45:11 2014 alexis mestag
 //
 
 #ifndef 		__JOB_HH__
@@ -32,7 +32,7 @@ public:
   Job			&operator=(Job const &rhs);
 
   unsigned int		getCurrentExp() const;
-  void			setCurrentExp(unsigned int const currentExp);
+  unsigned int		setCurrentExp(unsigned int const currentExp, bool const checkLevelUp = true);
 
   Level const		&getLevelObject() const;
   void			setLevelObject(Level const &level);
@@ -42,6 +42,10 @@ public:
 
   Level::type		getExp() const;
   void			setExp(Level::type const exp);
+  void			resetExp();
+
+  ExperienceCurve const	&getExperienceCurve() const;
+  void			levelUp();
 
   JobModel const	&getJobModel() const;
   void			setJobModel(JobModel const &jobModel);
@@ -56,6 +60,7 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(Job)
 #  pragma db member(Job::_level) transient
+#  pragma db member(Job::_currentExp) get(getCurrentExp()) set(setCurrentExp((?), false))
 #  pragma db member(Job::level) virtual(Level::type) get(getLevel()) set(setLevel(?))
 #  pragma db member(Job::exp) virtual(Level::type) get(getExp()) set(setExp(?))
 #  pragma db member(Job::_jobModel) not_null
