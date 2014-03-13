@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Wed Mar 12 16:57:08 2014 guillaume marescaux
+// Last update Thu Mar 13 13:52:42 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -118,5 +118,9 @@ void				Client::mobtoBattleMob(unsigned int idMob) { _core->mobtoBattleMob(idMob
 void				Client::battleMobtoMob(unsigned int idMob) { _core->battleMobtoMob(idMob); }
 
 void				Client::switchMobs(unsigned int idMob1, unsigned int idMob2) { _core->switchMobs(idMob1, idMob2); }
+
+void				Client::merge(unsigned int idStack1, unsigned int idStack2) { _core->merge(idStack1, idStack2); }
+
+void				Client::newStack(unsigned int idStack, unsigned int nb) { _core->newStack(idStack, nb); }
 
 //--------------------------------------END METHODS--------------------------------------------

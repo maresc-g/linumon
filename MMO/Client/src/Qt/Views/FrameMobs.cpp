@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar 12 14:45:37 2014 guillaume marescaux
-// Last update Wed Mar 12 17:17:15 2014 guillaume marescaux
+// Last update Thu Mar 13 14:24:38 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/FrameMobs.hh"
@@ -25,30 +25,6 @@ void				FrameMobs::paintEvent(QPaintEvent *)
 
   opt.init(this);
   style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-}
-
-void				FrameMobs::mousePressEvent(QMouseEvent *mEvent)
-{
-  if (mEvent->button() == Qt::LeftButton)
-    {
-      makeDrag();
-    }
-}
-
-void				FrameMobs::makeDrag()
-{
-  // if (_item)
-  //   {
-  //     std::pair<AItem const *, unsigned int>	*pair = new std::pair<AItem const *, unsigned int>(_item, _nb);
-  //     std::ostringstream	oss;
-
-  //     oss << pair;
-  QDrag			*dr = new QDrag(this);
-  QMimeData			*data = new QMimeData;
-
-  data->setText("test");
-  dr->setMimeData(data);
-  dr->start();
 }
 
 ParentInfos			*FrameMobs::getNameFirstParent(QWidget *parent)
@@ -98,14 +74,14 @@ void				FrameMobs::dropEvent(QDropEvent *de)
   if (sourceInfos->name == "f_battleMobs" && objectName() != "f_battleMobs")
     {
       Mob const			*_mob = reinterpret_cast<Mob const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
-      (**_wMan->getMainPlayer())->battleMobtoMob(_mob->getId());
-      Client::getInstance()->battleMobtoMob(_mob->getId());
+      if ((**_wMan->getMainPlayer())->battleMobtoMob(_mob->getId()))
+	Client::getInstance()->battleMobtoMob(_mob->getId());
     }
   else if (sourceInfos->name == "scrollPerso" && objectName() != "scrollPerso")
     {
       Mob const			*_mob = reinterpret_cast<Mob const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
-      (**_wMan->getMainPlayer())->mobtoBattleMob(_mob->getId());
-      Client::getInstance()->mobtoBattleMob(_mob->getId());
+      if ((**_wMan->getMainPlayer())->mobtoBattleMob(_mob->getId()))
+	Client::getInstance()->mobtoBattleMob(_mob->getId());
     }
   _wMan->getSFMLView()->getDigitaliserView()->initDigit((**_wMan->getMainPlayer())->getDigitaliser());
   // if (infos && infos->name != "stuffview" && sourceInfos->name != "stuffview")

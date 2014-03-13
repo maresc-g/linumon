@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar 12 14:42:55 2014 guillaume marescaux
-// Last update Wed Mar 12 16:07:18 2014 guillaume marescaux
+// Last update Thu Mar 13 14:24:49 2014 guillaume marescaux
 //
 
 #ifndef 		__FRAMEMOBS_HH__
@@ -33,8 +33,6 @@ public:
 private:
 
   virtual void		paintEvent(QPaintEvent *);
-  virtual void		mousePressEvent(QMouseEvent *);
-  void			makeDrag();
   ParentInfos		*getNameFirstParent(QWidget *parent);
 
 protected:

@@ -5,19 +5,22 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Feb 26 14:24:07 2014 guillaume marescaux
-// Last update Wed Mar 12 23:01:46 2014 laurent ansel
+// Last update Thu Mar 13 12:41:24 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/CraftView.hh"
 
 CraftView::CraftView(QWidget *parent, WindowManager *wMan):
-  QWidget(parent), _wMan(wMan), _craft(NULL)
+  QWidget(parent), _wMan(wMan), _craft(NULL), _stacks(new std::list<StackView *>)
 {
   ui.setupUi(this);
 }
 
 CraftView::~CraftView()
 {
+  for (auto it = _stacks->begin() ; it != _stacks->end() ; ++it)
+    delete *it;
+  delete _stacks;
 }
 
 void				CraftView::paintEvent(QPaintEvent *)
@@ -33,15 +36,20 @@ void				CraftView::setInfos(Craft const &craft)
 {
   _craft = &craft;
   ui.l_name->setText(craft.getName().c_str());
-  auto				items = craft.getIngredients();
-  ItemView			*item;
+  auto				stacks = craft.getIngredients();
+  StackView			*stack;
   int				i = 0;
 
-  for (auto it = items.begin() ; it != items.end() ; it++)
+  for (auto it = _stacks->begin() ; it != _stacks->end() ; ++it)
+    delete *it;
+  _stacks->clear();
+  for (auto it = stacks.begin() ; it != stacks.end() ; ++it)
     {
-      item = new ItemView(ui.f_craft, _wMan, (*it)->getNb(), (*it)->getItem());
-      item->move(i * ITEM_SIZE + i, 0);
-      item->resize(ITEM_SIZE, ITEM_SIZE);
+      stack = new StackView(ui.f_craft, _wMan, (*it));
+      stack->move(i * ITEM_SIZE + i, 0);
+      stack->resize(ITEM_SIZE, ITEM_SIZE);
+      stack->show();
+      _stacks->push_back(stack);
       i++;
     }
 }

@@ -130,6 +130,11 @@ StuffView
 	border-image:url(./Res/UI/stuff.png);
 }
 
+StuffView QFrame#f_stats
+{
+	border-image:url(./Res/UI/stuff_caract.png);
+}
+
 ChatView
 {
 	background-color: #FFFFFF;
@@ -160,12 +165,12 @@ MenuView QPushButton#bReturn
 	border-image:url(./Res/UI/menu_return.png);
 }
 
-ItemView QLabel
+StackView QLabel
 {
 	background-color: #FFFFFF;
 }
 
-ItemView
+StackView
 {
 	border-image:url(./Res/UI/inventory_case.png);
 }
@@ -199,6 +204,16 @@ JobMenuView QPushButton#b_miner
 JobMenuView QPushButton#b_trapper
 {
 	border-image:url(./Res/UI/jobs_trapper.png);
+}
+
+JobMenuView QPushButton#b_armu
+{
+	border-image:url(./Res/UI/jobs_armorer.png);
+}
+
+JobMenuView QPushButton#b_inge
+{
+	border-image:url(./Res/UI/jobs_engineer.png);
 }
 
 JobView

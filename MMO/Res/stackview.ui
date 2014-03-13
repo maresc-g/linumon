@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>itemview</class>
- <widget class="QWidget" name="itemview">
+ <class>stackview</class>
+ <widget class="QWidget" name="stackview">
   <property name="geometry">
    <rect>
     <x>0</x>

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Thu Mar 13 12:48:32 2014 laurent ansel
+// Last update Thu Mar 13 14:20:46 2014 laurent ansel
 //
 
 #include			<stdlib.h>
@@ -109,7 +109,7 @@ void				Inventory::deleteItem(Stack *stack)
   bool				set = false;
 
   for ( ; it != this->end() && !set ; ++it)
-    if (((*it)->getId() != 0 && (*it)->getId() != stack->getId()) || (**it != stack->getItem()->getName()))
+    if (((*it)->getId() != 0 && (*it)->getId() == stack->getId()) || (**it == stack->getItem()->getName()))
       {
 	if ((*it)->getNb() - supp > 0)
 	  {
@@ -152,7 +152,7 @@ void				Inventory::addItem(AItem *item)
     this->getContainer().push_back(new Stack(this->getContainer().size(), item, 1));
 }
 
-void				Inventory::addItem(AItem *item, unsigned int const nb)
+void				Inventory::addItem(AItem *item, unsigned int const nb, bool const merge)
 {
   bool				set = false;
   Stack				*tmp = NULL;
@@ -162,17 +162,20 @@ void				Inventory::addItem(AItem *item, unsigned int const nb)
     {
       if (!tmp && (**it))
 	tmp = *it;
-      if (**it == item->getName())
+      if (merge)
 	{
-	  if (**it + nbTmp <= 99)
+	  if (**it == item->getName())
 	    {
-	      **it += nbTmp;
-	      set = true;
-	    }
-	  else
-	    {
-	      nbTmp = (**it + nbTmp - 99);
-	      (*it)->setNb(99);
+	      if (**it + nbTmp <= 99)
+		{
+		  **it += nbTmp;
+		  set = true;
+		}
+	      else
+		{
+		  nbTmp = (**it + nbTmp - 99);
+		  (*it)->setNb(99);
+		}
 	    }
 	}
     }
@@ -248,7 +251,7 @@ unsigned int			Inventory::getIdItem(std::string const &name) const
 Stack				*Inventory::getStack(unsigned int const id) const
 {
   for (auto it = this->begin() ; it != this->end() ; ++it)
-    if ((*it)->getId() != id)
+    if ((*it)->getId() == id)
       return (*it);
   return (NULL);
 }
@@ -293,6 +296,7 @@ void				Inventory::splitStack(unsigned int const idStack, unsigned int const nb)
 	{
 	  tmp = new Stack(this->getContainer().size(), stack->getItem(), nb);
 	  this->getContainer().push_back(tmp);
+	  *stack -= nb;
 	}
       else
 	{
@@ -323,17 +327,12 @@ void				Inventory::loadInventory()
       	  auto			members = (*file)[*inb].getMemberNames();
       	  AItem			*item;
 
-	  std::cout << "ID = " << *inb << std::endl;
-		  //		  this->getContainer().push_back(new Stack(atol((*inb).c_str())));
+	  //		  this->getContainer().push_back(new Stack(atol((*inb).c_str())));
       	  for (auto it = members.begin() ; it != members.end() ; ++it)
       	    {
-	      std::cout << "ITEM = " << *it << std::endl;
       	      item = LoaderManager::getInstance()->getItemLoader(*it);
       	      if (item)
-		{
-		  std::cout << "NB = " << (*file)[*inb][*it].asUInt() << std::endl;
-		  this->addItem(item, (*file)[*inb][*it].asUInt());
-		}
+		this->addItem(item, (*file)[*inb][*it].asUInt(), false);
       	    }
       	}
     }

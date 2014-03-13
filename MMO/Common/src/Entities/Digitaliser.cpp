@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Wed Mar 12 17:11:34 2014 laurent ansel
+// Last update Thu Mar 13 14:27:01 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -61,7 +61,9 @@ Digitaliser::container_type const	&Digitaliser::getMobs() const
 
 unsigned int			Digitaliser::getLimit() const
 {
-  return (_player->getStat("Limit mob"));
+  if (_player)
+    return (_player->getStat("Limit mob"));
+  return (0);
 }
 
 void				Digitaliser::setMobs(Digitaliser::container_type const &mobs)
@@ -116,8 +118,8 @@ bool				Digitaliser::battleMobtoMob(unsigned int const id)
     {
       if ((*it)->getId() == id)
 	{
-	  _battleMobs.erase(it);
 	  this->addMob(**it);
+	  _battleMobs.erase(it);
 	  return (true);
 	}
     }
@@ -132,8 +134,8 @@ bool				Digitaliser::mobtoBattleMob(unsigned int const id)
 	{
 	  if ((*it)->getId() == id)
 	    {
-	      this->getContainer().erase(it);
 	      this->addBattleMob(**it);
+	      this->getContainer().erase(it);
 	      return (true);
 	    }
 	}

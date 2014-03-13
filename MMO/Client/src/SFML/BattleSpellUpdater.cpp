@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:56 2014 cyril jourdain
-// Last update Wed Mar 12 01:02:35 2014 cyril jourdain
+// Last update Thu Mar 13 14:38:05 2014 cyril jourdain
 //
 
 #include			"SFML/BattleSpellUpdater.hh"
@@ -23,7 +23,7 @@ BattleSpellUpdater::~BattleSpellUpdater()
 void				BattleSpellUpdater::update(BattleView *battle)
 {
   SpellContainer		*tmp = NULL;
-  MobSprite			*mob = NULL;
+  BattleMob			*mob = NULL;
 
   if (_currentSpell->isAnimFinished())
     {
@@ -33,9 +33,9 @@ void				BattleSpellUpdater::update(BattleView *battle)
 	  mob = battle->findMobById(tmp->getTarget());
 	  if (!mob)
 	    return;
-	  mob->upHealthBar();
-	  _currentSpell->setPosition(mob->getPos()->x * CASE_SIZE,
-				     mob->getPos()->y * CASE_SIZE - CASE_SIZE / 2);
+	  mob->mob->upHealthBar();
+	  _currentSpell->setPosition(mob->mob->getPos()->x * CASE_SIZE,
+				     mob->mob->getPos()->y * CASE_SIZE - CASE_SIZE / 2);
 	  (*_currentSpell)["onEnemy"]->setLoopPlay(false);
 	  (*_currentSpell)["onEnemy"]->setFrameLength(80000);
 	  _currentSpell->play("onEnemy");

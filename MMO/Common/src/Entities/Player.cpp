@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 13 14:34:34 2014 alexis mestag
+// Last update Thu Mar 13 14:56:44 2014 alexis mestag
 //
 
 #include			<functional>
@@ -62,6 +62,7 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   MobModel const		*m = rm->getByName("Pikachu");
 
   this->capture(Mob(*m, 15, this));
+  _digitaliser->mobtoBattleMob((*_digitaliser->begin())->getId());
 
   /*
   ** Init Faction
@@ -217,6 +218,7 @@ Digitaliser const		&Player::getDigitaliser() const
 void				Player::setDigitaliser(Digitaliser const &digit)
 {
   *this->_digitaliser = digit;
+  this->_digitaliser->setPlayer(this);
 }
 
 Inventory const			&Player::getInventory() const
@@ -629,14 +631,14 @@ bool				Player::doGather(std::string const &job, std::string const &res, Stack *
   return (ret);
 }
 
-void				Player::mobtoBattleMob(unsigned int const id)
+bool				Player::mobtoBattleMob(unsigned int const id)
 {
-  this->_digitaliser->mobtoBattleMob(id);
+  return (this->_digitaliser->mobtoBattleMob(id));
 }
 
-void				Player::battleMobtoMob(unsigned int const id)
+bool				Player::battleMobtoMob(unsigned int const id)
 {
-  this->_digitaliser->battleMobtoMob(id);
+  return (this->_digitaliser->battleMobtoMob(id));
 }
 
 void				Player::mergeStack(unsigned int const idStack, unsigned int const idStack2)

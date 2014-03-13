@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:46:00 2014 guillaume marescaux
-// Last update Wed Mar  5 11:29:56 2014 guillaume marescaux
+// Last update Wed Mar 12 22:07:36 2014 guillaume marescaux
 //
 
 #ifndef 		__INVENTORYVIEW_HH__
@@ -15,10 +15,10 @@
 #include		<Qt/qwidget.h>
 #include		<Qt/qpainter.h>
 #include		"ui_inventoryview.h"
-#include		"Qt/Views/ItemView.hh"
+#include		"Qt/Views/StackView.hh"
 
 class			WindowManager;
-class			ItemView;
+class			StackView;
 
 class			InventoryView : public QWidget
 {
@@ -31,8 +31,8 @@ public:
 private:
   Ui::inventoryview	ui;
   WindowManager		*_wMan;
-  std::list<ItemView *>	*_items;
-  std::list<ItemView *>	*_hidden;
+  std::list<StackView *>	*_stacks;
+  std::list<StackView *>	*_hidden;
 
 private:
   virtual void		paintEvent(QPaintEvent *);
@@ -40,7 +40,7 @@ private:
 public:
 
   void			initInventory(void);
-  void			itemAction(ItemView *);
+  void			stackAction(StackView *);
 };
 
 #endif
