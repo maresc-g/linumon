@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Thu Mar 13 12:55:27 2014 laurent ansel
+// Last update Thu Mar 13 13:29:46 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -25,6 +25,12 @@ Job::Job():
   _level(new Level),
   _jobModel(NULL)
 {
+}
+
+Job::Job(JobModel const &model, Level::type const level) :
+  Persistent(), _currentExp(0), _level(new Level(level)), _jobModel(&model)
+{
+
 }
 
 Job::~Job()
@@ -58,9 +64,18 @@ unsigned int			Job::getCurrentExp() const
   return (this->_currentExp);
 }
 
-void				Job::setCurrentExp(unsigned int const currentExp)
+unsigned int			Job::setCurrentExp(unsigned int const currentExp,
+						   bool const checkLevelUp)
 {
+  unsigned int			ret = 0;
+
   _currentExp = currentExp;
+  if (checkLevelUp)
+    while (_currentExp < this->getExp()) {
+      this->levelUp();
+      ret++;
+    }
+  return (ret);
 }
 
 Level const			&Job::getLevelObject() const
@@ -94,6 +109,25 @@ Level::type			Job::getExp() const
 void				Job::setExp(Level::type const exp)
 {
   _level->setExp(exp);
+}
+
+void				Job::resetExp()
+{
+  this->setExp(this->getExperienceCurve()(this->getLevel()));
+  if (this->getCurrentExp() < this->getExperienceCurve()(this->getLevel() - 1) ||
+      this->getCurrentExp() >= this->getExperienceCurve()(this->getLevel()))
+    this->setCurrentExp(this->getExperienceCurve()(this->getLevel() - 1));
+}
+
+ExperienceCurve const		&Job::getExperienceCurve() const
+{
+  return (this->_jobModel->getExperienceCurve());
+}
+
+void				Job::levelUp()
+{
+  this->setLevel(this->getLevel() + 1);
+  this->setExp(this->getExperienceCurve()(this->getLevel()));
 }
 
 JobModel const			&Job::getJobModel() const
@@ -181,7 +215,7 @@ Job				*Job::deserialization(Trame const &trame)
   if (trame.isMember("MOD"))
     //    job->setJobModel(*JobModel::deserialization(trame));
     job->setJobModel(*(**LoaderManager::getInstance()->getJobModelLoader())->getValue(trame["MOD"].asString()));
-  job->setCurrentExp(trame["CEXP"].asUInt());
+  job->setCurrentExp(trame["CEXP"].asUInt(), false);
   return (job);
 }
 

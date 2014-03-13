@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:39:45 2014 alexis mestag
-// Last update Mon Mar 10 15:44:08 2014 laurent ansel
+// Last update Wed Mar 12 15:28:15 2014 alexis mestag
 //
 
 #include			"Entities/MobModel.hh"
@@ -13,14 +13,14 @@
 
 MobModel::MobModel() :
   Persistent(), AStatEntity("", eStatEntity::MOBMODEL),
-  _spells(new Spells)
+  _spells(new Spells), _expCurve(NULL)
 {
 
 }
 
 MobModel::MobModel(MobModel const &rhs) :
   Persistent(rhs), AStatEntity(rhs),
-  _spells(new Spells)
+  _spells(new Spells), _expCurve(NULL)
 {
   *this = rhs;
 }
@@ -36,6 +36,7 @@ MobModel			&MobModel::operator=(MobModel const &rhs)
     {
       this->setType(rhs.getType());
       this->setSpells(rhs.getSpells());
+      this->setExperienceCurve(rhs.getExperienceCurve());
     }
   return (*this);
 }
@@ -58,6 +59,16 @@ Spells const			&MobModel::getSpells() const
 void				MobModel::setSpells(Spells const &spells)
 {
   *this->_spells = spells;
+}
+
+ExperienceCurve const		&MobModel::getExperienceCurve() const
+{
+  return (*_expCurve);
+}
+
+void				MobModel::setExperienceCurve(ExperienceCurve const &expCurve)
+{
+  _expCurve = &expCurve;
 }
 
 bool				MobModel::serialization(Trame &trame) const

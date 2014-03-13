@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Thu Mar 13 14:04:50 2014 guillaume marescaux
+// Last update Thu Mar 13 16:03:11 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -87,7 +87,7 @@ void				StackView::enterEvent(QEvent *)
 void				StackView::setInfos(Stack const *stack)
 {
   _stack = stack;
-  if (stack)
+  if (stack && !stack->empty())
     {
       std::string name = stack->getItem()->getName();
       auto it = name.find(' ');
@@ -185,7 +185,6 @@ void				StackView::dropEvent(QDropEvent *de)
   ParentInfos			*sourceInfos = getNameFirstParent(de->source());
   Stack const			*stack = reinterpret_cast<Stack const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
 
-  std::cout << "NAME OF THE PARENT I SEEK = '" << infos->name << "'" << std::endl;
   if (infos && sourceInfos && (infos->name == "tradeview" || sourceInfos->name == "tradeview"))
     ;
    // _wMan->getSFMLView()->getTradeView()->handleStackChange(de->source(), this);
@@ -194,11 +193,17 @@ void				StackView::dropEvent(QDropEvent *de)
       _wMan->getSFMLView()->getSplitStackView()->setInfos(stack);
       _wMan->getSFMLView()->getSplitStackView()->show();
     }
-  else if (infos->name == "inventoryview" && sourceInfos->name == "inventoryview" &&
+  else if (this != de->source() && infos->name == "inventoryview" && sourceInfos->name == "inventoryview" &&
 	   _stack->getItem()->getName() == stack->getItem()->getName())
     {
-      (**_wMan->getMainPlayer())->mergeStack(stack->getId(), _stack->getId());
-      Client::getInstance()->merge(stack->getId(), _stack->getId());
+      unsigned int		id1 = _stack->getId();
+      unsigned int		id2 = stack->getId();
+
+      (**_wMan->getMainPlayer())->mergeStack(id1, id2);
+      Client::getInstance()->merge(id1, id2);
+      static_cast<StackView *>(de->source())->setInfos((**_wMan->getMainPlayer())->getInventory().getStack(id2));
+      setInfos((**_wMan->getMainPlayer())->getInventory().getStack(id1));
+      _wMan->getSFMLView()->getInventoryView()->initInventory();
     }
   else if (infos && infos->name != "stuffview" && sourceInfos->name != "stuffview")
     setInfos(stack);

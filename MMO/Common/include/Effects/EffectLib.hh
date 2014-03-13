@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Jan 30 12:30:55 2014 alexis mestag
-// Last update Tue Mar 11 21:24:26 2014 alexis mestag
+// Last update Wed Mar 12 14:13:50 2014 alexis mestag
 //
 
 #ifndef				__EFFECTLIB_HH__

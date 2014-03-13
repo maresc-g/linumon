@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 13 14:33:01 2014 guillaume marescaux
+// Last update Thu Mar 13 15:09:25 2014 alexis mestag
 //
 
 #include			<functional>
@@ -13,11 +13,14 @@
 #include			"Map/Map.hh"
 #ifndef			CLIENT_COMPILATION
 # include			"Stats/TalentTree-odb.hxx"
-# include			"Stats/StatKey-odb.hxx"
 # include			"Entities/DBZone-odb.hxx"
-# include			"Entities/Player-odb.hxx"
+# include			"Entities/JobModel-odb.hxx"
+# include			"Database/Repositories/AuthorizedStatKeysRepository.hpp"
+# include			"Database/Repositories/ExperienceCurveRepository.hpp"
 # include			"Database/Repositories/FactionRepository.hpp"
 # include			"Database/Repositories/PlayerRepository.hpp"
+# include			"Database/Repositories/MobModelRepository.hpp"
+# include			"Database/Repositories/StatKeyRepository.hpp"
 #endif
 #include			"Entities/Consumable.hh"
 #include			"Loader/LoaderManager.hh"
@@ -26,7 +29,7 @@ Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _type(PlayerType::PLAYER),
   _digitaliser(new Digitaliser(this)), _coord(new PlayerCoordinate),
   _faction(NULL), _talentTree(NULL), _talents(new Talents), _user(NULL),
-  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL)
+  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL), _expCurve(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
@@ -40,7 +43,7 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   Persistent(), ACharacter(name, eCharacter::PLAYER), _type(PlayerType::PLAYER),
   _digitaliser(new Digitaliser(this)), _coord(new PlayerCoordinate),
   _faction(NULL), _talentTree(NULL), _talents(new Talents), _user(user),
-  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL)
+  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL), _expCurve(NULL)
 # ifndef	CLIENT_COMPILATION
   , _dbZone(NULL)
 # else
@@ -52,12 +55,43 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   # ifndef	CLIENT_COMPILATION
   this->initConstPointersForNewPlayers();
 
+  /*
+  ** Capture a Pikachu
+  */
+  Repository<MobModel>		*rm = &Database::getRepository<MobModel>();
+  MobModel const		*m = rm->getByName("Pikachu");
+
+  this->_digitaliser->addBattleMob(Mob(*m, 15, this));
+
+  /*
+  ** Init Faction
+  */
   Faction			*faction = Database::getRepository<Faction>().getByName(factionName);
 
   if (faction) {
     this->setFaction(*faction);
     this->applyFactionEffect();
   }
+
+  /*
+  ** Init Jobs
+  */
+  Repository<JobModel>		&rjm = Database::getRepository<JobModel>();
+  std::list<JobModel *>		jms = rjm.getAll();
+
+  for (auto jmt = jms.begin() ; jmt != jms.end() ; ++jmt) {
+    Job				*j = new Job(**jmt, 0);
+
+    j->resetExp();
+    this->setJob(j);
+  }
+
+  /*
+  ** Init Player Stats
+  */
+  this->setStat("Limit mob", 3);
+  this->setStat("Bag capacity", 30);
+
   # else
   (void)factionName;
   # endif
@@ -93,6 +127,7 @@ Player				&Player::operator=(Player const &rhs)
       this->setFaction(rhs.getFaction());
       this->setGuild(*rhs.getGuild());
       this->setZone(rhs.getZone());
+      this->setExperienceCurve(rhs.getExperienceCurve());
     }
   return (*this);
 }
@@ -103,10 +138,12 @@ void					Player::initConstPointersForNewPlayers()
   Repository<TalentTree>		*rtt = &Database::getRepository<TalentTree>();
   Repository<AuthorizedStatKeys>	*rask = &Database::getRepository<AuthorizedStatKeys>();
   Repository<DBZone>			*rdbz = &Database::getRepository<DBZone>();
+  Repository<ExperienceCurve>		*rec = &Database::getRepository<ExperienceCurve>();
 
   this->setTalentTree(*rtt->getById(1));
-  this->setAuthorizedStatKeys(*rask->getById(1));
+  this->setAuthorizedStatKeys(*rask->getByName("PlayerKeys"));
   this->setDBZone(*rdbz->getById(1));
+  this->setExperienceCurve(*rec->getByName("PlayerCurve"));
 }
 
 void					Player::applyFactionEffect()
@@ -191,6 +228,22 @@ Inventory const			&Player::getInventory() const
 void				Player::setInventory(Inventory *inventory)
 {
   this->_inventory = inventory;
+}
+
+ExperienceCurve const		&Player::getExperienceCurve() const
+{
+  return (*_expCurve);
+}
+
+void				Player::levelUp()
+{
+  ACharacter::levelUp();
+  _talents->setCurrentPts(_talents->getCurrentPts() + 5);
+}
+
+void				Player::setExperienceCurve(ExperienceCurve const &expCurve)
+{
+  _expCurve = &expCurve;
 }
 
 Jobs const			&Player::getJobs() const
@@ -445,7 +498,7 @@ Player				*Player::deserialization(Trame const &trame)
 	player->setLevelObject(*lvl);
 
       if (trame["PLAYER"].isMember("CEXP"))
-	player->setCurrentExp(trame["PLAYER"]["CEXP"].asUInt());
+	player->setCurrentExp(trame["PLAYER"]["CEXP"].asUInt(), false); /* Pass true (or ommit the parameter) if the ExperienceCurve is set */
 
       TalentTree		*tree = TalentTree::deserialization(trame(trame["PLAYER"]));
       if (tree)

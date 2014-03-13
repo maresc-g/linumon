@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Mar 13 14:14:55 2014 guillaume marescaux
+// Last update Thu Mar 13 14:53:54 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -63,6 +63,7 @@ private:
   Inventory			*_inventory;
   Jobs				*_jobs;
   Guild const			*_guild;
+  ExperienceCurve const		*_expCurve;
 
 # ifndef	CLIENT_COMPILATION
   DBZone const			*_dbZone;
@@ -82,6 +83,8 @@ private:
   void			initConstPointersForNewPlayers();
   void			applyFactionEffect();
   # endif
+
+  void			setExperienceCurve(ExperienceCurve const &expCurve);
 
 public:
   Player(std::string const &name, std::string const &factionName = "", User const *user = NULL);
@@ -115,6 +118,9 @@ public:
 
   Inventory const		&getInventory() const;
   void				setInventory(Inventory *inventory);
+
+  virtual ExperienceCurve const	&getExperienceCurve() const;
+  virtual void			levelUp();
 
   void				addTalent(Talent const &talent);
   Talents const			&getTalents() const;
@@ -197,6 +203,7 @@ public:
 #  pragma db member(Player::currentPts) virtual(unsigned int) get(_talents->getCurrentPts()) set(_talents->setCurrentPts(?))
 #  pragma db member(Player::_talentTree) not_null
 #  pragma db member(Player::_user) not_null
+#  pragma db member(Player::_expCurve) not_null
 # endif
 
 #endif

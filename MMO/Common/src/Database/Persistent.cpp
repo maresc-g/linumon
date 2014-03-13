@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Dec  2 16:25:00 2013 alexis mestag
-// Last update Mon Mar 10 18:05:53 2014 alexis mestag
+// Last update Thu Mar 13 14:36:34 2014 alexis mestag
 //
 
 #include			"Database/Persistent.hh"
@@ -16,7 +16,8 @@ Persistent::Persistent() :
 
 }
 
-Persistent::Persistent(Persistent const &rhs)
+Persistent::Persistent(Persistent const &rhs) :
+  _persistentId(0)
 {
   *this = rhs;
 }

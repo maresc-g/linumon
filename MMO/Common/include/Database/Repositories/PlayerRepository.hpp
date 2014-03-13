@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 17:41:44 2014 alexis mestag
-// Last update Wed Mar 12 11:12:02 2014 alexis mestag
+// Last update Thu Mar 13 14:41:24 2014 alexis mestag
 //
 
 #ifndef				__PLAYERREPOSITORY_HPP__
@@ -59,6 +59,8 @@ public:
       rj->smartUpdate(**it, isInTr);
     }
 
+    BaseRepository<Player>::smartUpdate(p, isInTr);
+
     /*
     ** Updating Mobs
     */
@@ -66,8 +68,6 @@ public:
     for (auto it = p.getDigitaliser().begin() ; it != p.getDigitaliser().end() ; ++it) {
       rm->smartUpdate(**it, isInTr);
     }
-
-    BaseRepository<Player>::smartUpdate(p, isInTr);
 
     /***
     **** The code above is correct

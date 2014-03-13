@@ -5,12 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Mar  6 13:54:26 2014 laurent ansel
-// Last update Mon Mar 10 19:11:19 2014 alexis mestag
+// Last update Wed Mar 12 21:05:26 2014 alexis mestag
 //
 
 #ifndef CLIENT_COMPILATION
-# include			"Stats/AuthorizedStatKeys-odb.hxx"
-# include			"Database/Repositories/Repository.hpp"
+# include			"Database/Repositories/AuthorizedStatKeysRepository.hpp"
 #endif
 #include			"Loader/AuthorizedStatKeysLoader.hh"
 
