@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Wed Mar 12 23:29:50 2014 laurent ansel
+// Last update Thu Mar 13 22:35:20 2014 laurent ansel
 //
 
 #include			<list>
@@ -320,10 +320,12 @@ bool				Server::disconnectClient(std::map<FD, std::pair<bool, bool> >::iterator 
 
 void				Server::newClientStateInStandBy(FD const fd, Client::eState const state, bool const set) const
 {
+
+  this->_protoMutex->lock();
+
   FD				tmpFd;
   Client::eState		tmpState;
 
-  this->_mutex->lock();
   if (!set)
     _stateList->push_back(std::make_pair(fd, state));
   else
@@ -332,12 +334,13 @@ void				Server::newClientStateInStandBy(FD const fd, Client::eState const state,
 	{
 	  tmpFd = it->first;
 	  tmpState = it->second;
-	  this->_mutex->unlock();
+	  this->_protoMutex->unlock();
 	  ClientManager::getInstance()->newState(tmpFd, tmpState);
-	  this->_mutex->lock();
+	  this->_protoMutex->lock();
 	}
+      _stateList->clear();
     }
-  this->_mutex->unlock();
+  this->_protoMutex->unlock();
 }
 
 void				Server::actionClient()

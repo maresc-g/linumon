@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Thu Mar 13 17:46:04 2014 antoine maitre
+// Last update Thu Mar 13 22:22:31 2014 laurent ansel
 //
 
 #include				"Battle/Battle.hh"
@@ -46,6 +46,13 @@ Battle::~Battle()
 	if ((*it)->getType() == Player::PlayerType::PLAYER)
 	  ClientManager::getInstance()->endBattle((*it)->getId());
     }
+}
+
+void					Battle::disconnect(unsigned int const idPlayer) const
+{
+  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+    if ((*it)->getId() != idPlayer && (*it)->getType() == Player::PlayerType::PLAYER)
+      Server::getInstance()->newClientStateInStandBy((*it)->getUser().getId(), Client::eState::GAME);
 }
 
 unsigned int				Battle::getID() const
