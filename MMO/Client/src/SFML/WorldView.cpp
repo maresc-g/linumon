@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Wed Mar 12 19:28:27 2014 guillaume marescaux
+// Last update Thu Mar 13 12:44:07 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -49,6 +49,8 @@ void			WorldView::onInit()
    */
   Zone *zone = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone());
 
+  _backgroundTexture = new sf::RenderTexture();
+  _backgroundSprite = new sf::Sprite();
   _mainPerso = new PlayerSprite(sf::String((**(_wMan->getMainPlayer()))->getName()), _sfmlView->getFont());
   _sfmlView->getSpriteManager()->copySprite("perso1", *_mainPerso);
   _mainPerso->setPlayerZone(Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone())->getName());
@@ -62,6 +64,7 @@ void			WorldView::onInit()
   // 		  (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
   if (zone)
     _backgroundTexture->create(zone->getSizeX() * CASE_SIZE, zone->getSizeY()*CASE_SIZE);
+  qDebug() << "loadBackgroundMap";
   loadBackgroundMap();
   loadBackgroundSprite();
   loadPlayerList();
@@ -156,6 +159,8 @@ void			WorldView::resetView()
       it->second.clear();
     }
   _spriteMap->clear();
+  delete _backgroundTexture;
+  delete _backgroundSprite;
 }
 
 void			WorldView::drawView()
@@ -178,7 +183,7 @@ void			WorldView::drawView()
   	(*it)->updateMoves(_sfmlView->getMainClock(), NULL);
   	(*it)->update(*_sfmlView->getMainClock());
   	_sfmlView->draw(**it);
-      }
+      }      
     }
   if (_mainPerso) {
     _sfmlView->draw(*_mainPerso);
@@ -446,6 +451,7 @@ void			WorldView::resetPOV()
   _sfmlView->getMainView()->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
   _sfmlView->getMainView()->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
 				 (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
-  if ((**(_wMan->getMainPlayer()))->getX() <= 15)
-    _sfmlView->getMainView()->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE, 0);
+  _sfmlView->clear(sf::Color(0,0,0));
+  // if ((**(_wMan->getMainPlayer()))->getX() <= 15)
+  //   _sfmlView->getMainView()->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE, 0);
 }

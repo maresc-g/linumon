@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Wed Mar 12 15:04:50 2014 antoine maitre
+// Last update Thu Mar 13 14:21:05 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -143,11 +143,11 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2, unsigned int 
       for (int i = 0; i < mobInBattle; i++)
 	{
 	  Mob *tmpMob = player1->getDBZone().getRandomMob();
+	  tmp->setStat("Limit mob", mobInBattle);
 	  tmp->capture(*tmpMob);
 	  tmp->mobtoBattleMob(tmpMob->getId());
 	}
       tmp->addEnemy(player1->getDigitaliser().getBattleMobs());
-      std::cout << mobInBattle << " IS THE NUMBER OF MOB IN BATTLE" << player1->getDigitaliser().getBattleMobs().size() << std::endl;
       this->_battles->push_back(new Battle(id, Battle::PVP, mobInBattle, player1, tmp));
     }
   else

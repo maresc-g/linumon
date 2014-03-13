@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 17:41:44 2014 alexis mestag
-// Last update Thu Mar 13 13:23:45 2014 alexis mestag
+// Last update Thu Mar 13 14:41:24 2014 alexis mestag
 //
 
 #ifndef				__PLAYERREPOSITORY_HPP__
@@ -29,8 +29,6 @@ public:
   virtual void			smartUpdate(Player &p, bool const inTr = false) {
     Database::Transaction	*t = Database::getNewTransaction(inTr);
     bool			isInTr = (t || inTr) ? true : false;
-
-    std::cout << "=================================> Smart Updating " << &p << " (needed " << this->getById(p.getPersistentId()) << ")" << std::endl;
 
     /*
     ** Updating Inventory
@@ -61,6 +59,8 @@ public:
       rj->smartUpdate(**it, isInTr);
     }
 
+    BaseRepository<Player>::smartUpdate(p, isInTr);
+
     /*
     ** Updating Mobs
     */
@@ -68,8 +68,6 @@ public:
     for (auto it = p.getDigitaliser().begin() ; it != p.getDigitaliser().end() ; ++it) {
       rm->smartUpdate(**it, isInTr);
     }
-
-    BaseRepository<Player>::smartUpdate(p, isInTr);
 
     /***
     **** The code above is correct

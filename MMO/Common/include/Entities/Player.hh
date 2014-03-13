@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Mar 13 08:43:30 2014 alexis mestag
+// Last update Thu Mar 13 13:30:06 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -140,7 +140,9 @@ public:
   bool				isMyMob(unsigned int const id);
 
   void				deleteItem(unsigned int const stack);
+  void				deleteItem(Stack *stack);
   void				addItem(AItem *item);
+  void				addItem(Stack *stack);
   AItem				*getAndDeleteItem(unsigned int const stack) const;
 
   void				addMob(Mob *mob);
@@ -154,8 +156,8 @@ public:
   void				setJob(std::string const &name, Job *job);
   Job				*getJob(std::string const &name) const;
 
-  bool				doCraft(std::string const &job, std::string const &craft, std::list<AItem *> &result, std::list<std::pair<unsigned int, unsigned int> > &object);
-  bool				doGather(std::string const &job, std::string const &ressource, std::list<AItem *> &result, unsigned int &idRessource);
+  bool				doCraft(std::string const &job, std::string const &craft, Stack *&result, std::list<Stack *> *&object);
+  bool				doGather(std::string const &job, std::string const &ressource, Stack *&result, unsigned int &idRessource);
 
   bool				getPlayerEquipment(unsigned int const idItem);
   bool				getMobEquipment(unsigned int const idMod, unsigned int const idItem);
