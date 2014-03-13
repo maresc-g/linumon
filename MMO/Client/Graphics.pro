@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = ../pfa-client
 DEPENDPATH += . src
 INCLUDEPATH += . include ../Common/include
-FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbarview.ui ../Res/itemview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui ../Res/craftview.ui ../Res/digitaliserview.ui ../Res/hudview.ui ../Res/splitstackview.ui
+FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbarview.ui ../Res/stackview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui ../Res/craftview.ui ../Res/digitaliserview.ui ../Res/hudview.ui ../Res/splitstackview.ui
 LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio -lcryptopp -ljsoncpp -ldl
 QMAKE_CXXFLAGS += -std=c++0x -DCLIENT_COMPILATION -g
 OBJECTS_DIR = ./obj
@@ -22,7 +22,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Qt/Views/CreateCharView.hh \
                 include/Qt/Views/SpellBarView.hh \
                 include/Qt/Views/InventoryView.hh \
-                include/Qt/Views/ItemView.hh \
+                include/Qt/Views/StackView.hh \
                 include/Qt/Views/StuffView.hh \
                 include/Qt/Views/ChatView.hh \
                 include/Qt/Views/MenuView.hh \
@@ -73,7 +73,7 @@ SOURCES +=      src/main.cpp \
                 src/Qt/Views/CreateCharView.cpp \
                 src/Qt/Views/SpellBarView.cpp \
                 src/Qt/Views/InventoryView.cpp \
-                src/Qt/Views/ItemView.cpp \
+                src/Qt/Views/StackView.cpp \
                 src/Qt/Views/StuffView.cpp \
                 src/Qt/Views/ChatView.cpp \
                 src/Qt/Views/MenuView.cpp \

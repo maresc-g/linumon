@@ -38,7 +38,7 @@
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QFrame" name="f_items">
+  <widget class="QFrame" name="f_stacks">
    <property name="geometry">
     <rect>
      <x>0</x>

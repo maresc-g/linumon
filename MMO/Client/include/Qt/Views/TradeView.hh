@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb 20 13:27:33 2014 guillaume marescaux
-// Last update Wed Mar 12 12:36:16 2014 guillaume marescaux
+// Last update Wed Mar 12 21:58:03 2014 guillaume marescaux
 //
 
 #ifndef 		__TRADEVIEW_HH__
@@ -16,7 +16,7 @@
 #include		"ui_tradeview.h"
 #include		"Qt/WindowManager.hh"
 #include		"Qt/Views/MobView.hh"
-#include		"Qt/Views/ItemView.hh"
+#include		"Qt/Views/StackView.hh"
 
 class			TradeView : public QWidget
 {
@@ -33,8 +33,8 @@ private:
   WindowManager		*_wMan;
   std::list<MobView *>	*_mobs;
   std::list<MobView *>	*_otherMobs;
-  std::list<ItemView *>	*_items;
-  std::list<ItemView *>	*_otherItems;
+  std::list<StackView *>	*_stacks;
+  std::list<StackView *>	*_otherStacks;
 
 private:
 
@@ -48,6 +48,8 @@ private slots:
 public:
 
   void			setInfos(std::string const &name);
+  void			handleStackChange(StackView *source, StackView *dest);
+  void			handleMobChange(MobView *source, MobView *dest);
 };
 
 #endif
