@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Wed Mar 12 22:45:31 2014 laurent ansel
+// Last update Thu Mar 13 16:30:20 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -322,6 +322,7 @@ void				ClientManager::newState(FD const fd, Client::eState const state) const
   this->_mutex->unlock();
 }
 
+
 bool				ClientManager::stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const
 {
   bool				set = false;
@@ -332,6 +333,30 @@ bool				ClientManager::stuff(FD const fd, bool const get, unsigned int const idI
       set = (*it).first->stuff(fd, get, idItem, target);
   this->_mutex->unlock();
   return (set);
+}
+
+void				ClientManager::newGuild(FD const fd, Guild *guild) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->newGuild(fd, guild);
+  this->_mutex->unlock();
+}
+
+bool				ClientManager::inGuild(FD const fd) const
+{
+  bool				set = false;
+  bool				ret = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->inGuild(fd, ret);
+  this->_mutex->unlock();
+  return (ret);
 }
 
 bool				ClientManager::craftSomething(FD const fd, std::string const &craft, std::string const &job) const

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Wed Mar 12 22:44:57 2014 laurent ansel
+// Last update Thu Mar 13 16:31:41 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -397,6 +397,37 @@ bool				ClientUpdater::playerObject(FD const fd, unsigned int const item, int co
     }
   this->_mutex->unlock();
   return (false);
+}
+
+bool				ClientUpdater::newGuild(FD const fd, Guild *guild) const
+{
+  bool				ret = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	ret = (*it).first->newGuild(guild);
+    }
+  this->_mutex->unlock();
+  return (ret);
+}
+
+bool				ClientUpdater::inGuild(FD const fd, bool &guild) const
+{
+  bool				ret = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  guild = (*it).first->inGuild();
+	  ret = true;
+	}
+    }
+  this->_mutex->unlock();
+  return (ret);
 }
 
 bool				ClientUpdater::merge(FD const fd, unsigned int const idStack, unsigned int const idStack2) const

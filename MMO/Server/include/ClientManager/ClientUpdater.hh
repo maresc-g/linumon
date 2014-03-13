@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Wed Mar 12 22:42:20 2014 laurent ansel
+// Last update Thu Mar 13 16:35:07 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -47,6 +47,9 @@ public:
   bool				setTalents(FD const fd, std::string const &talent, unsigned int const pts) const;
   bool				playerObject(FD const fd, unsigned int const target, unsigned int const item) const;
   bool				playerObject(FD const fd, unsigned int const item, int const nb) const;
+
+  bool				newGuild(FD const fd, Guild *guild) const;
+  bool				inGuild(FD const fd, bool &guild) const;
 
   bool				merge(FD const fd, unsigned int const idStack, unsigned int const idStack2) const;
   bool				newStack(FD const fd, unsigned int const idStack, unsigned int const nb) const;
