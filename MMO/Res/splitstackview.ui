@@ -48,6 +48,12 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="maxLength">
+    <number>2</number>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
   </widget>
  </widget>
  <resources/>

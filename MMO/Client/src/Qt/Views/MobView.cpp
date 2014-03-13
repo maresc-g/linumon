@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Wed Mar 12 17:13:24 2014 guillaume marescaux
+// Last update Wed Mar 12 21:14:53 2014 guillaume marescaux
 //
 
 #include			<QMenu>
@@ -190,4 +190,6 @@ void				MobView::dropEvent(QDropEvent *de)
       Client::getInstance()->switchMobs(_mob->getId(), mob->getId());
       setInfos(mob);
     }
+  // else if (infos && sourceInfos && (infos->name == "tradeview" || sourceInfos->name == "tradeview"))
+  //   _wMan->getSFMLView()->getTradeView()->handleMobChange(de->source(), this);
 }

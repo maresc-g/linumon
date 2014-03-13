@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Feb 26 14:22:32 2014 guillaume marescaux
-// Last update Thu Feb 27 10:47:09 2014 guillaume marescaux
+// Last update Thu Mar 13 12:38:00 2014 guillaume marescaux
 //
 
 #ifndef 		__CRAFTVIEW_HH__
@@ -30,6 +30,7 @@ private:
   Ui::craftview		ui;
   WindowManager		*_wMan;
   Craft const		*_craft;
+  std::list<StackView*>	*_stacks;
 
 private:
 
