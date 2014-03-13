@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Thu Mar 13 22:22:39 2014 alexis mestag
+// Last update Thu Mar 13 22:44:03 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -169,62 +169,45 @@ void				Digitaliser::deleteMobs(container_type &c)
 
 bool				Digitaliser::switchMobs(unsigned int const id1, unsigned int const id2)
 {
-  std::function<bool(Mob *)>	mobSeeker1 = [&](Mob *m) -> bool {
-    return (m->getId() == id1);
-  };
-  std::function<bool(Mob *)>	mobSeeker2 = [&](Mob *m) -> bool {
-    return (m->getId() == id2);
-  };
-  auto				it = std::find_if(this->begin(), this->end(), mobSeeker1);
-  auto				jt = std::find_if(this->_battleMobs.begin(),
-						  this->_battleMobs.end(), mobSeeker2);
-  bool				ret = false;
+  auto				mob1 = this->begin();
+  bool				setMob1 = false;
+  auto				mob2 = this->begin();
+  bool				setMob2 = false;
+  Mob				*tmp;
 
-  if (it != this->end() && jt != this->_battleMobs.end()) {
-    this->getContainer().splice(it, this->_battleMobs, jt);
-    this->_battleMobs.splice(jt, this->getContainer(), it);
-    ret = true;
-  }
-  return (ret);
-  // auto				mob1 = this->begin();
-  // bool				setMob1 = false;
-  // auto				mob2 = this->begin();
-  // bool				setMob2 = false;
-  // Mob				*tmp;
-
-  // for (auto it = this->begin() ; it != this->end() && (!setMob1 || !setMob2); ++it)
-  //   {
-  //     if ((*it)->getId() == id1)
-  // 	{
-  // 	  setMob1 = true;
-  // 	  mob1 = it;
-  // 	}
-  //     if ((*it)->getId() == id2)
-  // 	{
-  // 	  setMob2 = true;
-  // 	  mob2 = it;
-  // 	}
-  //   }
-  // for (auto it = this->_battleMobs.begin() ; it != this->_battleMobs.end() && (!setMob1 || !setMob2) ; ++it)
-  //   {
-  //     if ((*it)->getId() == id1)
-  // 	{
-  // 	  setMob1 = true;
-  // 	  mob1 = it;
-  // 	}
-  //     if ((*it)->getId() == id2)
-  // 	{
-  // 	  setMob2 = true;
-  // 	  mob2 = it;
-  // 	}
-  //   }
-  // if (setMob1 && setMob2)
-  //   {
-  //     tmp = *mob1;
-  //     *mob1 = *mob2;
-  //     *mob2 = tmp;
-  //   }
-  // return (false);
+  for (auto it = this->begin() ; it != this->end() && (!setMob1 || !setMob2); ++it)
+    {
+      if ((*it)->getId() == id1)
+  	{
+  	  setMob1 = true;
+  	  mob1 = it;
+  	}
+      if ((*it)->getId() == id2)
+  	{
+  	  setMob2 = true;
+  	  mob2 = it;
+  	}
+    }
+  for (auto it = this->_battleMobs.begin() ; it != this->_battleMobs.end() && (!setMob1 || !setMob2) ; ++it)
+    {
+      if ((*it)->getId() == id1)
+  	{
+  	  setMob1 = true;
+  	  mob1 = it;
+  	}
+      if ((*it)->getId() == id2)
+  	{
+  	  setMob2 = true;
+  	  mob2 = it;
+  	}
+    }
+  if (setMob1 && setMob2)
+    {
+      tmp = *mob1;
+      *mob1 = *mob2;
+      *mob2 = tmp;
+    }
+  return (false);
 }
 
 bool				Digitaliser::serialization(Trame &trame) const
