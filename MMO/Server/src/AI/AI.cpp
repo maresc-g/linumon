@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Sun Mar  2 22:33:20 2014 antoine maitre
-// Last update Wed Mar 12 11:54:03 2014 antoine maitre
+// Last update Thu Mar 13 16:02:23 2014 antoine maitre
 //
 
 #include			"AI/AI.hh"
@@ -38,25 +38,45 @@ void				AI::remove(unsigned int const target)
       this->_mobs.erase(it);
 }
 
-int				AI::getRandomMob()
+void				AI::dswitch(unsigned int const target, unsigned int const targetBis)
 {
-  int i = rand() % this->getDigitaliser().getBattleMobs().size();
+  Mob				*tmp = NULL;
+  Mob				*tmp2 = NULL;
+
+  for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
+    if ((*it)->getId() == target)
+      tmp = (*it);
+  for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
+    if ((*it)->getId() == targetBis)
+      tmp2 = (*it);
+  for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
+    {
+      if ((*it)->getId() == targetBis)
+	(*it) = tmp;
+      else if ((*it)->getId() == target)
+	(*it) = tmp2;
+    }
+}
+
+int				AI::getRandomMob(int mob)
+{
+  int i = rand() % mob;
 
   for (auto it = this->_mobs.begin(); it != this->_mobs.end() && i >= 0; it++)
     {
       if (i == 0 && (*it)->getCurrentStat("HP") != 0)
 	return ((*it)->getId());
       else if (i == 0 && (*it)->getCurrentStat("HP") == 0)
-	return (this->getRandomMob());
+	return (this->getRandomMob(mob));
       i--;
     }
   return (-1);
 }
 
-std::tuple<unsigned int const, unsigned int const, Spell const *>			AI::action(unsigned int const mob)
+std::tuple<unsigned int const, unsigned int const, Spell const *>			AI::action(unsigned int const mob, unsigned int const nb)
 {
   Spell const			*tmp;
-  // int				target;
+  //int				target;
 
   for (auto it = this->getDigitaliser().getBattleMobs().begin(); it != this->getDigitaliser().getBattleMobs().end(); ++it)
     if ((*it)->getId() == mob)
@@ -69,6 +89,6 @@ std::tuple<unsigned int const, unsigned int const, Spell const *>			AI::action(u
 	    i--;
 	  }
       }
-  std::tuple<unsigned int const, unsigned int const, Spell const *> ret(mob, this->getRandomMob(), tmp);
+  std::tuple<unsigned int const, unsigned int const, Spell const *> ret(mob, this->getRandomMob(nb), tmp);
   return (ret);
 }

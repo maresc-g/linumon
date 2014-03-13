@@ -27,6 +27,7 @@
 			CHAT : {Message (pseudo + msg)} -> server
 
 			#  battle
+			ISINBATTLE : {id : int, inBattle : bool} -> server
 			LAUNCHBATTLE : {idBattle: int, enemy : APlayer} -> server
 			SPELL : {idBattle: int, spell : Spell, launcher : int, target : int} -> client / server
 			SPELLEFFECT : {idBattle: int, hpChange : int, target : int} -> server

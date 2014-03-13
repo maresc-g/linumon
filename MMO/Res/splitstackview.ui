@@ -39,17 +39,14 @@
     <string>Cancel</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="le_nb">
+  <widget class="QSpinBox" name="sb_nb">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
      <width>131</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
-   </property>
-   <property name="maxLength">
-    <number>2</number>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
