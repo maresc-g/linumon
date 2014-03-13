@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 17:41:44 2014 alexis mestag
-// Last update Thu Mar 13 14:41:24 2014 alexis mestag
+// Last update Thu Mar 13 22:35:06 2014 alexis mestag
 //
 
 #ifndef				__PLAYERREPOSITORY_HPP__
@@ -65,7 +65,19 @@ public:
     ** Updating Mobs
     */
     Repository<Mob>		*rm = &Database::getRepository<Mob>();
+    // std::cerr << "Updating " << p.getDigitaliser().size() << " mobs" << std::endl;
     for (auto it = p.getDigitaliser().begin() ; it != p.getDigitaliser().end() ; ++it) {
+      // std::cerr << "\tMob : " << (*it)->getName() << " (" << (*it) << ")" << std::endl;
+      rm->smartUpdate(**it, isInTr);
+    }
+
+    /*
+    ** Updating battleMobs
+    */
+    // std::cerr << "Updating " << p.getDigitaliser().getBattleMobs().size() << " battleMobs" << std::endl;
+    for (auto it = p.getDigitaliser().getBattleMobs().begin() ;
+	 it != p.getDigitaliser().getBattleMobs().end() ; ++it) {
+      // std::cerr << "\tMob : " << (*it)->getName() << " (" << (*it) << ")" << std::endl;
       rm->smartUpdate(**it, isInTr);
     }
 
