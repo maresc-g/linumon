@@ -5,11 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar 12 13:59:24 2014 guillaume marescaux
-<<<<<<< HEAD
-// Last update Fri Mar 14 15:55:05 2014 guillaume marescaux
-=======
-// Last update Fri Mar 14 13:00:37 2014 laurent ansel
->>>>>>> 13796ed8b9ed7e84e0c0e9042b0250140186fbe3
+// Last update Fri Mar 14 16:10:29 2014 guillaume marescaux
 //
 
 #include			<QValidator>
@@ -93,11 +89,7 @@ void				SplitStackView::on_b_cancel_clicked()
   hide();
 }
 
-<<<<<<< HEAD
 void				SplitStackView::setInfos(StackView *source, StackView *dest)
-=======
-void				SplitStackView::setInfos(Stack<AItem> const *stack)
->>>>>>> 13796ed8b9ed7e84e0c0e9042b0250140186fbe3
 {
   _source = source;
   _dest = dest;
