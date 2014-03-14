@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Fri Mar 14 17:14:03 2014 laurent ansel
+// Last update Fri Mar 14 22:41:52 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -145,7 +145,6 @@ void				Client::sendAllInformationModel() const
   Server::getInstance()->callProtocol("STUFFS", _id);
   Server::getInstance()->callProtocol("CONSUMABLES", _id);
   Server::getInstance()->callProtocol("RESSOURCES", _id);
-  Server::getInstance()->callProtocol("CARCASS", _id);
   Server::getInstance()->callProtocol("HEALS", _id);
   Server::getInstance()->callProtocol("SPELLSLIST", _id);
   Server::getInstance()->callProtocol("TALENTMODELS", _id);

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Fri Mar 14 17:18:18 2014 cyril jourdain
+// Last update Fri Mar 14 22:41:26 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -123,7 +123,6 @@ bool				consumables(unsigned int const id);
 bool				talentModels(unsigned int const id);
 bool				ressources(unsigned int const id);
 bool				heals(unsigned int const id);
-bool				carcass(unsigned int const id);
 bool				spells(unsigned int const id);
 bool				authorizedStatKeys(unsigned int const id);
 bool				mobtoBattleMob(unsigned int const id, unsigned int const idMob);
