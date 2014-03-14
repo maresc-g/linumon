@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar 14 16:17:10 2014 guillaume marescaux
+// Last update Fri Mar 14 16:39:35 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -661,7 +661,10 @@ void				Core::useObject(unsigned int target, unsigned int item)
   (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("USEOBJECT", _id, target, item);  
 }
 
-// void				unsigned interaction();
+void				Core::interaction(eInteraction interact, unsigned int targetId)
+{
+  (*_proto).operator()<unsigned int const, int, unsigned int>("INTERACTION", _id, interact, targetId);  
+}
 
 void				Core::putItem(unsigned int idTrade, unsigned int idStack)
 {

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Fri Mar 14 16:07:53 2014 guillaume marescaux
+// Last update Fri Mar 14 16:35:25 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -25,6 +25,7 @@
 #include			"Entities/Players.hh"
 #include			"Zone/Zone.hh"
 #include			"Entities/Spell.hh"
+#include			"Utility/CommonDefine.hh"
 
 class				Protocol;
 
@@ -88,7 +89,7 @@ bool				craft(unsigned int const id, std::string craftName, std::string jobName)
   // bool				gather();
 bool				objectEffect(unsigned int const id, unsigned int const target, Stats const *stats);
 bool				useObject(unsigned int const id, unsigned int target, unsigned int idItem);
-// bool				interaction();
+bool				interaction(unsigned int const id, eInteraction interact, unsigned int target);
 bool				launchTrade(unsigned int const id, unsigned int const idTrade, std::string namePlayer);
 bool				putItem(unsigned int const id, unsigned int const idTrade, Stack<AItem> const *item);
 bool				getItem(unsigned int const id, unsigned int const idTrade, Stack<AItem> const *item);
