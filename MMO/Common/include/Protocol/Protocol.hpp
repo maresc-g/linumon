@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Fri Mar 14 16:05:15 2014 guillaume marescaux
+// Last update Fri Mar 14 16:07:53 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -90,8 +90,8 @@ bool				objectEffect(unsigned int const id, unsigned int const target, Stats con
 bool				useObject(unsigned int const id, unsigned int target, unsigned int idItem);
 // bool				interaction();
 bool				launchTrade(unsigned int const id, unsigned int const idTrade, std::string namePlayer);
-bool				putItem(unsigned int const id, unsigned int const idTrade, AItem const *item);
-bool				getItem(unsigned int const id, unsigned int const idTrade, AItem const *item);
+bool				putItem(unsigned int const id, unsigned int const idTrade, Stack<AItem> const *item);
+bool				getItem(unsigned int const id, unsigned int const idTrade, Stack<AItem> const *item);
 bool				putMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
 bool				getMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
 bool				putItem(unsigned int const id, unsigned int const idTrade, unsigned int const idStack);
@@ -108,8 +108,8 @@ bool				disconnect(unsigned int const id);
 bool				switchPlayer(unsigned int const id);
 bool				sendTrameAlreadyReady(unsigned int const id, Trame *trame);
 
-bool				addToInventory(unsigned int const id, Stack *stack);
-bool				deleteFromInventory(unsigned int const id, std::list<Stack *> *stacks);
+bool				addToInventory(unsigned int const id, Stack<AItem> *stack);
+bool				deleteFromInventory(unsigned int const id, std::list<Stack<AItem> *> *stacks);
 bool				job(unsigned int const id, Job const *job);
 bool				newPlayer(unsigned int const id, Player *player, Zone *zone);
 bool				newZone(unsigned int const id, Player *player, Zone *oldZone, Zone *zone);
@@ -122,6 +122,7 @@ bool				consumables(unsigned int const id);
 bool				talentModels(unsigned int const id);
 bool				ressources(unsigned int const id);
 bool				heals(unsigned int const id);
+bool				carcass(unsigned int const id);
 bool				spells(unsigned int const id);
 bool				authorizedStatKeys(unsigned int const id);
 bool				mobtoBattleMob(unsigned int const id, unsigned int const idMob);

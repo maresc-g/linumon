@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:40:15 2014 laurent ansel
-// Last update Wed Mar 12 23:06:24 2014 laurent ansel
+// Last update Fri Mar 14 12:51:27 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -90,12 +90,12 @@ void				Craft::setExp(Level::type const exp)
   _level->setExp(exp);
 }
 
-Stack const			&Craft::getResult() const
+Stack<AItem> const		&Craft::getResult() const
 {
   return (*this->_result);
 }
 
-void				Craft::setResult(Stack const &result)
+void				Craft::setResult(Stack<AItem> const &result)
 {
   this->_result = &result;
 }
@@ -136,7 +136,7 @@ Craft				*Craft::deserialization(Trame const &trame, bool const)
   craft->setLevelObject(*Level::deserialization(trame(trame)));
   item = LoaderManager::getInstance()->getItemLoader(trame["RES"].asString());
   if (item)
-    craft->setResult(*new Stack(0, item, 1));
+    craft->setResult(*new Stack<AItem>(0, item, 1));
   // craft->setResult(*AItem::deserialization(trame(trame["RES"]), client));
   ingredients = new container_type;
   auto			members = trame["INGS"].getMemberNames();
@@ -145,7 +145,7 @@ Craft				*Craft::deserialization(Trame const &trame, bool const)
     {
       item = LoaderManager::getInstance()->getItemLoader(*it);
       if (item)
-	ingredients->push_back(new Stack(0, item, trame["INGS"][*it].asUInt()));
+	ingredients->push_back(new Stack<AItem>(0, item, trame["INGS"][*it].asUInt()));
       // if ((item = AItem::deserialization(trame(trame["INGS"][*it]), client)))
       // 	ingredients->push_back(std::make_pair(item, trame["INGS"][*it]["NB"].asUInt()));
     }

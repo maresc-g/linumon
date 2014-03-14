@@ -5,14 +5,14 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Feb 25 12:43:18 2014 laurent ansel
-// Last update Thu Mar 13 20:19:45 2014 laurent ansel
+// Last update Fri Mar 14 13:46:46 2014 laurent ansel
 //
 
 #include			<algorithm>
 #include			"Entities/Guild.hh"
 #ifndef				CLIENT_COMPILATION
 # include			"Database/Repositories/PlayerViewRepository.hpp"
-# include			"Entities/Guild-odb.hxx"
+# include			"Database/Repositories/GuildRepository.hpp"
 #endif
 
 Guild::Guild() :
@@ -142,7 +142,7 @@ Guild				*Guild::createAndPersist(std::string const &name)
 Guild				*Guild::getGuild(std::string const &name)
 {
   Repository<Guild>		&rg = Database::getRepository<Guild>();
-  Guild				*ret = new Guild(name);
+  Guild				*ret = rg.getByName(name);
 
   return (ret);
 }
@@ -157,16 +157,37 @@ void				Guild::addPlayer(PlayerView *playerView)
 bool				Guild::serialization(Trame &trame) const
 {
   bool				ret = true;
+  std::ostringstream		str;
 
-  trame["GUILD"] = this->getName();
+  trame[this->getName()];
+  for (auto it = this->begin() ; it != this->end() ; ++it)
+    {
+      (*it)->serialization(trame(trame[this->getName()][(*it)->name]));
+    }
   return (ret);
 }
 
 Guild				*Guild::deserialization(Trame const &trame)
 {
-  Guild			*guild = NULL;
+  Guild				*guild = NULL;
+  auto				members = trame.getMemberNames();
+  PlayerView			*view = NULL;
 
-  if (trame.isMember("GUILD"))
-    guild = new Guild(trame["GUILD"].asString());
+  for (auto it = members.begin() ; it != members.end() ; ++it)
+    {
+      guild = new Guild(*it);
+
+      auto			gmembers = trame[*it].getMemberNames();
+
+      for (auto im = gmembers.begin() ; im != gmembers.end() ; ++im)
+	{
+	  view = PlayerView::deserialization(trame(trame[*it][*im]));
+	  if (view)
+	    {
+	      view->name = *im;
+	      guild->addPlayer(view);
+	    }
+	}
+    }
   return (guild);
 }

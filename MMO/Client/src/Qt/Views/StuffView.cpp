@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Thu Mar 13 11:31:18 2014 guillaume marescaux
+// Last update Fri Mar 14 13:08:09 2014 laurent ansel
 //
 
 #include			<iostream>
@@ -52,7 +52,7 @@ void				StuffView::setStack(Equipment const *equipment, Stuff::eStuff stuff, int
   if (equipment->stuffExists(stuff))
     {
       stack = new StackView(this, _wMan,
-			    new Stack(equipment->getStuff(stuff).getId(), const_cast<Stuff *>(&equipment->getStuff(stuff)), 0));
+			    new Stack<AItem>(equipment->getStuff(stuff).getId(), const_cast<Stuff *>(&equipment->getStuff(stuff)), 0));
       stack->move(x, y);
       stack->resize(62, 58);
       stack->show();
@@ -224,7 +224,7 @@ void				StuffView::dragEnterEvent(QDragEnterEvent *event)
 
 void				StuffView::dropEvent(QDropEvent *de)
 {
-  Stack const			*stack = reinterpret_cast<Stack const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
+  Stack<AItem> const		*stack = reinterpret_cast<Stack<AItem> const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
 
   if (stack->getItem()->getItemType() == AItem::STUFF)
     {

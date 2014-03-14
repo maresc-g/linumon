@@ -5,13 +5,14 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Wed Mar 12 14:12:04 2014 laurent ansel
+## Last update Fri Mar 14 15:35:53 2014 laurent ansel
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
 			AItem.cpp		\
 			AStatEntity.cpp		\
 			ACharacter.cpp		\
+			Carcass.cpp		\
 			Consumable.cpp		\
 			Craft.cpp		\
 			DBZone.cpp		\
@@ -47,6 +48,7 @@ SRCCOMMON+=		$(ENTITIES_SRC)
 
 ODB_ENTITIES+=		ACharacter.hh		\
 			AStatEntity.hh		\
+			Carcass.hh		\
 			Consumable.hh		\
 			Craft.hh		\
 			DBZone.hh		\

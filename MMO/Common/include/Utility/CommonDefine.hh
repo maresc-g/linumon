@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Nov 28 16:59:05 2013 laurent ansel
-// Last update Tue Mar  4 11:21:03 2014 laurent ansel
+// Last update Fri Mar 14 16:05:19 2014 laurent ansel
 //
 
 #ifndef 		__COMMONDEFINE_HH__
@@ -29,5 +29,11 @@ typedef enum			eStuffAction
     PUT
   }				eStuffAction;
 
+typedef enum			eInteraction
+  {
+    NONE,
+    AGRO,
+    TRADE
+  }				eInteraction;
 
 #endif

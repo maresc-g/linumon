@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Thu Mar 13 22:44:03 2014 laurent ansel
+// Last update Fri Mar 14 13:09:36 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -110,13 +110,16 @@ void				Digitaliser::addBattleMob(Mob &mob)
 
 bool				Digitaliser::battleMobtoMob(unsigned int const id)
 {
-  for (auto it = _battleMobs.begin() ; it != _battleMobs.end() ; ++it)
+  if (_battleMobs.size() > 1)
     {
-      if ((*it)->getId() == id)
+      for (auto it = _battleMobs.begin() ; it != _battleMobs.end() ; ++it)
 	{
-	  this->addMob(**it);
-	  _battleMobs.erase(it);
-	  return (true);
+	  if ((*it)->getId() == id)
+	    {
+	      this->addMob(**it);
+	      _battleMobs.erase(it);
+	      return (true);
+	    }
 	}
     }
   return (false);
