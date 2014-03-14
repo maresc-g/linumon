@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Fri Mar 14 11:59:51 2014 alexis mestag
+// Last update Fri Mar 14 15:43:15 2014 alexis mestag
 //
 
 #include			<algorithm>
@@ -113,12 +113,15 @@ Stat::value_type		Mob::getMaxStat(std::string const &key) const
   Stat::value_type		ret = Stat::value_type();
 
   if (sk) {
-    ret = this->getModel().getStat(key) * 2 + 31 + 100 / 4;
-    ret *= this->getLevel() / 100;
-    ret += (sk->isShortLived() ? 5 : (this->getLevel() + 10));
-    ret += this->getStat(key);
+    double			tmp;
+
+    tmp = this->getModel().getStat(key) * 2.0 + 31.0 + 25.0; // (25 = 100 EV / 4)
+    tmp *= this->getLevel() / 100.0;
+    tmp += (sk->isShortLived() ? 5.0 : (this->getLevel() + 10.0));
+    tmp += this->getStat(key);
     if (player)
-      ret += player->getStat(key);
+      tmp += player->getStat(key);
+    ret = tmp;
   }
   return (ret);
 }

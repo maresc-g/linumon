@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 17:41:44 2014 alexis mestag
-// Last update Thu Mar 13 22:35:06 2014 alexis mestag
+// Last update Fri Mar 14 17:11:33 2014 alexis mestag
 //
 
 #ifndef				__PLAYERREPOSITORY_HPP__
@@ -26,6 +26,22 @@ private:
   virtual ~Repository() {}
 
 public:
+  Player			*getByName(std::string const &name, bool const inTr = false) {
+    Database::Transaction	*t = Database::getNewTransaction(inTr);
+    Database::Query<Player>	query(Database::Query<Player>::name == name);
+    Database::Result<Player>	result(Database::getInstance()->getDb()->query<Player>(query));
+    Player			*ret = NULL;
+
+    if (result.size())
+      ret = result.begin().load();
+
+    if (t) {
+      t->commit();
+      delete t;
+    }
+    return (ret);
+  }
+
   virtual void			smartUpdate(Player &p, bool const inTr = false) {
     Database::Transaction	*t = Database::getNewTransaction(inTr);
     bool			isInTr = (t || inTr) ? true : false;

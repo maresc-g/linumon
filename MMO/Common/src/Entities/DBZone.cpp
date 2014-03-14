@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb 10 14:23:57 2014 alexis mestag
-// Last update Tue Mar 11 16:31:20 2014 laurent ansel
+// Last update Fri Mar 14 17:06:39 2014 alexis mestag
 //
 
 #include			"Entities/DBZone.hh"
@@ -69,7 +69,11 @@ Mob				*DBZone::getRandomMob() const
 
   if (this->getMobModels().size())
     {
-      ret = new Mob(*(*randomElement()), this->getAverageLevel());
+      Level::type			level = this->getAverageLevel() * 10.0 / 100.0;
+      Level::type			m[2] = {this->getAverageLevel() - level, this->getAverageLevel() + level};
+
+      level = rand() % (m[1] - m[0]) + m[0];
+      ret = new Mob(*(*randomElement()), level);
     }
   return (ret);
 }
