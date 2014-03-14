@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 10:15:18 2014 alexis mestag
-// Last update Fri Mar 14 12:59:10 2014 alexis mestag
+// Last update Fri Mar 14 13:48:09 2014 laurent ansel
 //
 
 #ifndef				__PLAYERVIEW_HH__
@@ -15,8 +15,9 @@
 # include			"Entities/Player.hh"
 # include			"Entities/User.hh"
 # include			"Entities/Faction.hh"
+# include			"Utility/ISerialization.hh"
 
-class				PlayerView
+class				PlayerView : public ISerialization
 {
 public:
   unsigned long			persistentId;
@@ -47,6 +48,24 @@ public:
       this->guild = rhs.guild;
     }
     return (*this);
+  }
+
+  virtual bool		serialization(Trame &trame) const
+  {
+    bool		ret = true;
+
+    trame["LVL"] = level;
+    trame["FAC"] = faction;
+    return (ret);
+  }
+
+  static PlayerView	*deserialization(Trame const &trame)
+  {
+    PlayerView		*view = new PlayerView;
+
+    view->level = trame["LVL"].asUInt();
+    view->faction = trame["FAC"].asString();
+    return (view);
   }
 };
 

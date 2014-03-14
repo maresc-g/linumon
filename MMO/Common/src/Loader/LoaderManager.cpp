@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 15:04:36 2014 laurent ansel
-// Last update Sat Mar  8 16:12:49 2014 laurent ansel
+// Last update Fri Mar 14 15:32:11 2014 laurent ansel
 //
 
 #include			<functional>
@@ -18,6 +18,7 @@ LoaderManager::LoaderManager():
   _consumables(new MutexVar<ConsumableLoader *>(NULL)),
   _ressources(new MutexVar<RessourceLoader *>(NULL)),
   _authorizedStatKeys(new MutexVar<AuthorizedStatKeyLoader *>(NULL)),
+  _carcasss(new MutexVar<CarcassLoader *>(NULL)),
   _heals(new MutexVar<HealLoader *>(NULL)),
   _talentModels(new MutexVar<TalentModelLoader *>(NULL)),
   _jobModels(new MutexVar<JobModelLoader *>(NULL)),
@@ -34,6 +35,7 @@ LoaderManager::~LoaderManager()
   delete _jobModels;
   delete _stuffs;
   delete _consumables;
+  delete _carcasss;
   delete _talentModels;
   delete _heals;
   delete _ressources;
@@ -45,6 +47,7 @@ void				LoaderManager::init()
   _spells->setVar(new SpellLoader);
   _stuffs->setVar(new StuffLoader);
   _consumables->setVar(new ConsumableLoader);
+  _carcasss->setVar(new CarcassLoader);
   _heals->setVar(new HealLoader);
   _ressources->setVar(new RessourceLoader);
   _authorizedStatKeys->setVar(new AuthorizedStatKeyLoader);
@@ -71,6 +74,11 @@ MutexVar<StuffLoader *>		*LoaderManager::getStuffLoader() const
 MutexVar<ConsumableLoader *>	*LoaderManager::getConsumableLoader() const
 {
   return (this->_consumables);
+}
+
+MutexVar<CarcassLoader *>	*LoaderManager::getCarcassLoader() const
+{
+  return (this->_carcasss);
 }
 
 MutexVar<SpellLoader *>		*LoaderManager::getSpellLoader() const
@@ -128,6 +136,11 @@ bool				LoaderManager::setConsumableLoader(Trame *trame)
   return ((**_consumables)->deserialization(*trame));
 }
 
+bool				LoaderManager::setCarcassLoader(Trame *trame)
+{
+  return ((**_carcasss)->deserialization(*trame));
+}
+
 bool				LoaderManager::setSpellLoader(Trame *trame)
 {
   return ((**_spells)->deserialization(*trame));
@@ -168,6 +181,9 @@ void				LoaderManager::initReception(Protocol &protocol) const
 
   func = std::bind1st(std::mem_fun(&LoaderManager::setConsumableLoader), this);
   protocol.addFunc("CONSUMABLES", func);
+
+  func = std::bind1st(std::mem_fun(&LoaderManager::setCarcassLoader), this);
+  protocol.addFunc("CARCASSS", func);
 
   func = std::bind1st(std::mem_fun(&LoaderManager::setSpellLoader), this);
   protocol.addFunc("SPELLSLIST", func);

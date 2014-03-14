@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Thu Mar 13 15:48:42 2014 guillaume marescaux
+// Last update Fri Mar 14 13:06:45 2014 laurent ansel
 //
 
 #include <iostream>
@@ -84,7 +84,7 @@ void				InventoryView::stackAction(StackView *stackView)
   if (stackView->getStack().getItem()->getItemType() == AItem::STUFF)
     {
       Stuff const               *stuff = static_cast<Stuff const *>(stackView->getStack().getItem());
-      Stack const		*stack = &stackView->getStack();
+      auto			*stack = &stackView->getStack();
       bool                      ret;
 
       if (!_wMan->getSFMLView()->getStuffView()->getLast() || _wMan->getSFMLView()->getStuffView()->getLast()->getCharacterType() == ACharacter::PLAYER)

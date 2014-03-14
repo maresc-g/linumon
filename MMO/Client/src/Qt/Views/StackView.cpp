@@ -5,14 +5,14 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Thu Mar 13 16:03:11 2014 guillaume marescaux
+// Last update Fri Mar 14 16:08:16 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
 #include			<boost/algorithm/string.hpp>
 #include			"Qt/Views/StackView.hh"
 
-StackView::StackView(QWidget *parent, WindowManager *wMan, Stack const *stack):
+StackView::StackView(QWidget *parent, WindowManager *wMan, Stack<AItem> const *stack):
   QWidget(parent), _wMan(wMan), _stack(stack), _x(0), _y(0)
 {
   ui.setupUi(this);
@@ -84,7 +84,7 @@ void				StackView::enterEvent(QEvent *)
   // QToolTip::showText(this->mapToGlobal( QPoint( 0, 0 ) ), "STACK DESCRIPTION" );
 }
 
-void				StackView::setInfos(Stack const *stack)
+void				StackView::setInfos(Stack<AItem> const *stack)
 {
   _stack = stack;
   if (stack && !stack->empty())
@@ -121,7 +121,7 @@ void				StackView::move(int x, int y)
   _y = y;
 }
 
-Stack const			&StackView::getStack() const { return (*_stack); }
+Stack<AItem> const		&StackView::getStack() const { return (*_stack); }
 
 void				StackView::makeDrag()
 {
@@ -138,12 +138,12 @@ void				StackView::makeDrag()
       dr->start();
     }
 }
- 
+
 void				StackView::dragMoveEvent(QDragMoveEvent *de)
 {
   de->accept();
 }
- 
+
 void				StackView::dragEnterEvent(QDragEnterEvent *event)
 {
   event->acceptProposedAction();
@@ -178,19 +178,19 @@ ParentInfos			*StackView::getNameFirstParent(QWidget *parent)
     }
   return (NULL);
 }
- 
+
 void				StackView::dropEvent(QDropEvent *de)
 {
   ParentInfos			*infos = getNameFirstParent(this);
   ParentInfos			*sourceInfos = getNameFirstParent(de->source());
-  Stack const			*stack = reinterpret_cast<Stack const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
+  Stack<AItem> const		*stack = reinterpret_cast<Stack<AItem> const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
 
-  if (infos && sourceInfos && (infos->name == "tradeview" || sourceInfos->name == "tradeview"))
-    ;
+  // if (infos && sourceInfos && (infos->name == "tradeview" || sourceInfos->name == "tradeview"))
+  //   ;
    // _wMan->getSFMLView()->getTradeView()->handleStackChange(de->source(), this);
-  else if (infos->name == "inventoryview" && sourceInfos->name == "inventoryview" && (!_stack || _stack->getNb() == 0))
+  if (/*infos->name == "inventoryview" && sourceInfos->name == "inventoryview" &&*/ (!_stack || _stack->getNb() == 0))
     {
-      _wMan->getSFMLView()->getSplitStackView()->setInfos(stack);
+      _wMan->getSFMLView()->getSplitStackView()->setInfos(static_cast<StackView *>(de->source()), this);
       _wMan->getSFMLView()->getSplitStackView()->show();
     }
   else if (this != de->source() && infos->name == "inventoryview" && sourceInfos->name == "inventoryview" &&

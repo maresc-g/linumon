@@ -5,15 +5,17 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb 20 13:28:48 2014 guillaume marescaux
-// Last update Wed Mar 12 22:35:45 2014 guillaume marescaux
+// Last update Fri Mar 14 16:14:15 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/TradeView.hh"
 
 TradeView::TradeView(QWidget *parent, WindowManager *wMan):
   QWidget(parent), _wMan(wMan),
-  _mobs(new std::list<MobView *>), _otherMobs(new std::list<MobView *>),
-  _stacks(new std::list<StackView *>), _otherStacks(new std::list<StackView *>)
+  _mobViews(new std::list<MobView *>), _otherMobViews(new std::list<MobView *>),
+  _stackViews(new std::list<StackView *>), _otherStackViews(new std::list<StackView *>),
+  _hiddenMobViews(new std::list<MobView *>), _hiddenOtherMobViews(new std::list<MobView *>),
+  _hiddenStackViews(new std::list<StackView *>), _hiddenOtherStackViews(new std::list<StackView *>)
 {
   ui.setupUi(this);
 }
@@ -41,48 +43,143 @@ void				TradeView::on_b_cancel_clicked()
   Client::getInstance()->refuse();
 }
 
-void				TradeView::setInfos(std::string const &name)
+void				TradeView::reset()
+{
+}
+
+void				TradeView::setInfos(MutexVar<Trade *> *trade)
 {
   StackView			*stack;
   MobView			*mob;
 
   ui.l_name->setText((**_wMan->getMainPlayer())->getName().c_str());
-  ui.l_otherName->setText(name.c_str());
+  ui.l_otherName->setText((**trade)->getName().c_str());
   ui.le_money->setText("0");
   ui.l_otherMoney->setText("0");
-  _mobs->clear();
-  _otherMobs->clear();
-  _stacks->clear();
-  _otherStacks->clear();
+
+  _mobViews->clear();
+  _otherMobViews->clear();
+  _stackViews->clear();
+  _otherStackViews->clear();
+
+  for (auto it = _hiddenMobViews->begin() ; it != _hiddenMobViews->end() ; it++)
+    delete *it;
+  _hiddenMobViews->clear();
+  for (auto it = _mobViews->begin() ; it != _mobViews->end() ; it++)
+    {
+      (*it)->hide();
+      _hiddenMobViews->push_back(*it);
+    }
+  _mobViews->clear();
+
+  for (auto it = _hiddenOtherMobViews->begin() ; it != _hiddenOtherMobViews->end() ; it++)
+    delete *it;
+  _hiddenOtherMobViews->clear();
+  for (auto it = _otherMobViews->begin() ; it != _otherMobViews->end() ; it++)
+    {
+      (*it)->hide();
+      _hiddenOtherMobViews->push_back(*it);
+    }
+  _otherMobViews->clear();
+
+  for (auto it = _hiddenStackViews->begin() ; it != _hiddenStackViews->end() ; it++)
+    delete *it;
+  _hiddenStackViews->clear();
+  for (auto it = _stackViews->begin() ; it != _stackViews->end() ; it++)
+    {
+      (*it)->hide();
+      _hiddenStackViews->push_back(*it);
+    }
+  _stackViews->clear();
+
+  for (auto it = _hiddenOtherStackViews->begin() ; it != _hiddenOtherStackViews->end() ; it++)
+    delete *it;
+  _hiddenOtherStackViews->clear();
+  for (auto it = _otherStackViews->begin() ; it != _otherStackViews->end() ; it++)
+    {
+      (*it)->hide();
+      _hiddenOtherStackViews->push_back(*it);
+    }
+  _otherStackViews->clear();
+
+  auto				itStacks = (**trade)->getPlayerStacks().begin();
+  auto				itOtherStacks = (**trade)->getOtherStacks().begin();
+  auto				itMobs = (**trade)->getPlayerMobs().begin();
+  auto				itOtherMobs = (**trade)->getOtherMobs().begin();
+
   for (int i = 0 ; i < 15 ; i++)
     {
-      stack = new StackView(ui.f_stacks, _wMan);
-      _stacks->push_back(stack);
+      if (itStacks != (**trade)->getPlayerStacks().end())
+	{
+	  stack = new StackView(ui.f_stacks, _wMan, *itStacks);
+	  itStacks++;
+	}
+      else
+	stack = new StackView(ui.f_stacks, _wMan);
+      _stackViews->push_back(stack);
       stack->move(i % 3 * 50 + i % 3, i / 3 * 50);
       stack->resize(50, 50);
       stack->show();
-      stack = new StackView(ui.f_otherStacks, _wMan);
-      _otherStacks->push_back(stack);
+
+      if (itOtherStacks != (**trade)->getOtherStacks().end())
+	{
+	  stack = new StackView(ui.f_otherStacks, _wMan, *itStacks);
+	  itOtherStacks++;
+	}
+      else
+	stack = new StackView(ui.f_otherStacks, _wMan);
+      _otherStackViews->push_back(stack);
       stack->move(i % 3 * 50 + i % 3, i / 3 * 50);
       stack->resize(50, 50);
       stack->show();
-      mob = new MobView(ui.f_mobs, _wMan);
-      _mobs->push_back(mob);
+
+      if (itMobs != (**trade)->getPlayerMobs().end())
+	{
+	  mob = new MobView(ui.f_mobs, _wMan, *itMobs);
+	  itMobs++;
+	}
+      else
+	mob = new MobView(ui.f_mobs, _wMan);
+      _mobViews->push_back(mob);
       mob->move(i % 3 * 50 + i % 3, i / 3 * 50);
       mob->resize(50, 50);
       mob->show();
-      mob = new MobView(ui.f_otherMobs, _wMan);
-      _otherMobs->push_back(mob);
+
+      if (itOtherMobs != (**trade)->getOtherMobs().end())
+	{
+	  mob = new MobView(ui.f_otherMobs, _wMan, *itOtherMobs);
+	  itOtherMobs++;
+	}
+      else
+	mob = new MobView(ui.f_otherMobs, _wMan);
+      _otherMobViews->push_back(mob);
       mob->move(i % 3 * 50 + i % 3, i / 3 * 50);
       mob->resize(50, 50);
       mob->show();
     }
 }
 
-void				TradeView::handleStackChange(StackView *source, StackView *dest)
-{
-}
+// void				TradeView::putStackToTrade(Stack<AItem> const *stack)
+// {
+//   (**trade)->getPlayerStacks()->push_back(stack);
+//   setInfos(_name);
+// }
 
-void				TradeView::handleMobChange(MobView *source, MobView *dest)
+// void				TradeView::getStackFromTrade(Stack<AItem> const *stack)
+// {
+//   auto it = find_if((**trade)->getPlayerStacks()->begin(), (**trade)->getPlayerStacks()->end(), [&](Stack<AItem> const *val){
+//       if (val->getId() == stack->getId())
+//   	return true;
+//       return false;
+//     });
+
+//   if (it != (**trade)->getPlayerStacks()->end())
+//     {
+//       (**trade)->getPlayerStacks()->erase(it);
+//       setInfos(_name);
+//     }
+// }
+
+void				TradeView::handleMobChange(MobView *, MobView *)
 {
 }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:37:01 2013 alexis mestag
-// Last update Fri Mar 14 12:01:01 2014 alexis mestag
+// Last update Fri Mar 14 13:38:51 2014 guillaume marescaux
 //
 
 #include			"Entities/ACharacter.hh"
@@ -172,10 +172,10 @@ void				ACharacter::setInBattle(bool const inBattle)
 
 void				ACharacter::enterBattle()
 {
-  this->setInBattle(false);
+  this->setInBattle(true);
 }
 
 void				ACharacter::leaveBattle()
 {
-  this->setInBattle(true);
+  this->setInBattle(false);
 }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:16:30 2014 guillaume marescaux
-// Last update Wed Mar 12 22:05:27 2014 guillaume marescaux
+// Last update Fri Mar 14 13:01:57 2014 laurent ansel
 //
 
 #ifndef 		__STACKVIEW_HH__
@@ -24,16 +24,16 @@ class			StackView : public QWidget
 
 public:
 
-  StackView(QWidget *, WindowManager *wMan, Stack const *stack);
+  StackView(QWidget *, WindowManager *wMan, Stack<AItem> const *stack);
   StackView(QWidget *parent, WindowManager *wMan);
   virtual ~StackView();
-  Stack const		&getStack(void) const;
+  Stack<AItem> const	&getStack(void) const;
 
 private:
 
   Ui::stackview		ui;
   WindowManager		*_wMan;
-  Stack	const		*_stack;
+  Stack<AItem>	const	*_stack;
   int			_x;
   int			_y;
 
@@ -42,7 +42,7 @@ private:
   virtual void		paintEvent(QPaintEvent *);
   virtual void		enterEvent(QEvent *event);
   virtual void		mouseDoubleClickEvent(QMouseEvent *event);
-  void			setInfos(Stack const *stack);
+  void			setInfos(Stack<AItem> const *stack);
   virtual void		mousePressEvent(QMouseEvent *);
   void			makeDrag();
   ParentInfos		*getNameFirstParent(QWidget *parent);

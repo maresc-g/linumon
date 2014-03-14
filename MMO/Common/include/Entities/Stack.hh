@@ -5,65 +5,208 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar 12 13:49:57 2014 laurent ansel
-// Last update Thu Mar 13 16:56:49 2014 laurent ansel
+// Last update Fri Mar 14 13:23:09 2014 laurent ansel
 //
 
 #ifndef 			__STACK_HH__
 # define 			__STACK_HH__
 
-# include			"Utility/ISerialization.hh"
+#include			<sstream>
 # include			"Entities/AItem.hh"
 # include			"Utility/ISerialization.hh"
 
+AItem				*getItemLoader(std::string const &name);
+
+template <typename T = AItem>
 class				Stack : public ISerialization
 {
 private:
   unsigned int			_id;
-  AItem				*_item;
+  T				*_item;
   unsigned int			_nb;
 
 private:
-  Stack(Stack const &rhs);
-  Stack				&operator=(Stack const &rhs);
+  Stack(Stack<T> const &rhs)
+  {
+    *this = rhs;
+  }
+
+  Stack<T>			&operator=(Stack<T> const &rhs)
+  {
+    if (this != &rhs)
+      {
+	this->setItem(rhs.getItem());
+	this->setNb(rhs.getNb());
+      }
+    return (*this);
+  }
 
 public:
-  Stack(unsigned int const id, AItem *item = NULL, unsigned int const nb = 0);
-  Stack(unsigned int const id, AItem const *item, unsigned int const nb = 0);
-  virtual ~Stack();
+  Stack(unsigned int const id, T *item = NULL, unsigned int const nb = 0):
+    _id(id),
+    _item(item),
+    _nb(nb)
+  {
+  }
 
-  unsigned int			getId() const;
-  void				setId(unsigned int const id);
+  Stack(unsigned int const id, T const *item, unsigned int const nb = 0):
+    _id(id),
+    _item(const_cast<AItem *>(item)),
+    _nb(nb)
+  {
+  }
 
-  void				setItem(AItem *item);
-  AItem				*getItem() const;
+  virtual ~Stack()
+  {
+  }
 
-  void				setNb(unsigned int const nb);
-  unsigned int			getNb() const;
+  unsigned int			getId() const
+  {
+    return (_id);
+  }
 
-  unsigned int			operator+(unsigned int const nb);
-  unsigned int			operator-(unsigned int const nb);
+  void				setId(unsigned int const id)
+  {
+    _id = id;
+  }
 
-  Stack				&operator+=(unsigned int const nb);
-  Stack				&operator-=(unsigned int const nb);
-  Stack				&operator/=(unsigned int const nb);
+  void				setItem(T *item)
+  {
+    _item = item;
+  }
 
-  bool				operator<=(unsigned int const nb) const;
-  bool				operator>=(unsigned int const nb) const;
-  bool				operator<(unsigned int const nb) const;
-  bool				operator>(unsigned int const nb) const;
+  T				*getItem() const
+  {
+    return (_item);
+  }
 
-  bool				operator==(std::string const &name) const;
-  bool				operator!=(std::string const &name) const;
 
-  bool				operator==(unsigned int const id) const;
-  bool				operator!=(unsigned int const id) const;
+  void				setNb(unsigned int const nb)
+  {
+    _nb = nb;
+  }
 
-  operator bool() const;
+  unsigned int			getNb() const
+  {
+    return (_nb);
+  }
 
-  bool				empty() const;
+  unsigned int			operator+(unsigned int const nb)
+  {
+    return (_nb + nb);
+  }
 
-  bool				serialization(Trame &trame) const;
-  static Stack			*deserialization(Trame const &trame);
+  unsigned int			operator-(unsigned int const nb)
+  {
+    return (_nb - nb);
+  }
+
+  Stack<T>			&operator+=(unsigned int const nb)
+  {
+    _nb += nb;
+    return (*this);
+  }
+
+  Stack<T>			&operator-=(unsigned int const nb)
+  {
+    _nb -= nb;
+    return (*this);
+  }
+
+  Stack<T>			&operator/=(unsigned int const nb)
+  {
+    if (nb)
+      _nb /= nb;
+    return (*this);
+  }
+
+  bool				operator<=(unsigned int const nb) const
+  {
+    return (_nb <= nb);
+  }
+
+  bool				operator>=(unsigned int const nb) const
+  {
+    return (_nb >= nb);
+  }
+
+  bool				operator<(unsigned int const nb) const
+  {
+    return (_nb < nb);
+  }
+
+  bool				operator>(unsigned int const nb) const
+  {
+    return (_nb > nb);
+  }
+
+  bool				operator==(std::string const &name) const
+  {
+    if (_item)
+      return (_item->getName() == name);
+    return (false);
+  }
+
+  bool				operator!=(std::string const &name) const
+  {
+    if (_item)
+      return (_item->getName() != name);
+    return (true);
+  }
+
+  bool				operator==(unsigned int const id) const
+  {
+    if (_item)
+      return (_item->getId() == id);
+    return (false);
+  }
+
+  bool				operator!=(unsigned int const id) const
+  {
+    if (_item)
+      return (_item->getId() != id);
+    return (true);
+  }
+
+  operator bool() const
+  {
+    return (empty());
+  }
+
+  bool				empty() const
+  {
+    if (_nb == 0)
+      return (true);
+    return (false);
+  }
+
+
+  bool				serialization(Trame &trame) const
+  {
+    bool				ret = false;
+    std::ostringstream		str;
+
+    if (_item)
+      {
+	str << _id;
+	trame[str.str()][_item->getName()] = _nb;
+	ret = true;
+      }
+    return (ret);
+  }
+
+  static Stack<T>		*deserialization(Trame const &trame)
+  {
+    Stack<T>			*stack = new Stack<T>(0);
+    auto			item = trame.getMemberNames();
+
+    for (auto it = item.begin() ; it != item.end() ; ++it)
+      {
+	stack->setItem(getItemLoader(*it));
+	stack->setNb(trame[*it].asUInt());
+      }
+    return (stack);
+  }
 };
 
 #endif

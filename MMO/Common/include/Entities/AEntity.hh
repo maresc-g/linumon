@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 19:48:29 2013 alexis mestag
-// Last update Tue Mar 11 15:12:56 2014 alexis mestag
+// Last update Fri Mar 14 13:58:22 2014 laurent ansel
 //
 
 #ifndef			__AENTITY_HH__
@@ -25,8 +25,10 @@ public:
       ITEM,
       STATENTITY,
       PNJ,
-      RESSOURCE
+      RESSOURCE,
+      CARCASS
     }			eEntity;
+
 private:
   eEntity		_entityType;
 

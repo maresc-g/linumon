@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Thu Mar 13 14:19:38 2014 laurent ansel
+// Last update Fri Mar 14 15:30:35 2014 laurent ansel
 //
 
 #ifndef 			__INVENTORY_HH__
@@ -17,10 +17,12 @@
 # include			"Database/Persistent.hh"
 # include			"JsonFile/JsonFile.hh"
 # include			"Utility/Wrapper.hpp"
-# include			"Entities/Stack.hh"
+
+template<typename T>
+class				Stack;
 
 class				Inventory : public ISerialization, public Persistent,
-					    public ContainerWrapper<std::list<Stack *> >
+					    public ContainerWrapper<std::list<Stack<AItem> *> >
 {
 private:
   std::string			_path;
@@ -52,10 +54,10 @@ public:
   void				setLimit(unsigned int const limit);
 
   void				deleteItem(unsigned int const stack);
-  void				deleteItem(Stack *stack);
+  void				deleteItem(Stack<AItem> *stack);
 
   void				addItem(AItem *item);
-  void				addItem(Stack *stack);
+  void				addItem(Stack<AItem> *stack);
   void				addItem(AItem *item, unsigned int const nb, bool const merge = true);
 
   AItem				*getItem(unsigned int const stack) const;
@@ -63,13 +65,15 @@ public:
 
   unsigned int			getIdItem(std::string const &name) const;
 
-  Stack				*getStack(unsigned int const id) const;
+  Stack<AItem>			*getStack(unsigned int const id) const;
 
   void				mergeStack(unsigned int const idStack, unsigned int const idStack2);
-  void				splitStack(unsigned int const idStack, unsigned int const nb);
+  unsigned int			splitStack(unsigned int const idStack, unsigned int const nb);
 
   virtual bool			serialization(Trame &trame) const;
   static Inventory		*deserialization(Trame const &trame);
 };
+
+# include			"Entities/Stack.hh"
 
 #endif

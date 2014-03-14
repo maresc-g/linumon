@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Thu Mar 13 13:52:42 2014 guillaume marescaux
+// Last update Fri Mar 14 15:56:11 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -91,9 +91,9 @@ void				Client::useObject(unsigned int target, unsigned int item) { _core->useOb
 
 // void				Client::unsigned interaction();
 
-void				Client::putItem(unsigned int idTrade, unsigned int idItem) { _core->putItem(idTrade, idItem); }
+void				Client::putItem(unsigned int idTrade, unsigned int idStack) { _core->putItem(idTrade, idStack); }
 
-void				Client::getItem(unsigned int idTrade, unsigned int idItem) { _core->getItem(idTrade, idItem); }
+void				Client::getItem(unsigned int idTrade, unsigned int idStack) { _core->getItem(idTrade, idStack); }
 
 void				Client::putMob(unsigned int idTrade, unsigned int idMob) { _core->putItem(idTrade, idMob); }
 
