@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Thu Mar 13 14:29:24 2014 alexis mestag
+// Last update Fri Mar 14 11:59:51 2014 alexis mestag
 //
 
 #include			<algorithm>
@@ -18,8 +18,7 @@
 
 Mob::Mob() :
   Persistent(), ACharacter("", eCharacter::MOB),
-  _player(NULL), _model(NULL), _currentStats(new Stats),
-  _inBattle(false)
+  _player(NULL), _model(NULL), _currentStats(new Stats)
 {
 
 }
@@ -32,8 +31,7 @@ Mob::Mob(Mob const &rhs) :
 
 Mob::Mob(MobModel const &model, Level::type const level, Player const *player) :
   Persistent(), ACharacter(model.getName(), eCharacter::MOB),
-  _player(player), _model(NULL), _currentStats(new Stats),
-  _inBattle(false)
+  _player(player), _model(NULL), _currentStats(new Stats)
 {
   this->setModel(model);
   this->setLevel(level);
@@ -61,7 +59,6 @@ Mob				&Mob::operator=(Mob const &rhs)
       this->setPlayer(rhs.getPlayer());
       this->setModel(rhs.getModel());
       this->setCurrentStats(rhs.getCurrentStats());
-      this->setInBattle(rhs.isInBattle());
       this->setId(rhs.getId());
     }
   return (*this);
@@ -186,22 +183,14 @@ ExperienceCurve const		&Mob::getExperienceCurve() const
 
 void				Mob::enterBattle()
 {
+  ACharacter::enterBattle();
   _currentStats->resetShortLivedStats(this->getMaxStats());
 }
 
 void				Mob::leaveBattle()
 {
+  ACharacter::leaveBattle();
   _currentStats->removeShortLivedStats();
-}
-
-bool				Mob::isInBattle() const
-{
-  return (_inBattle);
-}
-
-void				Mob::setInBattle(bool const inBattle)
-{
-  _inBattle = inBattle;
 }
 
 Stats const			&Mob::getRawCurrentStats() const

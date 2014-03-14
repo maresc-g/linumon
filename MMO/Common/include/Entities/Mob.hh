@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Thu Mar 13 14:28:02 2014 alexis mestag
+// Last update Fri Mar 14 11:56:45 2014 alexis mestag
 //
 
 #ifndef			__MOB_HH__
@@ -34,7 +34,6 @@ private:
 
   void			setModel(MobModel const &model);
   void			setCurrentStats(Stats const &stats);
-  void			setInBattle(bool const inBattle);
 
 public:
   Mob(Mob const &rhs);
@@ -70,9 +69,8 @@ public:
   /*
   ** Battle state management
   */
-  bool			isInBattle() const;
-  void			enterBattle();
-  void			leaveBattle();
+  virtual void			enterBattle();
+  virtual void			leaveBattle();
 
   /*
   ** Tests methods
