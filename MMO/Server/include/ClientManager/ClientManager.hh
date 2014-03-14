@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Wed Mar 12 22:45:37 2014 laurent ansel
+// Last update Thu Mar 13 16:34:54 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -47,6 +47,9 @@ public:
   void				playerObject(FD const fd, unsigned int const item, int const nb) const;
   void				merge(FD const fd, unsigned int const idStack, unsigned int const idStack2) const;
   void				newStack(FD const fd, unsigned int const idStack, unsigned int const nb) const;
+
+  void				newGuild(FD const fd, Guild *guild) const;
+  bool				inGuild(FD const fd) const;
 
   void				startBattle(FD const fd, Player *&player) const;
   void				endBattle(FD const fd) const;

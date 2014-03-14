@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:31:31 2014 laurent ansel
-// Last update Wed Mar 12 16:22:06 2014 laurent ansel
+// Last update Thu Mar 13 15:44:56 2014 laurent ansel
 //
 
 #include			<functional>
@@ -45,7 +45,7 @@ bool				InventoryManager::merge(Trame *trame)
 {
   if ((*trame)[CONTENT].isMember("MERGE"))
     {
-      ClientManager::getInstance()->merge((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["MERGE"]["IDSTACK"].asUInt(), (*trame)[CONTENT]["MERGE"]["IDSTACK2"].asUInt());
+      ClientManager::getInstance()->merge((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["MERGE"]["IDSTACK1"].asUInt(), (*trame)[CONTENT]["MERGE"]["IDSTACK2"].asUInt());
       return (true);
     }
   return (false);

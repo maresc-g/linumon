@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Thu Mar 13 17:46:04 2014 antoine maitre
+// Last update Fri Mar 14 14:28:52 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -34,6 +34,7 @@ Battle::Battle(unsigned int const id, eBattle const type, unsigned int const mob
   this->_players.push_back(player1);
   this->_players.push_back(player2);
   this->_mobs.sort(compareSpeed);
+  this->replace();
   this->next();
 }
 
@@ -93,7 +94,6 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
 	mobLauncher = (*it);
       if ((*it)->getId() == target)
 	mobTarget = (*it);
-      (*it)->displayCurrentStats();
     }
   if (mobLauncher && mobTarget)
     {
@@ -115,7 +115,9 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
 	  this->replace();
 	}
     }
-  return (this->checkEnd());
+  else
+    std::cout << "Je ne trouve pas les protagoniste" << std::endl;
+    return (this->checkEnd());
 }
 
 bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
@@ -186,8 +188,6 @@ void					Battle::replace()
 
 void					Battle::next()
 {
-  if (this->_mobs.front()->getStat("HP"))
-    this->replace();
   auto tmp = this->_mobs.front();
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);

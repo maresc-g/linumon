@@ -5,13 +5,14 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Mar 13 13:56:17 2014 guillaume marescaux
+// Last update Thu Mar 13 16:40:58 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
 #include		"Error/Error.hpp"
 #include		"Entities/User.hh"
 #include		"Loader/LoaderManager.hh"
+#include		"Entities/Guild.hh"
 
 Protocol::Protocol(bool const server):
   //  _container(new std::map<std::string, funcProtocol>),
@@ -75,6 +76,12 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("HEALS", &heals);
       this->_container->load<unsigned int>("SPELLSLIST", &spells);
       this->_container->load<unsigned int>("AUTHORIZEDSTATKEYSLIST", &authorizedStatKeys);
+
+      this->_container->load<unsigned int, std::string>("NEWGUILD", &newGuild);
+      this->_container->load<unsigned int, Guild *>("GUILD", &guild);
+      this->_container->load<unsigned int, std::string, Zone *>("NEWMEMBER", &newMember);
+      this->_container->load<unsigned int, std::string, Zone *>("DELETEMEMBER", &deleteMember);
+      this->_container->load<unsigned int, std::string>("invite", &invite);
     }
   else
     {
@@ -549,7 +556,6 @@ bool			launchBattle(unsigned int const id, unsigned int const idBattle, Player c
   Header		*header;
   bool			ret = false;
 
-  std::cout << "LAURENT EST VRAIEMENT UN GROS ENCULE" << std::endl;
   ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
@@ -1150,6 +1156,109 @@ bool			newStack(unsigned int const id, unsigned int const idStack, unsigned int 
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			newGuild(unsigned int const id, std::string guild)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["NEWGUILD"] = guild;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			invite(unsigned int const id, std::string guild)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["INVITE"] = guild;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			guild(unsigned int const id, Guild *g)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      //      g->serializationMembers((*trame)((*trame)[CONTENT]["GUILD"]));
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			newMember(unsigned int const id, std::string player, Zone *zone)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["NEWMEMBER"] = player;
+      trame->setEnd(true);
+      ret = sendToAllClient(id, trame, zone, false);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			deleteMember(unsigned int const id, std::string player, Zone *zone)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["DELETEMEMBER"] = player;
+      trame->setEnd(true);
+      ret = sendToAllClient(id, trame, zone, false);
     }
   delete header;
   return (ret);
