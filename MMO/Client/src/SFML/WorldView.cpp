@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Fri Mar 14 16:20:28 2014 cyril jourdain
+// Last update Fri Mar 14 17:16:17 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -104,24 +104,6 @@ void			WorldView::onMouseEvent(QMouseEvent *event)
   if (event->button() == Qt::RightButton && _mainPerso->isClicked(v.x, v.y))
     {
       _mainPerso->onClick(event);
-      QMenu menu;
-
-      menu.addAction("Trade");
-      menu.addAction("Fight");
-      QAction *action = menu.exec(QPoint(event->x(), event->y()));
-
-      if (action)
-	{
-	  if (action->text() == "Fight")
-	    {
-	      
-	    }
-	}
-      else
-	{
-	  std::cout << "not so lol" << std::endl;
-	}
-      return;
     }
   if (event->button() == Qt::RightButton){
     for (auto it = _playerList->begin(); it != _playerList->end(); it++)
@@ -131,6 +113,21 @@ void			WorldView::onMouseEvent(QMouseEvent *event)
 	    if ((*it)->isClicked(v.x, v.y))
 	      {
 		(*it)->onClick(event);
+		QMenu menu;
+
+		menu.addAction("Trade");
+		menu.addAction("Fight");
+		QAction *action = menu.exec(QPoint(event->x(), event->y()));
+
+		if (action)
+		  {
+		    if (action->text() == "Trade")
+		      {
+			std::string name = Map::getInstance()->getPlayerById((*it)->getPlayerId())->getName();
+			Client::getInstance()->interaction(eInteraction::TRADE,
+							   name);
+		      }
+		  }
 		return;
 	      }
 	  }

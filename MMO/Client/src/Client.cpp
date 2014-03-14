@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Fri Mar 14 16:38:39 2014 guillaume marescaux
+// Last update Fri Mar 14 17:10:02 2014 cyril jourdain
 //
 
 #include			"Client.hh"
@@ -89,8 +89,8 @@ void				Client::craft(std::string const &craftName, std::string const &jobName)
 
 void				Client::useObject(unsigned int target, unsigned int item) { _core->useObject(target, item); }
 
-void				Client::interaction(eInteraction interact, unsigned int targetId)
-{ _core->interaction(interact, targetId); }
+void				Client::interaction(eInteraction interact, std::string const &name)
+{ _core->interaction(interact, name); }
 
 void				Client::putItem(unsigned int idTrade, unsigned int idStack) { _core->putItem(idTrade, idStack); }
 
