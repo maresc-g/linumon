@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Fri Mar 14 11:36:07 2014 cyril jourdain
+// Last update Fri Mar 14 12:45:07 2014 cyril jourdain
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -25,6 +25,7 @@
 #include                "Qt/Views/DigitaliserView.hh"
 #include                "Qt/Views/PlayerClickView.hh"
 #include                "Qt/Views/SplitStackView.hh"
+#include                "Qt/Views/GuildView.hh"
 #include		"SFML/Sprite/SpriteManager.hh"
 #include		"SFML/Sprite/Sprite.hh"
 
@@ -48,6 +49,7 @@ class			JobView;
 class			DigitaliserView;
 class			PlayerClickView;
 class			SplitStackView;
+class			GuildView;
 class			ContextView;
 
 class			SFMLView : public QSFMLWidget
@@ -75,6 +77,7 @@ private:
   DigitaliserView	*_digit;
   PlayerClickView	*_clickView;
   SplitStackView	*_splitStack;
+  GuildView		*_guild;
 
   ContextView		*_worldView;
   ContextView		*_battleView;
@@ -118,7 +121,7 @@ public: /* Child view accessors for World and Battle view, not const */
   DigitaliserView		*getDigitaliserView(void);
   ContextView			*getBattleView(void);
   SplitStackView		*getSplitStackView(void);
-
+  GuildView			*getGuildView(void);
 };
 
 #endif

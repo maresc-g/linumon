@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Fri Mar 14 11:52:59 2014 cyril jourdain
+// Last update Fri Mar 14 12:43:54 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -33,6 +33,7 @@ WorldView::WorldView(SFMLView *v, WindowManager *w) :
   (*_keyMap)[Qt::Key_S] = &WorldView::keyS;
   (*_keyMap)[Qt::Key_J] = &WorldView::keyJ;
   (*_keyMap)[Qt::Key_D] = &WorldView::keyD;
+  (*_keyMap)[Qt::Key_G] = &WorldView::keyG;
   (*_keyMap)[Qt::Key_Escape] = &WorldView::keyEscape;
   (*_keyMap)[Qt::Key_Return] = &WorldView::keyReturn;
   _clickView->hide();
@@ -418,6 +419,21 @@ void			WorldView::keyD()
       else
 	_sfmlView->hideView(_sfmlView->getDigitaliserView());
       _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_D, 100000);
+    }
+}
+
+void			WorldView::keyG()
+{
+  if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_G) && !_sfmlView->getChatView()->getFocused())
+    {
+      if (!_sfmlView->getGuildView()->isVisible())
+	{
+	  _sfmlView->getGuildView()->initGuild((**_wMan->getMainPlayer())->getGuild());
+	  _sfmlView->displayView(_sfmlView->getGuildView());
+	}
+      else
+	_sfmlView->hideView(_sfmlView->getGuildView());
+      _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_G, 100000);
     }
 }
 

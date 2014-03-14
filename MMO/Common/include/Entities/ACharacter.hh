@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:33:45 2013 alexis mestag
-// Last update Thu Mar 13 08:42:23 2014 alexis mestag
+// Last update Fri Mar 14 12:02:57 2014 alexis mestag
 //
 
 #ifndef			__ACHARACTER_HH__
@@ -33,6 +33,10 @@ private:
   Level::type		_currentExp;
   Level			*_level;
   Equipment		*_equipment;
+  bool			_inBattle;
+
+private:
+  void			setInBattle(bool const inBattle);
 
 protected:
   ACharacter();
@@ -76,6 +80,13 @@ public:
   bool 			addStuff(Stuff *item, Stuff *&old);
   bool 			addStuff(Stuff::eStuff const item, Stuff *&old);
   bool 			getStuff(Stuff *&old, unsigned int const item);
+
+  /*
+  ** Battle management
+  */
+  bool			isInBattle() const;
+  virtual void		enterBattle();
+  virtual void		leaveBattle();
 };
 
 # ifdef	ODB_COMPILER
@@ -83,6 +94,7 @@ public:
 #  pragma db member(ACharacter::_characterType) transient
 #  pragma db member(ACharacter::_level) transient
 #  pragma db member(ACharacter::_equipment) transient
+#  pragma db member(ACharacter::_inBattle) transient
 #  pragma db member(ACharacter::_currentExp) get(getCurrentExp()) set(setCurrentExp((?), false))
 #  pragma db member(ACharacter::level) virtual(Level::type) get(getLevel()) set(setLevel(?))
 #  pragma db member(ACharacter::exp) virtual(Level::type) get(getExp()) set(setExp(?))

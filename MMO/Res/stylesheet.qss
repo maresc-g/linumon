@@ -246,6 +246,11 @@ TradeView
 	background-color: #FFFFFF;
 }
 
+GuildView
+{
+	background-color: #FFFFFF;
+}
+
 FrameMobs
 {
 	background-color: #505050;
