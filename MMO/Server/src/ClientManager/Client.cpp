@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Fri Mar 14 12:57:31 2014 laurent ansel
+// Last update Fri Mar 14 13:47:44 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -16,6 +16,7 @@
 #include			"Battle/BattleManager.hh"
 #include			"Database/Repositories/PlayerRepository.hpp"
 #include			"Database/Repositories/FactionRepository.hpp"
+#include			"Database/Repositories/PlayerViewRepository.hpp"
 
 Client::Client():
   _use(false),
@@ -224,15 +225,22 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
 {
   if (this->_state == GAME && this->_user)
     {
-      Repository<Player>	*rp = &Database::getRepository<Player>();
+      Repository<PlayerView>	*rpv = &Database::getRepository<PlayerView>();
+      PlayerView		*pv = rpv->getByName(name);
 
-      Player			*player = new Player(name, faction->getName());
+      if (!pv)
+	{
+	  Repository<Player>	*rp = &Database::getRepository<Player>();
+	  Player		*player = new Player(name, faction->getName());
 
-      player->resetExp();
-      delete faction;
-      this->_user->addPlayer(*player);
-      rp->smartUpdate(*player);
-      return (true);
+	  player->resetExp();
+	  delete faction;
+	  this->_user->addPlayer(*player);
+	  rp->smartUpdate(*player);
+	  return (true);
+	}
+      else
+	delete pv;
     }
   return (false);
 }

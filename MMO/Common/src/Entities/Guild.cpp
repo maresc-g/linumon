@@ -5,14 +5,14 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Feb 25 12:43:18 2014 laurent ansel
-// Last update Fri Mar 14 13:44:24 2014 laurent ansel
+// Last update Fri Mar 14 13:46:46 2014 laurent ansel
 //
 
 #include			<algorithm>
 #include			"Entities/Guild.hh"
 #ifndef				CLIENT_COMPILATION
 # include			"Database/Repositories/PlayerViewRepository.hpp"
-# include			"Entities/Guild-odb.hxx"
+# include			"Database/Repositories/GuildRepository.hpp"
 #endif
 
 Guild::Guild() :

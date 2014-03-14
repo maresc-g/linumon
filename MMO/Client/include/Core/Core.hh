@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Thu Mar 13 13:51:23 2014 guillaume marescaux
+// Last update Thu Mar 13 19:53:43 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -128,6 +128,7 @@ private:
   bool			player(Trame *trame);
   bool			map(Trame *trame);
   bool			getChat(Trame *trame);
+  bool			isInBattle(Trame *);
   bool			launchBattle(Trame *);
   bool			turnTo(Trame *);
   bool			spell(Trame *);

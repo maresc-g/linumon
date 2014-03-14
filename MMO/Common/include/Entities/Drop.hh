@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Mar 10 14:57:05 2014 antoine maitre
-// Last update Tue Mar 11 21:38:14 2014 alexis mestag
+// Last update Fri Mar 14 11:51:21 2014 alexis mestag
 //
 
 #ifndef				__DROP_HH__
@@ -14,20 +14,22 @@
 #include			"Entities/Player.hh"
 #include			"Database/Persistent.hh"
 
-class				Drop : public Persistent, public ContainerWrapper<std::list<AItem *>>
+class				Drop : public Persistent, public ContainerWrapper<std::list<AItem *> >
 {
   friend class			odb::access;
 
- private:
-  int				_money;
-  int				_exp;
+private:
+  unsigned int			_money;
+  unsigned int			_exp;
+
+private:
+  void				setMoney(int const money);
+  void				setExp(int const exp);
 
 public:
   Drop();
-  ~Drop();
+  virtual ~Drop();
 
-  void				setMoney(int const);
-  void				setExp(int const);
   int				getMoney() const;
   int				getExp() const;
 };

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 10:15:18 2014 alexis mestag
-// Last update Fri Mar 14 13:42:36 2014 laurent ansel
+// Last update Fri Mar 14 13:48:09 2014 laurent ansel
 //
 
 #ifndef				__PLAYERVIEW_HH__
@@ -70,7 +70,7 @@ public:
 };
 
 # ifdef	ODB_COMPILER
-#  pragma db view(PlayerView) object(Player) object(User: Player::_user) object(Faction: Player::_faction) object(Guild: Player::_guild)
+#  pragma db view(PlayerView) object(Player) object(User: Player::_user) object(Faction: Player::_faction) object(Guild: Player::_guild) session(false)
 #  pragma db member(PlayerView::persistentId) column(Player::_persistentId)
 #  pragma db member(PlayerView::name) column(Player::_name)
 #  pragma db member(PlayerView::level) column(Player::level)

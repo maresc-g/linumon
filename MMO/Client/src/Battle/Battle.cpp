@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Thu Mar 13 14:49:25 2014 guillaume marescaux
+// Last update Fri Mar 14 13:15:04 2014 guillaume marescaux
 //
 
 #include			<algorithm>
@@ -13,7 +13,7 @@
 
 Battle::Battle():
   _id(0), _mobs(new std::list<Mob *>), _enemy(NULL), _maxMobs(0), _spells(new std::list<SpellContainer *>),
-  _turnTo(new std::list<unsigned int>)
+  _turnTo(new std::list<unsigned int>), _switch(new MutexVar<bool>(false))
 {
 }
 
@@ -34,24 +34,22 @@ void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *en
 
   _turnTo->clear();
   _mobs->clear();
-  for (auto it = mobs.begin() ; it != mobs.end() && i < maxMobs; it++)
+  for (auto it = mobs.begin() ; it != mobs.end() && i < maxMobs; ++it)
     {
-      (*it)->enterBattle();
       if ((*it)->getCurrentStat("HP") > 0)
 	{
 	  _mobs->push_back(*it);
 	  i++;
 	}
     }
+  for (auto it = mobs.begin() ; it != mobs.end() ; ++it)
+    (*it)->enterBattle();
   _id = id;
   _enemy = enemy;
   std::list<Mob *> const	mobs2 = enemy->getDigitaliser().getBattleMobs();
   i = 0;
-  for (auto it = mobs2.begin() ; it != mobs2.end() && i < maxMobs; it++)
-    {
-      (*it)->enterBattle();
-      i++;
-    }
+  for (auto it = mobs2.begin() ; it != mobs2.end(); ++it)
+    (*it)->enterBattle();
   _maxMobs = maxMobs;
 }
 
@@ -114,3 +112,30 @@ Mob				*Battle::getMobById(unsigned int id)
     return *it2;
   return NULL;
 }
+
+void				Battle::switchPlayerMobs(unsigned int target, unsigned int newMob)
+{
+  auto it = find_if(_mobs->begin(), _mobs->end(), [&](Mob const *mob){
+      if (mob->getId() == target)
+  	return true;
+      return false;
+    });
+  auto it2 = find_if(_mobs->begin(), _mobs->end(), [&](Mob const *mob){
+      if (mob->getId() == newMob)
+  	return true;
+      return false;
+    });
+  Mob				*tmp = *it;
+
+  *it = *it2;
+  *it2 = tmp;
+  *_switch = true;
+}
+
+void				Battle::switchEnemyMobs(unsigned int target, unsigned int newMob)
+{
+  *_switch = true;
+  _enemy->switchMobs(target, newMob);
+}
+
+MutexVar<bool>			*Battle::getSwitch() const { return (_switch); }
