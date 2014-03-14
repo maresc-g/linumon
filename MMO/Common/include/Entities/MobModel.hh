@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:21:00 2014 alexis mestag
-// Last update Wed Mar 12 15:29:57 2014 alexis mestag
+// Last update Fri Mar 14 21:08:43 2014 laurent ansel
 //
 
 #ifndef			__MOBMODEL_HH__
@@ -17,6 +17,7 @@
 # include		"Entities/Type.hh"
 # include		"Stats/ExperienceCurve.hh"
 # include		"Utility/ISerialization.hh"
+# include		"Entities/Carcass.hh"
 
 class			MobModel : public Persistent, public AStatEntity, public ISerialization
 {
@@ -26,6 +27,7 @@ private:
   Type const		*_type;
   Spells 		*_spells;
   ExperienceCurve const	*_expCurve;
+  Carcass const		*_carcass;
 
 private:
   MobModel();
@@ -38,6 +40,9 @@ public:
 
   Type const		&getType() const;
   void			setType(Type const &type);
+
+  Carcass const		&getCarcass() const;
+  void			setCarcass(Carcass const &carcass);
 
   Spells const		&getSpells() const;
   void			setSpells(Spells const &spells);
@@ -56,6 +61,9 @@ public:
 #  pragma db member(MobModel::_type) not_null
 #  pragma db member(MobModel::spells) virtual(Spells::container_type) get(_spells->getContainer()) set(_spells->setContainer(?)) value_not_null
 #  pragma db member(MobModel::_expCurve) not_null
+
+#  pragma db member(MobModel::_carcass) not_null
+#  pragma db member(MobModel::carcass) virtual(Carcass::container_type) get(_carcass->getContainer()) set(_carcass->setContainer(?)) value_not_null
 # endif
 
 #endif

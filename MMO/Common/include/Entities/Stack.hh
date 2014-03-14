@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar 12 13:49:57 2014 laurent ansel
-// Last update Fri Mar 14 13:23:09 2014 laurent ansel
+// Last update Fri Mar 14 21:58:56 2014 laurent ansel
 //
 
 #ifndef 			__STACK_HH__
@@ -208,5 +208,10 @@ public:
     return (stack);
   }
 };
+
+// # ifdef	ODB_COMPILER
+// #  pragma db object(Stack)
+// #  pragma db member(StackRessource::_type) transient
+// # endif
 
 #endif

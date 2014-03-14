@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar 14 11:04:31 2014 laurent ansel
-// Last update Fri Mar 14 15:38:31 2014 laurent ansel
+// Last update Fri Mar 14 22:05:19 2014 laurent ansel
 //
 
 #ifndef 		__CARCASS_HH__
@@ -19,8 +19,10 @@
 # include		"Entities/Level.hh"
 # include		"Utility/Wrapper.hpp"
 
+typedef std::list<Stack<Ressource> *>	StackRessource;
+
 class			Carcass : public Persistent, public AEntity,
-				  public ContainerWrapper<std::list<Stack<Ressource> *> >,
+				  public ContainerWrapper<StackRessource>,
 				  public ISerialization
 {
   friend class		odb::access;
@@ -54,6 +56,7 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(Carcass)
 #  pragma db member(Carcass::_coord) transient
+
 # endif
 
 #endif
