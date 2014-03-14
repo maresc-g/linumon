@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Mar 14 17:24:15 2014 alexis mestag
+// Last update Fri Mar 14 17:31:18 2014 alexis mestag
 //
 
 #include			<functional>
@@ -60,10 +60,13 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   */
   if (user) {
     Repository<MobModel>		*rm = &Database::getRepository<MobModel>();
-    MobModel const		*m = rm->getByName("Pikachu");
+    MobModel const			*m = rm->getByName("Pikachu");
+    Mob					*pikachu = new Mob(*m, 15, this);
 
-    this->_digitaliser->addBattleMob(*(new Mob(*m, 15, this)));
+    pikachu->resetExp();
+    this->_digitaliser->addBattleMob(*pikachu);
   }
+
   /*
   ** Init Faction
   */
