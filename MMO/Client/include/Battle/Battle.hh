@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:22:49 2014 guillaume marescaux
-// Last update Mon Mar 10 11:04:45 2014 guillaume marescaux
+// Last update Thu Mar 13 21:37:59 2014 guillaume marescaux
 //
 
 #ifndef 			__BATTLE_HH__
@@ -31,6 +31,7 @@ private:
   unsigned int			_maxMobs;
   std::list<SpellContainer *>	*_spells;
   std::list<unsigned int>	*_turnTo;
+  MutexVar<bool>		*_switch;
 
 public:
 
@@ -49,6 +50,9 @@ public:
   Player const			&getEnemy(void) const;
   unsigned int			getMaxMobs(void) const;
   Mob				*getMobById(unsigned int id);
+  void				switchPlayerMobs(unsigned int target, unsigned int newMob);
+  void				switchEnemyMobs(unsigned int target, unsigned int newMob);
+  MutexVar<bool>		*getSwitch(void) const;
 };
 
 #endif
