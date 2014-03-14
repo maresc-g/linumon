@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Mar 13 19:56:25 2014 guillaume marescaux
+// Last update Fri Mar 14 13:06:19 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -246,11 +246,17 @@ bool				Core::map(Trame *trame)
 
 bool				Core::isInBattle(Trame *trame)
 {
-  // *_state = CLIENT::LOADING_BATTLE;
-  // (**_battle)->setInfos(_player, (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"].asUInt(),
-  // 			Player::deserialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"])),
-  // 			(*trame)[CONTENT]["LAUNCHBATTLE"]["LIMIT"].asInt());
-  return (true);
+  Player			*entity =
+    static_cast<Player *>(Map::getInstance()->getEntityById((**_player)->getZone(), (*trame)[CONTENT]["ISINBATTLE"]["ID"].asUInt()));
+
+  if ((*trame)[CONTENT]["ISINBATTLE"]["ID"].asBool())
+    entity->enterBattle();
+  else
+    entity->leaveBattle();
+    // (**_battle)->setInfos(_player, (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"].asUInt(),
+    // 			Player::deserialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"])),
+    // 			(*trame)[CONTENT]["LAUNCHBATTLE"]["LIMIT"].asInt());
+    return (true);
 }
 
 bool				Core::launchBattle(Trame *trame)
