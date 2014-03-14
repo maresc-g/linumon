@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Fri Mar 14 14:59:04 2014 antoine maitre
+// Last update Fri Mar 14 14:31:04 2014 cyril jourdain
 //
 
 #include				"Battle/Battle.hh"
@@ -145,6 +145,7 @@ bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
       else
 	static_cast<AI *>((*it))->dswitch(target, newmob);
     }
+  this->replace();
   return (this->checkEnd());
 }
 

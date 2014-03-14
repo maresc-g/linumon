@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb 17 15:32:06 2014 cyril jourdain
-// Last update Fri Mar 14 12:44:52 2014 cyril jourdain
+// Last update Fri Mar 14 15:24:38 2014 cyril jourdain
 //
 
 #ifndef				__WORLDVIEW_HH__
@@ -30,9 +30,6 @@ private:
   std::list<RessourceSprite*>	*_topLayer;
   KeyMap			*_keyMap;
   Qt::Key			_pressedKey;
-
-private: /* Child views */
-  PlayerClickView		*_clickView;
 
 public:
   WorldView(SFMLView *, WindowManager *);

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:46:04 2014 cyril jourdain
-// Last update Fri Mar 14 16:32:17 2014 guillaume marescaux
+// Last update Fri Mar 14 16:42:44 2014 guillaume marescaux
 //
 
 #include		"SFML/MobSprite.hh"
@@ -95,7 +95,7 @@ void			MobSprite::setLifeVisibility(bool v)
   _isVisible = v;
 }
 
-void			MobSprite::onClick()
+void			MobSprite::onClick(QMouseEvent *)
 {
   // std::cout << "other player clicked" << std::endl;
 }

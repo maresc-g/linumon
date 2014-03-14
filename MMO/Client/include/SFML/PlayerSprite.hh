@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Feb 16 03:12:14 2014 cyril jourdain
-// Last update Tue Mar 11 14:03:51 2014 cyril jourdain
+// Last update Fri Mar 14 15:29:21 2014 cyril jourdain
 //
 
 #ifndef 		__PLAYERSPRITE_HH__
@@ -67,7 +67,7 @@ public:
 
 public:
   virtual void		draw(sf::RenderTarget &, sf::RenderStates) const;
-  virtual void		onClick();
+  virtual void		onClick(QMouseEvent *);
 
 private:
   virtual void			moveUp(float, sf::View *);

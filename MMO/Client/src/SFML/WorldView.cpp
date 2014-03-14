@@ -5,11 +5,12 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Fri Mar 14 16:05:25 2014 guillaume marescaux
+// Last update Fri Mar 14 16:20:28 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
 #include		<stdexcept>
+#include		<QMenu>
 #include <QDebug>
 
 /*
@@ -21,8 +22,7 @@
 
 WorldView::WorldView(SFMLView *v, WindowManager *w) :
   ContextView(v, w), _mainPerso(NULL), _playerList(new std::vector<OPlayerSprite *>),
-  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(Qt::Key(0)),
-  _clickView(new PlayerClickView(v, w))
+  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(Qt::Key(0))
 {
   (*_keyMap)[Qt::Key_Up] = &WorldView::keyUp;
   (*_keyMap)[Qt::Key_Down] = &WorldView::keyDown;
@@ -36,7 +36,6 @@ WorldView::WorldView(SFMLView *v, WindowManager *w) :
   (*_keyMap)[Qt::Key_G] = &WorldView::keyG;
   (*_keyMap)[Qt::Key_Escape] = &WorldView::keyEscape;
   (*_keyMap)[Qt::Key_Return] = &WorldView::keyReturn;
-  _clickView->hide();
 }
 
 
@@ -102,13 +101,26 @@ void			WorldView::onMouseEvent(QMouseEvent *event)
 {
   sf::Vector2f	v = _sfmlView->mapPixelToCoords(sf::Vector2i(event->x(), event->y()));
 
-  if (event->button() != Qt::NoButton)
-    _clickView->hide();
   if (event->button() == Qt::RightButton && _mainPerso->isClicked(v.x, v.y))
     {
-      _mainPerso->onClick();
-      _clickView->move(event->x(), event->y());
-      _clickView->show();
+      _mainPerso->onClick(event);
+      QMenu menu;
+
+      menu.addAction("Trade");
+      menu.addAction("Fight");
+      QAction *action = menu.exec(QPoint(event->x(), event->y()));
+
+      if (action)
+	{
+	  if (action->text() == "Fight")
+	    {
+	      
+	    }
+	}
+      else
+	{
+	  std::cout << "not so lol" << std::endl;
+	}
       return;
     }
   if (event->button() == Qt::RightButton){
@@ -118,9 +130,7 @@ void			WorldView::onMouseEvent(QMouseEvent *event)
 	  {
 	    if ((*it)->isClicked(v.x, v.y))
 	      {
-		_clickView->move(event->x(), event->y());
-		_clickView->show();
-		(*it)->onClick();
+		(*it)->onClick(event);
 		return;
 	      }
 	  }
@@ -131,9 +141,7 @@ void			WorldView::onMouseEvent(QMouseEvent *event)
 	  {
 	    if ((*it)->isClicked(v.x, v.y))
 	      {
-		(*it)->onClick();
-		_clickView->move(event->x(), event->y());
-		_clickView->show();
+		(*it)->onClick(event);
 		return;
 	      }
 	  }

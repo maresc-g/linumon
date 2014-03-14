@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Wed Mar 12 00:58:53 2014 cyril jourdain
+// Last update Fri Mar 14 15:30:04 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -127,7 +127,7 @@ bool			Sprite::isClicked(float const x, float const y) const
   return false;
 }
 
-void			Sprite::onClick()
+void			Sprite::onClick(QMouseEvent *)
 {
   std::cout << _current << " CLICKED" << std::endl;
 }
