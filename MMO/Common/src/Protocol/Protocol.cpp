@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Mar 14 16:40:18 2014 guillaume marescaux
+// Last update Fri Mar 14 16:54:47 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -72,8 +72,6 @@ Protocol::Protocol(bool const server):
 
       this->_container->load<unsigned int, unsigned int, bool, Zone *>("ISINBATTLE", &isInBattle);
 
-      this->_container->load<unsigned int, eInteraction, unsigned int>("INTERACTION", &interaction);
-
       this->_container->load<unsigned int>("MOBMODELS", &mobModels);
       this->_container->load<unsigned int>("JOBMODELS", &jobModels);
       this->_container->load<unsigned int>("STUFFS", &stuffs);
@@ -123,6 +121,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("SWITCHPLAYER", &switchPlayer);
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
       this->_container->load<unsigned int, int, unsigned int, unsigned int>("STUFF", &stuff);
+      this->_container->load<unsigned int, eInteraction, unsigned int>("INTERACTION", &interaction);
     }
 }
 
