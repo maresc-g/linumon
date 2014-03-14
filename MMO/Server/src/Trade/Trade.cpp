@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:40:51 2014 laurent ansel
-// Last update Fri Mar 14 17:25:03 2014 laurent ansel
+// Last update Fri Mar 14 20:45:51 2014 laurent ansel
 //
 
 #include			<functional>
@@ -42,7 +42,7 @@ void				Trade::launchTrade(Player *player1, Player *player2)
 
 bool				Trade::stopTrade(unsigned int const idPlayer)
 {
-  if ((_player1 && _player1->getId() == idPlayer) || (_player2 && _player2->getId() == idPlayer))
+  if (_player1 && _player2 && (_player1->getId() == idPlayer || _player2->getId() == idPlayer))
     {
       for (auto it = _mobs1->begin() ; it != _mobs1->end() ; ++it)
 	_player1->addMob(*it);
@@ -60,8 +60,6 @@ bool				Trade::stopTrade(unsigned int const idPlayer)
       _player2->addMoney(_inv2->getMoney());
       _inv1->setMoney(0);
       _inv2->setMoney(0);
-      _player1 = NULL;
-      _player2 = NULL;
       _accept1 = false;
       _accept2 = false;
       if (_player2->getId() == idPlayer)
@@ -76,6 +74,8 @@ bool				Trade::stopTrade(unsigned int const idPlayer)
 	  Server::getInstance()->newClientStateInStandBy(_player2->getUser().getId(), Client::eState::GAME);
 	  //	  ClientManager::getInstance()->endTrade(_player2->getUser().getId()); probleme mutex
 	}
+      _player1 = NULL;
+      _player2 = NULL;
       return (true);
     }
   return (false);

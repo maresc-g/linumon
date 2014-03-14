@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Feb 12 20:20:01 2014 laurent ansel
-// Last update Fri Mar 14 17:35:39 2014 laurent ansel
+// Last update Fri Mar 14 20:42:14 2014 laurent ansel
 //
 
 #include			<functional>
@@ -94,10 +94,11 @@ bool				TradeManager::getMob(Trame *trame)
   //  AMob				*mob;
   unsigned int			idMob;
 
+  std::cout << "TRADEMANAGER => GETMOB" << std::endl;  this->_mutex->lock();
   this->_mutex->lock();
-  idTrade = (*trame)[CONTENT]["TRADE"]["IDTRADE"].asUInt();
-  idMob = (*trame)[CONTENT]["TRADE"]["IDMOB"].asUInt();
-  // mob = AMob::deserialization((*trame)((*trame)[CONTENT]["TRADE"]));
+  idTrade = (*trame)[CONTENT]["GETMOB"]["IDTRADE"].asUInt();
+  idMob = (*trame)[CONTENT]["GETMOB"]["IDMOB"].asUInt();
+  // mob = AMob::deserialization((*trame)((*trame)[CONTENT]));
   // if (mob)
   //   {
   for (auto it = _list->begin() ; it != _list->end() ; ++it)
@@ -121,10 +122,11 @@ bool				TradeManager::putMob(Trame *trame)
   // AMob				*mob;
   unsigned int			idMob;
 
+  std::cout << "TRADEMANAGER => PUTMOB" << std::endl;  this->_mutex->lock();
   this->_mutex->lock();
-  idTrade = (*trame)[CONTENT]["TRADE"]["IDTRADE"].asUInt();
-  idMob = (*trame)[CONTENT]["TRADE"]["IDMOB"].asUInt();
-  // mob = Mob::deserialization((*trame)((*trame)[CONTENT]["TRADE"]));
+  idTrade = (*trame)[CONTENT]["PUTMOB"]["IDTRADE"].asUInt();
+  idMob = (*trame)[CONTENT]["PUTMOB"]["IDMOB"].asUInt();
+  // mob = Mob::deserialization((*trame)((*trame)[CONTENT]));
   // if (mob)
   // {
   for (auto it = _list->begin() ; it != _list->end() ; ++it)
@@ -148,12 +150,13 @@ bool				TradeManager::getItem(Trame *trame)
   // AItem				*item;
   unsigned int			idItem;
 
-  this->_mutex->lock();
-  idTrade = (*trame)[CONTENT]["TRADE"]["IDTRADE"].asUInt();
-  // item = AItem::deserialization((*trame)((*trame)[CONTENT]["TRADE"]));
+
+  std::cout << "TRADEMANAGER => GETITEM" << std::endl;  this->_mutex->lock();
+  idTrade = (*trame)[CONTENT]["GETITEM"]["IDTRADE"].asUInt();
+  // item = AItem::deserialization((*trame)((*trame)[CONTENT]));
   // if (item)
   //   {
-  idItem = (*trame)[CONTENT]["TRADE"]["IDSTACK"].asUInt();
+  idItem = (*trame)[CONTENT]["GETITEM"]["IDSTACK"].asUInt();
   for (auto it = _list->begin() ; it != _list->end() ; ++it)
     if (it->first && it->second && it->second->getId() == idTrade)
       {
@@ -175,12 +178,13 @@ bool				TradeManager::putItem(Trame *trame)
   // AItem				*item;
   unsigned int			idItem;
 
+  std::cout << "TRADEMANAGER => PUTITEM" << std::endl;
   this->_mutex->lock();
-  idTrade = (*trame)[CONTENT]["TRADE"]["IDTRADE"].asUInt();
-  // item = AItem::deserialization((*trame)((*trame)[CONTENT]["TRADE"]));
+  idTrade = (*trame)[CONTENT]["PUTITEM"]["IDTRADE"].asUInt();
+  // item = AItem::deserialization((*trame)((*trame)[CONTENT]));
   // if (item)
   //   {
-  idItem = (*trame)[CONTENT]["TRADE"]["IDSTACK"].asUInt();
+  idItem = (*trame)[CONTENT]["PUTITEM"]["IDSTACK"].asUInt();
   for (auto it = _list->begin() ; it != _list->end() ; ++it)
     if (it->first && it->second && it->second->getId() == idTrade)
       {
@@ -201,9 +205,10 @@ bool				TradeManager::getMoney(Trame *trame)
   unsigned int			money;
   unsigned int			idPlayer;
 
+  std::cout << "TRADEMANAGER => GETMONEY" << std::endl;
   this->_mutex->lock();
-  idTrade = (*trame)[CONTENT]["TRADE"]["IDTRADE"].asUInt();
-  money = (*trame)[CONTENT]["TRADE"]["MONEY"].asUInt();
+  idTrade = (*trame)[CONTENT]["GETMONEY"]["IDTRADE"].asUInt();
+  money = (*trame)[CONTENT]["GETMONEY"]["MONEY"].asUInt();
   for (auto it = _list->begin() ; it != _list->end() ; ++it)
     if (it->first && it->second && it->second->getId() == idTrade)
       {
@@ -221,9 +226,10 @@ bool				TradeManager::putMoney(Trame *trame)
   unsigned int			money;
   unsigned int			idPlayer;
 
+  std::cout << "TRADEMANAGER => PUTMONEY" << std::endl;
   this->_mutex->lock();
-  idTrade = (*trame)[CONTENT]["TRADE"]["IDTRADE"].asUInt();
-  money = (*trame)[CONTENT]["TRADE"]["MONEY"].asUInt();
+  idTrade = (*trame)[CONTENT]["PUTMONEY"]["IDTRADE"].asUInt();
+  money = (*trame)[CONTENT]["PUTMONEY"]["MONEY"].asUInt();
   for (auto it = _list->begin() ; it != _list->end() ; ++it)
     if (it->first && it->second && it->second->getId() == idTrade)
       {
@@ -240,6 +246,7 @@ bool				TradeManager::accept(Trame *trame)
   unsigned int			idTrade;
   unsigned int			idPlayer;
 
+  std::cout << "TRADEMANAGER => ACCEPT" << std::endl;
   this->_mutex->lock();
   idTrade = (*trame)[CONTENT]["ACCEPT"].asUInt();
   for (auto it = _list->begin() ; it != _list->end() ; ++it)
@@ -257,6 +264,7 @@ bool				TradeManager::refuse(Trame *trame)
   bool				ret = false;
   unsigned int			idTrade;
 
+  std::cout << "TRADEMANAGER => REFUSE" << std::endl;
   this->_mutex->lock();
   idTrade = (*trame)[CONTENT]["REFUSE"].asUInt();
   for (auto it = _list->begin() ; it != _list->end() ; ++it)
@@ -270,10 +278,15 @@ bool				TradeManager::disconnectPlayer(unsigned int const idPlayer)
 {
   bool				ret = false;
 
+  std::cout << "TRADEMANAGER => DISCONNECT" << std::endl;
   this->_mutex->lock();
   for (auto it = _list->begin() ; it != _list->end() && !ret; ++it)
     if (it->first && it->second)
-      ret = it->second->stopTrade(idPlayer);
+      {
+	ret = it->second->stopTrade(idPlayer);
+	if (ret)
+	  it->first = false;
+      }
   this->_mutex->unlock();
   return (ret);
 }
