@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:34:41 2014 laurent ansel
-// Last update Tue Feb 25 10:36:35 2014 laurent ansel
+// Last update Fri Mar 14 16:08:19 2014 laurent ansel
 //
 
 #include			<functional>
@@ -34,7 +34,7 @@ bool				Interaction::interaction(Trame *trame)
       {Interaction::eInteraction::AGRO,		std::bind1st(std::mem_fun(&Interaction::agro), this)},
       {Interaction::eInteraction::TRADE,	std::bind1st(std::mem_fun(&Interaction::trade), this)}
     };
-  eInteraction			type = NONE;
+  eInteraction			type;
 
   if ((*trame)[CONTENT].isMember("INTERACTION"))
     {
