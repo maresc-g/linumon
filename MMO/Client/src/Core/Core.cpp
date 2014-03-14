@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar 14 13:06:19 2014 guillaume marescaux
+// Last update Fri Mar 14 16:02:15 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -102,6 +102,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("PUTMOB", func);
   func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::getMob), this);
   _proto->addFunc("GETMOB", func);
+  func = std::bind1st(std::mem_fun(&Core::isInBattle), this);
+  _proto->addFunc("ISINBATTLE", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -249,14 +251,15 @@ bool				Core::isInBattle(Trame *trame)
   Player			*entity =
     static_cast<Player *>(Map::getInstance()->getEntityById((**_player)->getZone(), (*trame)[CONTENT]["ISINBATTLE"]["ID"].asUInt()));
 
-  if ((*trame)[CONTENT]["ISINBATTLE"]["ID"].asBool())
+  if ((*trame)[CONTENT]["ISINBATTLE"]["IS"].asBool())
     entity->enterBattle();
   else
     entity->leaveBattle();
-    // (**_battle)->setInfos(_player, (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"].asUInt(),
-    // 			Player::deserialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"])),
-    // 			(*trame)[CONTENT]["LAUNCHBATTLE"]["LIMIT"].asInt());
-    return (true);
+  *_newPlayer = true;
+  // (**_battle)->setInfos(_player, (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"].asUInt(),
+  // 			Player::deserialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"])),
+  // 			(*trame)[CONTENT]["LAUNCHBATTLE"]["LIMIT"].asInt());
+  return (true);
 }
 
 bool				Core::launchBattle(Trame *trame)
@@ -388,37 +391,43 @@ bool				Core::launchTrade(Trame *trame)
 
 bool				Core::putItem(Trame *trame)
 {
-  (**_trade)->putOtherItem(AItem::deserialization((*trame)((*trame)[CONTENT]["ITEM"])));
+  (**_trade)->putOtherStack(Stack::deserialization((*trame)((*trame)[CONTENT]["STACK"])));
+  (**_trade)->setChanged(true);
   return (true);
 }
 
 bool				Core::getItem(Trame *trame)
 {
-  (**_trade)->getOtherItem(AItem::deserialization((*trame)((*trame)[CONTENT]["ITEM"])));
+  (**_trade)->getOtherStack(Stack::deserialization((*trame)((*trame)[CONTENT]["STACK"])));
+  (**_trade)->setChanged(true);
   return (true);
 }
 
 bool				Core::putMob(Trame *trame)
 {
   (**_trade)->putOtherMob(Mob::deserialization((*trame)((*trame)[CONTENT]["MOB"])));
+  (**_trade)->setChanged(true);
   return (true);
 }
 
 bool				Core::getMob(Trame *trame)
 {
   (**_trade)->getOtherMob(Mob::deserialization((*trame)((*trame)[CONTENT]["MOB"])));
+  (**_trade)->setChanged(true);
   return (true);
 }
 
 bool				Core::putMoney(Trame *trame)
 {
   (**_trade)->putOtherMoney((*trame)[CONTENT]["PUTMONEY"]["MONEY"].asInt());
+  (**_trade)->setChanged(true);
   return (true);
 }
 
 bool				Core::getMoney(Trame *trame)
 {
   (**_trade)->getOtherMoney((*trame)[CONTENT]["PUTMONEY"]["MONEY"].asInt());
+  (**_trade)->setChanged(true);
   return (true);
 }
 
@@ -652,14 +661,14 @@ void				Core::useObject(unsigned int target, unsigned int item)
 
 // void				unsigned interaction();
 
-void				Core::putItem(unsigned int idTrade, unsigned int idItem)
+void				Core::putItem(unsigned int idTrade, unsigned int idStack)
 {
-  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("PUTITEM", _id, idTrade, idItem);
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("PUTITEM", _id, idTrade, idStack);
 }
 
-void				Core::getItem(unsigned int idTrade, unsigned int idItem)
+void				Core::getItem(unsigned int idTrade, unsigned int idStack)
 {
-  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("GETITEM", _id, idTrade, idItem);
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("GETITEM", _id, idTrade, idStack);
 }
 
 void				Core::putMob(unsigned int idTrade, unsigned int idMob)

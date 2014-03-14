@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Thu Mar 13 19:53:43 2014 guillaume marescaux
+// Last update Fri Mar 14 15:56:29 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -96,8 +96,8 @@ public:
   // void			gather();
   void			useObject(unsigned int target, unsigned int item);
   // void			unsigned interaction();
-  void			putItem(unsigned int idTrade, unsigned int idItem);
-  void			getItem(unsigned int idTrade, unsigned int idItem);
+  void			putItem(unsigned int idTrade, unsigned int idStack);
+  void			getItem(unsigned int idTrade, unsigned int idStack);
   void			putMob(unsigned int idTrade, unsigned int idMob);
   void			getMob(unsigned int idTrade, unsigned int idMob);
   void			putMoney(unsigned int idTrade, unsigned int money);

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Fri Mar 14 13:15:04 2014 guillaume marescaux
+// Last update Fri Mar 14 13:41:40 2014 guillaume marescaux
 //
 
 #include			<algorithm>
@@ -125,10 +125,10 @@ void				Battle::switchPlayerMobs(unsigned int target, unsigned int newMob)
   	return true;
       return false;
     });
-  Mob				*tmp = *it;
+  Mob				**tmp = &(*it);
 
   *it = *it2;
-  *it2 = tmp;
+  *it2 = *tmp;
   *_switch = true;
 }
 

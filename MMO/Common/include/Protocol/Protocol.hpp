@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Thu Mar 13 21:20:40 2014 laurent ansel
+// Last update Fri Mar 14 15:57:38 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -94,8 +94,8 @@ bool				putItem(unsigned int const id, unsigned int const idTrade, AItem const *
 bool				getItem(unsigned int const id, unsigned int const idTrade, AItem const *item);
 bool				putMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
 bool				getMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
-bool				putItem(unsigned int const id, unsigned int const idTrade, unsigned int const idItem);
-bool				getItem(unsigned int const id, unsigned int const idTrade, unsigned int const idItem);
+bool				putItem(unsigned int const id, unsigned int const idTrade, unsigned int const idStack);
+bool				getItem(unsigned int const id, unsigned int const idTrade, unsigned int const idStack);
 bool				putMob(unsigned int const id, unsigned int const idTrade, unsigned int const idMob);
 bool				getMob(unsigned int const id, unsigned int const idTrade, unsigned int const idMob);
 bool				putMoney(unsigned int const id, unsigned int const idTrade, unsigned int const money);

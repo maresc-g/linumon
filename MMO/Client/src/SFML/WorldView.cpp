@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Thu Mar 13 16:46:12 2014 guillaume marescaux
+// Last update Fri Mar 14 13:32:29 2014 guillaume marescaux
 //
 
 #include		"SFML/WorldView.hh"
@@ -209,7 +209,7 @@ void			WorldView::loadPlayerList()
   _playerList->clear();
   for (auto it = list.begin(); it != list.end(); it++)
     {
-      if ((static_cast<Player*>(*it))->getId() == _mainPerso->getPlayerId())
+      if ((static_cast<Player*>(*it))->getId() == _mainPerso->getPlayerId() || static_cast<Player*>(*it)->isInBattle())
   	continue;
       tmp = new OPlayerSprite((*it)->getName(),
 			      _sfmlView->getFont());

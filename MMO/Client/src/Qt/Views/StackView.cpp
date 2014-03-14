@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Thu Mar 13 16:03:11 2014 guillaume marescaux
+// Last update Fri Mar 14 14:33:40 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -185,12 +185,12 @@ void				StackView::dropEvent(QDropEvent *de)
   ParentInfos			*sourceInfos = getNameFirstParent(de->source());
   Stack const			*stack = reinterpret_cast<Stack const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
 
-  if (infos && sourceInfos && (infos->name == "tradeview" || sourceInfos->name == "tradeview"))
-    ;
+  // if (infos && sourceInfos && (infos->name == "tradeview" || sourceInfos->name == "tradeview"))
+  //   ;
    // _wMan->getSFMLView()->getTradeView()->handleStackChange(de->source(), this);
-  else if (infos->name == "inventoryview" && sourceInfos->name == "inventoryview" && (!_stack || _stack->getNb() == 0))
+  if (/*infos->name == "inventoryview" && sourceInfos->name == "inventoryview" &&*/ (!_stack || _stack->getNb() == 0))
     {
-      _wMan->getSFMLView()->getSplitStackView()->setInfos(stack);
+      _wMan->getSFMLView()->getSplitStackView()->setInfos(static_cast<StackView *>(de->source()), this);
       _wMan->getSFMLView()->getSplitStackView()->show();
     }
   else if (this != de->source() && infos->name == "inventoryview" && sourceInfos->name == "inventoryview" &&

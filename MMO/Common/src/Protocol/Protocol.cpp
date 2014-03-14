@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Mar 13 22:39:38 2014 laurent ansel
+// Last update Fri Mar 14 15:58:23 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -910,7 +910,7 @@ bool			getMob(unsigned int const id, unsigned int const idTrade, Mob const *mob)
   return (ret);
 }
 
-bool			putItem(unsigned int const id, unsigned int const idTrade, unsigned int const idItem)
+bool			putItem(unsigned int const id, unsigned int const idTrade, unsigned int const idStack)
 {
   bool			ret = false;
   Trame			*trame;
@@ -923,7 +923,7 @@ bool			putItem(unsigned int const id, unsigned int const idTrade, unsigned int c
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["PUTITEM"]["IDTRADE"] = idTrade;
-      (*trame)[CONTENT]["PUTITEM"]["IDITEM"] = idItem;
+      (*trame)[CONTENT]["PUTITEM"]["IDSTACK"] = idStack;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
@@ -932,7 +932,7 @@ bool			putItem(unsigned int const id, unsigned int const idTrade, unsigned int c
   return (ret);
 }
 
-bool			getItem(unsigned int const id, unsigned int const idTrade, unsigned int const idItem)
+bool			getItem(unsigned int const id, unsigned int const idTrade, unsigned int const idStack)
 {
   bool			ret = false;
   Trame			*trame;
@@ -945,7 +945,7 @@ bool			getItem(unsigned int const id, unsigned int const idTrade, unsigned int c
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["GETITEM"]["IDTRADE"] = idTrade;
-      (*trame)[CONTENT]["GETITEM"]["IDITEM"] = idItem;
+      (*trame)[CONTENT]["GETITEM"]["IDSTACK"] = idStack;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;

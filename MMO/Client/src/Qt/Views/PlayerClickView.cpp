@@ -5,14 +5,13 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Feb 28 23:06:40 2014 cyril jourdain
-// Last update Wed Mar 12 12:47:17 2014 guillaume marescaux
+// Last update Fri Mar 14 13:28:06 2014 guillaume marescaux
 //
 
 #include		"Qt/Views/PlayerClickView.hh"
 
 PlayerClickView::PlayerClickView(QWidget *parent, WindowManager *wMan) :
-  QWidget(parent), _wMan(wMan), _b_aggro(new QPushButton(this)), _b_trade(new QPushButton(this)),
-  _tradeView(new TradeView(parent, wMan))
+  QWidget(parent), _wMan(wMan), _b_aggro(new QPushButton(this)), _b_trade(new QPushButton(this))
 {
   _b_aggro->move(0,32);
   _b_aggro->resize(100,32);
@@ -21,7 +20,6 @@ PlayerClickView::PlayerClickView(QWidget *parent, WindowManager *wMan) :
   _b_trade->setText("Trade");
   _b_aggro->show();
   _b_trade->show();
-  _tradeView->hide();
 
   connect(_b_trade, SIGNAL(clicked()), this, SLOT(bTradeClicked()));
   connect(_b_aggro, SIGNAL(clicked()), this, SLOT(bAggroClicked()));
@@ -48,7 +46,4 @@ void				PlayerClickView::bAggroClicked()
 void				PlayerClickView::bTradeClicked()
 {
   std::cout << "SO UR TELLIN ME U WANNA TRADE ? GOOBY PLZ" << std::endl;
-  _tradeView->move(1400, 0);
-  _tradeView->show();
-  _tradeView->setInfos("Alexis le noob overkill");
 }
