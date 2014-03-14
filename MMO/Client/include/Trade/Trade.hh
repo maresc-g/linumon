@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Mar 10 16:56:18 2014 guillaume marescaux
-// Last update Fri Mar 14 15:44:31 2014 guillaume marescaux
+// Last update Fri Mar 14 16:13:24 2014 guillaume marescaux
 //
 
 #ifndef 			__TRADE_HH__
@@ -40,8 +40,8 @@ private:
 
   unsigned int			_id;
   std::string			_name;
-  std::list<Stack const *>	*_playerStacks;
-  std::list<Stack const *>	*_otherStacks;
+  std::list<Stack<AItem> const *>	*_playerStacks;
+  std::list<Stack<AItem> const *>	*_otherStacks;
   std::list<Mob const *>	*_playerMobs;
   std::list<Mob const *>	*_otherMobs;
   unsigned int			_playerMoney;
@@ -63,17 +63,17 @@ public:
   void				putOtherMob(Mob const *);
   void				getPlayerMob(Mob const *);
   void				getOtherMob(Mob const *);
-  void				putPlayerStack(Stack const *);
-  void				putOtherStack(Stack const *);
-  void				getPlayerStack(Stack const *);
-  void				getOtherStack(Stack const *);
+  void				putPlayerStack(Stack<AItem> const *);
+  void				putOtherStack(Stack<AItem> const *);
+  void				getPlayerStack(Stack<AItem> const *);
+  void				getOtherStack(Stack<AItem> const *);
   void				setName(std::string const &);
   void				setChanged(bool);
 
   unsigned int			getPlayerMoney(void) const;
   unsigned int			getOtherMoney(void) const;
-  std::list<Stack const*> const	&getPlayerStacks(void) const;
-  std::list<Stack const*> const	&getOtherStacks(void) const;
+  std::list<Stack<AItem> const *> const	&getPlayerStacks(void) const;
+  std::list<Stack<AItem> const *> const	&getOtherStacks(void) const;
   std::list<Mob const*> const	&getPlayerMobs(void) const;
   std::list<Mob const*> const	&getOtherMobs(void) const;
   std::string const		&getName(void) const;

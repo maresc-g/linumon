@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb 20 13:27:33 2014 guillaume marescaux
-// Last update Fri Mar 14 15:46:24 2014 guillaume marescaux
+// Last update Fri Mar 14 16:14:02 2014 guillaume marescaux
 //
 
 #ifndef 			__TRADEVIEW_HH__
@@ -55,8 +55,8 @@ public:
 
   void				reset(void);
   void				setInfos(MutexVar<Trade *> *trade);
-  void				putStackToTrade(Stack const *stack);
-  void				getStackFromTrade(Stack const *stack);
+  void				putStackToTrade(Stack<AItem> const *stack);
+  void				getStackFromTrade(Stack<AItem> const *stack);
   void				handleMobChange(MobView *source, MobView *dest);
 };
 

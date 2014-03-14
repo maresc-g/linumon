@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb 20 13:28:48 2014 guillaume marescaux
-// Last update Fri Mar 14 15:51:38 2014 guillaume marescaux
+// Last update Fri Mar 14 16:14:15 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/TradeView.hh"
@@ -159,15 +159,15 @@ void				TradeView::setInfos(MutexVar<Trade *> *trade)
     }
 }
 
-// void				TradeView::putStackToTrade(Stack const *stack)
+// void				TradeView::putStackToTrade(Stack<AItem> const *stack)
 // {
 //   (**trade)->getPlayerStacks()->push_back(stack);
 //   setInfos(_name);
 // }
 
-// void				TradeView::getStackFromTrade(Stack const *stack)
+// void				TradeView::getStackFromTrade(Stack<AItem> const *stack)
 // {
-//   auto it = find_if((**trade)->getPlayerStacks()->begin(), (**trade)->getPlayerStacks()->end(), [&](Stack const *val){
+//   auto it = find_if((**trade)->getPlayerStacks()->begin(), (**trade)->getPlayerStacks()->end(), [&](Stack<AItem> const *val){
 //       if (val->getId() == stack->getId())
 //   	return true;
 //       return false;

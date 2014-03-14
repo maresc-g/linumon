@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar 14 16:05:56 2014 guillaume marescaux
+// Last update Fri Mar 14 16:17:10 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -393,14 +393,14 @@ bool				Core::launchTrade(Trame *trame)
 
 bool				Core::putItem(Trame *trame)
 {
-  (**_trade)->putOtherStack(Stack::deserialization((*trame)((*trame)[CONTENT]["STACK"])));
+  (**_trade)->putOtherStack(Stack<AItem>::deserialization((*trame)((*trame)[CONTENT]["STACK"])));
   (**_trade)->setChanged(true);
   return (true);
 }
 
 bool				Core::getItem(Trame *trame)
 {
-  (**_trade)->getOtherStack(Stack::deserialization((*trame)((*trame)[CONTENT]["STACK"])));
+  (**_trade)->getOtherStack(Stack<AItem>::deserialization((*trame)((*trame)[CONTENT]["STACK"])));
   (**_trade)->setChanged(true);
   return (true);
 }
