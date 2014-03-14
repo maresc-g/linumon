@@ -5,11 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-<<<<<<< HEAD
-// Last update Fri Mar 14 14:23:52 2014 cyril jourdain
-=======
-// Last update Fri Mar 14 16:17:10 2014 guillaume marescaux
->>>>>>> b2b398d2a98fdeb8d95f6b3a08d2b320a577e9dc
+// Last update Fri Mar 14 16:23:35 2014 cyril jourdain
 //
 
 #include			<unistd.h>
