@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar 14 13:48:47 2014 cyril jourdain
+// Last update Fri Mar 14 14:23:52 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -304,10 +304,10 @@ bool				Core::captureEffect(Trame *)
 
 bool				Core::switchMob(Trame *trame)
 {
-  // if ((*trame)[CONTENT]["SWITCH"]["PLAYER"].asUInt() == (**_player)->getId())
+  if ((*trame)[CONTENT]["SWITCH"]["PLAYER"].asUInt() == (**_player)->getId())
     (**_battle)->switchPlayerMobs((*trame)[CONTENT]["SWITCH"]["TARGET"].asUInt(), (*trame)[CONTENT]["SWITCH"]["NEWMOB"].asUInt());
-  // else
-  //   (**_battle)->switchEnemyMobs((*trame)[CONTENT]["SWITCH"]["TARGET"].asUInt(), (*trame)[CONTENT]["SWITCH"]["NEWMOB"].asUInt());
+  else
+    (**_battle)->switchEnemyMobs((*trame)[CONTENT]["SWITCH"]["TARGET"].asUInt(), (*trame)[CONTENT]["SWITCH"]["NEWMOB"].asUInt());
   return (true);
 }
 
@@ -629,7 +629,7 @@ void				Core::capture(unsigned int idBattle, unsigned int target)
 
 void				Core::sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob)
 {
-  (*_proto).operator()<unsigned int const, unsigned int, unsigned int, unsigned int>("SWITCH", _id, idBattle, target, newMob);
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", _id, idBattle, target, newMob, 0);
 }
 
 void				Core::stuff(int action, unsigned int idItem, unsigned int target)

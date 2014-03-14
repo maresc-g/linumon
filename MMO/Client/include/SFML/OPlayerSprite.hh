@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Feb 25 14:10:55 2014 cyril jourdain
-// Last update Fri Mar  7 14:44:32 2014 cyril jourdain
+// Last update Fri Mar 14 15:29:27 2014 cyril jourdain
 //
 
 #ifndef 		__OPLAYERSPRITE_HH__
@@ -25,7 +25,7 @@ private:
   virtual void			moveLeft(float, sf::View *v = NULL);
   virtual void			moveRight(float, sf::View *v = NULL);
 public:
-  virtual void			onClick();
+  virtual void			onClick(QMouseEvent *);
 };
 
 #endif

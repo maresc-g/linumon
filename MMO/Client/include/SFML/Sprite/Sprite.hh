@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 13:38:44 2014 cyril jourdain
-// Last update Tue Mar 11 23:45:45 2014 cyril jourdain
+// Last update Fri Mar 14 15:28:59 2014 cyril jourdain
 //
 
 #ifndef 		__SPRITE_HH__
@@ -43,7 +43,7 @@ public /* inherited functions */ :
   virtual void		draw(sf::RenderTarget &, sf::RenderStates) const;
   virtual void		update(sf::Clock &);
   virtual bool		isClicked(float const x, float const y) const;
-  virtual void		onClick();
+  virtual void		onClick(QMouseEvent *);
   // virtual void		setPosition(float x, float y);
 
 public /* methods */ :

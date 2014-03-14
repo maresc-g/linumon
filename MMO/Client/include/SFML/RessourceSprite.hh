@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Feb 26 14:50:34 2014 cyril jourdain
-// Last update Fri Feb 28 19:48:17 2014 cyril jourdain
+// Last update Fri Mar 14 15:32:50 2014 cyril jourdain
 //
 
 #ifndef 		__RESSOURCESPRITE_HH__
@@ -25,7 +25,7 @@ public:
 
 public:
   virtual void		draw(sf::RenderTarget &, sf::RenderStates) const;
-  virtual void		onClick();
+  virtual void		onClick(QMouseEvent *);
   bool			isVisible();
 
 };

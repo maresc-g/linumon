@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Fri Mar 14 14:04:42 2014 cyril jourdain
+// Last update Fri Mar 14 15:33:44 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -63,17 +63,15 @@ void			BattleView::onUpdate()
 {
   if (**(**(_wMan)->getBattle())->getSwitch())
     {
-      qDebug() << "SWITCH IN BATTLE !";
       loadPlayerList();
       _currentTurn = -1;
       *(**(_wMan)->getBattle())->getSwitch() = false;
       _playingMob = NULL;
+      setLifeVisibility(true);
     }
   if (_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn())
     {
       unsigned int turn = (**_wMan->getBattle())->getTurnTo();
-      if (turn != (unsigned int)-1)
-	qDebug() << "Turn to : " << turn; 
       if (turn != (unsigned int) -1)
 	_currentTurn = turn;
       setPlayingMob();
@@ -357,7 +355,6 @@ bool			BattleView::playerTurn() const
 
   if (_selectedMob && playerTurn() && _selectedSpell != "")
     {
-      _selectedMob->onClick();
       auto it = find_if(enemyMobs.begin(), enemyMobs.end(), [&](const Mob *val){
 	  if (_selectedMob->getPlayerId() == val->getId())
 	    return true;

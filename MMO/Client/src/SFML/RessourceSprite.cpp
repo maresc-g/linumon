@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Feb 26 14:58:57 2014 cyril jourdain
-// Last update Mon Mar  3 14:05:37 2014 cyril jourdain
+// Last update Fri Mar 14 15:30:14 2014 cyril jourdain
 //
 
 #include		"SFML/RessourceSprite.hh"
@@ -34,7 +34,7 @@ void		RessourceSprite::draw(sf::RenderTarget &target, sf::RenderStates states) c
   Map::getInstance()->unlock();
 }
 
-void		RessourceSprite::onClick()
+void		RessourceSprite::onClick(QMouseEvent *)
 {
   std::cout << "Ressource Clicked" << std::endl;
 }
