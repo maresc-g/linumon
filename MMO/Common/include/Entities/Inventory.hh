@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Fri Mar 14 15:30:35 2014 laurent ansel
+// Last update Fri Mar 14 21:29:52 2014 alexis mestag
 //
 
 #ifndef 			__INVENTORY_HH__
@@ -21,7 +21,7 @@
 template<typename T>
 class				Stack;
 
-class				Inventory : public ISerialization, public Persistent,
+class				Inventory : public ISerialization,
 					    public ContainerWrapper<std::list<Stack<AItem> *> >
 {
 private:

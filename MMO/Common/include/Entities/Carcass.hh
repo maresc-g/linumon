@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar 14 11:04:31 2014 laurent ansel
-// Last update Fri Mar 14 22:05:19 2014 laurent ansel
+// Last update Fri Mar 14 22:13:36 2014 alexis mestag
 //
 
 #ifndef 		__CARCASS_HH__
@@ -53,10 +53,10 @@ public:
   static Carcass	*deserialization(Trame const &trame);
 };
 
-# ifdef	ODB_COMPILER
-#  pragma db object(Carcass)
-#  pragma db member(Carcass::_coord) transient
+// # ifdef	ODB_COMPILER
+// #  pragma db object(Carcass)
+// #  pragma db member(Carcass::_coord) transient
 
-# endif
+// # endif
 
 #endif

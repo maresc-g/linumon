@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Fri Mar 14 15:42:38 2014 laurent ansel
+// Last update Fri Mar 14 21:29:57 2014 alexis mestag
 //
 
 #include			<stdlib.h>
@@ -15,7 +15,6 @@
 #include			"Loader/LoaderManager.hh"
 
 Inventory::Inventory(std::string const &path):
-  Persistent(),
   ContainerWrapper<container_type>(),
   _path(path),
   _money(0),
@@ -25,7 +24,7 @@ Inventory::Inventory(std::string const &path):
 }
 
 Inventory::Inventory(Inventory const &rhs) :
-  Persistent(rhs), ContainerWrapper<container_type>()
+  ContainerWrapper<container_type>()
 {
   *this = rhs;
 }

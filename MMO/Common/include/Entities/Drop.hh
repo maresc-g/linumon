@@ -5,37 +5,22 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Mar 10 14:57:05 2014 antoine maitre
-// Last update Fri Mar 14 11:51:21 2014 alexis mestag
+// Last update Fri Mar 14 21:48:22 2014 alexis mestag
 //
 
 #ifndef				__DROP_HH__
 # define			__DROP_HH__
 
-#include			"Entities/Player.hh"
-#include			"Database/Persistent.hh"
+# include			"Entities/Inventory.hh"
 
-class				Drop : public Persistent, public ContainerWrapper<std::list<AItem *> >
+class				Drop : public Inventory
 {
-  friend class			odb::access;
-
-private:
-  unsigned int			_money;
-  unsigned int			_exp;
-
-private:
-  void				setMoney(int const money);
-  void				setExp(int const exp);
-
 public:
   Drop();
+  Drop(Drop const &rhs);
   virtual ~Drop();
 
-  int				getMoney() const;
-  int				getExp() const;
+  Drop				&operator=(Drop const &rhs);
 };
-
-# ifdef ODB_COMPILER
-#  pragma db object(Drop)
-#endif
 
 #endif
