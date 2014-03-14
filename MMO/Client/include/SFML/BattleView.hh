@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Thu Mar 13 15:47:25 2014 cyril jourdain
+// Last update Fri Mar 14 11:39:56 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -52,6 +52,7 @@ private:
   std::string			_selectedSpell;
   BattleSpellUpdater		*_spellUpdater;
   unsigned int			_currentTurn;
+  bool				_battleStarted;  
 
 public:
   BattleView(SFMLView *, WindowManager *);
@@ -60,7 +61,7 @@ public:
 public:
   virtual void			onInit();
   virtual void			onUpdate();
-  virtual void			onKeyEvent(sf::Event const &);
+  virtual void			onKeyEvent(QKeyEvent *);
   virtual void			onMouseEvent(QMouseEvent *event);
   virtual void			resetView();
   virtual void			drawView();
@@ -76,6 +77,8 @@ public:
   void				resetHUDPos();
   void				setLifeVisibility(bool v);
   void				quitBattle();
+  bool				isBattleEnded();
+  void				battleStart();
 
 private:
   void				setPlayingMob();
@@ -83,7 +86,7 @@ private:
   void				leftButton(QMouseEvent *);
   void				rightButton(QMouseEvent *);
   void				noButton(QMouseEvent *);
-  void				switchMobs();
+  void				switchMobs(unsigned int);
 };
 
 #endif

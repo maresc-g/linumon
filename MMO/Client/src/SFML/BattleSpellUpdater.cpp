@@ -5,11 +5,12 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:56 2014 cyril jourdain
-// Last update Thu Mar 13 14:39:11 2014 cyril jourdain
+// Last update Fri Mar 14 11:06:28 2014 cyril jourdain
 //
 
 #include			"SFML/BattleSpellUpdater.hh"
 #include			"SFML/BattleView.hh"
+#include <QDebug>
 
 BattleSpellUpdater::BattleSpellUpdater(SFMLView *sfml, WindowManager *w) :
   _sfmlView(sfml), _wMan(w), _currentSpell(new Sprite())
@@ -29,7 +30,8 @@ void				BattleSpellUpdater::update(BattleView *battle)
     {
       if ((tmp = (**_wMan->getBattle())->getSpell()))
 	{
-	  _sfmlView->getSpriteManager()->copySprite("Danse-Fleur", *_currentSpell);
+	  qDebug() << "Something found";
+	  _sfmlView->getSpriteManager()->copySprite("Lance-Flamme", *_currentSpell);
 	  mob = battle->findMobById(tmp->getTarget());
 	  if (!mob || mob->type == NOMOB)
 	    return;
@@ -41,6 +43,7 @@ void				BattleSpellUpdater::update(BattleView *battle)
 	  _currentSpell->play("onEnemy");
 	  //_currentSpell->update(*_sfmlView->getMainClock());
 	  delete tmp;
+	  delete mob;
 	}
     }
   else

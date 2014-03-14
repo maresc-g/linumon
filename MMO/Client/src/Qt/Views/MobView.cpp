@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Wed Mar 12 21:14:53 2014 guillaume marescaux
+// Last update Thu Mar 13 16:50:10 2014 cyril jourdain
 //
 
 #include			<QMenu>
@@ -91,6 +91,7 @@ void				MobView::mousePressEvent(QMouseEvent *mEvent)
 {
   if (mEvent->button() == Qt::LeftButton)
     {
+      emit clicked(_mob->getId());
       makeDrag();
     }
 }

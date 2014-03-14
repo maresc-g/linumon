@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Thu Mar 13 15:47:39 2014 cyril jourdain
+// Last update Fri Mar 14 11:42:58 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -17,7 +17,7 @@
 BattleView::BattleView(SFMLView *v, WindowManager *w) :
   ContextView(v,w), _playerList(new std::list<MobSprite*>()),
   _enemyList(new std::list<MobSprite*>()), _playingMob(NULL), _selectedMob(NULL),
-  _selectedSpell(""), _currentTurn(-1)
+  _selectedSpell(""), _currentTurn(-1), _battleStarted(false)
 {
   // (*_buttonMap)[Qt::NoButton] = &BattleView::noButton;
   // (*_buttonMap)[Qt::LeftButton] = &BattleView::leftButton;
@@ -62,6 +62,7 @@ void			BattleView::onInit()
       tmp->setPosition(posY, ((BATTLE_SIZE- 2) * CASE_SIZE) - tmp->getCurrentBound()->height / 2 + 4);
       tmp->setPos(posY / CASE_SIZE, BATTLE_SIZE - 2);
       tmp->setPlayerId((*it)->getId(), false);
+      tmp->setText(std::string((*it)->getName() + " [" + std::to_string((*it)->getId()) + "]"));
       tmp->setHUDInfo(*(static_cast<Mob*>(*it)));
       tmp->setInfoVisibility(false);
       tmp->initHealthBar(*(static_cast<Mob*>(*it)));
@@ -80,6 +81,7 @@ void			BattleView::onInit()
       tmp->setPosition(posY, ((2) * CASE_SIZE) - tmp->getCurrentBound()->height / 2 + 4);
       tmp->setPos(posY / CASE_SIZE, 2);
       tmp->setPlayerId((*it)->getId(), false);
+      tmp->setText(std::string((*it)->getName() + " [" + std::to_string((*it)->getId()) + "]"));
       tmp->initHealthBar(*(static_cast<Mob*>(*it)));
       _enemyList->push_back(tmp);
       posY += 3*CASE_SIZE;
@@ -94,12 +96,15 @@ void			BattleView::onInit()
   _spellSpriteCase->setVisible(false);
   (*_spellSprite)["mouse"]->setFrameLength(120000);
   (*_selection)["default_down"]->setFrameLength(45000);
+  _battleStarted = true;
 }
 void			BattleView::onUpdate()
 {
   if (_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn())
     {
       unsigned int turn = (**_wMan->getBattle())->getTurnTo();
+      if (turn != (unsigned int)-1)
+	qDebug() << "Turn to : " << turn; 
       if (turn != (unsigned int) -1)
 	_currentTurn = turn;
       setPlayingMob();
@@ -112,7 +117,7 @@ void			BattleView::onUpdate()
   _spellSpriteCase->update(*_sfmlView->getMainClock());
 }
 
-void			BattleView::onKeyEvent(sf::Event const &)
+void			BattleView::onKeyEvent(QKeyEvent *)
 {
 }
 
@@ -181,12 +186,13 @@ void			BattleView::centerView()
 void			BattleView::spellClick(std::string const &spell)
 {
   if (playerTurn()) {
-    if (_sfmlView->getSpriteManager()->copySprite(spell, *_spellSprite)) {
       (static_cast<QApplication *>(QApplication::instance()))->setOverrideCursor(QCursor(Qt::BlankCursor));
-      _spellSprite->setVisible(true);
-      _spellSprite->play("mouse");
-      _selectedSpell = spell;
+    if (!_sfmlView->getSpriteManager()->copySprite(spell, *_spellSprite)) {
+      _sfmlView->getSpriteManager()->copySprite("Surf", *_spellSprite);
     }
+    _spellSprite->setVisible(true);
+    _spellSprite->play("mouse");
+    _selectedSpell = spell;
   }
 }
 
@@ -209,7 +215,7 @@ BattleMob		*BattleView::findMobById(unsigned int id) const
     return new BattleMob(PLAYER, *it);
   if (it != _enemyList->end())
     return new BattleMob(ENEMY, *it);
-  return new BattleMob(NOMOB, NULL);
+  return NULL;
 }
 
 void			BattleView::resetHUDPos()
@@ -252,6 +258,22 @@ void			BattleView::quitBattle()
   _backgroundTexture = NULL;
   _spellUpdater = NULL;
   _currentTurn = -1;
+  _battleStarted = false;
+}
+
+bool			BattleView::isBattleEnded()
+{
+  if (_battleStarted)
+    {
+      if (_spellUpdater->endTurn())
+	return true;
+    }
+  return false;
+}
+
+void			BattleView::battleStart()
+{
+  _battleStarted = true;
 }
 
 void			BattleView::setPlayingMob()
@@ -342,7 +364,7 @@ bool			BattleView::playerTurn() const
 				   return false;
 				 }
 			       std::cout << "Looking in spell : " << val->getName() << std::endl;
-			       if (val->getName() == _spellSprite->getName())
+			       if (val->getName() == _selectedSpell)
 				 return true;
 			       return false;
 			     });
@@ -380,7 +402,7 @@ void			BattleView::rightButton(QMouseEvent *event)
     if (action)
       {
 	if (action->text().toStdString() == "Switch")
-	  switchMobs();
+	  switchMobs(_selectedMob->getPlayerId());
       }
     else
       {
@@ -429,9 +451,11 @@ void			BattleView::noButton(QMouseEvent *event)
     }
 }
 
-void				BattleView::switchMobs()
+void				BattleView::switchMobs(unsigned int mobId)
 {
   std::cout << "switch mobs here" << std::endl;
-  SwitchMobView	*v = new SwitchMobView(_sfmlView, (**_wMan->getMainPlayer())->getDigitaliser());
-  v->exec();
+  SwitchMobView	*v = new SwitchMobView(_sfmlView, &(**_wMan->getMainPlayer())->getDigitaliser().getBattleMobs(), _wMan);
+  int change = v->exec();
+  Client::getInstance()->sendSwitch((**_wMan->getBattle())->getId(), mobId, change);
+  qDebug() << "change mob " << mobId << " with " << change;
 }

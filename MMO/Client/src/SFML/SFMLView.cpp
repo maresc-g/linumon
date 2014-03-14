@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Thu Mar 13 15:45:02 2014 cyril jourdain
+// Last update Fri Mar 14 11:47:28 2014 cyril jourdain
 //
 
 /*
@@ -104,8 +104,9 @@ void			SFMLView::onUpdate()
 
   while (pollEvent(event))
     {
-      if (event.type == sf::Event::KeyPressed)
-	_currentView->onKeyEvent(event);
+      // if (**(_wMan->getState()) != CLIENT::ENTER_BATTLE)
+      // 	if (event.type == sf::Event::KeyPressed)
+      // 	  _currentView->onKeyEvent(event);
     }
   CLIENT::eState s = **(_wMan->getState());
   switch (s)
@@ -123,14 +124,17 @@ void			SFMLView::onUpdate()
       return;
       break;
     case CLIENT::LEAVING_BATTLE:
-      _currentView = _worldView;
-      _currentView->resetPOV();
-      static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
-      static_cast<BattleView*>(_battleView)->quitBattle();
-      *(_wMan->getState()) = CLIENT::PLAYING;      
-      _grow = false;
+      if (static_cast<BattleView*>(_battleView)->isBattleEnded()){
+	_currentView = _worldView;
+	_currentView->resetPOV();
+	static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
+	static_cast<BattleView*>(_battleView)->quitBattle();
+	*(_wMan->getState()) = CLIENT::PLAYING;      
+	_grow = false;
+      }
       break;
     case CLIENT::ENTER_BATTLE:
+      static_cast<BattleView*>(_battleView)->battleStart();
       _mainView->rotate(-10);
       _mainView->zoom(1.2);
       if (_mainView->getSize().x > WIN_W)
@@ -208,6 +212,12 @@ void			SFMLView::mousePressEvent(QMouseEvent *event)
 void			SFMLView::mouseMoveEvent(QMouseEvent *event)
 {
   _currentView->onMouseEvent(event);
+}
+
+void			SFMLView::keyPressEvent(QKeyEvent *event)
+{
+  if (**(_wMan->getState()) != CLIENT::ENTER_BATTLE)
+    _currentView->onKeyEvent(event);
 }
 
 void			SFMLView::displayView(QWidget *view)

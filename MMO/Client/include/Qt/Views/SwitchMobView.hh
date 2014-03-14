@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Mar 13 14:42:17 2014 cyril jourdain
-// Last update Thu Mar 13 15:46:58 2014 cyril jourdain
+// Last update Thu Mar 13 16:59:46 2014 cyril jourdain
 //
 
 #ifndef 		__SWITCHMOBVIEW_HH__
@@ -16,6 +16,7 @@
 #include		<QFrame>
 #include		"Entities/Digitaliser.hh"
 #include		"ui_switchmobview.h"
+#include		"Qt/WindowManager.hh"
 
 class			SwitchMobView : public QDialog
 {
@@ -27,12 +28,14 @@ private:
   QFrame		*_frame;
 
 public:
-  SwitchMobView(QWidget *, Digitaliser const &);
+SwitchMobView(QWidget *, Digitaliser::Mobs const *, WindowManager *wMan);
   virtual ~SwitchMobView();
 
 private:
   virtual void		paintEvent(QPaintEvent *);
-  virtual void		accept();
+
+private slots:
+  void			selectMob(unsigned int);
 };
 
 #endif

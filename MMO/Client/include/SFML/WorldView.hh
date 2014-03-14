@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb 17 15:32:06 2014 cyril jourdain
-// Last update Fri Mar  7 21:37:39 2014 cyril jourdain
+// Last update Fri Mar 14 11:47:08 2014 cyril jourdain
 //
 
 #ifndef				__WORLDVIEW_HH__
@@ -21,7 +21,7 @@ class				WorldView : public ContextView
 {
 
 private:
-  typedef std::map<sf::Keyboard::Key, void (WorldView::*)()> KeyMap;
+  typedef std::map<Qt::Key, void (WorldView::*)()> KeyMap;
 
 private:
   PlayerSprite			*_mainPerso;
@@ -29,7 +29,7 @@ private:
   std::list<RessourceSprite*>	*_entities;
   std::list<RessourceSprite*>	*_topLayer;
   KeyMap			*_keyMap;
-  sf::Keyboard::Key		_pressedKey;
+  Qt::Key			_pressedKey;
 
 private: /* Child views */
   PlayerClickView		*_clickView;
@@ -41,7 +41,7 @@ public:
 public:
   virtual void			onInit();
   virtual void			onUpdate();
-  virtual void			onKeyEvent(sf::Event const &);
+  virtual void			onKeyEvent(QKeyEvent *);
   virtual void			onMouseEvent(QMouseEvent *event);
   virtual void			resetView();
   virtual void			drawView();

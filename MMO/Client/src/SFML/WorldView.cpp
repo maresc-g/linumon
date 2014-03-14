@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Thu Mar 13 13:08:26 2014 cyril jourdain
+// Last update Fri Mar 14 11:52:59 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -21,20 +21,20 @@
 
 WorldView::WorldView(SFMLView *v, WindowManager *w) :
   ContextView(v, w), _mainPerso(NULL), _playerList(new std::vector<OPlayerSprite *>),
-  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(sf::Keyboard::Unknown),
+  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(Qt::Key(0)),
   _clickView(new PlayerClickView(v, w))
 {
-  (*_keyMap)[sf::Keyboard::Up] = &WorldView::keyUp;
-  (*_keyMap)[sf::Keyboard::Down] = &WorldView::keyDown;
-  (*_keyMap)[sf::Keyboard::Left] = &WorldView::keyLeft;
-  (*_keyMap)[sf::Keyboard::Right] = &WorldView::keyRight;
-  (*_keyMap)[sf::Keyboard::LControl] = &WorldView::keyControl;
-  (*_keyMap)[sf::Keyboard::I] = &WorldView::keyI;
-  (*_keyMap)[sf::Keyboard::S] = &WorldView::keyS;
-  (*_keyMap)[sf::Keyboard::J] = &WorldView::keyJ;
-  (*_keyMap)[sf::Keyboard::D] = &WorldView::keyD;
-  (*_keyMap)[sf::Keyboard::Escape] = &WorldView::keyEscape;
-  (*_keyMap)[sf::Keyboard::Return] = &WorldView::keyReturn;
+  (*_keyMap)[Qt::Key_Up] = &WorldView::keyUp;
+  (*_keyMap)[Qt::Key_Down] = &WorldView::keyDown;
+  (*_keyMap)[Qt::Key_Left] = &WorldView::keyLeft;
+  (*_keyMap)[Qt::Key_Right] = &WorldView::keyRight;
+  (*_keyMap)[Qt::Key_Control] = &WorldView::keyControl;
+  (*_keyMap)[Qt::Key_I] = &WorldView::keyI;
+  (*_keyMap)[Qt::Key_S] = &WorldView::keyS;
+  (*_keyMap)[Qt::Key_J] = &WorldView::keyJ;
+  (*_keyMap)[Qt::Key_D] = &WorldView::keyD;
+  (*_keyMap)[Qt::Key_Escape] = &WorldView::keyEscape;
+  (*_keyMap)[Qt::Key_Return] = &WorldView::keyReturn;
   _clickView->hide();
 }
 
@@ -85,12 +85,12 @@ void			WorldView::onUpdate()
     }
 }
 
-void			WorldView::onKeyEvent(sf::Event const &event)
+void			WorldView::onKeyEvent(QKeyEvent *event)
 {
   CLIENT::eState s = **(_wMan->getState());
   if (s == CLIENT::PLAYING){
     try {
-      (this->*(_keyMap->at(event.key.code)))();
+      (this->*(_keyMap->at(Qt::Key(event->key()))))();
     }
     catch (std::out_of_range const &e) {
     }
@@ -291,11 +291,11 @@ void			WorldView::keyUp()
     {
       _mainPerso->play("default_up");
       if (Client::getInstance()->move(CLIENT::UP)){
-	  _pressedKey = sf::Keyboard::Up;
+	  _pressedKey = Qt::Key_Up;
 	  _mainPerso->setWaitingState();
       }
     }
-  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == sf::Keyboard::Up)
+  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == Qt::Key_Up)
     {
       if (Client::getInstance()->move(CLIENT::UP))
 	_mainPerso->receivedInput();
@@ -309,11 +309,11 @@ void			WorldView::keyDown()
     {
       _mainPerso->play("default_down");
       if (Client::getInstance()->move(CLIENT::DOWN)){
-	_pressedKey = sf::Keyboard::Down;
+	_pressedKey = Qt::Key_Down;
 	_mainPerso->setWaitingState();
       }
     }
-  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == sf::Keyboard::Down)
+  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == Qt::Key_Down)
     {
       if (Client::getInstance()->move(CLIENT::DOWN))
 	_mainPerso->receivedInput();
@@ -327,11 +327,11 @@ void			WorldView::keyLeft()
     {
       _mainPerso->play("default_left");
       if (Client::getInstance()->move(CLIENT::LEFT)){
-	_pressedKey = sf::Keyboard::Left;
+	_pressedKey = Qt::Key_Left;
 	_mainPerso->setWaitingState();
       }
     }
-  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == sf::Keyboard::Left)
+  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == Qt::Key_Left)
     {
       if (Client::getInstance()->move(CLIENT::LEFT))
 	_mainPerso->receivedInput();
@@ -345,11 +345,11 @@ void			WorldView::keyRight()
     {
       _mainPerso->play("default_right");
       if (Client::getInstance()->move(CLIENT::RIGHT)){
-	_pressedKey = sf::Keyboard::Right;
+	_pressedKey = Qt::Key_Right;
 	_mainPerso->setWaitingState();
       }
     }
-  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == sf::Keyboard::Right)
+  else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == Qt::Key_Right)
     {
       if (Client::getInstance()->move(CLIENT::RIGHT))
 	_mainPerso->receivedInput();
@@ -366,7 +366,7 @@ void			WorldView::keyControl()
 
 void			WorldView::keyI()
 {
-  if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::I) && !_sfmlView->getChatView()->getFocused())
+  if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_I) && !_sfmlView->getChatView()->getFocused())
     {
       if (!_sfmlView->getInventoryView()->isVisible())
 	{
@@ -375,13 +375,13 @@ void			WorldView::keyI()
 	}
       else
 	_sfmlView->hideView(_sfmlView->getInventoryView());
-      _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::I, 100000);
+      _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_I, 100000);
     }
 }
 
 void			WorldView::keyS()
 {
-  if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::S) && !_sfmlView->getChatView()->getFocused())
+  if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_S) && !_sfmlView->getChatView()->getFocused())
     {
       if (!_sfmlView->getStuffView()->isVisible())
 	{
@@ -390,25 +390,25 @@ void			WorldView::keyS()
 	}
       else
 	_sfmlView->hideView(_sfmlView->getStuffView());
-      _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::S, 100000);
+      _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_S, 100000);
     }
 }
 
 void			WorldView::keyJ()
 {
-  if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::J) && !_sfmlView->getChatView()->getFocused())
+  if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_J) && !_sfmlView->getChatView()->getFocused())
     {
       if (!_sfmlView->getJobMenuView()->isVisible())
 	  _sfmlView->displayView(_sfmlView->getJobMenuView());
       else
 	  _sfmlView->hideView(_sfmlView->getJobMenuView());
-      _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::J, 100000);
+      _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_J, 100000);
     }
 }
 
 void			WorldView::keyD()
 {
-  if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::D) && !_sfmlView->getChatView()->getFocused())
+  if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_D) && !_sfmlView->getChatView()->getFocused())
     {
       if (!_sfmlView->getDigitaliserView()->isVisible())
 	{
@@ -417,31 +417,31 @@ void			WorldView::keyD()
 	}
       else
 	_sfmlView->hideView(_sfmlView->getDigitaliserView());
-      _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::D, 100000);
+      _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_D, 100000);
     }
 }
 
 void			WorldView::keyEscape()
 {
-  if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::Escape) && !_sfmlView->getChatView()->getFocused())
+  if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_Escape) && !_sfmlView->getChatView()->getFocused())
     {
       if (!_sfmlView->getMenuView()->isVisible())
 	_sfmlView->getMenuView()->show();
       else
 	_sfmlView->getMenuView()->hide();
-      _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::Escape, 100000);
+      _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_Escape, 100000);
     }
 }
 
 void			WorldView::keyReturn()
 {
-  // if (_sfmlView->getKeyDelayer()->isAvailable(sf::Keyboard::Return))
+  // if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_Return))
   //   {
   //     if (!_sfmlView->getChatView()->getFocused())
   // 	_sfmlView->getChatView()->setFocused(true);
   //     else
   // 	_sfmlView->getChatView()->submitText();
-  //     _sfmlView->getKeyDelayer()->addWatcher(sf::Keyboard::Return, 100000);
+  //     _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_Return, 100000);
   //   }
   *(_wMan->getState()) = CLIENT::LOADING_BATTLE;
 }
