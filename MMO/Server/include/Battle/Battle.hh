@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Fri Mar 14 14:37:22 2014 antoine maitre
+// Last update Fri Mar 14 14:50:40 2014 antoine maitre
 //
 
 #ifndef				__BATTLE_HH__
@@ -49,7 +49,7 @@ public:
   void				setSuccess(bool const val);
   void				disconnect(unsigned int const idPlayer) const;
   void				trameSpell(unsigned int const idPlayer, Spell const *spell, unsigned int const launcher, unsigned int const target) const;
-  void				trameSwitch(unsigned int const idPlayer, unsigned int const target, unsigned int const newMob) const;
+  void				trameSwitch(unsigned int const idPlayer, unsigned int const target, unsigned int const newMob, unsigned int const player) const;
   void				trameSpellEffect(unsigned int const idPlayer, unsigned int const target, int const hpChange) const;
   void				trameDeadMob(unsigned int const idPlayer, unsigned int const idMob) const;
   void				trameCapture(unsigned int const idPlayer, unsigned int const idMob) const;
