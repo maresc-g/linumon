@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Mar 14 16:05:40 2014 guillaume marescaux
+// Last update Fri Mar 14 16:50:38 2014 cyril jourdain
 //
 
 /*
@@ -115,6 +115,9 @@ void			SFMLView::onUpdate()
   CLIENT::eState s = **(_wMan->getState());
   switch (s)
     {
+    case CLIENT::TRADE:
+      _trade->show();
+      break;
     case CLIENT::NEWZONE:
       *(_wMan->getState()) = CLIENT::LOADING;
       break;

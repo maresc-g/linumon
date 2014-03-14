@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Fri Mar 14 16:38:01 2014 guillaume marescaux
+// Last update Fri Mar 14 17:09:20 2014 cyril jourdain
 //
 
 #ifndef				__CLIENT_HH__
@@ -69,7 +69,7 @@ public:
   void				craft(std::string const &craftName, std::string const &jobName);
   // void				gather();
   void				useObject(unsigned int target, unsigned int item);
-  void				interaction(eInteraction interact, unsigned int targetId);
+  void				interaction(eInteraction interact, std::string const &name);
   void				putItem(unsigned int idTrade, unsigned int idStack);
   void				getItem(unsigned int idTrade, unsigned int idStack);
   void				putMob(unsigned int idTrade, unsigned int idMob);
