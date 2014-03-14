@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Thu Mar 13 14:21:05 2014 antoine maitre
+// Last update Thu Mar 13 21:54:25 2014 laurent ansel
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -227,8 +227,9 @@ void				BattleUpdater::disconnect(unsigned int const idPlayer)
       if ((*it)->isInThisBattle(idPlayer))
 	{
 	  (*it)->setSuccess(false);
-	  this->_battles->remove((*it));
+	  (*it)->disconnect(idPlayer);
 	  delete (*it);
+	  this->_battles->remove((*it));
 	  break;
 	}
     }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Mar 13 18:58:07 2014 laurent ansel
+// Last update Thu Mar 13 22:25:22 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -133,7 +133,7 @@ public:
   User const			&getUser() const;
   void				setUser(User const &user);
 
-  void				capture(Mob const &mob);
+  void				capture(Mob &mob);
 
   Mob const			&getMob(unsigned int const id);
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Mar 13 16:40:58 2014 laurent ansel
+// Last update Thu Mar 13 22:39:38 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -13,6 +13,9 @@
 #include		"Entities/User.hh"
 #include		"Loader/LoaderManager.hh"
 #include		"Entities/Guild.hh"
+#ifndef	CLIENT_COMPILATION
+#include		"ClientWriter/ClientWriter.hh"
+#endif
 
 Protocol::Protocol(bool const server):
   //  _container(new std::map<std::string, funcProtocol>),
@@ -67,6 +70,8 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, Player *, Zone *, Zone *>("NEWZONE", &newZone);
       this->_container->load<unsigned int, unsigned int, bool, Zone *>("VISIBLE", &visible);
 
+      this->_container->load<unsigned int, unsigned int, bool, Zone *>("ISINBATTLE", &isInBattle);
+
       this->_container->load<unsigned int>("MOBMODELS", &mobModels);
       this->_container->load<unsigned int>("JOBMODELS", &jobModels);
       this->_container->load<unsigned int>("STUFFS", &stuffs);
@@ -82,6 +87,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, std::string, Zone *>("NEWMEMBER", &newMember);
       this->_container->load<unsigned int, std::string, Zone *>("DELETEMEMBER", &deleteMember);
       this->_container->load<unsigned int, std::string>("invite", &invite);
+
     }
   else
     {
@@ -423,6 +429,27 @@ bool                    choosePlayer(unsigned int const id, int playerId)
   return (ret);
 }
 
+bool                    isInBattle(unsigned int const id, unsigned int const playerId, bool const battle, Zone *zone)
+{
+  Trame			*trame;
+  Header		*header;
+  bool			ret = false;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["ISINBATTLE"]["ID"] = playerId;
+      (*trame)[CONTENT]["ISINBATTLE"]["IS"] = battle;
+      trame->setEnd(true);
+      ret = sendToAllClient(id, trame, zone, false);
+    }
+  delete header;
+  return (ret);
+}
+
 bool                    playerlist(unsigned int const id, User *user)
 {
   Trame                 *trame;
@@ -533,6 +560,10 @@ bool                    sendToAllClient(unsigned int const id, Trame *trame, Zon
 		  (*tmp)[HEADER]["IDCLIENT"] = idClient;
 		  CircularBufferManager::getInstance()->pushTrame(tmp, CircularBufferManager::WRITE_BUFFER);
 		  tmp = NULL;
+#ifndef CLIENT_COMPILATION
+		  if (idClient != id)
+		    ClientWriter::getInstance()->addNewTrame(idClient, 1);
+#endif
 		}
 	    }
 	  ret = true;

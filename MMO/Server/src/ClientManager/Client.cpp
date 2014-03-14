@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Mar 13 19:01:32 2014 laurent ansel
+// Last update Thu Mar 13 22:32:43 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -153,6 +153,17 @@ void				Client::sendAllInformationModel() const
 
 void				Client::state(eState const state)
 {
+  if (_state == BATTLE && state == GAME)
+    {
+      Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("ISINBATTLE", _id, _player->getId
+(), false, Map::getInstance()->getZone(_player->getZone()));
+      // Map::getInstance()->addPlayer(_player->getZone(), _player);
+    }
+  else if (state == BATTLE && _state == GAME)
+    {
+      Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("ISINBATTLE", _id, _player->getId(), true, Map::getInstance()->getZone(_player->getZone()));
+      // Map::getInstance()->delPlayer(_player->getZone(), _player);
+    }
   _state = state;
 }
 
@@ -244,7 +255,7 @@ void				Client::choosePlayer(unsigned int const id, bool const send)
 	  Map::getInstance()->addPlayer(_player->getZone(), _player);
 	  Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
 	  Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()));
-	  Server::getInstance()->callProtocol<Player *>("NEWPLAYER", _id, _player, Map::getInstance()->getZone(_player->getZone()));
+	  Server::getInstance()->callProtocol<Player *, Zone *>("NEWPLAYER", _id, _player, Map::getInstance()->getZone(_player->getZone()));
 	}
     }
 }
@@ -293,7 +304,7 @@ void				Client::move(Player::PlayerCoordinate *coord)
 	    {
 	      std::cout << "Le getSafe RENVOIE TRUE, JE VAIS RENTRER DANS INBATTLE" << std::endl;
 	      if (BattleManager::getInstance()->inBattle(_player))
-	  	_state = BATTLE;
+		startBattle(_player);
 	    }
 	}
     }
@@ -330,11 +341,15 @@ void				Client::startBattle(Player *&player)
 {
   _state = BATTLE;
   player = _player;
+  Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("ISINBATTLE", _id, _player->getId(), true, Map::getInstance()->getZone(_player->getZone()));
+  // Map::getInstance()->delPlayer(_player->getZone(), _player);
 }
 
 void				Client::endBattle()
 {
   _state = GAME;
+  Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("ISINBATTLE", _id, _player->getId(), false, Map::getInstance()->getZone(_player->getZone()));
+  // Map::getInstance()->addPlayer(_player->getZone(), _player);
 }
 
 void				Client::startTrade(Player *&player)
@@ -445,11 +460,13 @@ bool				Client::newGuild(Guild *guild)
 {
   if (_player && !_player->getGuild())
     {
-      _player->setGuild(*guild);
       if (!guild)
 	Server::getInstance()->callProtocol<std::string, Zone *>("DELETEMEMBER", _id, _player->getName(), Map::getInstance()->getZone(_player->getZone()));
       else
-	Server::getInstance()->callProtocol<std::string, Zone *>("NEWMEMBER", _id, _player->getName(), Map::getInstance()->getZone(_player->getZone()));
+	{
+	  guild->addPlayer(*_player);
+	  Server::getInstance()->callProtocol<std::string, Zone *>("NEWMEMBER", _id, _player->getName(), Map::getInstance()->getZone(_player->getZone()));
+	}
       return (true);
     }
   return (false);

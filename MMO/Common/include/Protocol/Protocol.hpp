@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Thu Mar 13 16:40:39 2014 laurent ansel
+// Last update Thu Mar 13 21:20:40 2014 laurent ansel
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -134,5 +134,6 @@ bool				guild(unsigned int const id, Guild *g);
 bool				newMember(unsigned int const id, std::string player, Zone *zone);
 bool				deleteMember(unsigned int const id, std::string player, Zone *zone);
 bool				invite(unsigned int const id, std::string guild);
+bool		                isInBattle(unsigned int const id, unsigned int const playerId, bool const battle, Zone *zone);
 
 #endif
