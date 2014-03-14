@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Mar 14 15:58:04 2014 laurent ansel
+// Last update Fri Mar 14 17:22:52 2014 alexis mestag
 //
 
 #include			<functional>
@@ -52,38 +52,43 @@ Player::Player(std::string const &name, std::string const &factionName, User con
 {
   this->_inventory->setPath("Res/Inventories/" + this->getName() + ".json");
 
-  # ifndef	CLIENT_COMPILATION
+# ifndef	CLIENT_COMPILATION
   this->initConstPointersForNewPlayers();
 
   /*
   ** Capture a Pikachu
   */
-  Repository<MobModel>		*rm = &Database::getRepository<MobModel>();
-  MobModel const		*m = rm->getByName("Pikachu");
+  if (user) {
+    Repository<MobModel>		*rm = &Database::getRepository<MobModel>();
+    MobModel const		*m = rm->getByName("Pikachu");
 
-  this->_digitaliser->addBattleMob(*(new Mob(*m, 15, this)));
-
+    this->_digitaliser->addBattleMob(*(new Mob(*m, 15, this)));
+  }
   /*
   ** Init Faction
   */
-  Faction			*faction = Database::getRepository<Faction>().getByName(factionName);
+  if (!factionName.empty()) {
+    Faction			*faction = Database::getRepository<Faction>().getByName(factionName);
 
-  if (faction) {
-    this->setFaction(*faction);
-    this->applyFactionEffect();
+    if (faction) {
+      this->setFaction(*faction);
+      this->applyFactionEffect();
+    }
   }
 
   /*
   ** Init Jobs
   */
-  Repository<JobModel>		&rjm = Database::getRepository<JobModel>();
-  std::list<JobModel *>		jms = rjm.getAll();
+  if (user) {
+    Repository<JobModel>		&rjm = Database::getRepository<JobModel>();
+    std::list<JobModel *>		jms = rjm.getAll();
 
-  for (auto jmt = jms.begin() ; jmt != jms.end() ; ++jmt) {
-    Job				*j = new Job(**jmt, 0);
+    for (auto jmt = jms.begin() ; jmt != jms.end() ; ++jmt) {
+      Job				*j = new Job(**jmt, 0);
 
-    j->resetExp();
-    this->setJob(j);
+      j->resetExp();
+      this->setJob(j);
+    }
   }
 
   /*
@@ -92,9 +97,9 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   this->setStat("Limit mob", 3);
   this->setStat("Bag capacity", 30);
 
-  # else
+# else
   (void)factionName;
-  # endif
+# endif
 }
 
 Player::Player(Player const &rhs) :
