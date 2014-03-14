@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:40:51 2014 laurent ansel
-// Last update Fri Mar 14 14:54:47 2014 laurent ansel
+// Last update Fri Mar 14 17:25:03 2014 laurent ansel
 //
 
 #include			<functional>
@@ -34,6 +34,7 @@ void				Trade::launchTrade(Player *player1, Player *player2)
   _player2 = player2;
   if (_player1 && _player2)
     {
+      std::cout << "LAUNCHTRADE" << std::endl;
       Server::getInstance()->callProtocol<unsigned int, std::string>("LAUNCHTRADE", player2->getUser().getId(), getId(), player1->getName());
       Server::getInstance()->callProtocol<unsigned int, std::string>("LAUNCHTRADE", player1->getUser().getId(), getId(), player2->getName());
     }

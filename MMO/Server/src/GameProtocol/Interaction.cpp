@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:34:41 2014 laurent ansel
-// Last update Fri Mar 14 17:11:48 2014 laurent ansel
+// Last update Fri Mar 14 17:31:35 2014 laurent ansel
 //
 
 #include			<functional>
@@ -81,8 +81,11 @@ bool				Interaction::trade(Trame *trame)
   if (player2)
     {
       id2 = player2->getUser().getId();
+      std::cout << "START" << std::endl;
       ClientManager::getInstance()->startTrade(id, player1);
+      std::cout << "START" << std::endl;
       ClientManager::getInstance()->startTrade(id2, player2);
+      std::cout << "START" << std::endl;
       TradeManager::getInstance()->newTrade(player1, player2);
       ret = true;
     }

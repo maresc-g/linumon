@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Feb 12 20:20:01 2014 laurent ansel
-// Last update Wed Mar 12 18:00:05 2014 laurent ansel
+// Last update Fri Mar 14 17:35:39 2014 laurent ansel
 //
 
 #include			<functional>
@@ -64,12 +64,15 @@ TradeManager::~TradeManager()
 
 void				TradeManager::newTrade(Player *player1, Player *player2)
 {
+  std::cout << "LOCK" << std::endl;
   this->_mutex->lock();
   auto				it = _list->begin();
 
+  std::cout << "TRADEMANAGER" << std::endl;
   for (; it != _list->end() && it->first ; ++it);
   if (!it->first && it->second)
     {
+      std::cout << "NEW TRADE" << std::endl;
       it->second->launchTrade(player1, player2);
       it->first = true;
     }
@@ -80,6 +83,7 @@ void				TradeManager::newTrade(Player *player1, Player *player2)
       it->first = true;
     }
   this->_mutex->unlock();
+  std::cout << "UNLOCK" << std::endl;
 }
 
 bool				TradeManager::getMob(Trame *trame)
@@ -237,7 +241,7 @@ bool				TradeManager::accept(Trame *trame)
   unsigned int			idPlayer;
 
   this->_mutex->lock();
-  idTrade = (*trame)[CONTENT]["TRADE"]["IDTRADE"].asUInt();
+  idTrade = (*trame)[CONTENT]["ACCEPT"].asUInt();
   for (auto it = _list->begin() ; it != _list->end() ; ++it)
     if (it->first && it->second && it->second->getId() == idTrade)
       {
@@ -254,7 +258,7 @@ bool				TradeManager::refuse(Trame *trame)
   unsigned int			idTrade;
 
   this->_mutex->lock();
-  idTrade = (*trame)[CONTENT]["TRADE"]["IDTRADE"].asUInt();
+  idTrade = (*trame)[CONTENT]["REFUSE"].asUInt();
   for (auto it = _list->begin() ; it != _list->end() ; ++it)
     if (it->first && it->second && it->second->getId() == idTrade)
       ret = it->second->refuse();

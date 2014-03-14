@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Thu Mar 13 22:35:20 2014 laurent ansel
+// Last update Fri Mar 14 17:32:31 2014 laurent ansel
 //
 
 #include			<list>
@@ -22,6 +22,7 @@
 #include			"RessourceManager/RessourceManager.hh"
 #include			"Battle/BattleManager.hh"
 #include			"Loader/LoaderManager.hh"
+#include			"Trade/TradeManager.hh"
 
 bool				quit = false;
 
@@ -81,6 +82,7 @@ Server::~Server()
   this->debug("Deleting GameProtocol ...");
   delete this->_gameProtocol;
   this->debug("Done");
+  TradeManager::deleteInstance();
   this->debug("Deleting RessourceManager ...");
   RessourceManager::deleteInstance();
   this->debug("Done");
@@ -138,6 +140,7 @@ void				Server::init(int const port)
   this->debug("Initialing GameProtocol ...");
   this->_gameProtocol = new GameProtocol;
   this->debug("Done");
+  TradeManager::getInstance();
   this->debug("Initialing BattleManager ...");
   BattleManager::getInstance();
   this->debug("Done");
