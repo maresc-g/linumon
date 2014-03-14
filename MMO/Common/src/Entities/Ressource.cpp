@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Thu Mar  6 17:44:49 2014 laurent ansel
+// Last update Fri Mar 14 13:56:17 2014 laurent ansel
 //
 
 #include			"Entities/Ressource.hh"

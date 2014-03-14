@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Mar 12 14:06:26 2014 alexis mestag
-// Last update Wed Mar 12 19:08:02 2014 alexis mestag
+// Last update Fri Mar 14 15:26:01 2014 laurent ansel
 //
 
 #ifndef				__EXPERIENCECURVE_HH__

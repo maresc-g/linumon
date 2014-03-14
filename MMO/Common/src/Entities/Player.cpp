@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Mar 14 12:54:07 2014 laurent ansel
+// Last update Fri Mar 14 15:58:04 2014 laurent ansel
 //
 
 #include			<functional>
@@ -461,7 +461,7 @@ bool				Player::serialization(Trame &trame) const
   if (this->_faction)
     this->_faction->serialization(trame(trame["PLAYER"]));
   if (this->_guild)
-    this->_guild->serialization(trame(trame["PLAYER"]));
+    trame["PLAYER"]["GUILD"] = this->_guild->getName();;
   this->_digitaliser->serialization(trame(trame["PLAYER"]));
   this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
   this->getLevelObject().serialization(trame(trame["PLAYER"]));
@@ -490,7 +490,14 @@ Player				*Player::deserialization(Trame const &trame)
       player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame["PLAYER"]["TYPE"].asInt()));
       player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));
       player->setFaction(*Faction::deserialization(trame(trame["PLAYER"])));
-      player->setGuild(*Guild::deserialization(trame(trame["PLAYER"])));
+
+      Guild			*guild;
+      if (trame["PLAYER"].isMember("GUILD"))
+	{
+	  guild = new Guild(trame["PLAYER"]["GUILD"].asString());
+	  player->setGuild(*guild);
+	}
+
       player->setZone(trame["PLAYER"]["ZONE"].asString());
 
       Level			*lvl = Level::deserialization(trame(trame["PLAYER"]));
@@ -650,7 +657,7 @@ void				Player::mergeStack(unsigned int const idStack, unsigned int const idStac
   this->_inventory->mergeStack(idStack, idStack2);
 }
 
-void				Player::newStack(unsigned int const idStack, unsigned int const nb)
+unsigned int			Player::newStack(unsigned int const idStack, unsigned int const nb)
 {
-  this->_inventory->splitStack(idStack, nb);
+  return (this->_inventory->splitStack(idStack, nb));
 }

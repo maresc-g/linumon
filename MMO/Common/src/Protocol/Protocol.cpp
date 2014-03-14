@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Mar 14 12:56:03 2014 laurent ansel
+// Last update Fri Mar 14 15:48:42 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -43,8 +43,8 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, ACharacter const *>("UPDATECHARACTER", &updateCharacter);
 
       this->_container->load<unsigned int, unsigned int, std::string>("LAUNCHTRADE", &launchTrade);
-      this->_container->load<unsigned int, unsigned int, AItem const *>("PUTITEM", &putItem);
-      this->_container->load<unsigned int, unsigned int, AItem const *>("GETITEM", &getItem);
+      this->_container->load<unsigned int, unsigned int, Stack<AItem> const *>("PUTITEM", &putItem);
+      this->_container->load<unsigned int, unsigned int, Stack<AItem> const *>("GETITEM", &getItem);
       this->_container->load<unsigned int, unsigned int, Mob const *>("PUTMOB", &putMob);
       this->_container->load<unsigned int, unsigned int, Mob const *>("GETMOB", &getMob);
       this->_container->load<unsigned int, unsigned int, unsigned int>("PUTMONEY", &putMoney);
@@ -75,6 +75,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("MOBMODELS", &mobModels);
       this->_container->load<unsigned int>("JOBMODELS", &jobModels);
       this->_container->load<unsigned int>("STUFFS", &stuffs);
+      this->_container->load<unsigned int>("CARCASS", &carcass);
       this->_container->load<unsigned int>("CONSUMABLES", &consumables);
       this->_container->load<unsigned int>("TALENTMODELS", &talentModels);
       this->_container->load<unsigned int>("RESSOURCES", &ressources);
@@ -826,7 +827,7 @@ bool			launchTrade(unsigned int const id, unsigned int const idTrade, std::strin
   return (ret);
 }
 
-bool			putItem(unsigned int const id, unsigned int const idTrade, AItem const *item)
+bool			putItem(unsigned int const id, unsigned int const idTrade, Stack<AItem> const *item)
 {
   bool			ret = false;
   Trame			*trame;
@@ -847,7 +848,7 @@ bool			putItem(unsigned int const id, unsigned int const idTrade, AItem const *i
   return (ret);
 }
 
-bool			getItem(unsigned int const id, unsigned int const idTrade, AItem const *item)
+bool			getItem(unsigned int const id, unsigned int const idTrade, Stack<AItem> const *item)
 {
   bool			ret = false;
   Trame			*trame;
@@ -1246,7 +1247,7 @@ bool			guild(unsigned int const id, Guild *g)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      //      g->serializationMembers((*trame)((*trame)[CONTENT]["GUILD"]));
+      g->serialization((*trame)((*trame)[CONTENT]["GUILD"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
@@ -1348,6 +1349,26 @@ bool			stuffs(unsigned int const id)
   if (header->serialization(*trame))
     {
       ret = (**LoaderManager::getInstance()->getStuffLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			carcass(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getCarcassLoader())->serialization(*trame);
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }

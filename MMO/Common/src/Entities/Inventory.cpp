@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Fri Mar 14 13:25:26 2014 laurent ansel
+// Last update Fri Mar 14 15:42:38 2014 laurent ansel
 //
 
 #include			<stdlib.h>
@@ -284,10 +284,11 @@ void				Inventory::mergeStack(unsigned int const idStack, unsigned int const idS
     }
 }
 
-void				Inventory::splitStack(unsigned int const idStack, unsigned int const nb)
+unsigned int			Inventory::splitStack(unsigned int const idStack, unsigned int const nb)
 {
   Stack<AItem>			*stack = getStack(idStack);
   Stack<AItem>			*tmp = NULL;
+  unsigned int			newStack = 0;
 
   if (stack && stack->getNb() >= nb)
     {
@@ -300,17 +301,19 @@ void				Inventory::splitStack(unsigned int const idStack, unsigned int const nb)
       if (!tmp)
 	{
 	  tmp = new Stack<AItem>(this->getContainer().size(), stack->getItem(), nb);
+	  newStack = tmp->getId();
 	  this->getContainer().push_back(tmp);
 	  *stack -= nb;
 	}
       else
 	{
+	  newStack = tmp->getId();
 	  tmp->setNb(nb);
 	  tmp->setItem(stack->getItem());
 	  *stack -= nb;
 	}
-
     }
+  return (newStack);
 }
 
 

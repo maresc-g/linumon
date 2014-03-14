@@ -153,6 +153,7 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/Guild.cpp \ 
                 ../Common/src/Entities/Spells.cpp \
                 ../Common/src/Entities/ACharacter.cpp \ 
+                ../Common/src/Entities/Carcass.cpp \ 
                 ../Common/src/Entities/Heal.cpp \ 
                 ../Common/src/Entities/TypeRelations.cpp \ 
                 ../Common/src/Entities/MobModel.cpp \ 
@@ -184,6 +185,7 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Loader/JobModelLoader.cpp \ 
                 ../Common/src/Loader/StuffLoader.cpp \ 
                 ../Common/src/Loader/ConsumableLoader.cpp \ 
+                ../Common/src/Loader/CarcassLoader.cpp \ 
                 ../Common/src/Loader/SpellLoader.cpp \ 
                 ../Common/src/Loader/TalentModelLoader.cpp \ 
                 ../Common/src/Loader/HealLoader.cpp \ 

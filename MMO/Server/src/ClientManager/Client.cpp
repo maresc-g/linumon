@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Fri Mar 14 13:47:44 2014 laurent ansel
+// Last update Fri Mar 14 15:45:47 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -145,6 +145,7 @@ void				Client::sendAllInformationModel() const
   Server::getInstance()->callProtocol("STUFFS", _id);
   Server::getInstance()->callProtocol("CONSUMABLES", _id);
   Server::getInstance()->callProtocol("RESSOURCES", _id);
+  Server::getInstance()->callProtocol("CARCASS", _id);
   Server::getInstance()->callProtocol("HEALS", _id);
   Server::getInstance()->callProtocol("SPELLSLIST", _id);
   Server::getInstance()->callProtocol("TALENTMODELS", _id);
@@ -406,6 +407,11 @@ bool				Client::gather(std::string const &ressource, std::string const &job, Res
       ret = _player->doGather(job, ressource, result, idRessource);
       if (ret)
 	{
+
+	  /**
+	   ** CHECK CARCASS
+	   */
+
 	  //	  Server::getInstance()->callProtocol<std::list<AItem *> *>("ADDTOINVENTORY", _id, &result);
 	  Server::getInstance()->callProtocol<Stack<AItem> *>("ADDTOINVENTORY", _id, result);
 	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
@@ -454,13 +460,13 @@ bool				Client::stuff(bool const get, unsigned int const idItem, unsigned int co
 
 void				Client::merge(unsigned int const idStack, unsigned int const idStack2)
 {
-  if (_state == GAME && _player)
+  if (_state != BATTLE && _player)
     _player->mergeStack(idStack, idStack2);
 }
 
 void				Client::newStack(unsigned int const idStack, unsigned int const nb)
 {
-  if (_state == GAME && _player)
+  if (_state != BATTLE && _player)
     _player->newStack(idStack, nb);
 }
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Fri Mar 14 12:46:25 2014 laurent ansel
+// Last update Fri Mar 14 15:30:35 2014 laurent ansel
 //
 
 #ifndef 			__INVENTORY_HH__
@@ -68,7 +68,7 @@ public:
   Stack<AItem>			*getStack(unsigned int const id) const;
 
   void				mergeStack(unsigned int const idStack, unsigned int const idStack2);
-  void				splitStack(unsigned int const idStack, unsigned int const nb);
+  unsigned int			splitStack(unsigned int const idStack, unsigned int const nb);
 
   virtual bool			serialization(Trame &trame) const;
   static Inventory		*deserialization(Trame const &trame);

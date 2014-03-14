@@ -511,9 +511,9 @@ INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
 DELETE FROM `Heal`;
 
 INSERT INTO `Heal`(`id`, `name`, `pnjType`, `zone`, `x`, `y`) VALUES
-       (1, 'Connard0', 'HEAL', 'Plain', 10, 70),
-       (2, 'Connard1', 'HEAL', 'Plain', 30, 30),
-       (3, 'Connard2', 'HEAL', 'Plain', 40, 40);
+       (1, 'Healer0', 'HEAL', 'Plain', 10, 70),
+       (2, 'Healer1', 'HEAL', 'Plain', 30, 30),
+       (3, 'Healer2', 'HEAL', 'Plain', 40, 40);
 
 /* Inserting Consumable */
 DELETE FROM `Consumable`;

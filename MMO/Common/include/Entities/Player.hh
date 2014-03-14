@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Fri Mar 14 12:53:30 2014 laurent ansel
+// Last update Fri Mar 14 15:28:45 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -171,7 +171,7 @@ public:
   bool				switchMobs(unsigned int const idMob1, unsigned int const idMob2);
 
   void				mergeStack(unsigned int const idStack, unsigned int const idStack2);
-  void				newStack(unsigned int const idStack, unsigned int const nb);
+  unsigned int			newStack(unsigned int const idStack, unsigned int const nb);
 
 
   virtual bool			serialization(Trame &trame) const;
