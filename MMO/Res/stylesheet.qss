@@ -268,3 +268,8 @@ QProgressBar::chunk
 	background-color: #05B8CC;
 	width: 20px;
 }
+
+SwitchMobView
+{
+	background-color: #FFFFFF;
+}
