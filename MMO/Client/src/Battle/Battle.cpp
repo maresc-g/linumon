@@ -5,15 +5,16 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Fri Mar 14 13:15:04 2014 guillaume marescaux
+// Last update Fri Mar 14 13:59:01 2014 cyril jourdain
 //
 
 #include			<algorithm>
 #include			"Battle/Battle.hh"
+#include <QDebug>
 
 Battle::Battle():
   _id(0), _mobs(new std::list<Mob *>), _enemy(NULL), _maxMobs(0), _spells(new std::list<SpellContainer *>),
-  _turnTo(new std::list<unsigned int>), _switch(new MutexVar<bool>(false))
+  _turnTo(new std::list<unsigned int>), _switch(new MutexVar<bool>(false)), _player(NULL)
 {
 }
 
@@ -32,6 +33,7 @@ void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *en
   std::list<Mob *> const	mobs = (**player)->getDigitaliser().getBattleMobs();
   unsigned int			i = 0;
 
+  _player = player;
   _turnTo->clear();
   _mobs->clear();
   for (auto it = mobs.begin() ; it != mobs.end() && i < maxMobs; ++it)
@@ -115,20 +117,29 @@ Mob				*Battle::getMobById(unsigned int id)
 
 void				Battle::switchPlayerMobs(unsigned int target, unsigned int newMob)
 {
+  qDebug() << "SWITCH HERE !!!!!!!!!!!!!!!!!!!!!!!!!!";
   auto it = find_if(_mobs->begin(), _mobs->end(), [&](Mob const *mob){
+      qDebug() << "Looking " << mob->getId() << "/" << target;
       if (mob->getId() == target)
   	return true;
       return false;
     });
-  auto it2 = find_if(_mobs->begin(), _mobs->end(), [&](Mob const *mob){
+  if (it == _mobs->end())
+    qDebug() << "TARGET NOT FOUND";
+  qDebug() << "Target found"; 
+  auto it2 = find_if((**_player)->getDigitaliser().getBattleMobs().begin(), (**_player)->getDigitaliser().getBattleMobs().end(), [&](Mob const *mob){
+      qDebug() << "Looking " << mob->getId() << "/" << newMob;
       if (mob->getId() == newMob)
   	return true;
       return false;
     });
+  if (it2 == _mobs->end())
+    qDebug() << "NEWMOB NOT FOUND";
+  qDebug() << "Switch mob : " << (*it)->getId() << "with " << (*it2)->getId();
   Mob				*tmp = *it;
 
   *it = *it2;
-  *it2 = tmp;
+  (**_player)->switchMobs(target, newMob);
   *_switch = true;
 }
 

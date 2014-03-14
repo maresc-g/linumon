@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:36:31 2014 laurent ansel
-// Last update Wed Feb 12 20:32:37 2014 laurent ansel
+// Last update Fri Mar 14 16:05:09 2014 laurent ansel
 //
 
 #ifndef 			__INTERACTION_HH__

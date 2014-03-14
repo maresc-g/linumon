@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Thu Mar 13 22:22:31 2014 laurent ansel
+// Last update Fri Mar 14 14:59:04 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -34,6 +34,7 @@ Battle::Battle(unsigned int const id, eBattle const type, unsigned int const mob
   this->_players.push_back(player1);
   this->_players.push_back(player2);
   this->_mobs.sort(compareSpeed);
+  this->replace();
   this->next();
 }
 
@@ -100,7 +101,6 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
 	mobLauncher = (*it);
       if ((*it)->getId() == target)
 	mobTarget = (*it);
-      (*it)->displayCurrentStats();
     }
   if (mobLauncher && mobTarget)
     {
@@ -122,20 +122,26 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
 	  this->replace();
 	}
     }
-  return (this->checkEnd());
+  else
+    std::cout << "Je ne trouve pas les protagoniste" << std::endl;
+    return (this->checkEnd());
 }
 
 bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
 {
+  Player				*tmp = NULL;
   for (auto itMob = this->_mobs.begin(); itMob != this->_mobs.end(); itMob++)
     if ((*itMob)->getId() == target)
       for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	if ((*it)->isMyMob((*itMob)->getId()))
-	  (*itMob) = (Mob *)(&(*it)->getMob(newmob));
+	  {
+	    tmp = (*it);
+	    (*itMob) = (Mob *)(&(*it)->getMob(newmob));
+	  }
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     {
       if ((*it)->getType() == Player::PlayerType::PLAYER)
-	this->trameSwitch((*it)->getUser().getId(), target, newmob);
+	this->trameSwitch((*it)->getUser().getId(), target, newmob, tmp->getId());
       else
 	static_cast<AI *>((*it))->dswitch(target, newmob);
     }
@@ -193,8 +199,6 @@ void					Battle::replace()
 
 void					Battle::next()
 {
-  if (this->_mobs.front()->getStat("HP"))
-    this->replace();
   auto tmp = this->_mobs.front();
   this->_mobs.pop_front();
   this->_mobs.push_back(tmp);
@@ -247,9 +251,9 @@ void					Battle::trameSpell(unsigned int const idPlayer,
   Server::getInstance()->callProtocol<unsigned int, Spell const *, unsigned int, unsigned int>("SPELL", idPlayer, this->_id, spell, launcher, target);
 }
 
-void					Battle::trameSwitch(unsigned int const idPlayer, unsigned int const target, unsigned int const newmob) const
+void					Battle::trameSwitch(unsigned int const idPlayer, unsigned int const target, unsigned int const newmob, unsigned int const player) const
 {
-  Server::getInstance()->callProtocol<unsigned int, unsigned int, unsigned int>("SWITCH", idPlayer, this->_id, target, newmob);
+  Server::getInstance()->callProtocol<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", idPlayer, this->_id, target, newmob, player);
 }
 
 void					Battle::trameSpellEffect(unsigned int const idPlayer,

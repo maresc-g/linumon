@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Mar 14 15:48:42 2014 laurent ansel
+// Last update Fri Mar 14 16:03:50 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -56,7 +56,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int, unsigned int>("SPELL", &spell);
       this->_container->load<unsigned int, unsigned int, int, unsigned int>("SPELLEFFECT", &spellEffect);
       this->_container->load<unsigned int, unsigned int, bool>("CAPTUREEFFECT", &captureEffect);
-      this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
+      this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, unsigned int>("DEADMOB", &deadMob);
       this->_container->load<unsigned int, unsigned int>("TURNTO", &turnTo);
       this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, std::list<AItem *>*>("ENDBATTLE", &endBattle);
@@ -683,9 +683,10 @@ bool			captureEffect(unsigned int const id, unsigned int const idBattle, bool su
 }
 
 bool			dswitch(unsigned int const id, 
-					  unsigned int const idBattle, 
-					  unsigned int const target, 
-					  unsigned int const newMob)
+				unsigned int const idBattle, 
+				unsigned int const target, 
+				unsigned int const newMob,
+				unsigned int const player)
 {
   Trame			*trame;
   Header		*header;
@@ -700,6 +701,7 @@ bool			dswitch(unsigned int const id,
       (*trame)[CONTENT]["SWITCH"]["IDBATTLE"] = idBattle;
       (*trame)[CONTENT]["SWITCH"]["TARGET"] = target;
       (*trame)[CONTENT]["SWITCH"]["NEWMOB"] = newMob;
+      (*trame)[CONTENT]["SWITCH"]["PLAYER"] = player;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;

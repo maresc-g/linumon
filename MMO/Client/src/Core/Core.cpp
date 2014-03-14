@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar 14 13:06:19 2014 guillaume marescaux
+// Last update Fri Mar 14 13:48:47 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -102,6 +102,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("PUTMOB", func);
   func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::getMob), this);
   _proto->addFunc("GETMOB", func);
+  func = std::bind1st(std::mem_fun(&Core::switchMob), this);
+  _proto->addFunc("SWITCH", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -302,10 +304,10 @@ bool				Core::captureEffect(Trame *)
 
 bool				Core::switchMob(Trame *trame)
 {
-  if ((*trame)[CONTENT]["SWITCH"]["PLAYER"].asUInt() == (**_player)->getId())
+  // if ((*trame)[CONTENT]["SWITCH"]["PLAYER"].asUInt() == (**_player)->getId())
     (**_battle)->switchPlayerMobs((*trame)[CONTENT]["SWITCH"]["TARGET"].asUInt(), (*trame)[CONTENT]["SWITCH"]["NEWMOB"].asUInt());
-  else
-    (**_battle)->switchEnemyMobs((*trame)[CONTENT]["SWITCH"]["TARGET"].asUInt(), (*trame)[CONTENT]["SWITCH"]["NEWMOB"].asUInt());
+  // else
+  //   (**_battle)->switchEnemyMobs((*trame)[CONTENT]["SWITCH"]["TARGET"].asUInt(), (*trame)[CONTENT]["SWITCH"]["NEWMOB"].asUInt());
   return (true);
 }
 

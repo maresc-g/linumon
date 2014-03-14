@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Thu Mar 13 21:54:25 2014 laurent ansel
+// Last update Fri Mar 14 14:36:35 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -204,9 +204,10 @@ bool				BattleUpdater::dswitch(Trame *trame)
 {
   for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     if ((*it)->getID() == (*trame)["SWITCH"]["IDBATTLE"].asUInt())
-      (*it)->dswitch((*trame)["SWITCH"]["TARGET"].asInt(), (*trame)["SWITCH"]["NEWMOB"].asInt());
-    else
-      (*it)->next();
+      {
+	(*it)->dswitch((*trame)["SWITCH"]["TARGET"].asInt(), (*trame)["SWITCH"]["NEWMOB"].asInt());
+	(*it)->next();
+      }
   return (true);
 }
 
