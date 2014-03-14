@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 13 15:09:25 2014 alexis mestag
+// Last update Thu Mar 13 22:25:06 2014 alexis mestag
 //
 
 #include			<functional>
@@ -61,7 +61,7 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   Repository<MobModel>		*rm = &Database::getRepository<MobModel>();
   MobModel const		*m = rm->getByName("Pikachu");
 
-  this->_digitaliser->addBattleMob(Mob(*m, 15, this));
+  this->_digitaliser->addBattleMob(*(new Mob(*m, 15, this)));
 
   /*
   ** Init Faction
@@ -311,7 +311,7 @@ AItem				*Player::getAndDeleteItem(unsigned int const item) const
 
 void				Player::addMob(Mob *mob)
 {
-  this->_digitaliser->addMob(mob);
+  this->_digitaliser->addMob(*mob);
 }
 
 Mob				*Player::getAndDeleteMob(unsigned int const mob) const
@@ -595,7 +595,7 @@ Talents const			&Player::getTalents() const
   return (*_talents);
 }
 
-void				Player::capture(Mob const &mob)
+void				Player::capture(Mob &mob)
 {
   this->_digitaliser->addMob(mob);
 }
@@ -638,6 +638,11 @@ bool				Player::mobtoBattleMob(unsigned int const id)
 bool				Player::battleMobtoMob(unsigned int const id)
 {
   return (this->_digitaliser->battleMobtoMob(id));
+}
+
+bool				Player::switchMobs(unsigned int const idMob1, unsigned int const idMob2)
+{
+  return (this->_digitaliser->switchMobs(idMob1, idMob2));
 }
 
 void				Player::mergeStack(unsigned int const idStack, unsigned int const idStack2)

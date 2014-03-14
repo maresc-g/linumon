@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Thu Feb  6 14:03:36 2014 laurent ansel
-## Last update Wed Feb 12 20:31:18 2014 laurent ansel
+## Last update Thu Mar 13 20:23:02 2014 laurent ansel
 ##
 
 SRCSERVER +=		$(GAMEPROTOCOL)/GameProtocol.cpp	\
@@ -14,4 +14,6 @@ SRCSERVER +=		$(GAMEPROTOCOL)/GameProtocol.cpp	\
 			$(GAMEPROTOCOL)/InventoryManager.cpp	\
 			$(GAMEPROTOCOL)/JobManager.cpp		\
 			$(GAMEPROTOCOL)/OtherCommand.cpp	\
-			$(GAMEPROTOCOL)/TalentManager.cpp
+			$(GAMEPROTOCOL)/TalentManager.cpp	\
+			$(GAMEPROTOCOL)/GuildManager.cpp	\
+			$(GAMEPROTOCOL)/DigitaliserManager.cpp

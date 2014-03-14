@@ -5,12 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Mar 13 15:42:01 2014 laurent ansel
-// Last update Thu Mar 13 16:42:19 2014 laurent ansel
+// Last update Thu Mar 13 20:25:13 2014 laurent ansel
 //
 
 #include			<functional>
 #include			"GameProtocol/GuildManager.hh"
 #include			"Server/Server.hh"
+#include			"Entities/Guild.hh"
 
 GuildManager::GuildManager()
 {
@@ -44,17 +45,17 @@ bool				GuildManager::gCreate(Trame *trame)
 
   if ((*trame)[CONTENT].isMember("GCREATE"))
     {
-      //      guild = (*trame)[CONTENT]["GCREATE"].asString();
-      /**
-       ** check si guild already exist
-       */
-      ClientManager::getInstance()->newGuild((*trame)[HEADER]["IDCLIENT"].asInt(), guild);
-
-      if (ObjectPoolManager::getInstance()->setObject(error, "error"))
+      guild = Guild::createAndPersist((*trame)[CONTENT]["GCREATE"].asString());
+      if (guild)
+	ClientManager::getInstance()->newGuild((*trame)[HEADER]["IDCLIENT"].asInt(), guild);
+      else
 	{
-	  error->setType(Error::GUILDEXIST);
-	  Server::getInstance()->callProtocol<Error *>("ERROR", (*trame)[HEADER]["IDCLIENT"].asInt(), error);
-	  delete error;
+	  if (ObjectPoolManager::getInstance()->setObject(error, "error"))
+	    {
+	      error->setType(Error::GUILDEXIST);
+	      Server::getInstance()->callProtocol<Error *>("ERROR", (*trame)[HEADER]["IDCLIENT"].asInt(), error);
+	      delete error;
+	    }
 	  return (false);
 	}
       return (true);
@@ -64,15 +65,8 @@ bool				GuildManager::gCreate(Trame *trame)
 
 bool				GuildManager::gQuit(Trame *trame)
 {
-  Guild				*guild;
-  Error				*error = NULL;
-
   if ((*trame)[CONTENT].isMember("GQUIT"))
     {
-      //      guild = (*trame)[CONTENT]["GCREATE"].asString();
-      /**
-       ** check si guild already exist
-       */
       ClientManager::getInstance()->newGuild((*trame)[HEADER]["IDCLIENT"].asInt(), NULL);
       return (true);
     }
@@ -81,6 +75,7 @@ bool				GuildManager::gQuit(Trame *trame)
 
 bool				GuildManager::invite(Trame *trame)
 {
+  Error				*error = NULL;
   bool				ret = false;
 
   if ((*trame)[CONTENT].isMember("GCREATE"))
@@ -97,7 +92,7 @@ bool				GuildManager::invite(Trame *trame)
   return (false);
 }
 
-bool				GuildManager::refuse(Trame *trame)
+bool				GuildManager::refuse(Trame *)
 {
   return (true);
 }
@@ -109,7 +104,9 @@ bool				GuildManager::accept(Trame *trame)
 
   if ((*trame)[CONTENT].isMember("ACCEPT"))
     {
-      ret = ClientManager::getInstance()->newGuild((*trame)[HEADER]["IDCLIENT"].asInt(), guild);
+      guild = Guild::getGuild((*trame)[CONTENT]["ACCEPT"].asString());
+      if (guild)
+	ClientManager::getInstance()->newGuild((*trame)[HEADER]["IDCLIENT"].asInt(), guild);
     }
   return (ret);
 }

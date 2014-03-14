@@ -87,7 +87,7 @@ INSERT INTO `Type_relations`(`object_id`, `index`, `value_oType_id`, `value_coef
        (1, 0, 1, 0.5),
        (1, 1, 2, 0.5),
        (1, 2, 3, 2),
-       (1, 3, 4, 2),
+       (1, 3, 4, 1),
        (2, 0, 1, 2),
        (2, 1, 2, 0.5),
        (2, 2, 3, 0.5),

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 14:20:20 2014 laurent ansel
-// Last update Wed Feb 12 20:37:56 2014 laurent ansel
+// Last update Thu Mar 13 20:23:19 2014 laurent ansel
 //
 
 #include			"GameProtocol/GameProtocol.hh"
@@ -16,7 +16,9 @@ GameProtocol::GameProtocol():
   _job(new JobManager),
   _other(new OtherCommand),
   _stuff(new StuffActions),
-  _talent(new TalentManager)
+  _talent(new TalentManager),
+  _digitaliser(new DigitaliserManager),
+  _guild(new GuildManager)
 {
 }
 

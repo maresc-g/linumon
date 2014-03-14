@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Wed Mar 12 20:34:31 2014 laurent ansel
+// Last update Thu Mar 13 22:22:22 2014 alexis mestag
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -30,7 +30,7 @@ private:
 private:
   Digitaliser(Digitaliser const &rhs);
 
-  void			deleteMobs();
+  void			deleteMobs(container_type &c);
 
 public:
   Digitaliser(Player const *player);
@@ -52,14 +52,15 @@ public:
 
   Mob			*getMob(unsigned int const id) const;
 
-  void			addMob(Mob const &mob);
-  void			addBattleMob(Mob const &mob);
+  void			addBattleMob(Mob &mob);
 
-  void			addMob(Mob  *mob);
+  void			addMob(Mob &mob);
   Mob			*getAndDeleteMob(unsigned int const mob);
 
   bool			battleMobtoMob(unsigned int const id);
   bool			mobtoBattleMob(unsigned int const id);
+
+  bool			switchMobs(unsigned int const mob1, unsigned int const id2);
 
   virtual bool		serialization(Trame &trame) const;
   static Digitaliser	*deserialization(Trame const &trame);

@@ -5,21 +5,23 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:37:01 2013 alexis mestag
-// Last update Thu Mar 13 08:28:07 2014 alexis mestag
+// Last update Fri Mar 14 12:01:01 2014 alexis mestag
 //
 
 #include			"Entities/ACharacter.hh"
 
 ACharacter::ACharacter() :
   AStatEntity("", eStatEntity::CHARACTER), _characterType(eCharacter::NONE),
-  _currentExp(0), _level(new Level), _equipment(new Equipment)
+  _currentExp(0), _level(new Level), _equipment(new Equipment),
+  _inBattle(false)
 {
 
 }
 
 ACharacter::ACharacter(std::string const &name, ACharacter::eCharacter const characterType) :
   AStatEntity(name, eStatEntity::CHARACTER), _characterType(characterType),
-  _currentExp(0), _level(new Level), _equipment(new Equipment)
+  _currentExp(0), _level(new Level), _equipment(new Equipment),
+  _inBattle(false)
 {
 
 }
@@ -44,6 +46,7 @@ ACharacter			&ACharacter::operator=(ACharacter const &rhs)
       this->setCurrentExp(rhs.getCurrentExp(), false);
       this->setLevelObject(rhs.getLevelObject());
       this->setEquipment(rhs.getEquipment());
+      this->setInBattle(rhs.isInBattle());
     }
   return (*this);
 }
@@ -155,4 +158,24 @@ bool				ACharacter::addStuff(Stuff::eStuff const item, Stuff *&old)
 bool				ACharacter::getStuff(Stuff *&old, unsigned int const item)
 {
   return (this->_equipment->getStuff(old, item));
+}
+
+bool				ACharacter::isInBattle() const
+{
+  return (_inBattle);
+}
+
+void				ACharacter::setInBattle(bool const inBattle)
+{
+  _inBattle = inBattle;
+}
+
+void				ACharacter::enterBattle()
+{
+  this->setInBattle(false);
+}
+
+void				ACharacter::leaveBattle()
+{
+  this->setInBattle(true);
 }

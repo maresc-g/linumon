@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Mar 13 18:20:34 2014 antoine maitre
+// Last update Fri Mar 14 14:36:10 2014 antoine maitre
 //
 
 #include			"ClientManager/Client.hh"
@@ -16,6 +16,7 @@
 #include			"Battle/BattleManager.hh"
 #include			"Database/Repositories/PlayerRepository.hpp"
 #include			"Database/Repositories/FactionRepository.hpp"
+#include			"Database/Repositories/PlayerViewRepository.hpp"
 
 Client::Client():
   _use(false),
@@ -153,6 +154,17 @@ void				Client::sendAllInformationModel() const
 
 void				Client::state(eState const state)
 {
+  if (_state == BATTLE && state == GAME)
+    {
+      Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("ISINBATTLE", _id, _player->getId
+(), false, Map::getInstance()->getZone(_player->getZone()));
+      // Map::getInstance()->addPlayer(_player->getZone(), _player);
+    }
+  else if (state == BATTLE && _state == GAME)
+    {
+      Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("ISINBATTLE", _id, _player->getId(), true, Map::getInstance()->getZone(_player->getZone()));
+      // Map::getInstance()->delPlayer(_player->getZone(), _player);
+    }
   _state = state;
 }
 
@@ -213,15 +225,22 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
 {
   if (this->_state == GAME && this->_user)
     {
-      Repository<Player>	*rp = &Database::getRepository<Player>();
-      // Repository<Faction>	*rf = &Database::getRepository<Faction>();
-      Player			*player = new Player(name, faction->getName());
+      Repository<PlayerView>	*rpv = &Database::getRepository<PlayerView>();
+      PlayerView		*pv = rpv->getByName(name);
 
-      player->resetExp();
-      delete faction;
-      this->_user->addPlayer(*player);
-      rp->smartUpdate(*player);
-      return (true);
+      if (!pv)
+	{
+	  Repository<Player>	*rp = &Database::getRepository<Player>();
+	  Player		*player = new Player(name, faction->getName());
+
+	  player->resetExp();
+	  delete faction;
+	  this->_user->addPlayer(*player);
+	  rp->smartUpdate(*player);
+	  return (true);
+	}
+      else
+	delete pv;
     }
   return (false);
 }
@@ -244,7 +263,7 @@ void				Client::choosePlayer(unsigned int const id, bool const send)
 	  Map::getInstance()->addPlayer(_player->getZone(), _player);
 	  Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
 	  Server::getInstance()->callProtocol<Zone *>("MAP", _id, Map::getInstance()->getZone(_player->getZone()));
-	  Server::getInstance()->callProtocol<Player *>("NEWPLAYER", _id, _player, Map::getInstance()->getZone(_player->getZone()));
+	  Server::getInstance()->callProtocol<Player *, Zone *>("NEWPLAYER", _id, _player, Map::getInstance()->getZone(_player->getZone()));
 	}
     }
 }
@@ -288,11 +307,8 @@ void				Client::move(Player::PlayerCoordinate *coord)
 		    {
 		      std::cout << "Le getSafe RENVOIE TRUE, JE VAIS RENTRER DANS INBATTLE" << std::endl;
 		      if (BattleManager::getInstance()->inBattle(_player))
-			_state = BATTLE;
+			startBattle(_player);
 		    }
-		  // if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
-		  //   if (BattleManager::getInstance()->inBattle(_player))
-		  //     _state = BATTLE;
 		}
 	    }
 	}
@@ -330,11 +346,15 @@ void				Client::startBattle(Player *&player)
 {
   _state = BATTLE;
   player = _player;
+  Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("ISINBATTLE", _id, _player->getId(), true, Map::getInstance()->getZone(_player->getZone()));
+  // Map::getInstance()->delPlayer(_player->getZone(), _player);
 }
 
 void				Client::endBattle()
 {
   _state = GAME;
+  Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("ISINBATTLE", _id, _player->getId(), false, Map::getInstance()->getZone(_player->getZone()));
+  // Map::getInstance()->addPlayer(_player->getZone(), _player);
 }
 
 void				Client::startTrade(Player *&player)
@@ -445,11 +465,13 @@ bool				Client::newGuild(Guild *guild)
 {
   if (_player && !_player->getGuild())
     {
-      _player->setGuild(*guild);
       if (!guild)
 	Server::getInstance()->callProtocol<std::string, Zone *>("DELETEMEMBER", _id, _player->getName(), Map::getInstance()->getZone(_player->getZone()));
       else
-	Server::getInstance()->callProtocol<std::string, Zone *>("NEWMEMBER", _id, _player->getName(), Map::getInstance()->getZone(_player->getZone()));
+	{
+	  guild->addPlayer(*_player);
+	  Server::getInstance()->callProtocol<std::string, Zone *>("NEWMEMBER", _id, _player->getName(), Map::getInstance()->getZone(_player->getZone()));
+	}
       return (true);
     }
   return (false);
@@ -460,4 +482,20 @@ bool				Client::inGuild() const
   if (_player && _player->getGuild())
     return (true);
   return (false);
+}
+
+void				Client::modifyDigitaliser(unsigned int const idMob1, unsigned int const idMob2, bool const toBattleMob) const
+{
+  if (_player)
+    {
+      if (!idMob2)
+	{
+	  if (toBattleMob)
+	    _player->mobtoBattleMob(idMob1);
+	  else
+	    _player->battleMobtoMob(idMob1);
+	}
+      else
+	_player->switchMobs(idMob1, idMob2);
+    }
 }

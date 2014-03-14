@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Thu Mar 13 14:46:14 2014 guillaume marescaux
+// Last update Fri Mar 14 13:06:19 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -244,6 +244,21 @@ bool				Core::map(Trame *trame)
   return (true);
 }
 
+bool				Core::isInBattle(Trame *trame)
+{
+  Player			*entity =
+    static_cast<Player *>(Map::getInstance()->getEntityById((**_player)->getZone(), (*trame)[CONTENT]["ISINBATTLE"]["ID"].asUInt()));
+
+  if ((*trame)[CONTENT]["ISINBATTLE"]["ID"].asBool())
+    entity->enterBattle();
+  else
+    entity->leaveBattle();
+    // (**_battle)->setInfos(_player, (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"].asUInt(),
+    // 			Player::deserialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"])),
+    // 			(*trame)[CONTENT]["LAUNCHBATTLE"]["LIMIT"].asInt());
+    return (true);
+}
+
 bool				Core::launchBattle(Trame *trame)
 {
   *_state = CLIENT::LOADING_BATTLE;
@@ -285,8 +300,12 @@ bool				Core::captureEffect(Trame *)
   return (true);
 }
 
-bool				Core::switchMob(Trame *)
+bool				Core::switchMob(Trame *trame)
 {
+  if ((*trame)[CONTENT]["SWITCH"]["PLAYER"].asUInt() == (**_player)->getId())
+    (**_battle)->switchPlayerMobs((*trame)[CONTENT]["SWITCH"]["TARGET"].asUInt(), (*trame)[CONTENT]["SWITCH"]["NEWMOB"].asUInt());
+  else
+    (**_battle)->switchEnemyMobs((*trame)[CONTENT]["SWITCH"]["TARGET"].asUInt(), (*trame)[CONTENT]["SWITCH"]["NEWMOB"].asUInt());
   return (true);
 }
 

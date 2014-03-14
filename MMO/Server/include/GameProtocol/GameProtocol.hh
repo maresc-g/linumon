@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 14:07:25 2014 laurent ansel
-// Last update Wed Feb 12 20:32:20 2014 laurent ansel
+// Last update Thu Mar 13 20:23:49 2014 laurent ansel
 //
 
 #ifndef 			__GAMEPROTOCOL_HH__
@@ -13,10 +13,12 @@
 
 #include			"GameProtocol/Interaction.hh"
 #include			"GameProtocol/InventoryManager.hh"
+#include			"GameProtocol/DigitaliserManager.hh"
 #include			"GameProtocol/JobManager.hh"
 #include			"GameProtocol/OtherCommand.hh"
 #include			"GameProtocol/StuffActions.hh"
 #include			"GameProtocol/TalentManager.hh"
+#include			"GameProtocol/GuildManager.hh"
 
 class				GameProtocol
 {
@@ -27,6 +29,9 @@ private:
   OtherCommand			*_other;
   StuffActions			*_stuff;
   TalentManager			*_talent;
+  DigitaliserManager		*_digitaliser;
+  GuildManager			*_guild;
+
 public:
   GameProtocol();
   virtual ~GameProtocol();

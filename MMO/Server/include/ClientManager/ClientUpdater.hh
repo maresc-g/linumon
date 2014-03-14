@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Thu Mar 13 16:35:07 2014 laurent ansel
+// Last update Thu Mar 13 18:50:29 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -53,6 +53,8 @@ public:
 
   bool				merge(FD const fd, unsigned int const idStack, unsigned int const idStack2) const;
   bool				newStack(FD const fd, unsigned int const idStack, unsigned int const nb) const;
+
+  bool				modifyDigitaliser(FD const fd, unsigned int const idMob1, unsigned int const idMob2, bool const tobattleMob) const;
 
   bool				stateBattle(FD const fd, bool const start, bool const end, Player *&player) const;
   bool				stateTrade(FD const fd, bool const start, bool const end, Player *&player) const;
