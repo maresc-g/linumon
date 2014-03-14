@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Fri Mar 14 11:39:56 2014 cyril jourdain
+// Last update Fri Mar 14 13:02:13 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -81,6 +81,7 @@ public:
   void				battleStart();
 
 private:
+  void				loadPlayerList();
   void				setPlayingMob();
   bool				playerTurn() const;
   void				leftButton(QMouseEvent *);

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Mar 14 12:44:06 2014 cyril jourdain
+// Last update Fri Mar 14 13:09:22 2014 cyril jourdain
 //
 
 /*
@@ -91,6 +91,7 @@ void			SFMLView::onInit()
   // _currentView = _worldView;
   // _currentView->resetPOV();
   static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
+  raise();
 }
 
 void			SFMLView::onUpdate()
