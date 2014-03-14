@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Mar 13 16:29:23 2014 guillaume marescaux
-// Last update Fri Mar 14 11:56:28 2014 guillaume marescaux
+// Last update Fri Mar 14 12:45:27 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/GuildView.hh"
@@ -35,10 +35,10 @@ void				GuildView::initGuild(Guild const *guild)
 {
   QTableWidgetItem		*item;
 
-  int				count = ui.tw_crafts->rowCount();
+  int				count = ui.tw_members->rowCount();
   for (int i = 0 ; i < count ; i++)
-    ui.tw_crafts->removeRow(0);
-  ui.tw_crafts->clearContents();
+    ui.tw_members->removeRow(0);
+  ui.tw_members->clearContents();
   if (guild)
     {
       ui.l_name->setText(guild->getName().c_str());
@@ -50,9 +50,17 @@ void				GuildView::initGuild(Guild const *guild)
 	  item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter); 
 	  i++;
 	}
+      ui.tw_members->show();
+      ui.l_gname->hide();
+      ui.le_gname->hide();
+      ui.b_create->hide();
     }
   else
     {
       ui.l_name->setText("CREATE YOUR GUILD");
+      ui.tw_members->hide();
+      ui.l_gname->show();
+      ui.le_gname->show();
+      ui.b_create->show();
     }
 }
