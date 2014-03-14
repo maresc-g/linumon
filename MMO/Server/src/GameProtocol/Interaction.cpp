@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:34:41 2014 laurent ansel
-// Last update Fri Mar 14 16:08:19 2014 laurent ansel
+// Last update Fri Mar 14 17:11:48 2014 laurent ansel
 //
 
 #include			<functional>
@@ -48,18 +48,19 @@ bool				Interaction::interaction(Trame *trame)
 bool				Interaction::agro(Trame *trame)
 {
   bool				ret = false;
-  unsigned int			target = (*trame)[CONTENT]["INTERACTION"]["TARGETID"].asUInt();
+  std::string			target = (*trame)[CONTENT]["INTERACTION"]["NAME"].asString();
   Player			*player2;
   Player			*player1;
+  unsigned int			id2;
   unsigned int			id = (*trame)[HEADER]["IDCLIENT"].asUInt();
   Repository<Player>		*rp = &Database::getRepository<Player>();
 
-  player2 = rp->getById(target);
+  player2 = rp->getByName(target);
   if (player2)
     {
-      target = player2->getUser().getId();
+      id2 = player2->getUser().getId();
       ClientManager::getInstance()->startBattle(id, player1);
-      ClientManager::getInstance()->startBattle(target, player2);
+      ClientManager::getInstance()->startBattle(id2, player2);
       BattleManager::getInstance()->newBattle(player1, player2);
       ret = true;
     }
@@ -69,18 +70,19 @@ bool				Interaction::agro(Trame *trame)
 bool				Interaction::trade(Trame *trame)
 {
   bool				ret = false;
-  unsigned int			target = (*trame)[CONTENT]["INTERACTION"]["TARGETID"].asUInt();
+  std::string			target = (*trame)[CONTENT]["INTERACTION"]["NAME"].asString();
   Player			*player2;
   Player			*player1;
+  unsigned int			id2;
   unsigned int			id = (*trame)[HEADER]["IDCLIENT"].asUInt();
   Repository<Player>		*rp = &Database::getRepository<Player>();
 
-  player2 = rp->getById(target);
+  player2 = rp->getByName(target);
   if (player2)
     {
-      target = player2->getUser().getId();
+      id2 = player2->getUser().getId();
       ClientManager::getInstance()->startTrade(id, player1);
-      ClientManager::getInstance()->startTrade(target, player2);
+      ClientManager::getInstance()->startTrade(id2, player2);
       TradeManager::getInstance()->newTrade(player1, player2);
       ret = true;
     }
