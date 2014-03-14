@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar 12 13:56:36 2014 guillaume marescaux
-// Last update Thu Mar 13 13:25:38 2014 guillaume marescaux
+// Last update Fri Mar 14 13:00:18 2014 laurent ansel
 //
 
 #ifndef 		__SPLITSTACKVIEW_HH__
@@ -29,7 +29,7 @@ private:
 
   Ui::splitstackview	ui;
   WindowManager		*_wMan;
-  Stack const		*_stack;
+  Stack<AItem> const	*_stack;
 
 private:
 
@@ -42,7 +42,7 @@ private slots:
 
 public:
 
-  void			setInfos(Stack const *stack);
+  void			setInfos(Stack<AItem> const *stack);
 };
 
 #endif

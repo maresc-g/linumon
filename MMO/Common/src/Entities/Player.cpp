@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 13 22:25:06 2014 alexis mestag
+// Last update Fri Mar 14 12:54:07 2014 laurent ansel
 //
 
 #include			<functional>
@@ -289,7 +289,7 @@ void				Player::deleteItem(unsigned int const stack)
   this->_inventory->deleteItem(stack);
 }
 
-void				Player::deleteItem(Stack *stack)
+void				Player::deleteItem(Stack<AItem> *stack)
 {
   this->_inventory->deleteItem(stack);
 }
@@ -299,7 +299,7 @@ void				Player::addItem(AItem *item)
   this->_inventory->addItem(item);
 }
 
-void				Player::addItem(Stack *stack)
+void				Player::addItem(Stack<AItem> *stack)
 {
   this->_inventory->addItem(stack);
 }
@@ -600,7 +600,7 @@ void				Player::capture(Mob &mob)
   this->_digitaliser->addMob(mob);
 }
 
-bool				Player::doCraft(std::string const &job, std::string const &craft, Stack *&result, std::list<Stack *> *&object)
+bool				Player::doCraft(std::string const &job, std::string const &craft, Stack<AItem> *&result, std::list<Stack<AItem> *> *&object)
 {
   bool				ret = false;
   Job				*tmp = NULL;
@@ -616,7 +616,7 @@ bool				Player::doCraft(std::string const &job, std::string const &craft, Stack 
   return (ret);
 }
 
-bool				Player::doGather(std::string const &job, std::string const &res, Stack *&result, unsigned int &idRessource)
+bool				Player::doGather(std::string const &job, std::string const &res, Stack<AItem> *&result, unsigned int &idRessource)
 {
   bool				ret = false;
   Job				*tmp = NULL;

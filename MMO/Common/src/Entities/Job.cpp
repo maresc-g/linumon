@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Thu Mar 13 13:29:46 2014 alexis mestag
+// Last update Fri Mar 14 11:57:58 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -140,7 +140,7 @@ void				Job::setJobModel(JobModel const &jobModel)
   this->_jobModel = &jobModel;
 }
 
-bool				Job::doCraft(std::string const &nameCraft, Stack *&result, std::list<Stack *> *&object)
+bool				Job::doCraft(std::string const &nameCraft, Stack<> *&result, std::list<Stack<> *> *&object)
 {
   bool				ret = false;
   unsigned int			exp = 0;
@@ -164,7 +164,7 @@ bool				Job::doCraft(std::string const &nameCraft, Stack *&result, std::list<Sta
   return (ret);
 }
 
-bool				Job::doGather(std::string const &nameRessource, Stack *&result, unsigned int &idRessource)
+bool				Job::doGather(std::string const &nameRessource, Stack<> *&result, unsigned int &idRessource)
 {
   bool				ret = false;
   unsigned int			exp = 0;

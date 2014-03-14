@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Thu Mar 13 22:39:38 2014 laurent ansel
+// Last update Fri Mar 14 12:56:03 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -63,8 +63,8 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
       this->_container->load<unsigned int, int, Zone *>("REMOVEENTITY", &removeEntity);
 
-      this->_container->load<unsigned int, Stack *>("ADDTOINVENTORY", &addToInventory);
-      this->_container->load<unsigned int, std::list<Stack *> *>("DELETEFROMINVENTORY", &deleteFromInventory);
+      this->_container->load<unsigned int, Stack<AItem> *>("ADDTOINVENTORY", &addToInventory);
+      this->_container->load<unsigned int, std::list<Stack<AItem> *> *>("DELETEFROMINVENTORY", &deleteFromInventory);
       this->_container->load<unsigned int, Job const *>("JOB", &job);
 
       this->_container->load<unsigned int, Player *, Zone *, Zone *>("NEWZONE", &newZone);
@@ -1500,7 +1500,7 @@ bool			updateCharacter(unsigned int const id, ACharacter const *character)
   return (ret);
 }
 
-bool			addToInventory(unsigned int const id, Stack *stack)
+bool			addToInventory(unsigned int const id, Stack<AItem> *stack)
 {
   bool			ret = false;
   Trame			*trame;
@@ -1521,7 +1521,7 @@ bool			addToInventory(unsigned int const id, Stack *stack)
   return (ret);
 }
 
-bool			deleteFromInventory(unsigned int const id, std::list<Stack *> *stacks)
+bool			deleteFromInventory(unsigned int const id, std::list<Stack<AItem> *> *stacks)
 {
   bool			ret = false;
   Trame			*trame;

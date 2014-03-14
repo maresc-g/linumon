@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Mar 13 22:32:43 2014 laurent ansel
+// Last update Fri Mar 14 12:57:31 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -225,7 +225,7 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
   if (this->_state == GAME && this->_user)
     {
       Repository<Player>	*rp = &Database::getRepository<Player>();
-      // Repository<Faction>	*rf = &Database::getRepository<Faction>();
+
       Player			*player = new Player(name, faction->getName());
 
       player->resetExp();
@@ -366,18 +366,18 @@ void				Client::endTrade()
 bool				Client::craft(std::string const &craft, std::string const &job) const
 {
   bool				ret = false;
-  Stack				*result;
-  std::list<Stack *>		*object;
+  Stack<AItem>			*result;
+  std::list<Stack<AItem> *>	*object;
 
   if (_state == GAME && _player && _user)
     {
-      result = new Stack(0);
-      object = new std::list<Stack *>;
+      result = new Stack<AItem>(0);
+      object = new std::list<Stack<AItem> *>;
       ret = _player->doCraft(job, craft, result, object);
       if (ret)
 	{
-	  Server::getInstance()->callProtocol<Stack *>("ADDTOINVENTORY", _id, result);
-	  Server::getInstance()->callProtocol<std::list<Stack *> *>("DELETEFROMINVENTORY", _id, object);
+	  Server::getInstance()->callProtocol<Stack<AItem> *>("ADDTOINVENTORY", _id, result);
+	  Server::getInstance()->callProtocol<std::list<Stack<AItem> *> *>("DELETEFROMINVENTORY", _id, object);
 	  //	  Server::getInstance()->callProtocol<std::list<std::pair<unsigned int, unsigned int> > *>("DELETEFROMINVENTORY", _id, &object);
 	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
 	}
@@ -388,18 +388,18 @@ bool				Client::craft(std::string const &craft, std::string const &job) const
 bool				Client::gather(std::string const &ressource, std::string const &job, Ressource::RessourceCoordinate const &) const
 {
   bool				ret = false;
-  Stack				*result;
+  Stack<AItem>			*result;
   unsigned int			idRessource;
   AEntity			*entity;
 
   if (_state == GAME && _player && _user)
     {
-      result = new Stack(0);
+      result = new Stack<AItem>(0);
       ret = _player->doGather(job, ressource, result, idRessource);
       if (ret)
 	{
 	  //	  Server::getInstance()->callProtocol<std::list<AItem *> *>("ADDTOINVENTORY", _id, &result);
-	  Server::getInstance()->callProtocol<Stack *>("ADDTOINVENTORY", _id, result);
+	  Server::getInstance()->callProtocol<Stack<AItem> *>("ADDTOINVENTORY", _id, result);
 	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
 	  entity = Map::getInstance()->getEntityById(_player->getZone(), idRessource);
 	  if (entity)

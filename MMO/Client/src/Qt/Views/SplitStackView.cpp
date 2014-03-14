@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar 12 13:59:24 2014 guillaume marescaux
-// Last update Thu Mar 13 15:55:50 2014 guillaume marescaux
+// Last update Fri Mar 14 13:00:37 2014 laurent ansel
 //
 
 #include			<QValidator>
@@ -45,7 +45,7 @@ void				SplitStackView::on_b_cancel_clicked()
   hide();
 }
 
-void				SplitStackView::setInfos(Stack const *stack)
+void				SplitStackView::setInfos(Stack<AItem> const *stack)
 {
   _stack = stack;
   ui.sb_nb->setMaximum(stack->getNb());
