@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Mar 13 22:32:43 2014 laurent ansel
+// Last update Fri Mar 14 14:36:10 2014 antoine maitre
 //
 
 #include			"ClientManager/Client.hh"
@@ -16,6 +16,7 @@
 #include			"Battle/BattleManager.hh"
 #include			"Database/Repositories/PlayerRepository.hpp"
 #include			"Database/Repositories/FactionRepository.hpp"
+#include			"Database/Repositories/PlayerViewRepository.hpp"
 
 Client::Client():
   _use(false),
@@ -224,15 +225,22 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
 {
   if (this->_state == GAME && this->_user)
     {
-      Repository<Player>	*rp = &Database::getRepository<Player>();
-      // Repository<Faction>	*rf = &Database::getRepository<Faction>();
-      Player			*player = new Player(name, faction->getName());
+      Repository<PlayerView>	*rpv = &Database::getRepository<PlayerView>();
+      PlayerView		*pv = rpv->getByName(name);
 
-      player->resetExp();
-      delete faction;
-      this->_user->addPlayer(*player);
-      rp->smartUpdate(*player);
-      return (true);
+      if (!pv)
+	{
+	  Repository<Player>	*rp = &Database::getRepository<Player>();
+	  Player		*player = new Player(name, faction->getName());
+
+	  player->resetExp();
+	  delete faction;
+	  this->_user->addPlayer(*player);
+	  rp->smartUpdate(*player);
+	  return (true);
+	}
+      else
+	delete pv;
     }
   return (false);
 }
@@ -295,16 +303,13 @@ void				Client::move(Player::PlayerCoordinate *coord)
 		  _player->getCoord().serialization((*trame)((*trame)[CONTENT]["ENTITY"]));
 		  Server::getInstance()->callProtocol<Trame *, Zone *, bool>("SENDTOALLCLIENT", _id, trame, Map::getInstance()->getZone(_player->getZone()), true);
 		  delete header;
-		  // if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
-		  //   if (BattleManager::getInstance()->inBattle(_player))
-		  //     _state = BATTLE;
+		  if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
+		    {
+		      std::cout << "Le getSafe RENVOIE TRUE, JE VAIS RENTRER DANS INBATTLE" << std::endl;
+		      if (BattleManager::getInstance()->inBattle(_player))
+			startBattle(_player);
+		    }
 		}
-	    }
-	  if (!Map::getInstance()->getZone(_player->getZone())->getCase(_player->getX(), _player->getY())->getSafe())
-	    {
-	      std::cout << "Le getSafe RENVOIE TRUE, JE VAIS RENTRER DANS INBATTLE" << std::endl;
-	      if (BattleManager::getInstance()->inBattle(_player))
-		startBattle(_player);
 	    }
 	}
     }

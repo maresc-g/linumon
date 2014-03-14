@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Mar  2 23:49:12 2014 cyril jourdain
-// Last update Wed Mar  5 14:57:11 2014 cyril jourdain
+// Last update Fri Mar 14 11:37:17 2014 cyril jourdain
 //
 
 #ifndef 		__CONTEXTVIEW_HH__
@@ -32,7 +32,7 @@ public:
 public:
   virtual void		onInit() = 0;
   virtual void		onUpdate() = 0;
-  virtual void		onKeyEvent(sf::Event const &) = 0;
+  virtual void		onKeyEvent(QKeyEvent *) = 0;
   virtual void		onMouseEvent(QMouseEvent *) = 0;
   virtual void		resetView() = 0;
   virtual void		drawView() = 0;

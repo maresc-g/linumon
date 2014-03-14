@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:22:49 2014 guillaume marescaux
-// Last update Thu Mar 13 21:37:59 2014 guillaume marescaux
+// Last update Fri Mar 14 13:57:11 2014 cyril jourdain
 //
 
 #ifndef 			__BATTLE_HH__
@@ -32,6 +32,7 @@ private:
   std::list<SpellContainer *>	*_spells;
   std::list<unsigned int>	*_turnTo;
   MutexVar<bool>		*_switch;
+  MutexVar<Player *>		*_player;
 
 public:
 

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 09:52:15 2014 alexis mestag
-// Last update Mon Feb  3 16:43:46 2014 alexis mestag
+// Last update Fri Mar 14 13:00:55 2014 alexis mestag
 //
 
 #ifndef				__USERVIEW_HH__
@@ -13,7 +13,6 @@
 
 # include			<list>
 # include			"Entities/User.hh"
-// # include			"Entities/Views/PlayerView.hh"
 
 class				UserView
 {
@@ -24,7 +23,7 @@ public:
 };
 
 # ifdef	ODB_COMPILER
-#  pragma db view(UserView) object(User)
+#  pragma db view(UserView) object(User) session(false)
 # endif
 
 #endif

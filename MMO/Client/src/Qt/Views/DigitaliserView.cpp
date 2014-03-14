@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 14:34:08 2014 guillaume marescaux
-// Last update Wed Mar 12 19:07:14 2014 guillaume marescaux
+// Last update Thu Mar 13 16:33:10 2014 cyril jourdain
 //
 
 #include			"Qt/Views/DigitaliserView.hh"

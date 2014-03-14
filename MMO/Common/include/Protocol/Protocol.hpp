@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Fri Mar 14 15:57:38 2014 guillaume marescaux
+// Last update Fri Mar 14 16:05:15 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -61,7 +61,7 @@ bool				launchBattle(unsigned int const id, unsigned int const idBatlle, Player 
 bool				spell(unsigned int const id, unsigned int const idBattle, Spell const *spell, unsigned int const launcher, unsigned int const target);
 bool				spellEffect(unsigned int const id, unsigned int const idBattle, int const hpChange, unsigned int const target);
 bool				captureEffect(unsigned int const id, unsigned int const idBattle, bool success);
-bool				dswitch(unsigned int const id, unsigned int const idBattle, unsigned int const target, unsigned int const newMob);
+bool				dswitch(unsigned int const id, unsigned int const idBattle, unsigned int const target, unsigned int const newMob, unsigned int const player);
 bool				deadMob(unsigned int const id, unsigned int const idBattle, unsigned int const idMob);
 bool				endBattle(unsigned int const id, unsigned int const idBattle, bool win, unsigned int const money, unsigned int const exp, std::list<AItem *> *items);
 bool				turnTo(unsigned int const id, unsigned int const idMob);
