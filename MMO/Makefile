@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:06:15 2013 laurent ansel
-## Last update Wed Mar 12 15:56:51 2014 alexis mestag
+## Last update Sat Mar 15 20:44:19 2014 cyril jourdain
 ##
 
 NAMESERVER=	pfa-server
@@ -60,3 +60,8 @@ fclean:		clean
 		cd $(EFFECT_LIBS) && make fclean
 
 re:		fclean all
+
+reinit:
+		@read -p "Username:" user;\
+		read -p "Password": pass;\
+		mysql -u$$user -p$$pass -e "use Linumon;source schema.sql;source TestDB.sql;" -v
