@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar 12 13:49:57 2014 laurent ansel
-// Last update Fri Mar 14 23:35:42 2014 alexis mestag
+// Last update Sat Mar 15 16:50:26 2014 laurent ansel
 //
 
 #ifndef 			__STACK_HH__
@@ -41,6 +41,7 @@ public:
   {
     if (this != &rhs)
       {
+	this->setId(rhs.getId());
 	this->setItem(rhs.getItem());
 	this->setNb(rhs.getNb());
       }
@@ -188,7 +189,7 @@ public:
 
   bool				serialization(Trame &trame) const
   {
-    bool				ret = false;
+    bool			ret = false;
     std::ostringstream		str;
 
     if (_item)

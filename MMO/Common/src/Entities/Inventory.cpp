@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Sat Mar 15 14:43:56 2014 laurent ansel
+// Last update Sat Mar 15 16:55:26 2014 laurent ansel
 //
 
 #include			<stdlib.h>
@@ -384,7 +384,7 @@ void				Inventory::serializationInventory() const
 bool				Inventory::serialization(Trame &trame) const
 {
   bool				ret = true;
-  //  std::otringstream		str;
+  // std::ostringstream		str;
 
   trame["INV"]["MO"] = this->getMoney();
   trame["INV"]["LI"] = this->getLimit();
@@ -397,8 +397,13 @@ bool				Inventory::serialization(Trame &trame) const
       // else
       // 	trame["INV"]["ITS"][(*it)->getId()->getName()] = (*it);
       //      trame["INV"]["ITS"][str.str()][(*it)->getItem()->getName()] = (*it)->getNb();
-      (*it)->serialization(trame(trame["INV"]["ITS"]));
-	//     str.str("");
+
+    // if ((*it)->getItem())
+    //   {
+	//	str << (*it)->getId();
+	(*it)->serialization(trame(trame["INV"]["ITS"]));
+	//str.str("");
+      // }
     }
   return (ret);
 }

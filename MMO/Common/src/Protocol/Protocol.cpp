@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Mar 14 22:41:16 2014 laurent ansel
+// Last update Sat Mar 15 16:44:12 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -861,7 +861,7 @@ bool			putItem(unsigned int const id, unsigned int const idTrade, Stack<AItem> c
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("TCP");
-  if (header->serialization(*trame) && item->serialization((*trame)((*trame)[CONTENT]["PUTITEM"])))
+  if (header->serialization(*trame) && item->serialization((*trame)((*trame)[CONTENT]["PUTITEM"]["ITEM"])))
     {
       (*trame)[CONTENT]["PUTITEM"]["IDTRADE"] = idTrade;
       trame->setEnd(true);
@@ -882,7 +882,7 @@ bool			getItem(unsigned int const id, unsigned int const idTrade, Stack<AItem> c
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("TCP");
-  if (header->serialization(*trame) && item->serialization((*trame)((*trame)[CONTENT]["GETITEM"])))
+  if (header->serialization(*trame) && item->serialization((*trame)((*trame)[CONTENT]["GETITEM"]["ITEM"])))
     {
       (*trame)[CONTENT]["GETITEM"]["IDTRADE"] = idTrade;
       trame->setEnd(true);
