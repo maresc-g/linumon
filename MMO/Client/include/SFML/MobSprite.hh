@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:44:23 2014 cyril jourdain
-// Last update Fri Mar 14 15:29:33 2014 cyril jourdain
+// Last update Sat Mar 15 21:54:49 2014 cyril jourdain
 //
 
 #ifndef 		__MOBSPRITE_HH__
@@ -26,6 +26,7 @@ private:
   QProgressBar		*_pb;
   Mob const		*_mob;
   bool			_isVisible;
+  double		_mcurrent;
 
 public:
   MobSprite(sf::String const &, sf::Font *, WindowManager *);

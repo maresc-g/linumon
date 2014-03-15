@@ -1,5 +1,6 @@
 {
     "perso1" : "./Res/perso1.png",
+    "battleScreen":"./Res/battleScreen.png",
     "textures" : "./Res/textures.png",
     "selectedPlayer" : "./Res/selectedPlayer.png",
     "Lance-Flamme" : "./Res/Spell/Lance-Flamme.png",

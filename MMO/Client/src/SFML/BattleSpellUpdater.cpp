@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:56 2014 cyril jourdain
-// Last update Fri Mar 14 13:11:25 2014 cyril jourdain
+// Last update Sat Mar 15 21:47:32 2014 cyril jourdain
 //
 
 #include			"SFML/BattleSpellUpdater.hh"
@@ -27,7 +27,7 @@ void				BattleSpellUpdater::update(BattleView *battle)
   BattleMob			*mob = NULL;
 
   if (_currentSpell->isAnimFinished())
-    {
+    {      
       if ((tmp = (**_wMan->getBattle())->getSpell()))
 	{
 	  qDebug() << "Something found";

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Fri Mar 14 15:33:44 2014 cyril jourdain
+// Last update Sat Mar 15 21:35:19 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -40,6 +40,7 @@ void			BattleView::onInit()
   _selection = new Sprite();
   _spellSprite = new Sprite();
   _spellSpriteCase = new Sprite();
+  _battleScreen = new Sprite();
   _selectedSpell = "";
   _currentTurn = -1;
 
@@ -51,37 +52,52 @@ void			BattleView::onInit()
   _sfmlView->getSpriteManager()->copySprite("selectedPlayer", *_selection);
   _sfmlView->getSpriteManager()->copySprite("Lance-Flamme", *_spellSprite);
   _sfmlView->getSpriteManager()->copySprite("translucentCase", *_spellSpriteCase);
+  _sfmlView->getSpriteManager()->copySprite("battleScreen", *_battleScreen);
   _selection->play("default_down");
   // _spellSprite->play("mouse");
   _spellSpriteCase->play("default");
   _spellSpriteCase->setVisible(false);
   (*_spellSprite)["mouse"]->setFrameLength(120000);
   (*_selection)["default_down"]->setFrameLength(45000);
-  _battleStarted = true;
+  (*_battleScreen)["default"]->setFrameLength(1500000);
+  (*_battleScreen)["default"]->setLoopPlay(false);
+  _battleScreen->play("default");
+  // _battleScreen->scale(WIN_W / _battleScreen->getCurrentBound()->width,
+  // 		       WIN_H / _battleScreen->getCurrentBound()->height);
+  _battleScreen->scale(static_cast<float>(WIN_W) / static_cast<float>(_battleScreen->getCurrentBound()->width),
+		       static_cast<float>(WIN_H) / static_cast<float>(_battleScreen->getCurrentBound()->height));
+  //_battleStarted = true;
 }
 void			BattleView::onUpdate()
 {
-  if (**(**(_wMan)->getBattle())->getSwitch())
+  if (_battleStarted){
+    if (**(**(_wMan)->getBattle())->getSwitch())
+      {
+	loadPlayerList();
+	_currentTurn = -1;
+	*(**(_wMan)->getBattle())->getSwitch() = false;
+	_playingMob = NULL;
+	setLifeVisibility(true);
+      }
+    if (_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn())
+      {
+	unsigned int turn = (**_wMan->getBattle())->getTurnTo();
+	if (turn != (unsigned int) -1)
+	  _currentTurn = turn;
+	setPlayingMob();
+      }
+    _spellUpdater->update(this);
+    if (_playingMob)
+      _selection->setPosition((_playingMob->getPosition().x), (_playingMob->getPosition().y - CASE_SIZE));
+    _selection->update(*_sfmlView->getMainClock());
+    _spellSprite->update(*_sfmlView->getMainClock());
+    _spellSpriteCase->update(*_sfmlView->getMainClock());
+  }
+  else
     {
-      loadPlayerList();
-      _currentTurn = -1;
-      *(**(_wMan)->getBattle())->getSwitch() = false;
-      _playingMob = NULL;
-      setLifeVisibility(true);
+      _battleScreen->update(*_sfmlView->getMainClock());
+      std::cout << "update battle screen" << std::endl;
     }
-  if (_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn())
-    {
-      unsigned int turn = (**_wMan->getBattle())->getTurnTo();
-      if (turn != (unsigned int) -1)
-	_currentTurn = turn;
-      setPlayingMob();
-    }
-  _spellUpdater->update(this);
-  if (_playingMob)
-    _selection->setPosition((_playingMob->getPosition().x), (_playingMob->getPosition().y - CASE_SIZE));
-  _selection->update(*_sfmlView->getMainClock());
-  _spellSprite->update(*_sfmlView->getMainClock());
-  _spellSpriteCase->update(*_sfmlView->getMainClock());
 }
 
 void			BattleView::onKeyEvent(QKeyEvent *)
@@ -104,24 +120,31 @@ void			BattleView::resetView()
 
 void			BattleView::drawView()
 {
-  _backgroundSprite->setTexture(_backgroundTexture->getTexture());
-  _sfmlView->draw(*_backgroundSprite);
-  _sfmlView->draw(*_spellSpriteCase);
-  for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
+  if (_battleStarted){
+    _backgroundSprite->setTexture(_backgroundTexture->getTexture());
+    _sfmlView->draw(*_backgroundSprite);
+    _sfmlView->draw(*_spellSpriteCase);
+    for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
+      {
+	(*it)->resetHUDPos();
+	_sfmlView->draw(*(*it));
+	(*it)->update(*_sfmlView->getMainClock());
+      }
+    for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
+      {
+	(*it)->resetHUDPos();
+	_sfmlView->draw(*(*it));
+	(*it)->update(*_sfmlView->getMainClock());
+      }
+    _sfmlView->draw(*_selection);
+    _sfmlView->draw(*_spellSprite);
+    _spellUpdater->draw();
+  }
+  else
     {
-      (*it)->resetHUDPos();
-      _sfmlView->draw(*(*it));
-      (*it)->update(*_sfmlView->getMainClock());
+      _sfmlView->draw(*_battleScreen);
+      std::cout << "draw battle screen" << std::endl;
     }
-  for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
-    {
-      (*it)->resetHUDPos();
-      _sfmlView->draw(*(*it));
-      (*it)->update(*_sfmlView->getMainClock());
-    }
-  _sfmlView->draw(*_selection);
-  _sfmlView->draw(*_spellSprite);
-  _spellUpdater->draw();
   _sfmlView->setView(*(_sfmlView->getMainView()));
 }
 
@@ -241,6 +264,13 @@ bool			BattleView::isBattleEnded()
 void			BattleView::battleStart()
 {
   _battleStarted = true;
+}
+
+bool			BattleView::canStartBattle()
+{
+  if (_battleScreen->isAnimFinished())
+    return true;
+  return false;
 }
 
 void			BattleView::loadPlayerList()

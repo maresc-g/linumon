@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Fri Mar 14 15:30:04 2014 cyril jourdain
+// Last update Sat Mar 15 21:36:04 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -71,7 +71,6 @@ Sprite			&Sprite::operator=(Sprite const &other)
   _texture = other._texture;
   _name = other._name;
   return *this;
-
 }
 
 Sprite::~Sprite()

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Sat Mar 15 13:33:25 2014 guillaume marescaux
+// Last update Sat Mar 15 21:39:45 2014 cyril jourdain
 //
 
 /*
@@ -152,17 +152,15 @@ void			SFMLView::onUpdate()
       }
       break;
     case CLIENT::ENTER_BATTLE:
-      static_cast<BattleView*>(_battleView)->battleStart();
-      _mainView->rotate(-10);
-      _mainView->zoom(1.2);
-      if (_mainView->getSize().x > WIN_W)
-	{
-	  *(_wMan->getState()) = CLIENT::BATTLE;
-	  _battleView->resetPOV();
-	  static_cast<BattleView*>(_battleView)->resetHUDPos();
-	  static_cast<BattleView*>(_battleView)->setLifeVisibility(true);
-	  // SoundManager::getInstance()->playMusic(BATTLE_THEME);
-	}
+      if (static_cast<BattleView*>(_battleView)->canStartBattle()){
+	static_cast<BattleView*>(_battleView)->battleStart();
+	*(_wMan->getState()) = CLIENT::BATTLE;
+	_battleView->resetPOV();
+	static_cast<BattleView*>(_battleView)->resetHUDPos();
+	static_cast<BattleView*>(_battleView)->setLifeVisibility(true);
+	// SoundManager::getInstance()->playMusic(BATTLE_THEME);
+	_chat->show();
+      }
       break;
     case CLIENT::LOADING_BATTLE:
       if (!_grow)
@@ -170,6 +168,7 @@ void			SFMLView::onUpdate()
 	  if (!_enterBattle){
 	    SoundManager::getInstance()->stopMusic(WORLD_THEME);
 	    SoundManager::getInstance()->playSound(TO_BATTLE);
+	    _chat->hide();
 	    _enterBattle = true;
 	  }
 	  _mainView->rotate(10);
@@ -181,6 +180,7 @@ void			SFMLView::onUpdate()
 	      _currentView = _battleView;
 	      *(_wMan->getState()) = CLIENT::ENTER_BATTLE;
 	      _currentView->centerView();
+	      _mainView->reset(sf::FloatRect(0,0,WIN_W, WIN_H));
 	    }
 	}
       std::cout << _mainView->getSize().x << std::endl;

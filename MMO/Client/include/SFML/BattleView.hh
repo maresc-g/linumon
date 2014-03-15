@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Fri Mar 14 13:02:13 2014 cyril jourdain
+// Last update Sat Mar 15 21:04:46 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -49,6 +49,7 @@ private:
   Sprite			*_selection;
   Sprite			*_spellSprite;
   Sprite			*_spellSpriteCase;
+  Sprite			*_battleScreen;
   std::string			_selectedSpell;
   BattleSpellUpdater		*_spellUpdater;
   unsigned int			_currentTurn;
@@ -79,6 +80,7 @@ public:
   void				quitBattle();
   bool				isBattleEnded();
   void				battleStart();
+  bool				canStartBattle();
 
 private:
   void				loadPlayerList();

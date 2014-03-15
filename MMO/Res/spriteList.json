@@ -6,5 +6,6 @@
     "Fatal-Foudre":"./Res/Spell/Fatal-Foudre.json",
     "Perso1":"./Res/perso1.json",
     "Textures":"./Res/textures.json",
-    "SelectedPlayer":"./Res/selectedPlayer.json"
+    "SelectedPlayer":"./Res/selectedPlayer.json",
+    "BattleScreen":"./Res/battleScreen.json"
 }
