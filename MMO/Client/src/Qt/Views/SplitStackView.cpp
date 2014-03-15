@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar 12 13:59:24 2014 guillaume marescaux
-// Last update Sat Mar 15 14:21:56 2014 guillaume marescaux
+// Last update Sat Mar 15 19:20:43 2014 guillaume marescaux
 //
 
 #include			<QValidator>
@@ -73,8 +73,8 @@ void				SplitStackView::on_b_accept_clicked()
       stack = (**_wMan->getMainPlayer())->getInventory().getStack(idStack);
       if (destInfos->name == "tradeview" && sourceInfos->name == "inventoryview")
 	{
+	  (**_wMan->getTrade())->putPlayerStack(new Stack<AItem>(*stack));
 	  (**_wMan->getMainPlayer())->deleteItem(stack);
-	  (**_wMan->getTrade())->putPlayerStack(stack);
 	  (**_wMan->getTrade())->setChanged(true);
 	  Client::getInstance()->putItem((**_wMan->getTrade())->getId(), idStack);
 	  // _wMan->getSFMLView()->getTradeView()->putStackToTrade(&_source->getStack());

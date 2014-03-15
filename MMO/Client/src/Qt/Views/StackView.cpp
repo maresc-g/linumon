@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Fri Mar 14 16:08:16 2014 guillaume marescaux
+// Last update Sat Mar 15 19:08:58 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -188,7 +188,7 @@ void				StackView::dropEvent(QDropEvent *de)
   // if (infos && sourceInfos && (infos->name == "tradeview" || sourceInfos->name == "tradeview"))
   //   ;
    // _wMan->getSFMLView()->getTradeView()->handleStackChange(de->source(), this);
-  if (/*infos->name == "inventoryview" && sourceInfos->name == "inventoryview" &&*/ (!_stack || _stack->getNb() == 0))
+  if (infos->name != "stuffview" && sourceInfos->name != "stuffview" && (!_stack || _stack->getNb() == 0))
     {
       _wMan->getSFMLView()->getSplitStackView()->setInfos(static_cast<StackView *>(de->source()), this);
       _wMan->getSFMLView()->getSplitStackView()->show();

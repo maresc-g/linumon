@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Fri Mar 14 13:08:09 2014 laurent ansel
+// Last update Sat Mar 15 19:07:52 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -198,7 +198,7 @@ void				StuffView::stackAction(StackView *stack)
 
   if (ret)
     {
-      Client::getInstance()->stuff(eStuffAction::GET, stuff->getId(), _last->getId());
+      Client::getInstance()->getStuff(stuff->getId(), _last->getId());
       _wMan->getSFMLView()->getInventoryView()->initInventory();
       _changed = true;
       if (_last->getCharacterType() == ACharacter::MOB)
@@ -237,7 +237,7 @@ void				StuffView::dropEvent(QDropEvent *de)
 	ret = (**(_wMan->getMainPlayer()))->putPlayerEquipment(stack->getId());
       if (ret)
 	{
-	  Client::getInstance()->stuff(eStuffAction::PUT, stack->getId(), _last->getId());
+	  Client::getInstance()->putStuff(stack->getId(), _last->getId());
 	  _changed = true;
 	  if (_last->getCharacterType() == ACharacter::MOB)
 	    initStuff(*static_cast<Mob const *>(_last));

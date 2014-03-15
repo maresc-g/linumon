@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Sat Mar 15 13:19:38 2014 guillaume marescaux
+// Last update Sat Mar 15 19:02:28 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -77,8 +77,11 @@ void				Client::capture(unsigned int idBattle, unsigned int target) { _core->cap
 void				Client::sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob)
 { _core->sendSwitch(idBattle, target, newMob); }
 
-void				Client::stuff(int action, unsigned int idItem, unsigned int target)
-{ _core->stuff(action, idItem, target); }
+void				Client::putStuff(unsigned int idItem, unsigned int target)
+{ _core->putStuff(idItem, target); }
+
+void				Client::getStuff(unsigned int idItem, unsigned int target)
+{ _core->getStuff(idItem, target); }
 
 // void				Client::talents();
 

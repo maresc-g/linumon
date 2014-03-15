@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Fri Mar 14 13:06:45 2014 laurent ansel
+// Last update Sat Mar 15 19:03:31 2014 guillaume marescaux
 //
 
 #include <iostream>
@@ -93,7 +93,7 @@ void				InventoryView::stackAction(StackView *stackView)
         ret = (**(_wMan->getMainPlayer()))->putMobEquipment(_wMan->getSFMLView()->getStuffView()->getLast()->getId(), stack->getId());
       if (ret)
         {
-	  Client::getInstance()->stuff(eStuffAction::PUT, stack->getId(), (**(_wMan->getMainPlayer()))->getId());
+	  Client::getInstance()->putStuff(stack->getId(), (**(_wMan->getMainPlayer()))->getId());
           _wMan->getSFMLView()->getStuffView()->setChanged(true);
           ACharacter const              *last = _wMan->getSFMLView()->getStuffView()->getLast();
           if (!last)

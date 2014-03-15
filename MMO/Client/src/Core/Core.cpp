@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Sat Mar 15 13:44:20 2014 guillaume marescaux
+// Last update Sat Mar 15 19:02:59 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -397,7 +397,12 @@ bool				Core::launchTrade(Trame *trame)
 
 bool				Core::putItem(Trame *trame)
 {
-  (**_trade)->putOtherStack(Stack<AItem>::deserialization((*trame)((*trame)[CONTENT]["STACK"])));
+  std::vector<std::string>	keys = (*trame)[CONTENT]["PUTITEM"]["ITEM"].getMemberNames();
+
+  for (auto it = keys.begin() ; it != keys.end() ; ++it)
+    {
+      (**_trade)->putOtherStack(Stack<AItem>::deserialization((*trame)((*trame)[CONTENT]["PUTITEM"]["ITEM"][*it])));
+    }
   (**_trade)->setChanged(true);
   return (true);
 }
@@ -645,9 +650,14 @@ void				Core::sendSwitch(unsigned int idBattle, unsigned int target, unsigned in
   (*_proto).operator()<unsigned int const, unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", _id, idBattle, target, newMob, 0);
 }
 
-void				Core::stuff(int action, unsigned int idItem, unsigned int target)
+void				Core::putStuff(unsigned int idItem, unsigned int target)
 {
-  (*_proto).operator()<unsigned int const, int, unsigned int, unsigned int>("STUFF", _id, action, idItem, target);
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("PUTSTUFF", _id, idItem, target);
+}
+
+void				Core::getStuff(unsigned int idItem, unsigned int target)
+{
+  (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("GETSTUFF", _id, idItem, target);
 }
 
 // void				talents();
