@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar 12 14:05:11 2014 laurent ansel
-// Last update Fri Mar 14 13:24:27 2014 laurent ansel
+// Last update Sat Mar 15 11:18:43 2014 laurent ansel
 //
 
 #include			"Entities/Stack.hh"
@@ -13,5 +13,5 @@
 
 AItem				*getItemLoader(std::string const &name)
 {
-return (LoaderManager::getInstance()->getItemLoader(name));
+  return (LoaderManager::getInstance()->getItemLoader(name));
 }

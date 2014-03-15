@@ -5,11 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar 14 11:04:13 2014 laurent ansel
-// Last update Sat Mar 15 00:20:14 2014 alexis mestag
+// Last update Sat Mar 15 13:58:19 2014 laurent ansel
 //
 
 #include			"Entities/Carcass.hh"
-
+#include			"Loader/LoaderManager.hh"
 
 Carcass::Carcass() :
   AEntity("", eEntity::CARCASS),
@@ -84,23 +84,34 @@ void				Carcass::setY(CarcassCoordinate::type const &y)
 bool				Carcass::serialization(Trame &trame) const
 {
   trame["EN"] = this->getEntityType();
-  trame["NAME"] = this->getName();
+  // trame["NAME"] = this->getName();
   trame["ID"] = static_cast<unsigned int>(this->getId());
-  this->_coord->serialization(trame);
+  // this->_coord->serialization(trame);
+  trame["RES"];
+  for (auto it = this->begin() ; it != this->end() ; ++it)
+    trame["RES"][(*it).getItem()->getName()] = (*it).getNb();
   return (true);
 }
 
 Carcass				*Carcass::deserialization(Trame const &trame)
 {
   Carcass			*carcass = NULL;
+  Stack<Ressource>		*stack;
 
   if (trame["EN"].asInt() == AEntity::eEntity::CARCASS)
     {
-      carcass = new Carcass(trame["NAME"].asString());
+      carcass = new Carcass("");
       carcass->setId(trame["ID"].asUInt());
       carcass->setEntityType(static_cast<AEntity::eEntity>(trame["EN"].asInt()));
       if (trame.isMember("COORDINATE"))
 	carcass->setCoord(*CarcassCoordinate::deserialization(trame(trame)));
+      auto			members = trame["RES"].getMemberNames();
+
+      for (auto it = members.begin() ; it != members.end() ; ++it)
+	{
+stack = new StackRessource(0, static_cast<Ressource *>(LoaderManager::getInstance()->getItemLoader(*it)), trame["RES"][*it].asUInt());
+	  carcass->getContainer().push_back(*stack);
+	}
     }
   return (carcass);
 }

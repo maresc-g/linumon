@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:39:45 2014 alexis mestag
-// Last update Sat Mar 15 00:19:57 2014 alexis mestag
+// Last update Sat Mar 15 14:03:03 2014 laurent ansel
 //
 
 #include			"Entities/MobModel.hh"
@@ -96,7 +96,7 @@ bool				MobModel::serialization(Trame &trame) const
   this->getStats().serialization(trame(trame["STATS"]));
   this->getSpells().serialization(trame(trame));
   trame["KEY"] = this->getAuthorizedStatKeys().getName();
-  // trame["CAR"] = this->_carcass->getName();
+   this->_carcass->serialization(trame(trame["CAR"]));
   return (ret);
 }
 
@@ -108,8 +108,12 @@ MobModel			*MobModel::deserialization(Trame const &trame)
   if (trame.isMember("KEY"))
     model->setAuthorizedStatKeys(*(**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->getValue(trame["KEY"].asString()));
 
-  // if (trame.isMember("CAR"))
-  //   model->setCarcass(*(**LoaderManager::getInstance()->getCarcassLoader())->getValue(trame["CAR"].asString()));
+  if (trame.isMember("CAR"))
+    {
+      Carcass			*carcass = Carcass::deserialization(trame(trame["CAR"]));
+      if (carcass)
+	  model->setCarcass(*carcass);
+    }
   model->setType(*Type::deserialization(trame(trame)));
   model->setSpells(*Spells::deserialization(trame(trame)));
   model->setStats(*Stats::deserialization(trame(trame["STATS"])));
