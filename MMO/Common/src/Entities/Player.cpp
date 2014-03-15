@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Mar 14 17:31:18 2014 alexis mestag
+// Last update Sat Mar 15 17:34:48 2014 laurent ansel
 //
 
 #include			<functional>
@@ -631,7 +631,7 @@ bool				Player::doCraft(std::string const &job, std::string const &craft, Stack<
   return (ret);
 }
 
-bool				Player::doGather(std::string const &job, std::string const &res, Stack<AItem> *&result, unsigned int &idRessource)
+bool				Player::doGather(std::string const &job, std::string const &res, Stack<AItem> *&result, unsigned int &idRessource, Carcass *carcass)
 {
   bool				ret = false;
   Job				*tmp = NULL;
@@ -639,7 +639,10 @@ bool				Player::doGather(std::string const &job, std::string const &res, Stack<A
   tmp = this->getJob(job);
   if (tmp)
     {
-      ret = tmp->doGather(res, result, idRessource);
+      if (carcass)
+	ret = tmp->doGather(res, result, idRessource, carcass);
+      else
+	ret = tmp->doGather(res, result, idRessource);
       this->addItem(result);
     }
   return (ret);

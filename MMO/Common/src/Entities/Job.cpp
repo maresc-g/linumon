@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Fri Mar 14 11:57:58 2014 laurent ansel
+// Last update Sat Mar 15 17:46:18 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -164,7 +164,7 @@ bool				Job::doCraft(std::string const &nameCraft, Stack<> *&result, std::list<S
   return (ret);
 }
 
-bool				Job::doGather(std::string const &nameRessource, Stack<> *&result, unsigned int &idRessource)
+bool				Job::doGather(std::string const &nameRessource, Stack<AItem> *&result, unsigned int &idRessource)
 {
   bool				ret = false;
   unsigned int			exp = 0;
@@ -184,7 +184,40 @@ bool				Job::doGather(std::string const &nameRessource, Stack<> *&result, unsign
 	    result->setItem(item);
 	    result->setNb(i);
 	  }
-	exp = this->_currentExp + it->getExp();
+	exp = this->_currentExp + (*it).getExp();
+	while (this->getExp() < exp)
+	  {
+	    this->_level->levelUp();
+	    exp -= this->getExp();
+	  }
+	this->_currentExp = exp;
+	ret = true;
+      }
+  return (ret);
+}
+
+bool				Job::doGather(std::string const &nameRessource, Stack<AItem> *&result, unsigned int &idRessource, Carcass *carcass)
+{
+  bool				ret = false;
+  unsigned int			exp = 0;
+  Ressource			*item;
+  auto				itemCarcass = carcass->begin();
+
+  for (auto it = this->getJobModel().getGathers().begin() ; it != this->getJobModel().getGathers().end() && !ret; ++it)
+    if ((*it).getRessource().getName() == nameRessource)
+      {
+	idRessource = (*it).getRessource().getId();
+	item = (**LoaderManager::getInstance()->getRessourceLoader())->getValue((*it).getRessource().getName());
+	if (item)
+	  {
+	    result->setItem(item);
+	    for (; itemCarcass != carcass->end() && (*itemCarcass).getItem()->getName() != nameRessource ; ++itemCarcass);
+	    if (itemCarcass != carcass->end())
+	      result->setNb((*itemCarcass).getNb());
+	    else
+	      break;
+	  }
+	exp = this->_currentExp + (*it).getExp();
 	while (this->getExp() < exp)
 	  {
 	    this->_level->levelUp();

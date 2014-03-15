@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Thu Mar 13 18:50:29 2014 laurent ansel
+// Last update Sat Mar 15 17:29:14 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -65,7 +65,7 @@ public:
   bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;
 
   bool				craftSomething(FD const fd, std::string const &craft, std::string const &job) const;
-  bool				gatherSomething(FD const fd, std::string const &gather, std::string const &job, Ressource::RessourceCoordinate const &coord) const;
+  bool				gatherSomething(FD const fd, std::string const &gather, std::string const &job, unsigned int const carcass) const;
 
   bool				disconnectUser(FD const fd) const;
   bool				disconnectPlayer(FD const fd) const;

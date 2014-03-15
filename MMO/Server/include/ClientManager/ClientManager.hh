@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Thu Mar 13 18:49:41 2014 laurent ansel
+// Last update Sat Mar 15 17:29:27 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -64,7 +64,7 @@ public:
   bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;
 
   bool				craftSomething(FD const fd, std::string const &craft, std::string const &job) const;
-  bool				gatherSomething(FD const fd, std::string const &gather, std::string const &job, Ressource::RessourceCoordinate const &coord) const;
+  bool				gatherSomething(FD const fd, std::string const &gather, std::string const &job, unsigned int const carcass) const;
 
 private:
   void				findWrite() const;

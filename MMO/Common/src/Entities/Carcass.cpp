@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar 14 11:04:13 2014 laurent ansel
-// Last update Sat Mar 15 13:58:19 2014 laurent ansel
+// Last update Sat Mar 15 17:48:09 2014 laurent ansel
 //
 
 #include			"Entities/Carcass.hh"
@@ -79,6 +79,16 @@ void				Carcass::setX(CarcassCoordinate::type const &x)
 void				Carcass::setY(CarcassCoordinate::type const &y)
 {
   this->_coord->setY(y);
+}
+
+bool				Carcass::empty() const
+{
+  bool				ret = true;
+
+  for (auto it = this->begin() ; it != this->end() && ret ; ++it)
+    if (!(*it).empty())
+      ret = false;
+  return (ret);
 }
 
 bool				Carcass::serialization(Trame &trame) const

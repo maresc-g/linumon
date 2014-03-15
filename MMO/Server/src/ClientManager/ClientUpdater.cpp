@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Sat Mar 15 14:44:14 2014 laurent ansel
+// Last update Sat Mar 15 17:29:02 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -607,7 +607,7 @@ bool				ClientUpdater::craftSomething(FD const fd, std::string const &craft, std
   return (ret);
 }
 
-bool				ClientUpdater::gatherSomething(FD const fd, std::string const &gather, std::string const &job, Ressource::RessourceCoordinate const &coord) const
+bool				ClientUpdater::gatherSomething(FD const fd, std::string const &gather, std::string const &job, unsigned int const carcass) const
 {
   bool				ret = false;
 
@@ -616,7 +616,7 @@ bool				ClientUpdater::gatherSomething(FD const fd, std::string const &gather, s
     {
       if (fd == (*it).first->getId() && (*it).first->isUse())
 	{
-	  ret = it->first->gather(gather, job, coord);
+	  ret = it->first->gather(gather, job, carcass);
 	  this->_mutex->unlock();
 	  return (ret);
 	}

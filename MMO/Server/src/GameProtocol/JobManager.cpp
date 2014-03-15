@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:26:56 2014 laurent ansel
-// Last update Mon Mar 10 11:53:28 2014 laurent ansel
+// Last update Sat Mar 15 17:33:25 2014 laurent ansel
 //
 
 #include			<functional>
@@ -31,17 +31,9 @@ JobManager::~JobManager()
 bool				JobManager::gather(Trame *trame)
 {
   bool				ret = false;
-  Ressource::RessourceCoordinate	*coord;
 
   if (trame && (*trame)[CONTENT].isMember("GATHER"))
-    {
-      coord = Ressource::RessourceCoordinate::deserialization((*trame)((*trame)[CONTENT]["GATHER"]));
-      if (coord)
-	{
-	  ret = ClientManager::getInstance()->gatherSomething((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["GATHER"]["JOBNAME"].asString(), (*trame)[CONTENT]["GATHER"]["GATHERNAME"].asString(), *coord);
-	  delete coord;
-	}
-    }
+    ret = ClientManager::getInstance()->gatherSomething((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["GATHER"]["JOBNAME"].asString(), (*trame)[CONTENT]["GATHER"]["GATHERNAME"].asString(), (*trame)[CONTENT]["GATHER"]["CARCASS"].asUInt());
   return (ret);
 }
 
