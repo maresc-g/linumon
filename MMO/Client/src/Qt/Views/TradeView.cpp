@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb 20 13:28:48 2014 guillaume marescaux
-// Last update Fri Mar 14 16:14:15 2014 guillaume marescaux
+// Last update Sat Mar 15 13:37:54 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/TradeView.hh"
@@ -18,6 +18,7 @@ TradeView::TradeView(QWidget *parent, WindowManager *wMan):
   _hiddenStackViews(new std::list<StackView *>), _hiddenOtherStackViews(new std::list<StackView *>)
 {
   ui.setupUi(this);
+  connect(ui.le_money, SIGNAL(editingFinished()), this, SLOT(sendMoney()));
 }
 
 TradeView::~TradeView()
@@ -43,6 +44,23 @@ void				TradeView::on_b_cancel_clicked()
   Client::getInstance()->refuse();
 }
 
+void				TradeView::sendMoney()
+{
+  MutexVar<Trade *>		*trade = _wMan->getTrade();
+  int				change = ui.le_money->text().toInt() - (**trade)->getPlayerMoney();
+
+  if (change > 0)
+    {
+      (**trade)->putPlayerMoney(change);
+      Client::getInstance()->putMoney((**trade)->getId(), change);
+    }
+  else if (change < 0)
+    {
+      (**trade)->getPlayerMoney(abs(change));
+      Client::getInstance()->getMoney((**trade)->getId(), abs(change));
+    }
+}
+
 void				TradeView::reset()
 {
 }
@@ -54,8 +72,8 @@ void				TradeView::setInfos(MutexVar<Trade *> *trade)
 
   ui.l_name->setText((**_wMan->getMainPlayer())->getName().c_str());
   ui.l_otherName->setText((**trade)->getName().c_str());
-  ui.le_money->setText("0");
-  ui.l_otherMoney->setText("0");
+  ui.le_money->setText(std::to_string((**trade)->getPlayerMoney()).c_str());
+  ui.l_otherMoney->setText(std::to_string((**trade)->getOtherMoney()).c_str());
 
   _mobViews->clear();
   _otherMobViews->clear();
@@ -111,6 +129,7 @@ void				TradeView::setInfos(MutexVar<Trade *> *trade)
     {
       if (itStacks != (**trade)->getPlayerStacks().end())
 	{
+	  std::cout << "NB OF ITEMS IN STACK = " << (*itStacks)->getNb() << std::endl;
 	  stack = new StackView(ui.f_stacks, _wMan, *itStacks);
 	  itStacks++;
 	}

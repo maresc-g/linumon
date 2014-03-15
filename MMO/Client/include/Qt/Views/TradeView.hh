@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb 20 13:27:33 2014 guillaume marescaux
-// Last update Fri Mar 14 16:14:02 2014 guillaume marescaux
+// Last update Sat Mar 15 13:14:31 2014 guillaume marescaux
 //
 
 #ifndef 			__TRADEVIEW_HH__
@@ -50,6 +50,7 @@ private slots:
 
   void				on_b_accept_clicked();
   void				on_b_cancel_clicked();
+  void				sendMoney();
 
 public:
 

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Fri Mar 14 17:10:02 2014 cyril jourdain
+// Last update Sat Mar 15 13:19:38 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -96,13 +96,13 @@ void				Client::putItem(unsigned int idTrade, unsigned int idStack) { _core->put
 
 void				Client::getItem(unsigned int idTrade, unsigned int idStack) { _core->getItem(idTrade, idStack); }
 
-void				Client::putMob(unsigned int idTrade, unsigned int idMob) { _core->putItem(idTrade, idMob); }
+void				Client::putMob(unsigned int idTrade, unsigned int idMob) { _core->putMob(idTrade, idMob); }
 
-void				Client::getMob(unsigned int idTrade, unsigned int idMob) { _core->getItem(idTrade, idMob); }
+void				Client::getMob(unsigned int idTrade, unsigned int idMob) { _core->getMob(idTrade, idMob); }
 
-void				Client::putMoney(unsigned int idTrade, unsigned int money) { _core->putItem(idTrade, money); }
+void				Client::putMoney(unsigned int idTrade, unsigned int money) { _core->putMoney(idTrade, money); }
 
-void				Client::getMoney(unsigned int idTrade, unsigned int money) { _core->getItem(idTrade, money); }
+void				Client::getMoney(unsigned int idTrade, unsigned int money) { _core->getMoney(idTrade, money); }
 
 void				Client::accept() { _core->accept(); }
 

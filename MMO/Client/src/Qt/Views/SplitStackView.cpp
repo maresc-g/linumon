@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar 12 13:59:24 2014 guillaume marescaux
-// Last update Fri Mar 14 16:10:29 2014 guillaume marescaux
+// Last update Sat Mar 15 13:08:44 2014 guillaume marescaux
 //
 
 #include			<QValidator>
@@ -64,20 +64,27 @@ void				SplitStackView::on_b_accept_clicked()
   unsigned int			nb = ui.sb_nb->value();
   ParentInfos			*destInfos = getNameFirstParent(_dest);
   ParentInfos			*sourceInfos = getNameFirstParent(_source);
+  Stack<AItem>			*stack;
 
   if (!(destInfos->name == "tradeview" && sourceInfos->name == "tradeview"))
     {
-      (**_wMan->getMainPlayer())->newStack(_source->getStack().getId(), nb);
+      unsigned int		idStack = (**_wMan->getMainPlayer())->newStack(_source->getStack().getId(), nb);
       Client::getInstance()->newStack(_source->getStack().getId(), nb);
+      stack = (**_wMan->getMainPlayer())->getInventory().getStack(idStack);
+      (**_wMan->getMainPlayer())->deleteItem(idStack);
       _wMan->getSFMLView()->getInventoryView()->initInventory();
       if (destInfos->name == "tradeview" && sourceInfos->name == "inventoryview")
 	{
-	  (**_wMan->getTrade())->putPlayerStack(&_source->getStack());
+	  (**_wMan->getTrade())->putPlayerStack(stack);
+	  (**_wMan->getTrade())->setChanged(true);
+	  Client::getInstance()->putItem((**_wMan->getTrade())->getId(), idStack);
 	  // _wMan->getSFMLView()->getTradeView()->putStackToTrade(&_source->getStack());
 	}
       else if (destInfos->name == "inventoryview" && destInfos->name == "tradeview")
 	{
-	  (**_wMan->getTrade())->getPlayerStack(&_source->getStack());
+	  (**_wMan->getTrade())->getPlayerStack((**_wMan->getMainPlayer())->getInventory().getStack(idStack));
+	  (**_wMan->getTrade())->setChanged(true);
+	  Client::getInstance()->getItem((**_wMan->getTrade())->getId(), idStack);
 	  // _wMan->getSFMLView()->getTradeView()->getStackFromTrade(&_source->getStack());
 	}
     }

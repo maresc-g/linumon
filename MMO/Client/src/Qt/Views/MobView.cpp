@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Thu Mar 13 16:50:10 2014 cyril jourdain
+// Last update Sat Mar 15 13:57:41 2014 guillaume marescaux
 //
 
 #include			<QMenu>
@@ -49,18 +49,23 @@ void				MobView::setInfos(Mob const *mob)
 {
   _mob = mob;
   ui.l_nb->hide();
-  std::string name = mob->getModel().getName();
-  auto it = name.find(' ');
-  while (it != std::string::npos)
+  if (mob)
     {
-      name.replace(it, 1, "_");
-      it = name.find(' ');
+      std::string name = mob->getModel().getName();
+      auto it = name.find(' ');
+      while (it != std::string::npos)
+	{
+	  name.replace(it, 1, "_");
+	  it = name.find(' ');
+	}
+      boost::algorithm::to_lower(name);
+      ui.frame->setObjectName(name.c_str());
+      this->setStyleSheet(std::string("MobView QFrame#" + name + "{ border-image: url(./Res/Mobs/" + name + ".png); }").c_str());
+      setContextMenuPolicy(Qt::CustomContextMenu);
+      connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayMenu(const QPoint&)));
     }
-  boost::algorithm::to_lower(name);
-  ui.frame->setObjectName(name.c_str());
-  this->setStyleSheet(std::string("MobView QFrame#" + name + "{ border-image: url(./Res/Mobs/" + name + ".png); }").c_str());
-  setContextMenuPolicy(Qt::CustomContextMenu);
-  connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayMenu(const QPoint&)));
+  else
+    this->setObjectName("default");
 }
 
 void				MobView::displayMenu(const QPoint &pos)
@@ -118,6 +123,7 @@ ParentInfos			*MobView::getNameFirstParent(QWidget *parent)
     {
       "inventoryview",
       "digitaliserview",
+      "tradeview"
     };
   static unsigned int		size = sizeof(parentNames) / sizeof(std::string);
   unsigned int			i;
@@ -183,6 +189,20 @@ void				MobView::dropEvent(QDropEvent *de)
 	  Client::getInstance()->useObject(_mob->getId(), consumable->getId());
 	  _wMan->getSFMLView()->getInventoryView()->initInventory();
 	}
+    }
+  else if (sourceInfos->name == "digitaliserview" && infos->name == "tradeview")
+    {      
+      Mob const			*mob = reinterpret_cast<Mob const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
+      static_cast<MobView *>(de->source())->setInfos(_mob);
+      Client::getInstance()->putMob((**_wMan->getTrade())->getId(), mob->getId());
+      setInfos(mob);
+    }
+  else if (sourceInfos->name == "tradeview" && infos->name == "digitaliserview")
+    {      
+      Mob const			*mob = reinterpret_cast<Mob const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
+      static_cast<MobView *>(de->source())->setInfos(_mob);
+      Client::getInstance()->getMob((**_wMan->getTrade())->getId(), mob->getId());
+      setInfos(mob);
     }
   else if (sourceInfos && sourceInfos->name == "digitaliserview")
     {

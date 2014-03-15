@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Mar 14 17:39:01 2014 laurent ansel
+// Last update Sat Mar 15 13:33:25 2014 guillaume marescaux
 //
 
 /*
@@ -115,10 +115,19 @@ void			SFMLView::onUpdate()
   CLIENT::eState s = **(_wMan->getState());
   switch (s)
     {
-    case CLIENT::TRADE:
+    case CLIENT::LAUNCH_TRADE:
       _trade->show();
       _trade->move(800, 0);
       _trade->setInfos(_wMan->getTrade());
+      (*_wMan->getState()) = CLIENT::TRADE;
+      break;
+    case CLIENT::TRADE:
+      if ((**_wMan->getTrade())->getChanged())
+	{
+	  std::cout << "SOMETHING CHANGED" << std::endl;
+	  _trade->setInfos(_wMan->getTrade());
+	  (**_wMan->getTrade())->setChanged(false);
+	}
       break;
     case CLIENT::NEWZONE:
       *(_wMan->getState()) = CLIENT::LOADING;
