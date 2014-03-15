@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Thu Mar 13 18:50:55 2014 laurent ansel
+// Last update Sat Mar 15 14:44:14 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -242,16 +242,23 @@ bool				ClientUpdater::sendListPlayers(FD const fd) const
 void				ClientUpdater::readTrame(Client *client, std::string const &protocole) const
 {
   std::string			str;
-  Trame				*trame;
+  //  Trame				*trame;
 
   this->_mutex->lock();
   if (client->isUse())
     {
       if (client->readTrame(str, protocole))
 	{
-	  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
-	  Trame::toTrame(*trame, str);
-	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
+	  //	  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+	  //	  Trame::toTrame(*trame, str);
+
+	  std::list<Trame *>	*list = Trame::toTrame(str);
+	  for (auto it = list->begin() ; it != list->end() ; ++it)
+	    {
+	      if (*it)
+		CircularBufferManager::getInstance()->pushTrame(*it, CircularBufferManager::READ_BUFFER);
+	    }
+	  delete list;
 	}
     }
   this->_mutex->unlock();

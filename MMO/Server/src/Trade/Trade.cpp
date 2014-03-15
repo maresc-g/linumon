@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:40:51 2014 laurent ansel
-// Last update Fri Mar 14 20:45:51 2014 laurent ansel
+// Last update Sat Mar 15 14:59:14 2014 laurent ansel
 //
 
 #include			<functional>
@@ -178,25 +178,29 @@ bool				Trade::getItem(unsigned int const id, unsigned int const idItem)
 bool				Trade::putItem(unsigned int const id, unsigned int const idStack)
 {
   Stack<AItem>			*item = NULL;
+  Stack<AItem>			*item2 = NULL;
 
   if (_player1->getId() == id)
     {
-      item = _inv1->getStack(idStack);
+      item = _player1->getInventory().getStack(idStack);
       if (item)
 	{
+	  item2 = new Stack<AItem>(*item);
+	  _inv1->addItem(item2);
+	  Server::getInstance()->callProtocol<unsigned int, Stack<AItem> const *>("PUTITEM", _player2->getUser().getId(), getId(), item2);
 	  _player1->deleteItem(item);
-	  _inv1->addItem(item);
-	  Server::getInstance()->callProtocol<unsigned int, Stack<AItem> const *>("PUTITEM", _player2->getUser().getId(), getId(), item);
+
 	}
     }
   else
     {
-      item = _inv2->getStack(idStack);
+      item = _player2->getInventory().getStack(idStack);
       if (item)
 	{
+	  item2 = new Stack<AItem>(*item);
 	  _player2->deleteItem(item);
-	  _inv2->addItem(item);
-	  Server::getInstance()->callProtocol<unsigned int, Stack<AItem> const *>("PUTITEM", _player1->getUser().getId(), getId(), item);
+	  _inv2->addItem(item2);
+	  Server::getInstance()->callProtocol<unsigned int, Stack<AItem> const *>("PUTITEM", _player1->getUser().getId(), getId(), item2);
 	}
     }
   return (true);

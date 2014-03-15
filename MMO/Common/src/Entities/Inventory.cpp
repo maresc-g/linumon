@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Fri Mar 14 21:29:57 2014 alexis mestag
+// Last update Sat Mar 15 14:43:56 2014 laurent ansel
 //
 
 #include			<stdlib.h>
@@ -108,9 +108,9 @@ void				Inventory::deleteItem(Stack<AItem> *stack)
   bool				set = false;
 
   for ( ; it != this->end() && !set ; ++it)
-    if (((*it)->getId() != 0 && (*it)->getId() == stack->getId()) || (**it == stack->getItem()->getName()))
+    if (((*it)->getId() != 0 && (*it)->getId() == stack->getId()))
       {
-	if ((*it)->getNb() - supp > 0)
+	if (static_cast<int>((*it)->getNb() - supp) >= 0)
 	  {
 	    *(*it) -= supp;
 	    supp = 0;
@@ -122,6 +122,23 @@ void				Inventory::deleteItem(Stack<AItem> *stack)
 	    (*it)->setNb(0);
 	  }
       }
+  if (!set)
+    for ( ; it != this->end() && !set ; ++it)
+      if ((**it == stack->getItem()->getName()))
+	{
+	  if (static_cast<int>((*it)->getNb() - supp) >= 0)
+	    {
+	      *(*it) -= supp;
+	      supp = 0;
+	      set = true;
+	    }
+	  else
+	    {
+	      supp -= (*it)->getNb();
+	      (*it)->setNb(0);
+	    }
+	}
+
 }
 
 void				Inventory::addItem(AItem *item)
