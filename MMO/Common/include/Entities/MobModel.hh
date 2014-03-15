@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:21:00 2014 alexis mestag
-// Last update Fri Mar 14 21:08:43 2014 laurent ansel
+// Last update Sat Mar 15 00:02:02 2014 alexis mestag
 //
 
 #ifndef			__MOBMODEL_HH__
@@ -27,7 +27,7 @@ private:
   Type const		*_type;
   Spells 		*_spells;
   ExperienceCurve const	*_expCurve;
-  Carcass const		*_carcass;
+  Carcass		*_carcass;
 
 private:
   MobModel();
@@ -43,6 +43,7 @@ public:
 
   Carcass const		&getCarcass() const;
   void			setCarcass(Carcass const &carcass);
+  Carcass		*getNewCarcass() const;
 
   Spells const		&getSpells() const;
   void			setSpells(Spells const &spells);
@@ -57,13 +58,12 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(MobModel)
 #  pragma db member(MobModel::_spells) transient
+#  pragma db member(MobModel::_carcass) transient
 #  pragma db member(MobModel::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 #  pragma db member(MobModel::_type) not_null
 #  pragma db member(MobModel::spells) virtual(Spells::container_type) get(_spells->getContainer()) set(_spells->setContainer(?)) value_not_null
 #  pragma db member(MobModel::_expCurve) not_null
-
-#  pragma db member(MobModel::_carcass) not_null
-#  pragma db member(MobModel::carcass) virtual(Carcass::container_type) get(_carcass->getContainer()) set(_carcass->setContainer(?)) value_not_null
+#  pragma db member(MobModel::carcass) virtual(Carcass::container_type) get(_carcass->getContainer()) set(_carcass->setContainer(?)) value_not_null value_column("") unordered
 # endif
 
 #endif

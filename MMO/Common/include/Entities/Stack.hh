@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar 12 13:49:57 2014 laurent ansel
-// Last update Fri Mar 14 21:58:56 2014 laurent ansel
+// Last update Fri Mar 14 23:35:42 2014 alexis mestag
 //
 
 #ifndef 			__STACK_HH__
@@ -25,7 +25,13 @@ private:
   T				*_item;
   unsigned int			_nb;
 
-private:
+public:
+  Stack() :
+    _id(0), _item(NULL), _nb(0)
+  {
+
+  }
+
   Stack(Stack<T> const &rhs)
   {
     *this = rhs;
@@ -79,7 +85,6 @@ public:
   {
     return (_item);
   }
-
 
   void				setNb(unsigned int const nb)
   {

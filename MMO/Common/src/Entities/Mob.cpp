@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Fri Mar 14 15:43:15 2014 alexis mestag
+// Last update Sat Mar 15 00:05:18 2014 alexis mestag
 //
 
 #include			<algorithm>
@@ -169,6 +169,14 @@ bool				Mob::decCurrentStat(std::string const &key, Stat::value_type const dec)
   Stat::value_type		newValue = dec >= oldValue ? 0 : oldValue - dec;
 
   return (this->setCurrentStat(key, newValue));
+}
+
+/*
+** Mob's Carcass
+*/
+Carcass				*Mob::getNewCarcass() const
+{
+  return (this->getModel().getNewCarcass());
 }
 
 /*

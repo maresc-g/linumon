@@ -172,6 +172,25 @@ INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`, `expCurve`) VALUES
        (3, 'Venusaur',  2, 3, 3),
        (4, 'Pikachu',   2, 4, 2);
 
+/* Inserting Ressources */
+DELETE FROM `Ressource`;
+
+INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
+       (1, 'Orchidee',			1, 10, 100),
+       (2, 'Peau de bouftou',		1,  1,  10),
+       (3, 'Tree',			0,  0,   0),
+       (4, 'Feuille de Venuzaur',	1,  0,   0),
+       (5, 'Dent de Charizard',		1,  0,   0),
+       (6, 'Ecaille de Blastoise',	1,  0,   0);
+
+/* Assigning Ressources to MobModels */
+DELETE FROM `MobModel_carcass`;
+
+INSERT INTO `MobModel_carcass`(`object_id`, `ressource`, `nb`) VALUES
+       (1, 5, 4),
+       (2, 6, 10),
+       (3, 4, 5);
+
 /* Assignin MobModels to DBZones */
 DELETE FROM `DBZone_mobModels`;
 
@@ -495,17 +514,6 @@ INSERT INTO `Player_stats`(`object_id`, `index`, `value`) VALUES
        (2, 0, 36),
        (2, 1, 37),
        (2, 2, 38);
-
-/* Inserting Ressources */
-DELETE FROM `Ressource`;
-
-INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
-       (1, 'Orchidee',			1, 10, 100),
-       (2, 'Peau de bouftou',		1,  1,  10),
-       (3, 'Tree',			0,  0,   0),
-       (4, 'Feuille de Venuzaur',	1,  0,   0),
-       (5, 'Dent de Charizard',		1,  0,   0),
-       (6, 'Ecaille de Blastoise',	1,  0,   0);
 
 /* Inserting Heals */
 DELETE FROM `Heal`;

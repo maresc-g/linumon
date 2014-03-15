@@ -5,35 +5,33 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar 14 11:04:31 2014 laurent ansel
-// Last update Fri Mar 14 22:13:36 2014 alexis mestag
+// Last update Fri Mar 14 23:50:17 2014 alexis mestag
 //
 
 #ifndef 		__CARCASS_HH__
 # define 		__CARCASS_HH__
 
 # include		<functional>
-# include		"Database/Persistent.hh"
 # include		"Entities/Stack.hh"
 # include		"Entities/Ressource.hh"
 # include		"Zone/Coordinate.hpp"
 # include		"Entities/Level.hh"
 # include		"Utility/Wrapper.hpp"
 
-typedef std::list<Stack<Ressource> *>	StackRessource;
+typedef Stack<Ressource>		StackRessource;
+typedef std::list<StackRessource>	RessourceStackList;
 
-class			Carcass : public Persistent, public AEntity,
-				  public ContainerWrapper<StackRessource>,
+class			Carcass : public AEntity,
+				  public ContainerWrapper<RessourceStackList>,
 				  public ISerialization
 {
-  friend class		odb::access;
-
 public:
   typedef iCoordinate	CarcassCoordinate;
 
 private:
   CarcassCoordinate	*_coord;
 
-private:
+public:
   Carcass(Carcass const &rhs);
   Carcass		&operator=(Carcass const &rhs);
 
@@ -53,10 +51,13 @@ public:
   static Carcass	*deserialization(Trame const &trame);
 };
 
-// # ifdef	ODB_COMPILER
-// #  pragma db object(Carcass)
-// #  pragma db member(Carcass::_coord) transient
+typedef Ressource *	Ressource_pointer;
 
-// # endif
+# ifdef	ODB_COMPILER
+#  pragma db value(StackRessource)
+#  pragma db member(StackRessource::_id) transient
+#  pragma db member(StackRessource::_nb) get(getNb()) set(setNb(?))
+#  pragma db member(StackRessource::_item) get(getItem()) set(setItem(?)) not_null column("ressource")
+# endif
 
 #endif

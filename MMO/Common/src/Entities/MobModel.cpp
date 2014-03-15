@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:39:45 2014 alexis mestag
-// Last update Fri Mar 14 22:43:04 2014 laurent ansel
+// Last update Sat Mar 15 00:19:57 2014 alexis mestag
 //
 
 #include			"Entities/MobModel.hh"
@@ -13,14 +13,14 @@
 
 MobModel::MobModel() :
   Persistent(), AStatEntity("", eStatEntity::MOBMODEL),
-  _spells(new Spells), _expCurve(NULL), _carcass(NULL)
+  _spells(new Spells), _expCurve(NULL), _carcass(new Carcass)
 {
 
 }
 
 MobModel::MobModel(MobModel const &rhs) :
   Persistent(rhs), AStatEntity(rhs),
-  _spells(new Spells), _expCurve(NULL), _carcass(NULL)
+  _spells(new Spells), _expCurve(NULL), _carcass(new Carcass)
 {
   *this = rhs;
 }
@@ -28,6 +28,7 @@ MobModel::MobModel(MobModel const &rhs) :
 MobModel::~MobModel()
 {
   delete _spells;
+  delete _carcass;
 }
 
 MobModel			&MobModel::operator=(MobModel const &rhs)
@@ -59,7 +60,12 @@ Carcass const			&MobModel::getCarcass() const
 
 void				MobModel::setCarcass(Carcass const &carcass)
 {
-  _carcass = &carcass;
+  *_carcass = carcass;
+}
+
+Carcass				*MobModel::getNewCarcass() const
+{
+  return (new Carcass(this->getCarcass()));
 }
 
 Spells const			&MobModel::getSpells() const

@@ -5,14 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar 14 11:04:13 2014 laurent ansel
-// Last update Fri Mar 14 15:43:08 2014 laurent ansel
+// Last update Sat Mar 15 00:20:14 2014 alexis mestag
 //
 
 #include			"Entities/Carcass.hh"
 
 
 Carcass::Carcass() :
-  Persistent(),
   AEntity("", eEntity::CARCASS),
   ContainerWrapper<container_type>(),
   _coord(new CarcassCoordinate)
@@ -20,7 +19,6 @@ Carcass::Carcass() :
 }
 
 Carcass::Carcass(std::string const &name) :
-  Persistent(),
   AEntity(name, eEntity::CARCASS),
   ContainerWrapper<container_type>(),
   _coord(new CarcassCoordinate)
@@ -29,7 +27,6 @@ Carcass::Carcass(std::string const &name) :
 }
 
 Carcass::Carcass(Carcass const &rhs) :
-  Persistent(rhs),
   AEntity(rhs.getName(), eEntity::CARCASS),
   ContainerWrapper<container_type>(),
   _coord(new CarcassCoordinate)
@@ -39,7 +36,7 @@ Carcass::Carcass(Carcass const &rhs) :
 
 Carcass::~Carcass()
 {
-
+  delete _coord;
 }
 
 Carcass			&Carcass::operator=(Carcass const &rhs)
