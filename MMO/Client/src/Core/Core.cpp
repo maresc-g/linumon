@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar 14 17:18:05 2014 cyril jourdain
+// Last update Sat Mar 15 13:44:20 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -102,6 +102,10 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("PUTMOB", func);
   func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::getMob), this);
   _proto->addFunc("GETMOB", func);
+  func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::putMoney), this);
+  _proto->addFunc("PUTMONEY", func);
+  func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::getMoney), this);
+  _proto->addFunc("GETMONEY", func);
   func = std::bind1st(std::mem_fun(&Core::isInBattle), this);
   _proto->addFunc("ISINBATTLE", func);
   func = std::bind1st(std::mem_fun(&Core::switchMob), this);
@@ -386,8 +390,8 @@ bool				Core::objectEffect(Trame *trame)
 
 bool				Core::launchTrade(Trame *trame)
 {
-  *_state = CLIENT::TRADE;
-  (**_trade)->reset((*trame)[CONTENT]["IDTRADE"].asUInt(), (*trame)[CONTENT]["NAMEPLAYER"].asString());
+  (**_trade)->reset((*trame)[CONTENT]["LAUNCHTRADE"]["IDTRADE"].asUInt(), (*trame)[CONTENT]["LAUNCHTRADE"]["NAMEPLAYER"].asString());
+  *_state = CLIENT::LAUNCH_TRADE;
   return (true);
 }
 
@@ -428,7 +432,7 @@ bool				Core::putMoney(Trame *trame)
 
 bool				Core::getMoney(Trame *trame)
 {
-  (**_trade)->getOtherMoney((*trame)[CONTENT]["PUTMONEY"]["MONEY"].asInt());
+  (**_trade)->getOtherMoney((*trame)[CONTENT]["GETMONEY"]["MONEY"].asInt());
   (**_trade)->setChanged(true);
   return (true);
 }
