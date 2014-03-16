@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Sun Mar 16 14:23:51 2014 guillaume marescaux
+// Last update Sun Mar 16 16:53:27 2014 cyril jourdain
 //
 
 /*
@@ -94,6 +94,7 @@ void			SFMLView::onInit()
   // _currentView->resetPOV();
   static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
   raise();
+  setFocus(Qt::OtherFocusReason);
 }
 
 void			SFMLView::onUpdate()

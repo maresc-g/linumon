@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Sat Mar 15 13:57:41 2014 guillaume marescaux
+// Last update Sun Mar 16 16:19:36 2014 guillaume marescaux
 //
 
 #include			<QMenu>
@@ -194,15 +194,13 @@ void				MobView::dropEvent(QDropEvent *de)
     {      
       Mob const			*mob = reinterpret_cast<Mob const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
       static_cast<MobView *>(de->source())->setInfos(_mob);
+      (**_wMan->getMainPlayer())->getAndDeleteMob(mob->getId());
       Client::getInstance()->putMob((**_wMan->getTrade())->getId(), mob->getId());
       setInfos(mob);
+      _wMan->getSFMLView()->getDigitaliserView()->initDigit((**_wMan->getMainPlayer())->getDigitaliser());
     }
   else if (sourceInfos->name == "tradeview" && infos->name == "digitaliserview")
     {      
-      Mob const			*mob = reinterpret_cast<Mob const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
-      static_cast<MobView *>(de->source())->setInfos(_mob);
-      Client::getInstance()->getMob((**_wMan->getTrade())->getId(), mob->getId());
-      setInfos(mob);
     }
   else if (sourceInfos && sourceInfos->name == "digitaliserview")
     {

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Sun Mar 16 14:14:57 2014 guillaume marescaux
+// Last update Sun Mar 16 15:54:52 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -413,21 +413,21 @@ bool				Core::putItem(Trame *trame)
 
 bool				Core::getItem(Trame *trame)
 {
-  (**_trade)->getOtherStack(Stack<AItem>::deserialization((*trame)((*trame)[CONTENT]["STACK"])));
+  (**_trade)->getOtherStack(Stack<AItem>::deserialization((*trame)((*trame)[CONTENT]["GETITEM"]["ITEM"])));
   (**_trade)->setChanged(true);
   return (true);
 }
 
 bool				Core::putMob(Trame *trame)
 {
-  (**_trade)->putOtherMob(Mob::deserialization((*trame)((*trame)[CONTENT]["MOB"])));
+  (**_trade)->putOtherMob(Mob::deserialization((*trame)((*trame)[CONTENT]["PUTMOB"]["MOB"])));
   (**_trade)->setChanged(true);
   return (true);
 }
 
 bool				Core::getMob(Trame *trame)
 {
-  (**_trade)->getOtherMob(Mob::deserialization((*trame)((*trame)[CONTENT]["MOB"])));
+  (**_trade)->getOtherMob(Mob::deserialization((*trame)((*trame)[CONTENT]["GETMOB"]["MOB"])));
   (**_trade)->setChanged(true);
   return (true);
 }

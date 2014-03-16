@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:40:51 2014 laurent ansel
-// Last update Sun Mar 16 15:13:41 2014 laurent ansel
+// Last update Sun Mar 16 16:51:40 2014 laurent ansel
 //
 
 #include			<functional>
@@ -17,8 +17,12 @@ Trade::Trade():
   _player2(NULL),
   _mobs1(new std::list<Mob *>),
   _mobs2(new std::list<Mob *>),
-  _inv1(new Inventory),
-  _inv2(new Inventory),
+  _inv1(new std::list<Stack<AItem> *>),
+  _inv2(new std::list<Stack<AItem> *>),
+  // _inv1(new Inventory),
+  // _inv2(new Inventory),
+  _money1(0),
+  _money2(0),
   _accept1(false),
   _accept2(false)
 {
@@ -51,15 +55,21 @@ bool				Trade::stopTrade(unsigned int const idPlayer)
 	_player2->addMob(*it);
       _mobs2->clear();
       for (auto it = _inv1->begin() ; it != _inv1->end() ; ++it)
-	_player1->addItem(*it);
-      _inv1->getContainer().clear();
+	{
+	  _player1->addItem(*it);
+	  delete *it;
+	}
+      _inv1->clear();
       for (auto it = _inv2->begin() ; it != _inv2->end() ; ++it)
-	_player2->addItem(*it);
-      _inv2->getContainer().clear();
-      _player1->addMoney(_inv1->getMoney());
-      _player2->addMoney(_inv2->getMoney());
-      _inv1->setMoney(0);
-      _inv2->setMoney(0);
+	{
+	  _player2->addItem(*it);
+	  delete *it;
+	}
+      _inv2->clear();
+      _player1->addMoney(_money1);
+      _player2->addMoney(_money2);
+      _money1 = 0;
+      _money2 = 0;
       _accept1 = false;
       _accept2 = false;
       if (_player2->getId() == idPlayer)
@@ -99,7 +109,7 @@ bool				Trade::getMob(unsigned int const id, unsigned int const idMob)
       auto it = _mobs1->begin();
 
       for (; it != _mobs1->end() && (*it)->getId() != idMob ; ++it);
-      if (it != _mobs1->end() && (*it)->getId() != idMob)
+      if (it != _mobs1->end() && (*it)->getId() == idMob)
 	{
 	  _player1->addMob(*it);
 	  _mobs1->erase(it);
@@ -111,7 +121,7 @@ bool				Trade::getMob(unsigned int const id, unsigned int const idMob)
       auto it = _mobs2->begin();
 
       for (; it != _mobs2->end() && (*it)->getId() != idMob ; ++it);
-      if (it != _mobs2->end() && (*it)->getId() != idMob)
+      if (it != _mobs2->end() && (*it)->getId() == idMob)
 	{
 	  _player2->addMob(*it);
 	  _mobs2->erase(it);
@@ -127,11 +137,9 @@ bool				Trade::putMob(unsigned int const id, unsigned int const idMob)
 
   if (_player1->getId() == id)
     {
-      std::cout << "PUT" << std::endl;
       mob = _player1->getAndDeleteMob(idMob);
       if (mob)
 	{
-	  std::cout << "MOB" << std::endl;
 	  _mobs1->push_back(mob);
 	  Server::getInstance()->callProtocol<unsigned int, Mob const *>("PUTMOB", _player2->getUser().getId(), getId(), mob);
 	}
@@ -148,30 +156,34 @@ bool				Trade::putMob(unsigned int const id, unsigned int const idMob)
   return (true);
 }
 
-bool				Trade::getItem(unsigned int const id, unsigned int const idItem)
+bool				Trade::getItem(unsigned int const id, unsigned int const idStack)
 {
   if (_player1->getId() == id)
     {
       auto it = _inv1->begin();
 
-      for (; it != _inv1->end() && (*it)->getId() != idItem ; ++it);
-      if (it != _inv1->end() && (*it)->getId() != idItem)
-	{
+      for (; it != _inv1->end() && (*it)->getId() != idStack ; ++it);
+      if (it != _inv1->end() && (*it)->getId() == idStack)
+      	{
+	  std::cout << "ITEM" << std::endl;
 	  _player1->addItem(*it);
-	  _inv1->deleteItem(*it);
 	  Server::getInstance()->callProtocol<unsigned int, Stack<AItem> const *>("GETITEM", _player2->getUser().getId(), getId(), *it);
+	  delete *it;
+	  _inv1->erase(it);
 	}
     }
   else
     {
       auto it = _inv2->begin();
 
-      for (; it != _inv2->end() && (*it)->getId() != idItem ; ++it);
-      if (it != _inv2->end() && (*it)->getId() != idItem)
-	{
+      for (; it != _inv2->end() && (*it)->getId() != idStack ; ++it);
+      if (it != _inv2->end() && (*it)->getId() == idStack)
+      	{
+	  std::cout << "ITEM" << std::endl;
 	  _player2->addItem(*it);
-	  _inv2->deleteItem(*it);
 	  Server::getInstance()->callProtocol<unsigned int, Stack<AItem> const *>("GETITEM", _player1->getUser().getId(), getId(), *it);
+	  delete *it;
+	  _inv2->erase(it);
 	}
     }
   return (true);
@@ -188,10 +200,9 @@ bool				Trade::putItem(unsigned int const id, unsigned int const idStack)
       if (item)
 	{
 	  item2 = new Stack<AItem>(*item);
-	  _inv1->addItem(item2);
+	  _inv1->push_back(item2);
 	  Server::getInstance()->callProtocol<unsigned int, Stack<AItem> const *>("PUTITEM", _player2->getUser().getId(), getId(), item2);
 	  _player1->deleteItem(item);
-
 	}
     }
   else
@@ -200,9 +211,9 @@ bool				Trade::putItem(unsigned int const id, unsigned int const idStack)
       if (item)
 	{
 	  item2 = new Stack<AItem>(*item);
-	  _player2->deleteItem(item);
-	  _inv2->addItem(item2);
+	  _inv2->push_back(item2);
 	  Server::getInstance()->callProtocol<unsigned int, Stack<AItem> const *>("PUTITEM", _player1->getUser().getId(), getId(), item2);
+	  _player2->deleteItem(item);
 	}
     }
   return (true);
@@ -213,13 +224,13 @@ bool				Trade::getMoney(unsigned int const id, int const money)
   if (_player1->getId() == id)
     {
       _player1->addMoney(money);
-      _inv1->addMoney(-money);
+      _money1 -= money;
       Server::getInstance()->callProtocol<unsigned int, unsigned int>("GETMONEY", _player2->getUser().getId(), getId(), money);
     }
   else
     {
       _player2->addMoney(money);
-      _inv2->addMoney(-money);
+      _money2 -= money;
       Server::getInstance()->callProtocol<unsigned int, unsigned int>("GETMONEY", _player1->getUser().getId(), getId(), money);
     }
   return (true);
@@ -230,13 +241,13 @@ bool				Trade::putMoney(unsigned int const id, int const money)
   if (_player1->getId() == id)
     {
       _player1->addMoney(-money);
-      _inv1->addMoney(money);
+      _money1 += money;
       Server::getInstance()->callProtocol<unsigned int, unsigned int>("PUTMONEY", _player2->getUser().getId(), getId(), money);
     }
   else
     {
       _player2->addMoney(-money);
-      _inv2->addMoney(money);
+      _money2 += money;
       Server::getInstance()->callProtocol<unsigned int, unsigned int>("PUTMONEY", _player1->getUser().getId(), getId(), money);
     }
   return (true);
@@ -257,15 +268,21 @@ bool				Trade::accept(unsigned int const id)
   if (_accept1 && _accept2)
     {
       for (auto it = _inv1->begin() ; it != _inv1->end() ; ++it)
-	_player2->addItem(*it);
-      _inv1->getContainer().clear();
+	{
+	  _player2->addItem(*it);
+	  delete *it;
+	}
+      _inv1->clear();
       for (auto it = _inv2->begin() ; it != _inv2->end() ; ++it)
-	_player1->addItem(*it);
-      _inv2->getContainer().clear();
-      _player2->addMoney(_inv1->getMoney());
-      _player1->addMoney(_inv2->getMoney());
-      _inv1->setMoney(0);
-      _inv2->setMoney(0);
+	{
+	  _player1->addItem(*it);
+	  delete *it;
+	}
+      _inv2->clear();
+      _player2->addMoney(_money1);
+      _player1->addMoney(_money2);
+      _money1 = 0;
+      _money2 = 0;
       _accept1 = false;
       _accept2 = false;
     }
@@ -281,15 +298,21 @@ bool				Trade::refuse()
     _player2->addMob(*it);
   _mobs2->clear();
   for (auto it = _inv1->begin() ; it != _inv1->end() ; ++it)
-    _player1->addItem(*it);
-  _inv1->getContainer().clear();
+    {
+      _player1->addItem(*it);
+      delete *it;
+    }
+  _inv1->clear();
   for (auto it = _inv2->begin() ; it != _inv2->end() ; ++it)
-    _player2->addItem(*it);
-  _inv2->getContainer().clear();
-  _player1->addMoney(_inv1->getMoney());
-  _player2->addMoney(_inv2->getMoney());
-  _inv1->setMoney(0);
-  _inv2->setMoney(0);
+    {
+      _player2->addItem(*it);
+      delete *it;
+    }
+  _inv2->clear();
+  _player1->addMoney(_money1);
+  _player2->addMoney(_money2);
+  _money1 = 0;
+  _money2 = 0;
   _accept1 = false;
   _accept2 = false;
   Server::getInstance()->callProtocol<unsigned int>("REFUSE", _player1->getUser().getId(), getId());

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Sat Mar 15 16:55:26 2014 laurent ansel
+// Last update Sun Mar 16 16:28:06 2014 laurent ansel
 //
 
 #include			<stdlib.h>
@@ -141,10 +141,11 @@ void				Inventory::deleteItem(Stack<AItem> *stack)
 
 }
 
-void				Inventory::addItem(AItem *item)
+unsigned int			Inventory::addItem(AItem *item)
 {
   bool				set = false;
   Stack<AItem>			*tmp = NULL;
+  unsigned int			ret = 0;
 
   for (auto it = this->begin() ; !set && it != this->end() ; ++it)
     {
@@ -156,23 +157,30 @@ void				Inventory::addItem(AItem *item)
 	    {
 	      **it += 1;
 	      set = true;
+	      ret = (*it)->getId();
 	    }
 	}
     }
   if (!set && tmp)
     {
+      ret = tmp->getId();
       tmp->setItem(item);
       tmp->setNb(1);
     }
   else if (!set)
-    this->getContainer().push_back(new Stack<AItem>(this->getContainer().size(), item, 1));
+    {
+      ret = this->getContainer().size();
+      this->getContainer().push_back(new Stack<AItem>(this->getContainer().size(), item, 1));
+    }
+  return (ret);
 }
 
-void				Inventory::addItem(AItem *item, unsigned int const nb, bool const merge)
+unsigned int			Inventory::addItem(AItem *item, unsigned int const nb, bool const merge)
 {
   bool				set = false;
   Stack<AItem>			*tmp = NULL;
   unsigned int			nbTmp = nb;
+  unsigned int			ret = 0;
 
   for (auto it = this->begin() ; !set && it != this->end() ; ++it)
     {
@@ -186,6 +194,7 @@ void				Inventory::addItem(AItem *item, unsigned int const nb, bool const merge)
 		{
 		  **it += nbTmp;
 		  set = true;
+		  ret = (*it)->getId();
 		}
 	      else
 		{
@@ -214,18 +223,21 @@ void				Inventory::addItem(AItem *item, unsigned int const nb, bool const merge)
 	    {
 	      tmp->setNb(nbTmp);
 	      set = true;
+	      ret = tmp->getId();
 	    }
 	}
       for (auto it = this->begin() ; !set && it != this->end() ; ++it)
 	if (!tmp && **it)
 	  tmp = *it;
     }
+  return (ret);
 }
 
-void				Inventory::addItem(Stack<AItem> *stack)
+unsigned int			Inventory::addItem(Stack<AItem> *stack)
 {
   if (stack)
-    this->addItem(stack->getItem(), stack->getNb());
+    return (this->addItem(stack->getItem(), stack->getNb()));
+  return (0);
 }
 
 AItem				*Inventory::getItem(unsigned int const stack) const
@@ -267,8 +279,11 @@ unsigned int			Inventory::getIdItem(std::string const &name) const
 Stack<AItem>			*Inventory::getStack(unsigned int const id) const
 {
   for (auto it = this->begin() ; it != this->end() ; ++it)
-    if ((*it)->getId() == id)
-      return (*it);
+    {
+      std::cout << "INVENTORY => ID = " << (*it)->getId() << std::endl;
+      if ((*it)->getId() == id)
+	return (*it);
+    }
   return (NULL);
 }
 
