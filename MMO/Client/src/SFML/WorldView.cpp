@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Sun Mar 16 03:39:26 2014 cyril jourdain
+// Last update Sun Mar 16 16:13:37 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -435,15 +435,14 @@ void			WorldView::keyEscape()
 
 void			WorldView::keyReturn()
 {
-  // if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_Return))
-  //   {
-  //     if (!_sfmlView->getChatView()->getFocused())
-  // 	_sfmlView->getChatView()->setFocused(true);
-  //     else
-  // 	_sfmlView->getChatView()->submitText();
-  //     _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_Return, 100000);
-  //   }
-  *(_wMan->getState()) = CLIENT::LOADING_BATTLE;
+  if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_Return))
+    {
+      if (!_sfmlView->getChatView()->getFocused())
+  	_sfmlView->getChatView()->setFocused(true);
+      else
+  	_sfmlView->getChatView()->submitText();
+      _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_Return, 100000);
+    }
 }
 
 void			WorldView::resetPOV()
