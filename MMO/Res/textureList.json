@@ -1,5 +1,5 @@
 {
-    "perso1" : "./Res/perso2.png",
+    "perso1" : "./Res/perso1.png",
     "priest" : "./Res/priest.png",
     "battleScreen":"./Res/battleScreen.png",
     "textures" : "./Res/textures.png",

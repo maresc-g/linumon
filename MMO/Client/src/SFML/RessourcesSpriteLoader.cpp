@@ -21,6 +21,7 @@ RessourcesSpriteLoader::RessourcesSpriteLoader(WindowManager *wMan) :
   _layers->push_back(new Layer());
   (*_loadMap)["Tree"] = &RessourcesSpriteLoader::treeLoader;
   (*_loadMap)["Healer"] = &RessourcesSpriteLoader::healerLoader;
+  (*_loadMap)["House"] = &RessourcesSpriteLoader::houseLoader;
 }
 
 RessourcesSpriteLoader::~RessourcesSpriteLoader()
@@ -69,10 +70,16 @@ void				RessourcesSpriteLoader::loadRessources()
 
 void				RessourcesSpriteLoader::drawLayer(unsigned int layerId)
 {
+  sf::Vector2f			tmp;
+
   for (auto it = (*_layers)[layerId]->begin(); it != (*_layers)[layerId]->end(); ++it)
     {
       (*it)->update(*_wMan->getSFMLView()->getMainClock());
+      tmp = (*it)->getPosition();
+      (*it)->setPosition(tmp.x + (*it)->getCurrentOffset()->x,
+			 tmp.y + (*it)->getCurrentOffset()->y);
       _wMan->getSFMLView()->draw(**it);
+      (*it)->setPosition(tmp);
       // std::cout << "Draw entitie at " << (*it)->getPosition().x << "/" << (*it)->getPosition().y << std::endl;
     }
   // std::cout << std::endl;
@@ -157,4 +164,32 @@ void				RessourcesSpriteLoader::healerLoader(AEntity *en)
   tmp->setPos(pos->x,
 	      pos->y);
   (*_layers)[0]->push_back(tmp);
+}
+
+void				RessourcesSpriteLoader::houseLoader(AEntity *en)
+{
+  Sprite *tmp = new RessourceSprite(static_cast<Ressource*>(en));
+
+  sf::Vector2i		*pos = new sf::Vector2i(0,0);
+  pos->x = static_cast<Ressource*>(en)->getX();
+  pos->y = static_cast<Ressource*>(en)->getY();
+
+  if (!_wMan->getSFMLView()->getSpriteManager()->copySprite("house_base", *tmp))
+    return;
+  tmp->play("default");
+  tmp->setPosition(pos->x * CASE_SIZE,
+		   pos->y * CASE_SIZE);
+  tmp->setPos(pos->x,
+	      pos->y);
+  (*_layers)[0]->push_back(tmp);
+  tmp = new RessourceSprite(static_cast<Ressource*>(en));
+  if (!_wMan->getSFMLView()->getSpriteManager()->copySprite("house_roof", *tmp))
+    return;
+  tmp->play("default");
+  tmp->setPosition(pos->x * CASE_SIZE,
+		   pos->y * CASE_SIZE-64);
+  tmp->setPos(pos->x,
+	      pos->y);
+  (*_layers)[1]->push_back(tmp);
+  delete pos;
 }

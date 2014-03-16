@@ -182,7 +182,8 @@ INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
        (4, 'Feuille de Venuzaur',	1,  0,   0),
        (5, 'Dent de Charizard',		1,  0,   0),
        (6, 'Ecaille de Blastoise',	1,  0,   0),
-       (7, 'Bush',		0,  0,   0);
+       (7, 'Bush',		0,  0,   0),
+       (8, 'House',		0,  0,   0);
 
 /* Assigning Ressources to MobModels */
 DELETE FROM `MobModel_carcass`;
