@@ -5,9 +5,10 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Feb 26 14:58:57 2014 cyril jourdain
-// Last update Sun Mar 16 04:09:23 2014 cyril jourdain
+// Last update Sun Mar 16 18:39:17 2014 cyril jourdain
 //
 
+#include		<QMenu>
 #include		"SFML/RessourceSprite.hh"
 #include		"Map/Map.hh"
 
@@ -24,20 +25,32 @@ RessourceSprite::~RessourceSprite()
 void		RessourceSprite::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
   Map::getInstance()->lock();
-  // if (_resPtr && _resPtr->isVisible()){
+  if (_resPtr && _resPtr->isVisible()){
     if (_texture && _vertex) {
-      // std::cout << "Drawing, for real" << std::endl;
       states.texture = _texture;
       states.transform *= getTransform();
       target.draw(_vertex, 4, sf::Quads, states);
     }
-  // }
+  }
   Map::getInstance()->unlock();
 }
 
-void		RessourceSprite::onClick(QMouseEvent *)
+void		RessourceSprite::onClick(QMouseEvent *event)
 {
   std::cout << "Ressource Clicked" << std::endl;
+  if (isGather()){
+    QMenu menu;
+    
+    menu.addAction("Gather");
+    QAction *action = menu.exec(QPoint(event->x(), event->y()));
+    if (action)
+      {
+	if (action->text() == "Gather")
+	  {
+	    std::cout << "Gather ressource" << std::endl;
+	    }
+      }
+  }
 }
 
 bool		RessourceSprite::isVisible()
@@ -48,5 +61,12 @@ bool		RessourceSprite::isVisible()
     return true;
   }
   Map::getInstance()->unlock();
+  return false;
+}
+
+bool		RessourceSprite::isGather()
+{
+  if (_resPtr)
+    return _resPtr->isGather();
   return false;
 }

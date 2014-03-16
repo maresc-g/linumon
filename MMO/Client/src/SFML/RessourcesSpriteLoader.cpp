@@ -10,6 +10,7 @@
 
 #include			<algorithm>
 #include			<stdexcept>
+#include			<QMenu>
 #include			"SFML/RessourcesSpriteLoader.hh"
 
 RessourcesSpriteLoader::RessourcesSpriteLoader(WindowManager *wMan) :
@@ -44,14 +45,6 @@ void				RessourcesSpriteLoader::loadRessources()
 	      for (auto it = list->begin(); it != list->end(); ++it)
 		{
 		  std::cout << "RESSOURCE NAME : " << (*it)->getName() << std::endl;
-		  if ((*it)->getEntityType() == AEntity::RESSOURCE)
-		    {
-		      std::cout << "Adding at pos : "
-				<< static_cast<Ressource *>(*it)->getX() << " / "
-				<< static_cast<Ressource *>(*it)->getY()
-				<< "WHERE"
-				<< x << "/" << y << std::endl;
-		    }
 		  if ((*it)->getEntityType() == AEntity::RESSOURCE ||
 		      (*it)->getEntityType() == AEntity::PNJ)
 		    {
@@ -67,40 +60,6 @@ void				RessourcesSpriteLoader::loadRessources()
 			continue;
 		      }
 		    }
-		  // if ((*it)->getName() == "Tree")
-		  // 	{
-		  // 	  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
-		  // 	  if (!_sfmlView->getSpriteManager()->copySprite("tree_trunk", *tmp))
-		  // 	    continue;
-		  // 	  tmp->play("default");
-		  // 	  tmp->setPosition(pos->x * CASE_SIZE,
-		  // 			   pos->y * CASE_SIZE);
-		  // 	  tmp->setPos(pos->x,
-		  // 		      pos->y);
-		  // 	  _entities->push_back(tmp);
-		  // 	  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
-		  // 	  if (!_sfmlView->getSpriteManager()->copySprite("tree_top", *tmp))
-		  // 	    continue;
-		  // 	  tmp->play("default");
-		  // 	  tmp->setPosition(pos->x * CASE_SIZE- 64,
-		  // 			   pos->y * CASE_SIZE - 128);
-		  // 	  tmp->setPos(pos->x,
-		  // 		      pos->y);
-		  // 	  _topLayer->push_back(tmp);
-		  // 	}
-		  // else
-		  // 	{
-		  // 	  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
-		  // 	  if (!_sfmlView->getSpriteManager()->copySprite((*it)->getName(), *tmp))
-		  // 	    continue;
-		  // 	  tmp->play("default");
-		  // 	  tmp->setPosition(pos->x * CASE_SIZE,
-		  // 			   pos->y * CASE_SIZE);
-		  // 	  tmp->setPos(pos->x,
-		  // 		      pos->y);
-		  // 	  _entities->push_back(tmp);
-		  // 	}
-		  // }
 		}
 	    }
 	}
@@ -123,15 +82,17 @@ void				RessourcesSpriteLoader::onMouseEvent(QMouseEvent *event)
 {
   sf::Vector2f	v = _wMan->getSFMLView()->mapPixelToCoords(sf::Vector2i(event->x(), event->y()));
 
-  for (auto it = (*_layers)[0]->begin(); it != (*_layers)[0]->end(); ++it) {
-    if ((*it)->isVisible())
-      {
-    	if ((*it)->isClicked(v.x, v.y))
-    	  {
-    	    (*it)->onClick(event);
-    	    return;
-    	  }
-      }  
+  if (event->button() == Qt::RightButton){
+    for (auto it = (*_layers)[0]->begin(); it != (*_layers)[0]->end(); ++it) {
+      if ((*it)->isVisible())
+	{
+	  if ((*it)->isClicked(v.x, v.y))
+	    {
+	      (*it)->onClick(event);
+	      return;
+	    }
+	}  
+    }
   }
 }
 

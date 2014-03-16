@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Sat Mar 15 21:35:19 2014 cyril jourdain
+// Last update Sun Mar 16 18:16:30 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -143,7 +143,6 @@ void			BattleView::drawView()
   else
     {
       _sfmlView->draw(*_battleScreen);
-      std::cout << "draw battle screen" << std::endl;
     }
   _sfmlView->setView(*(_sfmlView->getMainView()));
 }
