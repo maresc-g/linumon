@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Fri Mar 14 16:00:23 2014 laurent ansel
+// Last update Sun Mar 16 11:43:02 2014 laurent ansel
 //
 
 #include		"Zone/Case.hh"
@@ -126,7 +126,8 @@ void			Case::deserialization(Trame const &trame)
 	}
       else if (trame[std::to_string(i)].isMember("RES"))
 	{
-	  item = (**LoaderManager::getInstance()->getRessourceLoader())->getValue(trame[std::to_string(i)]["RES"].asString());//Ressource::deserialization(trame(trame[std::to_string(i)])));
+	  item = new Ressource;
+	  *item = *(**LoaderManager::getInstance()->getRessourceLoader())->getValue(trame[std::to_string(i)]["RES"].asString());//Ressource::deserialization(trame(trame[std::to_string(i)])));
 	  if (item)
 	    {
 	      item->setCoord(*Ressource::RessourceCoordinate::deserialization(trame(trame[std::to_string(i)])));
@@ -135,7 +136,7 @@ void			Case::deserialization(Trame const &trame)
 	}
       else
 	{
-	  heal = (**LoaderManager::getInstance()->getHealLoader())->getValue(trame[std::to_string(i)]["NAME"].asString());
+	  heal = new Heal(*(**LoaderManager::getInstance()->getHealLoader())->getValue(trame[std::to_string(i)]["NAME"].asString()));
 	  if (heal)
 	    {
 	      heal->setCoord(*Ressource::RessourceCoordinate::deserialization(trame(trame[std::to_string(i)])));
