@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Sat Mar 15 19:02:59 2014 guillaume marescaux
+// Last update Sun Mar 16 14:14:57 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -106,6 +106,10 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("PUTMONEY", func);
   func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::getMoney), this);
   _proto->addFunc("GETMONEY", func);
+  func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::accept), this);
+  _proto->addFunc("ACCEPT", func);
+  func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::refuse), this);
+  _proto->addFunc("REFUSE", func);
   func = std::bind1st(std::mem_fun(&Core::isInBattle), this);
   _proto->addFunc("ISINBATTLE", func);
   func = std::bind1st(std::mem_fun(&Core::switchMob), this);
@@ -444,11 +448,22 @@ bool				Core::getMoney(Trame *trame)
 
 bool				Core::accept(Trame *)
 {
+  (**_trade)->setOtherResponse(Trade::ACCEPT);
+  if ((**_trade)->getPlayerResponse() == Trade::ACCEPT)
+    {
+      (**_trade)->handleEnd(_player);
+      (**_trade)->setEnd(true);
+    }
+  (**_trade)->setChanged(true);
   return (true);
 }
 
 bool				Core::refuse(Trame *)
 {
+  (**_trade)->setOtherResponse(Trade::REFUSE);
+  (**_trade)->handleEnd(_player);
+  (**_trade)->setEnd(true);
+  (**_trade)->setChanged(true);
   return (true);
 }
 
@@ -727,11 +742,22 @@ void				Core::switchMobs(unsigned int idMob1, unsigned int idMob2)
 
 void				Core::accept()
 {
+  (**_trade)->setPlayerResponse(Trade::ACCEPT);
+  if ((**_trade)->getOtherResponse() == Trade::ACCEPT)
+    {
+      (**_trade)->handleEnd(_player);
+      (**_trade)->setEnd(true);
+    }
+  (**_trade)->setChanged(true);
   (*_proto).operator()<unsigned int const, unsigned int>("ACCEPT", _id, (**_trade)->getId());
 }
 
 void				Core::refuse()
 {
+  (**_trade)->setPlayerResponse(Trade::REFUSE);
+  (**_trade)->handleEnd(_player);
+  (**_trade)->setEnd(true);
+  (**_trade)->setChanged(true);
   (*_proto).operator()<unsigned int const, unsigned int>("REFUSE", _id, (**_trade)->getId());
 }
 
