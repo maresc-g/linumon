@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Feb 25 14:25:26 2014 cyril jourdain
-// Last update Fri Mar 14 15:30:34 2014 cyril jourdain
+// Last update Sun Mar 16 17:26:11 2014 cyril jourdain
 //
 
 #include		"SFML/OPlayerSprite.hh"

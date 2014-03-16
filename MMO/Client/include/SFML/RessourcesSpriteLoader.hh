@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar 15 23:10:42 2014 cyril jourdain
-// Last update Sun Mar 16 01:28:01 2014 cyril jourdain
+// Last update Sun Mar 16 19:02:06 2014 cyril jourdain
 //
 
 #ifndef 		__RESSOURCESSPRITELOADER_HH__
@@ -39,6 +39,7 @@ private:
   void			defaultLoader(AEntity *);
   void			treeLoader(AEntity *);
   void			healerLoader(AEntity *);
+  void			houseLoader(AEntity *);
 };
 
 #endif

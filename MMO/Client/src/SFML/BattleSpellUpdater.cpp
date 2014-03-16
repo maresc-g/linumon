@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:56 2014 cyril jourdain
-// Last update Sat Mar 15 21:47:32 2014 cyril jourdain
+// Last update Sun Mar 16 19:09:32 2014 cyril jourdain
 //
 
 #include			"SFML/BattleSpellUpdater.hh"

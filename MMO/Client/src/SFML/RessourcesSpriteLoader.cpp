@@ -10,6 +10,7 @@
 
 #include			<algorithm>
 #include			<stdexcept>
+#include			<QMenu>
 #include			"SFML/RessourcesSpriteLoader.hh"
 
 RessourcesSpriteLoader::RessourcesSpriteLoader(WindowManager *wMan) :
@@ -20,6 +21,7 @@ RessourcesSpriteLoader::RessourcesSpriteLoader(WindowManager *wMan) :
   _layers->push_back(new Layer());
   (*_loadMap)["Tree"] = &RessourcesSpriteLoader::treeLoader;
   (*_loadMap)["Healer"] = &RessourcesSpriteLoader::healerLoader;
+  (*_loadMap)["House"] = &RessourcesSpriteLoader::houseLoader;
 }
 
 RessourcesSpriteLoader::~RessourcesSpriteLoader()
@@ -44,14 +46,6 @@ void				RessourcesSpriteLoader::loadRessources()
 	      for (auto it = list->begin(); it != list->end(); ++it)
 		{
 		  std::cout << "RESSOURCE NAME : " << (*it)->getName() << std::endl;
-		  if ((*it)->getEntityType() == AEntity::RESSOURCE)
-		    {
-		      std::cout << "Adding at pos : "
-				<< static_cast<Ressource *>(*it)->getX() << " / "
-				<< static_cast<Ressource *>(*it)->getY()
-				<< "WHERE"
-				<< x << "/" << y << std::endl;
-		    }
 		  if ((*it)->getEntityType() == AEntity::RESSOURCE ||
 		      (*it)->getEntityType() == AEntity::PNJ)
 		    {
@@ -67,40 +61,6 @@ void				RessourcesSpriteLoader::loadRessources()
 			continue;
 		      }
 		    }
-		  // if ((*it)->getName() == "Tree")
-		  // 	{
-		  // 	  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
-		  // 	  if (!_sfmlView->getSpriteManager()->copySprite("tree_trunk", *tmp))
-		  // 	    continue;
-		  // 	  tmp->play("default");
-		  // 	  tmp->setPosition(pos->x * CASE_SIZE,
-		  // 			   pos->y * CASE_SIZE);
-		  // 	  tmp->setPos(pos->x,
-		  // 		      pos->y);
-		  // 	  _entities->push_back(tmp);
-		  // 	  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
-		  // 	  if (!_sfmlView->getSpriteManager()->copySprite("tree_top", *tmp))
-		  // 	    continue;
-		  // 	  tmp->play("default");
-		  // 	  tmp->setPosition(pos->x * CASE_SIZE- 64,
-		  // 			   pos->y * CASE_SIZE - 128);
-		  // 	  tmp->setPos(pos->x,
-		  // 		      pos->y);
-		  // 	  _topLayer->push_back(tmp);
-		  // 	}
-		  // else
-		  // 	{
-		  // 	  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
-		  // 	  if (!_sfmlView->getSpriteManager()->copySprite((*it)->getName(), *tmp))
-		  // 	    continue;
-		  // 	  tmp->play("default");
-		  // 	  tmp->setPosition(pos->x * CASE_SIZE,
-		  // 			   pos->y * CASE_SIZE);
-		  // 	  tmp->setPos(pos->x,
-		  // 		      pos->y);
-		  // 	  _entities->push_back(tmp);
-		  // 	}
-		  // }
 		}
 	    }
 	}
@@ -110,10 +70,16 @@ void				RessourcesSpriteLoader::loadRessources()
 
 void				RessourcesSpriteLoader::drawLayer(unsigned int layerId)
 {
+  sf::Vector2f			tmp;
+
   for (auto it = (*_layers)[layerId]->begin(); it != (*_layers)[layerId]->end(); ++it)
     {
       (*it)->update(*_wMan->getSFMLView()->getMainClock());
+      tmp = (*it)->getPosition();
+      (*it)->setPosition(tmp.x + (*it)->getCurrentOffset()->x,
+			 tmp.y + (*it)->getCurrentOffset()->y);
       _wMan->getSFMLView()->draw(**it);
+      (*it)->setPosition(tmp);
       // std::cout << "Draw entitie at " << (*it)->getPosition().x << "/" << (*it)->getPosition().y << std::endl;
     }
   // std::cout << std::endl;
@@ -123,15 +89,17 @@ void				RessourcesSpriteLoader::onMouseEvent(QMouseEvent *event)
 {
   sf::Vector2f	v = _wMan->getSFMLView()->mapPixelToCoords(sf::Vector2i(event->x(), event->y()));
 
-  for (auto it = (*_layers)[0]->begin(); it != (*_layers)[0]->end(); ++it) {
-    if ((*it)->isVisible())
-      {
-    	if ((*it)->isClicked(v.x, v.y))
-    	  {
-    	    (*it)->onClick(event);
-    	    return;
-    	  }
-      }  
+  if (event->button() == Qt::RightButton){
+    for (auto it = (*_layers)[0]->begin(); it != (*_layers)[0]->end(); ++it) {
+      if ((*it)->isVisible())
+	{
+	  if ((*it)->isClicked(v.x, v.y))
+	    {
+	      (*it)->onClick(event);
+	      return;
+	    }
+	}  
+    }
   }
 }
 
@@ -196,4 +164,32 @@ void				RessourcesSpriteLoader::healerLoader(AEntity *en)
   tmp->setPos(pos->x,
 	      pos->y);
   (*_layers)[0]->push_back(tmp);
+}
+
+void				RessourcesSpriteLoader::houseLoader(AEntity *en)
+{
+  Sprite *tmp = new RessourceSprite(static_cast<Ressource*>(en));
+
+  sf::Vector2i		*pos = new sf::Vector2i(0,0);
+  pos->x = static_cast<Ressource*>(en)->getX();
+  pos->y = static_cast<Ressource*>(en)->getY();
+
+  if (!_wMan->getSFMLView()->getSpriteManager()->copySprite("house_base", *tmp))
+    return;
+  tmp->play("default");
+  tmp->setPosition(pos->x * CASE_SIZE,
+		   pos->y * CASE_SIZE);
+  tmp->setPos(pos->x,
+	      pos->y);
+  (*_layers)[0]->push_back(tmp);
+  tmp = new RessourceSprite(static_cast<Ressource*>(en));
+  if (!_wMan->getSFMLView()->getSpriteManager()->copySprite("house_roof", *tmp))
+    return;
+  tmp->play("default");
+  tmp->setPosition(pos->x * CASE_SIZE,
+		   pos->y * CASE_SIZE-64);
+  tmp->setPos(pos->x,
+	      pos->y);
+  (*_layers)[1]->push_back(tmp);
+  delete pos;
 }
