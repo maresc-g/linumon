@@ -54,6 +54,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/SFML/GraphicEntities.hh \
                 include/SFML/KeyDelayer.hh \
                 include/SFML/BattleSpellUpdater.hh \
+                include/SFML/RessourcesSpriteLoader.hh \
                 include/SFML/Sprite/Sprite.hh \
                 include/SFML/Sprite/Animation.hh \
                 include/SFML/Sprite/Frame.hh \
@@ -105,6 +106,7 @@ SOURCES +=      src/main.cpp \
                 src/SFML/Clickable.cpp \
                 src/SFML/KeyDelayer.cpp \
                 src/SFML/BattleSpellUpdater.cpp \
+                src/SFML/RessourcesSpriteLoader.cpp \
                 src/SFML/Sprite/Sprite.cpp \
                 src/SFML/Sprite/Animation.cpp \
                 src/SFML/Sprite/Frame.cpp \

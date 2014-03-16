@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Fri Mar 14 17:16:17 2014 cyril jourdain
+// Last update Sun Mar 16 03:39:26 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -22,7 +22,7 @@
 
 WorldView::WorldView(SFMLView *v, WindowManager *w) :
   ContextView(v, w), _mainPerso(NULL), _playerList(new std::vector<OPlayerSprite *>),
-  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(Qt::Key(0))
+  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(Qt::Key(0)), _ressourcesLoader(new RessourcesSpriteLoader(w))
 {
   (*_keyMap)[Qt::Key_Up] = &WorldView::keyUp;
   (*_keyMap)[Qt::Key_Down] = &WorldView::keyDown;
@@ -68,7 +68,8 @@ void			WorldView::onInit()
   loadBackgroundMap();
   loadBackgroundSprite();
   loadPlayerList();
-  loadEntities();
+  // loadEntities();
+  _ressourcesLoader->loadRessources();
 }
 
 void			WorldView::onUpdate()
@@ -132,17 +133,7 @@ void			WorldView::onMouseEvent(QMouseEvent *event)
 	      }
 	  }
       }
-    for (auto it = _entities->begin(); it != _entities->end(); it++)
-      {
-	if ((*it)->isVisible())
-	  {
-	    if ((*it)->isClicked(v.x, v.y))
-	      {
-		(*it)->onClick(event);
-		return;
-	      }
-	  }
-      }
+    _ressourcesLoader->onMouseEvent(event);
   }
 }
 
@@ -173,13 +164,7 @@ void			WorldView::drawView()
 {
   _backgroundSprite->setTexture(_backgroundTexture->getTexture());
   _sfmlView->draw(*_backgroundSprite);
-  for (auto it = _entities->begin(); it != _entities->end(); ++it)
-    {
-      if (*it){
-  	(*it)->update(*_sfmlView->getMainClock());
-  	_sfmlView->draw(**it);
-      }
-    }
+  _ressourcesLoader->drawLayer(0);
   for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
     {
       if ((**(_wMan->getMainPlayer()))->getId() == ((*it)->getPlayerId()))
@@ -194,13 +179,7 @@ void			WorldView::drawView()
   if (_mainPerso) {
     _sfmlView->draw(*_mainPerso);
   }
-  for (auto it = _topLayer->begin(); it != _topLayer->end(); ++it)
-    {
-      if (*it){
-  	(*it)->update(*_sfmlView->getMainClock());
-  	_sfmlView->draw(**it);
-      }
-    }
+  _ressourcesLoader->drawLayer(1);
   _sfmlView->setView(*(_sfmlView->getMainView()));
 }
 
@@ -473,6 +452,7 @@ void			WorldView::resetPOV()
   _sfmlView->getMainView()->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
 				 (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
   _sfmlView->clear(sf::Color(0,0,0));
+  _sfmlView->getMainView()->zoom(0.8);
   // if ((**(_wMan->getMainPlayer()))->getX() <= 15)
   //   _sfmlView->getMainView()->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE, 0);
 }
