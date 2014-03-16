@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar 12 13:59:24 2014 guillaume marescaux
-// Last update Sat Mar 15 19:20:43 2014 guillaume marescaux
+// Last update Sun Mar 16 16:05:36 2014 guillaume marescaux
 //
 
 #include			<QValidator>
@@ -64,13 +64,17 @@ void				SplitStackView::on_b_accept_clicked()
   unsigned int			nb = ui.sb_nb->value();
   ParentInfos			*destInfos = getNameFirstParent(_dest);
   ParentInfos			*sourceInfos = getNameFirstParent(_source);
-  Stack<AItem>			*stack;
+  Stack<AItem>			*stack = NULL;
+  unsigned int			idStack = 0;
 
   if (!(destInfos->name == "tradeview" && sourceInfos->name == "tradeview"))
     {
-      unsigned int		idStack = (**_wMan->getMainPlayer())->newStack(_source->getStack().getId(), nb);
-      Client::getInstance()->newStack(_source->getStack().getId(), nb);
-      stack = (**_wMan->getMainPlayer())->getInventory().getStack(idStack);
+      if (sourceInfos->name != "tradeview")
+	{
+	  idStack = (**_wMan->getMainPlayer())->newStack(_source->getStack().getId(), nb);
+	  Client::getInstance()->newStack(_source->getStack().getId(), nb);
+	  stack = (**_wMan->getMainPlayer())->getInventory().getStack(idStack);
+	}
       if (destInfos->name == "tradeview" && sourceInfos->name == "inventoryview")
 	{
 	  (**_wMan->getTrade())->putPlayerStack(new Stack<AItem>(*stack));
@@ -79,12 +83,11 @@ void				SplitStackView::on_b_accept_clicked()
 	  Client::getInstance()->putItem((**_wMan->getTrade())->getId(), idStack);
 	  // _wMan->getSFMLView()->getTradeView()->putStackToTrade(&_source->getStack());
 	}
-      else if (destInfos->name == "inventoryview" && destInfos->name == "tradeview")
+      else if (destInfos->name == "inventoryview" && sourceInfos->name == "tradeview")
 	{
-	  (**_wMan->getMainPlayer())->deleteItem(stack);
-	  (**_wMan->getTrade())->getPlayerStack((**_wMan->getMainPlayer())->getInventory().getStack(idStack));
+	  (**_wMan->getMainPlayer())->addItem(new Stack<AItem>(_source->getStack()));
 	  (**_wMan->getTrade())->setChanged(true);
-	  Client::getInstance()->getItem((**_wMan->getTrade())->getId(), idStack);
+	  Client::getInstance()->getItem((**_wMan->getTrade())->getId(), _source->getStack().getId());
 	  // _wMan->getSFMLView()->getTradeView()->getStackFromTrade(&_source->getStack());
 	}
       _wMan->getSFMLView()->getInventoryView()->initInventory();
@@ -104,3 +107,4 @@ void				SplitStackView::setInfos(StackView *source, StackView *dest)
   ui.sb_nb->setMaximum(source->getStack().getNb());
   ui.sb_nb->setValue(source->getStack().getNb());
 }
+

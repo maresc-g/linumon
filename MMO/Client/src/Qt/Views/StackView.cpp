@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Sat Mar 15 19:08:58 2014 guillaume marescaux
+// Last update Sun Mar 16 14:59:32 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -187,24 +187,27 @@ void				StackView::dropEvent(QDropEvent *de)
 
   // if (infos && sourceInfos && (infos->name == "tradeview" || sourceInfos->name == "tradeview"))
   //   ;
-   // _wMan->getSFMLView()->getTradeView()->handleStackChange(de->source(), this);
-  if (infos->name != "stuffview" && sourceInfos->name != "stuffview" && (!_stack || _stack->getNb() == 0))
+  // _wMan->getSFMLView()->getTradeView()->handleStackChange(de->source(), this);
+  if (infos && sourceInfos)
     {
-      _wMan->getSFMLView()->getSplitStackView()->setInfos(static_cast<StackView *>(de->source()), this);
-      _wMan->getSFMLView()->getSplitStackView()->show();
-    }
-  else if (this != de->source() && infos->name == "inventoryview" && sourceInfos->name == "inventoryview" &&
-	   _stack->getItem()->getName() == stack->getItem()->getName())
-    {
-      unsigned int		id1 = _stack->getId();
-      unsigned int		id2 = stack->getId();
+      if (infos->name != "stuffview" && sourceInfos->name != "stuffview" && (!_stack || _stack->getNb() == 0))
+	{
+	  _wMan->getSFMLView()->getSplitStackView()->setInfos(static_cast<StackView *>(de->source()), this);
+	  _wMan->getSFMLView()->getSplitStackView()->show();
+	}
+      else if (this != de->source() && infos->name == "inventoryview" && sourceInfos->name == "inventoryview" &&
+	       _stack->getItem()->getName() == stack->getItem()->getName())
+	{
+	  unsigned int		id1 = _stack->getId();
+	  unsigned int		id2 = stack->getId();
 
-      (**_wMan->getMainPlayer())->mergeStack(id1, id2);
-      Client::getInstance()->merge(id1, id2);
-      static_cast<StackView *>(de->source())->setInfos((**_wMan->getMainPlayer())->getInventory().getStack(id2));
-      setInfos((**_wMan->getMainPlayer())->getInventory().getStack(id1));
-      _wMan->getSFMLView()->getInventoryView()->initInventory();
+	  (**_wMan->getMainPlayer())->mergeStack(id1, id2);
+	  Client::getInstance()->merge(id1, id2);
+	  static_cast<StackView *>(de->source())->setInfos((**_wMan->getMainPlayer())->getInventory().getStack(id2));
+	  setInfos((**_wMan->getMainPlayer())->getInventory().getStack(id1));
+	  _wMan->getSFMLView()->getInventoryView()->initInventory();
+	}
+      else if (infos && infos->name != "stuffview" && sourceInfos->name != "stuffview")
+	setInfos(stack);
     }
-  else if (infos && infos->name != "stuffview" && sourceInfos->name != "stuffview")
-    setInfos(stack);
 }
