@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb 17 12:55:28 2014 cyril jourdain
-// Last update Thu Mar  6 02:09:01 2014 cyril jourdain
+// Last update Sun Mar 16 16:50:54 2014 cyril jourdain
 //
 
 #include		<QMessageBox>
@@ -18,10 +18,19 @@ ChatView::ChatView(QWidget *parent, WindowManager *man) :
 {
   ui.setupUi(this);
   ui.le_chatText->clearFocus();
+  connect(ui.le_chatText, SIGNAL(clicked()), this, SLOT(setLineFocus()));
+  ui.le_chatText->installEventFilter(this);
+  ui.tb_chat->installEventFilter(this);
 }
 
 ChatView::~ChatView()
 {
+}
+
+void		ChatView::setLineFocus()
+{
+  std::cout << "FOCUS" << std::endl;
+  setFocused(true);
 }
 
 void		ChatView::paintEvent(QPaintEvent *)
@@ -41,6 +50,7 @@ void		ChatView::submitText()
   }
   ui.le_chatText->clear();
   ui.le_chatText->clearFocus();
+  parentWidget()->setFocus(Qt::OtherFocusReason);
   _focused = false;
 }
 
@@ -68,4 +78,14 @@ void		ChatView::update()
 	  ui.tb_chat->append(QString((*it).c_str()));
       (**(Client::getInstance()->getChat()))->setNewMessage(false);
     }
+}
+
+bool		ChatView::eventFilter(QObject *w, QEvent *e)
+{
+  if (w == ui.le_chatText || w == ui.tb_chat)
+    {
+      if (e->type() == QEvent::FocusIn || e->type() == QEvent::MouseButtonPress)
+	setFocused(true);
+    }
+  return QWidget::eventFilter(w, e);
 }
