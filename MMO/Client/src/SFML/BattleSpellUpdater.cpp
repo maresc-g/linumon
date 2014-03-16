@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:56 2014 cyril jourdain
-// Last update Sun Mar 16 19:09:32 2014 cyril jourdain
+// Last update Sun Mar 16 21:47:45 2014 cyril jourdain
 //
 
 #include			"SFML/BattleSpellUpdater.hh"
@@ -35,7 +35,7 @@ void				BattleSpellUpdater::update(BattleView *battle)
 	  mob = battle->findMobById(tmp->getTarget());
 	  if (!mob || mob->type == NOMOB)
 	    return;
-	  mob->mob->upHealthBar();
+	  // mob->mob->upHealthBar();
 	  _currentSpell->setPosition(mob->mob->getPos()->x * CASE_SIZE,
 				     mob->mob->getPos()->y * CASE_SIZE - CASE_SIZE / 2);
 	  (*_currentSpell)["onEnemy"]->setLoopPlay(false);
