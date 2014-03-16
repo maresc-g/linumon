@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Feb 12 20:20:01 2014 laurent ansel
-// Last update Sat Mar 15 14:45:18 2014 laurent ansel
+// Last update Sun Mar 16 15:10:58 2014 laurent ansel
 //
 
 #include			<functional>
@@ -94,7 +94,7 @@ bool				TradeManager::getMob(Trame *trame)
   //  AMob				*mob;
   unsigned int			idMob;
 
-  std::cout << "TRADEMANAGER => GETMOB" << std::endl;  this->_mutex->lock();
+  std::cout << "TRADEMANAGER => GETMOB" << std::endl;
   this->_mutex->lock();
   idTrade = (*trame)[CONTENT]["GETMOB"]["IDTRADE"].asUInt();
   idMob = (*trame)[CONTENT]["GETMOB"]["IDMOB"].asUInt();
@@ -122,7 +122,7 @@ bool				TradeManager::putMob(Trame *trame)
   // AMob				*mob;
   unsigned int			idMob;
 
-  std::cout << "TRADEMANAGER => PUTMOB" << std::endl;  this->_mutex->lock();
+  std::cout << "TRADEMANAGER => PUTMOB" << std::endl;
   this->_mutex->lock();
   idTrade = (*trame)[CONTENT]["PUTMOB"]["IDTRADE"].asUInt();
   idMob = (*trame)[CONTENT]["PUTMOB"]["IDMOB"].asUInt();
@@ -151,7 +151,8 @@ bool				TradeManager::getItem(Trame *trame)
   unsigned int			idItem;
 
 
-  std::cout << "TRADEMANAGER => GETITEM" << std::endl;  this->_mutex->lock();
+  std::cout << "TRADEMANAGER => GETITEM" << std::endl;
+  this->_mutex->lock();
   idTrade = (*trame)[CONTENT]["GETITEM"]["IDTRADE"].asUInt();
   // item = AItem::deserialization((*trame)((*trame)[CONTENT]));
   // if (item)

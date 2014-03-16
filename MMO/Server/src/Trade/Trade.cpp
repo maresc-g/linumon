@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:40:51 2014 laurent ansel
-// Last update Sat Mar 15 14:59:14 2014 laurent ansel
+// Last update Sun Mar 16 15:13:41 2014 laurent ansel
 //
 
 #include			<functional>
@@ -127,9 +127,11 @@ bool				Trade::putMob(unsigned int const id, unsigned int const idMob)
 
   if (_player1->getId() == id)
     {
+      std::cout << "PUT" << std::endl;
       mob = _player1->getAndDeleteMob(idMob);
       if (mob)
 	{
+	  std::cout << "MOB" << std::endl;
 	  _mobs1->push_back(mob);
 	  Server::getInstance()->callProtocol<unsigned int, Mob const *>("PUTMOB", _player2->getUser().getId(), getId(), mob);
 	}

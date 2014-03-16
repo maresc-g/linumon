@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Fri Mar 14 13:09:36 2014 laurent ansel
+// Last update Sun Mar 16 15:15:25 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -91,6 +91,15 @@ Mob				*Digitaliser::getAndDeleteMob(unsigned int const id)
 {
   Mob				*mob;
 
+  for (auto it = this->_battleMobs.begin() ; it != this->_battleMobs.end() ; ++it)
+    {
+      if ((*it)->getId() == id)
+	{
+	  mob = *it;
+	  this->getContainer().erase(it);
+	  return (mob);
+	}
+    }
   for (auto it = this->begin() ; it != this->end() ; ++it)
     {
       if ((*it)->getId() == id)
