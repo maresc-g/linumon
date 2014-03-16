@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb 20 13:28:48 2014 guillaume marescaux
-// Last update Sun Mar 16 14:32:24 2014 guillaume marescaux
+// Last update Sun Mar 16 15:41:08 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/TradeView.hh"

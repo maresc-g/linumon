@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar 12 14:45:37 2014 guillaume marescaux
-// Last update Thu Mar 13 14:24:38 2014 guillaume marescaux
+// Last update Sun Mar 16 16:20:12 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/FrameMobs.hh"
@@ -32,7 +32,8 @@ ParentInfos			*FrameMobs::getNameFirstParent(QWidget *parent)
   static std::string		parentNames[] =
     {
       "scrollPerso",
-      "f_battleMobs"
+      "f_battleMobs",
+      "tradeview",
     };
   static unsigned int		size = sizeof(parentNames) / sizeof(std::string);
   unsigned int			i;
@@ -83,12 +84,13 @@ void				FrameMobs::dropEvent(QDropEvent *de)
       if ((**_wMan->getMainPlayer())->mobtoBattleMob(_mob->getId()))
 	Client::getInstance()->mobtoBattleMob(_mob->getId());
     }
+  else if (sourceInfos->name == "tradeview")
+    {
+      Mob const			*mob = reinterpret_cast<Mob const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
+      static_cast<MobView *>(de->source())->setInfos(NULL);
+      (**_wMan->getMainPlayer())->addMob(new Mob(*mob));
+      Client::getInstance()->getMob((**_wMan->getTrade())->getId(), mob->getId());
+      _wMan->getSFMLView()->getDigitaliserView()->initDigit((**_wMan->getMainPlayer())->getDigitaliser());
+    }
   _wMan->getSFMLView()->getDigitaliserView()->initDigit((**_wMan->getMainPlayer())->getDigitaliser());
-  // if (infos && infos->name != "stuffview" && sourceInfos->name != "stuffview")
-  //   {
-  //     std::pair<AItem const *, unsigned int>	*pair =
-  // 	reinterpret_cast<std::pair<AItem const *, unsigned int> *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
-  //     static_cast<FrameMobs *>(de->source())->setInfos(_item, _nb);
-  //     setInfos(pair->first, pair->second);
-  //   }
 }
