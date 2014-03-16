@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Feb 26 14:58:57 2014 cyril jourdain
-// Last update Fri Mar 14 15:30:14 2014 cyril jourdain
+// Last update Sun Mar 16 04:09:23 2014 cyril jourdain
 //
 
 #include		"SFML/RessourceSprite.hh"
@@ -24,13 +24,14 @@ RessourceSprite::~RessourceSprite()
 void		RessourceSprite::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
   Map::getInstance()->lock();
-  if (_resPtr && _resPtr->isVisible()){
+  // if (_resPtr && _resPtr->isVisible()){
     if (_texture && _vertex) {
+      // std::cout << "Drawing, for real" << std::endl;
       states.texture = _texture;
       states.transform *= getTransform();
       target.draw(_vertex, 4, sf::Quads, states);
     }
-  }
+  // }
   Map::getInstance()->unlock();
 }
 
