@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Sat Mar 15 19:02:59 2014 guillaume marescaux
+// Last update Mon Mar 17 17:39:01 2014 antoine maitre
 //
 
 #include			<unistd.h>
@@ -106,6 +106,10 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("PUTMONEY", func);
   func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::getMoney), this);
   _proto->addFunc("GETMONEY", func);
+  func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::accept), this);
+  _proto->addFunc("ACCEPT", func);
+  func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::refuse), this);
+  _proto->addFunc("REFUSE", func);
   func = std::bind1st(std::mem_fun(&Core::isInBattle), this);
   _proto->addFunc("ISINBATTLE", func);
   func = std::bind1st(std::mem_fun(&Core::switchMob), this);
@@ -409,21 +413,21 @@ bool				Core::putItem(Trame *trame)
 
 bool				Core::getItem(Trame *trame)
 {
-  (**_trade)->getOtherStack(Stack<AItem>::deserialization((*trame)((*trame)[CONTENT]["STACK"])));
+  (**_trade)->getOtherStack(Stack<AItem>::deserialization((*trame)((*trame)[CONTENT]["GETITEM"]["ITEM"])));
   (**_trade)->setChanged(true);
   return (true);
 }
 
 bool				Core::putMob(Trame *trame)
 {
-  (**_trade)->putOtherMob(Mob::deserialization((*trame)((*trame)[CONTENT]["MOB"])));
+  (**_trade)->putOtherMob(Mob::deserialization((*trame)((*trame)[CONTENT]["PUTMOB"]["MOB"])));
   (**_trade)->setChanged(true);
   return (true);
 }
 
 bool				Core::getMob(Trame *trame)
 {
-  (**_trade)->getOtherMob(Mob::deserialization((*trame)((*trame)[CONTENT]["MOB"])));
+  (**_trade)->getOtherMob(Mob::deserialization((*trame)((*trame)[CONTENT]["GETMOB"]["MOB"])));
   (**_trade)->setChanged(true);
   return (true);
 }
@@ -444,11 +448,22 @@ bool				Core::getMoney(Trame *trame)
 
 bool				Core::accept(Trame *)
 {
+  (**_trade)->setOtherResponse(Trade::ACCEPT);
+  if ((**_trade)->getPlayerResponse() == Trade::ACCEPT)
+    {
+      (**_trade)->handleEnd(_player);
+      (**_trade)->setEnd(true);
+    }
+  (**_trade)->setChanged(true);
   return (true);
 }
 
 bool				Core::refuse(Trame *)
 {
+  (**_trade)->setOtherResponse(Trade::REFUSE);
+  (**_trade)->handleEnd(_player);
+  (**_trade)->setEnd(true);
+  (**_trade)->setChanged(true);
   return (true);
 }
 
@@ -497,14 +512,15 @@ bool				Core::newPlayer(Trame *trame)
 
 bool				Core::newZone(Trame *trame)
 {
-  Map::getInstance()->getZone((**_player)->getZone())->cleanEntity((**_player));
-  Map::getInstance()->getZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString())->deserialization(*trame);
-  (**_player)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
-  (**_player)->setY((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt());
-  (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString()); 
-  Map::getInstance()->changeZone((**_player)->getZone(), (*trame)[CONTENT]["NEWZONE"]["ZONE"].asString(), (**_player));
+  std::cout << "Je suis actuellement dans la zone " <<  (**_player)->getZone() << " aux coordonnees x:" << (**_player)->getX() << " y: " << (**_player)->getY() <<  std::endl;
+  // Map::getInstance()->getZone((**_player)->getZone())->cleanEntity((**_player));
+  // Map::getInstance()->getZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString())->deserialization(*trame);
+  // (**_player)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
+  // (**_player)->setY((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt());
+  // (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString()); 
+  // Map::getInstance()->changeZone((**_player)->getZone(), (*trame)[CONTENT]["NEWZONE"]["ZONE"].asString(), (**_player));
   Map::getInstance()->move((**_player));
-  std::cout << "NEW PLAYER ZONE : " <<  (**_player)->getZone() << std::endl;
+  std::cout << "Je suis actuellement dans la zone " <<  (**_player)->getZone() << " aux coordonnees x:" << (**_player)->getX() << " y: " << (**_player)->getY() <<  std::endl;
   *_state = CLIENT::LOADED;
   // (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString());
   // (**_player)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
@@ -727,11 +743,22 @@ void				Core::switchMobs(unsigned int idMob1, unsigned int idMob2)
 
 void				Core::accept()
 {
+  (**_trade)->setPlayerResponse(Trade::ACCEPT);
+  if ((**_trade)->getOtherResponse() == Trade::ACCEPT)
+    {
+      (**_trade)->handleEnd(_player);
+      (**_trade)->setEnd(true);
+    }
+  (**_trade)->setChanged(true);
   (*_proto).operator()<unsigned int const, unsigned int>("ACCEPT", _id, (**_trade)->getId());
 }
 
 void				Core::refuse()
 {
+  (**_trade)->setPlayerResponse(Trade::REFUSE);
+  (**_trade)->handleEnd(_player);
+  (**_trade)->setEnd(true);
+  (**_trade)->setChanged(true);
   (*_proto).operator()<unsigned int const, unsigned int>("REFUSE", _id, (**_trade)->getId());
 }
 

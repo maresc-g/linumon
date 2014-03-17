@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 16:36:22 2014 laurent ansel
-// Last update Thu Mar 13 15:53:12 2014 laurent ansel
+// Last update Sun Mar 16 11:30:52 2014 laurent ansel
 //
 
 #include			<functional>
@@ -19,10 +19,10 @@ StuffActions::StuffActions()
   std::function<bool (Trame *)> func;
 
   func = std::bind1st(std::mem_fun(&StuffActions::getStuff), this);
-  Server::getInstance()->addFuncProtocol("PUT", func);
+  Server::getInstance()->addFuncProtocol("GETSTUFF", func);
 
   func = std::bind1st(std::mem_fun(&StuffActions::putStuff), this);
-  Server::getInstance()->addFuncProtocol("GET", func);
+  Server::getInstance()->addFuncProtocol("PUTSTUFF", func);
 }
 
 StuffActions::~StuffActions()
@@ -52,7 +52,7 @@ bool				StuffActions::getStuff(Trame *trame)
   bool				ret = false;
   Error				*error = NULL;
 
-  ret = ClientManager::getInstance()->stuff((*trame)[HEADER]["IDCLIENT"].asInt(), true, (*trame)[CONTENT]["STUFF"]["IDITEM"].asUInt(), (*trame)[CONTENT]["STUFF"]["TARGET"].asUInt());
+  ret = ClientManager::getInstance()->stuff((*trame)[HEADER]["IDCLIENT"].asInt(), true, (*trame)[CONTENT]["GETSTUFF"]["IDITEM"].asUInt(), (*trame)[CONTENT]["GETSTUFF"]["TARGET"].asUInt());
   if (!ret)
     {
       if (ObjectPoolManager::getInstance()->setObject(error, "error"))
@@ -70,7 +70,7 @@ bool				StuffActions::putStuff(Trame *trame)
   bool				ret = false;
   Error				*error = NULL;
 
-  ret = ClientManager::getInstance()->stuff((*trame)[HEADER]["IDCLIENT"].asInt(), false, (*trame)[CONTENT]["STUFF"]["IDSTACK"].asUInt(), (*trame)[CONTENT]["STUFF"]["TARGET"].asUInt());
+  ret = ClientManager::getInstance()->stuff((*trame)[HEADER]["IDCLIENT"].asInt(), false, (*trame)[CONTENT]["PUTSTUFF"]["IDSTACK"].asUInt(), (*trame)[CONTENT]["PUTSTUFF"]["TARGET"].asUInt());
   if (!ret)
     {
       if (ObjectPoolManager::getInstance()->setObject(error, "error"))

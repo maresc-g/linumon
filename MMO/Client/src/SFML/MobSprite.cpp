@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:46:04 2014 cyril jourdain
-// Last update Sat Mar 15 22:03:46 2014 cyril jourdain
+// Last update Sun Mar 16 21:42:16 2014 cyril jourdain
 //
 
 #include		"SFML/MobSprite.hh"
@@ -113,6 +113,6 @@ void			MobSprite::setPosition(int x, int y)
 
 void			MobSprite::update(sf::Clock &clock)
 {
-  upHealthBar();
+  // upHealthBar();
   Sprite::update(clock);
 }

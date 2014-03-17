@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb 20 13:28:48 2014 guillaume marescaux
-// Last update Sat Mar 15 13:37:54 2014 guillaume marescaux
+// Last update Sun Mar 16 15:41:08 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/TradeView.hh"
@@ -18,6 +18,7 @@ TradeView::TradeView(QWidget *parent, WindowManager *wMan):
   _hiddenStackViews(new std::list<StackView *>), _hiddenOtherStackViews(new std::list<StackView *>)
 {
   ui.setupUi(this);
+  ui.le_money->setValidator(new QIntValidator);
   connect(ui.le_money, SIGNAL(editingFinished()), this, SLOT(sendMoney()));
 }
 
@@ -47,7 +48,13 @@ void				TradeView::on_b_cancel_clicked()
 void				TradeView::sendMoney()
 {
   MutexVar<Trade *>		*trade = _wMan->getTrade();
-  int				change = ui.le_money->text().toInt() - (**trade)->getPlayerMoney();
+  int				newMoney = ui.le_money->text().toInt();
+  if (newMoney > static_cast<int>((**_wMan->getMainPlayer())->getInventory().getMoney()))
+    {
+      ui.le_money->setText(std::to_string((**_wMan->getMainPlayer())->getInventory().getMoney()).c_str());
+      newMoney = ui.le_money->text().toInt();
+    }
+  int				change = newMoney - (**trade)->getPlayerMoney();
 
   if (change > 0)
     {
@@ -142,7 +149,7 @@ void				TradeView::setInfos(MutexVar<Trade *> *trade)
 
       if (itOtherStacks != (**trade)->getOtherStacks().end())
 	{
-	  stack = new StackView(ui.f_otherStacks, _wMan, *itStacks);
+	  stack = new StackView(ui.f_otherStacks, _wMan, *itOtherStacks);
 	  itOtherStacks++;
 	}
       else
@@ -176,6 +183,17 @@ void				TradeView::setInfos(MutexVar<Trade *> *trade)
       mob->resize(50, 50);
       mob->show();
     }
+  if ((**trade)->getOtherResponse() == Trade::ACCEPT)
+    ui.f_otherToTrade->setStyleSheet("QFrame#f_otherToTrade { background-color : #00FF00; }");
+  else
+    ui.f_otherToTrade->setStyleSheet("QFrame#f_otherToTrade { background-color : #FFFFFF; }");
+  if ((**trade)->getPlayerResponse() == Trade::ACCEPT)
+    {
+      std::cout << "PLAYER ACCEPT" << std::endl;;
+      ui.f_toTrade->setStyleSheet("QFrame#f_toTrade { background-color : #00FF00; }");
+    }
+  else
+    ui.f_toTrade->setStyleSheet("QFrame#f_toTrade { background-color : #FFFFFF; }");
 }
 
 // void				TradeView::putStackToTrade(Stack<AItem> const *stack)

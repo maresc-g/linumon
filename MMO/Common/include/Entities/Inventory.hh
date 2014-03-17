@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:15:58 2014 laurent ansel
-// Last update Fri Mar 14 21:29:52 2014 alexis mestag
+// Last update Sun Mar 16 16:25:02 2014 laurent ansel
 //
 
 #ifndef 			__INVENTORY_HH__
@@ -56,9 +56,9 @@ public:
   void				deleteItem(unsigned int const stack);
   void				deleteItem(Stack<AItem> *stack);
 
-  void				addItem(AItem *item);
-  void				addItem(Stack<AItem> *stack);
-  void				addItem(AItem *item, unsigned int const nb, bool const merge = true);
+  unsigned int			addItem(AItem *item);
+  unsigned int			addItem(Stack<AItem> *stack);
+  unsigned int			addItem(AItem *item, unsigned int const nb, bool const merge = true);
 
   AItem				*getItem(unsigned int const stack) const;
   AItem				*getAndDeleteItem(unsigned int const stack);

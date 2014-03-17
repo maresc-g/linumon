@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Mar 10 16:56:18 2014 guillaume marescaux
-// Last update Fri Mar 14 16:13:24 2014 guillaume marescaux
+// Last update Sun Mar 16 14:15:28 2014 guillaume marescaux
 //
 
 #ifndef 			__TRADE_HH__
@@ -14,21 +14,17 @@
 #include			<string>
 #include			"Entities/Mob.hh"
 #include			"Entities/AItem.hh"
+#include			"Mutex/MutexVar.hpp"
 
 class				Trade
 {
 public:
 
-  enum				eAction
+  enum				eResponse
     {
-      PUT,
-      GET
-    };
-
-  enum				ePerson
-    {
-      PLAYER,
-      OTHER
+      ACCEPT,
+      REFUSE,
+      NONE
     };
 
 private:
@@ -46,6 +42,9 @@ private:
   std::list<Mob const *>	*_otherMobs;
   unsigned int			_playerMoney;
   unsigned int			_otherMoney;
+  eResponse			_playerResponse;
+  eResponse			_otherResponse;
+  bool				_end;
   bool				_changed;
 
 public:
@@ -67,7 +66,10 @@ public:
   void				putOtherStack(Stack<AItem> const *);
   void				getPlayerStack(Stack<AItem> const *);
   void				getOtherStack(Stack<AItem> const *);
+  void				setPlayerResponse(eResponse);
+  void				setOtherResponse(eResponse);
   void				setName(std::string const &);
+  void				setEnd(bool);
   void				setChanged(bool);
 
   unsigned int			getPlayerMoney(void) const;
@@ -78,9 +80,13 @@ public:
   std::list<Mob const*> const	&getOtherMobs(void) const;
   std::string const		&getName(void) const;
   unsigned int			getId(void) const;
+  eResponse			getPlayerResponse(void) const;
+  eResponse			getOtherResponse(void) const;
+  bool				getEnd(void) const;
   bool				getChanged(void) const;
 
   void				reset(unsigned int id, std::string const &name);
+  void				handleEnd(MutexVar<Player *> *player);
 };
 
 #endif

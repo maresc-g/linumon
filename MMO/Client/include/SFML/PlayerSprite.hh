@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Feb 16 03:12:14 2014 cyril jourdain
-// Last update Fri Mar 14 15:29:21 2014 cyril jourdain
+// Last update Sun Mar 16 17:24:04 2014 cyril jourdain
 //
 
 #ifndef 		__PLAYERSPRITE_HH__
@@ -34,7 +34,6 @@ private:
   sf::Font		*_textFont;
   sf::Vector2f		_nameOffset;
   unsigned int		_speed;
-  unsigned int		_playerId;
   std::string		_playerZone;
   bool			_isInputable;
   bool			_receivedInput;
@@ -42,7 +41,7 @@ private:
 protected:
   sf::Vector2f		_deltaPos;
   eDir			_dir;
-
+  unsigned int		_playerId;
 
 public:
   PlayerSprite();

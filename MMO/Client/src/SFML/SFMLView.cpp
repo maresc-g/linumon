@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Sat Mar 15 21:39:45 2014 cyril jourdain
+// Last update Sun Mar 16 22:16:06 2014 cyril jourdain
 //
 
 /*
@@ -94,6 +94,7 @@ void			SFMLView::onInit()
   // _currentView->resetPOV();
   static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
   raise();
+  setFocus(Qt::OtherFocusReason);
 }
 
 void			SFMLView::onUpdate()
@@ -122,7 +123,14 @@ void			SFMLView::onUpdate()
       (*_wMan->getState()) = CLIENT::TRADE;
       break;
     case CLIENT::TRADE:
-      if ((**_wMan->getTrade())->getChanged())
+      if ((**_wMan->getTrade())->getEnd())
+	{
+	  _trade->hide();
+	  _inventory->initInventory();
+	  _digit->initDigit((**_wMan->getMainPlayer())->getDigitaliser());
+	  (*_wMan->getState()) = CLIENT::PLAYING;
+	}
+      else if ((**_wMan->getTrade())->getChanged())
 	{
 	  std::cout << "SOMETHING CHANGED" << std::endl;
 	  _trade->setInfos(_wMan->getTrade());

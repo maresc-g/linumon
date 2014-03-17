@@ -1,0 +1,15 @@
+{
+	"info": {
+		"texture": "countDown",
+		"size": 128
+	},	
+	"sprites": {
+		"countDown": {
+			"default": {
+			    "1":{"x": 0,"y": 0},
+			    "2":{"x": 128,"y": 0},
+			    "3":{"x": 256,"y": 0}
+			}
+		}
+	}
+}

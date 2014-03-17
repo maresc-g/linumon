@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Sat Mar 15 21:04:46 2014 cyril jourdain
+// Last update Sun Mar 16 23:00:32 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -54,6 +54,7 @@ private:
   BattleSpellUpdater		*_spellUpdater;
   unsigned int			_currentTurn;
   bool				_battleStarted;  
+  Sprite			*_countDownSprite;
 
 public:
   BattleView(SFMLView *, WindowManager *);

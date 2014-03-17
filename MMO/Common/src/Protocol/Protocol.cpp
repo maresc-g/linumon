@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sat Mar 15 19:02:10 2014 guillaume marescaux
+// Last update Mon Mar 17 11:45:51 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -374,7 +374,7 @@ bool                    newZone(unsigned int const id, Player *player, Zone *old
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["NEWZONE"]["ZONE"] = player->getZone();
-      zone->serialization((*trame)((*trame)[CONTENT]));
+      zone->serialization((*trame));
       player->getCoord().serialization((*trame)((*trame)[CONTENT]["NEWZONE"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
@@ -904,7 +904,7 @@ bool			putMob(unsigned int const id, unsigned int const idTrade, Mob const *mob)
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("TCP");
-  if (header->serialization(*trame) && mob->serialization((*trame)((*trame)[CONTENT]["PUTMOB"])))
+  if (header->serialization(*trame) && mob->serialization((*trame)((*trame)[CONTENT]["PUTMOB"]["MOB"])))
     {
       (*trame)[CONTENT]["PUTMOB"]["IDTRADE"] = idTrade;
       trame->setEnd(true);
@@ -925,7 +925,7 @@ bool			getMob(unsigned int const id, unsigned int const idTrade, Mob const *mob)
   ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
   header->setIdClient(id);
   header->setProtocole("TCP");
-  if (header->serialization(*trame) && mob->serialization((*trame)((*trame)[CONTENT]["GETMOB"])))
+  if (header->serialization(*trame) && mob->serialization((*trame)((*trame)[CONTENT]["GETMOB"]["MOB"])))
     {
       (*trame)[CONTENT]["GETMOB"]["IDTRADE"] = idTrade;
       trame->setEnd(true);
@@ -1576,7 +1576,7 @@ bool			deleteFromInventory(unsigned int const id, std::list<Stack<AItem> *> *sta
   return (ret);
 }
 
-bool			putStuff(unsigned int const id, unsigned int idItem, unsigned int target)
+bool			putStuff(unsigned int const id, unsigned int idstack, unsigned int target)
 {
   bool			ret = false;
   Trame			*trame;
@@ -1589,7 +1589,7 @@ bool			putStuff(unsigned int const id, unsigned int idItem, unsigned int target)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["PUTSTUFF"]["TARGET"] = target;
-      (*trame)[CONTENT]["PUTSTUFF"]["IDITEM"] = idItem;
+      (*trame)[CONTENT]["PUTSTUFF"]["IDSTACK"] = idstack;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
