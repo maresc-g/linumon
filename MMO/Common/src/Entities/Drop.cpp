@@ -5,19 +5,19 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Mar 10 14:57:10 2014 antoine maitre
-// Last update Sat Mar 15 01:35:28 2014 alexis mestag
+// Last update Sun Mar 16 18:20:43 2014 alexis mestag
 //
 
 #include			"Entities/Drop.hh"
 
 Drop::Drop() :
-  Inventory("Toto")
+  ContainerWrapper<container_type>()
 {
   
 }
 
 Drop::Drop(Drop const &rhs) :
-  Inventory("Toto")
+  ContainerWrapper<container_type>()
 {
   *this = rhs;
 }
@@ -31,7 +31,17 @@ Drop				&Drop::operator=(Drop const &rhs)
 {
   if (this != &rhs)
     {
-
+      this->setContainer(rhs.getContainer());
     }
   return (*this);
+}
+
+void				Drop::clear()
+{
+  this->getContainer().clear();
+}
+
+void				Drop::addItem(AItem *item, unsigned int const nb)
+{
+  this->getContainer().push_back(Stack<AItem>(0, item, nb));
 }

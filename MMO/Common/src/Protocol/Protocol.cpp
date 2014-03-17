@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sun Mar 16 15:16:54 2014 laurent ansel
+// Last update Mon Mar 17 11:45:51 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -374,7 +374,7 @@ bool                    newZone(unsigned int const id, Player *player, Zone *old
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["NEWZONE"]["ZONE"] = player->getZone();
-      zone->serialization((*trame)((*trame)[CONTENT]));
+      zone->serialization((*trame));
       player->getCoord().serialization((*trame)((*trame)[CONTENT]["NEWZONE"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);

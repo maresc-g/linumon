@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Sun Mar 16 15:43:21 2014 laurent ansel
+// Last update Mon Mar 17 17:42:54 2014 alexis mestag
 //
 
 #include			<algorithm>
@@ -186,6 +186,16 @@ Carcass				*Mob::getNewCarcass() const
 ExperienceCurve const		&Mob::getExperienceCurve() const
 {
   return (this->getModel().getExperienceCurve());
+}
+
+unsigned int			Mob::getExpSeed() const
+{
+  return (this->getModel().getExpSeed());
+}
+
+Level::type			Mob::getGivenExp() const
+{
+  return (this->getExpSeed() * this->getLevel() / 7.0);
 }
 
 /*

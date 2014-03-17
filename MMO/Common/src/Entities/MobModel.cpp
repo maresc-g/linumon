@@ -5,22 +5,25 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:39:45 2014 alexis mestag
-// Last update Sat Mar 15 14:03:03 2014 laurent ansel
+// Last update Mon Mar 17 17:20:17 2014 alexis mestag
 //
 
 #include			"Entities/MobModel.hh"
 #include			"Loader/LoaderManager.hh"
+#include			"ObjectPool/ObjectPoolManager.hpp"
 
 MobModel::MobModel() :
   Persistent(), AStatEntity("", eStatEntity::MOBMODEL),
-  _spells(new Spells), _expCurve(NULL), _carcass(new Carcass)
+  _spells(new Spells), _expCurve(NULL), _carcass(new Carcass),
+  _expSeed(0), _dropPath(""), _drop(new Drop)
 {
 
 }
 
 MobModel::MobModel(MobModel const &rhs) :
   Persistent(rhs), AStatEntity(rhs),
-  _spells(new Spells), _expCurve(NULL), _carcass(new Carcass)
+  _spells(new Spells), _expCurve(NULL), _carcass(new Carcass),
+  _expSeed(0), _dropPath(""), _drop(new Drop)
 {
   *this = rhs;
 }
@@ -29,6 +32,7 @@ MobModel::~MobModel()
 {
   delete _spells;
   delete _carcass;
+  delete _drop;
 }
 
 MobModel			&MobModel::operator=(MobModel const &rhs)
@@ -39,6 +43,9 @@ MobModel			&MobModel::operator=(MobModel const &rhs)
       this->setSpells(rhs.getSpells());
       this->setExperienceCurve(rhs.getExperienceCurve());
       this->setCarcass(rhs.getCarcass());
+      this->setExpSeed(rhs.getExpSeed());
+      this->setDropPath(rhs.getDropPath());
+      /* Useless to set this->_drop : it will be initialiazed when setting the Drop path (see above) */
     }
   return (*this);
 }
@@ -86,6 +93,63 @@ ExperienceCurve const		&MobModel::getExperienceCurve() const
 void				MobModel::setExperienceCurve(ExperienceCurve const &expCurve)
 {
   _expCurve = &expCurve;
+}
+
+unsigned int			MobModel::getExpSeed() const
+{
+  return (_expSeed);
+}
+
+void				MobModel::setExpSeed(unsigned int const expSeed)
+{
+  _expSeed = expSeed;
+}
+
+std::string const		&MobModel::getDropPath() const
+{
+  return (_dropPath);
+}
+
+void				MobModel::setDropPath(std::string const &dropPath)
+{
+  _dropPath = dropPath;
+  this->loadDrop();
+}
+
+bool				MobModel::loadDrop()
+{
+  Trame				*file;
+  bool				ret = false;
+
+  ObjectPoolManager::getInstance()->setObject(file, "trame");
+  if (JsonFile::readFile(*file, this->getDropPath())) {
+      _drop->clear();
+
+      auto			membersNb = file->getMemberNames();
+      AItem			*item;
+
+      for (auto nbt = membersNb.begin() ; nbt != membersNb.end() ; ++nbt) {
+	auto			members = (*file)[*nbt].getMemberNames();
+
+	for (auto it = members.begin() ; it != members.end() ; ++it) {
+	  item = LoaderManager::getInstance()->getItemLoader(*it);
+	  if (item)
+	    _drop->addItem(item, (*file)[*nbt][*it].asUInt());
+	}
+      }
+      ret = true;
+    }
+  return (ret);
+}
+
+Drop const			&MobModel::getDrop() const
+{
+  return (*_drop);
+}
+
+void				MobModel::setDrop(Drop const &drop)
+{
+  *_drop = drop;
 }
 
 bool				MobModel::serialization(Trame &trame) const

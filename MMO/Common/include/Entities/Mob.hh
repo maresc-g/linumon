@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Sat Mar 15 00:05:53 2014 alexis mestag
+// Last update Sun Mar 16 02:16:46 2014 alexis mestag
 //
 
 #ifndef			__MOB_HH__
@@ -71,6 +71,9 @@ public:
   ** Mobs'ExperienceCurve
   */
   virtual ExperienceCurve const	&getExperienceCurve() const;
+
+  unsigned int		getExpSeed() const;
+  Level::type		getGivenExp() const;
 
   /*
   ** Battle state management

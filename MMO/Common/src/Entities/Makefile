@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Fri Mar 14 23:32:31 2014 alexis mestag
+## Last update Sun Mar 16 18:18:55 2014 alexis mestag
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
@@ -52,7 +52,6 @@ ODB_ENTITIES+=		ACharacter.hh		\
 			Consumable.hh		\
 			Craft.hh		\
 			DBZone.hh		\
-			Drop.hh			\
 			Faction.hh		\
 			Heal.hh			\
 			PNJ.hh			\

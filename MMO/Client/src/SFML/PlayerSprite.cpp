@@ -247,10 +247,10 @@ void			PlayerSprite::moveFromServer(sf::View *v)
     }
   if (_dir == NONE || _dir == WAITING)
     {
-      // std::cout << "pos : " << _pos.x << "/" << _pos.y << "-"
-      // 		<< Map::getInstance()->getPlayerById(_playerId)->getX()
-      // 		<< "/"
-      // 		<< Map::getInstance()->getPlayerById(_playerId)->getY() <<std::endl;
+      std::cout << "pos : " << _pos.x << "/" << _pos.y << "-"
+      		<< Map::getInstance()->getPlayerById(_playerId)->getX()
+      		<< "/"
+      		<< Map::getInstance()->getPlayerById(_playerId)->getY() <<std::endl;
       _deltaPos.x = (_pos.x - Map::getInstance()->getPlayerById(_playerId)->getX()) * -CASE_SIZE;
       _deltaPos.y = (_pos.y - Map::getInstance()->getPlayerById(_playerId)->getY()) * -CASE_SIZE;
       if (_deltaPos.y != 0)

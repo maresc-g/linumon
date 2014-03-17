@@ -166,11 +166,11 @@ INSERT INTO `Player_talents`(`object_id`, `index`, `value`) VALUES
 /* Inserting MobModels */
 DELETE FROM `MobModel`;
 
-INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`, `expCurve`) VALUES
-       (1, 'Charizard', 2, 1, 3),
-       (2, 'Blastoise', 2, 2, 3),
-       (3, 'Venusaur',  2, 3, 3),
-       (4, 'Pikachu',   2, 4, 2);
+INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`, `expCurve`, `expSeed`, `dropPath`) VALUES
+       (1, 'Charizard', 2, 1, 3, 209, 'Res/Drops/Charizard.json'),
+       (2, 'Blastoise', 2, 2, 3, 210, 'Res/Drops/Blastoise.json'),
+       (3, 'Venusaur',  2, 3, 3, 208, 'Res/Drops/Venusaur.json'),
+       (4, 'Pikachu',   2, 4, 2,  82, 'Res/Drops/Pikachu.json');
 
 /* Inserting Ressources */
 DELETE FROM `Ressource`;
@@ -182,8 +182,9 @@ INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
        (4, 'Feuille de Venuzaur',	1,  0,   0),
        (5, 'Dent de Charizard',		1,  0,   0),
        (6, 'Ecaille de Blastoise',	1,  0,   0),
-       (7, 'Bush',		0,  0,   0),
-       (8, 'House',		0,  0,   0);
+       (7, 'Os',			0,  0,   0);
+       (8, 'Bush',			0,  0,   0),
+       (9, 'House',			0,  0,   0);
 
 /* Assigning Ressources to MobModels */
 DELETE FROM `MobModel_carcass`;
@@ -308,7 +309,8 @@ INSERT INTO `Stat`(`id`, `key`, `value`) VALUES
        ( 43,  5,   8),
        ( 44,  6,   4),
        ( 45,  7,   1),
-       ( 46,  8,   3);
+       ( 46,  8,   3),
+       ( 47,  2,  10);
 
 /* Assigning Stats to MobModels */
 DELETE FROM `MobModel_stats`;
@@ -457,41 +459,47 @@ INSERT INTO `DBZone_mobModels`(`object_id`, `index`, `value`) VALUES
 DELETE FROM `Stuff`;
 
 INSERT INTO `Stuff`(`id`, `name`, `stuffType`) VALUES
-       (1, 'Coiffe Bouftou', 'HELMET'),
-       (2, 'Cape Bouftou', 'CLOAK'),
-       (3, 'Bottes Bouftou', 'BOOTS'),
-       (4, 'Amulette Bouftou', 'NECKLACE'),
-       (5, 'Epaulettes Bouftou', 'SHOULDERS'),
-       (6, 'Plastron Bouftou', 'BREASTPLATE'),
-       (7, 'Anneau Bouftou', 'RING'),
-       (8, 'Ceinture Bouftou', 'BELT'),
-       (9, 'Marteau Bouftou', 'WEAPON'),
-       (10, 'Casque Piou', 'HELMET');
+       ( 1, 'Coiffe Bouftou', 'HELMET'),
+       ( 2, 'Cape Bouftou', 'CLOAK'),
+       ( 3, 'Bottes Bouftou', 'BOOTS'),
+       ( 4, 'Amulette Bouftou', 'NECKLACE'),
+       ( 5, 'Epaulettes Bouftou', 'SHOULDERS'),
+       ( 6, 'Plastron Bouftou', 'BREASTPLATE'),
+       ( 7, 'Anneau Bouftou', 'RING'),
+       ( 8, 'Ceinture Bouftou', 'BELT'),
+       ( 9, 'Marteau Bouftou', 'WEAPON'),
+       (10, 'Casque Piou', 'HELMET'),
+       (11, 'Crane de Charizard', 'HELMET'),
+       (12, 'Canons de Blastoise', 'SHOULDERS'),
+       (13, 'Feuillage de Venusaur', 'CLOAK');
 
 /* Inserting Stuff */
 DELETE FROM `Stuff_stats`;
 
 INSERT INTO `Stuff_stats`(`object_id`, `index`, `value`) VALUES
-       (1, 0, 39),
-       (1, 1, 40),
-       (2, 0, 39),
-       (2, 1, 41),
-       (3, 0, 41),
-       (3, 1, 42),
-       (4, 0, 39),
-       (4, 1, 44),
-       (5, 0, 44),
-       (5, 1, 40),
-       (6, 0, 39),
-       (6, 1, 41),
-       (7, 0, 39),
-       (7, 1, 44),
-       (8, 0, 39),
-       (8, 1, 40),
-       (9, 0, 39),
-       (9, 1, 40),
+       ( 1, 0, 39),
+       ( 1, 1, 40),
+       ( 2, 0, 39),
+       ( 2, 1, 41),
+       ( 3, 0, 41),
+       ( 3, 1, 42),
+       ( 4, 0, 39),
+       ( 4, 1, 44),
+       ( 5, 0, 44),
+       ( 5, 1, 40),
+       ( 6, 0, 39),
+       ( 6, 1, 41),
+       ( 7, 0, 39),
+       ( 7, 1, 44),
+       ( 8, 0, 39),
+       ( 8, 1, 40),
+       ( 9, 0, 39),
+       ( 9, 1, 40),
        (10, 0, 42),
-       (10, 1, 40);
+       (10, 1, 40),
+       (11, 0, 47),
+       (12, 0, 47),
+       (13, 0, 47);
 
 /* Assigning Stuff to Players */
 DELETE FROM `Player_equipment`;

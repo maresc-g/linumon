@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Mar 17 16:40:56 2014 guillaume marescaux
+// Last update Mon Mar 17 21:48:12 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -513,14 +513,15 @@ bool				Core::newPlayer(Trame *trame)
 
 bool				Core::newZone(Trame *trame)
 {
-  Map::getInstance()->getZone((**_player)->getZone())->cleanEntity((**_player));
-  Map::getInstance()->getZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString())->deserialization(*trame);
-  (**_player)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
-  (**_player)->setY((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt());
-  (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString()); 
-  Map::getInstance()->changeZone((**_player)->getZone(), (*trame)[CONTENT]["NEWZONE"]["ZONE"].asString(), (**_player));
+  std::cout << "Je suis actuellement dans la zone " <<  (**_player)->getZone() << " aux coordonnees x:" << (**_player)->getX() << " y: " << (**_player)->getY() <<  std::endl;
+  // Map::getInstance()->getZone((**_player)->getZone())->cleanEntity((**_player));
+  // Map::getInstance()->getZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString())->deserialization(*trame);
+  // (**_player)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
+  // (**_player)->setY((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt());
+  // (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString()); 
+  // Map::getInstance()->changeZone((**_player)->getZone(), (*trame)[CONTENT]["NEWZONE"]["ZONE"].asString(), (**_player));
   Map::getInstance()->move((**_player));
-  std::cout << "NEW PLAYER ZONE : " <<  (**_player)->getZone() << std::endl;
+  std::cout << "Je suis actuellement dans la zone " <<  (**_player)->getZone() << " aux coordonnees x:" << (**_player)->getX() << " y: " << (**_player)->getY() <<  std::endl;
   *_state = CLIENT::LOADED;
   // (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString());
   // (**_player)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());

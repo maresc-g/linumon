@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Sun Mar 16 11:43:02 2014 laurent ansel
+// Last update Mon Mar 17 17:57:41 2014 antoine maitre
 //
 
 #include		"Zone/Case.hh"
@@ -48,7 +48,15 @@ void			Case::delAEntity(AEntity *entity)
 {
   if (this->_entities->size())
     std::cout << "HE SUIS LEHAT " << this->_entities->size() << std::endl;
-  this->_entities->remove(entity);
+  // if ((auto it = std::find(this->_entities->begin(), this->_entities->end(), entity)) != this->_entities->end())
+  //   this->_entities->erase(it);
+  auto it = std::find_if(this->_entities->begin(), this->_entities->end(), [&](const AEntity *e){
+      if (e == entity)
+	return true;
+      return false;
+    });
+  if (it != _entities->end())
+    this->_entities->erase(it);
 }
 
 void			Case::delAEntity(unsigned int const id)
