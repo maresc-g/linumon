@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Thu Mar 13 15:48:42 2014 guillaume marescaux
+// Last update Sat Mar 15 19:03:31 2014 guillaume marescaux
 //
 
 #include <iostream>
@@ -84,7 +84,7 @@ void				InventoryView::stackAction(StackView *stackView)
   if (stackView->getStack().getItem()->getItemType() == AItem::STUFF)
     {
       Stuff const               *stuff = static_cast<Stuff const *>(stackView->getStack().getItem());
-      Stack const		*stack = &stackView->getStack();
+      auto			*stack = &stackView->getStack();
       bool                      ret;
 
       if (!_wMan->getSFMLView()->getStuffView()->getLast() || _wMan->getSFMLView()->getStuffView()->getLast()->getCharacterType() == ACharacter::PLAYER)
@@ -93,7 +93,7 @@ void				InventoryView::stackAction(StackView *stackView)
         ret = (**(_wMan->getMainPlayer()))->putMobEquipment(_wMan->getSFMLView()->getStuffView()->getLast()->getId(), stack->getId());
       if (ret)
         {
-	  Client::getInstance()->stuff(eStuffAction::PUT, stack->getId(), (**(_wMan->getMainPlayer()))->getId());
+	  Client::getInstance()->putStuff(stack->getId(), (**(_wMan->getMainPlayer()))->getId());
           _wMan->getSFMLView()->getStuffView()->setChanged(true);
           ACharacter const              *last = _wMan->getSFMLView()->getStuffView()->getLast();
           if (!last)

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Fri Mar 14 13:02:13 2014 cyril jourdain
+// Last update Sun Mar 16 23:00:32 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -49,10 +49,12 @@ private:
   Sprite			*_selection;
   Sprite			*_spellSprite;
   Sprite			*_spellSpriteCase;
+  Sprite			*_battleScreen;
   std::string			_selectedSpell;
   BattleSpellUpdater		*_spellUpdater;
   unsigned int			_currentTurn;
   bool				_battleStarted;  
+  Sprite			*_countDownSprite;
 
 public:
   BattleView(SFMLView *, WindowManager *);
@@ -79,6 +81,7 @@ public:
   void				quitBattle();
   bool				isBattleEnded();
   void				battleStart();
+  bool				canStartBattle();
 
 private:
   void				loadPlayerList();

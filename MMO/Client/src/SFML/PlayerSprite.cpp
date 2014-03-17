@@ -4,10 +4,11 @@
 // Made by cyril jourdain
 // Login   <jourda_c@epitech.net>
 // 
-// Started on  Sun Feb 16 04:20:51 2014 cyril jourdain
-
+// Started on  Fri Mar 14 15:33:05 2014 cyril jourdain
+// Last update Sun Mar 16 22:09:01 2014 cyril jourdain
 //
 
+#include		<QMenu>
 #include		"SFML/PlayerSprite.hh"
 #include		"Client.hh"
 #include		"Map/Map.hh"
@@ -85,7 +86,7 @@ void			PlayerSprite::draw(sf::RenderTarget &target, sf::RenderStates states) con
   }
 }
 
-void			PlayerSprite::onClick()
+void			PlayerSprite::onClick(QMouseEvent *event)
 {
   std::cout << "PLAYER CLICKED" << std::endl;
 }
@@ -234,6 +235,7 @@ void			PlayerSprite::moveFromServer(sf::View *v)
 		    Map::getInstance()->getPlayerById(_playerId)->getY() * CASE_SIZE - WIN_H / 2);
 	    _pos.x = Map::getInstance()->getPlayerById(_playerId)->getX();
 	    _pos.y = Map::getInstance()->getPlayerById(_playerId)->getY();
+	    v->zoom(0.8);
 	    // if (_pos.x <= 15)
 	    //   v->move((15 - _pos.x * CASE_SIZE),
 	    // 	       0);

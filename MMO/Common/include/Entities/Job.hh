@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:19 2014 laurent ansel
-// Last update Thu Mar 13 13:30:22 2014 alexis mestag
+// Last update Sat Mar 15 17:44:17 2014 laurent ansel
 //
 
 #ifndef 		__JOB_HH__
@@ -13,6 +13,7 @@
 
 #include		"Entities/Level.hh"
 #include		"Entities/JobModel.hh"
+#include		"Entities/Carcass.hh"
 
 class			Job : public Persistent, public ISerialization
 {
@@ -51,8 +52,9 @@ public:
   JobModel const	&getJobModel() const;
   void			setJobModel(JobModel const &jobModel);
 
-  bool			doCraft(std::string const &nameCraft, Stack *&result, std::list<Stack *> *&object);
-  bool			doGather(std::string const &nameRessource, Stack *&result, unsigned int &idRessource);
+  bool			doCraft(std::string const &nameCraft, Stack<> *&result, std::list<Stack<> *> *&object);
+  bool			doGather(std::string const &nameRessource, Stack<> *&result, unsigned int &idRessource);
+  bool			doGather(std::string const &nameRessource, Stack<> *&result, unsigned int &idRessource, Carcass *carcass);
 
   virtual bool		serialization(Trame &trame) const;
   static Job		*deserialization(Trame const &trame);

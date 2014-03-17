@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:46:04 2014 cyril jourdain
-// Last update Tue Mar 11 20:43:33 2014 cyril jourdain
+// Last update Sun Mar 16 21:42:16 2014 cyril jourdain
 //
 
 #include		"SFML/MobSprite.hh"
@@ -48,7 +48,8 @@ void			MobSprite::initHealthBar(Mob const &mob)
 {
   _mob = &mob;
   // std::cout << "MOB NAME = " << mob.getName() << " HP MAX = " << mob.getStat("HP") << " HP CUR = " << mob.getTmpStat("HP") << std::endl;
-  // upHealthBar();
+  _mcurrent = 0;
+  upHealthBar();
 }
 
 void			MobSprite::upHealthBar()
@@ -59,8 +60,12 @@ void			MobSprite::upHealthBar()
   // std::cout << "MAX = " << max << std::endl;
   // std::cout << "CUR / MAX = " << (double)(current / max) << std::endl;
   // std::cout << "CUR / MAX in % = " << (double)(current / max) * 100 << std::endl;
+  if (_mcurrent <= current)
+    _mcurrent = current;
+  else
+    _mcurrent -= max / 20.0;
   _pb->setMaximum(max);
-  _pb->setValue(current);
+  _pb->setValue(_mcurrent);
   if (max)
     {
       if ((double)(current / max) * 100 <= 20)
@@ -95,7 +100,7 @@ void			MobSprite::setLifeVisibility(bool v)
   _isVisible = v;
 }
 
-void			MobSprite::onClick()
+void			MobSprite::onClick(QMouseEvent *)
 {
   // std::cout << "other player clicked" << std::endl;
 }
@@ -108,6 +113,6 @@ void			MobSprite::setPosition(int x, int y)
 
 void			MobSprite::update(sf::Clock &clock)
 {
-  upHealthBar();
+  // upHealthBar();
   Sprite::update(clock);
 }

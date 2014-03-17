@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Mar 13 22:25:22 2014 alexis mestag
+// Last update Sat Mar 15 17:33:51 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -140,9 +140,9 @@ public:
   bool				isMyMob(unsigned int const id);
 
   void				deleteItem(unsigned int const stack);
-  void				deleteItem(Stack *stack);
+  void				deleteItem(Stack<AItem> *stack);
   void				addItem(AItem *item);
-  void				addItem(Stack *stack);
+  void				addItem(Stack<AItem> *stack);
   AItem				*getAndDeleteItem(unsigned int const stack) const;
 
   void				addMob(Mob *mob);
@@ -156,8 +156,8 @@ public:
   void				setJob(std::string const &name, Job *job);
   Job				*getJob(std::string const &name) const;
 
-  bool				doCraft(std::string const &job, std::string const &craft, Stack *&result, std::list<Stack *> *&object);
-  bool				doGather(std::string const &job, std::string const &ressource, Stack *&result, unsigned int &idRessource);
+  bool				doCraft(std::string const &job, std::string const &craft, Stack<AItem> *&result, std::list<Stack<AItem> *> *&object);
+  bool				doGather(std::string const &job, std::string const &ressource, Stack<AItem> *&result, unsigned int &idRessource, Carcass *carcass);
 
   bool				getPlayerEquipment(unsigned int const idItem);
   bool				getMobEquipment(unsigned int const idMod, unsigned int const idItem);
@@ -171,7 +171,7 @@ public:
   bool				switchMobs(unsigned int const idMob1, unsigned int const idMob2);
 
   void				mergeStack(unsigned int const idStack, unsigned int const idStack2);
-  void				newStack(unsigned int const idStack, unsigned int const nb);
+  unsigned int			newStack(unsigned int const idStack, unsigned int const nb);
 
 
   virtual bool			serialization(Trame &trame) const;

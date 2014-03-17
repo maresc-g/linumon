@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:44:23 2014 cyril jourdain
-// Last update Tue Mar 11 14:04:22 2014 cyril jourdain
+// Last update Sat Mar 15 21:54:49 2014 cyril jourdain
 //
 
 #ifndef 		__MOBSPRITE_HH__
@@ -26,6 +26,7 @@ private:
   QProgressBar		*_pb;
   Mob const		*_mob;
   bool			_isVisible;
+  double		_mcurrent;
 
 public:
   MobSprite(sf::String const &, sf::Font *, WindowManager *);
@@ -38,7 +39,7 @@ public:
   void				setInfoVisibility(bool);
   void				resetHUDPos();
   void				setLifeVisibility(bool);
-  virtual void			onClick();
+  virtual void			onClick(QMouseEvent *);
   virtual void			setPosition(int x, int y);
   virtual void			update(sf::Clock &);
 };

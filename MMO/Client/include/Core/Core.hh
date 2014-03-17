@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Thu Mar 13 19:53:43 2014 guillaume marescaux
+// Last update Sat Mar 15 18:59:33 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -90,14 +90,16 @@ public:
   void			spell(unsigned int idBattle, Spell const &spell, unsigned int launcher, unsigned int target);
   void			capture(unsigned int idBattle, unsigned int target);
   void			sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob);
-  void			stuff(int action, unsigned int idItem, unsigned int target);
+  void			putStuff(unsigned int idItem, unsigned int target);
+  void			getStuff(unsigned int idItem, unsigned int target);
   // void			talents();
   void			craft(std::string const &craftName, std::string const &jobName);
   // void			gather();
   void			useObject(unsigned int target, unsigned int item);
+  void			interaction(eInteraction interact, std::string const &name);
   // void			unsigned interaction();
-  void			putItem(unsigned int idTrade, unsigned int idItem);
-  void			getItem(unsigned int idTrade, unsigned int idItem);
+  void			putItem(unsigned int idTrade, unsigned int idStack);
+  void			getItem(unsigned int idTrade, unsigned int idStack);
   void			putMob(unsigned int idTrade, unsigned int idMob);
   void			getMob(unsigned int idTrade, unsigned int idMob);
   void			putMoney(unsigned int idTrade, unsigned int money);

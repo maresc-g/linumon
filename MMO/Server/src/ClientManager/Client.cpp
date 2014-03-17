@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Fri Mar 14 16:53:17 2014 antoine maitre
+// Last update Mon Mar 17 11:49:59 2014 antoine maitre
 //
 
 #include			"ClientManager/Client.hh"
@@ -370,18 +370,18 @@ void				Client::endTrade()
 bool				Client::craft(std::string const &craft, std::string const &job) const
 {
   bool				ret = false;
-  Stack				*result;
-  std::list<Stack *>		*object;
+  Stack<AItem>			*result;
+  std::list<Stack<AItem> *>	*object;
 
   if (_state == GAME && _player && _user)
     {
-      result = new Stack(0);
-      object = new std::list<Stack *>;
+      result = new Stack<AItem>(0);
+      object = new std::list<Stack<AItem> *>;
       ret = _player->doCraft(job, craft, result, object);
       if (ret)
 	{
-	  Server::getInstance()->callProtocol<Stack *>("ADDTOINVENTORY", _id, result);
-	  Server::getInstance()->callProtocol<std::list<Stack *> *>("DELETEFROMINVENTORY", _id, object);
+	  Server::getInstance()->callProtocol<Stack<AItem> *>("ADDTOINVENTORY", _id, result);
+	  Server::getInstance()->callProtocol<std::list<Stack<AItem> *> *>("DELETEFROMINVENTORY", _id, object);
 	  //	  Server::getInstance()->callProtocol<std::list<std::pair<unsigned int, unsigned int> > *>("DELETEFROMINVENTORY", _id, &object);
 	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
 	}
@@ -389,29 +389,37 @@ bool				Client::craft(std::string const &craft, std::string const &job) const
   return (ret);
 }
 
-bool				Client::gather(std::string const &ressource, std::string const &job, Ressource::RessourceCoordinate const &) const
+bool				Client::gather(std::string const &ressource, std::string const &job, unsigned int const carcass) const
 {
   bool				ret = false;
-  Stack				*result;
+  Stack<AItem>			*result;
   unsigned int			idRessource;
-  AEntity			*entity;
+  AEntity			*entity = NULL;
 
   if (_state == GAME && _player && _user)
     {
-      result = new Stack(0);
-      ret = _player->doGather(job, ressource, result, idRessource);
+      result = new Stack<AItem>(0);
+      if (carcass > 0)
+	entity = Map::getInstance()->getEntityById(_player->getZone(), carcass);
+      ret = _player->doGather(job, ressource, result, idRessource, (carcass > 0 ? static_cast<Carcass *>(entity) : NULL));
       if (ret)
 	{
-	  //	  Server::getInstance()->callProtocol<std::list<AItem *> *>("ADDTOINVENTORY", _id, &result);
-	  Server::getInstance()->callProtocol<Stack *>("ADDTOINVENTORY", _id, result);
+
+	  Server::getInstance()->callProtocol<Stack<AItem> *>("ADDTOINVENTORY", _id, result);
 	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
-	  entity = Map::getInstance()->getEntityById(_player->getZone(), idRessource);
-	  if (entity)
+	  if (!entity)
 	    {
-	      static_cast<Ressource *>(entity)->setVisible(false);
-	      RessourceManager::getInstance()->needRessource(ressource, _player->getZone(), static_cast<Ressource *>(entity));
-	      Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("VISIBLE", _id, idRessource, false, Map::getInstance()->getZone(_player->getZone()));
+	      entity = Map::getInstance()->getEntityById(_player->getZone(), idRessource);
+	      if (entity)
+		{
+		  static_cast<Ressource *>(entity)->setVisible(false);
+		  RessourceManager::getInstance()->needRessource(ressource, _player->getZone(), static_cast<Ressource *>(entity));
+		  Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("VISIBLE", _id, idRessource, false, Map::getInstance()->getZone(_player->getZone()));
+		}
 	    }
+	  else
+	    if (static_cast<Carcass *>(entity)->empty())
+	      Map::getInstance()->delEntity(_player->getZone(), entity);
 	}
     }
   return (ret);
@@ -450,13 +458,13 @@ bool				Client::stuff(bool const get, unsigned int const idItem, unsigned int co
 
 void				Client::merge(unsigned int const idStack, unsigned int const idStack2)
 {
-  if (_state == GAME && _player)
+  if (_state != BATTLE && _player)
     _player->mergeStack(idStack, idStack2);
 }
 
 void				Client::newStack(unsigned int const idStack, unsigned int const nb)
 {
-  if (_state == GAME && _player)
+  if (_state != BATTLE && _player)
     _player->newStack(idStack, nb);
 }
 

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Mar  6 14:21:30 2014 guillaume marescaux
-// Last update Mon Mar 10 01:22:55 2014 alexis mestag
+// Last update Fri Mar 14 16:33:12 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/TinyHUDView.hh"
@@ -50,14 +50,14 @@ void				TinyHUDView::setInfos(Mob const *mob)
   _mobView->setInfos(mob);
   if (mob)
     {
-      unsigned int		current = mob->getCurrentStat("HP");
+      double			current = mob->getCurrentStat("HP");
       unsigned int		max = mob->getMaxStat("HP");
 
       ui.pb_hp->setMaximum(max);
       ui.pb_hp->setValue(current);
-      if (current / max * 100 <= 20)
+      if ((double)(current / max) * 100 <= 20)
       	ui.pb_hp->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(RED) + "; }").c_str());
-      else if (current / max * 100 <= 50)
+      else if ((double)(current / max) * 100 <= 50)
       	ui.pb_hp->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(ORANGE) + "; }").c_str());
       else
       	ui.pb_hp->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(GREEN) + "; }").c_str());

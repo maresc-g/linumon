@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Fri Mar 14 11:56:45 2014 alexis mestag
+// Last update Sat Mar 15 00:05:53 2014 alexis mestag
 //
 
 #ifndef			__MOB_HH__
@@ -17,6 +17,7 @@
 
 class			Player;
 class			MobModel;
+class			Carcass;
 class			Type;
 
 class			Mob : public Persistent, public ACharacter, public ISerialization
@@ -60,6 +61,11 @@ public:
   bool			setCurrentStat(std::string const &key, Stat::value_type const value);
   bool			incCurrentStat(std::string const &key, Stat::value_type const inc);
   bool			decCurrentStat(std::string const &key, Stat::value_type const dec);
+
+  /*
+  ** Mob's Carcass
+  */
+  Carcass		*getNewCarcass() const;
 
   /*
   ** Mobs'ExperienceCurve

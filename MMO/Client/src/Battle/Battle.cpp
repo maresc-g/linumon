@@ -5,12 +5,11 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Fri Mar 14 13:59:01 2014 cyril jourdain
+// Last update Fri Mar 14 16:21:46 2014 cyril jourdain
 //
 
 #include			<algorithm>
 #include			"Battle/Battle.hh"
-#include <QDebug>
 
 Battle::Battle():
   _id(0), _mobs(new std::list<Mob *>), _enemy(NULL), _maxMobs(0), _spells(new std::list<SpellContainer *>),
@@ -117,25 +116,16 @@ Mob				*Battle::getMobById(unsigned int id)
 
 void				Battle::switchPlayerMobs(unsigned int target, unsigned int newMob)
 {
-  qDebug() << "SWITCH HERE !!!!!!!!!!!!!!!!!!!!!!!!!!";
   auto it = find_if(_mobs->begin(), _mobs->end(), [&](Mob const *mob){
-      qDebug() << "Looking " << mob->getId() << "/" << target;
       if (mob->getId() == target)
   	return true;
       return false;
     });
-  if (it == _mobs->end())
-    qDebug() << "TARGET NOT FOUND";
-  qDebug() << "Target found"; 
   auto it2 = find_if((**_player)->getDigitaliser().getBattleMobs().begin(), (**_player)->getDigitaliser().getBattleMobs().end(), [&](Mob const *mob){
-      qDebug() << "Looking " << mob->getId() << "/" << newMob;
       if (mob->getId() == newMob)
   	return true;
       return false;
     });
-  if (it2 == _mobs->end())
-    qDebug() << "NEWMOB NOT FOUND";
-  qDebug() << "Switch mob : " << (*it)->getId() << "with " << (*it2)->getId();
   Mob				*tmp = *it;
 
   *it = *it2;

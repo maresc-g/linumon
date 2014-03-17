@@ -5,9 +5,10 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Feb 26 14:58:57 2014 cyril jourdain
-// Last update Mon Mar  3 14:05:37 2014 cyril jourdain
+// Last update Sun Mar 16 18:39:17 2014 cyril jourdain
 //
 
+#include		<QMenu>
 #include		"SFML/RessourceSprite.hh"
 #include		"Map/Map.hh"
 
@@ -34,9 +35,22 @@ void		RessourceSprite::draw(sf::RenderTarget &target, sf::RenderStates states) c
   Map::getInstance()->unlock();
 }
 
-void		RessourceSprite::onClick()
+void		RessourceSprite::onClick(QMouseEvent *event)
 {
   std::cout << "Ressource Clicked" << std::endl;
+  if (isGather()){
+    QMenu menu;
+    
+    menu.addAction("Gather");
+    QAction *action = menu.exec(QPoint(event->x(), event->y()));
+    if (action)
+      {
+	if (action->text() == "Gather")
+	  {
+	    std::cout << "Gather ressource" << std::endl;
+	    }
+      }
+  }
 }
 
 bool		RessourceSprite::isVisible()
@@ -47,5 +61,12 @@ bool		RessourceSprite::isVisible()
     return true;
   }
   Map::getInstance()->unlock();
+  return false;
+}
+
+bool		RessourceSprite::isGather()
+{
+  if (_resPtr)
+    return _resPtr->isGather();
   return false;
 }

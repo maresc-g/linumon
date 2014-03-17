@@ -172,6 +172,27 @@ INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`, `expCurve`) VALUES
        (3, 'Venusaur',  2, 3, 3),
        (4, 'Pikachu',   2, 4, 2);
 
+/* Inserting Ressources */
+DELETE FROM `Ressource`;
+
+INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
+       (1, 'Orchidee',			1, 10, 100),
+       (2, 'Peau de bouftou',		1,  1,  10),
+       (3, 'Tree',			0,  0,   0),
+       (4, 'Feuille de Venuzaur',	1,  0,   0),
+       (5, 'Dent de Charizard',		1,  0,   0),
+       (6, 'Ecaille de Blastoise',	1,  0,   0),
+       (7, 'Bush',		0,  0,   0),
+       (8, 'House',		0,  0,   0);
+
+/* Assigning Ressources to MobModels */
+DELETE FROM `MobModel_carcass`;
+
+INSERT INTO `MobModel_carcass`(`object_id`, `ressource`, `nb`) VALUES
+       (1, 5, 4),
+       (2, 6, 10),
+       (3, 4, 5);
+
 /* Assignin MobModels to DBZones */
 DELETE FROM `DBZone_mobModels`;
 
@@ -340,8 +361,8 @@ INSERT INTO `Mob`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `model
        (4, 'MegaFist',		2,  3120, 17,  3798, 1),
        (5, 'SuperWet',		2, 36435, 35, 40007, 2),
        (6, 'UltraBushy',	2,  2035, 15,  2535, 3),
-       (7, 'Pikabillaud',	2,      0, 1,     1, 4),
-       (8, 'Pikatheorie',	2,      0, 1,     1, 4);
+       (7, 'Pikabillaud',	2,  3375, 15,  4096, 4),
+       (8, 'Pikatheorie',	2,  3375, 15,  4096, 4);
 
 /* Assigning Stats to Mobs */
 DELETE FROM `Mob_stats`;
@@ -496,24 +517,13 @@ INSERT INTO `Player_stats`(`object_id`, `index`, `value`) VALUES
        (2, 1, 37),
        (2, 2, 38);
 
-/* Inserting Ressources */
-DELETE FROM `Ressource`;
-
-INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
-       (1, 'Orchidee',			1, 10, 100),
-       (2, 'Peau de bouftou',		1,  1,  10),
-       (3, 'Tree',			0,  0,   0),
-       (4, 'Feuille de Venuzaur',	1,  0,   0),
-       (5, 'Dent de Charizard',		1,  0,   0),
-       (6, 'Ecaille de Blastoise',	1,  0,   0);
-
 /* Inserting Heals */
 DELETE FROM `Heal`;
 
 INSERT INTO `Heal`(`id`, `name`, `pnjType`, `zone`, `x`, `y`) VALUES
-       (1, 'Connard0', 'HEAL', 'Plain', 10, 70),
-       (2, 'Connard1', 'HEAL', 'Plain', 30, 30),
-       (3, 'Connard2', 'HEAL', 'Plain', 40, 40);
+       (1, 'Healer0', 'HEAL', 'Plain', 10, 70),
+       (2, 'Healer1', 'HEAL', 'Plain', 30, 30),
+       (3, 'Healer2', 'HEAL', 'Plain', 40, 40);
 
 /* Inserting Consumable */
 DELETE FROM `Consumable`;

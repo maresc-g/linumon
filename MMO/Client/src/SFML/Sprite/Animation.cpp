@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:08:26 2014 cyril jourdain
-// Last update Wed Mar 12 00:59:57 2014 cyril jourdain
+// Last update Sat Mar 15 21:38:45 2014 cyril jourdain
 //
 
 #include		"SFML/Sprite/Animation.hh"
@@ -40,7 +40,7 @@ Animation::~Animation()
 void			Animation::update(sf::Clock &clock)
 {
   // Update frame
-  if (_frameCount == 1 && !_playing)
+  if (_loopPlay && !_playing)
     _playing = true;
   if (_playing){
     float time = clock.getElapsedTime().asMicroseconds();
@@ -50,7 +50,7 @@ void			Animation::update(sf::Clock &clock)
 	// Frame over
 	_currentId++;
 	_currentId %= _frameCount;
-	if (!_loopPlay && _currentId == 0 && _frameCount > 1)
+	if (!_loopPlay && _currentId == 0)
 	  _playing = false;
 	_cFrameTime = 0;
       }

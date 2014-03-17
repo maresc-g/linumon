@@ -1,0 +1,13 @@
+{
+    "info":{
+	"texture":"battleScreen",
+	"size" : 64
+    },
+    "sprites": {
+	"battleScreen":{
+	    "default":{
+		"1":{"x":0,"y":0, "sx":1024, "sy":780}
+	    }
+	}
+    }
+}

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar 12 13:56:36 2014 guillaume marescaux
-// Last update Thu Mar 13 13:25:38 2014 guillaume marescaux
+// Last update Fri Mar 14 16:10:36 2014 guillaume marescaux
 //
 
 #ifndef 		__SPLITSTACKVIEW_HH__
@@ -15,6 +15,8 @@
 #include		<Qt/qpainter.h>
 #include		"ui_splitstackview.h"
 #include		"Qt/WindowManager.hh"
+#include		"Qt/Views/StackView.hh"
+#include		"ParentInfos.hh"
 
 class			SplitStackView : public QWidget
 {
@@ -29,11 +31,13 @@ private:
 
   Ui::splitstackview	ui;
   WindowManager		*_wMan;
-  Stack const		*_stack;
+  StackView		*_source;
+  StackView		*_dest;
 
 private:
 
   virtual void		paintEvent(QPaintEvent *);
+  ParentInfos		*getNameFirstParent(QWidget *parent);
 
 private slots:
 
@@ -42,7 +46,7 @@ private slots:
 
 public:
 
-  void			setInfos(Stack const *stack);
+  void			setInfos(StackView *source, StackView *dest);
 };
 
 #endif

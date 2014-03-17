@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Fri Mar 14 11:59:51 2014 alexis mestag
+// Last update Sun Mar 16 15:43:21 2014 laurent ansel
 //
 
 #include			<algorithm>
@@ -113,12 +113,15 @@ Stat::value_type		Mob::getMaxStat(std::string const &key) const
   Stat::value_type		ret = Stat::value_type();
 
   if (sk) {
-    ret = this->getModel().getStat(key) * 2 + 31 + 100 / 4;
-    ret *= this->getLevel() / 100;
-    ret += (sk->isShortLived() ? 5 : (this->getLevel() + 10));
-    ret += this->getStat(key);
+    double			tmp;
+
+    tmp = this->getModel().getStat(key) * 2.0 + 31.0 + 25.0; // (25 = 100 EV / 4)
+    tmp *= this->getLevel() / 100.0;
+    tmp += (sk->isShortLived() ? 5.0 : (this->getLevel() + 10.0));
+    tmp += this->getStat(key);
     if (player)
-      ret += player->getStat(key);
+      tmp += player->getStat(key);
+    ret = tmp;
   }
   return (ret);
 }
@@ -166,6 +169,14 @@ bool				Mob::decCurrentStat(std::string const &key, Stat::value_type const dec)
   Stat::value_type		newValue = dec >= oldValue ? 0 : oldValue - dec;
 
   return (this->setCurrentStat(key, newValue));
+}
+
+/*
+** Mob's Carcass
+*/
+Carcass				*Mob::getNewCarcass() const
+{
+  return (this->getModel().getNewCarcass());
 }
 
 /*
@@ -253,6 +264,7 @@ Mob				*Mob::deserialization(Trame const &trame)
 {
   Mob				*mob = new Mob;
 
+  std::cout << "TRAMe =" << trame.toString() << std::endl;
   if (trame.isMember("KEY"))
     mob->setAuthorizedStatKeys(*(**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->getValue(trame["KEY"].asString()));
   mob->setCurrentStats(*Stats::deserialization(trame(trame["STATS"])));

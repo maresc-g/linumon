@@ -54,6 +54,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/SFML/GraphicEntities.hh \
                 include/SFML/KeyDelayer.hh \
                 include/SFML/BattleSpellUpdater.hh \
+                include/SFML/RessourcesSpriteLoader.hh \
                 include/SFML/Sprite/Sprite.hh \
                 include/SFML/Sprite/Animation.hh \
                 include/SFML/Sprite/Frame.hh \
@@ -105,6 +106,7 @@ SOURCES +=      src/main.cpp \
                 src/SFML/Clickable.cpp \
                 src/SFML/KeyDelayer.cpp \
                 src/SFML/BattleSpellUpdater.cpp \
+                src/SFML/RessourcesSpriteLoader.cpp \
                 src/SFML/Sprite/Sprite.cpp \
                 src/SFML/Sprite/Animation.cpp \
                 src/SFML/Sprite/Frame.cpp \
@@ -158,6 +160,7 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/Heal.cpp \ 
                 ../Common/src/Entities/TypeRelations.cpp \ 
                 ../Common/src/Entities/MobModel.cpp \ 
+                ../Common/src/Entities/Carcass.cpp \ 
                 ../Common/src/Entities/Players.cpp \ 
                 ../Common/src/Entities/Type.cpp \ 
                 ../Common/src/Entities/AItem.cpp \ 

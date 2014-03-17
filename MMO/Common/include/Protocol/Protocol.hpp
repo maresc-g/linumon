@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Fri Mar 14 14:57:54 2014 antoine maitre
+// Last update Sat Mar 15 19:00:45 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -25,6 +25,7 @@
 #include			"Entities/Players.hh"
 #include			"Zone/Zone.hh"
 #include			"Entities/Spell.hh"
+#include			"Utility/CommonDefine.hh"
 
 class				Protocol;
 
@@ -81,21 +82,22 @@ bool				entity(unsigned int const id, int playerId, Player::PlayerCoordinate con
 bool				removeEntity(unsigned int const id, int removeId, Zone *zone);
 bool				chat(unsigned int const id, std::string idZone, std::string msg);
 bool				capture(unsigned int const id, unsigned int idBattle, unsigned int target);
-bool				stuff(unsigned int const id, int action, unsigned int idItem, unsigned int target);
+bool				putStuff(unsigned int const id, unsigned int idItem, unsigned int target);
+bool				getStuff(unsigned int const id, unsigned int idItem, unsigned int target);
 //  bool				stuff(void *action);
   // bool				talents();'
 bool				craft(unsigned int const id, std::string craftName, std::string jobName);
   // bool				gather();
 bool				objectEffect(unsigned int const id, unsigned int const target, Stats const *stats);
 bool				useObject(unsigned int const id, unsigned int target, unsigned int idItem);
-// bool				interaction();
+bool				interaction(unsigned int const id, eInteraction interact, std::string);
 bool				launchTrade(unsigned int const id, unsigned int const idTrade, std::string namePlayer);
-bool				putItem(unsigned int const id, unsigned int const idTrade, AItem const *item);
-bool				getItem(unsigned int const id, unsigned int const idTrade, AItem const *item);
+bool				putItem(unsigned int const id, unsigned int const idTrade, Stack<AItem> const *item);
+bool				getItem(unsigned int const id, unsigned int const idTrade, Stack<AItem> const *item);
 bool				putMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
 bool				getMob(unsigned int const id, unsigned int const idTrade, Mob const *mob);
-bool				putItem(unsigned int const id, unsigned int const idTrade, unsigned int const idItem);
-bool				getItem(unsigned int const id, unsigned int const idTrade, unsigned int const idItem);
+bool				putItem(unsigned int const id, unsigned int const idTrade, unsigned int const idStack);
+bool				getItem(unsigned int const id, unsigned int const idTrade, unsigned int const idStack);
 bool				putMob(unsigned int const id, unsigned int const idTrade, unsigned int const idMob);
 bool				getMob(unsigned int const id, unsigned int const idTrade, unsigned int const idMob);
 bool				putMoney(unsigned int const id, unsigned int const idTrade, unsigned int const money);
@@ -108,8 +110,8 @@ bool				disconnect(unsigned int const id);
 bool				switchPlayer(unsigned int const id);
 bool				sendTrameAlreadyReady(unsigned int const id, Trame *trame);
 
-bool				addToInventory(unsigned int const id, Stack *stack);
-bool				deleteFromInventory(unsigned int const id, std::list<Stack *> *stacks);
+bool				addToInventory(unsigned int const id, Stack<AItem> *stack);
+bool				deleteFromInventory(unsigned int const id, std::list<Stack<AItem> *> *stacks);
 bool				job(unsigned int const id, Job const *job);
 bool				newPlayer(unsigned int const id, Player *player, Zone *zone);
 bool				newZone(unsigned int const id, Player *player, Zone *oldZone, Zone *zone);

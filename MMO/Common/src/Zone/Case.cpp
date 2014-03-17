@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Wed Mar 12 17:53:12 2014 antoine maitre
+// Last update Sun Mar 16 11:43:02 2014 laurent ansel
 //
 
 #include		"Zone/Case.hh"
@@ -82,7 +82,7 @@ bool			Case::serialization(Trame &trame) const
 	      tmp->getCoord().serialization(trame(trame[std::to_string(i)]["PLAYER"]));
 	      tmp->getFaction().serialization(trame(trame[std::to_string(i)]["PLAYER"]));
 	      if (tmp->getGuild())
-		tmp->getGuild()->serialization(trame(trame[std::to_string(i)]["PLAYER"]));
+		trame[std::to_string(i)]["PLAYER"]["GUILD"] = tmp->getGuild()->getName();
 	    }
 	  else if ((*it)->getEntityType() == AEntity::RESSOURCE)
 	    {
@@ -120,13 +120,14 @@ void			Case::deserialization(Trame const &trame)
 	  //	  player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame[std::to_string(i)]["PLAYER"]["TYPE"].asInt()));
 	  player->setCoord(*Player::PlayerCoordinate::deserialization(trame(trame[std::to_string(i)]["PLAYER"])));
 	  player->setFaction(*Faction::deserialization(trame(trame[std::to_string(i)]["PLAYER"])));
-	  player->setGuild(*Guild::deserialization(trame(trame[std::to_string(i)]["PLAYER"])));
+	  player->setGuild(*new Guild(trame[std::to_string(i)]["PLAYER"]["GUILD"].asString()));
 	  player->setZone((trame[std::to_string(i)]["PLAYER"]["ZONE"].asString()));
 	  this->_entities->push_back(player);
 	}
       else if (trame[std::to_string(i)].isMember("RES"))
 	{
-	  item = (**LoaderManager::getInstance()->getRessourceLoader())->getValue(trame[std::to_string(i)]["RES"].asString());//Ressource::deserialization(trame(trame[std::to_string(i)])));
+	  item = new Ressource;
+	  *item = *(**LoaderManager::getInstance()->getRessourceLoader())->getValue(trame[std::to_string(i)]["RES"].asString());//Ressource::deserialization(trame(trame[std::to_string(i)])));
 	  if (item)
 	    {
 	      item->setCoord(*Ressource::RessourceCoordinate::deserialization(trame(trame[std::to_string(i)])));
@@ -135,7 +136,7 @@ void			Case::deserialization(Trame const &trame)
 	}
       else
 	{
-	  heal = (**LoaderManager::getInstance()->getHealLoader())->getValue(trame[std::to_string(i)]["NAME"].asString());
+	  heal = new Heal(*(**LoaderManager::getInstance()->getHealLoader())->getValue(trame[std::to_string(i)]["NAME"].asString()));
 	  if (heal)
 	    {
 	      heal->setCoord(*Ressource::RessourceCoordinate::deserialization(trame(trame[std::to_string(i)])));

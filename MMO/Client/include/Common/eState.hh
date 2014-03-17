@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:30:54 2014 guillaume marescaux
-// Last update Wed Mar 12 14:00:15 2014 cyril jourdain
+// Last update Fri Mar 14 17:41:59 2014 guillaume marescaux
 //
 
 #ifndef 		__ESTATE_HH__
@@ -24,6 +24,7 @@ namespace		CLIENT
       LOADING_BATTLE,
       LEAVING_BATTLE,
       BATTLE,
+      LAUNCH_TRADE,
       TRADE,
       LOADED,
       NEWZONE,

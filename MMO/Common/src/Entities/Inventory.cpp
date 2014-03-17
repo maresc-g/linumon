@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Thu Mar 13 16:58:34 2014 laurent ansel
+// Last update Sun Mar 16 16:28:06 2014 laurent ansel
 //
 
 #include			<stdlib.h>
@@ -15,7 +15,6 @@
 #include			"Loader/LoaderManager.hh"
 
 Inventory::Inventory(std::string const &path):
-  Persistent(),
   ContainerWrapper<container_type>(),
   _path(path),
   _money(0),
@@ -25,7 +24,7 @@ Inventory::Inventory(std::string const &path):
 }
 
 Inventory::Inventory(Inventory const &rhs) :
-  Persistent(rhs), ContainerWrapper<container_type>()
+  ContainerWrapper<container_type>()
 {
   *this = rhs;
 }
@@ -102,16 +101,16 @@ void				Inventory::deleteItem(unsigned int const stack)
       *(*it) -= 1;
 }
 
-void				Inventory::deleteItem(Stack *stack)
+void				Inventory::deleteItem(Stack<AItem> *stack)
 {
   auto				it = this->begin();
   unsigned int			supp = stack->getNb();
   bool				set = false;
 
   for ( ; it != this->end() && !set ; ++it)
-    if (((*it)->getId() != 0 && (*it)->getId() == stack->getId()) || (**it == stack->getItem()->getName()))
+    if (((*it)->getId() != 0 && (*it)->getId() == stack->getId()))
       {
-	if ((*it)->getNb() - supp > 0)
+	if (static_cast<int>((*it)->getNb() - supp) >= 0)
 	  {
 	    *(*it) -= supp;
 	    supp = 0;
@@ -123,12 +122,30 @@ void				Inventory::deleteItem(Stack *stack)
 	    (*it)->setNb(0);
 	  }
       }
+  if (!set)
+    for ( ; it != this->end() && !set ; ++it)
+      if ((**it == stack->getItem()->getName()))
+	{
+	  if (static_cast<int>((*it)->getNb() - supp) >= 0)
+	    {
+	      *(*it) -= supp;
+	      supp = 0;
+	      set = true;
+	    }
+	  else
+	    {
+	      supp -= (*it)->getNb();
+	      (*it)->setNb(0);
+	    }
+	}
+
 }
 
-void				Inventory::addItem(AItem *item)
+unsigned int			Inventory::addItem(AItem *item)
 {
   bool				set = false;
-  Stack				*tmp = NULL;
+  Stack<AItem>			*tmp = NULL;
+  unsigned int			ret = 0;
 
   for (auto it = this->begin() ; !set && it != this->end() ; ++it)
     {
@@ -140,23 +157,30 @@ void				Inventory::addItem(AItem *item)
 	    {
 	      **it += 1;
 	      set = true;
+	      ret = (*it)->getId();
 	    }
 	}
     }
   if (!set && tmp)
     {
+      ret = tmp->getId();
       tmp->setItem(item);
       tmp->setNb(1);
     }
   else if (!set)
-    this->getContainer().push_back(new Stack(this->getContainer().size(), item, 1));
+    {
+      ret = this->getContainer().size();
+      this->getContainer().push_back(new Stack<AItem>(this->getContainer().size(), item, 1));
+    }
+  return (ret);
 }
 
-void				Inventory::addItem(AItem *item, unsigned int const nb, bool const merge)
+unsigned int			Inventory::addItem(AItem *item, unsigned int const nb, bool const merge)
 {
   bool				set = false;
-  Stack				*tmp = NULL;
+  Stack<AItem>			*tmp = NULL;
   unsigned int			nbTmp = nb;
+  unsigned int			ret = 0;
 
   for (auto it = this->begin() ; !set && it != this->end() ; ++it)
     {
@@ -170,6 +194,7 @@ void				Inventory::addItem(AItem *item, unsigned int const nb, bool const merge)
 		{
 		  **it += nbTmp;
 		  set = true;
+		  ret = (*it)->getId();
 		}
 	      else
 		{
@@ -183,7 +208,7 @@ void				Inventory::addItem(AItem *item, unsigned int const nb, bool const merge)
     {
       if (!set && !tmp)
 	{
-	  tmp = new Stack(this->getContainer().size(), item, 0);
+	  tmp = new Stack<AItem>(this->getContainer().size(), item, 0);
 	  this->getContainer().push_back(tmp);
 	}
       if (!set && tmp)
@@ -198,18 +223,21 @@ void				Inventory::addItem(AItem *item, unsigned int const nb, bool const merge)
 	    {
 	      tmp->setNb(nbTmp);
 	      set = true;
+	      ret = tmp->getId();
 	    }
 	}
       for (auto it = this->begin() ; !set && it != this->end() ; ++it)
 	if (!tmp && **it)
 	  tmp = *it;
     }
+  return (ret);
 }
 
-void				Inventory::addItem(Stack *stack)
+unsigned int			Inventory::addItem(Stack<AItem> *stack)
 {
   if (stack)
-    this->addItem(stack->getItem(), stack->getNb());
+    return (this->addItem(stack->getItem(), stack->getNb()));
+  return (0);
 }
 
 AItem				*Inventory::getItem(unsigned int const stack) const
@@ -248,18 +276,21 @@ unsigned int			Inventory::getIdItem(std::string const &name) const
   return (0);
 }
 
-Stack				*Inventory::getStack(unsigned int const id) const
+Stack<AItem>			*Inventory::getStack(unsigned int const id) const
 {
   for (auto it = this->begin() ; it != this->end() ; ++it)
-    if ((*it)->getId() == id)
-      return (*it);
+    {
+      std::cout << "INVENTORY => ID = " << (*it)->getId() << std::endl;
+      if ((*it)->getId() == id)
+	return (*it);
+    }
   return (NULL);
 }
 
 void				Inventory::mergeStack(unsigned int const idStack, unsigned int const idStack2)
 {
-  Stack				*stack1 = getStack(idStack);
-  Stack				*stack2 = getStack(idStack2);
+  Stack<AItem>			*stack1 = getStack(idStack);
+  Stack<AItem>			*stack2 = getStack(idStack2);
 
   std::cout << "MERGE => "<< idStack << " <=> " << idStack2 << std::endl;
   if (stack1 && stack2)
@@ -284,10 +315,11 @@ void				Inventory::mergeStack(unsigned int const idStack, unsigned int const idS
     }
 }
 
-void				Inventory::splitStack(unsigned int const idStack, unsigned int const nb)
+unsigned int			Inventory::splitStack(unsigned int const idStack, unsigned int const nb)
 {
-  Stack				*stack = getStack(idStack);
-  Stack				*tmp = NULL;
+  Stack<AItem>			*stack = getStack(idStack);
+  Stack<AItem>			*tmp = NULL;
+  unsigned int			newStack = 0;
 
   if (stack && stack->getNb() >= nb)
     {
@@ -299,18 +331,20 @@ void				Inventory::splitStack(unsigned int const idStack, unsigned int const nb)
 	  }
       if (!tmp)
 	{
-	  tmp = new Stack(this->getContainer().size(), stack->getItem(), nb);
+	  tmp = new Stack<AItem>(this->getContainer().size(), stack->getItem(), nb);
+	  newStack = tmp->getId();
 	  this->getContainer().push_back(tmp);
 	  *stack -= nb;
 	}
       else
 	{
+	  newStack = tmp->getId();
 	  tmp->setNb(nb);
 	  tmp->setItem(stack->getItem());
 	  *stack -= nb;
 	}
-
     }
+  return (newStack);
 }
 
 
@@ -365,7 +399,7 @@ void				Inventory::serializationInventory() const
 bool				Inventory::serialization(Trame &trame) const
 {
   bool				ret = true;
-  //  std::otringstream		str;
+  // std::ostringstream		str;
 
   trame["INV"]["MO"] = this->getMoney();
   trame["INV"]["LI"] = this->getLimit();
@@ -378,8 +412,13 @@ bool				Inventory::serialization(Trame &trame) const
       // else
       // 	trame["INV"]["ITS"][(*it)->getId()->getName()] = (*it);
       //      trame["INV"]["ITS"][str.str()][(*it)->getItem()->getName()] = (*it)->getNb();
-      (*it)->serialization(trame(trame["INV"]["ITS"]));
-	//     str.str("");
+
+    // if ((*it)->getItem())
+    //   {
+	//	str << (*it)->getId();
+	(*it)->serialization(trame(trame["INV"]["ITS"]));
+	//str.str("");
+      // }
     }
   return (ret);
 }
@@ -388,7 +427,7 @@ Inventory			*Inventory::deserialization(Trame const &trame)
 {
   Inventory			*inventory = NULL;
   // AItem				*item;
-  Stack				*tmp = NULL;
+  Stack<AItem>			*tmp = NULL;
 
   if (trame.isMember("INV"))
     {
@@ -406,7 +445,7 @@ Inventory			*Inventory::deserialization(Trame const &trame)
 	      // for (auto itItem = membersItem.begin() ; itItem != membersItem.end() ; ++itItem)
 	      // 	{
 	      std::cout << "IN FOR INVENTORY" << std::endl;
-	      tmp = Stack::deserialization(trame(trame["INV"]["ITS"][*it]));
+	      tmp = Stack<AItem>::deserialization(trame(trame["INV"]["ITS"][*it]));
 	      if (tmp)
 		{
 		  tmp->setId(atol((*it).c_str()));

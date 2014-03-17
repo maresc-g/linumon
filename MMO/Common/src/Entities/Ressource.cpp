@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Thu Mar  6 17:44:49 2014 laurent ansel
+// Last update Sun Mar 16 19:36:48 2014 laurent ansel
 //
 
 #include			"Entities/Ressource.hh"
@@ -15,7 +15,8 @@ Ressource::Ressource() :
   AItem("", AItem::eItem::RESSOURCE, AEntity::eEntity::RESSOURCE),
   _coord(new RessourceCoordinate),
   _level(new Level),
-  _visible(true)
+  _visible(true),
+  _gather(false)
 {
 }
 
@@ -24,7 +25,8 @@ Ressource::Ressource(std::string const &name) :
   AItem(name, AItem::eItem::RESSOURCE, AEntity::eEntity::RESSOURCE),
   _coord(new RessourceCoordinate),
   _level(new Level),
-  _visible(true)
+  _visible(true),
+  _gather(false)
 {
 
 }
@@ -34,7 +36,8 @@ Ressource::Ressource(Ressource const &rhs) :
   AItem(rhs.getName(), AItem::eItem::RESSOURCE, AEntity::eEntity::RESSOURCE),
   _coord(new RessourceCoordinate),
   _level(new Level),
-  _visible(true)
+  _visible(true),
+  _gather(false)
 {
   *this = rhs;
 }
@@ -54,6 +57,7 @@ Ressource			&Ressource::operator=(Ressource const &rhs)
       this->setLevelObject(rhs.getLevelObject());
       *this->_coord = rhs.getCoord();
       this->setVisible(rhs.isVisible());
+      this->setGather(rhs.isGather());
     }
   return (*this);
 }

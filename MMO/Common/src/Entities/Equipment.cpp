@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:28:56 2014 laurent ansel
-// Last update Wed Mar 12 23:14:29 2014 laurent ansel
+// Last update Sun Mar 16 11:29:22 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -121,11 +121,14 @@ bool				Equipment::serialization(Trame &trame) const
   trame["EQUIP"];
   for (auto it = this->begin() ; it != this->end() && ret; ++it)
     {
-      str << it->first;
-      //      ret = it->second->serialization(trame(trame["EQUIP"][str.str()]));
-      trame["EQUIP"][str.str()] = it->second->getName();
-      str.str("");
-      nb++;
+      if (it->second)
+	{
+	  str << it->first;
+	  //      ret = it->second->serialization(trame(trame["EQUIP"][str.str()]));
+	  trame["EQUIP"][str.str()] = it->second->getName();
+	  str.str("");
+	  nb++;
+	}
     }
   return (ret);
 }

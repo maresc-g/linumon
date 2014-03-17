@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Feb  6 14:47:23 2014 cyril jourdain
-// Last update Thu Mar  6 00:57:29 2014 cyril jourdain
+// Last update Sun Mar 16 16:41:56 2014 cyril jourdain
 //
 
 #ifndef 		__CHATVIEW_HH__
@@ -39,9 +39,12 @@ public:
   void			submitText();
   void			update();
 
+private slots:
+  void			setLineFocus();
 
 private:
   virtual void		paintEvent(QPaintEvent *);
+  virtual bool		eventFilter(QObject *w, QEvent *e);
 };
 
 #endif

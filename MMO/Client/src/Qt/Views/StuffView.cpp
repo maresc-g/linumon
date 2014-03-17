@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Thu Mar 13 11:31:18 2014 guillaume marescaux
+// Last update Sat Mar 15 19:07:52 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -52,7 +52,7 @@ void				StuffView::setStack(Equipment const *equipment, Stuff::eStuff stuff, int
   if (equipment->stuffExists(stuff))
     {
       stack = new StackView(this, _wMan,
-			    new Stack(equipment->getStuff(stuff).getId(), const_cast<Stuff *>(&equipment->getStuff(stuff)), 0));
+			    new Stack<AItem>(equipment->getStuff(stuff).getId(), const_cast<Stuff *>(&equipment->getStuff(stuff)), 0));
       stack->move(x, y);
       stack->resize(62, 58);
       stack->show();
@@ -198,7 +198,7 @@ void				StuffView::stackAction(StackView *stack)
 
   if (ret)
     {
-      Client::getInstance()->stuff(eStuffAction::GET, stuff->getId(), _last->getId());
+      Client::getInstance()->getStuff(stuff->getId(), _last->getId());
       _wMan->getSFMLView()->getInventoryView()->initInventory();
       _changed = true;
       if (_last->getCharacterType() == ACharacter::MOB)
@@ -224,7 +224,7 @@ void				StuffView::dragEnterEvent(QDragEnterEvent *event)
 
 void				StuffView::dropEvent(QDropEvent *de)
 {
-  Stack const			*stack = reinterpret_cast<Stack const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
+  Stack<AItem> const		*stack = reinterpret_cast<Stack<AItem> const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
 
   if (stack->getItem()->getItemType() == AItem::STUFF)
     {
@@ -237,7 +237,7 @@ void				StuffView::dropEvent(QDropEvent *de)
 	ret = (**(_wMan->getMainPlayer()))->putPlayerEquipment(stack->getId());
       if (ret)
 	{
-	  Client::getInstance()->stuff(eStuffAction::PUT, stack->getId(), _last->getId());
+	  Client::getInstance()->putStuff(stack->getId(), _last->getId());
 	  _changed = true;
 	  if (_last->getCharacterType() == ACharacter::MOB)
 	    initStuff(*static_cast<Mob const *>(_last));

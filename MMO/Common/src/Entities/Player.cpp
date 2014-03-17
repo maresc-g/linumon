@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 13 22:25:06 2014 alexis mestag
+// Last update Sun Mar 16 11:30:40 2014 laurent ansel
 //
 
 #include			<functional>
@@ -52,38 +52,46 @@ Player::Player(std::string const &name, std::string const &factionName, User con
 {
   this->_inventory->setPath("Res/Inventories/" + this->getName() + ".json");
 
-  # ifndef	CLIENT_COMPILATION
+# ifndef	CLIENT_COMPILATION
   this->initConstPointersForNewPlayers();
 
   /*
   ** Capture a Pikachu
   */
-  Repository<MobModel>		*rm = &Database::getRepository<MobModel>();
-  MobModel const		*m = rm->getByName("Pikachu");
+  if (user) {
+    Repository<MobModel>		*rm = &Database::getRepository<MobModel>();
+    MobModel const			*m = rm->getByName("Pikachu");
+    Mob					*pikachu = new Mob(*m, 15, this);
 
-  this->_digitaliser->addBattleMob(*(new Mob(*m, 15, this)));
+    pikachu->resetExp();
+    this->_digitaliser->addBattleMob(*pikachu);
+  }
 
   /*
   ** Init Faction
   */
-  Faction			*faction = Database::getRepository<Faction>().getByName(factionName);
+  if (!factionName.empty()) {
+    Faction			*faction = Database::getRepository<Faction>().getByName(factionName);
 
-  if (faction) {
-    this->setFaction(*faction);
-    this->applyFactionEffect();
+    if (faction) {
+      this->setFaction(*faction);
+      this->applyFactionEffect();
+    }
   }
 
   /*
   ** Init Jobs
   */
-  Repository<JobModel>		&rjm = Database::getRepository<JobModel>();
-  std::list<JobModel *>		jms = rjm.getAll();
+  if (user) {
+    Repository<JobModel>		&rjm = Database::getRepository<JobModel>();
+    std::list<JobModel *>		jms = rjm.getAll();
 
-  for (auto jmt = jms.begin() ; jmt != jms.end() ; ++jmt) {
-    Job				*j = new Job(**jmt, 0);
+    for (auto jmt = jms.begin() ; jmt != jms.end() ; ++jmt) {
+      Job				*j = new Job(**jmt, 0);
 
-    j->resetExp();
-    this->setJob(j);
+      j->resetExp();
+      this->setJob(j);
+    }
   }
 
   /*
@@ -92,9 +100,9 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   this->setStat("Limit mob", 3);
   this->setStat("Bag capacity", 30);
 
-  # else
+# else
   (void)factionName;
-  # endif
+# endif
 }
 
 Player::Player(Player const &rhs) :
@@ -289,7 +297,7 @@ void				Player::deleteItem(unsigned int const stack)
   this->_inventory->deleteItem(stack);
 }
 
-void				Player::deleteItem(Stack *stack)
+void				Player::deleteItem(Stack<AItem> *stack)
 {
   this->_inventory->deleteItem(stack);
 }
@@ -299,7 +307,7 @@ void				Player::addItem(AItem *item)
   this->_inventory->addItem(item);
 }
 
-void				Player::addItem(Stack *stack)
+void				Player::addItem(Stack<AItem> *stack)
 {
   this->_inventory->addItem(stack);
 }
@@ -461,7 +469,7 @@ bool				Player::serialization(Trame &trame) const
   if (this->_faction)
     this->_faction->serialization(trame(trame["PLAYER"]));
   if (this->_guild)
-    this->_guild->serialization(trame(trame["PLAYER"]));
+    trame["PLAYER"]["GUILD"] = this->_guild->getName();;
   this->_digitaliser->serialization(trame(trame["PLAYER"]));
   this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
   this->getLevelObject().serialization(trame(trame["PLAYER"]));
@@ -490,7 +498,14 @@ Player				*Player::deserialization(Trame const &trame)
       player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame["PLAYER"]["TYPE"].asInt()));
       player->setCoord(*PlayerCoordinate::deserialization(trame(trame["PLAYER"])));
       player->setFaction(*Faction::deserialization(trame(trame["PLAYER"])));
-      player->setGuild(*Guild::deserialization(trame(trame["PLAYER"])));
+
+      Guild			*guild;
+      if (trame["PLAYER"].isMember("GUILD"))
+	{
+	  guild = new Guild(trame["PLAYER"]["GUILD"].asString());
+	  player->setGuild(*guild);
+	}
+
       player->setZone(trame["PLAYER"]["ZONE"].asString());
 
       Level			*lvl = Level::deserialization(trame(trame["PLAYER"]));
@@ -600,7 +615,7 @@ void				Player::capture(Mob &mob)
   this->_digitaliser->addMob(mob);
 }
 
-bool				Player::doCraft(std::string const &job, std::string const &craft, Stack *&result, std::list<Stack *> *&object)
+bool				Player::doCraft(std::string const &job, std::string const &craft, Stack<AItem> *&result, std::list<Stack<AItem> *> *&object)
 {
   bool				ret = false;
   Job				*tmp = NULL;
@@ -616,7 +631,7 @@ bool				Player::doCraft(std::string const &job, std::string const &craft, Stack 
   return (ret);
 }
 
-bool				Player::doGather(std::string const &job, std::string const &res, Stack *&result, unsigned int &idRessource)
+bool				Player::doGather(std::string const &job, std::string const &res, Stack<AItem> *&result, unsigned int &idRessource, Carcass *carcass)
 {
   bool				ret = false;
   Job				*tmp = NULL;
@@ -624,7 +639,10 @@ bool				Player::doGather(std::string const &job, std::string const &res, Stack *
   tmp = this->getJob(job);
   if (tmp)
     {
-      ret = tmp->doGather(res, result, idRessource);
+      if (carcass)
+	ret = tmp->doGather(res, result, idRessource, carcass);
+      else
+	ret = tmp->doGather(res, result, idRessource);
       this->addItem(result);
     }
   return (ret);
@@ -650,7 +668,7 @@ void				Player::mergeStack(unsigned int const idStack, unsigned int const idStac
   this->_inventory->mergeStack(idStack, idStack2);
 }
 
-void				Player::newStack(unsigned int const idStack, unsigned int const nb)
+unsigned int			Player::newStack(unsigned int const idStack, unsigned int const nb)
 {
-  this->_inventory->splitStack(idStack, nb);
+  return (this->_inventory->splitStack(idStack, nb));
 }

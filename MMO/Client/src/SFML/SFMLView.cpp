@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Fri Mar 14 13:09:22 2014 cyril jourdain
+// Last update Sun Mar 16 22:16:06 2014 cyril jourdain
 //
 
 /*
@@ -36,7 +36,8 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _inventory(new InventoryView(this, w)),
   _stuff(new StuffView(this, w)), _chat(new ChatView(this, w)), _menu(new MenuView(this, w)),
   _jobMenu(new JobMenuView(this, w)), _job(new JobView(this, w)), _digit(new DigitaliserView(this, w)),
-  _clickView(new PlayerClickView(this, w)), _splitStack(new SplitStackView(this, w)), _guild(new GuildView(this, w)),
+  _clickView(new PlayerClickView(this, w)), _splitStack(new SplitStackView(this, w)),
+  _guild(new GuildView(this, w)), _trade(new TradeView(this, w)),
   _worldView(new WorldView(this, w)), _battleView(new BattleView(this, w)),
   _currentView(NULL), _view1(NULL), _view2(NULL)
 {
@@ -53,6 +54,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _menu->move(WIN_W / 2 - _menu->size().width() / 2, WIN_H / 2 - _menu->size().height() / 2);
   _menu->hide();
   _guild->hide();
+  _trade->hide();
   _chat->move(0, WIN_H - _chat->size().height());
   _textFont = new sf::Font();
   if (!_textFont->loadFromFile("./Res/arial.ttf"))
@@ -92,6 +94,7 @@ void			SFMLView::onInit()
   // _currentView->resetPOV();
   static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
   raise();
+  setFocus(Qt::OtherFocusReason);
 }
 
 void			SFMLView::onUpdate()
@@ -113,6 +116,27 @@ void			SFMLView::onUpdate()
   CLIENT::eState s = **(_wMan->getState());
   switch (s)
     {
+    case CLIENT::LAUNCH_TRADE:
+      _trade->show();
+      _trade->move(800, 0);
+      _trade->setInfos(_wMan->getTrade());
+      (*_wMan->getState()) = CLIENT::TRADE;
+      break;
+    case CLIENT::TRADE:
+      if ((**_wMan->getTrade())->getEnd())
+	{
+	  _trade->hide();
+	  _inventory->initInventory();
+	  _digit->initDigit((**_wMan->getMainPlayer())->getDigitaliser());
+	  (*_wMan->getState()) = CLIENT::PLAYING;
+	}
+      else if ((**_wMan->getTrade())->getChanged())
+	{
+	  std::cout << "SOMETHING CHANGED" << std::endl;
+	  _trade->setInfos(_wMan->getTrade());
+	  (**_wMan->getTrade())->setChanged(false);
+	}
+      break;
     case CLIENT::NEWZONE:
       *(_wMan->getState()) = CLIENT::LOADING;
       break;
@@ -136,17 +160,15 @@ void			SFMLView::onUpdate()
       }
       break;
     case CLIENT::ENTER_BATTLE:
-      static_cast<BattleView*>(_battleView)->battleStart();
-      _mainView->rotate(-10);
-      _mainView->zoom(1.2);
-      if (_mainView->getSize().x > WIN_W)
-	{
-	  *(_wMan->getState()) = CLIENT::BATTLE;
-	  _battleView->resetPOV();
-	  static_cast<BattleView*>(_battleView)->resetHUDPos();
-	  static_cast<BattleView*>(_battleView)->setLifeVisibility(true);
-	  // SoundManager::getInstance()->playMusic(BATTLE_THEME);
-	}
+      if (static_cast<BattleView*>(_battleView)->canStartBattle()){
+	static_cast<BattleView*>(_battleView)->battleStart();
+	*(_wMan->getState()) = CLIENT::BATTLE;
+	_battleView->resetPOV();
+	static_cast<BattleView*>(_battleView)->resetHUDPos();
+	static_cast<BattleView*>(_battleView)->setLifeVisibility(true);
+	// SoundManager::getInstance()->playMusic(BATTLE_THEME);
+	_chat->show();
+      }
       break;
     case CLIENT::LOADING_BATTLE:
       if (!_grow)
@@ -154,6 +176,7 @@ void			SFMLView::onUpdate()
 	  if (!_enterBattle){
 	    SoundManager::getInstance()->stopMusic(WORLD_THEME);
 	    SoundManager::getInstance()->playSound(TO_BATTLE);
+	    _chat->hide();
 	    _enterBattle = true;
 	  }
 	  _mainView->rotate(10);
@@ -165,6 +188,7 @@ void			SFMLView::onUpdate()
 	      _currentView = _battleView;
 	      *(_wMan->getState()) = CLIENT::ENTER_BATTLE;
 	      _currentView->centerView();
+	      _mainView->reset(sf::FloatRect(0,0,WIN_W, WIN_H));
 	    }
 	}
       std::cout << _mainView->getSize().x << std::endl;
@@ -286,3 +310,4 @@ KeyDelayer		*SFMLView::getKeyDelayer(void) {return _keyDelayer; }
 ContextView		*SFMLView::getBattleView(void) {return _battleView; };
 SplitStackView		*SFMLView::getSplitStackView(void) {return _splitStack; };
 GuildView		*SFMLView::getGuildView(void) {return _guild; };
+TradeView		*SFMLView::getTradeView(void) {return _trade; };

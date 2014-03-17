@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Thu Mar 13 13:52:42 2014 guillaume marescaux
+// Last update Sat Mar 15 19:02:28 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -77,8 +77,11 @@ void				Client::capture(unsigned int idBattle, unsigned int target) { _core->cap
 void				Client::sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob)
 { _core->sendSwitch(idBattle, target, newMob); }
 
-void				Client::stuff(int action, unsigned int idItem, unsigned int target)
-{ _core->stuff(action, idItem, target); }
+void				Client::putStuff(unsigned int idItem, unsigned int target)
+{ _core->putStuff(idItem, target); }
+
+void				Client::getStuff(unsigned int idItem, unsigned int target)
+{ _core->getStuff(idItem, target); }
 
 // void				Client::talents();
 
@@ -89,19 +92,20 @@ void				Client::craft(std::string const &craftName, std::string const &jobName)
 
 void				Client::useObject(unsigned int target, unsigned int item) { _core->useObject(target, item); }
 
-// void				Client::unsigned interaction();
+void				Client::interaction(eInteraction interact, std::string const &name)
+{ _core->interaction(interact, name); }
 
-void				Client::putItem(unsigned int idTrade, unsigned int idItem) { _core->putItem(idTrade, idItem); }
+void				Client::putItem(unsigned int idTrade, unsigned int idStack) { _core->putItem(idTrade, idStack); }
 
-void				Client::getItem(unsigned int idTrade, unsigned int idItem) { _core->getItem(idTrade, idItem); }
+void				Client::getItem(unsigned int idTrade, unsigned int idStack) { _core->getItem(idTrade, idStack); }
 
-void				Client::putMob(unsigned int idTrade, unsigned int idMob) { _core->putItem(idTrade, idMob); }
+void				Client::putMob(unsigned int idTrade, unsigned int idMob) { _core->putMob(idTrade, idMob); }
 
-void				Client::getMob(unsigned int idTrade, unsigned int idMob) { _core->getItem(idTrade, idMob); }
+void				Client::getMob(unsigned int idTrade, unsigned int idMob) { _core->getMob(idTrade, idMob); }
 
-void				Client::putMoney(unsigned int idTrade, unsigned int money) { _core->putItem(idTrade, money); }
+void				Client::putMoney(unsigned int idTrade, unsigned int money) { _core->putMoney(idTrade, money); }
 
-void				Client::getMoney(unsigned int idTrade, unsigned int money) { _core->getItem(idTrade, money); }
+void				Client::getMoney(unsigned int idTrade, unsigned int money) { _core->getMoney(idTrade, money); }
 
 void				Client::accept() { _core->accept(); }
 

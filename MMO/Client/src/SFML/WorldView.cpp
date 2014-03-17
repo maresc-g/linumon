@@ -5,11 +5,12 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Fri Mar 14 12:43:54 2014 cyril jourdain
+// Last update Sun Mar 16 22:08:23 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
 #include		<stdexcept>
+#include		<QMenu>
 #include <QDebug>
 
 /*
@@ -21,8 +22,7 @@
 
 WorldView::WorldView(SFMLView *v, WindowManager *w) :
   ContextView(v, w), _mainPerso(NULL), _playerList(new std::vector<OPlayerSprite *>),
-  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(Qt::Key(0)),
-  _clickView(new PlayerClickView(v, w))
+  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(Qt::Key(0)), _ressourcesLoader(new RessourcesSpriteLoader(w))
 {
   (*_keyMap)[Qt::Key_Up] = &WorldView::keyUp;
   (*_keyMap)[Qt::Key_Down] = &WorldView::keyDown;
@@ -36,7 +36,6 @@ WorldView::WorldView(SFMLView *v, WindowManager *w) :
   (*_keyMap)[Qt::Key_G] = &WorldView::keyG;
   (*_keyMap)[Qt::Key_Escape] = &WorldView::keyEscape;
   (*_keyMap)[Qt::Key_Return] = &WorldView::keyReturn;
-  _clickView->hide();
 }
 
 
@@ -69,7 +68,8 @@ void			WorldView::onInit()
   loadBackgroundMap();
   loadBackgroundSprite();
   loadPlayerList();
-  loadEntities();
+  // loadEntities();
+  _ressourcesLoader->loadRessources();
 }
 
 void			WorldView::onUpdate()
@@ -102,14 +102,9 @@ void			WorldView::onMouseEvent(QMouseEvent *event)
 {
   sf::Vector2f	v = _sfmlView->mapPixelToCoords(sf::Vector2i(event->x(), event->y()));
 
-  if (event->button() != Qt::NoButton)
-    _clickView->hide();
   if (event->button() == Qt::RightButton && _mainPerso->isClicked(v.x, v.y))
     {
-      _mainPerso->onClick();
-      _clickView->move(event->x(), event->y());
-      _clickView->show();
-      return;
+      _mainPerso->onClick(event);
     }
   if (event->button() == Qt::RightButton){
     for (auto it = _playerList->begin(); it != _playerList->end(); it++)
@@ -118,27 +113,28 @@ void			WorldView::onMouseEvent(QMouseEvent *event)
 	  {
 	    if ((*it)->isClicked(v.x, v.y))
 	      {
-		_clickView->move(event->x(), event->y());
-		_clickView->show();
-		(*it)->onClick();
-		return;
-	      }
-	  }
-      }
-    for (auto it = _entities->begin(); it != _entities->end(); it++)
-      {
-	if ((*it)->isVisible())
-	  {
-	    if ((*it)->isClicked(v.x, v.y))
-	      {
-		(*it)->onClick();
-		_clickView->move(event->x(), event->y());
-		_clickView->show();
+		(*it)->onClick(event);
+		QMenu menu;
+
+		menu.addAction("Trade");
+		menu.addAction("Fight");
+		QAction *action = menu.exec(QPoint(event->x(), event->y()));
+
+		if (action)
+		  {
+		    if (action->text() == "Trade")
+		      {
+			std::string name = Map::getInstance()->getPlayerById((*it)->getPlayerId())->getName();
+			Client::getInstance()->interaction(eInteraction::TRADE,
+							   name);
+		      }
+		  }
 		return;
 	      }
 	  }
       }
   }
+  _ressourcesLoader->onMouseEvent(event);
 }
 
 void			WorldView::resetView()
@@ -168,13 +164,7 @@ void			WorldView::drawView()
 {
   _backgroundSprite->setTexture(_backgroundTexture->getTexture());
   _sfmlView->draw(*_backgroundSprite);
-  for (auto it = _entities->begin(); it != _entities->end(); ++it)
-    {
-      if (*it){
-  	(*it)->update(*_sfmlView->getMainClock());
-  	_sfmlView->draw(**it);
-      }
-    }
+  _ressourcesLoader->drawLayer(0);
   for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
     {
       if ((**(_wMan->getMainPlayer()))->getId() == ((*it)->getPlayerId()))
@@ -189,13 +179,7 @@ void			WorldView::drawView()
   if (_mainPerso) {
     _sfmlView->draw(*_mainPerso);
   }
-  for (auto it = _topLayer->begin(); it != _topLayer->end(); ++it)
-    {
-      if (*it){
-  	(*it)->update(*_sfmlView->getMainClock());
-  	_sfmlView->draw(**it);
-      }
-    }
+  _ressourcesLoader->drawLayer(1);
   _sfmlView->setView(*(_sfmlView->getMainView()));
 }
 
@@ -209,7 +193,7 @@ void			WorldView::loadPlayerList()
   _playerList->clear();
   for (auto it = list.begin(); it != list.end(); it++)
     {
-      if ((static_cast<Player*>(*it))->getId() == _mainPerso->getPlayerId())
+      if ((static_cast<Player*>(*it))->getId() == _mainPerso->getPlayerId() || static_cast<Player*>(*it)->isInBattle())
   	continue;
       tmp = new OPlayerSprite((*it)->getName(),
 			      _sfmlView->getFont());
@@ -451,15 +435,14 @@ void			WorldView::keyEscape()
 
 void			WorldView::keyReturn()
 {
-  // if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_Return))
-  //   {
-  //     if (!_sfmlView->getChatView()->getFocused())
-  // 	_sfmlView->getChatView()->setFocused(true);
-  //     else
-  // 	_sfmlView->getChatView()->submitText();
-  //     _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_Return, 100000);
-  //   }
-  *(_wMan->getState()) = CLIENT::LOADING_BATTLE;
+  if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_Return))
+    {
+      if (!_sfmlView->getChatView()->getFocused())
+  	_sfmlView->getChatView()->setFocused(true);
+      else
+  	_sfmlView->getChatView()->submitText();
+      _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_Return, 100000);
+    }
 }
 
 void			WorldView::resetPOV()
@@ -468,6 +451,7 @@ void			WorldView::resetPOV()
   _sfmlView->getMainView()->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
 				 (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
   _sfmlView->clear(sf::Color(0,0,0));
+  _sfmlView->getMainView()->zoom(0.8);
   // if ((**(_wMan->getMainPlayer()))->getX() <= 15)
   //   _sfmlView->getMainView()->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE, 0);
 }

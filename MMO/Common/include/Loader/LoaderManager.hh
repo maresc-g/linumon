@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 15:08:00 2014 laurent ansel
-// Last update Sat Mar  8 16:04:34 2014 laurent ansel
+// Last update Fri Mar 14 22:40:25 2014 laurent ansel
 //
 
 #ifndef 			__LOADERMANAGER_HH__

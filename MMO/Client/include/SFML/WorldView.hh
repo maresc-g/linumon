@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb 17 15:32:06 2014 cyril jourdain
-// Last update Fri Mar 14 12:44:52 2014 cyril jourdain
+// Last update Sun Mar 16 00:10:36 2014 cyril jourdain
 //
 
 #ifndef				__WORLDVIEW_HH__
@@ -15,6 +15,7 @@
 #include			"SFML/PlayerSprite.hh"
 #include			"SFML/OPlayerSprite.hh"
 #include			"SFML/RessourceSprite.hh"
+#include			"SFML/RessourcesSpriteLoader.hh"
 #include			"Qt/Views/PlayerClickView.hh"
 
 class				WorldView : public ContextView
@@ -30,9 +31,7 @@ private:
   std::list<RessourceSprite*>	*_topLayer;
   KeyMap			*_keyMap;
   Qt::Key			_pressedKey;
-
-private: /* Child views */
-  PlayerClickView		*_clickView;
+  RessourcesSpriteLoader	*_ressourcesLoader;
 
 public:
   WorldView(SFMLView *, WindowManager *);
