@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 15:04:36 2014 laurent ansel
-// Last update Fri Mar 14 22:42:38 2014 laurent ansel
+// Last update Mon Mar 17 17:31:40 2014 alexis mestag
 //
 
 #include			<functional>
@@ -16,7 +16,7 @@ LoaderManager::LoaderManager():
   _spells(new MutexVar<SpellLoader *>(NULL)),
   _stuffs(new MutexVar<StuffLoader *>(NULL)),
   _consumables(new MutexVar<ConsumableLoader *>(NULL)),
-  _ressources(new MutexVar<RessourceLoader *>(NULL)),
+  _ressources(new MutexVar<RessourceLoader *>(/*new RessourceLoader*/NULL)),
   _authorizedStatKeys(new MutexVar<AuthorizedStatKeyLoader *>(NULL)),
   _heals(new MutexVar<HealLoader *>(NULL)),
   _talentModels(new MutexVar<TalentModelLoader *>(NULL)),
@@ -45,8 +45,8 @@ void				LoaderManager::init()
   _spells->setVar(new SpellLoader);
   _stuffs->setVar(new StuffLoader);
   _consumables->setVar(new ConsumableLoader);
-  _heals->setVar(new HealLoader);
   _ressources->setVar(new RessourceLoader);
+  _heals->setVar(new HealLoader);
   _authorizedStatKeys->setVar(new AuthorizedStatKeyLoader);
   _talentModels->setVar(new TalentModelLoader);
   _jobModels->setVar(new JobModelLoader);
