@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar 14 15:33:05 2014 cyril jourdain
-// Last update Sun Mar 16 22:09:01 2014 cyril jourdain
+// Last update Mon Mar 17 11:20:50 2014 cyril jourdain
 //
 
 #include		<QMenu>
@@ -247,10 +247,10 @@ void			PlayerSprite::moveFromServer(sf::View *v)
     }
   if (_dir == NONE || _dir == WAITING)
     {
-      // std::cout << "pos : " << _pos.x << "/" << _pos.y << "-"
-      // 		<< Map::getInstance()->getPlayerById(_playerId)->getX()
-      // 		<< "/"
-      // 		<< Map::getInstance()->getPlayerById(_playerId)->getY() <<std::endl;
+      std::cout << "pos : " << _pos.x << "/" << _pos.y << "-"
+      		<< Map::getInstance()->getPlayerById(_playerId)->getX()
+      		<< "/"
+      		<< Map::getInstance()->getPlayerById(_playerId)->getY() <<std::endl;
       _deltaPos.x = (_pos.x - Map::getInstance()->getPlayerById(_playerId)->getX()) * -CASE_SIZE;
       _deltaPos.y = (_pos.y - Map::getInstance()->getPlayerById(_playerId)->getY()) * -CASE_SIZE;
       if (_deltaPos.y != 0)
