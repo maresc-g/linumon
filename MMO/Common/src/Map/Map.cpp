@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Thu Mar 13 11:13:39 2014 cyril jourdain
+// Last update Mon Mar 17 18:39:12 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
