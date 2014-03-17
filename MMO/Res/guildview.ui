@@ -60,6 +60,16 @@
      <string>Name</string>
     </property>
    </column>
+   <column>
+    <property name="text">
+     <string>Faction</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Level</string>
+    </property>
+   </column>
   </widget>
   <widget class="QPushButton" name="b_create">
    <property name="geometry">

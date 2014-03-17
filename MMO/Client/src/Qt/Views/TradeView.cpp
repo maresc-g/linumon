@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb 20 13:28:48 2014 guillaume marescaux
-// Last update Sun Mar 16 15:41:08 2014 guillaume marescaux
+// Last update Mon Mar 17 17:40:27 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/TradeView.hh"
@@ -82,11 +82,6 @@ void				TradeView::setInfos(MutexVar<Trade *> *trade)
   ui.le_money->setText(std::to_string((**trade)->getPlayerMoney()).c_str());
   ui.l_otherMoney->setText(std::to_string((**trade)->getOtherMoney()).c_str());
 
-  _mobViews->clear();
-  _otherMobViews->clear();
-  _stackViews->clear();
-  _otherStackViews->clear();
-
   for (auto it = _hiddenMobViews->begin() ; it != _hiddenMobViews->end() ; it++)
     delete *it;
   _hiddenMobViews->clear();
@@ -131,6 +126,7 @@ void				TradeView::setInfos(MutexVar<Trade *> *trade)
   auto				itOtherStacks = (**trade)->getOtherStacks().begin();
   auto				itMobs = (**trade)->getPlayerMobs().begin();
   auto				itOtherMobs = (**trade)->getOtherMobs().begin();
+  int size = 0;
 
   for (int i = 0 ; i < 15 ; i++)
     {
@@ -146,7 +142,7 @@ void				TradeView::setInfos(MutexVar<Trade *> *trade)
       stack->move(i % 3 * 50 + i % 3, i / 3 * 50);
       stack->resize(50, 50);
       stack->show();
-
+      size += i % 3 * 50 + i % 3;
       if (itOtherStacks != (**trade)->getOtherStacks().end())
 	{
 	  stack = new StackView(ui.f_otherStacks, _wMan, *itOtherStacks);
@@ -194,6 +190,7 @@ void				TradeView::setInfos(MutexVar<Trade *> *trade)
     }
   else
     ui.f_toTrade->setStyleSheet("QFrame#f_toTrade { background-color : #FFFFFF; }");
+  std::cout << "THE SIZE IS " << size << std::endl;
 }
 
 // void				TradeView::putStackToTrade(Stack<AItem> const *stack)
