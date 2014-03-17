@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Fri Mar 14 16:21:46 2014 cyril jourdain
+// Last update Mon Mar 17 16:32:09 2014 guillaume marescaux
 //
 
 #include			<algorithm>
@@ -13,7 +13,7 @@
 
 Battle::Battle():
   _id(0), _mobs(new std::list<Mob *>), _enemy(NULL), _maxMobs(0), _spells(new std::list<SpellContainer *>),
-  _turnTo(new std::list<unsigned int>), _switch(new MutexVar<bool>(false)), _player(NULL)
+  _turnTo(new std::list<unsigned int>), _switch(new MutexVar<bool>(false)), _player(NULL), _win(false)
 {
 }
 
@@ -126,8 +126,6 @@ void				Battle::switchPlayerMobs(unsigned int target, unsigned int newMob)
   	return true;
       return false;
     });
-  Mob				*tmp = *it;
-
   *it = *it2;
   (**_player)->switchMobs(target, newMob);
   *_switch = true;
@@ -140,3 +138,7 @@ void				Battle::switchEnemyMobs(unsigned int target, unsigned int newMob)
 }
 
 MutexVar<bool>			*Battle::getSwitch() const { return (_switch); }
+
+bool				Battle::getWin(void) const { return (_win); }
+
+void				Battle::setWin(bool win) { _win = win; }

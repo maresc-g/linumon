@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Sun Mar 16 11:30:40 2014 laurent ansel
+// Last update Mon Mar 17 16:49:56 2014 guillaume marescaux
 //
 
 #include			<functional>
@@ -469,7 +469,7 @@ bool				Player::serialization(Trame &trame) const
   if (this->_faction)
     this->_faction->serialization(trame(trame["PLAYER"]));
   if (this->_guild)
-    trame["PLAYER"]["GUILD"] = this->_guild->getName();;
+    this->_guild->serialization(trame(trame["PLAYER"]["GUILD"]));
   this->_digitaliser->serialization(trame(trame["PLAYER"]));
   this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
   this->getLevelObject().serialization(trame(trame["PLAYER"]));
@@ -502,7 +502,8 @@ Player				*Player::deserialization(Trame const &trame)
       Guild			*guild;
       if (trame["PLAYER"].isMember("GUILD"))
 	{
-	  guild = new Guild(trame["PLAYER"]["GUILD"].asString());
+	  guild = Guild::deserialization(trame(trame["PLAYER"]["GUILD"]));
+	  // guild = new Guild(trame["PLAYER"]["GUILD"].asString());
 	  player->setGuild(*guild);
 	}
 
