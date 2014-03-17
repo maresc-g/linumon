@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:21:00 2014 alexis mestag
-// Last update Sat Mar 15 00:02:02 2014 alexis mestag
+// Last update Sun Mar 16 18:15:23 2014 alexis mestag
 //
 
 #ifndef			__MOBMODEL_HH__
@@ -13,11 +13,12 @@
 
 # include		"Database/Persistent.hh"
 # include		"Entities/AStatEntity.hh"
+# include		"Entities/Carcass.hh"
+# include		"Entities/Drop.hh"
 # include		"Entities/Spells.hh"
 # include		"Entities/Type.hh"
 # include		"Stats/ExperienceCurve.hh"
 # include		"Utility/ISerialization.hh"
-# include		"Entities/Carcass.hh"
 
 class			MobModel : public Persistent, public AStatEntity, public ISerialization
 {
@@ -28,12 +29,17 @@ private:
   Spells 		*_spells;
   ExperienceCurve const	*_expCurve;
   Carcass		*_carcass;
+  unsigned int		_expSeed;
+  std::string		_dropPath;
+  Drop			*_drop;
 
 private:
   MobModel();
   MobModel(MobModel const &rhs);
 
   MobModel		&operator=(MobModel const &rhs);
+
+  void			setDrop(Drop const &drop);
 
 public:
   virtual ~MobModel();
@@ -51,6 +57,15 @@ public:
   ExperienceCurve const	&getExperienceCurve() const;
   void			setExperienceCurve(ExperienceCurve const &expCurve);
 
+  unsigned int		getExpSeed() const;
+  void			setExpSeed(unsigned int const expSeed);
+
+  std::string const	&getDropPath() const;
+  void			setDropPath(std::string const &dropPath);
+  bool			loadDrop();
+
+  Drop const		&getDrop() const;
+
   virtual bool		serialization(Trame &trame) const;
   static MobModel	*deserialization(Trame const &trame);
 };
@@ -59,11 +74,14 @@ public:
 #  pragma db object(MobModel)
 #  pragma db member(MobModel::_spells) transient
 #  pragma db member(MobModel::_carcass) transient
+#  pragma db member(MobModel::_drop) transient
 #  pragma db member(MobModel::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 #  pragma db member(MobModel::_type) not_null
 #  pragma db member(MobModel::spells) virtual(Spells::container_type) get(_spells->getContainer()) set(_spells->setContainer(?)) value_not_null
 #  pragma db member(MobModel::_expCurve) not_null
 #  pragma db member(MobModel::carcass) virtual(Carcass::container_type) get(_carcass->getContainer()) set(_carcass->setContainer(?)) value_not_null value_column("") unordered
+#  pragma db member(MobModel::_expSeed) get(getExpSeed()) set(setExpSeed(?))
+#  pragma db member(MobModel::_dropPath) get(getDropPath()) set(setDropPath(?))
 # endif
 
 #endif
