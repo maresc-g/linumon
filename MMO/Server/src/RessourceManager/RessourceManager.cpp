@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Feb 17 14:29:34 2014 laurent ansel
-// Last update Fri Mar  7 15:24:28 2014 laurent ansel
+// Last update Mon Mar 17 22:17:44 2014 alexis mestag
 //
 
 #include			<ctime>
@@ -83,12 +83,20 @@ void				RessourceManager::init()
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	{
 	  auto			zoneMembers = (*file)[*it].getMemberNames();
+	  Ressource		*tmp;
 
 	  (*_ressources)[*it] = new std::list<Ressource *>;
 	  for (auto im = zoneMembers.begin() ; im != zoneMembers.end() ; ++im)
 	    {
 	      res = new Ressource;
-	      *res = *(**LoaderManager::getInstance()->getRessourceLoader())->getValue((*file)[*it][*im]["NAME"].asString());
+	      tmp = (**LoaderManager::getInstance()->getRessourceLoader())->getValue((*file)[*it][*im]["NAME"].asString());
+	      if (tmp)
+		*res = *tmp;
+	      else
+		{
+		  delete res;
+		  res = NULL;
+		}
 	      //	      res = Ressource::deserialization((*file)((*file)[*it][*im]), false);
 	      if (res)
 		{

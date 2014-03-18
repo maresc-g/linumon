@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:22:49 2014 guillaume marescaux
-// Last update Fri Mar 14 13:57:11 2014 cyril jourdain
+// Last update Mon Mar 17 16:31:15 2014 guillaume marescaux
 //
 
 #ifndef 			__BATTLE_HH__
@@ -33,6 +33,7 @@ private:
   std::list<unsigned int>	*_turnTo;
   MutexVar<bool>		*_switch;
   MutexVar<Player *>		*_player;
+  bool				_win;
 
 public:
 
@@ -54,6 +55,8 @@ public:
   void				switchPlayerMobs(unsigned int target, unsigned int newMob);
   void				switchEnemyMobs(unsigned int target, unsigned int newMob);
   MutexVar<bool>		*getSwitch(void) const;
+  bool				getWin(void) const;
+  void				setWin(bool);
 };
 
 #endif
