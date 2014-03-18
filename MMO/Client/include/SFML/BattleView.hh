@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Tue Mar 18 11:15:13 2014 cyril jourdain
+// Last update Tue Mar 18 23:49:03 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -56,6 +56,7 @@ private:
   bool				_battleStarted;  
   Sprite			*_countDownSprite;
   Sprite			*_battleResult;
+  // bool				_updatingHealthBar;
 
 public:
   BattleView(SFMLView *, WindowManager *);

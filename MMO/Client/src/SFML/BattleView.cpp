@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Tue Mar 18 16:41:32 2014 cyril jourdain
+// Last update Wed Mar 19 00:02:09 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -79,6 +79,8 @@ void			BattleView::onInit()
 }
 void			BattleView::onUpdate()
 {
+  BattleMob *mob;
+
   if (_battleResult && _battleResult->getPlayCount() > 0)
     {
       _battleResult->update(*_sfmlView->getMainClock());
@@ -95,7 +97,8 @@ void			BattleView::onUpdate()
 	  _playingMob = NULL;
 	  setLifeVisibility(true);
 	}
-      if (_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn())
+      if ((_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn()) &&
+	  (((mob = _spellUpdater->getPreviousTarget()) && mob->mob && mob->mob->isHealthBarUpdated()) || !_spellUpdater->getPreviousTarget()))
 	{
 	  unsigned int turn = (**_wMan->getBattle())->getTurnTo();
 	  if (turn != (unsigned int) -1)
@@ -114,10 +117,7 @@ void			BattleView::onUpdate()
     }
   }
   else
-    {
-      _battleScreen->update(*_sfmlView->getMainClock());
-      std::cout << "update battle screen" << std::endl;
-    }
+    _battleScreen->update(*_sfmlView->getMainClock());
 }
 
 void			BattleView::onKeyEvent(QKeyEvent *)
@@ -150,7 +150,10 @@ void			BattleView::drawView()
 	_sfmlView->draw(*(*it));
 	(*it)->update(*_sfmlView->getMainClock());
 	if (_spellUpdater->endTurn())
-	  (*it)->upHealthBar();
+	  {
+	    (*it)->upHealthBar();
+	    std::cout << "UP HEALTH BAR" << std::endl;
+	  }
       }
     for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
       {

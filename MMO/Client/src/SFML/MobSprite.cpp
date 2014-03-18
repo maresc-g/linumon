@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:46:04 2014 cyril jourdain
-// Last update Sun Mar 16 21:42:16 2014 cyril jourdain
+// Last update Tue Mar 18 23:34:27 2014 cyril jourdain
 //
 
 #include		"SFML/MobSprite.hh"
@@ -115,4 +115,13 @@ void			MobSprite::update(sf::Clock &clock)
 {
   // upHealthBar();
   Sprite::update(clock);
+}
+
+bool			MobSprite::isHealthBarUpdated() const
+{
+  double		current = _mob->getCurrentStat("HP");
+
+  if (_mcurrent != current)
+    return false;
+  return true;
 }
