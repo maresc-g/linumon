@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Tue Mar 18 10:41:22 2014 cyril jourdain
+// Last update Tue Mar 18 10:54:58 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -44,6 +44,7 @@ void			BattleView::onInit()
   _battleScreen = new Sprite();
   _selectedSpell = "";
   _currentTurn = -1;
+  _battleResult = NULL;
 
   _backgroundTexture->create(BATTLE_SIZE * CASE_SIZE, BATTLE_SIZE*CASE_SIZE);
   loadBackgroundMap();
@@ -78,11 +79,11 @@ void			BattleView::onInit()
 }
 void			BattleView::onUpdate()
 {
-  if (_battleResult && _battleResult->getPlayCount() > 0)
-    {
-      _battleResult->update(*_sfmlView->getMainClock());
-      return;
-    }
+  // if (_battleResult && _battleResult->getPlayCount() > 0)
+  //   {
+  //     _battleResult->update(*_sfmlView->getMainClock());
+  //     return;
+  //   }
   if (_battleStarted){
     if (_countDownSprite->isAnimFinished()){
       // std::cout << "Updating battle" << std::endl;
