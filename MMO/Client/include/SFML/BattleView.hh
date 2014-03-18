@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Tue Mar 18 10:25:03 2014 cyril jourdain
+// Last update Tue Mar 18 11:15:13 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -82,8 +82,9 @@ public:
   void				quitBattle();
   bool				isBattleEnded();
   void				battleStart();
-  bool				canStartBattle();
+  bool				canStartBattle() const;
   void				printBattleResult();
+  bool				canEndBattle() const;
 
 private:
   void				loadPlayerList();

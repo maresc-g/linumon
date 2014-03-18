@@ -1,0 +1,16 @@
+{
+	"info": {
+		"texture": "battleEnd",
+		"size": 64
+	},	
+	"sprites": {
+		"BattleResult": {
+			"win": {
+			    "1":{"x": 0,"y": 0, "sx":256, "sy":128}
+			},
+			"loose": {
+			    "1":{"x": 0,"y": 128, "sx":256, "sy":128}
+			}
+		}
+	}
+}

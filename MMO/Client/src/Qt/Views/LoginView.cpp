@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Oct 18 11:04:31 2013 cyril jourdain
-// Last update Mon Feb 10 14:11:34 2014 cyril jourdain
+// Last update Tue Mar 18 21:05:31 2014 cyril jourdain
 //
 
 #include	<iostream>
@@ -50,7 +50,8 @@ void	LoginView::on_bConnect_clicked()
       _wMan->showCharacter();
     }
     else {
-      QMessageBox::critical(this, "Error", "Unable to connect");
+      (*(**(_wMan->getErrorBox())))("Error", "Unable to connect");
+      // QMessageBox::critical(this, "Error", "Unable to connect");
       *(_wMan->getState()) = CLIENT::LOGIN;
     }
   }

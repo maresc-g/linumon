@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:49:38 2013 cyril jourdain
-// Last update Tue Mar 11 18:17:58 2014 guillaume marescaux
+
 //
 
 #include	"Qt/WindowManager.hh"
@@ -17,7 +17,8 @@ WindowManager::WindowManager(int &ac, char **av, MutexVar<CLIENT::eState> *state
 			     MutexVar<Player*> *player,
 			     MutexVar<bool> *newPlayer,
 			     MutexVar<Battle*> *battle,
-			     MutexVar<Trade*> *trade) :
+			     MutexVar<Trade*> *trade,
+			     MutexVar<ErrorBox*> *eBox) :
   _app(new QApplication(ac, av)),
   _mainLayout(new QGridLayout),
   _mainFrame(new QFrame),
@@ -26,7 +27,8 @@ WindowManager::WindowManager(int &ac, char **av, MutexVar<CLIENT::eState> *state
   _players(players),
   _newPlayer(newPlayer),
   _battle(battle),
-  _trade(trade)
+  _trade(trade),
+  _errorBox(eBox)
 {
   _mainFrame->setWindowTitle("Qt SFML");
   _mainFrame->resize(WIN_W, WIN_H);
@@ -127,6 +129,11 @@ MutexVar<Battle*>		*WindowManager::getBattle()
 MutexVar<Trade*>		*WindowManager::getTrade()
 {
   return _trade;
+}
+
+MutexVar<ErrorBox*>		*WindowManager::getErrorBox()
+{
+  return _errorBox;
 }
 
 SFMLView		*WindowManager::getSFMLView(void)
