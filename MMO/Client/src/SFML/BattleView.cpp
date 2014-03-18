@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Sun Mar 16 23:28:10 2014 cyril jourdain
+// Last update Tue Mar 18 10:41:22 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -78,6 +78,11 @@ void			BattleView::onInit()
 }
 void			BattleView::onUpdate()
 {
+  if (_battleResult && _battleResult->getPlayCount() > 0)
+    {
+      _battleResult->update(*_sfmlView->getMainClock());
+      return;
+    }
   if (_battleStarted){
     if (_countDownSprite->isAnimFinished()){
       // std::cout << "Updating battle" << std::endl;
@@ -134,6 +139,8 @@ void			BattleView::resetView()
 
 void			BattleView::drawView()
 {
+  if (_battleResult && _battleResult->getPlayCount() > 0)
+    _sfmlView->draw(*_battleResult);
   if (_battleStarted){
     _backgroundSprite->setTexture(_backgroundTexture->getTexture());
     _sfmlView->draw(*_backgroundSprite);
@@ -159,10 +166,9 @@ void			BattleView::drawView()
     _spellUpdater->draw();
     _sfmlView->draw(*_countDownSprite);
   }
-  else
-    {
+  else{
       _sfmlView->draw(*_battleScreen);
-    }
+  }
   _sfmlView->setView(*(_sfmlView->getMainView()));
 }
 
@@ -262,6 +268,7 @@ void			BattleView::quitBattle()
   delete _spellUpdater;
   delete _backgroundSprite;
   delete _backgroundTexture;
+  delete _battleResult;
   _backgroundSprite = NULL;
   _backgroundTexture = NULL;
   _spellUpdater = NULL;
@@ -290,6 +297,13 @@ bool			BattleView::canStartBattle()
   if (_battleScreen->isAnimFinished())
     return true;
   return false;
+}
+
+void			BattleView::printBattleResult()
+{
+  _battleResult = new Sprite();
+  _sfmlView->getSpriteManager()->copySprite("BattleResult", *_battleResult);
+  _battleResult->play("win");
 }
 
 void			BattleView::loadPlayerList()

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 13:38:44 2014 cyril jourdain
-// Last update Sun Mar 16 01:35:50 2014 cyril jourdain
+// Last update Tue Mar 18 10:32:41 2014 cyril jourdain
 //
 
 #ifndef 		__SPRITE_HH__
@@ -30,7 +30,7 @@ protected /* attributs */:
   bool			_visible;
   std::string		_name;
   sf::Clock		_clock;
-  
+  unsigned int		_playCount;
 
 public /* class specific */ :
   Sprite();
@@ -63,6 +63,7 @@ public /* methods */ :
   sf::IntRect		*getCurrentBound() const;
   bool			isAnimFinished() const;
   sf::Vector2f		*getCurrentOffset() const;
+  unsigned int		getPlayCount() const;
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Sat Mar 15 21:36:04 2014 cyril jourdain
+// Last update Tue Mar 18 10:33:07 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -29,6 +29,7 @@ Sprite::Sprite():
   _vertex[1].color = sf::Color(255,255,255);
   _vertex[2].color = sf::Color(255,255,255);
   _vertex[3].color = sf::Color(255,255,255);
+  _playCount = 0;
 }
 
 Sprite::Sprite(Sprite const &other) :
@@ -49,6 +50,7 @@ Sprite::Sprite(Sprite const &other) :
   _visible = other._visible;
   _texture = other._texture;
   _name = other._name;
+  _playCount = 0;
   // Remember to add other things
 }
 
@@ -70,6 +72,7 @@ Sprite			&Sprite::operator=(Sprite const &other)
   _playing = other._playing;
   _texture = other._texture;
   _name = other._name;
+  _playCount = 0;
   return *this;
 }
 
@@ -150,7 +153,10 @@ void			Sprite::addAnim(std::string const &name)
 void			Sprite::play(std::string const &name)
 {
   if (_current == "" || (*_anim)[_current]->isEnded())
-    _clock.restart();
+    {
+      _clock.restart();
+      _playCount++;
+    }
   _current = name;
   _playing = true;
   if (_current != "")
@@ -228,4 +234,9 @@ sf::Vector2f		*Sprite::getCurrentOffset() const
   if (_current != "" && (*_anim)[_current])
     return _anim->at(_current)->getFrameOffset();
   return NULL;
+}
+
+unsigned int		Sprite::getPlayCount() const
+{
+  return _playCount;
 }

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Sun Mar 16 22:08:23 2014 cyril jourdain
+// Last update Tue Mar 18 10:23:53 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -45,8 +45,6 @@ WorldView::~WorldView()
 
 void			WorldView::onInit()
 {
-  /* This function MUST be called after player init
-   */
   Zone *zone = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone());
 
   _backgroundTexture = new sf::RenderTexture();
@@ -181,6 +179,17 @@ void			WorldView::drawView()
   }
   _ressourcesLoader->drawLayer(1);
   _sfmlView->setView(*(_sfmlView->getMainView()));
+}
+
+void			WorldView::resetPOV()
+{
+  _sfmlView->getMainView()->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
+  _sfmlView->getMainView()->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
+				 (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
+  _sfmlView->clear(sf::Color(0,0,0));
+  _sfmlView->getMainView()->zoom(0.8);
+  // if ((**(_wMan->getMainPlayer()))->getX() <= 15)
+  //   _sfmlView->getMainView()->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE, 0);
 }
 
 void			WorldView::loadPlayerList()
@@ -443,15 +452,4 @@ void			WorldView::keyReturn()
   	_sfmlView->getChatView()->submitText();
       _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_Return, 100000);
     }
-}
-
-void			WorldView::resetPOV()
-{
-  _sfmlView->getMainView()->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
-  _sfmlView->getMainView()->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
-				 (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
-  _sfmlView->clear(sf::Color(0,0,0));
-  _sfmlView->getMainView()->zoom(0.8);
-  // if ((**(_wMan->getMainPlayer()))->getX() <= 15)
-  //   _sfmlView->getMainView()->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE, 0);
 }

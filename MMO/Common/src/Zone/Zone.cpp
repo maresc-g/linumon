@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Mon Mar 17 17:58:32 2014 antoine maitre
+// Last update Mon Mar 17 17:51:40 2014 cyril jourdain
 //
 
 #include			<iostream>
@@ -84,6 +84,7 @@ void				Zone::delPlayer(AEntity *player)
   Case				*cas;
   Player			*tmp = NULL;
 
+  std::cout << "Zone::delPlayer()  : Size before delete : " << _players->size() << std::endl;
   this->_players->remove(player);
   if (player->getEntityType() == AEntity::STATENTITY)
     {
@@ -92,6 +93,7 @@ void				Zone::delPlayer(AEntity *player)
       if (cas)
 	cas->delAEntity(player->getId());
     }
+  std::cout << "Zone::delPlayer()  : New size after delete : " << _players->size() << std::endl;
 }
 
 void				Zone::addEntity(AEntity *entity)
@@ -228,13 +230,15 @@ bool				Zone::move(AEntity *entity)
 {
   for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
     (*it)->delAEntity(entity->getId());
-  auto it = std::find_if(this->_players->begin(), this->_players->end(), [&](const AEntity *e){
-      if (e == entity)
-	return true;
-      return false;
-    });
-  if (it != _players->end())
-    this->_players->erase(it);
+  // auto it = std::find_if(this->_players->begin(), this->_players->end(), [&](const AEntity *e){
+  //     if (e == entity)
+  // 	return true;
+  //     return false;
+  //   });
+  // if (it != _players->end())
+  //   this->_players->erase(it);
+  // for (auto it = _players->begin(); it != _players->end(); ++it)
+  //   std::cout << "Zone::move() : Player in _players list" << std::endl;
   if (static_cast<Player *>(entity)->getX() >= Map::getInstance()->getZone(static_cast<Player *>(entity)->getZone())->getSizeX() ||
       static_cast<Player *>(entity)->getY() >= Map::getInstance()->getZone(static_cast<Player *>(entity)->getZone())->getSizeY() ||
       static_cast<Player *>(entity)->getX() <= -1 ||
@@ -251,6 +255,7 @@ bool				Zone::move(AEntity *entity)
 	      static_cast<Player *>(entity)->setX(x);
 	      Map::getInstance()->changeZone(static_cast<Player *>(entity)->getZone(), tmp->getName(), entity);
 	      static_cast<Player *>(entity)->setZone(tmp->getName());
+	      std::cout << "Entity changed zone. Pos = " << static_cast<Player *>(entity)->getX() << "/" << static_cast<Player *>(entity)->getY() << std::endl;
 	      return (true);
 	    }
 	  else
