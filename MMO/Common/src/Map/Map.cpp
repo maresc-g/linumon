@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Mon Mar 17 17:34:18 2014 cyril jourdain
+// Last update Wed Mar 19 11:05:47 2014 cyril jourdain
 //
 
 #include			"Map/Map.hh"
@@ -144,7 +144,7 @@ Player				*Map::getPlayerById(unsigned int const id)
 	  if ((*itb)->getId() == id)
 	    {
 	      tmp = (static_cast<Player *>(*itb));
-	      std::cout << "Map::getPlayerById() : found player" << std::endl;
+	      // std::cout << "Map::getPlayerById() : found player" << std::endl;
 	      // return (static_cast<Player *>(*itb));
 	    }
 	}
