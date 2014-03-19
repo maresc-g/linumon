@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Mon Mar 17 17:42:54 2014 alexis mestag
+// Last update Wed Mar 19 00:48:45 2014 alexis mestag
 //
 
 #include			<algorithm>
@@ -29,7 +29,7 @@ Mob::Mob(Mob const &rhs) :
   *this = rhs;
 }
 
-Mob::Mob(MobModel const &model, Level::type const level, Player const *player) :
+Mob::Mob(MobModel const &model, Levelable::type const level, Player const *player) :
   Persistent(), ACharacter(model.getName(), eCharacter::MOB),
   _player(player), _model(NULL), _currentStats(new Stats)
 {
@@ -183,17 +183,19 @@ Carcass				*Mob::getNewCarcass() const
 ** Mobs'ExperienceCurve
 */
 
+#ifndef			CLIENT_COMPILATION
 ExperienceCurve const		&Mob::getExperienceCurve() const
 {
   return (this->getModel().getExperienceCurve());
 }
+#endif
 
 unsigned int			Mob::getExpSeed() const
 {
   return (this->getModel().getExpSeed());
 }
 
-Level::type			Mob::getGivenExp() const
+Levelable::type			Mob::getGivenExp() const
 {
   return (this->getExpSeed() * this->getLevel() / 7.0);
 }
@@ -261,8 +263,10 @@ bool				Mob::serialization(Trame &trame) const
   this->getCurrentStats().serialization(trame(trame["STATS"]));
   trame["NAME"] = this->getName();
   trame["CEXP"] = this->getCurrentExp();
+  trame["LVL"] = this->getLevel();
+  trame["EXP"] = this->getExp();
   trame["ID"] = static_cast<unsigned int>(this->getId());
-  this->getLevelObject().serialization(trame);
+  // this->getLevelObject().serialization(trame);
   trame["MOD"] = this->getModel().getName();
   // this->getModel().serialization(trame(trame["MOD"]));
   this->getEquipment().serialization(trame);
@@ -279,7 +283,10 @@ Mob				*Mob::deserialization(Trame const &trame)
     mob->setAuthorizedStatKeys(*(**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->getValue(trame["KEY"].asString()));
   mob->setCurrentStats(*Stats::deserialization(trame(trame["STATS"])));
   // mob->setCurrentStats(*Stats::deserialization(trame(trame["TMP"])));
-  mob->setLevelObject(*Level::deserialization(trame));
+  // mob->setLevelObject(*Level::deserialization(trame));
+  mob->setCurrentExp(trame["CEXP"].asUInt(), false);
+  mob->setLevel(trame["LVL"].asUInt());
+  mob->setExp(trame["EXP"].asUInt());
   mob->setName(trame["NAME"].asString());
   mob->setId(trame["ID"].asUInt());
   if (trame.isMember("MOD"))

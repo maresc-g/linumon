@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Mar 12 16:35:16 2014 alexis mestag
-// Last update Wed Mar 12 19:33:14 2014 alexis mestag
+// Last update Tue Mar 18 23:01:27 2014 alexis mestag
 //
 
 #ifndef				__FASTFUNCTION_HH__
@@ -20,7 +20,7 @@ public:
   virtual ~FastFunction();
 
 public:
-  virtual Level::type		operator()(Level::type const level) const;
+  virtual Levelable::type	operator()(Levelable::type const level) const;
 };
 
 extern				"C"

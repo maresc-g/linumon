@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Mar 12 16:32:58 2014 alexis mestag
-// Last update Wed Mar 12 23:09:34 2014 alexis mestag
+// Last update Tue Mar 18 23:01:31 2014 alexis mestag
 //
 
 #include				<cmath>
@@ -21,7 +21,7 @@ FastFunction::~FastFunction()
 
 }
 
-Level::type				FastFunction::operator()(Level::type const level) const
+Levelable::type				FastFunction::operator()(Levelable::type const level) const
 {
-  return (0.8 * std::pow(level + 1, 3));
+  return (0.8 * std::pow(level, 3));
 }

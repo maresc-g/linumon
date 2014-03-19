@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Sun Mar 16 18:18:55 2014 alexis mestag
+## Last update Tue Mar 18 22:53:59 2014 alexis mestag
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
@@ -28,7 +28,7 @@ ENTITIES_SRC=		AEntity.cpp		\
 			Guild.cpp		\
 			Jobs.cpp		\
 			JobModel.cpp		\
-			Level.cpp		\
+			Levelable.cpp		\
 			Mob.cpp			\
 			MobModel.cpp		\
 			Player.cpp		\

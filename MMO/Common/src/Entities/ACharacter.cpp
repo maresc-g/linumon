@@ -5,36 +5,35 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:37:01 2013 alexis mestag
-// Last update Fri Mar 14 13:38:51 2014 guillaume marescaux
+// Last update Tue Mar 18 23:10:14 2014 alexis mestag
 //
 
 #include			"Entities/ACharacter.hh"
 
 ACharacter::ACharacter() :
-  AStatEntity("", eStatEntity::CHARACTER), _characterType(eCharacter::NONE),
-  _currentExp(0), _level(new Level), _equipment(new Equipment),
+  AStatEntity("", eStatEntity::CHARACTER), Levelable(),
+  _characterType(eCharacter::NONE), _equipment(new Equipment),
   _inBattle(false)
 {
 
 }
 
 ACharacter::ACharacter(std::string const &name, ACharacter::eCharacter const characterType) :
-  AStatEntity(name, eStatEntity::CHARACTER), _characterType(characterType),
-  _currentExp(0), _level(new Level), _equipment(new Equipment),
+  AStatEntity(name, eStatEntity::CHARACTER), Levelable(),
+  _characterType(characterType), _equipment(new Equipment),
   _inBattle(false)
 {
 
 }
 
 ACharacter::ACharacter(ACharacter const &rhs) :
-  AStatEntity(rhs), _level(new Level), _equipment(new Equipment)
+  AStatEntity(rhs), Levelable(rhs), _equipment(new Equipment)
 {
   *this = rhs;
 }
 
 ACharacter::~ACharacter()
 {
-  delete _level;
   delete _equipment;
 }
 
@@ -43,8 +42,6 @@ ACharacter			&ACharacter::operator=(ACharacter const &rhs)
   if (this != &rhs)
     {
       this->setCharacterType(rhs.getCharacterType());
-      this->setCurrentExp(rhs.getCurrentExp(), false);
-      this->setLevelObject(rhs.getLevelObject());
       this->setEquipment(rhs.getEquipment());
       this->setInBattle(rhs.isInBattle());
     }
@@ -61,69 +58,22 @@ void				ACharacter::setCharacterType(ACharacter::eCharacter const characterType)
   _characterType = characterType;
 }
 
-Level::type			ACharacter::getCurrentExp() const
-{
-  return (_currentExp);
-}
-
-unsigned int			ACharacter::setCurrentExp(Level::type const currentExp, bool const checkLevelUp)
-{
-  unsigned int			ret = 0;
-
-  _currentExp = currentExp;
-  if (checkLevelUp)
-    while (_currentExp >= this->getExp()) {
-      this->levelUp();
-      ret++;
-    }
-  return (ret);
-}
-
-Level::type			ACharacter::getLevel() const
-{
-  return (_level->getLevel());
-}
-
-void				ACharacter::setLevel(Level::type const level)
-{
-  _level->setLevel(level);
-}
-
-Level::type			ACharacter::getExp() const
-{
-  return (_level->getExp());
-}
-
-void				ACharacter::setExp(Level::type const exp)
-{
-  _level->setExp(exp);
-}
-
+#ifndef		CLIENT_COMPILATION
 void				ACharacter::resetExp()
 {
-  this->setExp(this->getExperienceCurve()(this->getLevel()));
-  if (this->getCurrentExp() < this->getExperienceCurve()(this->getLevel() - 1) ||
+  this->setExp(this->getExperienceCurve()(this->getLevel() + 1));
+  if (this->getCurrentExp() < this->getExperienceCurve()(this->getLevel()) ||
       this->getCurrentExp() >= this->getExperienceCurve()(this->getLevel()))
-    this->setCurrentExp(this->getExperienceCurve()(this->getLevel() - 1));
+    this->setCurrentExp(this->getExperienceCurve()(this->getLevel()));
 }
-
-Level const			&ACharacter::getLevelObject() const
-{
-  return (*_level);
-}
-
-void				ACharacter::setLevelObject(Level const &level)
-{
-  if (!_level)
-    _level = new Level(level);
-  else
-    *_level = level;
-}
+#endif
 
 void				ACharacter::levelUp()
 {
   this->setLevel(this->getLevel() + 1);
+#ifndef		CLIENT_COMPILATION
   this->setExp(this->getExperienceCurve()(this->getLevel()));
+#endif
 }
 
 Equipment const			&ACharacter::getEquipment() const

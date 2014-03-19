@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Fri Mar 14 13:57:07 2014 laurent ansel
+// Last update Tue Mar 18 23:48:26 2014 alexis mestag
 //
 
 #ifndef 		__RESSOURCE_HH__
@@ -15,7 +15,7 @@
 # include		"Database/Persistent.hh"
 # include		"Entities/AItem.hh"
 # include		"Zone/Coordinate.hpp"
-# include		"Entities/Level.hh"
+# include		"Entities/Levelable.hh"
 
 class			Ressource : public Persistent, public AItem
 {
@@ -26,7 +26,8 @@ public:
 
 private:
   RessourceCoordinate	*_coord;
-  Level			*_level;
+  Levelable::type	_level;
+  Levelable::type	_exp;
   bool			_visible;
   bool			_gather;
 
@@ -49,14 +50,11 @@ public:
   void			setX(RessourceCoordinate::type const &x);
   void			setY(RessourceCoordinate::type const &y);
 
-  void			setLevelObject(Level const &level);
-  Level const		&getLevelObject() const;
+  Levelable::type	getLevel() const;
+  void			setLevel(Levelable::type const level);
 
-  Level::type		getLevel() const;
-  void			setLevel(Level::type const level);
-
-  Level::type		getExp() const;
-  void			setExp(Level::type const exp);
+  Levelable::type	getExp() const;
+  void			setExp(Levelable::type const exp);
 
   bool			isVisible() const;
   void			setVisible(bool const visible);
@@ -72,10 +70,11 @@ public:
 #  pragma db object(Ressource)
 #  pragma db member(Ressource::_coord) transient
 #  pragma db member(Ressource::_level) transient
+#  pragma db member(Ressource::_exp) transient
 #  pragma db member(Ressource::_visible) transient
 #  pragma db member(Ressource::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
-#  pragma db member(Ressource::level) virtual(Level::type) get(getLevel()) set(setLevel(?))
-#  pragma db member(Ressource::exp) virtual(Level::type) get(getExp()) set(setExp(?))
+#  pragma db member(Ressource::level) virtual(Levelable::type) get(getLevel()) set(setLevel(?))
+#  pragma db member(Ressource::exp) virtual(Levelable::type) get(getExp()) set(setExp(?))
 # endif
 
 #endif

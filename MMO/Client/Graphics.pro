@@ -163,11 +163,11 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/Carcass.cpp \ 
                 ../Common/src/Entities/Players.cpp \ 
                 ../Common/src/Entities/Type.cpp \ 
+                ../Common/src/Entities/Levelable.cpp \ 
                 ../Common/src/Entities/Drop.cpp \
                 ../Common/src/Entities/AItem.cpp \ 
                 ../Common/src/Entities/PNJ.cpp \ 
                 ../Common/src/Entities/Spell.cpp \ 
-                ../Common/src/Entities/Level.cpp \ 
                 ../Common/src/Entities/Gather.cpp \ 
                 ../Common/src/Entities/Digitaliser.cpp \ 
                 ../Common/src/Entities/Mob.cpp \ 

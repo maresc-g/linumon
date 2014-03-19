@@ -5,18 +5,18 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:33:45 2013 alexis mestag
-// Last update Fri Mar 14 12:02:57 2014 alexis mestag
+// Last update Wed Mar 19 00:20:39 2014 alexis mestag
 //
 
 #ifndef			__ACHARACTER_HH__
 # define		__ACHARACTER_HH__
 
 # include		"Entities/AStatEntity.hh"
-# include		"Entities/Level.hh"
+# include		"Entities/Levelable.hh"
 # include		"Entities/Equipment.hh"
 # include		"Stats/ExperienceCurve.hh"
 
-class			ACharacter : public AStatEntity
+class			ACharacter : public AStatEntity, public Levelable
 {
   friend class		odb::access;
 
@@ -30,8 +30,6 @@ public:
 
 private:
   eCharacter		_characterType;
-  Level::type		_currentExp;
-  Level			*_level;
   Equipment		*_equipment;
   bool			_inBattle;
 
@@ -47,30 +45,19 @@ protected:
 
   void			setCharacterType(eCharacter const characterType);
 
-  Level const		&getLevelObject() const;
-  void			setLevelObject(Level const &level);
-
 public:
   virtual ~ACharacter();
 
   eCharacter		getCharacterType() const;
 
-  Level::type		getCurrentExp() const;
-  unsigned int		setCurrentExp(Level::type const currentExp,
-				      bool const checkLevelUp = true); // Returns nb of reached levels
-
-  // Required xp to level up
-  Level::type		getExp() const;
-  void			setExp(Level::type const exp);
   void			resetExp(); // Will be useful only once
-
-  Level::type		getLevel() const;
-  void			setLevel(Level::type const lvl);
 
   /*
   ** Useful methods to level up
   */
+#ifndef		CLIENT_COMPILATION
   virtual ExperienceCurve const	&getExperienceCurve() const = 0;
+#endif
   virtual void			levelUp();
 
   Equipment const	&getEquipment() const;
@@ -92,12 +79,11 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(ACharacter) abstract
 #  pragma db member(ACharacter::_characterType) transient
-#  pragma db member(ACharacter::_level) transient
 #  pragma db member(ACharacter::_equipment) transient
 #  pragma db member(ACharacter::_inBattle) transient
-#  pragma db member(ACharacter::_currentExp) get(getCurrentExp()) set(setCurrentExp((?), false))
-#  pragma db member(ACharacter::level) virtual(Level::type) get(getLevel()) set(setLevel(?))
-#  pragma db member(ACharacter::exp) virtual(Level::type) get(getExp()) set(setExp(?))
+#  pragma db member(ACharacter::currentExp) virtual (Levelable::type) get(getCurrentExp()) set(setCurrentExp((?), false))
+#  pragma db member(ACharacter::level) virtual(Levelable::type) get(getLevel()) set(setLevel(?))
+#  pragma db member(ACharacter::exp) virtual(Levelable::type) get(getExp()) set(setExp(?))
 #  pragma db member(ACharacter::equipment) virtual(Equipment::container_type) get(_equipment->getContainer()) set(_equipment->setContainer(?))
 # endif
 

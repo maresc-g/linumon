@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Mar 12 14:06:26 2014 alexis mestag
-// Last update Fri Mar 14 15:26:01 2014 laurent ansel
+// Last update Tue Mar 18 23:54:52 2014 alexis mestag
 //
 
 #ifndef				__EXPERIENCECURVE_HH__
@@ -38,7 +38,7 @@ public:
   ExperienceCurve(std::string const &name, std::string const &path);
   virtual ~ExperienceCurve();
 
-  Level::type			operator()(Level::type const level) const;
+  Levelable::type		operator()(Levelable::type const level) const;
 
   std::string const		&getPath() const;
   void				setPath(std::string const &path);

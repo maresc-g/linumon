@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Sat Mar 15 17:33:51 2014 laurent ansel
+// Last update Tue Mar 18 11:23:34 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -63,9 +63,8 @@ private:
   Inventory			*_inventory;
   Jobs				*_jobs;
   Guild const			*_guild;
+# ifndef		CLIENT_COMPILATION
   ExperienceCurve const		*_expCurve;
-
-# ifndef	CLIENT_COMPILATION
   DBZone const			*_dbZone;
 # else
   std::string			_zone;
@@ -79,13 +78,11 @@ private:
 
   void			setDigitaliser(Digitaliser const &digit);
 
-  # ifndef		CLIENT_COMPILATION
+# ifndef		CLIENT_COMPILATION
   void			initConstPointersForNewPlayers();
   void			applyFactionEffect();
-  # endif
-
   void			setExperienceCurve(ExperienceCurve const &expCurve);
-
+# endif
 public:
   Player(std::string const &name, std::string const &factionName = "", User const *user = NULL);
   virtual ~Player();
@@ -119,7 +116,9 @@ public:
   Inventory const		&getInventory() const;
   void				setInventory(Inventory *inventory);
 
+# ifndef	CLIENT_COMPILATION
   virtual ExperienceCurve const	&getExperienceCurve() const;
+# endif
   virtual void			levelUp();
 
   void				addTalent(Talent const &talent);

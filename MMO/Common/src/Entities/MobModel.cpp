@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:39:45 2014 alexis mestag
-// Last update Mon Mar 17 17:20:17 2014 alexis mestag
+// Last update Wed Mar 19 00:00:56 2014 alexis mestag
 //
 
 #include			"Entities/MobModel.hh"
@@ -14,16 +14,22 @@
 
 MobModel::MobModel() :
   Persistent(), AStatEntity("", eStatEntity::MOBMODEL),
-  _spells(new Spells), _expCurve(NULL), _carcass(new Carcass),
+  _spells(new Spells), _carcass(new Carcass),
   _expSeed(0), _dropPath(""), _drop(new Drop)
+#ifndef		CLIENT_COMPILATION
+  , _expCurve(NULL)
+#endif
 {
 
 }
 
 MobModel::MobModel(MobModel const &rhs) :
   Persistent(rhs), AStatEntity(rhs),
-  _spells(new Spells), _expCurve(NULL), _carcass(new Carcass),
+  _spells(new Spells), _carcass(new Carcass),
   _expSeed(0), _dropPath(""), _drop(new Drop)
+#ifndef		CLIENT_COMPILATION
+  , _expCurve(NULL)
+#endif
 {
   *this = rhs;
 }
@@ -41,11 +47,13 @@ MobModel			&MobModel::operator=(MobModel const &rhs)
     {
       this->setType(rhs.getType());
       this->setSpells(rhs.getSpells());
-      this->setExperienceCurve(rhs.getExperienceCurve());
       this->setCarcass(rhs.getCarcass());
       this->setExpSeed(rhs.getExpSeed());
       this->setDropPath(rhs.getDropPath());
       /* Useless to set this->_drop : it will be initialiazed when setting the Drop path (see above) */
+#ifndef		CLIENT_COMPILATION
+      this->setExperienceCurve(rhs.getExperienceCurve());
+#endif
     }
   return (*this);
 }
@@ -85,6 +93,7 @@ void				MobModel::setSpells(Spells const &spells)
   *this->_spells = spells;
 }
 
+#ifndef		CLIENT_COMPILATION
 ExperienceCurve const		&MobModel::getExperienceCurve() const
 {
   return (*_expCurve);
@@ -94,6 +103,7 @@ void				MobModel::setExperienceCurve(ExperienceCurve const &expCurve)
 {
   _expCurve = &expCurve;
 }
+#endif
 
 unsigned int			MobModel::getExpSeed() const
 {

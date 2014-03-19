@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Feb 17 14:29:34 2014 laurent ansel
-// Last update Mon Mar 17 22:17:44 2014 alexis mestag
+// Last update Tue Mar 18 10:47:39 2014 alexis mestag
 //
 
 #include			<ctime>
@@ -90,10 +90,12 @@ void				RessourceManager::init()
 	    {
 	      res = new Ressource;
 	      tmp = (**LoaderManager::getInstance()->getRessourceLoader())->getValue((*file)[*it][*im]["NAME"].asString());
+	      // std::cout << "\tSearching for " << (*file)[*it][*im]["NAME"].asString() << std::endl;
 	      if (tmp)
 		*res = *tmp;
 	      else
 		{
+		  // std::cout << "\t\tWas NULL : fuck you" << std::endl;
 		  delete res;
 		  res = NULL;
 		}
