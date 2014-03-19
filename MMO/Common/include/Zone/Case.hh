@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:39:46 2014 antoine maitre
-// Last update Wed Feb 26 13:34:53 2014 antoine maitre
+// Last update Wed Mar 19 18:15:10 2014 antoine maitre
 //
 
 #ifndef				__CASE_HH__
@@ -42,6 +42,7 @@ public:
   std::list<AEntity *>		*getEntities() const;
   virtual bool			serialization(Trame &trame) const;
   void				deserialization(Trame const &trame);
+  void				deleteAll();
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Wed Mar 19 16:57:08 2014 antoine maitre
+// Last update Wed Mar 19 18:09:51 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -208,5 +208,5 @@ AEntity				*Map::getEntityById(std::string const &zone, unsigned int id)
 void				Map::cleanEntities(AEntity *entity)
 {
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
-    (*it).second->cleanEntity(entity);
+    (*it).second->deleteAll();
 }

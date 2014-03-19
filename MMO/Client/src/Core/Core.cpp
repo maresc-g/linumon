@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 19 16:52:13 2014 antoine maitre
+// Last update Wed Mar 19 18:15:45 2014 antoine maitre
 //
 
 #include			<unistd.h>
@@ -514,9 +514,6 @@ bool				Core::newPlayer(Trame *trame)
 
 bool				Core::newZone(Trame *trame)
 {
-  Map::getInstance()->cleanEntities((**_player));
-  Map::getInstance()->cleanEntities((**_player));
-  Map::getInstance()->cleanEntities((**_player));
   Map::getInstance()->cleanEntities((**_player));
   (**_player)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
   (**_player)->setY((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt());

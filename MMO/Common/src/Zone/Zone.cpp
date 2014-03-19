@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Wed Mar 19 16:54:23 2014 antoine maitre
+// Last update Wed Mar 19 18:14:17 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -173,6 +173,13 @@ void				Zone::cleanEntity(AEntity *entity)
 	this->_players->erase(it);
 	break;
       }
+}
+
+void				Zone::deleteAll()
+{
+  for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
+    (*it)->deleteAll();
+  this->_players->clear();
 }
 
 std::list<Case *>		*Zone::getCases() const

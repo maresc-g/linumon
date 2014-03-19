@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Thu Mar 13 12:02:08 2014 antoine maitre
+// Last update Wed Mar 19 18:15:01 2014 antoine maitre
 //
 
 #ifndef			__ZONE_HH__
@@ -49,6 +49,8 @@ public:
   Zone(Json::Value topography);
   //  Zone(int const, int const, std::string const);
   virtual ~Zone();
+
+  void			deleteAll();
   void			cleanEntity(AEntity *entity);
   void			addPlayer(AEntity *);
   void			delPlayer(AEntity *);
