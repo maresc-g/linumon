@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Tue Mar 18 21:03:19 2014 cyril jourdain
+// Last update Wed Mar 19 12:52:53 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -90,7 +90,8 @@ void				Client::getStuff(unsigned int idItem, unsigned int target)
 void				Client::craft(std::string const &craftName, std::string const &jobName)
 { _core->craft(craftName, jobName); }
 
-// void				Client::gather();
+void				Client::gather(unsigned int idRessource, std::string const &jobName, unsigned int idCarcass)
+{ _core->gather(idRessource, jobName, idCarcass); }
 
 void				Client::useObject(unsigned int target, unsigned int item) { _core->useObject(target, item); }
 

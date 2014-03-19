@@ -4,8 +4,8 @@
 // Made by cyril jourdain
 // Login   <jourda_c@epitech.net>
 // 
-// Started on  Sat Mar 15 23:17:56 2014 cyril jourdain
-
+// Started on  Wed Mar 19 16:18:26 2014 cyril jourdain
+// Last update Wed Mar 19 17:00:10 2014 cyril jourdain
 //
 
 #include			<algorithm>
@@ -26,6 +26,13 @@ RessourcesSpriteLoader::RessourcesSpriteLoader(WindowManager *wMan) :
 
 RessourcesSpriteLoader::~RessourcesSpriteLoader()
 {
+  for (auto it = _layers->begin(); it != _layers->end(); ++it)
+    {
+      for (auto it2 = (*it)->begin(); it2 != (*it)->begin(); ++it2)
+	delete *it2;
+      delete *it;
+    }
+  delete _layers;
 }
 
 void				RessourcesSpriteLoader::loadRessources()
@@ -35,6 +42,8 @@ void				RessourcesSpriteLoader::loadRessources()
   RessourceSprite	*tmp;
   sf::Vector2i		*pos = new sf::Vector2i(0,0);
   std::string		*name;
+
+  std::cout << "RessourceSpriteLoader: Player is in : " << (**(_wMan->getMainPlayer()))->getZone() << std::endl;
 
   for (int y = 0; y < zone->getSizeY(); y++)
     {
@@ -80,9 +89,7 @@ void				RessourcesSpriteLoader::drawLayer(unsigned int layerId)
 			 tmp.y + (*it)->getCurrentOffset()->y);
       _wMan->getSFMLView()->draw(**it);
       (*it)->setPosition(tmp);
-      // std::cout << "Draw entitie at " << (*it)->getPosition().x << "/" << (*it)->getPosition().y << std::endl;
     }
-  // std::cout << std::endl;
 }
 
 void				RessourcesSpriteLoader::onMouseEvent(QMouseEvent *event)

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Wed Mar 19 10:29:34 2014 guillaume marescaux
+// Last update Wed Mar 19 16:48:45 2014 cyril jourdain
 //
 
 /*
@@ -135,7 +135,6 @@ void			SFMLView::onUpdate()
 	}
       else if ((**_wMan->getTrade())->getChanged())
 	{
-	  std::cout << "SOMETHING CHANGED" << std::endl;
 	  _trade->setInfos(_wMan->getTrade());
 	  (**_wMan->getTrade())->setChanged(false);
 	}

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Wed Mar 19 10:39:11 2014 cyril jourdain
+// Last update Wed Mar 19 16:51:50 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -112,6 +112,11 @@ void			BattleView::onUpdate()
       _selection->update(*_sfmlView->getMainClock());
       _spellSprite->update(*_sfmlView->getMainClock());
       _spellSpriteCase->update(*_sfmlView->getMainClock());
+      if ((**(_wMan)->getBattle())->getEnd())
+	{
+	  (*_wMan->getState()) = CLIENT::LEAVING_BATTLE;
+	  (**_wMan->getBattle())->setEnd(false);
+	}
     }
     else{
       _countDownSprite->update(*_sfmlView->getMainClock());
@@ -151,10 +156,7 @@ void			BattleView::drawView()
 	_sfmlView->draw(*(*it));
 	(*it)->update(*_sfmlView->getMainClock());
 	if (_spellUpdater->endTurn())
-	  {
-	    (*it)->upHealthBar();
-	    std::cout << "UP HEALTH BAR" << std::endl;
-	  }
+	  (*it)->upHealthBar();
       }
     for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
       {
@@ -400,7 +402,6 @@ void			BattleView::setPlayingMob()
       auto it = find_if(_playerList->begin(), _playerList->end(), [&](const MobSprite *val){
 	  if (val->getPlayerId() == _currentTurn)
 	    return true;
-
 	  return false;
 	});
       if (it != _playerList->end())
@@ -512,6 +513,8 @@ void			BattleView::rightButton(QMouseEvent *event)
       {
 	if (action->text().toStdString() == "Switch")
 	  switchMobs(_selectedMob->getPlayerId());
+	if (action->text().toStdString() == "Capture")
+	  Client::getInstance()->capture((**_wMan->getBattle())->getId(), _selectedMob->getPlayerId());
       }
     else
       {

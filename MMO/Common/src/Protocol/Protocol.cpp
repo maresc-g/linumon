@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Mar 19 17:27:22 2014 alexis mestag
+// Last update Wed Mar 19 22:38:56 2014 alexis mestag
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -116,10 +116,12 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, unsigned int>("MERGE", &merge);
       this->_container->load<unsigned int, unsigned int, unsigned int>("NEWSTACK", &newStack);
       this->_container->load<unsigned int, std::string, std::string>("CRAFT", &craft);
+      this->_container->load<unsigned int, unsigned int, std::string, unsigned int>("GATHER", &gather);
       this->_container->load<unsigned int>("HEAL", &heal);
       this->_container->load<unsigned int>("DISCONNECT", &disconnect);
       this->_container->load<unsigned int>("SWITCHPLAYER", &switchPlayer);
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int>("SPELL", &spell);
+      this->_container->load<unsigned int, unsigned int, unsigned int>("CAPTURE", &capture);
       this->_container->load<unsigned int, unsigned int, unsigned int>("PUTSTUFF", &putStuff);
       this->_container->load<unsigned int, unsigned int, unsigned int>("GETSTUFF", &getStuff);
       this->_container->load<unsigned int, eInteraction, std::string>("INTERACTION", &interaction);
@@ -1597,6 +1599,28 @@ bool			deleteFromInventory(unsigned int const id, std::list<Stack<AItem> *> *sta
   return (ret);
 }
 
+bool			capture(unsigned int const id, unsigned int idBattle, unsigned int target)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["CAPTURE"]["TARGET"] = target;
+      (*trame)[CONTENT]["CAPTURE"]["IDBATTLE"] = idBattle;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
 bool			putStuff(unsigned int const id, unsigned int idstack, unsigned int target)
 {
   bool			ret = false;
@@ -1674,6 +1698,27 @@ bool			craft(unsigned int const id, std::string craftName, std::string jobName)
     {
       (*trame)[CONTENT]["CRAFT"]["CRAFTNAME"] = craftName;
       (*trame)[CONTENT]["CRAFT"]["JOBNAME"] = jobName;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (false);
+}
+
+bool			gather(unsigned int const id, unsigned int idRessource, std::string jobName, unsigned int idCarcass)
+{
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["GATHER"]["IDRESSOURCE"] = idRessource;
+      (*trame)[CONTENT]["GATHER"]["IDCARCASS"] = idCarcass;
+      (*trame)[CONTENT]["GATHER"]["JOBNAME"] = jobName;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }

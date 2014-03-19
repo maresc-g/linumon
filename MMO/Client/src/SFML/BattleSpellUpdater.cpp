@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:56 2014 cyril jourdain
-// Last update Wed Mar 19 10:33:01 2014 cyril jourdain
+// Last update Wed Mar 19 11:04:33 2014 cyril jourdain
 //
 
 #include			"SFML/BattleSpellUpdater.hh"
@@ -31,7 +31,8 @@ void				BattleSpellUpdater::update(BattleView *battle)
       if ((tmp = (**_wMan->getBattle())->getSpell()))
 	{
 	  qDebug() << "Something found";
-	  _sfmlView->getSpriteManager()->copySprite("Fatal-Foudre", *_currentSpell);
+	  if (!_sfmlView->getSpriteManager()->copySprite(tmp->getSpell().getName(), *_currentSpell))
+	    !_sfmlView->getSpriteManager()->copySprite("Fatal-Foudre", *_currentSpell);
 	  _previousTarget = battle->findMobById(tmp->getTarget());
 	  if (!_previousTarget || _previousTarget->type == NOMOB)
 	    return;

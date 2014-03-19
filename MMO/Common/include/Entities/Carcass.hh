@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar 14 11:04:31 2014 laurent ansel
-// Last update Tue Mar 18 23:53:39 2014 alexis mestag
+// Last update Wed Mar 19 19:03:45 2014 laurent ansel
 //
 
 #ifndef 		__CARCASS_HH__
@@ -48,6 +48,8 @@ public:
   void			setY(CarcassCoordinate::type const &y);
 
   bool			empty() const;
+
+  Ressource		*getRessource(unsigned int const id) const;
 
   virtual bool		serialization(Trame &trame) const;
   static Carcass	*deserialization(Trame const &trame);

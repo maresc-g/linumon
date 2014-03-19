@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Fri Mar 14 14:31:04 2014 cyril jourdain
+// Last update Wed Mar 19 17:46:15 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -156,12 +156,18 @@ bool					Battle::capture(unsigned int const target)
   else
     for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
       {
+	std::cout << "CAPTURE PART 1" << std::endl;
 	if ((*it)->getId() == target)
 	  {
+	    std::cout << "CAPTURE PART 2" << std::endl;
 	    this->_players.front()->capture(*(*it));
+	    std::cout << "CAPTURE PART 3" << std::endl;
 	    static_cast<AI *>(this->_players.back())->remove(target);
+	    std::cout << "CAPTURE PART 4" << std::endl;
 	    this->_mobs.erase(it);
+	    std::cout << "CAPTURE PART 5" << std::endl;
 	    this->trameCapture(this->_players.front()->getUser().getId(), target);
+	    break;
 	  }
       }
   return (this->checkEnd());

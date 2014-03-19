@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar 14 11:04:13 2014 laurent ansel
-// Last update Sat Mar 15 17:48:09 2014 laurent ansel
+// Last update Wed Mar 19 19:05:38 2014 laurent ansel
 //
 
 #include			"Entities/Carcass.hh"
@@ -89,6 +89,14 @@ bool				Carcass::empty() const
     if (!(*it).empty())
       ret = false;
   return (ret);
+}
+
+Ressource			*Carcass::getRessource(unsigned int const id) const
+{
+  for (auto it = this->begin() ; it != this->end() ; ++it)
+    if ((*it).getItem() && (*it).getItem()->getId() == id)
+      return ((*it).getItem());
+  return (NULL);
 }
 
 bool				Carcass::serialization(Trame &trame) const

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Mon Mar 17 17:46:27 2014 cyril jourdain
+// Last update Wed Mar 19 18:31:39 2014 antoine maitre
 //
 
 #include		"Zone/Case.hh"
@@ -46,8 +46,6 @@ void			Case::addAEntity(AEntity *entity)
 
 void			Case::delAEntity(AEntity *entity)
 {
-  if (this->_entities->size())
-    std::cout << "HE SUIS LEHAT " << this->_entities->size() << std::endl;
   // if ((auto it = std::find(this->_entities->begin(), this->_entities->end(), entity)) != this->_entities->end())
   //   this->_entities->erase(it);
   auto it = std::find_if(this->_entities->begin(), this->_entities->end(), [&](const AEntity *e){
@@ -56,13 +54,7 @@ void			Case::delAEntity(AEntity *entity)
       return false;
     });
   if (it != _entities->end())
-    {
-      std::cout << "Case::delAEntity() : Removed entity" << std::endl;
-      this->_entities->erase(it);
-    }else
-    {
-      std::cout << "Case::delAEntity() : No entity removed" << std::endl;
-    }
+    this->_entities->erase(it);
 }
 
 void			Case::delAEntity(unsigned int const id)
@@ -73,12 +65,15 @@ void			Case::delAEntity(unsigned int const id)
   for (auto it = _entities->begin() ; !set && it != _entities->end() ; ++it)
     if ((*it)->getId() == id)
       {
-	i++;
 	it = _entities->erase(it);
-	// set = true;
+	set = true;
+	break;
       }
-  if (i > 0)
-    std::cout << "Case::delAEntity() : Removed ["<< i << "] entity" << std::endl;
+}
+
+void			Case::deleteAll()
+{
+  this->_entities->clear();
 }
 
 bool			Case::serialization(Trame &trame) const
@@ -129,6 +124,7 @@ void			Case::deserialization(Trame const &trame)
   Ressource		*item;
   Heal			*heal;
 
+  this->_entities->clear();
   for (int i = 0; trame.isMember(std::to_string(i)); i++)
     {
       if (trame[std::to_string(i)].isMember("PLAYER"))
@@ -136,11 +132,19 @@ void			Case::deserialization(Trame const &trame)
 	  Player *player = new Player(trame[std::to_string(i)]["PLAYER"]["NAME"].asString());
 	  player->setId(trame[std::to_string(i)]["PLAYER"]["ID"].asUInt());
 	  //	  player->setStatEntityType(static_cast<AStatEntity::eStatEntity>(trame[std::to_string(i)]["PLAYER"]["TYPE"].asInt()));
-	  player->setCoord(*Player::PlayerCoordinate::deserialization(trame(trame[std::to_string(i)]["PLAYER"])));
-	  player->setFaction(*Faction::deserialization(trame(trame[std::to_string(i)]["PLAYER"])));
-	  player->setGuild(*new Guild(trame[std::to_string(i)]["PLAYER"]["GUILD"].asString()));
-	  player->setZone((trame[std::to_string(i)]["PLAYER"]["ZONE"].asString()));
-	  this->_entities->push_back(player);
+	  auto it = std::find_if(this->_entities->begin(), this->_entities->end(), [&](const AEntity *e){
+	      if (e->getId() == player->getId())
+	  	return true;
+	      return false;
+	    });
+	  if (it == this->_entities->end())
+	    {
+	      player->setCoord(*Player::PlayerCoordinate::deserialization(trame(trame[std::to_string(i)]["PLAYER"])));
+	      player->setFaction(*Faction::deserialization(trame(trame[std::to_string(i)]["PLAYER"])));
+	      player->setGuild(*new Guild(trame[std::to_string(i)]["PLAYER"]["GUILD"].asString()));
+	      player->setZone((trame[std::to_string(i)]["PLAYER"]["ZONE"].asString()));
+	      this->_entities->push_back(player);
+	    }
 	}
       else if (trame[std::to_string(i)].isMember("RES"))
 	{
