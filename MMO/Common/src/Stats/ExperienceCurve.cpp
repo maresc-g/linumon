@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Mar 12 14:16:09 2014 alexis mestag
-// Last update Fri Mar 14 15:25:41 2014 laurent ansel
+// Last update Tue Mar 18 23:55:06 2014 alexis mestag
 //
 
 #include				<stdexcept>
@@ -50,7 +50,7 @@ ExperienceCurve				&ExperienceCurve::operator=(ExperienceCurve const &rhs)
   return (*this);
 }
 
-Level::type				ExperienceCurve::operator()(Level::type const level) const
+Levelable::type				ExperienceCurve::operator()(Levelable::type const level) const
 {
   return (this->getExperienceFunction()(level));
 }

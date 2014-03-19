@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar 14 11:04:31 2014 laurent ansel
-// Last update Sat Mar 15 17:47:58 2014 laurent ansel
+// Last update Tue Mar 18 23:53:39 2014 alexis mestag
 //
 
 #ifndef 		__CARCASS_HH__
@@ -15,7 +15,7 @@
 # include		"Entities/Stack.hh"
 # include		"Entities/Ressource.hh"
 # include		"Zone/Coordinate.hpp"
-# include		"Entities/Level.hh"
+// # include		"Entities/Levelable.hh"
 # include		"Utility/Wrapper.hpp"
 
 typedef Stack<Ressource>		StackRessource;

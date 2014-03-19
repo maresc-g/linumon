@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:47 2014 cyril jourdain
-// Last update Tue Mar 11 15:10:11 2014 cyril jourdain
+// Last update Wed Mar 19 10:32:02 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLESPELLUPDATER_HH__
@@ -17,6 +17,7 @@
 #include		"SFML/BattleView.hh"
 
 class BattleView;
+class BattleMob;
 
 class			BattleSpellUpdater
 {
@@ -24,6 +25,7 @@ private:
   SFMLView		*_sfmlView;
   WindowManager		*_wMan;
   Sprite		*_currentSpell;
+  BattleMob		*_previousTarget;
 
 public:
   BattleSpellUpdater(SFMLView *, WindowManager *);
@@ -33,6 +35,8 @@ public:
   void			update(BattleView *);
   void			draw();
   bool			endTurn();
+  BattleMob		*getPreviousTarget() const;
+  void			unsetPreviousTarget();
 };
 
 #endif

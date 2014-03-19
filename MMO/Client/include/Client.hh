@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Sat Mar 15 18:59:51 2014 guillaume marescaux
+// Last update Wed Mar 19 12:52:45 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -28,6 +28,7 @@
 # include			"Battle/Battle.hh"
 # include			"Trade/Trade.hh"
 # include			"Entities/AItem.hh"
+# include			"Common/ErrorBox.hh"
 
 class				Client : public Singleton<Client>
 {
@@ -44,6 +45,7 @@ private:
   MutexVar<Battle *>		*_battle;
   MutexVar<Trade *>		*_trade;
   Core				*_core;
+  MutexVar<ErrorBox*>		*_errorBox;
   WindowManager			*_manager;
 
   // Ctor / Dtor
@@ -68,7 +70,7 @@ public:
   void				putStuff(unsigned int idItem, unsigned int target);
   // void				talents();
   void				craft(std::string const &craftName, std::string const &jobName);
-  // void				gather();
+  void				gather(unsigned int idRessource, std::string const &jobName, unsigned int idCarcass = 0);
   void				useObject(unsigned int target, unsigned int item);
   void				interaction(eInteraction interact, std::string const &name);
   void				putItem(unsigned int idTrade, unsigned int idStack);

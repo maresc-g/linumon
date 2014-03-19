@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:56 2014 cyril jourdain
-// Last update Sun Mar 16 21:47:45 2014 cyril jourdain
+// Last update Wed Mar 19 11:04:33 2014 cyril jourdain
 //
 
 #include			"SFML/BattleSpellUpdater.hh"
@@ -13,7 +13,7 @@
 #include <QDebug>
 
 BattleSpellUpdater::BattleSpellUpdater(SFMLView *sfml, WindowManager *w) :
-  _sfmlView(sfml), _wMan(w), _currentSpell(new Sprite())
+  _sfmlView(sfml), _wMan(w), _currentSpell(new Sprite()), _previousTarget(NULL)
 {
 }
 
@@ -24,26 +24,27 @@ BattleSpellUpdater::~BattleSpellUpdater()
 void				BattleSpellUpdater::update(BattleView *battle)
 {
   SpellContainer		*tmp = NULL;
-  BattleMob			*mob = NULL;
+  // BattleMob			*mob = NULL;
 
-  if (_currentSpell->isAnimFinished())
+  if (_currentSpell->isAnimFinished() && ((_previousTarget && _previousTarget->mob && _previousTarget->mob->isHealthBarUpdated()) || !_previousTarget))
     {      
       if ((tmp = (**_wMan->getBattle())->getSpell()))
 	{
 	  qDebug() << "Something found";
-	  _sfmlView->getSpriteManager()->copySprite("Fatal-Foudre", *_currentSpell);
-	  mob = battle->findMobById(tmp->getTarget());
-	  if (!mob || mob->type == NOMOB)
+	  if (!_sfmlView->getSpriteManager()->copySprite(tmp->getSpell().getName(), *_currentSpell))
+	    !_sfmlView->getSpriteManager()->copySprite("Fatal-Foudre", *_currentSpell);
+	  _previousTarget = battle->findMobById(tmp->getTarget());
+	  if (!_previousTarget || _previousTarget->type == NOMOB)
 	    return;
 	  // mob->mob->upHealthBar();
-	  _currentSpell->setPosition(mob->mob->getPos()->x * CASE_SIZE,
-				     mob->mob->getPos()->y * CASE_SIZE - CASE_SIZE / 2);
+	  _currentSpell->setPosition(_previousTarget->mob->getPos()->x * CASE_SIZE,
+				     _previousTarget->mob->getPos()->y * CASE_SIZE - CASE_SIZE / 2);
 	  (*_currentSpell)["onEnemy"]->setLoopPlay(false);
 	  (*_currentSpell)["onEnemy"]->setFrameLength(80000);
 	  _currentSpell->play("onEnemy");
 	  //_currentSpell->update(*_sfmlView->getMainClock());
 	  delete tmp;
-	  delete mob;
+	  // delete mob;
 	}
     }
   else
@@ -72,3 +73,12 @@ bool				BattleSpellUpdater::endTurn()
   return false;
 }
 
+BattleMob			*BattleSpellUpdater::getPreviousTarget() const
+{
+  return _previousTarget;
+}
+
+void				BattleSpellUpdater::unsetPreviousTarget()
+{
+  _previousTarget = NULL;
+}

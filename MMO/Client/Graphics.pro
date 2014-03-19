@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = ../pfa-client
 DEPENDPATH += . src
 INCLUDEPATH += . include ../Common/include
-FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbarview.ui ../Res/stackview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui ../Res/craftview.ui ../Res/digitaliserview.ui ../Res/hudview.ui ../Res/splitstackview.ui ../Res/switchmobview.ui ../Res/guildview.ui
+FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbarview.ui ../Res/stackview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui ../Res/craftview.ui ../Res/digitaliserview.ui ../Res/hudview.ui ../Res/splitstackview.ui ../Res/switchmobview.ui ../Res/guildview.ui ../Res/talentsview.ui ../Res/stuffstatsview.ui
 LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio -lcryptopp -ljsoncpp -ldl
 QMAKE_CXXFLAGS += -std=c++0x -DCLIENT_COMPILATION -g
 OBJECTS_DIR = ./obj
@@ -40,6 +40,8 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Qt/Views/ParentInfos.hh \
                 include/Qt/Views/FrameMobs.hh \
                 include/Qt/Views/SwitchMobView.hh \
+                include/Qt/Views/TalentsView.hh \
+                include/Qt/Views/StuffStatsView.hh \
                 include/Qt/WindowManager.hh \
                 include/Qt/CharDescription/CharDescription.hh \
                 include/SFML/SFMLView.hpp \
@@ -61,6 +63,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Client.hh \
                 include/Common/eState.hh \
                 include/Common/eDirection.hh \
+                include/Common/ErrorBox.hh \
                 include/Core/Core.hh \
                 include/Core/ErrorHandler.hh \
                 include/Chat/Chat.hh \
@@ -93,6 +96,8 @@ SOURCES +=      src/main.cpp \
                 src/Qt/Views/GuildView.cpp \
                 src/Qt/Views/FrameMobs.cpp \
                 src/Qt/Views/SwitchMobView.cpp \
+                src/Qt/Views/TalentsView.cpp \
+                src/Qt/Views/StuffStatsView.cpp \
                 src/Qt/WindowManager.cpp \
                 src/Qt/CharDescription.cpp \
                 src/SFML/SFMLView.cpp \
@@ -112,6 +117,7 @@ SOURCES +=      src/main.cpp \
                 src/SFML/Sprite/Frame.cpp \
                 src/SFML/Sprite/SpriteManager.cpp \
                 src/Client.cpp \
+                src/Common/ErrorBox.cpp \
                 src/Chat/Chat.cpp \
                 src/Core/Core.cpp \
                 src/Core/ErrorHandler.cpp \
@@ -163,11 +169,11 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/Carcass.cpp \ 
                 ../Common/src/Entities/Players.cpp \ 
                 ../Common/src/Entities/Type.cpp \ 
+                ../Common/src/Entities/Levelable.cpp \ 
                 ../Common/src/Entities/Drop.cpp \
                 ../Common/src/Entities/AItem.cpp \ 
                 ../Common/src/Entities/PNJ.cpp \ 
                 ../Common/src/Entities/Spell.cpp \ 
-                ../Common/src/Entities/Level.cpp \ 
                 ../Common/src/Entities/Gather.cpp \ 
                 ../Common/src/Entities/Digitaliser.cpp \ 
                 ../Common/src/Entities/Mob.cpp \ 

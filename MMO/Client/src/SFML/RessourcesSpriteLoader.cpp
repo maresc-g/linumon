@@ -80,9 +80,7 @@ void				RessourcesSpriteLoader::drawLayer(unsigned int layerId)
 			 tmp.y + (*it)->getCurrentOffset()->y);
       _wMan->getSFMLView()->draw(**it);
       (*it)->setPosition(tmp);
-      // std::cout << "Draw entitie at " << (*it)->getPosition().x << "/" << (*it)->getPosition().y << std::endl;
     }
-  // std::cout << std::endl;
 }
 
 void				RessourcesSpriteLoader::onMouseEvent(QMouseEvent *event)

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Mar 12 16:28:30 2014 alexis mestag
-// Last update Wed Mar 12 16:30:25 2014 alexis mestag
+// Last update Tue Mar 18 23:01:06 2014 alexis mestag
 //
 
 #ifndef				__MEDIUMFUNCTION_HH__
@@ -20,7 +20,7 @@ public:
   virtual ~MediumFunction();
 
 public:
-  virtual Level::type		operator()(Level::type const level) const;
+  virtual Levelable::type	operator()(Levelable::type const level) const;
 };
 
 extern				"C"

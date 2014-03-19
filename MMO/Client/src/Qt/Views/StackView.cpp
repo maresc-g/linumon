@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Sun Mar 16 14:59:32 2014 guillaume marescaux
+// Last update Wed Mar 19 13:26:09 2014 cyril jourdain
 //
 
 #include			<qtooltip.h>
@@ -81,7 +81,21 @@ void				StackView::mouseDoubleClickEvent(QMouseEvent *)
 
 void				StackView::enterEvent(QEvent *)
 {
+  StuffStatsView		*stuffStats = _wMan->getSFMLView()->getStuffStatsView();
+
+  if (_stack)
+    {
+      stuffStats->setInfos(_stack->getItem());
+      stuffStats->show();
+      stuffStats->move(QCursor::pos().x(), QCursor::pos().y());
+      stuffStats->raise();
+    }
   // QToolTip::showText(this->mapToGlobal( QPoint( 0, 0 ) ), "STACK DESCRIPTION" );
+}
+
+void				StackView::leaveEvent(QEvent *)
+{
+  _wMan->getSFMLView()->getStuffStatsView()->hide();  
 }
 
 void				StackView::setInfos(Stack<AItem> const *stack)
@@ -207,7 +221,5 @@ void				StackView::dropEvent(QDropEvent *de)
 	  setInfos((**_wMan->getMainPlayer())->getInventory().getStack(id1));
 	  _wMan->getSFMLView()->getInventoryView()->initInventory();
 	}
-      else if (infos && infos->name != "stuffview" && sourceInfos->name != "stuffview")
-	setInfos(stack);
     }
 }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Sun Mar 16 02:16:46 2014 alexis mestag
+// Last update Tue Mar 18 23:55:58 2014 alexis mestag
 //
 
 #ifndef			__MOB_HH__
@@ -38,7 +38,7 @@ private:
 
 public:
   Mob(Mob const &rhs);
-  Mob(MobModel const &model, Level::type const level, Player const *player = NULL);
+  Mob(MobModel const &model, Levelable::type const level, Player const *player = NULL);
   virtual ~Mob();
 
   Mob			&operator=(Mob const &rhs);
@@ -70,10 +70,12 @@ public:
   /*
   ** Mobs'ExperienceCurve
   */
+#ifndef		CLIENT_COMPILATION
   virtual ExperienceCurve const	&getExperienceCurve() const;
+#endif
 
   unsigned int		getExpSeed() const;
-  Level::type		getGivenExp() const;
+  Levelable::type	getGivenExp() const;
 
   /*
   ** Battle state management

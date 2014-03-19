@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Sun Mar 16 19:36:48 2014 laurent ansel
+// Last update Tue Mar 18 23:50:55 2014 alexis mestag
 //
 
 #include			"Entities/Ressource.hh"
@@ -14,7 +14,8 @@ Ressource::Ressource() :
   Persistent(),
   AItem("", AItem::eItem::RESSOURCE, AEntity::eEntity::RESSOURCE),
   _coord(new RessourceCoordinate),
-  _level(new Level),
+  _level(0),
+  _exp(0),
   _visible(true),
   _gather(false)
 {
@@ -24,7 +25,8 @@ Ressource::Ressource(std::string const &name) :
   Persistent(),
   AItem(name, AItem::eItem::RESSOURCE, AEntity::eEntity::RESSOURCE),
   _coord(new RessourceCoordinate),
-  _level(new Level),
+  _level(0),
+  _exp(0),
   _visible(true),
   _gather(false)
 {
@@ -35,7 +37,6 @@ Ressource::Ressource(Ressource const &rhs) :
   Persistent(rhs),
   AItem(rhs.getName(), AItem::eItem::RESSOURCE, AEntity::eEntity::RESSOURCE),
   _coord(new RessourceCoordinate),
-  _level(new Level),
   _visible(true),
   _gather(false)
 {
@@ -54,7 +55,8 @@ Ressource			&Ressource::operator=(Ressource const &rhs)
       this->setName(rhs.getName());
       this->setItemType(rhs.getItemType());
       this->setEntityType(rhs.getEntityType());
-      this->setLevelObject(rhs.getLevelObject());
+      this->setLevel(rhs.getLevel());
+      this->setExp(rhs.getExp());
       *this->_coord = rhs.getCoord();
       this->setVisible(rhs.isVisible());
       this->setGather(rhs.isGather());
@@ -72,34 +74,24 @@ void				Ressource::setCoord(RessourceCoordinate const &coord)
   *_coord = coord;
 }
 
-void				Ressource::setLevelObject(Level const &level)
+Levelable::type			Ressource::getLevel() const
 {
-  *_level = level;
+  return (_level);
 }
 
-Level const			&Ressource::getLevelObject() const
+void				Ressource::setLevel(Levelable::type const level)
 {
-  return (*this->_level);
+  _level = level;
 }
 
-Level::type			Ressource::getLevel() const
+Levelable::type			Ressource::getExp() const
 {
-  return (_level->getLevel());
+  return (_exp);
 }
 
-void				Ressource::setLevel(Level::type const level)
+void				Ressource::setExp(Levelable::type const exp)
 {
-  return (_level->setLevel(level));
-}
-
-Level::type			Ressource::getExp() const
-{
-  return (_level->getExp());
-}
-
-void				Ressource::setExp(Level::type const exp)
-{
-  return (_level->setExp(exp));
+  _exp = exp;
 }
 
 Ressource::RessourceCoordinate::type const	&Ressource::getX() const

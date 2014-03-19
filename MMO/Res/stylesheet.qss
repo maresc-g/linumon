@@ -273,3 +273,18 @@ SwitchMobView
 {
 	background-color: #FFFFFF;
 }
+
+TalentsView
+{
+	background-color: #FFFFFF;
+}
+
+StuffStatsView
+{
+	background-color: #FFFFFF;
+}
+
+MobView::disabled
+{
+	background-color: #FF1010;
+}

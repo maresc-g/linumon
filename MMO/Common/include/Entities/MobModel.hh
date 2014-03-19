@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:21:00 2014 alexis mestag
-// Last update Sun Mar 16 18:15:23 2014 alexis mestag
+// Last update Tue Mar 18 23:59:47 2014 alexis mestag
 //
 
 #ifndef			__MOBMODEL_HH__
@@ -27,11 +27,13 @@ class			MobModel : public Persistent, public AStatEntity, public ISerialization
 private:
   Type const		*_type;
   Spells 		*_spells;
-  ExperienceCurve const	*_expCurve;
   Carcass		*_carcass;
   unsigned int		_expSeed;
   std::string		_dropPath;
   Drop			*_drop;
+#ifndef		CLIENT_COMPILATION
+  ExperienceCurve const	*_expCurve;
+#endif
 
 private:
   MobModel();
@@ -54,8 +56,10 @@ public:
   Spells const		&getSpells() const;
   void			setSpells(Spells const &spells);
 
+#ifndef		CLIENT_COMPILATION
   ExperienceCurve const	&getExperienceCurve() const;
   void			setExperienceCurve(ExperienceCurve const &expCurve);
+#endif
 
   unsigned int		getExpSeed() const;
   void			setExpSeed(unsigned int const expSeed);

@@ -59,7 +59,7 @@
 			#  end
 
 			#  gather
-			GATHER : {nameRessource : string, nameJob : string, idCarcass : unsigned int => 0 si pas de carcass} -> client
+			GATHER : {idRessource : unsigned int, nameJob : string, idCarcass : unsigned int => 0 si pas de carcass} -> client
 			-ADDTOINVENTORY : {item : list<Stack>} -> server
 			-JOB : {job : Job} -> server
 			#  end

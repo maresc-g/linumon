@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Wed Mar 19 14:08:57 2014 antoine maitre
+// Last update Wed Mar 19 16:57:08 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -133,6 +133,7 @@ std::list<AEntity *>		*Map::getPlayers(std::string const &zone)
 Player				*Map::getPlayerById(unsigned int const id)
 {
   Player *tmp = NULL;
+
   this->lock();
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
     {
@@ -141,12 +142,13 @@ Player				*Map::getPlayerById(unsigned int const id)
 	{
 	  if ((*itb)->getId() == id)
 	    {
-	      tmp = static_cast<Player *>(*itb);
-	      std::cout << "PLAYER FOUND IN " << (*it).first << " AT " << tmp->getX() << " " << tmp->getY() <<  std::endl;
+	      tmp = (static_cast<Player *>(*itb));
+	      // std::cout << "Map::getPlayerById() : found player" << std::endl;
+	      // return (static_cast<Player *>(*itb));
 	    }
 	}
     }
-  std::cout << std::endl;
+  // std::cout << std::endl;
   this->unlock();
   return (tmp);
 }

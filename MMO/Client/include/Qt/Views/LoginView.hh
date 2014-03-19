@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Oct 18 10:58:49 2013 cyril jourdain
-// Last update Thu Feb 27 15:55:33 2014 guillaume marescaux
+// Last update Tue Mar 18 10:53:14 2014 guillaume marescaux
 //
 
 #ifndef 		__LOGINVIEW_HH__
@@ -23,7 +23,7 @@ class			LoginView : public QWidget
   Q_OBJECT
 
 public:
-  LoginView(QWidget *, WindowManager *wman = NULL);
+  LoginView(QWidget *, WindowManager *wman);
   virtual ~LoginView();
 
 private:

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Mar 12 16:18:55 2014 alexis mestag
-// Last update Wed Mar 12 23:07:49 2014 alexis mestag
+// Last update Tue Mar 18 23:00:57 2014 alexis mestag
 //
 
 #include				<cmath>
@@ -21,7 +21,7 @@ ParabolicFunction::~ParabolicFunction()
 
 }
 
-Level::type				ParabolicFunction::operator()(Level::type const level) const
+Levelable::type				ParabolicFunction::operator()(Levelable::type const level) const
 {
-  return (1.2 * std::pow(level + 1, 3) - 15 * std::pow(level + 1, 2) + 100 * (level + 1) - 140);
+  return (1.2 * std::pow(level, 3) - 15 * std::pow(level, 2) + 100 * level - 140);
 }

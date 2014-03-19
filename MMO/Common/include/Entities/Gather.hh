@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb 28 15:08:25 2014 laurent ansel
-// Last update Tue Mar 11 21:38:49 2014 alexis mestag
+// Last update Tue Mar 18 23:47:45 2014 alexis mestag
 //
 
 #ifndef			__GATHER_HH__
@@ -13,7 +13,7 @@
 
 #include		"Database/Persistent.hh"
 #include		"Entities/AItem.hh"
-#include		"Entities/Level.hh"
+#include		"Entities/Levelable.hh"
 #include		"Utility/ISerialization.hh"
 #include		"Utility/Nameable.hh"
 #include		"Entities/Ressource.hh"
@@ -23,12 +23,13 @@ class			Gather : public ISerialization
   friend class		odb::access;
 
 private:
-  Level			*_level;
+  Levelable::type	_level;
+  Levelable::type	_exp;
   Ressource const	*_ressource;
 
+private:
   Gather();
 
-  void			setLevelObject(Level const &level);
   void			setRessource(Ressource const &item);
 
 public:
@@ -37,14 +38,13 @@ public:
 
   Gather		&operator=(Gather const &rhs);
 
-  Level const		&getLevelObject() const;
   Ressource const	&getRessource() const;
 
-  Level::type		getLevel() const;
-  void			setLevel(Level::type const level);
+  Levelable::type		getLevel() const;
+  void			setLevel(Levelable::type const level);
 
-  Level::type		getExp() const;
-  void			setExp(Level::type const exp);
+  Levelable::type		getExp() const;
+  void			setExp(Levelable::type const exp);
 
   virtual bool		serialization(Trame &trame) const;
   static Gather		*deserialization(Trame const &trame, bool const client = true);
@@ -53,9 +53,10 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db value(Gather)
 #  pragma db member(Gather::_level) transient
+#  pragma db member(Gather::_exp) transient
 #  pragma db member(Gather::_ressource) not_null
-#  pragma db member(Gather::level) virtual(Level::type) get(getLevel()) set(setLevel(?))
-#  pragma db member(Gather::exp) virtual(Level::type) get(getExp()) set(setExp(?))
+#  pragma db member(Gather::level) virtual(Levelable::type) get(getLevel()) set(setLevel(?))
+#  pragma db member(Gather::exp) virtual(Levelable::type) get(getExp()) set(setExp(?))
 # endif
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Sat Mar 15 19:02:28 2014 guillaume marescaux
+// Last update Wed Mar 19 12:52:53 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -21,6 +21,7 @@ Client::Client():
   _battle(new MutexVar<Battle *>(new Battle)),
   _trade(new MutexVar<Trade *>(new Trade)),
   _core(new Core(_state, _player, _players, _chat, _newPlayer, _battle, _trade)),
+  _errorBox(new MutexVar<ErrorBox *>(new ErrorBox(NULL))),
   _manager(NULL)
 {
 }
@@ -42,6 +43,7 @@ Client::~Client()
   delete _trade;
   delete _newPlayer;
   delete _manager;
+  delete _errorBox;
 }
 
 //------------------------------------END CTOR / DTOR------------------------------------------
@@ -51,7 +53,7 @@ Client::~Client()
 void				Client::init(int &ac, char **av)
 {
   _core->init();
-  _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer, _battle, _trade);
+  _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer, _battle, _trade, _errorBox);
   _manager->exec();
   _core->quit();
 }
@@ -88,7 +90,8 @@ void				Client::getStuff(unsigned int idItem, unsigned int target)
 void				Client::craft(std::string const &craftName, std::string const &jobName)
 { _core->craft(craftName, jobName); }
 
-// void				Client::gather();
+void				Client::gather(unsigned int idRessource, std::string const &jobName, unsigned int idCarcass)
+{ _core->gather(idRessource, jobName, idCarcass); }
 
 void				Client::useObject(unsigned int target, unsigned int item) { _core->useObject(target, item); }
 

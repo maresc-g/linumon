@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Sun Mar 16 23:28:10 2014 cyril jourdain
+// Last update Wed Mar 19 14:47:26 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -44,6 +44,7 @@ void			BattleView::onInit()
   _battleScreen = new Sprite();
   _selectedSpell = "";
   _currentTurn = -1;
+  _battleResult = NULL;
 
   _backgroundTexture->create(BATTLE_SIZE * CASE_SIZE, BATTLE_SIZE*CASE_SIZE);
   loadBackgroundMap();
@@ -78,6 +79,13 @@ void			BattleView::onInit()
 }
 void			BattleView::onUpdate()
 {
+  BattleMob *mob;
+
+  if (_battleResult && _battleResult->getPlayCount() > 0)
+    {
+      _battleResult->update(*_sfmlView->getMainClock());
+      return;
+    }
   if (_battleStarted){
     if (_countDownSprite->isAnimFinished()){
       // std::cout << "Updating battle" << std::endl;
@@ -88,8 +96,10 @@ void			BattleView::onUpdate()
 	  *(**(_wMan)->getBattle())->getSwitch() = false;
 	  _playingMob = NULL;
 	  setLifeVisibility(true);
+	  _spellUpdater->unsetPreviousTarget();
 	}
-      if (_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn())
+      if ((_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn()) &&
+	  (((mob = _spellUpdater->getPreviousTarget()) && mob->mob && mob->mob->isHealthBarUpdated()) || !_spellUpdater->getPreviousTarget()))
 	{
 	  unsigned int turn = (**_wMan->getBattle())->getTurnTo();
 	  if (turn != (unsigned int) -1)
@@ -102,16 +112,18 @@ void			BattleView::onUpdate()
       _selection->update(*_sfmlView->getMainClock());
       _spellSprite->update(*_sfmlView->getMainClock());
       _spellSpriteCase->update(*_sfmlView->getMainClock());
+      if ((**(_wMan)->getBattle())->getEnd())
+	{
+	  (*_wMan->getState()) = CLIENT::LEAVING_BATTLE;
+	  (**_wMan->getBattle())->setEnd(false);
+	}
     }
     else{
       _countDownSprite->update(*_sfmlView->getMainClock());
     }
   }
   else
-    {
-      _battleScreen->update(*_sfmlView->getMainClock());
-      std::cout << "update battle screen" << std::endl;
-    }
+    _battleScreen->update(*_sfmlView->getMainClock());
 }
 
 void			BattleView::onKeyEvent(QKeyEvent *)
@@ -144,7 +156,10 @@ void			BattleView::drawView()
 	_sfmlView->draw(*(*it));
 	(*it)->update(*_sfmlView->getMainClock());
 	if (_spellUpdater->endTurn())
-	  (*it)->upHealthBar();
+	  {
+	    (*it)->upHealthBar();
+	    std::cout << "UP HEALTH BAR" << std::endl;
+	  }
       }
     for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
       {
@@ -159,10 +174,11 @@ void			BattleView::drawView()
     _spellUpdater->draw();
     _sfmlView->draw(*_countDownSprite);
   }
-  else
-    {
+  else{
       _sfmlView->draw(*_battleScreen);
-    }
+  }
+  if (_battleResult && _battleResult->getPlayCount() > 0)
+    _sfmlView->draw(*_battleResult);
   _sfmlView->setView(*(_sfmlView->getMainView()));
 }
 
@@ -262,6 +278,7 @@ void			BattleView::quitBattle()
   delete _spellUpdater;
   delete _backgroundSprite;
   delete _backgroundTexture;
+  delete _battleResult;
   _backgroundSprite = NULL;
   _backgroundTexture = NULL;
   _spellUpdater = NULL;
@@ -285,9 +302,38 @@ void			BattleView::battleStart()
   _countDownSprite->play("default");
 }
 
-bool			BattleView::canStartBattle()
+bool			BattleView::canStartBattle() const
 {
   if (_battleScreen->isAnimFinished())
+    return true;
+  return false;
+}
+
+void			BattleView::printBattleResult()
+{
+  if (!_battleResult){
+    _battleResult = new Sprite();
+    _sfmlView->getSpriteManager()->copySprite("BattleResult", *_battleResult);
+    if ((**_wMan->getBattle())->getWin()){
+      _battleResult->play("win");
+      (*_battleResult)["win"]->setLoopPlay(false);
+      (*_battleResult)["win"]->setFrameLength(2000000);
+    }
+    else {
+      _battleResult->play("loose");
+      (*_battleResult)["loose"]->setLoopPlay(false);
+      (*_battleResult)["loose"]->setFrameLength(2000000);
+    }
+    _battleResult->setOrigin(128, 64);
+    _battleResult->setPosition((BATTLE_SIZE * CASE_SIZE / 2), (BATTLE_SIZE * CASE_SIZE / 2));
+  }
+}
+
+bool			BattleView::canEndBattle() const
+{
+  if (_battleResult)
+    std::cout << _battleResult->getPlayCount() << "/" << _battleResult->isAnimFinished() << std::endl;
+  if (_battleResult && _battleResult->getPlayCount() > 0 && _battleResult->isAnimFinished())
     return true;
   return false;
 }
@@ -470,6 +516,8 @@ void			BattleView::rightButton(QMouseEvent *event)
       {
 	if (action->text().toStdString() == "Switch")
 	  switchMobs(_selectedMob->getPlayerId());
+	if (action->text().toStdString() == "Capture")
+	  Client::getInstance()->capture((**_wMan->getBattle())->getId(), _selectedMob->getPlayerId());
       }
     else
       {

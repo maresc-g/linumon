@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Sun Mar 16 22:08:23 2014 cyril jourdain
+// Last update Wed Mar 19 13:30:42 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -34,6 +34,7 @@ WorldView::WorldView(SFMLView *v, WindowManager *w) :
   (*_keyMap)[Qt::Key_J] = &WorldView::keyJ;
   (*_keyMap)[Qt::Key_D] = &WorldView::keyD;
   (*_keyMap)[Qt::Key_G] = &WorldView::keyG;
+  (*_keyMap)[Qt::Key_T] = &WorldView::keyT;
   (*_keyMap)[Qt::Key_Escape] = &WorldView::keyEscape;
   (*_keyMap)[Qt::Key_Return] = &WorldView::keyReturn;
 }
@@ -45,8 +46,6 @@ WorldView::~WorldView()
 
 void			WorldView::onInit()
 {
-  /* This function MUST be called after player init
-   */
   Zone *zone = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone());
 
   _backgroundTexture = new sf::RenderTexture();
@@ -89,7 +88,7 @@ void			WorldView::onUpdate()
 void			WorldView::onKeyEvent(QKeyEvent *event)
 {
   CLIENT::eState s = **(_wMan->getState());
-  if (s == CLIENT::PLAYING){
+  if (s == CLIENT::PLAYING || s == CLIENT::TRADE){
     try {
       (this->*(_keyMap->at(Qt::Key(event->key()))))();
     }
@@ -181,6 +180,17 @@ void			WorldView::drawView()
   }
   _ressourcesLoader->drawLayer(1);
   _sfmlView->setView(*(_sfmlView->getMainView()));
+}
+
+void			WorldView::resetPOV()
+{
+  _sfmlView->getMainView()->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
+  _sfmlView->getMainView()->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
+				 (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
+  _sfmlView->clear(sf::Color(0,0,0));
+  _sfmlView->getMainView()->zoom(0.8);
+  // if ((**(_wMan->getMainPlayer()))->getX() <= 15)
+  //   _sfmlView->getMainView()->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE, 0);
 }
 
 void			WorldView::loadPlayerList()
@@ -421,6 +431,21 @@ void			WorldView::keyG()
     }
 }
 
+void			WorldView::keyT()
+{
+  if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_T) && !_sfmlView->getChatView()->getFocused())
+    {
+      if (!_sfmlView->getGuildView()->isVisible())
+	{
+	  _sfmlView->getTalentsView()->initTalents((**_wMan->getMainPlayer())->getTalentTree());
+	  _sfmlView->displayView(_sfmlView->getTalentsView());
+	}
+      else
+	_sfmlView->hideView(_sfmlView->getTalentsView());
+      _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_T, 100000);
+    }
+}
+
 void			WorldView::keyEscape()
 {
   if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_Escape) && !_sfmlView->getChatView()->getFocused())
@@ -443,15 +468,4 @@ void			WorldView::keyReturn()
   	_sfmlView->getChatView()->submitText();
       _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_Return, 100000);
     }
-}
-
-void			WorldView::resetPOV()
-{
-  _sfmlView->getMainView()->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
-  _sfmlView->getMainView()->move((**(_wMan->getMainPlayer()))->getX() * CASE_SIZE - WIN_W / 2,
-				 (**(_wMan->getMainPlayer()))->getY() * CASE_SIZE - WIN_H / 2);
-  _sfmlView->clear(sf::Color(0,0,0));
-  _sfmlView->getMainView()->zoom(0.8);
-  // if ((**(_wMan->getMainPlayer()))->getX() <= 15)
-  //   _sfmlView->getMainView()->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE, 0);
 }

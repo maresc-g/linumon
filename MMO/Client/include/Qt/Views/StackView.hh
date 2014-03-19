@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:16:30 2014 guillaume marescaux
-// Last update Fri Mar 14 13:01:57 2014 laurent ansel
+// Last update Tue Mar 18 11:16:36 2014 guillaume marescaux
 //
 
 #ifndef 		__STACKVIEW_HH__
@@ -41,6 +41,7 @@ private:
 
   virtual void		paintEvent(QPaintEvent *);
   virtual void		enterEvent(QEvent *event);
+  virtual void		leaveEvent(QEvent *event);
   virtual void		mouseDoubleClickEvent(QMouseEvent *event);
   void			setInfos(Stack<AItem> const *stack);
   virtual void		mousePressEvent(QMouseEvent *);

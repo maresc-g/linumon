@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 19 16:20:09 2014 antoine maitre
+// Last update Wed Mar 19 16:52:13 2014 antoine maitre
 //
 
 #include			<unistd.h>
@@ -274,10 +274,10 @@ bool				Core::isInBattle(Trame *trame)
 
 bool				Core::launchBattle(Trame *trame)
 {
-  *_state = CLIENT::LOADING_BATTLE;
   (**_battle)->setInfos(_player, (*trame)[CONTENT]["LAUNCHBATTLE"]["IDBATTLE"].asUInt(),
 			Player::deserialization((*trame)((*trame)[CONTENT]["LAUNCHBATTLE"]["ENEMY"])),
 			(*trame)[CONTENT]["LAUNCHBATTLE"]["LIMIT"].asInt());
+  *_state = CLIENT::LOADING_BATTLE;
   return (true);
 }
 
@@ -331,7 +331,8 @@ bool				Core::deadMob(Trame *)
 bool				Core::endBattle(Trame *trame)
 {
   (**_battle)->setWin((*trame)[CONTENT]["ENDBATTLE"]["WIN"].asBool());
-  *_state = CLIENT::LEAVING_BATTLE;
+  (**_battle)->setEnd(true);
+  (**_battle)->leaveBattle();
   std::cout << "------------ END BATTLE" << std::endl;
   return (true);
 }
@@ -687,7 +688,10 @@ void				Core::craft(std::string const &craftName, std::string const &jobName)
 }
 
 
-// void				gather();
+void				Core::gather(unsigned int idRessource, std::string const &jobName, unsigned int idCarcass)
+{
+  (*_proto).operator()<unsigned int const, unsigned int, std::string, unsigned int>("GATHER", _id, idRessource, jobName, idCarcass);
+}
 
 void				Core::useObject(unsigned int target, unsigned int item)
 {
