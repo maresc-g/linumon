@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Wed Mar 19 10:31:28 2014 guillaume marescaux
+// Last update Wed Mar 19 10:38:21 2014 guillaume marescaux
 //
 
 #include			<QMenu>
@@ -183,11 +183,9 @@ void				MobView::dropEvent(QDropEvent *de)
       if (pair->first->getItemType() == AItem::CONSUMABLE)
 	{
 	  Consumable const		*consumable = static_cast<Consumable const *>(pair->first);
-	  bool			ret;
 
-	  ret = (**_wMan->getMainPlayer())->useObject(_mob->getId(), consumable->getId());
-	  if (ret)
-	    Client::getInstance()->useObject(_mob->getId(), consumable->getId());
+	  (**_wMan->getMainPlayer())->useObject(_mob->getId(), consumable->getId());
+	  Client::getInstance()->useObject(_mob->getId(), consumable->getId());
 	  _wMan->getSFMLView()->getInventoryView()->initInventory();
 	}
     }
