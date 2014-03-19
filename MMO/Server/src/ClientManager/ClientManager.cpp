@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Sat Mar 15 17:29:44 2014 laurent ansel
+// Last update Wed Mar 19 19:26:10 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -382,14 +382,14 @@ bool				ClientManager::craftSomething(FD const fd, std::string const &craft, std
   return (set);
 }
 
-bool				ClientManager::gatherSomething(FD const fd, std::string const &gather, std::string const &job, unsigned int const carcass) const
+bool				ClientManager::gatherSomething(FD const fd, std::string const &job, unsigned int const idRes, unsigned int const carcass) const
 {
   bool				set = false;
 
   this->_mutex->lock();
   for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
     if ((*it).first && (*it).second)
-      set = (*it).first->gatherSomething(fd, gather, job, carcass);
+      set = (*it).first->gatherSomething(fd, idRes, job, carcass);
   this->_mutex->unlock();
   return (set);
 }

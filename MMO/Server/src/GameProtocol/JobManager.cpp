@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:26:56 2014 laurent ansel
-// Last update Sat Mar 15 17:33:25 2014 laurent ansel
+// Last update Wed Mar 19 19:24:34 2014 laurent ansel
 //
 
 #include			<functional>
@@ -33,7 +33,7 @@ bool				JobManager::gather(Trame *trame)
   bool				ret = false;
 
   if (trame && (*trame)[CONTENT].isMember("GATHER"))
-    ret = ClientManager::getInstance()->gatherSomething((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["GATHER"]["JOBNAME"].asString(), (*trame)[CONTENT]["GATHER"]["GATHERNAME"].asString(), (*trame)[CONTENT]["GATHER"]["CARCASS"].asUInt());
+    ret = ClientManager::getInstance()->gatherSomething((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["GATHER"]["JOBNAME"].asString(), (*trame)[CONTENT]["GATHER"]["IDRESSOURCE"].asUInt(), (*trame)[CONTENT]["GATHER"]["CARCASS"].asUInt());
   return (ret);
 }
 
