@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb 17 15:32:06 2014 cyril jourdain
-// Last update Sun Mar 16 00:10:36 2014 cyril jourdain
+// Last update Mon Mar 17 23:07:30 2014 guillaume marescaux
 //
 
 #ifndef				__WORLDVIEW_HH__
@@ -58,6 +58,7 @@ private:
   void				keyJ();
   void				keyD();
   void				keyG();
+  void				keyT();
   void				keyEscape();
   void				keyReturn();
   void				keyControl();

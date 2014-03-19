@@ -5,55 +5,57 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:07:00 2014 alexis mestag
-// Last update Wed Mar 12 13:45:42 2014 alexis mestag
+// Last update Mon Mar 17 22:52:23 2014 guillaume marescaux
 //
 
-#ifndef				__TALENTMODEL_HH__
-# define			__TALENTMODEL_HH__
+#ifndef					__TALENTMODEL_HH__
+# define				__TALENTMODEL_HH__
 
-# include			<list>
-# include			"Database/Persistent.hh"
-# include			"Utility/Nameable.hh"
-# include			"Effects/EffectLib.hh"
-# include			"Utility/ISerialization.hh"
+# include				<list>
+# include				"Database/Persistent.hh"
+# include				"Utility/Nameable.hh"
+# include				"Effects/EffectLib.hh"
+# include				"Utility/ISerialization.hh"
 
-class				TalentModel : public Persistent, public Nameable, public ISerialization
+class					TalentModel : public Persistent, public Nameable, public ISerialization
 {
-  friend class			odb::access;
+  friend class				odb::access;
 
 public:
-  typedef unsigned int		point_type;
+  typedef unsigned int			point_type;
 
 private:
-  point_type			_maxPoints;
-  EffectLib const		*_effectLib;
-  std::list<TalentModel *>	_talents;
+  point_type				_maxPoints;
+  EffectLib const			*_effectLib;
+  std::list<TalentModel *>		_talents;
 
 private:
   TalentModel();
   TalentModel(std::string const &name);
 
-  void				deleteTalents();
-  void				setTalents(TalentModel const &talent);
+  void					deleteTalents();
+  void					setTalents(TalentModel const &talent);
 
 public:
   TalentModel(TalentModel const &rhs);
   virtual ~TalentModel();
 
-  TalentModel			&operator=(TalentModel const &rhs);
+  TalentModel				&operator=(TalentModel const &rhs);
 
-  point_type			getMaxPoints() const;
-  void				setMaxPoints(point_type const maxPoints);
+  point_type				getMaxPoints() const;
+  void					setMaxPoints(point_type const maxPoints);
 
-  EffectLib const		&getEffectLib() const;
-  void				setEffectLib(EffectLib const &effectLib);
+  EffectLib const			&getEffectLib() const;
+  void					setEffectLib(EffectLib const &effectLib);
 
-  void				addTalent(TalentModel const &talent);
-  void				addTalent(TalentModel *talent);
+  void					addTalent(TalentModel const &talent);
+  void					addTalent(TalentModel *talent);
 
-  virtual bool			serialization(Trame &trame) const;
-  bool				deserializationTreeModel(Trame const &trame);
-  static TalentModel		*deserialization(Trame const &trame);
+  std::list<TalentModel *> const	&getTalents(void) const;
+
+  virtual bool				serialization(Trame &trame) const;
+  bool					deserializationTreeModel(Trame const &trame);
+  static TalentModel			*deserialization(Trame const &trame);
 };
 
 # ifdef	ODB_COMPILER

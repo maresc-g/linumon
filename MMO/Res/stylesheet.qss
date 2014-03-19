@@ -273,3 +273,13 @@ SwitchMobView
 {
 	background-color: #FFFFFF;
 }
+
+TalentsView
+{
+	background-color: #FFFFFF;
+}
+
+StuffStatsView
+{
+	background-color: #FFFFFF;
+}

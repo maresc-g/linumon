@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Sun Mar 16 22:16:06 2014 cyril jourdain
+// Last update Tue Mar 18 11:05:32 2014 guillaume marescaux
 //
 
 /*
@@ -38,6 +38,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _jobMenu(new JobMenuView(this, w)), _job(new JobView(this, w)), _digit(new DigitaliserView(this, w)),
   _clickView(new PlayerClickView(this, w)), _splitStack(new SplitStackView(this, w)),
   _guild(new GuildView(this, w)), _trade(new TradeView(this, w)),
+  _talents(new TalentsView(this, w)), _stuffStats(new StuffStatsView(this, w)),
   _worldView(new WorldView(this, w)), _battleView(new BattleView(this, w)),
   _currentView(NULL), _view1(NULL), _view2(NULL)
 {
@@ -55,6 +56,8 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _menu->hide();
   _guild->hide();
   _trade->hide();
+  _talents->hide();
+  _stuffStats->hide();
   _chat->move(0, WIN_H - _chat->size().height());
   _textFont = new sf::Font();
   if (!_textFont->loadFromFile("./Res/arial.ttf"))
@@ -311,3 +314,5 @@ ContextView		*SFMLView::getBattleView(void) {return _battleView; };
 SplitStackView		*SFMLView::getSplitStackView(void) {return _splitStack; };
 GuildView		*SFMLView::getGuildView(void) {return _guild; };
 TradeView		*SFMLView::getTradeView(void) {return _trade; };
+TalentsView		*SFMLView::getTalentsView(void) {return _talents; };
+StuffStatsView		*SFMLView::getStuffStatsView(void) {return _stuffStats; };

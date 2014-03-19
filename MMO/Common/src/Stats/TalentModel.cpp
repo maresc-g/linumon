@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:18:40 2014 alexis mestag
-// Last update Wed Mar 12 13:45:24 2014 alexis mestag
+// Last update Mon Mar 17 22:53:14 2014 guillaume marescaux
 //
 
 #include			<functional>
@@ -96,6 +96,8 @@ void				TalentModel::setTalents(TalentModel const &talent)
       this->addTalent(**it);
     }
 }
+
+std::list<TalentModel *> const	&TalentModel::getTalents() const { return (_talents); }
 
 bool				TalentModel::serialization(Trame &trame) const
 {

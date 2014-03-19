@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Sat Mar 15 19:07:52 2014 guillaume marescaux
+// Last update Tue Mar 18 15:36:41 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -228,7 +228,6 @@ void				StuffView::dropEvent(QDropEvent *de)
 
   if (stack->getItem()->getItemType() == AItem::STUFF)
     {
-      Stuff const		*stuff = static_cast<Stuff const *>(stack->getItem());
       bool			ret;
 
       if (_last->getCharacterType() == ACharacter::MOB)
