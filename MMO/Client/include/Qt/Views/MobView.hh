@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:41:39 2014 guillaume marescaux
-// Last update Thu Mar 13 16:51:46 2014 cyril jourdain
+// Last update Wed Mar 19 15:29:40 2014 cyril jourdain
 //
 
 #ifndef 		__MOBVIEW_HH__

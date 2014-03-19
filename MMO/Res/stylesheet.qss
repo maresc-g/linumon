@@ -283,3 +283,8 @@ StuffStatsView
 {
 	background-color: #FFFFFF;
 }
+
+MobView::disabled
+{
+	background-color: #FF1010;
+}

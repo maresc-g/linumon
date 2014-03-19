@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Wed Mar 19 11:05:47 2014 cyril jourdain
+// Last update Wed Mar 19 11:08:09 2014 cyril jourdain
 //
 
 #include			"Map/Map.hh"
@@ -149,7 +149,7 @@ Player				*Map::getPlayerById(unsigned int const id)
 	    }
 	}
     }
-  std::cout << std::endl;
+  // std::cout << std::endl;
   this->unlock();
   return (tmp);
 }

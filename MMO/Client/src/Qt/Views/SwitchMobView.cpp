@@ -9,6 +9,7 @@
 //
 
 #include			<QPainter>
+#include			<algorithm>
 #include			"Qt/Views/MobView.hh"
 #include			"Qt/Views/SwitchMobView.hh"
 #include <QDebug>
@@ -22,20 +23,33 @@ SwitchMobView::SwitchMobView(QWidget *parent, Digitaliser::Mobs const *mobs, Win
   setWindowFlags(Qt::Widget);
   ui.setupUi(this);
   ui.layout->addWidget(_scrollArea);
-  _scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+  _scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  _scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   _scrollArea->setWidget(_frame);
   connect(ui.b_cancel, SIGNAL(clicked()), this, SLOT(accept()));
+  Digitaliser::Mobs tmp = (**wMan->getBattle())->getMobs();
   for (auto it = mobs->begin() ; it != mobs->end() ; it++)
     {
+      auto it2 = find_if(tmp.begin(), tmp.end(), [&](const Mob *v){
+	  std::cout << "Checking battle mob : " << v->getName() << std::endl;
+	  if (v->getId() == (*it)->getId())
+	    return true;
+	  return false;
+	});
+
+      if (it2 != tmp.end())
+	continue;
       mobView = new MobView(_frame, wMan, *it);
       mobView->move(i % 6 * 81,0);
       mobView->resize(80, 80);
       mobView->show();
+      if((*it)->getCurrentStat("HP") == 0)
+	mobView->setEnabled(false);
       connect(mobView, SIGNAL(clicked(unsigned int)), this, SLOT(selectMob(unsigned int)));
       //_mobs->push_back(mobView);
       i++;
     }
-  _frame->resize(486, 80);
+  _frame->resize(486, 100);
 }
 
 SwitchMobView::~SwitchMobView()

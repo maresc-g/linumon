@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Wed Mar 19 10:28:44 2014 guillaume marescaux
+// Last update Wed Mar 19 13:30:42 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -88,7 +88,7 @@ void			WorldView::onUpdate()
 void			WorldView::onKeyEvent(QKeyEvent *event)
 {
   CLIENT::eState s = **(_wMan->getState());
-  if (s == CLIENT::PLAYING){
+  if (s == CLIENT::PLAYING || s == CLIENT::TRADE){
     try {
       (this->*(_keyMap->at(Qt::Key(event->key()))))();
     }

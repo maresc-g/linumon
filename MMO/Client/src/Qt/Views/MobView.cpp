@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Wed Mar 19 10:38:21 2014 guillaume marescaux
+// Last update Wed Mar 19 15:30:00 2014 cyril jourdain
 //
 
 #include			<QMenu>
@@ -96,7 +96,8 @@ void				MobView::mousePressEvent(QMouseEvent *mEvent)
 {
   if (mEvent->button() == Qt::LeftButton)
     {
-      emit clicked(_mob->getId());
+      if (_mob)
+	emit clicked(_mob->getId());
       makeDrag();
     }
 }
@@ -152,6 +153,7 @@ void				MobView::resize(int x, int y)
   QWidget::resize(x, y);
   ui.frame->resize(x, y);
 }
+
 
 void				MobView::move(int x, int y)
 {

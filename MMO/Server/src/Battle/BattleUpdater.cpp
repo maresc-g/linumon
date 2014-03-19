@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Mon Mar 17 12:26:27 2014 antoine maitre
+// Last update Wed Mar 19 13:15:57 2014 cyril jourdain
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -149,7 +149,7 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2, unsigned int 
 	  tmp->mobtoBattleMob(tmpMob->getId());
 	}
       tmp->addEnemy(player1->getDigitaliser().getBattleMobs());
-      this->_battles->push_back(new Battle(id, Battle::PVP, mobInBattle, player1, tmp));
+      this->_battles->push_back(new Battle(id, Battle::PVE, mobInBattle, player1, tmp));
     }
   else
     new Battle(id, Battle::PVP, rand()%3 + 1, player1, player2);
