@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Wed Mar 19 11:43:05 2014 guillaume marescaux
+// Last update Wed Mar 19 13:38:01 2014 guillaume marescaux
 //
 
 #include			<algorithm>
@@ -13,7 +13,7 @@
 
 Battle::Battle():
   _id(0), _mobs(new std::list<Mob *>), _enemy(NULL), _maxMobs(0), _spells(new std::list<SpellContainer *>),
-  _turnTo(new std::list<unsigned int>), _switch(new MutexVar<bool>(false)), _player(NULL), _win(false)
+  _turnTo(new std::list<unsigned int>), _switch(new MutexVar<bool>(false)), _player(NULL), _win(false), _end(false)
 {
 }
 
@@ -32,6 +32,8 @@ void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *en
   std::list<Mob *> const	mobs = (**player)->getDigitaliser().getBattleMobs();
   unsigned int			i = 0;
 
+  _win = false;
+  _end = false;
   _player = player;
   _turnTo->clear();
   _mobs->clear();
@@ -142,6 +144,10 @@ MutexVar<bool>			*Battle::getSwitch() const { return (_switch); }
 bool				Battle::getWin(void) const { return (_win); }
 
 void				Battle::setWin(bool win) { _win = win; }
+
+bool				Battle::getEnd(void) const { return (_end); }
+
+void				Battle::setEnd(bool end) { _end = end; }
 
 void				Battle::leaveBattle(void)
 {

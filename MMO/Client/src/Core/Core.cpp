@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 19 12:53:23 2014 guillaume marescaux
+// Last update Wed Mar 19 13:38:44 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -331,8 +331,8 @@ bool				Core::deadMob(Trame *)
 bool				Core::endBattle(Trame *trame)
 {
   (**_battle)->setWin((*trame)[CONTENT]["ENDBATTLE"]["WIN"].asBool());
+  (**_battle)->setEnd(true);
   (**_battle)->leaveBattle();
-  *_state = CLIENT::LEAVING_BATTLE;
   std::cout << "------------ END BATTLE" << std::endl;
   return (true);
 }
