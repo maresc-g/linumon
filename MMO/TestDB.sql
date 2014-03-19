@@ -11,20 +11,18 @@ INSERT INTO `User`(`id`, `pseudo`, `password`) VALUES
 DELETE FROM `EffectLib`;
 
 INSERT INTO `EffectLib`(`id`, `name`, `path`) VALUES
-       (1, 'Rugissement', 'Libs/Rugissement.so'),
-       (2, 'Mimi-Queue', 'Libs/Mimi-Queue.so'),
-       (3, 'HesodeEffect', 'Libs/HesodeEffect.so'),
-       (4, 'CelestiaEffect', 'Libs/CelestiaEffect.so'),
-       (5, 'NormalEffect', 'Libs/NormalEffect.so'),
-       (6, 'PotionEffect', 'Libs/PotionEffect.so'),
-       (7, 'SuperPotionEffect', 'Libs/SuperPotionEffect.so');
+       (1, 'HesodeEffect', 'Libs/HesodeEffect.so'),
+       (2, 'CelestiaEffect', 'Libs/CelestiaEffect.so'),
+       (3, 'NormalEffect', 'Libs/NormalEffect.so'),
+       (4, 'PotionEffect', 'Libs/PotionEffect.so'),
+       (5, 'SuperPotionEffect', 'Libs/SuperPotionEffect.so');
 
 /* Inserting Factions */
 DELETE FROM `Faction`;
 
 INSERT INTO `Faction`(`id`, `name`, `effectLib`) VALUES
-       (1, 'Hesode', 3),
-       (2, 'Celestia', 4);
+       (1, 'Hesode', 1),
+       (2, 'Celestia', 2);
 
 /* Inserting ExperiencesCurves */
 DELETE FROM `ExperienceCurve`;
@@ -41,14 +39,39 @@ INSERT INTO `ExperienceCurve`(`id`, `name`, `path`) VALUES
 DELETE FROM `TalentModel`;
 
 INSERT INTO `TalentModel`(`id`, `name`, `maxPoints`, `effectLib`) VALUES
-       (1, 'MinAtkTalentModel', 10, 1),
-       (2, 'MinDefTalentModel', 10, 2);
+       ( 1, 'HP_Talent',			1, 1),
+       ( 2, 'Attack_Talent',			3, 1),
+       ( 3, 'Defense_Talent',			3, 1),
+       ( 4, 'Heal_Talent',			3, 1),
+       ( 5, 'Attack_Fire_Talent',		3, 1),
+       ( 6, 'Attack_Electric_Talent',		3, 1),
+       ( 7, 'Defense_Rock_Talent',		3, 1),
+       ( 8, 'Defense_Steel_Talent',		3, 1),
+       ( 9, 'Heal_Grass_Talent',		3, 1),
+       (10, 'Heal_Water_Talent',		3, 1),
+       (11, 'Capture_Talent',			3, 1),
+       (12, 'AddBattleMod_Talent',		1, 1),
+       (13, 'Limit_Talent',			1, 1),
+       (14, 'Capture2_Talent',			3, 1),
+       (15, 'AddBattleMod2_Talent',		1, 1);
 
 /* Inserting TalentModels_talents */
 DELETE FROM `TalentModel_talents`;
 
 INSERT INTO `TalentModel_talents`(`object_id`, `index`, `value`) VALUES
-       (1, 0, 2);
+       ( 1, 0,  2),
+       ( 1, 1,  3),
+       ( 1, 2,  4),
+       ( 2, 0,  5),
+       ( 2, 1,  6),
+       ( 3, 0,  7),
+       ( 3, 1,  8),
+       ( 4, 0,  9),
+       ( 4, 1, 10),
+       (11, 0, 12),
+       (12, 0, 13),
+       (13, 0, 14),
+       (14, 0, 15);
 
 /* Inserting Talents */
 DELETE FROM `Talent`;
@@ -60,9 +83,14 @@ INSERT INTO `Talent`(`id`, `model`, `currentPoints`) VALUES
 /* Inserting TalentTrees */
 DELETE FROM `TalentTree`;
 
-INSERT INTO `TalentTree`(`id`, `name`, `talent`) VALUES
-       (1, 'BaseTree1', 1),
-       (2, 'BaseTree2', 2);
+INSERT INTO `TalentTree`(`id`, `name`) VALUES
+       (1, 'BaseTree1');
+
+DELETE FROM `TalentTree_talents`;
+
+INSERT INTO `TalentTree_talents`(`object_id`, `index`, `value`) VALUES
+       (1, 0, 1),
+       (1, 1, 11);
 
 /* Inserting DBZones */
 DELETE FROM `DBZone`;
@@ -211,22 +239,22 @@ INSERT INTO `DBZone_mobModels`(`object_id`, `index`, `value`) VALUES
 DELETE FROM `Spell`;
 
 INSERT INTO `Spell`(`id`, `name`, `type`, `power`, `useLimit`, `effectLib`) VALUES
-       (1,  'Lance-Flamme',  1,  90, 0, 5),
-       (2,  'Flammèche',     1,  40, 0, 5),
-       (3,  'Crocs Feu',     1,  65, 0, 5),
-       (4,  'Boutefeu',      1, 120, 0, 5),
-       (5,  'Vibraqua',      2,  60, 0, 5),
-       (6,  'Hydroqueue',    2,  90, 0, 5),
-       (7,  'Hydrocanon',    2, 110, 0, 5),
-       (8,  'Surf',          2,  90, 0, 5),
-       (9,  'Tranch''Herbe', 3,  55, 0, 5),
-       (10, 'Fouet Lianes',  3,  35, 0, 5),
-       (11, 'Danse-Fleur',   3, 120, 0, 5),
-       (12, 'Lance-Soleil',  3, 120, 0, 5),
-       (13, 'Crocs Eclair',  4,  65, 0, 5),
-       (14, 'Fatal-Foudre',  4, 110, 0, 5),
-       (15, 'Onde de Choc',  4,  60, 0, 5),
-       (16, 'Tonnerre',      4,  90, 0, 5);
+       (1,  'Lance-Flamme',  1,  90, 0, 3),
+       (2,  'Flammèche',     1,  40, 0, 3),
+       (3,  'Crocs Feu',     1,  65, 0, 3),
+       (4,  'Boutefeu',      1, 120, 0, 3),
+       (5,  'Vibraqua',      2,  60, 0, 3),
+       (6,  'Hydroqueue',    2,  90, 0, 3),
+       (7,  'Hydrocanon',    2, 110, 0, 3),
+       (8,  'Surf',          2,  90, 0, 3),
+       (9,  'Tranch''Herbe', 3,  55, 0, 3),
+       (10, 'Fouet Lianes',  3,  35, 0, 3),
+       (11, 'Danse-Fleur',   3, 120, 0, 3),
+       (12, 'Lance-Soleil',  3, 120, 0, 3),
+       (13, 'Crocs Eclair',  4,  65, 0, 3),
+       (14, 'Fatal-Foudre',  4, 110, 0, 3),
+       (15, 'Onde de Choc',  4,  60, 0, 3),
+       (16, 'Tonnerre',      4,  90, 0, 3);
 
 /* Assigning Spells to MobModels */
 DELETE FROM `MobModel_spells`;
@@ -537,8 +565,8 @@ INSERT INTO `Heal`(`id`, `name`, `pnjType`, `zone`, `x`, `y`) VALUES
 DELETE FROM `Consumable`;
 
 INSERT INTO `Consumable`(`id`, `name`, `effectlib`) VALUES
-       (1, 'Potion', 6),
-       (2, 'Super Potion', 7);
+       (1, 'Potion', 4),
+       (2, 'Super Potion', 5);
 
 /* Adding some fancy views because it's quite swag */
 DROP VIEW IF EXISTS `StatView`;

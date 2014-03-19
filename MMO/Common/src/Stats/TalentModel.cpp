@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:18:40 2014 alexis mestag
-// Last update Mon Mar 17 22:53:14 2014 guillaume marescaux
+// Last update Wed Mar 19 17:20:57 2014 alexis mestag
 //
 
 #include			<functional>
@@ -13,19 +13,19 @@
 #include			"Loader/LoaderManager.hh"
 
 TalentModel::TalentModel() :
-  Persistent(), Nameable(), _maxPoints(0), _effectLib(NULL)
+  Persistent(), Nameable(), _maxPoints(0), _effectLib(NULL), _parent(NULL)
 {
 
 }
 
 TalentModel::TalentModel(std::string const &name) :
-  Persistent(), Nameable(name), _maxPoints(0), _effectLib(NULL)
+  Persistent(), Nameable(name), _maxPoints(0), _effectLib(NULL), _parent(NULL)
 {
 
 }
 
 TalentModel::TalentModel(TalentModel const &rhs) :
-  Persistent(rhs), Nameable(rhs), _effectLib(NULL)
+  Persistent(rhs), Nameable(rhs), _effectLib(NULL), _parent(NULL)
 {
   *this = rhs;
 }
@@ -41,6 +41,8 @@ TalentModel			&TalentModel::operator=(TalentModel const &rhs)
     {
       this->setMaxPoints(rhs.getMaxPoints());
       this->setEffectLib(rhs.getEffectLib());
+      this->setTalents(rhs.getTalents());
+      this->setParent(rhs.getParent());
     }
   return (*this);
 }
@@ -69,44 +71,73 @@ void				TalentModel::setEffectLib(EffectLib const &effectLib)
     _effectLib = &effectLib;
 }
 
-void				TalentModel::deleteTalents()
-{
-  static std::function<bool(TalentModel *)>	talentsDeleter = [](TalentModel *t) -> bool {
-    delete t;
-    return (true);
-  };
-
-  _talents.remove_if(talentsDeleter);
-}
-
 void				TalentModel::addTalent(TalentModel const &talent)
 {
-  _talents.push_back(new TalentModel(talent));
+  _talents.push_back(&talent);
 }
 
-void				TalentModel::addTalent(TalentModel *talent)
+void				TalentModel::setTalents(std::list<TalentModel const *> const &talents)
 {
-  _talents.push_back(talent);
+  for (auto it = talents.begin() ; it != talents.end() ; ++it)
+    this->addTalent(**it);
 }
 
-void				TalentModel::setTalents(TalentModel const &talent)
+std::list<TalentModel const *> const	&TalentModel::getTalents() const
 {
-  for (auto it = talent._talents.begin() ; it != talent._talents.end() ; ++it)
-    {
-      this->addTalent(**it);
-    }
+  return (_talents);
 }
 
-std::list<TalentModel *> const	&TalentModel::getTalents() const { return (_talents); }
+TalentModel const		*TalentModel::getParent() const
+{
+  return (_parent);
+}
+
+void				TalentModel::setParent(TalentModel const *parent)
+{
+  _parent = parent;
+}
 
 bool				TalentModel::serialization(Trame &trame) const
 {
   bool				ret = true;
+  std::ostringstream		str;
+  unsigned int			nb = 0;
 
+  trame["NAME"] = this->getName();
   trame["PTS"] = this->_maxPoints;
+  if (_parent)
+    trame["PARENT"] = _parent->getName();
   for (auto it = this->_talents.begin() ; it != this->_talents.end() ; ++it)
-    (*it)->serialization(trame(trame[(*it)->getName()]));
+    {
+      str << nb;
+      trame["TALENTS"][str.str()] = (*it)->getName();
+      str.str("");
+      nb++;
+    }
   return (ret);
+}
+
+TalentModel			*TalentModel::deserialization(Trame const &trame)
+{
+  TalentModel			*talentModel = NULL;
+  auto				members = trame["TALENTS"].getMemberNames();
+
+  talentModel = new TalentModel(trame["NAME"].asString());
+  talentModel->setMaxPoints(trame["PTS"].asUInt());
+  /*
+  ** The rest of the TalentModel will be initialized by TalentModelLoader::deserialization
+  */
+  // TalentModel			*toAdd;
+  // toAdd = (**LoaderManager::getInstance()->getTalentModelLoader())
+  //   ->getValue(trame["PARENT"].asString());
+  // talentModel->setParent(toAdd);
+  // for (auto it = members.begin() ; it != members.end() ; ++it) {
+  //   toAdd = (**LoaderManager::getInstance()->getTalentModelLoader())
+  //     ->getValue(trame["TALENTS"][*it].asString());
+  //   if (toAdd)
+  //     talentModel->addTalent(toAdd);
+  // }
+  return (talentModel);
 }
 
 bool				TalentModel::deserializationTreeModel(Trame const &trame)
@@ -120,31 +151,9 @@ bool				TalentModel::deserializationTreeModel(Trame const &trame)
   	{
   	  model = (**LoaderManager::getInstance()->getTalentModelLoader())->getValue(*it);
   	  if (model)
-  	    this->addTalent(model);
+  	    this->addTalent(*model);
   	  TalentModel::deserializationTreeModel(trame(trame[*it]));
   	}
     }
   return (true);
-}
-
-TalentModel			*TalentModel::deserialization(Trame const &trame)
-{
-  TalentModel			*talentModel = NULL;
-
-  talentModel = new TalentModel;
-  talentModel->setMaxPoints(trame["PTS"].asUInt());
-
-  // auto			otherMembers = trame.getMemberNames();
-
-  // for (auto other = otherMembers.begin() ; other != otherMembers.end() ; ++other)
-  //   {
-  //     if (*other != "PTS")
-  // 	{
-  // 	  model = (**LoaderManager::getInstance()->getTalentModelLoader())->getValue(trame[*other].asString());
-  // 	  if (model)
-  // 	    talentModel->addTalent(*model);
-  // 	  TalentModel::deserialization(trame(trame[*other]));
-  // 	}
-  //   }
-  return (talentModel);
 }

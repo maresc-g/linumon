@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Mar 17 22:32:36 2014 guillaume marescaux
-// Last update Mon Mar 17 23:15:04 2014 guillaume marescaux
+// Last update Wed Mar 19 17:55:12 2014 alexis mestag
 //
 
 #include		<iostream>
@@ -33,14 +33,14 @@ void			TalentsView::paintEvent(QPaintEvent *)
 
 void			TalentsView::initTalents(TalentTree const &tree)
 {
-  TalentModel const	*first = &tree.getTalent();
-  std::list<TalentModel const *>	*current = new std::list<TalentModel const *>;
+  std::list<TalentModel const *> const	*current = &tree.getTalents();
   std::list<TalentModel const *>	*next = new std::list<TalentModel const *>;
   unsigned int		i = 0;
   unsigned int		j = 0;
   QLabel		*label;
 
-  current->push_back(first);
+  std::cerr << "current->size() = " << current->size() << std::endl;
+  std::cerr << "tree name = " << tree.getName() << std::endl;
   while (!current->empty())
     {
       j = 0;
@@ -48,20 +48,20 @@ void			TalentsView::initTalents(TalentTree const &tree)
 	{
 	  std::cout << "I AM PUTING A TALENT" << std::endl;
 	  label = new QLabel(this);
-	  label->setText("toto");
+	  label->setText((*itCur)->getName().c_str());
 	  label->move(j * 50, i * 50);
-	  std::list<TalentModel *>	sons = (*itCur)->getTalents();
-	  for (auto itSons = sons.begin() ; itSons != sons.end() ; ++itSons)
+	  std::list<TalentModel const *> const	*sons = &(*itCur)->getTalents();
+	  for (auto itSons = sons->begin() ; itSons != sons->end() ; ++itSons)
 	    {
 	      std::cout << "I AM PUTING A SON" << std::endl;
 	      next->push_back(*itSons);
 	    }
 	  j++;
 	}
-      delete current;
+      // delete current;
       current = next;
       next = new std::list<TalentModel const *>;
       i++;
     }
-  delete next;
+  // delete next;
 }

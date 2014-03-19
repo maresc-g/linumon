@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Mar  5 15:04:36 2014 laurent ansel
-// Last update Mon Mar 17 17:31:40 2014 alexis mestag
+// Last update Wed Mar 19 17:21:44 2014 alexis mestag
 //
 
 #include			<functional>
@@ -21,8 +21,8 @@ LoaderManager::LoaderManager():
   _heals(new MutexVar<HealLoader *>(NULL)),
   _talentModels(new MutexVar<TalentModelLoader *>(NULL)),
   _jobModels(new MutexVar<JobModelLoader *>(NULL)),
-  _mobModels(new MutexVar<MobModelLoader *>(NULL))
-
+  _mobModels(new MutexVar<MobModelLoader *>(NULL)),
+  _talentTrees(new MutexVar<TalentTreeLoader *>(NULL))
 {
 
 }
@@ -38,6 +38,7 @@ LoaderManager::~LoaderManager()
   delete _heals;
   delete _ressources;
   delete _authorizedStatKeys;
+  delete _talentTrees;
 }
 
 void				LoaderManager::init()
@@ -51,6 +52,7 @@ void				LoaderManager::init()
   _talentModels->setVar(new TalentModelLoader);
   _jobModels->setVar(new JobModelLoader);
   _mobModels->setVar(new MobModelLoader);
+  _talentTrees->setVar(new TalentTreeLoader);
 }
 
 MutexVar<MobModelLoader *>	*LoaderManager::getMobModelLoader() const
@@ -108,6 +110,11 @@ AItem				*LoaderManager::getItemLoader(std::string const &name) const
   return (item);
 }
 
+MutexVar<TalentTreeLoader *>	*LoaderManager::getTalentTreeLoader() const
+{
+  return (this->_talentTrees);
+}
+
 bool				LoaderManager::setMobModelLoader(Trame *trame)
 {
   return ((**_mobModels)->deserialization(*trame));
@@ -153,6 +160,11 @@ bool				LoaderManager::setAuthorizedStatKeyLoader(Trame *trame)
   return ((**_authorizedStatKeys)->deserialization(*trame));
 }
 
+bool				LoaderManager::setTalentTreeLoader(Trame *trame)
+{
+  return ((**_talentTrees)->deserialization(*trame));
+}
+
 void				LoaderManager::initReception(Protocol &protocol) const
 {
   std::function<bool (Trame *)> func;
@@ -183,4 +195,7 @@ void				LoaderManager::initReception(Protocol &protocol) const
 
   func = std::bind1st(std::mem_fun(&LoaderManager::setAuthorizedStatKeyLoader), this);
   protocol.addFunc("AUTHORIZEDSTATKEYSLIST", func);
+
+  func = std::bind1st(std::mem_fun(&LoaderManager::setTalentTreeLoader), this);
+  protocol.addFunc("TALENTTREES", func);
 }
