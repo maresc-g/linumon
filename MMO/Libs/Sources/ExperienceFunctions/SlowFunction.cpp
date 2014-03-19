@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Mar 12 16:40:48 2014 alexis mestag
-// Last update Wed Mar 12 23:09:58 2014 alexis mestag
+// Last update Tue Mar 18 23:00:47 2014 alexis mestag
 //
 
 #include				<cmath>
@@ -21,7 +21,7 @@ SlowFunction::~SlowFunction()
 
 }
 
-Level::type				SlowFunction::operator()(Level::type const level) const
+Levelable::type				SlowFunction::operator()(Levelable::type const level) const
 {
-  return (1.25 * std::pow(level + 1, 3));
+  return (1.25 * std::pow(level, 3));
 }

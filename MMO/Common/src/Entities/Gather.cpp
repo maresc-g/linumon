@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb 28 15:08:06 2014 laurent ansel
-// Last update Thu Mar  6 17:17:49 2014 laurent ansel
+// Last update Tue Mar 18 23:57:31 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -13,17 +13,16 @@
 #include			"Loader/LoaderManager.hh"
 
 Gather::Gather():
-  _level(new Level), _ressource(NULL)
+  _level(0), _exp(0), _ressource(NULL)
 {
 }
 
 Gather::~Gather()
 {
-  delete _level;
+
 }
 
-Gather::Gather(Gather const &rhs) :
-  _level(new Level)
+Gather::Gather(Gather const &rhs)
 {
   *this = rhs;
 }
@@ -32,20 +31,11 @@ Gather				&Gather::operator=(Gather const &rhs)
 {
   if (this != &rhs)
     {
-      this->setLevelObject(rhs.getLevelObject());
+      this->setLevel(rhs.getLevel());
+      this->setExp(rhs.getExp());
       this->setRessource(rhs.getRessource());
     }
   return (*this);
-}
-
-Level const			&Gather::getLevelObject() const
-{
-  return (*this->_level);
-}
-
-void				Gather::setLevelObject(Level const &level)
-{
-  *this->_level = level;
 }
 
 Ressource const			&Gather::getRessource() const
@@ -58,31 +48,33 @@ void				Gather::setRessource(Ressource const &ressource)
   this->_ressource = &ressource;
 }
 
-Level::type			Gather::getLevel() const
+Levelable::type			Gather::getLevel() const
 {
-  return (_level->getLevel());
+  return (_level);
 }
 
-void				Gather::setLevel(Level::type const level)
+void				Gather::setLevel(Levelable::type const level)
 {
-  _level->setLevel(level);
+  _level = level;
 }
 
-Level::type			Gather::getExp() const
+Levelable::type			Gather::getExp() const
 {
-  return (_level->getExp());
+  return (_exp);
 }
 
-void				Gather::setExp(Level::type const exp)
+void				Gather::setExp(Levelable::type const exp)
 {
-  _level->setExp(exp);
+  _exp = exp;
 }
 
 bool				Gather::serialization(Trame &trame) const
 {
   bool				ret = true;
 
-  this->_level->serialization(trame(trame));
+  // this->_level->serialization(trame(trame));
+  trame["LVL"] = this->getLevel();
+  trame["EXP"] = this->getExp();
   // this->_ressource->serialization(trame(trame["RES"]));
   // trame["RES"].removeMember("COORDINATE");
   // trame["RES"].removeMember("VIS");
@@ -96,7 +88,9 @@ Gather				*Gather::deserialization(Trame const &trame, bool const)
   Ressource			*item;
 
   gather = new Gather;
-  gather->setLevelObject(*Level::deserialization(trame(trame)));
+  // gather->setLevelObject(*Level::deserialization(trame(trame)));
+  gather->setLevel(trame["LVL"].asUInt());
+  gather->setExp(trame["EXP"].asUInt());
   // item = Ressource::deserialization(trame(trame["RES"]), client);
   item = (**LoaderManager::getInstance()->getRessourceLoader())->getValue(trame["RES"].asString());
   if (item)

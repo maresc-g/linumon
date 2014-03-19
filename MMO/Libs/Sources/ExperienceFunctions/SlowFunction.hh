@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Mar 12 16:42:37 2014 alexis mestag
-// Last update Wed Mar 12 16:44:33 2014 alexis mestag
+// Last update Tue Mar 18 23:00:37 2014 alexis mestag
 //
 
 #ifndef				__SLOWFUNCTION_HH__
@@ -20,7 +20,7 @@ public:
   virtual ~SlowFunction();
 
 public:
-  virtual Level::type		operator()(Level::type const level) const;
+  virtual Levelable::type	operator()(Levelable::type const level) const;
 };
 
 extern				"C"

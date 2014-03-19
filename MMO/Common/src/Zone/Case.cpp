@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Mon Mar 17 17:57:41 2014 antoine maitre
+// Last update Mon Mar 17 17:46:27 2014 cyril jourdain
 //
 
 #include		"Zone/Case.hh"
@@ -56,19 +56,29 @@ void			Case::delAEntity(AEntity *entity)
       return false;
     });
   if (it != _entities->end())
-    this->_entities->erase(it);
+    {
+      std::cout << "Case::delAEntity() : Removed entity" << std::endl;
+      this->_entities->erase(it);
+    }else
+    {
+      std::cout << "Case::delAEntity() : No entity removed" << std::endl;
+    }
 }
 
 void			Case::delAEntity(unsigned int const id)
 {
   bool			set = false;
+  int i = 0;
 
   for (auto it = _entities->begin() ; !set && it != _entities->end() ; ++it)
     if ((*it)->getId() == id)
       {
+	i++;
 	it = _entities->erase(it);
-	set = true;
+	// set = true;
       }
+  if (i > 0)
+    std::cout << "Case::delAEntity() : Removed ["<< i << "] entity" << std::endl;
 }
 
 bool			Case::serialization(Trame &trame) const

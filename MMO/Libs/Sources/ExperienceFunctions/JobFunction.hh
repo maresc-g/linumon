@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Mar 12 19:19:28 2014 alexis mestag
-// Last update Wed Mar 12 19:23:47 2014 alexis mestag
+// Last update Tue Mar 18 23:01:15 2014 alexis mestag
 //
 
 #ifndef				__JOBFUNCTION_HH__
@@ -20,7 +20,7 @@ public:
   virtual ~JobFunction();
 
 public:
-  virtual Level::type		operator()(Level::type const level) const;
+  virtual Levelable::type	operator()(Levelable::type const level) const;
 };
 
 extern				"C"

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Mar 12 16:15:23 2014 alexis mestag
-// Last update Wed Mar 12 16:18:34 2014 alexis mestag
+// Last update Tue Mar 18 23:00:53 2014 alexis mestag
 //
 
 #ifndef				__PARABOLICFUNCTION_HH__
@@ -20,7 +20,7 @@ public:
   virtual ~ParabolicFunction();
 
 public:
-  virtual Level::type		operator()(Level::type const level) const;
+  virtual Levelable::type	operator()(Levelable::type const level) const;
 };
 
 extern				"C"

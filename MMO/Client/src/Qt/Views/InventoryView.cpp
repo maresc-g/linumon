@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Sat Mar 15 19:03:31 2014 guillaume marescaux
+// Last update Wed Mar 19 10:30:49 2014 guillaume marescaux
 //
 
 #include <iostream>
@@ -83,7 +83,6 @@ void				InventoryView::stackAction(StackView *stackView)
 {
   if (stackView->getStack().getItem()->getItemType() == AItem::STUFF)
     {
-      Stuff const               *stuff = static_cast<Stuff const *>(stackView->getStack().getItem());
       auto			*stack = &stackView->getStack();
       bool                      ret;
 

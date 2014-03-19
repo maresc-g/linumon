@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Mar 12 19:20:48 2014 alexis mestag
-// Last update Wed Mar 12 23:09:41 2014 alexis mestag
+// Last update Tue Mar 18 23:01:22 2014 alexis mestag
 //
 
 #include				<cmath>
@@ -21,7 +21,7 @@ JobFunction::~JobFunction()
 
 }
 
-Level::type				JobFunction::operator()(Level::type const level) const
+Levelable::type				JobFunction::operator()(Levelable::type const level) const
 {
-  return (std::pow(level + 1, 2) * 100);
+  return (std::pow(level, 2) * 100);
 }

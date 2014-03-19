@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:40:15 2014 laurent ansel
-// Last update Fri Mar 14 12:51:27 2014 laurent ansel
+// Last update Tue Mar 18 23:56:36 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -16,21 +16,23 @@ Craft::Craft():
   Persistent(),
   Nameable(),
   ContainerWrapper<container_type>(),
-  _level(new Level),
+  _level(0),
+  _exp(0),
   _result(NULL)
 {
 }
 
 Craft::~Craft()
 {
-  delete _level;
+
 }
 
 Craft::Craft(Craft const &rhs):
   Persistent(rhs),
   Nameable(rhs),
   ContainerWrapper<container_type>(),
-  _level(new Level),
+  _level(0),
+  _exp(0),
   _result(NULL)
 {
   *this = rhs;
@@ -40,7 +42,8 @@ Craft				&Craft::operator=(Craft const &rhs)
 {
   if (this != &rhs)
     {
-      this->setLevelObject(rhs.getLevelObject());
+      this->setLevel(rhs.getLevel());
+      this->setExp(rhs.getExp());
       this->setIngredients(rhs.getIngredients());
       this->setResult(rhs.getResult());
     }
@@ -57,37 +60,24 @@ void				Craft::setIngredients(container_type const &list)
   this->setContainer(list);
 }
 
-Level const			&Craft::getLevelObject() const
+Levelable::type			Craft::getLevel() const
 {
-  return (*this->_level);
+  return (_level);
 }
 
-void				Craft::setLevelObject(Level const &level)
+void				Craft::setLevel(Levelable::type const level)
 {
-  if (!_level)
-    this->_level = new Level(level);
-  else
-    *this->_level = level;
+  _level = level;
 }
 
-Level::type			Craft::getLevel() const
+Levelable::type			Craft::getExp() const
 {
-  return (_level->getLevel());
+  return (_exp);
 }
 
-void				Craft::setLevel(Level::type const level)
+void				Craft::setExp(Levelable::type const exp)
 {
-  _level->setLevel(level);
-}
-
-Level::type			Craft::getExp() const
-{
-  return (_level->getExp());
-}
-
-void				Craft::setExp(Level::type const exp)
-{
-  _level->setExp(exp);
+  _exp = exp;
 }
 
 Stack<AItem> const		&Craft::getResult() const
@@ -108,7 +98,9 @@ bool				Craft::serialization(Trame &trame) const
 
   trame["NAME"] = this->getName();
   trame["INGS"];
-  this->_level->serialization(trame);
+  // this->_level->serialization(trame);
+  trame["LVL"] = this->getLevel();
+  trame["EXP"] = this->getExp();
   // this->_result->serialization(trame(trame["RES"]));
   trame["RES"] = this->_result->getItem()->getName();
   for (auto it = this->begin() ; it != this->end() && ret; ++it)
@@ -133,7 +125,9 @@ Craft				*Craft::deserialization(Trame const &trame, bool const)
 
   craft = new Craft;
   craft->setName(trame["NAME"].asString());
-  craft->setLevelObject(*Level::deserialization(trame(trame)));
+  // craft->setLevelObject(*Level::deserialization(trame(trame)));
+  craft->setLevel(trame["LVL"].asUInt());
+  craft->setExp(trame["EXP"].asUInt());
   item = LoaderManager::getInstance()->getItemLoader(trame["RES"].asString());
   if (item)
     craft->setResult(*new Stack<AItem>(0, item, 1));

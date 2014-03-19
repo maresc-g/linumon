@@ -63,6 +63,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Client.hh \
                 include/Common/eState.hh \
                 include/Common/eDirection.hh \
+                include/Common/ErrorBox.hh \
                 include/Core/Core.hh \
                 include/Core/ErrorHandler.hh \
                 include/Chat/Chat.hh \
@@ -116,6 +117,7 @@ SOURCES +=      src/main.cpp \
                 src/SFML/Sprite/Frame.cpp \
                 src/SFML/Sprite/SpriteManager.cpp \
                 src/Client.cpp \
+                src/Common/ErrorBox.cpp \
                 src/Chat/Chat.cpp \
                 src/Core/Core.cpp \
                 src/Core/ErrorHandler.cpp \
@@ -167,11 +169,11 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Entities/Carcass.cpp \ 
                 ../Common/src/Entities/Players.cpp \ 
                 ../Common/src/Entities/Type.cpp \ 
+                ../Common/src/Entities/Levelable.cpp \ 
                 ../Common/src/Entities/Drop.cpp \
                 ../Common/src/Entities/AItem.cpp \ 
                 ../Common/src/Entities/PNJ.cpp \ 
                 ../Common/src/Entities/Spell.cpp \ 
-                ../Common/src/Entities/Level.cpp \ 
                 ../Common/src/Entities/Gather.cpp \ 
                 ../Common/src/Entities/Digitaliser.cpp \ 
                 ../Common/src/Entities/Mob.cpp \ 

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Mar 17 16:49:56 2014 guillaume marescaux
+// Last update Tue Mar 18 23:29:49 2014 alexis mestag
 //
 
 #include			<functional>
@@ -29,8 +29,9 @@ Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _type(PlayerType::PLAYER),
   _digitaliser(new Digitaliser(this)), _coord(new PlayerCoordinate),
   _faction(NULL), _talentTree(NULL), _talents(new Talents), _user(NULL),
-  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL), _expCurve(NULL)
+  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL)
 # ifndef	CLIENT_COMPILATION
+  , _expCurve(NULL)
   , _dbZone(NULL)
 # else
   , _zone("NONE")
@@ -43,8 +44,9 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   Persistent(), ACharacter(name, eCharacter::PLAYER), _type(PlayerType::PLAYER),
   _digitaliser(new Digitaliser(this)), _coord(new PlayerCoordinate),
   _faction(NULL), _talentTree(NULL), _talents(new Talents), _user(user),
-  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL), _expCurve(NULL)
+  _inventory(new Inventory), _jobs(new Jobs), _guild(NULL)
 # ifndef	CLIENT_COMPILATION
+  , _expCurve(NULL)
   , _dbZone(NULL)
 # else
   , _zone("NONE")
@@ -135,7 +137,9 @@ Player				&Player::operator=(Player const &rhs)
       this->setFaction(rhs.getFaction());
       this->setGuild(*rhs.getGuild());
       this->setZone(rhs.getZone());
+#ifndef		CLIENT_COMPILATION
       this->setExperienceCurve(rhs.getExperienceCurve());
+#endif
     }
   return (*this);
 }
@@ -238,20 +242,22 @@ void				Player::setInventory(Inventory *inventory)
   this->_inventory = inventory;
 }
 
+#ifndef			CLIENT_COMPILATION
 ExperienceCurve const		&Player::getExperienceCurve() const
 {
   return (*_expCurve);
 }
 
+void				Player::setExperienceCurve(ExperienceCurve const &expCurve)
+{
+  _expCurve = &expCurve;
+}
+#endif
+
 void				Player::levelUp()
 {
   ACharacter::levelUp();
   _talents->setCurrentPts(_talents->getCurrentPts() + 5);
-}
-
-void				Player::setExperienceCurve(ExperienceCurve const &expCurve)
-{
-  _expCurve = &expCurve;
 }
 
 Jobs const			&Player::getJobs() const
@@ -472,8 +478,10 @@ bool				Player::serialization(Trame &trame) const
     this->_guild->serialization(trame(trame["PLAYER"]["GUILD"]));
   this->_digitaliser->serialization(trame(trame["PLAYER"]));
   this->getStats().serialization(trame(trame["PLAYER"]["STATS"]));
-  this->getLevelObject().serialization(trame(trame["PLAYER"]));
+  // this->getLevelObject().serialization(trame(trame["PLAYER"]));
   trame["PLAYER"]["CEXP"] = this->getCurrentExp();
+  trame["PLAYER"]["LVL"] = this->getLevel();
+  trame["PLAYER"]["EXP"] = this->getExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
   this->_inventory->serialization(trame(trame["PLAYER"]));
   this->_talentTree->serialization(trame(trame["PLAYER"]));
@@ -509,12 +517,12 @@ Player				*Player::deserialization(Trame const &trame)
 
       player->setZone(trame["PLAYER"]["ZONE"].asString());
 
-      Level			*lvl = Level::deserialization(trame(trame["PLAYER"]));
-      if (lvl)
-	player->setLevelObject(*lvl);
-
       if (trame["PLAYER"].isMember("CEXP"))
-	player->setCurrentExp(trame["PLAYER"]["CEXP"].asUInt(), false); /* Pass true (or ommit the parameter) if the ExperienceCurve is set */
+	player->setCurrentExp(trame["PLAYER"]["CEXP"].asUInt(), false);
+      if (trame["PLAYER"].isMember("LVL"))
+	player->setLevel(trame["PLAYER"]["EXP"].asUInt());
+      if (trame["PLAYER"].isMember("EXP"))
+	player->setExp(trame["PLAYER"]["EXP"].asUInt());
 
       TalentTree		*tree = TalentTree::deserialization(trame(trame["PLAYER"]));
       if (tree)

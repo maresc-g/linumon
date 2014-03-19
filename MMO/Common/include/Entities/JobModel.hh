@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:21:21 2014 laurent ansel
-// Last update Wed Mar 12 21:36:26 2014 alexis mestag
+// Last update Tue Mar 18 11:24:06 2014 alexis mestag
 //
 
 #ifndef 		__JOBMODEL_HH__
@@ -29,15 +29,18 @@ private:
   std::string			_path;
   std::list<Craft *>		*_crafts;
   std::list<Gather>		*_gathers;
+# ifndef	CLIENT_COMPILATION
   ExperienceCurve const		*_expCurve;
+# endif
 
   JobModel();
 
   void				setCrafts(std::list<Craft *> const &crafts);
   void				setGathers(std::list<Gather> const &gathers);
 
+# ifndef	CLIENT_COMPILATION
   void				setExperienceCurve(ExperienceCurve const &expCurve);
-
+# endif
 public:
   JobModel(JobModel const &rhs);
   virtual ~JobModel();
@@ -54,7 +57,9 @@ public:
   std::string const		&getPath() const;
   void				setPath(std::string const &path);
 
+# ifndef	CLIENT_COMPILATION
   ExperienceCurve const		&getExperienceCurve() const;
+# endif
 
   virtual bool			serialization(Trame &trame) const;
   static JobModel		*deserialization(Trame const &trame);

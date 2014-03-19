@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Sun Mar 16 23:00:32 2014 cyril jourdain
+// Last update Tue Mar 18 23:49:03 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -55,6 +55,8 @@ private:
   unsigned int			_currentTurn;
   bool				_battleStarted;  
   Sprite			*_countDownSprite;
+  Sprite			*_battleResult;
+  // bool				_updatingHealthBar;
 
 public:
   BattleView(SFMLView *, WindowManager *);
@@ -81,7 +83,9 @@ public:
   void				quitBattle();
   bool				isBattleEnded();
   void				battleStart();
-  bool				canStartBattle();
+  bool				canStartBattle() const;
+  void				printBattleResult();
+  bool				canEndBattle() const;
 
 private:
   void				loadPlayerList();

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Tue Mar 18 11:20:14 2014 guillaume marescaux
+// Last update Wed Mar 19 10:31:05 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -79,7 +79,7 @@ void				StackView::mouseDoubleClickEvent(QMouseEvent *)
     std::cout << "FAIL = " << this->parentWidget()->objectName().toStdString() << std::endl;
 }
 
-void				StackView::enterEvent(QEvent *event)
+void				StackView::enterEvent(QEvent *)
 {
   StuffStatsView		*stuffStats = _wMan->getSFMLView()->getStuffStatsView();
 
