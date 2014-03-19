@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:44:23 2014 cyril jourdain
-// Last update Sat Mar 15 21:54:49 2014 cyril jourdain
+// Last update Tue Mar 18 23:32:59 2014 cyril jourdain
 //
 
 #ifndef 		__MOBSPRITE_HH__
@@ -42,6 +42,7 @@ public:
   virtual void			onClick(QMouseEvent *);
   virtual void			setPosition(int x, int y);
   virtual void			update(sf::Clock &);
+  bool				isHealthBarUpdated() const;
 };
 
 #endif

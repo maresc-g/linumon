@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Tue Mar 18 10:54:58 2014 cyril jourdain
+// Last update Wed Mar 19 00:02:09 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -79,11 +79,13 @@ void			BattleView::onInit()
 }
 void			BattleView::onUpdate()
 {
-  // if (_battleResult && _battleResult->getPlayCount() > 0)
-  //   {
-  //     _battleResult->update(*_sfmlView->getMainClock());
-  //     return;
-  //   }
+  BattleMob *mob;
+
+  if (_battleResult && _battleResult->getPlayCount() > 0)
+    {
+      _battleResult->update(*_sfmlView->getMainClock());
+      return;
+    }
   if (_battleStarted){
     if (_countDownSprite->isAnimFinished()){
       // std::cout << "Updating battle" << std::endl;
@@ -95,7 +97,8 @@ void			BattleView::onUpdate()
 	  _playingMob = NULL;
 	  setLifeVisibility(true);
 	}
-      if (_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn())
+      if ((_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn()) &&
+	  (((mob = _spellUpdater->getPreviousTarget()) && mob->mob && mob->mob->isHealthBarUpdated()) || !_spellUpdater->getPreviousTarget()))
 	{
 	  unsigned int turn = (**_wMan->getBattle())->getTurnTo();
 	  if (turn != (unsigned int) -1)
@@ -114,10 +117,7 @@ void			BattleView::onUpdate()
     }
   }
   else
-    {
-      _battleScreen->update(*_sfmlView->getMainClock());
-      std::cout << "update battle screen" << std::endl;
-    }
+    _battleScreen->update(*_sfmlView->getMainClock());
 }
 
 void			BattleView::onKeyEvent(QKeyEvent *)
@@ -140,8 +140,6 @@ void			BattleView::resetView()
 
 void			BattleView::drawView()
 {
-  if (_battleResult && _battleResult->getPlayCount() > 0)
-    _sfmlView->draw(*_battleResult);
   if (_battleStarted){
     _backgroundSprite->setTexture(_backgroundTexture->getTexture());
     _sfmlView->draw(*_backgroundSprite);
@@ -152,7 +150,10 @@ void			BattleView::drawView()
 	_sfmlView->draw(*(*it));
 	(*it)->update(*_sfmlView->getMainClock());
 	if (_spellUpdater->endTurn())
-	  (*it)->upHealthBar();
+	  {
+	    (*it)->upHealthBar();
+	    std::cout << "UP HEALTH BAR" << std::endl;
+	  }
       }
     for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
       {
@@ -170,6 +171,8 @@ void			BattleView::drawView()
   else{
       _sfmlView->draw(*_battleScreen);
   }
+  if (_battleResult && _battleResult->getPlayCount() > 0)
+    _sfmlView->draw(*_battleResult);
   _sfmlView->setView(*(_sfmlView->getMainView()));
 }
 
@@ -293,7 +296,7 @@ void			BattleView::battleStart()
   _countDownSprite->play("default");
 }
 
-bool			BattleView::canStartBattle()
+bool			BattleView::canStartBattle() const
 {
   if (_battleScreen->isAnimFinished())
     return true;
@@ -302,9 +305,31 @@ bool			BattleView::canStartBattle()
 
 void			BattleView::printBattleResult()
 {
-  _battleResult = new Sprite();
-  _sfmlView->getSpriteManager()->copySprite("BattleResult", *_battleResult);
-  _battleResult->play("win");
+  if (!_battleResult){
+    _battleResult = new Sprite();
+    _sfmlView->getSpriteManager()->copySprite("BattleResult", *_battleResult);
+    if ((**_wMan->getBattle())->getWin()){
+      _battleResult->play("win");
+      (*_battleResult)["win"]->setLoopPlay(false);
+      (*_battleResult)["win"]->setFrameLength(2000000);
+    }
+    else {
+      _battleResult->play("loose");
+      (*_battleResult)["loose"]->setLoopPlay(false);
+      (*_battleResult)["loose"]->setFrameLength(2000000);
+    }
+    _battleResult->setOrigin(128, 64);
+    _battleResult->setPosition((BATTLE_SIZE * CASE_SIZE / 2), (BATTLE_SIZE * CASE_SIZE / 2));
+  }
+}
+
+bool			BattleView::canEndBattle() const
+{
+  if (_battleResult)
+    std::cout << _battleResult->getPlayCount() << "/" << _battleResult->isAnimFinished() << std::endl;
+  if (_battleResult && _battleResult->getPlayCount() > 0 && _battleResult->isAnimFinished())
+    return true;
+  return false;
 }
 
 void			BattleView::loadPlayerList()
@@ -374,6 +399,7 @@ void			BattleView::setPlayingMob()
       auto it = find_if(_playerList->begin(), _playerList->end(), [&](const MobSprite *val){
 	  if (val->getPlayerId() == _currentTurn)
 	    return true;
+
 	  return false;
 	});
       if (it != _playerList->end())

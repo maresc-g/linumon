@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Sat Mar 15 19:02:28 2014 guillaume marescaux
+// Last update Tue Mar 18 21:03:19 2014 cyril jourdain
 //
 
 #include			"Client.hh"
@@ -21,6 +21,7 @@ Client::Client():
   _battle(new MutexVar<Battle *>(new Battle)),
   _trade(new MutexVar<Trade *>(new Trade)),
   _core(new Core(_state, _player, _players, _chat, _newPlayer, _battle, _trade)),
+  _errorBox(new MutexVar<ErrorBox *>(new ErrorBox(NULL))),
   _manager(NULL)
 {
 }
@@ -42,6 +43,7 @@ Client::~Client()
   delete _trade;
   delete _newPlayer;
   delete _manager;
+  delete _errorBox;
 }
 
 //------------------------------------END CTOR / DTOR------------------------------------------
@@ -51,7 +53,7 @@ Client::~Client()
 void				Client::init(int &ac, char **av)
 {
   _core->init();
-  _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer, _battle, _trade);
+  _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer, _battle, _trade, _errorBox);
   _manager->exec();
   _core->quit();
 }

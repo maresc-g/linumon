@@ -61,6 +61,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Client.hh \
                 include/Common/eState.hh \
                 include/Common/eDirection.hh \
+                include/Common/ErrorBox.hh \
                 include/Core/Core.hh \
                 include/Core/ErrorHandler.hh \
                 include/Chat/Chat.hh \
@@ -112,6 +113,7 @@ SOURCES +=      src/main.cpp \
                 src/SFML/Sprite/Frame.cpp \
                 src/SFML/Sprite/SpriteManager.cpp \
                 src/Client.cpp \
+                src/Common/ErrorBox.cpp \
                 src/Chat/Chat.cpp \
                 src/Core/Core.cpp \
                 src/Core/ErrorHandler.cpp \

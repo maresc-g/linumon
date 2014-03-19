@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Sun Mar 16 22:16:06 2014 cyril jourdain
+// Last update Tue Mar 18 11:17:12 2014 cyril jourdain
 //
 
 /*
@@ -151,12 +151,15 @@ void			SFMLView::onUpdate()
       break;
     case CLIENT::LEAVING_BATTLE:
       if (static_cast<BattleView*>(_battleView)->isBattleEnded()){
-	_currentView = _worldView;
-	_currentView->resetPOV();
-	static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
-	static_cast<BattleView*>(_battleView)->quitBattle();
-	*(_wMan->getState()) = CLIENT::PLAYING;      
-	_grow = false;
+	static_cast<BattleView*>(_battleView)->printBattleResult();
+	if (static_cast<BattleView*>(_battleView)->canEndBattle()){
+	  _currentView = _worldView;
+	  _currentView->resetPOV();
+	  static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
+	  static_cast<BattleView*>(_battleView)->quitBattle();
+	  *(_wMan->getState()) = CLIENT::PLAYING;      
+	  _grow = false;
+	}
       }
       break;
     case CLIENT::ENTER_BATTLE:
