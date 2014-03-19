@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Wed Mar 19 14:47:26 2014 cyril jourdain
+// Last update Wed Mar 19 16:51:50 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -156,10 +156,7 @@ void			BattleView::drawView()
 	_sfmlView->draw(*(*it));
 	(*it)->update(*_sfmlView->getMainClock());
 	if (_spellUpdater->endTurn())
-	  {
-	    (*it)->upHealthBar();
-	    std::cout << "UP HEALTH BAR" << std::endl;
-	  }
+	  (*it)->upHealthBar();
       }
     for (auto it = _enemyList->begin(); it != _enemyList->end(); ++it)
       {

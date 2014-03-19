@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Wed Mar 19 16:54:23 2014 antoine maitre
+// Last update Wed Mar 19 16:22:09 2014 cyril jourdain
 //
 
 #include			<iostream>
@@ -84,7 +84,6 @@ void				Zone::delPlayer(AEntity *player)
   Case				*cas;
   Player			*tmp = NULL;
 
-  std::cout << "Zone::delPlayer()  : Size before delete : " << _players->size() << std::endl;
   this->_players->remove(player);
   for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
     (*it)->delAEntity(player->getId());
