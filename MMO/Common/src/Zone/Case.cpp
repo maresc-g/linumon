@@ -5,11 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-<<<<<<< HEAD
-// Last update Wed Mar 19 18:14:55 2014 antoine maitre
-=======
-// Last update Wed Mar 19 16:22:50 2014 cyril jourdain
->>>>>>> d14ad4ce2604e2f0de15c0ef4bb2128359b126aa
+// Last update Wed Mar 19 18:31:39 2014 antoine maitre
 //
 
 #include		"Zone/Case.hh"
