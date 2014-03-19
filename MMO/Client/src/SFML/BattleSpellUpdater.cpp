@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:56 2014 cyril jourdain
-// Last update Wed Mar 19 00:02:59 2014 cyril jourdain
+// Last update Wed Mar 19 10:33:01 2014 cyril jourdain
 //
 
 #include			"SFML/BattleSpellUpdater.hh"
@@ -75,4 +75,9 @@ bool				BattleSpellUpdater::endTurn()
 BattleMob			*BattleSpellUpdater::getPreviousTarget() const
 {
   return _previousTarget;
+}
+
+void				BattleSpellUpdater::unsetPreviousTarget()
+{
+  _previousTarget = NULL;
 }

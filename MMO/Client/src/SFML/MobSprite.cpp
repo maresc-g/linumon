@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar  7 14:46:04 2014 cyril jourdain
-// Last update Tue Mar 18 23:34:27 2014 cyril jourdain
+// Last update Wed Mar 19 10:36:25 2014 cyril jourdain
 //
 
 #include		"SFML/MobSprite.hh"

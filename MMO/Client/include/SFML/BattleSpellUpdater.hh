@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar  8 20:48:47 2014 cyril jourdain
-// Last update Tue Mar 18 23:50:52 2014 cyril jourdain
+// Last update Wed Mar 19 10:32:02 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLESPELLUPDATER_HH__
@@ -36,6 +36,7 @@ public:
   void			draw();
   bool			endTurn();
   BattleMob		*getPreviousTarget() const;
+  void			unsetPreviousTarget();
 };
 
 #endif

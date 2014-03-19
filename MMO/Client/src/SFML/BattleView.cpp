@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Wed Mar 19 00:02:09 2014 cyril jourdain
+// Last update Wed Mar 19 10:39:11 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -96,6 +96,7 @@ void			BattleView::onUpdate()
 	  *(**(_wMan)->getBattle())->getSwitch() = false;
 	  _playingMob = NULL;
 	  setLifeVisibility(true);
+	  _spellUpdater->unsetPreviousTarget();
 	}
       if ((_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn()) &&
 	  (((mob = _spellUpdater->getPreviousTarget()) && mob->mob && mob->mob->isHealthBarUpdated()) || !_spellUpdater->getPreviousTarget()))
