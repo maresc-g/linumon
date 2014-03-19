@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:22:49 2014 guillaume marescaux
-// Last update Mon Mar 17 16:31:15 2014 guillaume marescaux
+// Last update Wed Mar 19 11:41:17 2014 guillaume marescaux
 //
 
 #ifndef 			__BATTLE_HH__
@@ -57,6 +57,7 @@ public:
   MutexVar<bool>		*getSwitch(void) const;
   bool				getWin(void) const;
   void				setWin(bool);
+  void				leaveBattle(void);
 };
 
 #endif

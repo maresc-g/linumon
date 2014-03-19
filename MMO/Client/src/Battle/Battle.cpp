@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Mon Mar 17 16:32:09 2014 guillaume marescaux
+// Last update Wed Mar 19 11:43:05 2014 guillaume marescaux
 //
 
 #include			<algorithm>
@@ -142,3 +142,11 @@ MutexVar<bool>			*Battle::getSwitch() const { return (_switch); }
 bool				Battle::getWin(void) const { return (_win); }
 
 void				Battle::setWin(bool win) { _win = win; }
+
+void				Battle::leaveBattle(void)
+{
+  std::list<Mob *>		mobs = (**_player)->getDigitaliser().getBattleMobs();
+
+  for (auto it = mobs.begin() ; it != mobs.end() ; it++)
+    (*it)->leaveBattle();
+}

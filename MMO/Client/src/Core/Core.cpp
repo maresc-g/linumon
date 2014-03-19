@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Mar 17 21:48:12 2014 guillaume marescaux
+// Last update Wed Mar 19 12:53:23 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -331,6 +331,7 @@ bool				Core::deadMob(Trame *)
 bool				Core::endBattle(Trame *trame)
 {
   (**_battle)->setWin((*trame)[CONTENT]["ENDBATTLE"]["WIN"].asBool());
+  (**_battle)->leaveBattle();
   *_state = CLIENT::LEAVING_BATTLE;
   std::cout << "------------ END BATTLE" << std::endl;
   return (true);
@@ -685,7 +686,10 @@ void				Core::craft(std::string const &craftName, std::string const &jobName)
 }
 
 
-// void				gather();
+void				Core::gather(unsigned int idRessource, std::string const &jobName, unsigned int idCarcass)
+{
+  (*_proto).operator()<unsigned int const, unsigned int, std::string, unsigned int>("GATHER", _id, idRessource, jobName, idCarcass);
+}
 
 void				Core::useObject(unsigned int target, unsigned int item)
 {
