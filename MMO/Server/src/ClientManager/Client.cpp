@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Mon Mar 17 18:42:37 2014 antoine maitre
+// Last update Tue Mar 18 11:46:20 2014 antoine maitre
 //
 
 #include			"ClientManager/Client.hh"
@@ -291,6 +291,7 @@ void				Client::move(Player::PlayerCoordinate *coord)
 	      (*trame)[CONTENT]["ENTITY"]["ID"] = static_cast<unsigned int>(this->_player->getId());
 	      oldZone = _player->getZone();
 	      ret = Map::getInstance()->move(_player);
+	      Map::getInstance()->getPlayerById(_player->getId());
 	      if (ret)
 		{
 		  std::cout << "ENVOIE DU NEW ZONE" << std::endl;

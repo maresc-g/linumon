@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Mon Mar 17 18:39:12 2014 antoine maitre
+// Last update Wed Mar 19 14:08:57 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -47,10 +47,8 @@ Map::~Map()
 
 Zone				*Map::getZoneByPos(int const x, int const y)
 {
-  std::cout << x << " " << y << std::endl;
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
     {
-      std::cout << (*it).second->getPosX() << " " << (*it).second->getPosY() << std::endl;
       if ((*it).second->getPosX() == x && (*it).second->getPosY() == y)
 	return ((*it).second);
     }
@@ -134,20 +132,23 @@ std::list<AEntity *>		*Map::getPlayers(std::string const &zone)
 
 Player				*Map::getPlayerById(unsigned int const id)
 {
+  Player *tmp = NULL;
   this->lock();
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
     {
+      std::cout << "Looking for player in zone : " << it->second->getName() << std::endl;
       for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); itb++)
 	{
 	  if ((*itb)->getId() == id)
 	    {
-	      this->unlock();
-	      return (static_cast<Player *>(*itb));
+	      tmp = static_cast<Player *>(*itb);
+	      std::cout << "PLAYER FOUND IN " << (*it).first << " AT " << tmp->getX() << " " << tmp->getY() <<  std::endl;
 	    }
 	}
     }
+  std::cout << std::endl;
   this->unlock();
-  return (NULL);
+  return (tmp);
 }
 
 void				Map::changeZone(std::string const &source, std::string const &dest, AEntity *entity)
@@ -200,4 +201,10 @@ AEntity				*Map::getEntityById(std::string const &zone, unsigned int id)
     }
   this->unlock();
   return (NULL);
+}
+
+void				Map::cleanEntities(AEntity *entity)
+{
+  for (auto it = this->_map.begin(); it != this->_map.end(); it++)
+    (*it).second->cleanEntity(entity);
 }
