@@ -5,7 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
+<<<<<<< HEAD
 // Last update Wed Mar 19 18:09:51 2014 antoine maitre
+=======
+// Last update Wed Mar 19 16:48:04 2014 cyril jourdain
+>>>>>>> d14ad4ce2604e2f0de15c0ef4bb2128359b126aa
 //
 
 #include			"Map/Map.hh"
@@ -52,7 +56,6 @@ Zone				*Map::getZoneByPos(int const x, int const y)
       if ((*it).second->getPosX() == x && (*it).second->getPosY() == y)
 	return ((*it).second);
     }
-  std::cout << "Je suis un connard" << std::endl;
   return (NULL);
 }
 
@@ -132,25 +135,20 @@ std::list<AEntity *>		*Map::getPlayers(std::string const &zone)
 
 Player				*Map::getPlayerById(unsigned int const id)
 {
-  Player *tmp = NULL;
-
   this->lock();
   for (auto it = this->_map.begin(); it != this->_map.end(); it++)
     {
-      std::cout << "Looking for player in zone : " << it->second->getName() << std::endl;
       for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); itb++)
 	{
 	  if ((*itb)->getId() == id)
 	    {
-	      tmp = (static_cast<Player *>(*itb));
-	      // std::cout << "Map::getPlayerById() : found player" << std::endl;
-	      // return (static_cast<Player *>(*itb));
+	      this->unlock();
+	      return (static_cast<Player *>(*itb));
 	    }
 	}
     }
-  // std::cout << std::endl;
   this->unlock();
-  return (tmp);
+  return (NULL);
 }
 
 void				Map::changeZone(std::string const &source, std::string const &dest, AEntity *entity)

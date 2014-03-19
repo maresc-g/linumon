@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Wed Mar 19 13:30:42 2014 cyril jourdain
+// Last update Wed Mar 19 16:54:27 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -22,7 +22,7 @@
 
 WorldView::WorldView(SFMLView *v, WindowManager *w) :
   ContextView(v, w), _mainPerso(NULL), _playerList(new std::vector<OPlayerSprite *>),
-  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(Qt::Key(0)), _ressourcesLoader(new RessourcesSpriteLoader(w))
+  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(Qt::Key(0)), _ressourcesLoader(NULL)
 {
   (*_keyMap)[Qt::Key_Up] = &WorldView::keyUp;
   (*_keyMap)[Qt::Key_Down] = &WorldView::keyDown;
@@ -48,6 +48,7 @@ void			WorldView::onInit()
 {
   Zone *zone = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone());
 
+  _ressourcesLoader = new RessourcesSpriteLoader(_wMan);
   _backgroundTexture = new sf::RenderTexture();
   _backgroundSprite = new sf::Sprite();
   _mainPerso = new PlayerSprite(sf::String((**(_wMan->getMainPlayer()))->getName()), _sfmlView->getFont());
@@ -157,6 +158,7 @@ void			WorldView::resetView()
   _spriteMap->clear();
   delete _backgroundTexture;
   delete _backgroundSprite;
+  delete _ressourcesLoader;
 }
 
 void			WorldView::drawView()

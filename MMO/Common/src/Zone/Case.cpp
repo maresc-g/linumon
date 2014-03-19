@@ -5,7 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
+<<<<<<< HEAD
 // Last update Wed Mar 19 18:14:55 2014 antoine maitre
+=======
+// Last update Wed Mar 19 16:22:50 2014 cyril jourdain
+>>>>>>> d14ad4ce2604e2f0de15c0ef4bb2128359b126aa
 //
 
 #include		"Zone/Case.hh"
@@ -54,13 +58,7 @@ void			Case::delAEntity(AEntity *entity)
       return false;
     });
   if (it != _entities->end())
-    {
-      std::cout << "Case::delAEntity() : Removed entity" << std::endl;
-      this->_entities->erase(it);
-    }else
-    {
-      std::cout << "Case::delAEntity() : No entity removed" << std::endl;
-    }
+    this->_entities->erase(it);
 }
 
 void			Case::delAEntity(unsigned int const id)
@@ -71,15 +69,10 @@ void			Case::delAEntity(unsigned int const id)
   for (auto it = _entities->begin() ; !set && it != _entities->end() ; ++it)
     if ((*it)->getId() == id)
       {
-	std::cout << "SUPREESION DE L ENTITE EN  " << static_cast<Player *>((*it))->getX() << " " << static_cast<Player *>((*it))->getY() << std::endl;
-	std::cout << "TAILLE DE LA LISTE D ENTITE AVANT " << this->_entities->size() << std::endl;
 	it = _entities->erase(it);
-	std::cout << "TAILLE DE LA LISTE D ENTITE APRES " << this->_entities->size() << std::endl;
 	set = true;
 	break;
       }
-  if (i > 0)
-    std::cout << "Case::delAEntity() : Removed ["<< i << "] entity" << std::endl;
 }
 
 void			Case::deleteAll()
