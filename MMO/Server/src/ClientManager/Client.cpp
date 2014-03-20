@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Mar 18 11:46:20 2014 antoine maitre
+// Last update Wed Mar 19 22:38:29 2014 alexis mestag
 //
 
 #include			"ClientManager/Client.hh"
@@ -150,6 +150,7 @@ void				Client::sendAllInformationModel() const
   Server::getInstance()->callProtocol("TALENTMODELS", _id);
   Server::getInstance()->callProtocol("JOBMODELS", _id);
   Server::getInstance()->callProtocol("MOBMODELS", _id);
+  Server::getInstance()->callProtocol("TALENTTREES", _id);
 }
 
 void				Client::state(eState const state)
@@ -391,19 +392,26 @@ bool				Client::craft(std::string const &craft, std::string const &job) const
   return (ret);
 }
 
-bool				Client::gather(std::string const &ressource, std::string const &job, unsigned int const carcass) const
+bool				Client::gather(unsigned int const ressource, std::string const &job, unsigned int const carcass) const
 {
   bool				ret = false;
   Stack<AItem>			*result;
   unsigned int			idRessource;
   AEntity			*entity = NULL;
+  Ressource			*res = NULL;;
 
   if (_state == GAME && _player && _user)
     {
       result = new Stack<AItem>(0);
       if (carcass > 0)
-	entity = Map::getInstance()->getEntityById(_player->getZone(), carcass);
-      ret = _player->doGather(job, ressource, result, idRessource, (carcass > 0 ? static_cast<Carcass *>(entity) : NULL));
+	{
+	  entity = Map::getInstance()->getEntityById(_player->getZone(), carcass);
+	  if (entity)
+	    res = static_cast<Carcass *>(entity)->getRessource(ressource);
+	}
+      else
+	res = static_cast<Ressource *>(Map::getInstance()->getEntityById(_player->getZone(), ressource));
+      ret = _player->doGather(job, res->getName(), result, idRessource, (carcass > 0 ? static_cast<Carcass *>(entity) : NULL));
       if (ret)
 	{
 
@@ -411,12 +419,11 @@ bool				Client::gather(std::string const &ressource, std::string const &job, uns
 	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
 	  if (!entity)
 	    {
-	      entity = Map::getInstance()->getEntityById(_player->getZone(), idRessource);
 	      if (entity)
 		{
 		  static_cast<Ressource *>(entity)->setVisible(false);
-		  RessourceManager::getInstance()->needRessource(ressource, _player->getZone(), static_cast<Ressource *>(entity));
-		  Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("VISIBLE", _id, idRessource, false, Map::getInstance()->getZone(_player->getZone()));
+		  RessourceManager::getInstance()->needRessource(res->getName(), _player->getZone(), res);
+		  Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("VISIBLE", _id, ressource, false, Map::getInstance()->getZone(_player->getZone()));
 		}
 	    }
 	  else

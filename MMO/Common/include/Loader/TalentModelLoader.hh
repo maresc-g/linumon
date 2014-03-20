@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar  7 15:55:43 2014 laurent ansel
-// Last update Fri Mar  7 18:09:46 2014 laurent ansel
+// Last update Wed Mar 19 14:54:44 2014 alexis mestag
 //
 
 #ifndef 			__TALENTMODELLOADER_HH__

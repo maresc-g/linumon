@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Tue Mar 18 23:29:49 2014 alexis mestag
+// Last update Wed Mar 19 17:39:38 2014 alexis mestag
 //
 
 #include			<functional>
@@ -484,7 +484,8 @@ bool				Player::serialization(Trame &trame) const
   trame["PLAYER"]["EXP"] = this->getExp();
   trame["PLAYER"]["ZONE"] = this->getZone();
   this->_inventory->serialization(trame(trame["PLAYER"]));
-  this->_talentTree->serialization(trame(trame["PLAYER"]));
+  // this->_talentTree->serialization(trame(trame["PLAYER"]));
+  trame["PLAYER"]["TALENTTREE"] = this->getTalentTree().getName();
   this->getEquipment().serialization(trame(trame["PLAYER"]));
   this->_talents->serialization(trame(trame["PLAYER"]));
   this->_jobs->serialization(trame(trame["PLAYER"]));
@@ -495,7 +496,6 @@ bool				Player::serialization(Trame &trame) const
 Player				*Player::deserialization(Trame const &trame)
 {
   Player			*player = NULL;
-  // Talents			*talents = NULL;
 
   if (trame.isMember("PLAYER"))
     {
@@ -511,7 +511,6 @@ Player				*Player::deserialization(Trame const &trame)
       if (trame["PLAYER"].isMember("GUILD"))
 	{
 	  guild = Guild::deserialization(trame(trame["PLAYER"]["GUILD"]));
-	  // guild = new Guild(trame["PLAYER"]["GUILD"].asString());
 	  player->setGuild(*guild);
 	}
 
@@ -524,7 +523,7 @@ Player				*Player::deserialization(Trame const &trame)
       if (trame["PLAYER"].isMember("EXP"))
 	player->setExp(trame["PLAYER"]["EXP"].asUInt());
 
-      TalentTree		*tree = TalentTree::deserialization(trame(trame["PLAYER"]));
+      TalentTree		*tree = (**LoaderManager::getInstance()->getTalentTreeLoader())->getValue(trame["PLAYER"]["TALENTTREE"].asString());
       if (tree)
 	player->setTalentTree(*tree);
 

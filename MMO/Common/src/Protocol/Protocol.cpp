@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Mar 19 13:06:08 2014 guillaume marescaux
+// Last update Wed Mar 19 22:38:56 2014 alexis mestag
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -77,6 +77,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int>("STUFFS", &stuffs);
       this->_container->load<unsigned int>("CONSUMABLES", &consumables);
       this->_container->load<unsigned int>("TALENTMODELS", &talentModels);
+      this->_container->load<unsigned int>("TALENTTREES", &talentTrees);
       this->_container->load<unsigned int>("RESSOURCES", &ressources);
       this->_container->load<unsigned int>("HEALS", &heals);
       this->_container->load<unsigned int>("SPELLSLIST", &spells);
@@ -1416,6 +1417,26 @@ bool			talentModels(unsigned int const id)
   if (header->serialization(*trame))
     {
       ret = (**LoaderManager::getInstance()->getTalentModelLoader())->serialization(*trame);
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+    }
+  delete header;
+  return (ret);
+}
+
+bool			talentTrees(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      ret = (**LoaderManager::getInstance()->getTalentTreeLoader())->serialization(*trame);
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }

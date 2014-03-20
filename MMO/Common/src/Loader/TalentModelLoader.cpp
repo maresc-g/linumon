@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar  7 15:56:40 2014 laurent ansel
-// Last update Mon Mar 10 19:12:21 2014 alexis mestag
+// Last update Wed Mar 19 17:20:39 2014 alexis mestag
 //
 
 #ifndef CLIENT_COMPILATION
@@ -82,47 +82,44 @@ bool				TalentModelLoader::serialization(Trame &trame) const
   bool				ret = true;
 
   trame[CONTENT]["TALENTMODELS"];
-  for (auto it = _talentModels->getTalentModels().begin() ; it != _talentModels->getTalentModels().end() ; ++it)
+  for (auto it = _talentModels->getTalentModels().begin() ;
+       it != _talentModels->getTalentModels().end() ; ++it)
     (*it)->serialization(trame(trame[CONTENT]["TALENTMODELS"][(*it)->getName()]));
-  return (ret);
-}
-
-bool				TalentModelLoader::deserializationTreeModel(Trame &trame)
-{
-  bool				ret = true;
-  auto				members = trame[CONTENT]["TALENTMODELS"].getMemberNames();
-  TalentModel			*talentModel;
-
-  for (auto it = members.begin() ; it != members.end() ; ++it)
-    {
-      talentModel = _talentModels->getTalentModel(*it);
-      if (talentModel)
-	talentModel->deserializationTreeModel(trame(trame[CONTENT]["TALENTMODELS"][*it]));
-    }
   return (ret);
 }
 
 bool				TalentModelLoader::deserialization(Trame &trame)
 {
-  bool				ret = true;
-  TalentModel			*talentModel;
+  auto				members = trame[CONTENT]["TALENTMODELS"].getMemberNames();
+  TalentModel			*tm;
 
-  if (trame[CONTENT].isMember("TALENTMODELS"))
+  for (auto it = members.begin() ; it != members.end() ; ++it)
     {
-      auto			members = trame[CONTENT]["TALENTMODELS"].getMemberNames();
-
-      for (auto it = members.begin() ; it != members.end() ; ++it)
-	{
-	  talentModel = TalentModel::deserialization(trame(trame[CONTENT]["TALENTMODELS"][*it]));
-	  if (talentModel)
-	    {
-	      talentModel->setName(*it);
-	      _talentModels->addTalentModel(talentModel);
-	    }
-	}
-      ret = this->deserializationTreeModel(trame);
+      tm = TalentModel::deserialization(trame(trame[CONTENT]["TALENTMODELS"][*it]));
+      _talentModels->addTalentModel(tm);
     }
-  return (ret);
+
+  TalentModel			*tmp;
+
+  for (auto it = _talentModels->getTalentModels().begin() ;
+       it != _talentModels->getTalentModels().end() ; ++it)
+    {
+      tmp = NULL;
+      if (trame[CONTENT]["TALENTMODELS"][(*it)->getName()].isMember("PARENT"))
+	tmp = this->getValue(trame[CONTENT]["TALENTMODELS"][(*it)->getName()]["PARENT"].asString());
+      (*it)->setParent(tmp);
+
+      auto	talents = trame[CONTENT]["TALENTMODELS"][(*it)->getName()]["TALENTS"].getMemberNames();
+
+      for (auto jt = talents.begin() ; jt != talents.end() ; ++jt)
+	{
+	  tmp = this->getValue(trame[CONTENT]["TALENTMODELS"][(*it)->getName()]["TALENTS"][*jt].asString());
+	  if (tmp)
+	    (*it)->addTalent(*tmp);
+	}
+    }
+
+  return (true);  
 }
 
 TalentModels const			&TalentModelLoader::getLoaderContent() const

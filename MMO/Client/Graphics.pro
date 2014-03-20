@@ -202,5 +202,6 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Loader/RessourceLoader.cpp \ 
                 ../Common/src/Loader/AuthorizedStatKeysLoader.cpp \ 
                 ../Common/src/Loader/LoaderManager.cpp \ 
+                ../Common/src/Loader/TalentTreeLoader.cpp \ 
                 ../Common/src/Utility/Nameable.cpp \ 
                 ../Common/src/Utility/Id.cpp

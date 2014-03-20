@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Sat Mar 15 17:28:21 2014 laurent ansel
+// Last update Wed Mar 19 19:18:00 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -68,7 +68,7 @@ public:
   void				startTrade(Player *&player);
   void				endTrade();
   bool				craft(std::string const &craft, std::string const &job) const;
-  bool				gather(std::string const &ressource, std::string const &job, unsigned int const carcass) const;
+  bool				gather(unsigned int const ressource, std::string const &job, unsigned int const carcass) const;
   bool				stuff(bool const get, unsigned int const idItem, unsigned int const target);
   bool				newGuild(Guild * guild);
   bool				inGuild() const;

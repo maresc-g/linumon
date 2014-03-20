@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 12:39:07 2014 alexis mestag
-// Last update Tue Mar 11 16:18:51 2014 alexis mestag
+// Last update Wed Mar 19 13:02:33 2014 alexis mestag
 //
 
 #ifndef				__TALENTTREE_HH__
@@ -21,7 +21,7 @@ class				TalentTree : public Persistent, public Nameable, public ISerialization
   friend class			odb::access;
 
 private:
-  TalentModel const		*_talent;
+  std::list<TalentModel const *>	_talents;
 
 private:
   TalentTree();
@@ -33,8 +33,8 @@ private:
 public:
   virtual ~TalentTree();
 
-  TalentModel const		&getTalent() const;
-  void				setTalent(TalentModel const &talent);
+  std::list<TalentModel const *> const	&getTalents() const;
+  void					setTalents(std::list<TalentModel const *> const &talents);
 
   virtual bool			serialization(Trame &trame) const;
   static TalentTree		*deserialization(Trame const &trame);
@@ -43,6 +43,7 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(TalentTree)
 #  pragma db member(TalentTree::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
+#  pragma db member(TalentTree::_talents) value_not_null
 # endif
 
 #endif

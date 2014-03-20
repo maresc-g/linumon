@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:07:00 2014 alexis mestag
-// Last update Mon Mar 17 22:52:23 2014 guillaume marescaux
+// Last update Wed Mar 19 16:01:21 2014 alexis mestag
 //
 
 #ifndef					__TALENTMODEL_HH__
@@ -27,14 +27,12 @@ public:
 private:
   point_type				_maxPoints;
   EffectLib const			*_effectLib;
-  std::list<TalentModel *>		_talents;
+  TalentModel const			*_parent;
+  std::list<TalentModel const *>	_talents;
 
 private:
   TalentModel();
   TalentModel(std::string const &name);
-
-  void					deleteTalents();
-  void					setTalents(TalentModel const &talent);
 
 public:
   TalentModel(TalentModel const &rhs);
@@ -49,9 +47,12 @@ public:
   void					setEffectLib(EffectLib const &effectLib);
 
   void					addTalent(TalentModel const &talent);
-  void					addTalent(TalentModel *talent);
 
-  std::list<TalentModel *> const	&getTalents(void) const;
+  std::list<TalentModel const *> const	&getTalents() const;
+  void					setTalents(std::list<TalentModel const *> const &talent);
+
+  TalentModel const			*getParent() const;
+  void					setParent(TalentModel const *parent);
 
   virtual bool				serialization(Trame &trame) const;
   bool					deserializationTreeModel(Trame const &trame);
@@ -61,6 +62,8 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db object(TalentModel)
 #  pragma db member(TalentModel::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
+#  pragma db member(TalentModel::_parent) inverse(_talents)
+#  pragma db member(TalentModel::_talents) value_not_null
 #  pragma db member(TalentModel::_effectLib) not_null
 # endif
 
