@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Mar 20 11:35:27 2014 alexis mestag
+// Last update Thu Mar 20 16:17:59 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -133,7 +133,7 @@ public:
   User const			&getUser() const;
   void				setUser(User const &user);
 
-  void				capture(Mob &mob);
+  bool				capture(Mob &mob, bool const check = true);
 
   Mob const			&getMob(unsigned int const id);
 
@@ -202,6 +202,7 @@ public:
 #  pragma db member(Player::jobs) virtual(Jobs::container_type) get(_jobs->getContainer()) set(_jobs->setContainer(?)) value_not_null
 #  pragma db member(Player::talents) virtual(Talents::container_type) get(_talents->getContainer()) set(_talents->setContainer(?)) value_not_null
 #  pragma db member(Player::currentPts) virtual(unsigned int) get(_talents->getCurrentPts()) set(_talents->setCurrentPts(?))
+#  pragma db member(Player::digitaliserEfficiency) virtual(double) get(_digitaliser->getEfficiency()) set(_digitaliser->setEfficiency(?))
 #  pragma db member(Player::_talentTree) not_null
 #  pragma db member(Player::_user) not_null
 #  pragma db member(Player::_expCurve) not_null

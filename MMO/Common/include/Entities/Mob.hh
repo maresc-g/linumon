@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Tue Mar 18 23:55:58 2014 alexis mestag
+// Last update Thu Mar 20 14:00:45 2014 alexis mestag
 //
 
 #ifndef			__MOB_HH__
@@ -76,6 +76,8 @@ public:
 
   unsigned int		getExpSeed() const;
   Levelable::type	getGivenExp() const;
+
+  unsigned int		getCatchRate() const;
 
   /*
   ** Battle state management

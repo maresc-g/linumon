@@ -180,9 +180,9 @@ INSERT INTO `Guild`(`id`, `name`) VALUES
 /* Inserting Players */
 DELETE FROM Player;
 
-INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`, `expCurve`) VALUES
-       (1, 'Thinenus', 1, 0, 1, 10, 1, 1, 1, 1, 1, 10, 30, 'Res/Inventories/Thinenus.json', 10000, 30, 6),
-       (2, 'Sezu-Kho', 1, 0, 1, 10, 1, 1, 2, 1, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30, 6);
+INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `digitaliserEfficiency`, `inventoryPath`, `money`, `limit`, `expCurve`) VALUES
+       (1, 'Thinenus', 1, 0, 1, 10, 1, 1, 1, 1, 1, 10, 30, 1, 'Res/Inventories/Thinenus.json', 10000, 30, 6),
+       (2, 'Sezu-Kho', 1, 0, 1, 10, 1, 1, 2, 1, 1, 20, 20, 1, 'Res/Inventories/Sezu-Kho.json', 10000, 30, 6);
 
 /* Assigning Talents to Players */
 DELETE FROM `Player_talents`;
@@ -194,11 +194,11 @@ INSERT INTO `Player_talents`(`object_id`, `index`, `value`) VALUES
 /* Inserting MobModels */
 DELETE FROM `MobModel`;
 
-INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`, `expCurve`, `expSeed`, `dropPath`) VALUES
-       (1, 'Charizard', 2, 1, 3, 209, 'Res/Drops/Charizard.json'),
-       (2, 'Blastoise', 2, 2, 3, 210, 'Res/Drops/Blastoise.json'),
-       (3, 'Venusaur',  2, 3, 3, 208, 'Res/Drops/Venusaur.json'),
-       (4, 'Pikachu',   2, 4, 2,  82, 'Res/Drops/Pikachu.json');
+INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`, `expCurve`, `expSeed`, `catchRate`, `dropPath`) VALUES
+       (1, 'Charizard', 2, 1, 3, 209,  45, 'Res/Drops/Charizard.json'),
+       (2, 'Blastoise', 2, 2, 3, 210,  45, 'Res/Drops/Blastoise.json'),
+       (3, 'Venusaur',  2, 3, 3, 208,  45, 'Res/Drops/Venusaur.json'),
+       (4, 'Pikachu',   2, 4, 2,  82, 190, 'Res/Drops/Pikachu.json');
 
 /* Inserting Ressources */
 DELETE FROM `Ressource`;

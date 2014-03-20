@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 17:41:44 2014 alexis mestag
-// Last update Fri Mar 14 17:11:33 2014 alexis mestag
+// Last update Thu Mar 20 13:40:01 2014 alexis mestag
 //
 
 #ifndef				__PLAYERREPOSITORY_HPP__
@@ -46,6 +46,9 @@ public:
     Database::Transaction	*t = Database::getNewTransaction(inTr);
     bool			isInTr = (t || inTr) ? true : false;
 
+    if (!p.isPersistent())
+      BaseRepository<Player>::smartUpdate(p, isInTr);
+
     /*
     ** Updating Inventory
     */
@@ -75,8 +78,6 @@ public:
       rj->smartUpdate(**it, isInTr);
     }
 
-    BaseRepository<Player>::smartUpdate(p, isInTr);
-
     /*
     ** Updating Mobs
     */
@@ -96,6 +97,8 @@ public:
       // std::cerr << "\tMob : " << (*it)->getName() << " (" << (*it) << ")" << std::endl;
       rm->smartUpdate(**it, isInTr);
     }
+
+    BaseRepository<Player>::smartUpdate(p, isInTr);
 
     /***
     **** The code above is correct

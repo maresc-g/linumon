@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Thu Mar 13 22:22:22 2014 alexis mestag
+// Last update Thu Mar 20 15:28:42 2014 alexis mestag
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -26,6 +26,7 @@ public:
 private:
   container_type	_battleMobs;
   Player const		*_player;
+  double		_efficiency;
 
 private:
   Digitaliser(Digitaliser const &rhs);
@@ -47,6 +48,9 @@ public:
 
   void			setPlayer(Player const *player);
   Player const		*getPlayer() const;
+
+  double		getEfficiency() const;
+  void			setEfficiency(double const efficiency);
 
   unsigned int		getLimit() const;
 

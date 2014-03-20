@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Wed Mar 19 00:48:45 2014 alexis mestag
+// Last update Thu Mar 20 14:02:06 2014 alexis mestag
 //
 
 #include			<algorithm>
@@ -198,6 +198,11 @@ unsigned int			Mob::getExpSeed() const
 Levelable::type			Mob::getGivenExp() const
 {
   return (this->getExpSeed() * this->getLevel() / 7.0);
+}
+
+unsigned int			Mob::getCatchRate() const
+{
+  return (this->getModel().getCatchRate());
 }
 
 /*
