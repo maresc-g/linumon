@@ -5,40 +5,32 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:08:36 2013 alexis mestag
-// Last update Mon Mar 10 01:14:10 2014 alexis mestag
+// Last update Thu Mar 20 23:19:22 2014 alexis mestag
 //
 
 #include			<sstream>
 #include			"Stats/Stat.hh"
-#ifndef			CLIENT_COMPILATION
-# include		"Stats/Stat-odb.hxx"
-# include		"Database/Database.hpp"
-#endif
 
 Stat::Stat() :
-  Persistent(), _key(NULL), _value(0)
+  _key(NULL), _value(0)
 {
 
 }
 
 Stat::Stat(StatKey const &key, value_type const value) :
-  Persistent(), _key(&key), _value(value)
+  _key(&key), _value(value)
 {
 
 }
 
-Stat::Stat(Stat const &rhs) :
-  Persistent(rhs)
+Stat::Stat(Stat const &rhs)
 {
   *this = rhs;
 }
 
 Stat::~Stat()
 {
-#ifndef			CLIENT_COMPILATION
-  Repository<Stat>	*rs = &Database::getRepository<Stat>();
-  rs->removeFromCache(*this);
-#endif
+
 }
 
 Stat				&Stat::operator=(Stat const &rhs)

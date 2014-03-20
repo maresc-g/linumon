@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 27 16:57:56 2014 alexis mestag
-// Last update Fri Mar 14 16:18:24 2014 alexis mestag
+// Last update Thu Mar 20 23:21:35 2014 alexis mestag
 //
 
 #include				"NormalEffect.hh"
@@ -44,7 +44,8 @@ bool					NormalEffect::apply(Mob &mob)
 {
   std::cout << mob.getName() << " was hit by " << (int)_hp << std::endl;
   for (auto it = mob.getRawCurrentStats().begin() ; it != mob.getRawCurrentStats().end() ; ++it) {
-    std::cout << "\t" << (*it)->getKey().getName() << " : " << (*it)->getValue() << " / " << mob.getMaxStat((*it)->getKey().getName()) << std::endl;
+    std::cout << "\t" << it->getKey().getName() << " : " << it->getValue() << " / "
+	      << mob.getMaxStat(it->getKey().getName()) << std::endl;
   }
   mob.decCurrentStat("HP", _hp);
   return (true);

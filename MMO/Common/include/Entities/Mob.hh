@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Thu Mar 20 14:00:45 2014 alexis mestag
+// Last update Thu Mar 20 23:34:31 2014 alexis mestag
 //
 
 #ifndef			__MOB_HH__
@@ -105,7 +105,7 @@ public:
 #  pragma db member(Mob::name) virtual(std::string) get(getName()) set(setName(?)) type("VARCHAR(24)")
 #  pragma db member(Mob::_model) not_null
 #  pragma db member(Mob::_player) inverse(mobs)
-#  pragma db member(Mob::currentStats) virtual(Stats::container_type) get(_currentStats->getContainer()) set(_currentStats->setContainer(?))
+#  pragma db member(Mob::currentStats) virtual(Stats::container_type) get(_currentStats->getContainer()) set(_currentStats->setContainer(?)) value_column("") unordered
 # endif
 
 #endif

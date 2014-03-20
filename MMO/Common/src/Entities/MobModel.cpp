@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:39:45 2014 alexis mestag
-// Last update Thu Mar 20 14:03:14 2014 alexis mestag
+// Last update Fri Mar 21 00:18:38 2014 alexis mestag
 //
 
 #include			"Entities/MobModel.hh"
@@ -204,7 +204,13 @@ MobModel			*MobModel::deserialization(Trame const &trame)
     }
   model->setCatchRate(trame["CATCHRATE"].asUInt());
   model->setType(*Type::deserialization(trame(trame)));
-  model->setSpells(*Spells::deserialization(trame(trame)));
+  // std::cerr << "MobModel deserialization : " << model->getType().getName() << std::endl;
+
+  Spells			*spells = Spells::deserialization(trame(trame));
+
+  if (spells)
+    model->setSpells(*spells);
+
   model->setStats(*Stats::deserialization(trame(trame["STATS"])));
   return (model);
 }

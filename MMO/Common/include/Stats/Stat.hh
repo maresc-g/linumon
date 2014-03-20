@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:00:16 2013 alexis mestag
-// Last update Tue Mar 11 21:47:14 2014 alexis mestag
+// Last update Thu Mar 20 23:07:31 2014 alexis mestag
 //
 
 #ifndef			__STAT_HH__
@@ -15,7 +15,7 @@
 # include		"Utility/ISerialization.hh"
 # include		"Stats/StatKey.hh"
 
-class			Stat : public Persistent, public ISerialization
+class			Stat : public ISerialization
 {
   friend class		odb::access;
 
@@ -58,8 +58,9 @@ public:
 };
 
 # ifdef	ODB_COMPILER
-#  pragma db object(Stat)
+#  pragma db value(Stat)
 #  pragma db member(Stat::_key) not_null
+#  pragma db member(Stat::_value)
 # endif
 
 #endif

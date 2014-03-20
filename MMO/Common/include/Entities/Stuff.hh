@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Tue Mar 11 21:45:54 2014 alexis mestag
+// Last update Thu Mar 20 23:48:18 2014 alexis mestag
 //
 
 #ifndef 		__STUFF_HH__
@@ -73,7 +73,7 @@ public:
 #  pragma db object(Stuff)
 #  pragma db member(Stuff::_stats) transient
 #  pragma db member(Stuff::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
-#  pragma db member(Stuff::stats) virtual(Stats::container_type) get(_stats->getContainer()) set(_stats->setContainer(?)) value_not_null
+#  pragma db member(Stuff::stats) virtual(Stats::container_type) get(_stats->getContainer()) set(_stats->setContainer(?)) unordered value_column("")
 # endif
 
 #endif

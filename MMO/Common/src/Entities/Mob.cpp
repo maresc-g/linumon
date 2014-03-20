@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Thu Mar 20 14:02:06 2014 alexis mestag
+// Last update Thu Mar 20 23:04:46 2014 alexis mestag
 //
 
 #include			<algorithm>
@@ -248,7 +248,7 @@ void				Mob::displayMaxStats() const
   Stats const			stats = this->getMaxStats();
 
   for (auto it = stats.begin() ; it != stats.end() ; ++it) {
-    std::cout << (*it)->getKey().getName() << " : " << (*it)->getValue() << std::endl;
+    std::cout << it->getKey().getName() << " : " << it->getValue() << std::endl;
   }
 }
 
@@ -257,7 +257,7 @@ void				Mob::displayCurrentStats() const
   Stats const			&stats = this->getCurrentStats();
 
   for (auto it = stats.begin() ; it != stats.end() ; ++it) {
-    std::cout << (*it)->getKey().getName() << " : " << (*it)->getValue() << std::endl;
+    std::cout << it->getKey().getName() << " : " << it->getValue() << std::endl;
   }
 }
 

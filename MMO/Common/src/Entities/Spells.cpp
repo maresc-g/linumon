@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 20:54:19 2014 alexis mestag
-// Last update Sat Mar  8 18:33:37 2014 laurent ansel
+// Last update Fri Mar 21 00:18:02 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -91,5 +91,6 @@ Spells				*Spells::deserialization(Trame const &trame)
 	    }
 	}
     }
+  // std::cerr << "\tSpells deserialization, returning : " << spells << std::endl;
   return (spells);
 }

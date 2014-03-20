@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 17:41:44 2014 alexis mestag
-// Last update Thu Mar 20 13:40:01 2014 alexis mestag
+// Last update Thu Mar 20 23:06:08 2014 alexis mestag
 //
 
 #ifndef				__PLAYERREPOSITORY_HPP__
@@ -65,10 +65,10 @@ public:
     /*
     ** Updating Stats
     */
-    Repository<Stat>		*rStat = &Database::getRepository<Stat>();
-    for (auto it = p.getStats().begin() ; it != p.getStats().end() ; ++it) {
-      rStat->smartUpdate(**it, isInTr);
-    }
+    // Repository<Stat>		*rStat = &Database::getRepository<Stat>();
+    // for (auto it = p.getStats().begin() ; it != p.getStats().end() ; ++it) {
+    //   rStat->smartUpdate(**it, isInTr);
+    // }
 
     /*
     ** Updating Jobs
