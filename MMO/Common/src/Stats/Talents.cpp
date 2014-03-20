@@ -5,10 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Mar  4 00:06:53 2014 alexis mestag
-// Last update Wed Mar 12 13:22:30 2014 laurent ansel
+// Last update Thu Mar 20 11:29:04 2014 alexis mestag
 //
 
 #include				<sstream>
+#include				<algorithm>
 #include				<functional>
 #include				"Stats/Talents.hh"
 
@@ -61,21 +62,58 @@ void					Talents::setCurrentPts(unsigned int const pts)
   _currentPts = pts;
 }
 
-bool					Talents::modifyTalent(unsigned int const pts, TalentModel const &talent)
+void					Talents::incCurrentPts(unsigned int const pts)
 {
-  bool					ret = false;
-  auto					it = this->begin();
-  Talent				*tmp = NULL;
+  _currentPts += pts;
+}
 
-  for ( ; it != this->end() && &(*it)->getModel() != &talent; ++it);
-  if (it == this->end())
-    {
-      tmp = new Talent(talent, 0);
-      this->getContainer().push_back(tmp);
-    }
-  else
-    tmp = *it;
-  ret = tmp->addPts(pts);
+void					Talents::decCurrentPts(unsigned int const pts)
+{
+  _currentPts -= pts >= _currentPts ? _currentPts : pts;
+}
+
+Talent const				*Talents::getTalentFromModel(TalentModel const &model) const
+{
+  std::function<bool(Talent *)>		talentSeeker = [&](Talent *t) -> bool {
+    return (t->getModel() == model);
+  };
+  auto					it = std::find_if(this->begin(), this->end(), talentSeeker);
+  Talent const				*ret = NULL;
+
+  if (it != this->end())
+    ret = *it;
+  return (ret);
+}
+
+Talent					*Talents::getTalentFromModel(TalentModel const &model)
+{
+  std::function<bool(Talent *)>		talentSeeker = [&](Talent *t) -> bool {
+    return (t->getModel() == model);
+  };
+  auto					it = std::find_if(this->begin(), this->end(), talentSeeker);
+  Talent				*ret = NULL;
+
+  if (it != this->end())
+    ret = *it;
+  return (ret);
+}
+
+bool					Talents::incTalent(TalentModel const &model)
+{
+  Talent				*talent = this->getTalentFromModel(model);
+  bool					ret = false;
+
+  if (this->getCurrentPts()) {
+    if (!talent)
+      {
+	talent = new Talent(model, 1);
+	this->getContainer().push_back(talent);
+      }
+    else
+      talent->addPts(1);
+    this->decCurrentPts(1);
+    ret = true;
+  }
   return (ret);
 }
 

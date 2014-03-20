@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Mar 20 14:56:15 2014 antoine maitre
+// Last update Thu Mar 20 17:45:26 2014 antoine maitre
 //
 
 #ifndef			__PLAYER_HH__
@@ -127,7 +127,8 @@ public:
   void				addTalent(Talent const &talent);
   Talents const			&getTalents() const;
   void				setTalents(Talents const &list);
-  bool				modifyTalent(unsigned int const pts, std::string const &talentModel);
+  bool				incTalent(TalentModel const &model);
+  Talent const			*getTalentFromModel(TalentModel const &model) const;
 
   TalentTree const		&getTalentTree() const;
   void				setTalentTree(TalentTree const &tree);

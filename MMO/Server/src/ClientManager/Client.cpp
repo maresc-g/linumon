@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Mar 20 16:46:15 2014 antoine maitre
+// Last update Thu Mar 20 17:44:35 2014 antoine maitre
 //
 
 #include			"ClientManager/Client.hh"
@@ -17,6 +17,7 @@
 #include			"Database/Repositories/PlayerRepository.hpp"
 #include			"Database/Repositories/FactionRepository.hpp"
 #include			"Database/Repositories/PlayerViewRepository.hpp"
+#include			"Loader/LoaderManager.hh"
 
 Client::Client():
   _use(false),
@@ -322,7 +323,9 @@ void				Client::updateTalents(std::string const &talent, unsigned int const pts)
 {
   if (_state == GAME && _player)
     {
-      _player->modifyTalent(pts, talent);
+      TalentModel const		*model = (**LoaderManager::getInstance()->getTalentModelLoader())->getValue(talent);
+      for (unsigned int i = 0 ; i < pts ; ++i)
+	_player->incTalent(*model);
       Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
     }
 }

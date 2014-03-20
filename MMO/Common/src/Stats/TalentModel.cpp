@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:18:40 2014 alexis mestag
-// Last update Wed Mar 19 17:20:57 2014 alexis mestag
+// Last update Thu Mar 20 11:05:05 2014 alexis mestag
 //
 
 #include			<functional>
@@ -45,6 +45,16 @@ TalentModel			&TalentModel::operator=(TalentModel const &rhs)
       this->setParent(rhs.getParent());
     }
   return (*this);
+}
+
+bool				TalentModel::operator==(TalentModel const &rhs) const
+{
+  return (this == &rhs ? true : this->getName() == rhs.getName());
+}
+
+bool				TalentModel::operator!=(TalentModel const &rhs) const
+{
+  return (!(*this == rhs));
 }
 
 TalentModel::point_type		TalentModel::getMaxPoints() const

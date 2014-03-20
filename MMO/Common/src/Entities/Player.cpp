@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 20 14:32:57 2014 antoine maitre
+// Last update Thu Mar 20 17:45:09 2014 antoine maitre
 //
 
 #include			<functional>
@@ -455,23 +455,14 @@ void				Player::useObject(unsigned int const target, unsigned int const idStack)
     std::cout << "MOB IS NULL" << std::endl;
 }
 
-bool				Player::modifyTalent(unsigned int const pts, std::string const &talentModel)
+bool				Player::incTalent(TalentModel const &model)
 {
-  bool				ret = false;
-  unsigned int			nb = this->getTalents().getCurrentPts();
-  TalentModel			*talent = NULL;
+  return (_talents->incTalent(model));
+}
 
-  if (nb > 0 && nb >= pts)
-    {
-      talent = (**LoaderManager::getInstance()->getTalentModelLoader())->getValue(talentModel);
-      if (talent)
-	{
-	  ret = _talents->modifyTalent(pts, *talent);
-	  if (ret)
-	    _talents->apply(*this);
-	}
-    }
-  return (ret);
+Talent const			*Player::getTalentFromModel(TalentModel const &model) const
+{
+  return (const_cast<Talents const *>(_talents)->getTalentFromModel(model));
 }
 
 bool				Player::serialization(Trame &trame) const
