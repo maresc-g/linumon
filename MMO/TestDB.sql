@@ -50,10 +50,10 @@ INSERT INTO `TalentModel`(`id`, `name`, `maxPoints`, `effectLib`) VALUES
        ( 9, 'Heal_Grass_Talent',		3, 1),
        (10, 'Heal_Water_Talent',		3, 1),
        (11, 'Capture_Talent',			3, 1),
-       (12, 'AddBattleMod_Talent',		1, 1),
+       (12, 'AddBattleMob_Talent',		1, 1),
        (13, 'Limit_Talent',			1, 1),
        (14, 'Capture2_Talent',			3, 1),
-       (15, 'AddBattleMod2_Talent',		1, 1);
+       (15, 'AddBattleMob2_Talent',		1, 1);
 
 /* Inserting TalentModels_talents */
 DELETE FROM `TalentModel_talents`;

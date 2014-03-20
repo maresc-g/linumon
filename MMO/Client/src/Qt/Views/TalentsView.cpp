@@ -5,21 +5,24 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Mar 17 22:32:36 2014 guillaume marescaux
-// Last update Wed Mar 19 17:55:12 2014 alexis mestag
+// Last update Thu Mar 20 16:44:37 2014 guillaume marescaux
 //
 
 #include		<iostream>
 #include		"Qt/Views/TalentsView.hh"
-#include <QLabel>
+#include		"JsonFile/JsonFile.hh"
 
 TalentsView::TalentsView(QWidget *parent, WindowManager *wMan) :
-  QWidget(parent),  _wMan(wMan)
+  QWidget(parent),  _wMan(wMan), _talentViews(new std::list<TalentView *>)
 {
   ui.setupUi(this);
 }
 
 TalentsView::~TalentsView()
 {
+  for (auto it = _talentViews->begin() ; it != _talentViews->end() ; it++)
+    delete *it;
+  delete _talentViews;
 }
 
 void			TalentsView::paintEvent(QPaintEvent *)
@@ -35,33 +38,27 @@ void			TalentsView::initTalents(TalentTree const &tree)
 {
   std::list<TalentModel const *> const	*current = &tree.getTalents();
   std::list<TalentModel const *>	*next = new std::list<TalentModel const *>;
-  unsigned int		i = 0;
-  unsigned int		j = 0;
-  QLabel		*label;
+  TalentView				*talent;
+  JsonFile				file;
 
-  std::cerr << "current->size() = " << current->size() << std::endl;
-  std::cerr << "tree name = " << tree.getName() << std::endl;
+  JsonFile::readFile(file, "Res/TalentCoords.json");
+  for (auto it = _talentViews->begin() ; it != _talentViews->end() ; it++)
+    delete *it;
+  _talentViews->clear();
+  current = &tree.getTalents();
+  next = new std::list<TalentModel const *>;
   while (!current->empty())
     {
-      j = 0;
       for (auto itCur = current->begin() ; itCur != current->end() ; ++itCur)
-	{
-	  std::cout << "I AM PUTING A TALENT" << std::endl;
-	  label = new QLabel(this);
-	  label->setText((*itCur)->getName().c_str());
-	  label->move(j * 50, i * 50);
-	  std::list<TalentModel const *> const	*sons = &(*itCur)->getTalents();
-	  for (auto itSons = sons->begin() ; itSons != sons->end() ; ++itSons)
-	    {
-	      std::cout << "I AM PUTING A SON" << std::endl;
-	      next->push_back(*itSons);
-	    }
-	  j++;
-	}
-      // delete current;
+  	{
+  	  talent = new TalentView(this, _wMan, (*itCur), (**_wMan->getMainPlayer())->getTalentFromModel(**itCur));
+	  talent->move(file[(*itCur)->getName()]["x"].asInt(), file[(*itCur)->getName()]["y"].asInt());
+  	  std::list<TalentModel const *> const	*sons = &(*itCur)->getTalents();
+  	  for (auto itSons = sons->begin() ; itSons != sons->end() ; ++itSons)
+	    next->push_back(*itSons);
+  	}
       current = next;
       next = new std::list<TalentModel const *>;
-      i++;
     }
-  // delete next;
+  this->resize(file["size"]["x"].asInt(), file["size"]["y"].asInt());
 }
