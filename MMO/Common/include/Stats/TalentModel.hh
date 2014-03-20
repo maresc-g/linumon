@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:07:00 2014 alexis mestag
-// Last update Wed Mar 19 16:01:21 2014 alexis mestag
+// Last update Thu Mar 20 11:05:08 2014 alexis mestag
 //
 
 #ifndef					__TALENTMODEL_HH__
@@ -39,6 +39,9 @@ public:
   virtual ~TalentModel();
 
   TalentModel				&operator=(TalentModel const &rhs);
+
+  bool					operator==(TalentModel const &rhs) const;
+  bool					operator!=(TalentModel const &rhs) const;
 
   point_type				getMaxPoints() const;
   void					setMaxPoints(point_type const maxPoints);
