@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Wed Mar 19 18:31:39 2014 antoine maitre
+// Last update Thu Mar 20 16:17:35 2014 antoine maitre
 //
 
 #include		"Zone/Case.hh"
@@ -60,7 +60,6 @@ void			Case::delAEntity(AEntity *entity)
 void			Case::delAEntity(unsigned int const id)
 {
   bool			set = false;
-  int i = 0;
 
   for (auto it = _entities->begin() ; !set && it != _entities->end() ; ++it)
     if ((*it)->getId() == id)
@@ -74,6 +73,18 @@ void			Case::delAEntity(unsigned int const id)
 void			Case::deleteAll()
 {
   this->_entities->clear();
+}
+
+Heal			*Case::getHealer()
+{
+  for (auto it = this->_entities->begin(); it != this->_entities->end(); it++)
+    {
+      if ((*it)->getEntityType() == AEntity::eEntity::PNJ)
+	{
+	  return (static_cast<Heal *>(*it));
+	}
+    }
+  return (NULL);
 }
 
 bool			Case::serialization(Trame &trame) const

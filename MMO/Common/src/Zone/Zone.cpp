@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Wed Mar 19 18:31:23 2014 antoine maitre
+// Last update Thu Mar 20 16:03:26 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -81,9 +81,6 @@ void				Zone::addPlayer(AEntity *player)
 
 void				Zone::delPlayer(AEntity *player)
 {
-  Case				*cas;
-  Player			*tmp = NULL;
-
   this->_players->remove(player);
   for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
     (*it)->delAEntity(player->getId());
@@ -342,6 +339,16 @@ bool				Zone::move(AEntity *entity)
   else
     this->getCase(player->getX(), player->getY())->addAEntity(entity);
   return (false);
+}
+
+Heal				*Zone::getHealer()
+{
+  for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
+    {
+      if ((*it)->getHealer())
+	return ((*it)->getHealer());
+    }
+  return (NULL);
 }
 
 #ifdef	SERVER

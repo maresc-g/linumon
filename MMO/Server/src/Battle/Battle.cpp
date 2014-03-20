@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Thu Mar 20 16:36:41 2014 alexis mestag
+// Last update Thu Mar 20 17:12:39 2014 alexis mestag
 //
 
 #include				"Battle/Battle.hh"
@@ -77,16 +77,13 @@ bool					Battle::checkEnd()
 	{
 	  if ((*it)->isMyMob((*itb)->getId()) && (*itb)->getCurrentStat("HP") <= 0)
 	    i++;
-	  if (i == _mobNumber)
+	  if (i == _mobNumber || i == (*it)->getDigitaliser().getBattleMobs().size())
 	    {
 	      this->_idLooser = (*it)->getId();
 	      return (true);
 	    }
-	  if ((*it)->getType() == Player::PlayerType::AI)
-	    std::cout << "LA TAILLE DE LA LISTE DE MOB EST DE " << static_cast<AI *>((*it))->getSizeList() << std::endl;;
 	  if ((*it)->getType() == Player::PlayerType::AI && static_cast<AI *>((*it))->getSizeList() == 0)
 	    {
-	      std::cout << "THIS IS THE END OF THIS BATTLE!!!!" << std::endl;
 	      this->_idLooser = (*it)->getId();
 	      return (true);
 	    }
@@ -303,6 +300,8 @@ void					Battle::trameEndBattle()
     {
       if ((*it)->getType() == Player::PlayerType::PLAYER)
 	{
+	  if ((*it)->getId() == this->_idLooser)
+	    (*it)->setOut(true);
 	  Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, std::list<AItem *> *>("ENDBATTLE", (*it)->getUser().getId(), this->_id, ((*it)->getId() == this->_idLooser)?(false):(true), this->_money, this->_exp, NULL);
   	  ClientManager::getInstance()->endBattle((*it)->getUser().getId());
 	}

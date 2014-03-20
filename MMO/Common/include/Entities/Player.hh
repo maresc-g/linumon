@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Mar 20 16:17:59 2014 alexis mestag
+// Last update Thu Mar 20 17:12:52 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -55,6 +55,7 @@ protected:
   Digitaliser			*_digitaliser;
 
 private:
+  bool				_out;
   PlayerCoordinate		*_coord;
   Faction const			*_faction;
   TalentTree const		*_talentTree;
@@ -87,6 +88,8 @@ public:
   Player(std::string const &name, std::string const &factionName = "", User const *user = NULL);
   virtual ~Player();
 
+  void				setOut(bool const);
+  bool				getOut() const;
   PlayerCoordinate const	&getCoord() const;
   PlayerCoordinate::type const	&getX() const;
   PlayerCoordinate::type const	&getY() const;
@@ -183,6 +186,7 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Player)
+#  pragma db member(Player::_out) transient
 #  pragma db member(Player::_type) transient
 #  pragma db member(Player::_coord) transient
 #  pragma db member(Player::_digitaliser) transient
