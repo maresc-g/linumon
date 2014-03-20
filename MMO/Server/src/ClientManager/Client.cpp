@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar 19 22:38:29 2014 alexis mestag
+// Last update Thu Mar 20 16:46:15 2014 antoine maitre
 //
 
 #include			"ClientManager/Client.hh"
@@ -155,6 +155,7 @@ void				Client::sendAllInformationModel() const
 
 void				Client::state(eState const state)
 {
+  std::cout << "JE SUIS DANS STATE" << std::endl;
   if (_state == BATTLE && state == GAME)
     {
       Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("ISINBATTLE", _id, _player->getId
@@ -356,6 +357,14 @@ void				Client::endBattle()
 {
   _state = GAME;
   Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("ISINBATTLE", _id, _player->getId(), false, Map::getInstance()->getZone(_player->getZone()));
+  if (this->_player->getOut())
+    {
+      this->_player->setOut(false);
+      auto tmp = Map::getInstance()->getHealer(this->_player->getZone());
+      tmp->action(this->_player);
+      //      Server::getInstance()->callProtocol<>("HEAL", _id);
+      this->move(new Player::PlayerCoordinate(tmp->getX(), tmp->getY() + 1));
+    }
   // Map::getInstance()->addPlayer(_player->getZone(), _player);
 }
 

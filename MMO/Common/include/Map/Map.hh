@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:31:09 2014 antoine maitre
-// Last update Wed Mar 19 11:44:59 2014 antoine maitre
+// Last update Thu Mar 20 16:18:45 2014 antoine maitre
 //
 
 #ifndef					__MAP_HH__
@@ -46,6 +46,7 @@ public:
   AEntity				*getEntityById(std::string const &zone, unsigned int const id);
   Player				*getPlayerById(unsigned int const id);
   void					cleanEntities(AEntity *);
+  Heal					*getHealer(std::string const&);
 };
 
 #endif

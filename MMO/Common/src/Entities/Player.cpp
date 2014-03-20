@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 19 17:39:38 2014 alexis mestag
+// Last update Thu Mar 20 14:32:57 2014 antoine maitre
 //
 
 #include			<functional>
@@ -27,7 +27,7 @@
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _type(PlayerType::PLAYER),
-  _digitaliser(new Digitaliser(this)), _coord(new PlayerCoordinate),
+  _digitaliser(new Digitaliser(this)), _out(false), _coord(new PlayerCoordinate),
   _faction(NULL), _talentTree(NULL), _talents(new Talents), _user(NULL),
   _inventory(new Inventory), _jobs(new Jobs), _guild(NULL)
 # ifndef	CLIENT_COMPILATION
@@ -163,6 +163,16 @@ void					Player::applyFactionEffect()
   _faction->applyEffect(*this);
 }
 #endif
+
+void					Player::setOut(bool const looser)
+{
+  this->_out = looser;
+}
+
+bool					Player::getOut() const
+{
+  return (this->_out);
+}
 
 Player::PlayerCoordinate const		&Player::getCoord() const
 {
