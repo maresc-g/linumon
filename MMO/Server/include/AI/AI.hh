@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Sun Mar  2 22:31:17 2014 antoine maitre
-// Last update Thu Mar 13 16:00:48 2014 antoine maitre
+// Last update Thu Mar 20 11:47:55 2014 antoine maitre
 //
 
 #ifndef			__AI_HH__
@@ -28,6 +28,7 @@ public:
   void		remove(unsigned int const target);
   int		getRandomMob(int);
   void		dswitch(unsigned int const target, unsigned int const targetBis);
+  int		getSizeList() const;
 };
 
 #endif

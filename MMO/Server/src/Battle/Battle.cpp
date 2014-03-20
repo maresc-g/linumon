@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Wed Mar 19 17:46:15 2014 antoine maitre
+// Last update Thu Mar 20 12:09:45 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -82,6 +82,14 @@ bool					Battle::checkEnd()
 	      this->_idLooser = (*it)->getId();
 	      return (true);
 	    }
+	  if ((*it)->getType() == Player::PlayerType::AI)
+	    std::cout << "LA TAILLE DE LA LISTE DE MOB EST DE " << static_cast<AI *>((*it))->getSizeList() << std::endl;;
+	  if ((*it)->getType() == Player::PlayerType::AI && static_cast<AI *>((*it))->getSizeList() == 0)
+	    {
+	      std::cout << "THIS IS THE END OF THIS BATTLE!!!!" << std::endl;
+	      this->_idLooser = (*it)->getId();
+	      return (true);
+	    }
 	}
     }
   return (false);
@@ -124,7 +132,7 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
     }
   else
     std::cout << "Je ne trouve pas les protagoniste" << std::endl;
-    return (this->checkEnd());
+  return (this->checkEnd());
 }
 
 bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
