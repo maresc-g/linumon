@@ -5,13 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Mar 19 16:18:26 2014 cyril jourdain
-// Last update Wed Mar 19 17:00:10 2014 cyril jourdain
+// Last update Thu Mar 20 15:26:55 2014 cyril jourdain
 //
 
 #include			<algorithm>
 #include			<stdexcept>
 #include			<QMenu>
 #include			"SFML/RessourcesSpriteLoader.hh"
+#include			"SFML/Entities/Healer.hh"
 
 RessourcesSpriteLoader::RessourcesSpriteLoader(WindowManager *wMan) :
   _wMan(wMan), _loadMap(new RessourceLoadMap()),
@@ -19,9 +20,12 @@ RessourcesSpriteLoader::RessourcesSpriteLoader(WindowManager *wMan) :
 {
   _layers->push_back(new Layer());
   _layers->push_back(new Layer());
+  _layers->push_back(new Layer());
+  _layers->push_back(new Layer());
   (*_loadMap)["Tree"] = &RessourcesSpriteLoader::treeLoader;
   (*_loadMap)["Healer"] = &RessourcesSpriteLoader::healerLoader;
   (*_loadMap)["House"] = &RessourcesSpriteLoader::houseLoader;
+  // (*_loadMap)["PNJ"] = &RessourcesSpriteLoader::pnjLoader;
 }
 
 RessourcesSpriteLoader::~RessourcesSpriteLoader()
@@ -124,7 +128,7 @@ void				RessourcesSpriteLoader::defaultLoader(AEntity *en)
 		   pos->y * CASE_SIZE);
   tmp->setPos(pos->x,
 	      pos->y);
-  (*_layers)[0]->push_back(tmp);
+  (*_layers)[eLayer::FLOOR_LAYER]->push_back(tmp);
 }
 
 void				RessourcesSpriteLoader::treeLoader(AEntity *en)
@@ -142,7 +146,7 @@ void				RessourcesSpriteLoader::treeLoader(AEntity *en)
 		   pos->y * CASE_SIZE);
   tmp->setPos(pos->x,
 	      pos->y);
-  (*_layers)[0]->push_back(tmp);
+  (*_layers)[eLayer::FLOOR_LAYER]->push_back(tmp);
   tmp = new RessourceSprite(static_cast<Ressource*>(en));
   if (!_wMan->getSFMLView()->getSpriteManager()->copySprite("tree_top", *tmp))
     return;
@@ -151,13 +155,13 @@ void				RessourcesSpriteLoader::treeLoader(AEntity *en)
 		   pos->y * CASE_SIZE - 128);
   tmp->setPos(pos->x,
 	      pos->y);
-  (*_layers)[1]->push_back(tmp);
+  (*_layers)[eLayer::TOP_LAYER]->push_back(tmp);
   delete pos;
 }
 
 void				RessourcesSpriteLoader::healerLoader(AEntity *en)
 {
-  Sprite *tmp = new Sprite();
+  Sprite *tmp = new ClientEntities::Healer(_wMan->getSFMLView());
   sf::Vector2i		*pos = new sf::Vector2i(0,0);
 
   pos->x = static_cast<PNJ*>(en)->getX();
@@ -170,7 +174,7 @@ void				RessourcesSpriteLoader::healerLoader(AEntity *en)
   std::cout << "HEALER POS : " << pos->x << "/" << pos->y << std::endl;
   tmp->setPos(pos->x,
 	      pos->y);
-  (*_layers)[0]->push_back(tmp);
+  (*_layers)[eLayer::FLOOR_LAYER]->push_back(tmp);
 }
 
 void				RessourcesSpriteLoader::houseLoader(AEntity *en)
@@ -188,7 +192,7 @@ void				RessourcesSpriteLoader::houseLoader(AEntity *en)
 		   pos->y * CASE_SIZE);
   tmp->setPos(pos->x,
 	      pos->y);
-  (*_layers)[0]->push_back(tmp);
+  (*_layers)[eLayer::FLOOR_LAYER]->push_back(tmp);
   tmp = new RessourceSprite(static_cast<Ressource*>(en));
   if (!_wMan->getSFMLView()->getSpriteManager()->copySprite("house_roof", *tmp))
     return;
@@ -197,6 +201,11 @@ void				RessourcesSpriteLoader::houseLoader(AEntity *en)
 		   pos->y * CASE_SIZE-64);
   tmp->setPos(pos->x,
 	      pos->y);
-  (*_layers)[1]->push_back(tmp);
+  (*_layers)[eLayer::TOP_LAYER]->push_back(tmp);
   delete pos;
 }
+
+// void				RessourcesSpriteLoader::pnjLoader(AEntity *en)
+// {
+  
+// }

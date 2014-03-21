@@ -5,14 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Thu Mar 20 21:22:14 2014 guillaume marescaux
+// Last update Fri Mar 21 11:32:08 2014 guillaume marescaux
 //
 
 #include		"SFML/WorldView.hh"
 #include		<stdexcept>
 #include		<QMenu>
 #include <QDebug>
-
+#include		"SFML/Window/ComputerScreen.hh"
 /*
   Load player list
   Uncomment entities
@@ -22,7 +22,7 @@
 
 WorldView::WorldView(SFMLView *v, WindowManager *w) :
   ContextView(v, w), _mainPerso(NULL), _playerList(new std::vector<OPlayerSprite *>),
-  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(Qt::Key(0)), _ressourcesLoader(NULL)
+  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(Qt::Key(0)), _ressourcesLoader(NULL), _currentWindow(NULL)
 {
   (*_keyMap)[Qt::Key_Up] = &WorldView::keyUp;
   (*_keyMap)[Qt::Key_Down] = &WorldView::keyDown;
@@ -84,18 +84,49 @@ void			WorldView::onUpdate()
       loadPlayerList();
       *(_wMan->getNewPlayer()) = false;
     }
+  if (_currentWindow)
+    _currentWindow->update(*(_sfmlView->getMainClock()));
+}
+
+void			WorldView::drawView()
+{
+  _sfmlView->setView(*(_sfmlView->getMainView()));
+  _backgroundSprite->setTexture(_backgroundTexture->getTexture());
+  _sfmlView->draw(*_backgroundSprite);
+  _ressourcesLoader->drawLayer(RessourcesSpriteLoader::FLOOR_LAYER);
+  for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
+    {
+      if ((**(_wMan->getMainPlayer()))->getId() == ((*it)->getPlayerId()))
+      	continue;
+      if (*it){
+  	(*it)->moveFromServer();
+  	(*it)->updateMoves(_sfmlView->getMainClock(), NULL);
+  	(*it)->update(*_sfmlView->getMainClock());
+  	_sfmlView->draw(**it);
+      }      
+    }
+  if (_mainPerso) {
+    _sfmlView->draw(*_mainPerso);
+  }
+  _ressourcesLoader->drawLayer(RessourcesSpriteLoader::TOP_LAYER);
+  if (_currentWindow)
+    _currentWindow->draw();
 }
 
 void			WorldView::onKeyEvent(QKeyEvent *event)
 {
-  CLIENT::eState s = **(_wMan->getState());
-  if (s == CLIENT::PLAYING || s == CLIENT::TRADE){
-    try {
-      (this->*(_keyMap->at(Qt::Key(event->key()))))();
-    }
-    catch (std::out_of_range const &e) {
+  if ((!_currentWindow) || (_currentWindow && !_currentWindow->isModal())){
+    CLIENT::eState s = **(_wMan->getState());
+    if (s == CLIENT::PLAYING || s == CLIENT::TRADE){
+      try {
+	(this->*(_keyMap->at(Qt::Key(event->key()))))();
+      }
+      catch (std::out_of_range const &e) {
+      }
     }
   }
+  if (_currentWindow)
+    _currentWindow->onKeyEvent(event);
 }
 
 void			WorldView::onMouseEvent(QMouseEvent *event)
@@ -126,6 +157,12 @@ void			WorldView::onMouseEvent(QMouseEvent *event)
 		      {
 			std::string name = Map::getInstance()->getPlayerById((*it)->getPlayerId())->getName();
 			Client::getInstance()->interaction(eInteraction::TRADE,
+							   name);
+		      }
+		    if (action->text() == "Fight")
+		      {
+			std::string name = Map::getInstance()->getPlayerById((*it)->getPlayerId())->getName();
+			Client::getInstance()->interaction(eInteraction::AGRO,
 							   name);
 		      }
 		  }
@@ -161,29 +198,6 @@ void			WorldView::resetView()
   delete _ressourcesLoader;
 }
 
-void			WorldView::drawView()
-{
-  _backgroundSprite->setTexture(_backgroundTexture->getTexture());
-  _sfmlView->draw(*_backgroundSprite);
-  _ressourcesLoader->drawLayer(0);
-  for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
-    {
-      if ((**(_wMan->getMainPlayer()))->getId() == ((*it)->getPlayerId()))
-      	continue;
-      if (*it){
-  	(*it)->moveFromServer();
-  	(*it)->updateMoves(_sfmlView->getMainClock(), NULL);
-  	(*it)->update(*_sfmlView->getMainClock());
-  	_sfmlView->draw(**it);
-      }      
-    }
-  if (_mainPerso) {
-    _sfmlView->draw(*_mainPerso);
-  }
-  _ressourcesLoader->drawLayer(1);
-  _sfmlView->setView(*(_sfmlView->getMainView()));
-}
-
 void			WorldView::resetPOV()
 {
   _sfmlView->getMainView()->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
@@ -193,6 +207,13 @@ void			WorldView::resetPOV()
   _sfmlView->getMainView()->zoom(0.8);
   // if ((**(_wMan->getMainPlayer()))->getX() <= 15)
   //   _sfmlView->getMainView()->move((15 - (**(_wMan->getMainPlayer()))->getX()) * CASE_SIZE, 0);
+}
+
+void			WorldView::setCurrentWindow(Window *w)
+{
+  if (_currentWindow)
+    delete _currentWindow;
+  _currentWindow = w;
 }
 
 void			WorldView::loadPlayerList()

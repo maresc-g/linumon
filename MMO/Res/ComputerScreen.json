@@ -1,0 +1,13 @@
+{
+	"info": {
+		"texture": "ComputerScreen",
+		"size": 64
+	},	
+	"sprites": {
+		"ComputerScreen": {
+			"default": {
+			    "1":{"x": 0,"y": 0, "sx":368, "sy":300}
+			}
+		}
+	}
+}

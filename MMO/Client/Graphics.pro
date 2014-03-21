@@ -61,6 +61,9 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/SFML/Sprite/Sprite.hh \
                 include/SFML/Sprite/Animation.hh \
                 include/SFML/Sprite/Frame.hh \
+                include/SFML/Window.hh \
+                include/SFML/Window/ComputerScreen.hh \
+                include/SFML/Entities/Healer.hh \
                 include/Client.hh \
                 include/Common/eState.hh \
                 include/Common/eDirection.hh \
@@ -118,6 +121,8 @@ SOURCES +=      src/main.cpp \
                 src/SFML/Sprite/Animation.cpp \
                 src/SFML/Sprite/Frame.cpp \
                 src/SFML/Sprite/SpriteManager.cpp \
+                src/SFML/Window/ComputerScreen.cpp \
+                src/SFML/Entities/Healer.cpp \
                 src/Client.cpp \
                 src/Common/ErrorBox.cpp \
                 src/Chat/Chat.cpp \
