@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 20 17:13:01 2014 alexis mestag
+// Last update Fri Mar 21 15:14:19 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -628,8 +628,8 @@ bool				Player::capture(Mob &mob, bool const check)
   bool				done = !check;
 
   if (!done) {
-    unsigned int		seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine	rGen(seed);
+    static unsigned int		seed = std::chrono::system_clock::now().time_since_epoch().count();
+    static std::default_random_engine	rGen(seed);
     double			a = 3.0 * mob.getMaxStat("HP") - 2.0 * mob.getCurrentStat("HP");
 
     a *= mob.getCatchRate();
