@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Wed Mar 19 12:52:45 2014 guillaume marescaux
+// Last update Fri Mar 21 11:09:40 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -68,7 +68,7 @@ public:
   void				sendSwitch(unsigned int idBattle, unsigned int target, unsigned int newMob);
   void				getStuff(unsigned int idItem, unsigned int target);
   void				putStuff(unsigned int idItem, unsigned int target);
-  // void				talents();
+  void				talents(Talents const &talents);
   void				craft(std::string const &craftName, std::string const &jobName);
   void				gather(unsigned int idRessource, std::string const &jobName, unsigned int idCarcass = 0);
   void				useObject(unsigned int target, unsigned int item);

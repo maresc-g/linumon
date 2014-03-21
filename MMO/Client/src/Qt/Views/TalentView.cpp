@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Mar 20 11:02:32 2014 guillaume marescaux
-// Last update Thu Mar 20 16:11:00 2014 guillaume marescaux
+// Last update Fri Mar 21 11:17:01 2014 guillaume marescaux
 //
 
 #include			<boost/algorithm/string.hpp>
@@ -39,11 +39,29 @@ void				TalentView::mousePressEvent(QMouseEvent *mEvent)
     {
       TalentModel const		*parentModel = _talentModel->getParent();
       // if ((!_talent && parentModel->getMaxPoints() == (**_wMan->getMainPlayer())->getTalentFromModel(_talentModel()->getParent())->getCurrentPoints()) || )
+      if (!_talent)
+	{
+	  Talent const		*parentTalent;
+
+	  parentTalent = (**_wMan->getMainPlayer())->getTalentFromModel(*parentModel);
+	  if (parentTalent && parentTalent->getCurrentPoints() == parentModel->getMaxPoints())
+	    {
+	      if ((**_wMan->getMainPlayer())->incTalent(*_talentModel))
+		{
+		  _talent = (**_wMan->getMainPlayer())->getTalentFromModel(*_talentModel);
+		  setInfos();
+		  Client::getInstance()->talents((**_wMan->getMainPlayer())->getTalents());
+		}
+	    }
+	}
       if (_talent && _talent->getCurrentPoints() < _talentModel->getMaxPoints())
 	{
-	  (**_wMan->getMainPlayer())->incTalent(*_talentModel);
-	  _talent = (**_wMan->getMainPlayer())->getTalentFromModel(*_talentModel);
-	  setInfos();
+	  if ((**_wMan->getMainPlayer())->incTalent(*_talentModel))
+	    {
+	      _talent = (**_wMan->getMainPlayer())->getTalentFromModel(*_talentModel);
+	      setInfos();
+	      Client::getInstance()->talents((**_wMan->getMainPlayer())->getTalents());
+	    }
 	}
     }
 }

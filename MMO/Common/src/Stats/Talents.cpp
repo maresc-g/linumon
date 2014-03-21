@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Mar  4 00:06:53 2014 alexis mestag
-// Last update Thu Mar 20 13:02:09 2014 guillaume marescaux
+// Last update Thu Mar 20 23:34:24 2014 guillaume marescaux
 //
 
 #include				<sstream>
@@ -138,6 +138,7 @@ bool				Talents::serialization(Trame &trame) const
   std::ostringstream		str;
   unsigned int			nb = 0;
 
+  trame["TALENTS"]["PTS"] = this->getCurrentPts();
   for (auto it = this->begin() ; it != this->end() ; ++it)
     {
       str << nb;
@@ -156,9 +157,13 @@ Talents				*Talents::deserialization(Trame const &trame)
 
   for (auto it = members.begin() ; it != members.end() ; ++it)
     {
-      tmp = Talent::deserialization(trame(trame["TALENTS"][*it]));
-      if (tmp)
-	talents->getContainer().push_back(tmp);
+      if (*it != "PTS")
+	{
+	  tmp = Talent::deserialization(trame(trame["TALENTS"][*it]));
+	  if (tmp)
+	    talents->getContainer().push_back(tmp);
+	}
     }
+  talents->setCurrentPts(trame["TALENTS"]["PTS"].asUInt());
   return (talents);
 }
