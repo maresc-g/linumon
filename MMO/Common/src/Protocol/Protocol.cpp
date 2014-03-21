@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Mar 21 17:53:39 2014 guillaume marescaux
+// Last update Fri Mar 21 22:51:18 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -85,7 +85,7 @@ if (server)
       this->_container->load<unsigned int>("AUTHORIZEDSTATKEYSLIST", &authorizedStatKeys);
 
       this->_container->load<unsigned int, std::string>("NEWGUILD", &newGuild);
-      this->_container->load<unsigned int, Guild *>("GUILD", &guild);
+      this->_container->load<unsigned int, Guild const *>("GUILD", &guild);
       this->_container->load<unsigned int, std::string, Zone *>("NEWMEMBER", &newMember);
       this->_container->load<unsigned int, std::string, Zone *>("DELETEMEMBER", &deleteMember);
       this->_container->load<unsigned int, std::string>("invite", &invite);
@@ -1354,7 +1354,7 @@ bool				refuseGuild(unsigned int const id)
   return (ret);
 }
 
-bool			guild(unsigned int const id, Guild *g)
+bool			guild(unsigned int const id, Guild const *g)
 {
   bool			ret = false;
   Trame			*trame;

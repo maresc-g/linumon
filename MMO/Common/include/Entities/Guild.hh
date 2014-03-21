@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Feb 25 12:42:29 2014 laurent ansel
-// Last update Fri Mar 14 13:30:40 2014 laurent ansel
+// Last update Fri Mar 21 22:39:11 2014 laurent ansel
 //
 
 #ifndef 		__GUILD_HH__
@@ -47,10 +47,10 @@ public:
 
 #ifndef			CLIENT_COMPILATION
   void			addPlayer(Player &player);
-
   static Guild		*createAndPersist(std::string const &name);
   static Guild		*getGuild(std::string const &name);
 #endif
+  bool			inGuild(std::string const &namePlayer) const;
 
   void			addPlayer(PlayerView *playerView);
 
