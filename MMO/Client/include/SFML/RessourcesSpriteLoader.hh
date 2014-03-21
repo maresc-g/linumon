@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar 15 23:10:42 2014 cyril jourdain
-// Last update Sun Mar 16 19:02:06 2014 cyril jourdain
+// Last update Thu Mar 20 11:37:48 2014 cyril jourdain
 //
 
 #ifndef 		__RESSOURCESSPRITELOADER_HH__
@@ -17,6 +17,14 @@
 
 class			RessourcesSpriteLoader
 {
+
+public:
+  enum eLayer{
+    FLOOR_LAYER = 0,
+    ON_FLOOR_LAYER,
+    PNJ_LAYER,
+    TOP_LAYER
+  };
 
 private:
   typedef std::map<std::string, void (RessourcesSpriteLoader::*)(AEntity *)>	RessourceLoadMap;

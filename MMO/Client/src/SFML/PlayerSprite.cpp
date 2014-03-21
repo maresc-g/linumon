@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar 14 15:33:05 2014 cyril jourdain
-// Last update Wed Mar 19 16:49:10 2014 cyril jourdain
+// Last update Thu Mar 20 16:39:24 2014 cyril jourdain
 //
 
 #include		<QMenu>
@@ -222,7 +222,7 @@ void			PlayerSprite::moveRight(float px, sf::View *view)
 }
 
 void			PlayerSprite::moveFromServer(sf::View *v)
-{
+ {
   if (_dir == END_MOVE)
     {
       if (_pos.x != Map::getInstance()->getPlayerById(_playerId)->getX() || _pos.y != Map::getInstance()->getPlayerById(_playerId)->getY())

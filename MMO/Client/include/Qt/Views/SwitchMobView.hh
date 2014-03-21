@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Mar 13 14:42:17 2014 cyril jourdain
-// Last update Thu Mar 13 16:59:46 2014 cyril jourdain
+// Last update Thu Mar 20 13:56:30 2014 cyril jourdain
 //
 
 #ifndef 		__SWITCHMOBVIEW_HH__
@@ -36,6 +36,7 @@ private:
 
 private slots:
   void			selectMob(unsigned int);
+  void			cancel();
 };
 
 #endif
