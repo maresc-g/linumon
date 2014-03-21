@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar 21 11:11:31 2014 guillaume marescaux
+// Last update Fri Mar 21 13:26:00 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -308,8 +308,14 @@ bool				Core::spellEffect(Trame *trame)
   return (true);
 }
 
-bool				Core::captureEffect(Trame *)
+bool				Core::captureEffect(Trame *trame)
 {
+  bool				res = (*trame)[CONTENT]["CAPTUREEFFECT"]["SUCCESS"].asBool();
+
+  if (res)
+    (**_battle)->removeMob();
+  (**_battle)->getCapture()->isCapturing = false;
+  (**_battle)->getCapture()->res = res;
   return (true);
 }
 

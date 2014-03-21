@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Wed Mar 19 13:38:01 2014 guillaume marescaux
+// Last update Fri Mar 21 13:25:38 2014 guillaume marescaux
 //
 
 #include			<algorithm>
@@ -13,7 +13,8 @@
 
 Battle::Battle():
   _id(0), _mobs(new std::list<Mob *>), _enemy(NULL), _maxMobs(0), _spells(new std::list<SpellContainer *>),
-  _turnTo(new std::list<unsigned int>), _switch(new MutexVar<bool>(false)), _player(NULL), _win(false), _end(false)
+  _turnTo(new std::list<unsigned int>), _switch(new MutexVar<bool>(false)), _player(NULL),
+  _capture(new Battle::Capture), _win(false), _end(false)
 {
 }
 
@@ -25,6 +26,7 @@ Battle::~Battle()
   for (auto it = _spells->begin() ; it != _spells->end() ; it++)
     delete *it;
   delete _spells;
+  delete _capture;
 }
 
 void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *enemy, unsigned int maxMobs)
@@ -155,4 +157,11 @@ void				Battle::leaveBattle(void)
 
   for (auto it = mobs.begin() ; it != mobs.end() ; it++)
     (*it)->leaveBattle();
+}
+
+Battle::Capture			*Battle::getCapture() { return (_capture); }
+
+void				Battle::removeMob()
+{
+  _enemy->getAndDeleteMob(_capture->id);
 }
