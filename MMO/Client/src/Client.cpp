@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Wed Mar 19 12:52:53 2014 guillaume marescaux
+// Last update Fri Mar 21 11:10:58 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -85,7 +85,7 @@ void				Client::putStuff(unsigned int idItem, unsigned int target)
 void				Client::getStuff(unsigned int idItem, unsigned int target)
 { _core->getStuff(idItem, target); }
 
-// void				Client::talents();
+void				Client::talents(Talents const &talents) { _core->talents(talents); }
 
 void				Client::craft(std::string const &craftName, std::string const &jobName)
 { _core->craft(craftName, jobName); }

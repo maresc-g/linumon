@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 19 18:15:45 2014 antoine maitre
+// Last update Fri Mar 21 11:11:31 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -677,7 +677,10 @@ void				Core::getStuff(unsigned int idItem, unsigned int target)
   (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("GETSTUFF", _id, idItem, target);
 }
 
-// void				talents();
+void				Core::talents(Talents const &talents)
+{
+  (*_proto).operator()<unsigned int const, Talents const *>("TALENTS", _id, &talents);
+}
 
 void				Core::craft(std::string const &craftName, std::string const &jobName)
 {

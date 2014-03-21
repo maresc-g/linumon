@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Wed Mar 19 22:39:47 2014 alexis mestag
+// Last update Fri Mar 21 11:13:20 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -85,7 +85,7 @@ bool				capture(unsigned int const id, unsigned int idBattle, unsigned int targe
 bool				putStuff(unsigned int const id, unsigned int idItem, unsigned int target);
 bool				getStuff(unsigned int const id, unsigned int idItem, unsigned int target);
 //  bool				stuff(void *action);
-  // bool				talents();'
+bool				talents(unsigned int const id, Talents const *talents);
 bool				craft(unsigned int const id, std::string craftName, std::string jobName);
 bool				gather(unsigned int const id, unsigned int idRessource, std::string jobName, unsigned int idCarcass);
 bool				objectEffect(unsigned int const id, unsigned int const target, Stats const *stats);

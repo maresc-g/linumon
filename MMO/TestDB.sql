@@ -203,9 +203,9 @@ INSERT INTO `Guild`(`id`, `name`) VALUES
 /* Inserting Players */
 DELETE FROM Player;
 
-INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `digitaliserEfficiency`, `inventoryPath`, `money`, `limit`, `expCurve`) VALUES
-       (1, 'Thinenus', 1, 0, 1, 10, 1, 1, 1, 1, 1, 10, 30, 1, 'Res/Inventories/Thinenus.json', 10000, 30, 6),
-       (2, 'Sezu-Kho', 1, 0, 1, 10, 1, 1, 2, 1, 1, 20, 20, 1, 'Res/Inventories/Sezu-Kho.json', 10000, 30, 6);
+INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `digitaliserEfficiency`, `inventoryPath`, `money`, `limit`, `expCurve`, `currentPts`) VALUES
+       (1, 'Thinenus', 1, 0, 1, 10, 1, 1, 1, 1, 1, 10, 30, 1, 'Res/Inventories/Thinenus.json', 10000, 30, 6, 5),
+       (2, 'Sezu-Kho', 1, 0, 1, 10, 1, 1, 2, 1, 1, 20, 20, 1, 'Res/Inventories/Sezu-Kho.json', 10000, 30, 6, 0);
 
 /* Assigning Talents to Players */
 DELETE FROM `Player_talents`;

@@ -276,7 +276,7 @@ SwitchMobView
 
 TalentsView
 {
-	background-color: #FFFFFF;
+	border-image:url(./Res/UI/talent_tree.png);
 }
 
 StuffStatsView

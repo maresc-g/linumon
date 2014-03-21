@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Wed Mar 19 16:54:27 2014 cyril jourdain
+// Last update Thu Mar 20 21:22:14 2014 guillaume marescaux
 //
 
 #include		"SFML/WorldView.hh"
@@ -437,7 +437,7 @@ void			WorldView::keyT()
 {
   if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_T) && !_sfmlView->getChatView()->getFocused())
     {
-      if (!_sfmlView->getGuildView()->isVisible())
+      if (!_sfmlView->getTalentsView()->isVisible())
 	{
 	  _sfmlView->getTalentsView()->initTalents((**_wMan->getMainPlayer())->getTalentTree());
 	  _sfmlView->displayView(_sfmlView->getTalentsView());
