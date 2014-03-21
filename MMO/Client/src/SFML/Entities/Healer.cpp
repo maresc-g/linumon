@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Mar 20 13:16:32 2014 cyril jourdain
-// Last update Fri Mar 21 00:39:16 2014 cyril jourdain
+// Last update Fri Mar 21 13:01:25 2014 cyril jourdain
 //
 
 #include			"SFML/Window/ComputerScreen.hh"
@@ -35,7 +35,7 @@ namespace ClientEntities {
 	if (action->text() == "Use")
 	  {
 	    std::cout << "I'm gonna heal you bro" << std::endl;
-	    static_cast<WorldView *>(_sfmlView->getCurrentView())->setCurrentWindow(new ComputerScreen(_sfmlView,"Hi. Do you want to heal your mobs ?"));
+	    static_cast<WorldView *>(_sfmlView->getCurrentView())->setCurrentWindow(new ComputerScreen(_sfmlView));
 	  }
       }
   }

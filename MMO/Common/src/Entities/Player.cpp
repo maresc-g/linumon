@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Thu Mar 20 17:13:01 2014 alexis mestag
+// Last update Fri Mar 21 15:01:43 2014 cyril jourdain
 //
 
 #include			<cmath>

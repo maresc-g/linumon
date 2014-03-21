@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Mar 20 15:44:41 2014 cyril jourdain
-// Last update Thu Mar 20 20:03:21 2014 cyril jourdain
+// Last update Fri Mar 21 13:01:06 2014 cyril jourdain
 //
 
 #ifndef 		__COMPUTERSCREEN_HH__
@@ -30,7 +30,8 @@ private:
   sf::Text		*_selection;
 
 public:
-  ComputerScreen(SFMLView *, std::string const &text = "No Text");
+  ComputerScreen(SFMLView *);
+  ComputerScreen(SFMLView *, std::string const &text);
   virtual ~ComputerScreen();
 
 public:
