@@ -5,11 +5,14 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Feb 28 13:17:26 2014 alexis mestag
-// Last update Tue Mar 11 16:31:13 2014 laurent ansel
+// Last update Fri Mar 21 16:09:23 2014 alexis mestag
 //
 
 #ifndef				__WRAPPER_HPP__
 # define			__WRAPPER_HPP__
+
+# include			<chrono>
+# include			<random>
 
 template<typename T>
 class				Wrapper
@@ -52,8 +55,11 @@ public:
 
   const_iterator		randomElement() const
   {
-    unsigned long		k = rand() % getContainer().size();
-    const_iterator		it = begin();
+    static unsigned int				seed = std::chrono::system_clock::now().time_since_epoch().count();
+    static std::default_random_engine		rGen(seed);
+    std::uniform_int_distribution<size_type>	distribution(0, this->size() - 1);
+    size_type					k = distribution(rGen);
+    const_iterator				it = this->begin();
 
     std::advance(it, k);
     return (it);
