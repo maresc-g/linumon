@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:46:12 2014 laurent ansel
-// Last update Tue Feb 25 10:53:40 2014 laurent ansel
+// Last update Fri Mar 21 15:24:00 2014 antoine maitre
 //
 
 #include			<functional>
@@ -27,8 +27,12 @@ OtherCommand::~OtherCommand()
 
 bool				OtherCommand::heal(Trame *trame)
 {
+  std::cout << "JE PASSE DANS LE HEAL COTE SERVER " << std::endl;
   if (trame && (*trame)[CONTENT].isMember("HEAL"))
     {
+      std::cout << "BEREFORE CALL PROTOCOL" << std::endl;
+      Server::getInstance()->callProtocol("HEAL", (*trame)[HEADER]["IDCLIENT"].asUInt());
+      std::cout << "after CALL PROTOCOL" << std::endl;      
       return (true);
     }
   return (false);
