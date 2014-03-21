@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Fri Mar 21 13:25:38 2014 guillaume marescaux
+// Last update Fri Mar 21 13:55:52 2014 cyril jourdain
 //
 
 #include			<algorithm>
@@ -34,6 +34,9 @@ void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *en
   std::list<Mob *> const	mobs = (**player)->getDigitaliser().getBattleMobs();
   unsigned int			i = 0;
 
+  _capture->isCapturing = false;
+  _capture->res = false;
+  _capture->id = 0;
   _win = false;
   _end = false;
   _player = player;

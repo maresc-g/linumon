@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Thu Mar 20 14:04:13 2014 cyril jourdain
+// Last update Fri Mar 21 14:57:59 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -35,6 +35,8 @@ void			BattleView::onInit()
   _backgroundTexture = new sf::RenderTexture();
   _backgroundSprite = new sf::Sprite();
   _countDownSprite = new Sprite();
+  _captureAnim = new Sprite();
+  _captureUpdating = false;
   (*_buttonMap)[Qt::NoButton] = &BattleView::noButton;
   (*_buttonMap)[Qt::LeftButton] = &BattleView::leftButton;
   (*_buttonMap)[Qt::RightButton] = &BattleView::rightButton;
@@ -89,34 +91,37 @@ void			BattleView::onUpdate()
   if (_battleStarted){
     if (_countDownSprite->isAnimFinished()){
       // std::cout << "Updating battle" << std::endl;
-      if (**(**(_wMan)->getBattle())->getSwitch())
-	{
-	  loadPlayerList();
-	  _currentTurn = -1;
-	  *(**(_wMan)->getBattle())->getSwitch() = false;
-	  _playingMob = NULL;
-	  setLifeVisibility(true);
-	  _spellUpdater->unsetPreviousTarget();
-	}
-      if ((_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn()) &&
-	  (((mob = _spellUpdater->getPreviousTarget()) && mob->mob && mob->mob->isHealthBarUpdated()) || !_spellUpdater->getPreviousTarget()))
-	{
-	  unsigned int turn = (**_wMan->getBattle())->getTurnTo();
-	  if (turn != (unsigned int) -1)
-	    _currentTurn = turn;
-	  setPlayingMob();
-	}
-      _spellUpdater->update(this);
-      if (_playingMob)
-	_selection->setPosition((_playingMob->getPosition().x), (_playingMob->getPosition().y - CASE_SIZE));
-      _selection->update(*_sfmlView->getMainClock());
-      _spellSprite->update(*_sfmlView->getMainClock());
-      _spellSpriteCase->update(*_sfmlView->getMainClock());
-      if ((**(_wMan)->getBattle())->getEnd())
-	{
-	  (*_wMan->getState()) = CLIENT::LEAVING_BATTLE;
-	  (**_wMan->getBattle())->setEnd(false);
-	}
+      if (!updateCapture()){
+	if (**(**(_wMan)->getBattle())->getSwitch())
+	  {
+	    loadPlayerList();
+	    _currentTurn = -1;
+	    *(**(_wMan)->getBattle())->getSwitch() = false;
+	    _playingMob = NULL;
+	    setLifeVisibility(true);
+	    _spellUpdater->unsetPreviousTarget();
+	  }
+	if ((_currentTurn == (unsigned int)-1 || _spellUpdater->endTurn()) &&
+	    (((mob = _spellUpdater->getPreviousTarget()) && mob->mob && mob->mob->isHealthBarUpdated()) ||
+	     !_spellUpdater->getPreviousTarget()))
+	  {
+	    unsigned int turn = (**_wMan->getBattle())->getTurnTo();
+	    if (turn != (unsigned int) -1)
+	      _currentTurn = turn;
+	    setPlayingMob();
+	  }
+	_spellUpdater->update(this);
+	if (_playingMob)
+	  _selection->setPosition((_playingMob->getPosition().x), (_playingMob->getPosition().y - CASE_SIZE));
+	_selection->update(*_sfmlView->getMainClock());
+	_spellSprite->update(*_sfmlView->getMainClock());
+	_spellSpriteCase->update(*_sfmlView->getMainClock());
+	if ((**(_wMan)->getBattle())->getEnd())
+	  {
+	    (*_wMan->getState()) = CLIENT::LEAVING_BATTLE;
+	    (**_wMan->getBattle())->setEnd(false);
+	  }
+      }
     }
     else{
       _countDownSprite->update(*_sfmlView->getMainClock());
@@ -169,6 +174,7 @@ void			BattleView::drawView()
     _sfmlView->draw(*_selection);
     _sfmlView->draw(*_spellSprite);
     _spellUpdater->draw();
+    _sfmlView->draw(*_captureAnim);
     _sfmlView->draw(*_countDownSprite);
   }
   else{
@@ -383,6 +389,7 @@ void			BattleView::loadPlayerList()
       tmp->initHealthBar(*(static_cast<Mob*>(*it)));
       _enemyList->push_back(tmp);
       posY += 3*CASE_SIZE;
+      qDebug() << "Adding mob with id : " << (*it)->getId();
     }  
 }
 
@@ -513,7 +520,15 @@ void			BattleView::rightButton(QMouseEvent *event)
 	if (action->text().toStdString() == "Switch")
 	  switchMobs(_selectedMob->getPlayerId());
 	if (action->text().toStdString() == "Capture")
-	  Client::getInstance()->capture((**_wMan->getBattle())->getId(), _selectedMob->getPlayerId());
+	  {
+	    (**_wMan->getBattle())->getCapture()->id = _selectedMob->getPlayerId();
+	    (**_wMan->getBattle())->getCapture()->isCapturing = true;
+	    _sfmlView->getSpriteManager()->copySprite("Lance-Flamme", *_captureAnim);
+	    _captureAnim->play("onEnemy");
+	    (*_captureAnim)["onEnemy"]->setLoopPlay(false);
+	    _captureUpdating = true;
+	    Client::getInstance()->capture((**_wMan->getBattle())->getId(), _selectedMob->getPlayerId());
+	  }
       }
   }
   _selectedMob = NULL;
@@ -569,4 +584,25 @@ void				BattleView::switchMobs(unsigned int mobId)
   if (change >= 0)
     Client::getInstance()->sendSwitch((**_wMan->getBattle())->getId(), mobId, change);
   delete v;
+}
+
+bool				BattleView::updateCapture()
+{
+  Battle::Capture *tmp = (**_wMan->getBattle())->getCapture();
+  
+  _captureAnim->update(*_sfmlView->getMainClock());
+  if (_captureAnim->isAnimFinished()){
+    if (!tmp->isCapturing && tmp->res && _captureUpdating)
+      {
+	loadPlayerList();
+	_playingMob = NULL;
+	_selectedMob = NULL;
+	_captureUpdating = false;
+	_spellUpdater->unsetPreviousTarget();
+	setLifeVisibility(true);
+	return true;
+      }
+    return false;
+  }
+  return true;
 }

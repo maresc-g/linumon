@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:22:49 2014 guillaume marescaux
-// Last update Fri Mar 21 13:19:27 2014 guillaume marescaux
+// Last update Fri Mar 21 13:39:30 2014 cyril jourdain
 //
 
 #ifndef 			__BATTLE_HH__
@@ -18,7 +18,7 @@
 
 class				Battle
 {
-private:
+public:
 
   struct			Capture
   {

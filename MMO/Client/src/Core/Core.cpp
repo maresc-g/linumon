@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar 21 13:26:00 2014 guillaume marescaux
+// Last update Fri Mar 21 14:18:27 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -114,6 +114,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("ISINBATTLE", func);
   func = std::bind1st(std::mem_fun(&Core::switchMob), this);
   _proto->addFunc("SWITCH", func);
+  func = std::bind1st(std::mem_fun(&Core::captureEffect), this);
+  _proto->addFunc("CAPTUREEFFECT", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);

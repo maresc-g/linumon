@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 17:57:46 2014 cyril jourdain
-// Last update Tue Mar 18 23:49:03 2014 cyril jourdain
+// Last update Fri Mar 21 14:38:42 2014 cyril jourdain
 //
 
 #ifndef 		__BATTLEVIEW_HH__
@@ -56,7 +56,8 @@ private:
   bool				_battleStarted;  
   Sprite			*_countDownSprite;
   Sprite			*_battleResult;
-  // bool				_updatingHealthBar;
+  Sprite			*_captureAnim;
+  bool				_captureUpdating;
 
 public:
   BattleView(SFMLView *, WindowManager *);
@@ -95,6 +96,7 @@ private:
   void				rightButton(QMouseEvent *);
   void				noButton(QMouseEvent *);
   void				switchMobs(unsigned int);
+  bool				updateCapture();
 };
 
 #endif
