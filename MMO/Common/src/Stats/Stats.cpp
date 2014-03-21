@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Tue Mar 11 14:11:35 2014 alexis mestag
+// Last update Thu Mar 20 23:04:03 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -27,7 +27,7 @@ Stats::Stats(Stats const &rhs) :
 
 Stats::~Stats()
 {
-  this->deleteStats();
+
 }
 
 Stats				&Stats::operator=(Stats const &rhs)
@@ -46,22 +46,22 @@ Stat::value_type		Stats::operator[](StatKey const &key) const
 
 Stat				*Stats::get(StatKey const &key)
 {
-  std::function<bool(Stat *)>	statSeeker = [&](Stat *s) -> bool {
-    return (s->getKey() == key);
+  std::function<bool(Stat)>	statSeeker = [&](Stat s) -> bool {
+    return (s.getKey() == key);
   };
   auto				it = std::find_if(this->begin(), this->end(), statSeeker);
 
-  return (it != this->end() ? *it : NULL);  
+  return (it != this->end() ? &*it : NULL);  
 }
 
 Stat const			*Stats::get(StatKey const &key) const
 {
-  std::function<bool(Stat const *)>	statSeeker = [&](Stat const *s) -> bool {
-    return (s->getKey() == key);
+  std::function<bool(Stat const)>	statSeeker = [&](Stat const s) -> bool {
+    return (s.getKey() == key);
   };
   auto				it = std::find_if(this->cbegin(), this->cend(), statSeeker);
 
-  return (it != this->cend() ? *it : NULL);
+  return (it != this->cend() ? &*it : NULL);
 }
 
 Stats				&Stats::operator+=(Stats const &rhs)
@@ -98,7 +98,7 @@ void				Stats::add(Stats const &rhs)
   Stat				*stat;
 
   for (auto it = rhs.getStats().begin() ; it != rhs.getStats().end() ; ++it) {
-    rhsStat = *it;
+    rhsStat = &*it;
     stat = this->get(rhsStat->getKey());
     if (stat)
       *stat += *rhsStat;
@@ -113,7 +113,7 @@ void				Stats::sub(Stats const &rhs)
   Stat				*stat;
 
   for (auto it = rhs.getStats().begin() ; it != rhs.getStats().end() ; ++it) {
-    rhsStat = *it;
+    rhsStat = &*it;
     stat = this->get(rhsStat->getKey());
     if (stat) {
       *stat -= *rhsStat;
@@ -125,20 +125,16 @@ void				Stats::resetShortLivedStats(Stats const &rhs)
 {
   for (auto it = rhs.begin() ; it != rhs.end() ; ++it)
     {
-      if ((*it)->isShortLived() || !this->get((*it)->getKey())) {
-	this->setStat((*it)->getKey(), (*it)->getValue());
+      if (it->isShortLived() || !this->get(it->getKey())) {
+	this->setStat(it->getKey(), it->getValue());
       }
     }
 }
 
 void				Stats::removeShortLivedStats()
 {
-  static std::function<bool(Stat *)>	shortLivedStatSeeker = [](Stat *s) -> bool {
-    if (s->isShortLived()) {
-      delete s;
-      return (true);
-    }
-    return (false);
+  static std::function<bool(Stat)>	shortLivedStatSeeker = [](Stat s) -> bool {
+    return (s.isShortLived());
   };
 
   this->getContainer().remove_if(shortLivedStatSeeker);
@@ -158,17 +154,7 @@ void				Stats::setStat(StatKey const &key, Stat::value_type const value)
   if (s)
     s->setValue(value);
   else
-    this->getContainer().push_back(new Stat(key, value));
-}
-
-void				Stats::deleteStats()
-{
-  static std::function<bool(Stat *)> f = [](Stat *stat) -> bool {
-    delete stat;
-    return (true);
-  };
-
-  this->getContainer().remove_if(f);
+    this->getContainer().push_back(Stat(key, value));
 }
 
 Stats::container_type const	&Stats::getStats() const
@@ -178,12 +164,12 @@ Stats::container_type const	&Stats::getStats() const
 
 void				Stats::setStats(container_type const &rhs)
 {
-  std::function<void(Stat const *)> statCopier = [&](Stat const *s) -> void {
-    this->getContainer().push_back(new Stat(*s));
-  };
+  // std::function<void(Stat const)> statCopier = [&](Stat const s) -> void {
+  //   this->getContainer().push_back(s);
+  // };
 
-  this->deleteStats();
-  std::for_each(rhs.begin(), rhs.end(), statCopier);
+  // std::for_each(rhs.begin(), rhs.end(), statCopier);
+  this->setContainer(rhs);
 }
 
 bool				Stats::serialization(Trame &trame) const
@@ -195,7 +181,7 @@ bool				Stats::serialization(Trame &trame) const
   for (auto it = this->begin() ; it != this->end() ; ++it)
     {
       //      str << nb;
-      (*it)->serialization(trame/*(trame[str.str()])*/);
+      it->serialization(trame/*(trame[str.str()])*/);
       // str.str("");
       // nb++;
     }
@@ -205,7 +191,7 @@ bool				Stats::serialization(Trame &trame) const
 Stats				*Stats::deserialization(Trame const &trame)
 {
   Stats				*stats = NULL;
-  std::list<Stat *>		*stat;
+  std::list<Stat>		stat;
   Stat				*st;
 
   // if (trame.isMember("STATS"))
@@ -246,16 +232,16 @@ Stats				*Stats::deserialization(Trame const &trame)
   auto				members = trame.getMemberNames();
 
   stats = new Stats;
-  stat = new std::list<Stat *>;
   for (auto it = members.begin() ; it != members.end() ; ++it)
     {
       st = Stat::deserialization(trame(trame[*it]));
       if (st)
 	{
 	  st->setKey(*new StatKey(*it));
-	  stat->push_back(st);
+	  stat.push_back(*st);
+	  delete st;
 	}
     }
-  stats->setStats(*stat);
+  stats->setStats(stat);
   return (stats);
 }

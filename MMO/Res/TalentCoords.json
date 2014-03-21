@@ -1,0 +1,66 @@
+{
+    "HP_Talent": {
+	"x" : 300,
+	"y" : 700
+    },
+    "Attack_Talent": {
+	"x" : 100,
+	"y" : 450
+    },
+    "Defense_Talent": {
+	"x" : 300,
+	"y" : 450
+    },
+    "Heal_Talent": {
+	"x" : 500,
+	"y" : 450
+    },
+    "Attack_Fire_Talent": {
+	"x" : 50,
+	"y" : 200
+    },
+    "Attack_Electric_Talent": {
+	"x" : 150,
+	"y" : 200
+    },
+    "Defense_Rock_Talent": {
+	"x" : 250,
+	"y" : 200
+    },
+    "Defense_Steel_Talent": {
+	"x" : 350,
+	"y" : 200
+    },
+    "Heal_Grass_Talent": {
+	"x" : 450,
+	"y" : 200
+    },
+    "Heal_Water_Talent": {
+	"x" : 550,
+	"y" : 200
+    },
+    "Capture_Talent": {
+	"x" : 800,
+	"y" : 700
+    },
+    "AddBattleMob_Talent": {
+	"x" : 800,
+	"y" : 550
+    },
+    "Limit_Talent": {
+	"x" : 800,
+	"y" : 400
+    },
+    "Capture2_Talent": {
+	"x" : 800,
+	"y" : 250
+    },
+    "AddBattleMob2_Talent": {
+	"x" : 800,
+	"y" : 100
+    },
+    "size" : {
+	"x" : 1000,
+	"y" : 800
+    }
+}

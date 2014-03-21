@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:21:00 2014 alexis mestag
-// Last update Tue Mar 18 23:59:47 2014 alexis mestag
+// Last update Thu Mar 20 13:56:52 2014 alexis mestag
 //
 
 #ifndef			__MOBMODEL_HH__
@@ -31,6 +31,7 @@ private:
   unsigned int		_expSeed;
   std::string		_dropPath;
   Drop			*_drop;
+  unsigned int		_catchRate;
 #ifndef		CLIENT_COMPILATION
   ExperienceCurve const	*_expCurve;
 #endif
@@ -68,6 +69,9 @@ public:
   void			setDropPath(std::string const &dropPath);
   bool			loadDrop();
 
+  unsigned int		getCatchRate() const;
+  void			setCatchRate(unsigned int const catchRate);
+
   Drop const		&getDrop() const;
 
   virtual bool		serialization(Trame &trame) const;
@@ -86,6 +90,7 @@ public:
 #  pragma db member(MobModel::carcass) virtual(Carcass::container_type) get(_carcass->getContainer()) set(_carcass->setContainer(?)) value_not_null value_column("") unordered
 #  pragma db member(MobModel::_expSeed) get(getExpSeed()) set(setExpSeed(?))
 #  pragma db member(MobModel::_dropPath) get(getDropPath()) set(setDropPath(?))
+#  pragma db member(MobModel::_catchRate) get(getCatchRate()) set(setCatchRate(?))
 # endif
 
 #endif

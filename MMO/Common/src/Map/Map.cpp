@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Wed Mar 19 18:34:39 2014 antoine maitre
+// Last update Thu Mar 20 16:19:17 2014 antoine maitre
 //
 
 #include			"Map/Map.hh"
@@ -197,6 +197,14 @@ AEntity				*Map::getEntityById(std::string const &zone, unsigned int id)
     }
   this->unlock();
   return (NULL);
+}
+
+Heal				*Map::getHealer(std::string const &zone)
+{
+  this->lock();
+  auto tmp = this->_map[zone]->getHealer();
+  this->unlock();
+  return (tmp);
 }
 
 void				Map::cleanEntities(AEntity *entity)

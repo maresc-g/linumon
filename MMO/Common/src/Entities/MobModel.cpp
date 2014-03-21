@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 24 18:39:45 2014 alexis mestag
-// Last update Wed Mar 19 00:00:56 2014 alexis mestag
+// Last update Fri Mar 21 00:18:38 2014 alexis mestag
 //
 
 #include			"Entities/MobModel.hh"
@@ -15,7 +15,8 @@
 MobModel::MobModel() :
   Persistent(), AStatEntity("", eStatEntity::MOBMODEL),
   _spells(new Spells), _carcass(new Carcass),
-  _expSeed(0), _dropPath(""), _drop(new Drop)
+  _expSeed(0), _dropPath(""), _drop(new Drop),
+  _catchRate(0)
 #ifndef		CLIENT_COMPILATION
   , _expCurve(NULL)
 #endif
@@ -26,7 +27,8 @@ MobModel::MobModel() :
 MobModel::MobModel(MobModel const &rhs) :
   Persistent(rhs), AStatEntity(rhs),
   _spells(new Spells), _carcass(new Carcass),
-  _expSeed(0), _dropPath(""), _drop(new Drop)
+  _expSeed(0), _dropPath(""), _drop(new Drop),
+  _catchRate(0)
 #ifndef		CLIENT_COMPILATION
   , _expCurve(NULL)
 #endif
@@ -51,6 +53,7 @@ MobModel			&MobModel::operator=(MobModel const &rhs)
       this->setExpSeed(rhs.getExpSeed());
       this->setDropPath(rhs.getDropPath());
       /* Useless to set this->_drop : it will be initialiazed when setting the Drop path (see above) */
+      this->setCatchRate(rhs.getCatchRate());
 #ifndef		CLIENT_COMPILATION
       this->setExperienceCurve(rhs.getExperienceCurve());
 #endif
@@ -162,6 +165,16 @@ void				MobModel::setDrop(Drop const &drop)
   *_drop = drop;
 }
 
+unsigned int			MobModel::getCatchRate() const
+{
+  return (_catchRate);
+}
+
+void				MobModel::setCatchRate(unsigned int const catchRate)
+{
+  _catchRate = catchRate;
+}
+
 bool				MobModel::serialization(Trame &trame) const
 {
   bool				ret = true;
@@ -170,7 +183,8 @@ bool				MobModel::serialization(Trame &trame) const
   this->getStats().serialization(trame(trame["STATS"]));
   this->getSpells().serialization(trame(trame));
   trame["KEY"] = this->getAuthorizedStatKeys().getName();
-   this->_carcass->serialization(trame(trame["CAR"]));
+  this->_carcass->serialization(trame(trame["CAR"]));
+  trame["CATCHRATE"] = this->getCatchRate();
   return (ret);
 }
 
@@ -188,8 +202,15 @@ MobModel			*MobModel::deserialization(Trame const &trame)
       if (carcass)
 	  model->setCarcass(*carcass);
     }
+  model->setCatchRate(trame["CATCHRATE"].asUInt());
   model->setType(*Type::deserialization(trame(trame)));
-  model->setSpells(*Spells::deserialization(trame(trame)));
+  // std::cerr << "MobModel deserialization : " << model->getType().getName() << std::endl;
+
+  Spells			*spells = Spells::deserialization(trame(trame));
+
+  if (spells)
+    model->setSpells(*spells);
+
   model->setStats(*Stats::deserialization(trame(trame["STATS"])));
   return (model);
 }

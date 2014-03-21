@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:58:39 2013 alexis mestag
-// Last update Tue Mar 11 14:11:38 2014 alexis mestag
+// Last update Thu Mar 20 22:59:01 2014 alexis mestag
 //
 
 #ifndef				__STATS_HH__
@@ -18,10 +18,9 @@
 # include			"Utility/ISerialization.hh"
 # include			"Utility/Wrapper.hpp"
 
-class				Stats : public ContainerWrapper<std::list<Stat *>>
+class				Stats : public ContainerWrapper<std::list<Stat>>
 {
 private:
-  void				deleteStats();
   container_type const		&getStats() const;
   void				setStats(container_type const &c);
 

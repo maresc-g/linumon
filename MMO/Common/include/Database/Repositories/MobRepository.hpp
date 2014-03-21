@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Mar 10 18:59:26 2014 alexis mestag
-// Last update Thu Mar 13 14:41:52 2014 alexis mestag
+// Last update Thu Mar 20 23:06:18 2014 alexis mestag
 //
 
 #ifndef				__MOBREPOSITORY_HH__
@@ -31,20 +31,23 @@ public:
     if (m.isInBattle())
       m.leaveBattle();
 
+    if (!m.isPersistent())
+      BaseRepository<Mob>::smartUpdate(m, isInTr);
+
     /*
     ** Updating Stats
     */
-    Repository<Stat>		*rStat = &Database::getRepository<Stat>();
-    for (auto it = m.getStats().begin() ; it != m.getStats().end() ; ++it) {
-      rStat->smartUpdate(**it, isInTr);
-    }
+    // Repository<Stat>		*rStat = &Database::getRepository<Stat>();
+    // for (auto it = m.getStats().begin() ; it != m.getStats().end() ; ++it) {
+    //   rStat->smartUpdate(**it, isInTr);
+    // }
 
     /*
     ** Updating Current Stats
     */
-    for (auto it = m.getRawCurrentStats().begin() ; it != m.getRawCurrentStats().end() ; ++it) {
-      rStat->smartUpdate(**it, isInTr);
-    }
+    // for (auto it = m.getRawCurrentStats().begin() ; it != m.getRawCurrentStats().end() ; ++it) {
+    //   rStat->smartUpdate(**it, isInTr);
+    // }
 
     /*
     ** Updating Equipments

@@ -5,9 +5,13 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 19 17:39:38 2014 alexis mestag
+// Last update Thu Mar 20 17:13:01 2014 alexis mestag
 //
 
+#include			<cmath>
+#include			<random>
+#include			<chrono>
+#include			<limits>
 #include			<functional>
 #include			"Entities/Player.hh"
 #include			"Map/Map.hh"
@@ -27,7 +31,7 @@
 
 Player::Player() :
   Persistent(), ACharacter("", eCharacter::PLAYER), _type(PlayerType::PLAYER),
-  _digitaliser(new Digitaliser(this)), _coord(new PlayerCoordinate),
+  _digitaliser(new Digitaliser(this)), _out(false), _coord(new PlayerCoordinate),
   _faction(NULL), _talentTree(NULL), _talents(new Talents), _user(NULL),
   _inventory(new Inventory), _jobs(new Jobs), _guild(NULL)
 # ifndef	CLIENT_COMPILATION
@@ -163,6 +167,16 @@ void					Player::applyFactionEffect()
   _faction->applyEffect(*this);
 }
 #endif
+
+void					Player::setOut(bool const looser)
+{
+  this->_out = looser;
+}
+
+bool					Player::getOut() const
+{
+  return (this->_out);
+}
 
 Player::PlayerCoordinate const		&Player::getCoord() const
 {
@@ -445,23 +459,14 @@ void				Player::useObject(unsigned int const target, unsigned int const idStack)
     std::cout << "MOB IS NULL" << std::endl;
 }
 
-bool				Player::modifyTalent(unsigned int const pts, std::string const &talentModel)
+bool				Player::incTalent(TalentModel const &model)
 {
-  bool				ret = false;
-  unsigned int			nb = this->getTalents().getCurrentPts();
-  TalentModel			*talent = NULL;
+  return (_talents->incTalent(model));
+}
 
-  if (nb > 0 && nb >= pts)
-    {
-      talent = (**LoaderManager::getInstance()->getTalentModelLoader())->getValue(talentModel);
-      if (talent)
-	{
-	  ret = _talents->modifyTalent(pts, *talent);
-	  if (ret)
-	    _talents->apply(*this);
-	}
-    }
-  return (ret);
+Talent const			*Player::getTalentFromModel(TalentModel const &model) const
+{
+  return (const_cast<Talents const *>(_talents)->getTalentFromModel(model));
 }
 
 bool				Player::serialization(Trame &trame) const
@@ -618,9 +623,52 @@ Talents const			&Player::getTalents() const
   return (*_talents);
 }
 
-void				Player::capture(Mob &mob)
+bool				Player::capture(Mob &mob, bool const check)
 {
-  this->_digitaliser->addMob(mob);
+  bool				done = !check;
+
+  if (!done) {
+    unsigned int		seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine	rGen(seed);
+    double			a = 3.0 * mob.getMaxStat("HP") - 2.0 * mob.getCurrentStat("HP");
+
+    a *= mob.getCatchRate();
+    a /= 3.0 * mob.getMaxStat("HP");
+    a *= this->getDigitaliser().getEfficiency(); // Efficacité du digitaliser
+    a *= 1.0 + this->getStat("Capture") / 100.0; // Multiplicateur de chances
+    if (a >= 255)
+      done = true;
+    else
+      {
+	std::uniform_int_distribution<unsigned short>	dist(0, 65535);
+	double						b = 65535.0 * std::pow((a / 255.0), 0.25);
+	std::vector<unsigned short>			rNb = {dist(rGen), dist(rGen),
+							       dist(rGen), dist(rGen)};
+	std::function<bool(unsigned short)>		rChecker = [&](unsigned short nb) -> bool {
+	  return (nb <= b);
+	};
+
+	// std::cerr << mob.getName() << "[" << mob.getLevel() << "]" << std::endl;
+	// std::cerr << "\ta : " << a << std::endl;
+	// std::cerr << "\tb : " << b << std::endl << "\t";
+	// for (auto it = rNb.begin() ; it != rNb.end() ; ++it) {
+	//   std::cerr << *it << ", ";
+	// }
+	// std::cerr << std::endl;
+	if (std::all_of(rNb.begin(), rNb.end(), rChecker)) {
+	  // std::cerr << "\t\ttReturning true" << std::endl;
+	  done = true;
+	}
+      }
+  }
+  if (done) {
+    this->_digitaliser->addMob(mob);
+    mob.setPlayer(this);
+#ifndef		CLIENT_COMPILATION
+    mob.resetExp();
+#endif
+  }
+  return (done);
 }
 
 bool				Player::doCraft(std::string const &job, std::string const &craft, Stack<AItem> *&result, std::list<Stack<AItem> *> *&object)

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Sun Mar  2 22:33:20 2014 antoine maitre
-// Last update Thu Mar 13 16:02:23 2014 antoine maitre
+// Last update Thu Mar 20 12:17:06 2014 antoine maitre
 //
 
 #include			"AI/AI.hh"
@@ -33,9 +33,12 @@ void				AI::addEnemy(std::list<Mob *> mob)
 
 void				AI::remove(unsigned int const target)
 {
-  for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
-    if ((*it)->getId() == target)
-      this->_mobs.erase(it);
+  this->getAndDeleteMob(target);
+}
+
+int				AI::getSizeList() const
+{
+  return (this->getDigitaliser().getBattleMobs().size());
 }
 
 void				AI::dswitch(unsigned int const target, unsigned int const targetBis)

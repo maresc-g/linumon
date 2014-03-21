@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 21:03:13 2013 alexis mestag
-// Last update Tue Mar 11 21:46:24 2014 alexis mestag
+// Last update Thu Mar 20 19:10:40 2014 alexis mestag
 //
 
 #ifndef			__TYPE_HH__
@@ -83,7 +83,7 @@ public:
 #  pragma db object(Type)
 #  pragma db member(Type::_relations) transient
 #  pragma db member(Type::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
-#  pragma db member(Type::relations) virtual(TypeRelations::container_type) get(_relations->getContainer()) set(_relations->setContainer(?)) value_not_null
+#  pragma db member(Type::relations) virtual(TypeRelations::container_type) get(_relations->getContainer()) set(_relations->setContainer(?)) value_not_null unordered
 # endif
 
 #endif

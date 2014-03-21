@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Mar 18 11:23:34 2014 alexis mestag
+// Last update Thu Mar 20 17:12:52 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -55,6 +55,7 @@ protected:
   Digitaliser			*_digitaliser;
 
 private:
+  bool				_out;
   PlayerCoordinate		*_coord;
   Faction const			*_faction;
   TalentTree const		*_talentTree;
@@ -87,6 +88,8 @@ public:
   Player(std::string const &name, std::string const &factionName = "", User const *user = NULL);
   virtual ~Player();
 
+  void				setOut(bool const);
+  bool				getOut() const;
   PlayerCoordinate const	&getCoord() const;
   PlayerCoordinate::type const	&getX() const;
   PlayerCoordinate::type const	&getY() const;
@@ -124,7 +127,8 @@ public:
   void				addTalent(Talent const &talent);
   Talents const			&getTalents() const;
   void				setTalents(Talents const &list);
-  bool				modifyTalent(unsigned int const pts, std::string const &talentModel);
+  bool				incTalent(TalentModel const &model);
+  Talent const			*getTalentFromModel(TalentModel const &model) const;
 
   TalentTree const		&getTalentTree() const;
   void				setTalentTree(TalentTree const &tree);
@@ -132,7 +136,7 @@ public:
   User const			&getUser() const;
   void				setUser(User const &user);
 
-  void				capture(Mob &mob);
+  bool				capture(Mob &mob, bool const check = true);
 
   Mob const			&getMob(unsigned int const id);
 
@@ -182,6 +186,7 @@ public:
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Player)
+#  pragma db member(Player::_out) transient
 #  pragma db member(Player::_type) transient
 #  pragma db member(Player::_coord) transient
 #  pragma db member(Player::_digitaliser) transient
@@ -201,6 +206,7 @@ public:
 #  pragma db member(Player::jobs) virtual(Jobs::container_type) get(_jobs->getContainer()) set(_jobs->setContainer(?)) value_not_null
 #  pragma db member(Player::talents) virtual(Talents::container_type) get(_talents->getContainer()) set(_talents->setContainer(?)) value_not_null
 #  pragma db member(Player::currentPts) virtual(unsigned int) get(_talents->getCurrentPts()) set(_talents->setCurrentPts(?))
+#  pragma db member(Player::digitaliserEfficiency) virtual(double) get(_digitaliser->getEfficiency()) set(_digitaliser->setEfficiency(?))
 #  pragma db member(Player::_talentTree) not_null
 #  pragma db member(Player::_user) not_null
 #  pragma db member(Player::_expCurve) not_null

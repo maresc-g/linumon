@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 14:51:25 2014 alexis mestag
-// Last update Wed Mar 12 13:29:52 2014 laurent ansel
+// Last update Thu Mar 20 13:01:02 2014 guillaume marescaux
 //
 
 #include			"Stats/Talent.hh"
@@ -21,7 +21,7 @@ Talent::Talent() :
 
 }
 
-Talent::Talent(TalentModel const &model, int const currentPoints) :
+Talent::Talent(TalentModel const &model, unsigned int const currentPoints) :
   Persistent(), _model(&model), _currentPoints(currentPoints)
 {
 
@@ -61,12 +61,12 @@ void				Talent::setModel(TalentModel const &model)
   _model = &model;
 }
 
-int				Talent::getCurrentPoints() const
+unsigned int			Talent::getCurrentPoints() const
 {
   return (_currentPoints);
 }
 
-void				Talent::setCurrentPoints(int const currentPoints)
+void				Talent::setCurrentPoints(unsigned int const currentPoints)
 {
   _currentPoints = currentPoints;
 }

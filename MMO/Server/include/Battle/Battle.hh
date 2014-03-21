@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Fri Mar 14 14:50:40 2014 antoine maitre
+// Last update Thu Mar 20 16:36:12 2014 alexis mestag
 //
 
 #ifndef				__BATTLE_HH__
@@ -52,7 +52,7 @@ public:
   void				trameSwitch(unsigned int const idPlayer, unsigned int const target, unsigned int const newMob, unsigned int const player) const;
   void				trameSpellEffect(unsigned int const idPlayer, unsigned int const target, int const hpChange) const;
   void				trameDeadMob(unsigned int const idPlayer, unsigned int const idMob) const;
-  void				trameCapture(unsigned int const idPlayer, unsigned int const idMob) const;
+  void				trameCapture(unsigned int const idPlayer, unsigned int const idMob, bool const success) const;
   void				trameLaunchBattle(unsigned int const idPlayer, Player *player) const;
   void				trameTurnTo(unsigned int const idPlayer, unsigned int const idMob) const;
   void				trameEndBattle();

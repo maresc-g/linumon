@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 14:34:15 2014 alexis mestag
-// Last update Wed Mar 12 13:23:20 2014 laurent ansel
+// Last update Thu Mar 20 13:00:25 2014 guillaume marescaux
 //
 
 #ifndef				__TALENT_HH__
@@ -21,7 +21,7 @@ class				Talent : public Persistent, public ISerialization
 
 private:
   TalentModel const		*_model;
-  int				_currentPoints;
+  unsigned int			_currentPoints;
 
 private:
   Talent();
@@ -31,14 +31,14 @@ private:
   void				setModel(TalentModel const &model);
 
 public:
-  Talent(TalentModel const &model, int const currentPoints = 0);
+  Talent(TalentModel const &model, unsigned int const currentPoints = 0);
   Talent(Talent const &rhs);
   virtual ~Talent();
 
   TalentModel const		&getModel() const;
 
-  int				getCurrentPoints() const;
-  void				setCurrentPoints(int const currentPoints);
+  unsigned int			getCurrentPoints() const;
+  void				setCurrentPoints(unsigned int const currentPoints);
   bool				addPts(unsigned int const pts);
 
   virtual bool			serialization(Trame &trame) const;

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:21:41 2013 alexis mestag
-// Last update Tue Mar 11 21:36:44 2014 alexis mestag
+// Last update Thu Mar 20 23:34:24 2014 alexis mestag
 //
 
 #ifndef			__ASTATENTITY_HH__
@@ -77,7 +77,7 @@ public:
 #  pragma db member(AStatEntity::_statEntityType) transient
 #  pragma db member(AStatEntity::_stats) transient
 #  pragma db member(AStatEntity::_authKeys) not_null
-#  pragma db member(AStatEntity::stats) virtual(Stats::container_type) get(_stats->getContainer()) set(_stats->setContainer(?)) value_not_null
+#  pragma db member(AStatEntity::stats) virtual(Stats::container_type) get(_stats->getContainer()) set(_stats->setContainer(?)) value_column("") unordered
 # endif
 
 #endif

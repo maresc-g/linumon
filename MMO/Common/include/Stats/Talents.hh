@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Mar  4 00:03:52 2014 alexis mestag
-// Last update Wed Mar 12 13:23:59 2014 laurent ansel
+// Last update Thu Mar 20 11:30:22 2014 alexis mestag
 //
 
 #ifndef				__TALENTS_HH__
@@ -27,6 +27,7 @@ private:
   void				setTalents(container_type const &talents);
 
   void				deleteTalents();
+  Talent			*getTalentFromModel(TalentModel const &talent);
 
 public:
   Talents();
@@ -35,10 +36,13 @@ public:
 
   unsigned int			getCurrentPts() const;
   void				setCurrentPts(unsigned int const pts);
+  void				incCurrentPts(unsigned int const pts);
+  void				decCurrentPts(unsigned int const pts);
 
   Talents			&operator=(Talents const &rhs);
 
-  bool				modifyTalent(unsigned int const pts, TalentModel const &talent);
+  Talent const			*getTalentFromModel(TalentModel const &talent) const;
+  bool				incTalent(TalentModel const &talent);
   void				apply(Player &player);
 
   virtual bool			serialization(Trame &trame) const;

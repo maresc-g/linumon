@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Wed Mar 19 00:48:45 2014 alexis mestag
+// Last update Thu Mar 20 23:04:46 2014 alexis mestag
 //
 
 #include			<algorithm>
@@ -200,6 +200,11 @@ Levelable::type			Mob::getGivenExp() const
   return (this->getExpSeed() * this->getLevel() / 7.0);
 }
 
+unsigned int			Mob::getCatchRate() const
+{
+  return (this->getModel().getCatchRate());
+}
+
 /*
 ** Battle state management
 */
@@ -243,7 +248,7 @@ void				Mob::displayMaxStats() const
   Stats const			stats = this->getMaxStats();
 
   for (auto it = stats.begin() ; it != stats.end() ; ++it) {
-    std::cout << (*it)->getKey().getName() << " : " << (*it)->getValue() << std::endl;
+    std::cout << it->getKey().getName() << " : " << it->getValue() << std::endl;
   }
 }
 
@@ -252,7 +257,7 @@ void				Mob::displayCurrentStats() const
   Stats const			&stats = this->getCurrentStats();
 
   for (auto it = stats.begin() ; it != stats.end() ; ++it) {
-    std::cout << (*it)->getKey().getName() << " : " << (*it)->getValue() << std::endl;
+    std::cout << it->getKey().getName() << " : " << it->getValue() << std::endl;
   }
 }
 

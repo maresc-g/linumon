@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Wed Mar 19 17:46:15 2014 antoine maitre
+// Last update Thu Mar 20 17:12:39 2014 alexis mestag
 //
 
 #include				"Battle/Battle.hh"
@@ -77,7 +77,12 @@ bool					Battle::checkEnd()
 	{
 	  if ((*it)->isMyMob((*itb)->getId()) && (*itb)->getCurrentStat("HP") <= 0)
 	    i++;
-	  if (i == _mobNumber)
+	  if (i == _mobNumber || i == (*it)->getDigitaliser().getBattleMobs().size())
+	    {
+	      this->_idLooser = (*it)->getId();
+	      return (true);
+	    }
+	  if ((*it)->getType() == Player::PlayerType::AI && static_cast<AI *>((*it))->getSizeList() == 0)
 	    {
 	      this->_idLooser = (*it)->getId();
 	      return (true);
@@ -124,7 +129,7 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
     }
   else
     std::cout << "Je ne trouve pas les protagoniste" << std::endl;
-    return (this->checkEnd());
+  return (this->checkEnd());
 }
 
 bool					Battle::dswitch(unsigned int const target, unsigned int const newmob)
@@ -156,17 +161,16 @@ bool					Battle::capture(unsigned int const target)
   else
     for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
       {
-	std::cout << "CAPTURE PART 1" << std::endl;
 	if ((*it)->getId() == target)
 	  {
-	    std::cout << "CAPTURE PART 2" << std::endl;
-	    this->_players.front()->capture(*(*it));
-	    std::cout << "CAPTURE PART 3" << std::endl;
-	    static_cast<AI *>(this->_players.back())->remove(target);
-	    std::cout << "CAPTURE PART 4" << std::endl;
-	    this->_mobs.erase(it);
-	    std::cout << "CAPTURE PART 5" << std::endl;
-	    this->trameCapture(this->_players.front()->getUser().getId(), target);
+	    if (this->_players.front()->capture(*(*it)))
+	      {
+		static_cast<AI *>(this->_players.back())->remove(target);
+		this->_mobs.erase(it);
+		this->trameCapture(this->_players.front()->getUser().getId(), target, true);
+	      }
+	    else
+	      this->trameCapture(this->_players.front()->getUser().getId(), target, false);
 	    break;
 	  }
       }
@@ -275,9 +279,9 @@ void					Battle::trameDeadMob(unsigned int const idPlayer, unsigned int const id
   Server::getInstance()->callProtocol<unsigned int, unsigned int>("DEADMOB", idPlayer, this->_id, idMob);
 }
 
-void					Battle::trameCapture(unsigned int const idPlayer, unsigned int const idMob) const
+void					Battle::trameCapture(unsigned int const idPlayer, unsigned int const idMob, bool const success) const
 {
-  Server::getInstance()->callProtocol<unsigned int, bool>("CAPTUREEFFECT", idPlayer, idMob, true);
+  Server::getInstance()->callProtocol<unsigned int, bool>("CAPTUREEFFECT", idPlayer, idMob, success);
 }
 
 void					Battle::trameLaunchBattle(unsigned int const idPlayer, Player *player) const
@@ -296,6 +300,8 @@ void					Battle::trameEndBattle()
     {
       if ((*it)->getType() == Player::PlayerType::PLAYER)
 	{
+	  if ((*it)->getId() == this->_idLooser)
+	    (*it)->setOut(true);
 	  Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, std::list<AItem *> *>("ENDBATTLE", (*it)->getUser().getId(), this->_id, ((*it)->getId() == this->_idLooser)?(false):(true), this->_money, this->_exp, NULL);
   	  ClientManager::getInstance()->endBattle((*it)->getUser().getId());
 	}
