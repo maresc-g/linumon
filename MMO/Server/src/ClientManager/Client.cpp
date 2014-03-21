@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Thu Mar 20 17:44:35 2014 antoine maitre
+// Last update Fri Mar 21 11:58:24 2014 antoine maitre
 //
 
 #include			"ClientManager/Client.hh"
@@ -365,7 +365,7 @@ void				Client::endBattle()
       this->_player->setOut(false);
       auto tmp = Map::getInstance()->getHealer(this->_player->getZone());
       tmp->action(this->_player);
-      //      Server::getInstance()->callProtocol<>("HEAL", _id);
+      //      Server::getInstance()->callProtocol("HEAL", _id);
       this->move(new Player::PlayerCoordinate(tmp->getX(), tmp->getY() + 1));
     }
   // Map::getInstance()->addPlayer(_player->getZone(), _player);
