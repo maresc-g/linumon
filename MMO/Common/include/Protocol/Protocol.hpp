@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Fri Mar 21 11:13:20 2014 guillaume marescaux
+// Last update Fri Mar 21 15:34:00 2014 guillaume marescaux
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -136,7 +136,11 @@ bool				newGuild(unsigned int const id, std::string guild);
 bool				guild(unsigned int const id, Guild *g);
 bool				newMember(unsigned int const id, std::string player, Zone *zone);
 bool				deleteMember(unsigned int const id, std::string player, Zone *zone);
-bool				invite(unsigned int const id, std::string guild);
+bool				invite(unsigned int const id, std::string nameGuild);
+bool				invite(unsigned int const id, std::string name, std::string nameGuild);
+bool				createGuild(unsigned int const id, std::string name);
+bool				acceptGuild(unsigned int const id, std::string name);
+bool				refuseGuild(unsigned int const id);
 bool		                isInBattle(unsigned int const id, unsigned int const playerId, bool const battle, Zone *zone);
 
 #endif

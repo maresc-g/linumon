@@ -100,7 +100,7 @@
 			GCREATE : {name : string} -> client
 			-ERROR : {guild already exist : eError} -> server
 
-			INVITE : {idPlayer : unsigned int, nameGuild : string} -> client
+			INVITE : {Player : name, nameGuild : string} -> client
 			-INVITE : {nameGuild : string} -> server
 			-ERROR : {already in guild : eError} -> server
 

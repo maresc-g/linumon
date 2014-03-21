@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Fri Mar 21 11:10:01 2014 guillaume marescaux
+// Last update Fri Mar 21 15:17:04 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -114,6 +114,10 @@ public:
   void			switchPlayer(void);
   void			merge(unsigned int idStack1, unsigned int idStack2);
   void			newStack(unsigned int idStack, unsigned int nb);
+  void			createGuild(std::string const &name);
+  void			invite(std::string const &name, std::string const &nameGuild);
+  void			acceptGuild(std::string const &name);
+  void			refuseGuild();
 
 private:
 

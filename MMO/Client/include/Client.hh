@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Fri Mar 21 11:09:40 2014 guillaume marescaux
+// Last update Fri Mar 21 15:17:16 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -90,6 +90,10 @@ public:
   void				switchMobs(unsigned int idMob1, unsigned int idMob2);
   void				merge(unsigned int idStack1, unsigned int idStack2);
   void				newStack(unsigned int idStack, unsigned int nb);
+  void				createGuild(std::string const &name);
+  void				invite(std::string const &name, std::string const &nameGuild);
+  void				acceptGuild(std::string const &name);
+  void				refuseGuild();
 };
 
 #endif

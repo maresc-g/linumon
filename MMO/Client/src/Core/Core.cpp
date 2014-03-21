@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar 21 13:26:00 2014 guillaume marescaux
+// Last update Fri Mar 21 15:21:46 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -800,6 +800,26 @@ void				Core::merge(unsigned int idStack1, unsigned int idStack2)
 void				Core::newStack(unsigned int idStack, unsigned int nb)
 {
   (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("NEWSTACK", _id, idStack, nb);
+}
+
+void				Core::createGuild(std::string const &name)
+{
+  (*_proto).operator()<unsigned int const, std::string>("GCREATE", _id, name);
+}
+
+void				Core::invite(std::string const &name, std::string const &nameGuild)
+{
+  (*_proto).operator()<unsigned int const, std::string, std::string>("INVITE", _id, name, nameGuild);
+}
+
+void				Core::acceptGuild(std::string const &name)
+{
+  (*_proto).operator()<unsigned int const, std::string>("ACCEPT", _id, name);
+}
+
+void				Core::refuseGuild()
+{
+  (*_proto).operator()<unsigned int const>("REFUSE", _id);
 }
 
 void				Core::init(void)

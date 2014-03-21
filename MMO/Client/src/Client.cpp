@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Fri Mar 21 11:10:58 2014 guillaume marescaux
+// Last update Fri Mar 21 15:16:45 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -129,5 +129,14 @@ void				Client::switchMobs(unsigned int idMob1, unsigned int idMob2) { _core->sw
 void				Client::merge(unsigned int idStack1, unsigned int idStack2) { _core->merge(idStack1, idStack2); }
 
 void				Client::newStack(unsigned int idStack, unsigned int nb) { _core->newStack(idStack, nb); }
+
+void				Client::createGuild(std::string const &name) { _core->createGuild(name); }
+
+void				Client::invite(std::string const &name, std::string const &nameGuild)
+{ _core->invite(name, nameGuild); }
+
+void				Client::acceptGuild(std::string const &name) { _core->acceptGuild(name); }
+
+void				Client::refuseGuild() { _core->refuseGuild(); }
 
 //--------------------------------------END METHODS--------------------------------------------

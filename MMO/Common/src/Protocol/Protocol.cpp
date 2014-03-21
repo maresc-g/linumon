@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Mar 21 11:14:56 2014 guillaume marescaux
+// Last update Fri Mar 21 15:34:42 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -125,6 +125,10 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, unsigned int>("CAPTURE", &capture);
       this->_container->load<unsigned int, unsigned int, unsigned int>("PUTSTUFF", &putStuff);
       this->_container->load<unsigned int, unsigned int, unsigned int>("GETSTUFF", &getStuff);
+      this->_container->load<unsigned int, std::string>("GCREATE", &createGuild);
+      this->_container->load<unsigned int, std::string, std::string>("INVITE", &invite);
+      this->_container->load<unsigned int, std::string>("ACCEPT", &acceptGuild);
+      this->_container->load<unsigned int>("REFUSE", &refuseGuild);
       this->_container->load<unsigned int, eInteraction, std::string>("INTERACTION", &interaction);
     }
 }
@@ -1256,6 +1260,91 @@ bool			invite(unsigned int const id, std::string guild)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["INVITE"] = guild;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			invite(unsigned int const id, std::string name, std::string nameGuild)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["INVITE"]["PLAYER"] = name;
+      (*trame)[CONTENT]["INVITE"]["NAMEGUILD"] = nameGuild;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool				createGuild(unsigned int const id, std::string name)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["GCREATE"] = name;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool				acceptGuild(unsigned int const id, std::string name)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["ACCEPT"] = name;
+      trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool				refuseGuild(unsigned int const id)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["REFUSE"];
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
