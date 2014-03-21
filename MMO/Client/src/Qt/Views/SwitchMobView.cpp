@@ -26,7 +26,7 @@ SwitchMobView::SwitchMobView(QWidget *parent, Digitaliser::Mobs const *mobs, Win
   _scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   _scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   _scrollArea->setWidget(_frame);
-  connect(ui.b_cancel, SIGNAL(clicked()), this, SLOT(accept()));
+  connect(ui.b_cancel, SIGNAL(clicked()), this, SLOT(cancel()));
   Digitaliser::Mobs tmp = (**wMan->getBattle())->getMobs();
   for (auto it = mobs->begin() ; it != mobs->end() ; it++)
     {
@@ -68,4 +68,9 @@ void				SwitchMobView::paintEvent(QPaintEvent *)
 void				SwitchMobView::selectMob(unsigned int id)
 {
   done(id);
+}
+
+void				SwitchMobView::cancel()
+{
+  done(-1);
 }

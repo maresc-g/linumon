@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Wed Mar 19 13:15:57 2014 cyril jourdain
+// Last update Thu Mar 20 16:17:44 2014 alexis mestag
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -145,7 +145,7 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2, unsigned int 
 	{
 	  Mob *tmpMob = player1->getDBZone().getRandomMob();
 	  tmp->setStat("Limit mob", mobInBattle);
-	  tmp->capture(*tmpMob);
+	  tmp->capture(*tmpMob, false);
 	  tmp->mobtoBattleMob(tmpMob->getId());
 	}
       tmp->addEnemy(player1->getDigitaliser().getBattleMobs());

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Tue Mar 18 15:36:41 2014 guillaume marescaux
+// Last update Thu Mar 20 23:09:40 2014 alexis mestag
 //
 
 #include			<iostream>
@@ -99,13 +99,13 @@ void				StuffView::initStuff(Player const &player)
   for (auto it = player.getStats().begin() ; it != player.getStats().end() ; it ++)
     {
       QLabel			*label = new QLabel(ui.f_stats);
-      label->setText((*it)->getKey().getName().c_str());
+      label->setText(it->getKey().getName().c_str());
       label->move(10, 130 + i * 40);
       label->resize(120, 20);
       label->show();
       _labels->push_back(label);
       label = new QLabel(ui.f_stats);
-      label->setText(std::to_string((*it)->getValue()).c_str()); 
+      label->setText(std::to_string(it->getValue()).c_str()); 
       label->move(180, 130 + i * 40);
       label->resize(80, 20);
       label->show();

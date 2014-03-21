@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:18:40 2014 alexis mestag
-// Last update Thu Mar 20 11:05:05 2014 alexis mestag
+// Last update Fri Mar 21 00:37:46 2014 alexis mestag
 //
 
 #include			<functional>
@@ -13,13 +13,15 @@
 #include			"Loader/LoaderManager.hh"
 
 TalentModel::TalentModel() :
-  Persistent(), Nameable(), _maxPoints(0), _effectLib(NULL), _parent(NULL)
+  Persistent(), Nameable(), _maxPoints(0), _effectLib(NULL), _parent(NULL),
+  _description("")
 {
 
 }
 
 TalentModel::TalentModel(std::string const &name) :
-  Persistent(), Nameable(name), _maxPoints(0), _effectLib(NULL), _parent(NULL)
+  Persistent(), Nameable(name), _maxPoints(0), _effectLib(NULL), _parent(NULL),
+  _description("")
 {
 
 }
@@ -43,6 +45,7 @@ TalentModel			&TalentModel::operator=(TalentModel const &rhs)
       this->setEffectLib(rhs.getEffectLib());
       this->setTalents(rhs.getTalents());
       this->setParent(rhs.getParent());
+      this->setDescription(rhs.getDescription());
     }
   return (*this);
 }
@@ -105,6 +108,16 @@ TalentModel const		*TalentModel::getParent() const
 void				TalentModel::setParent(TalentModel const *parent)
 {
   _parent = parent;
+}
+
+std::string const		&TalentModel::getDescription() const
+{
+  return (_description);
+}
+
+void				TalentModel::setDescription(std::string const &description)
+{
+  _description = description;
 }
 
 bool				TalentModel::serialization(Trame &trame) const

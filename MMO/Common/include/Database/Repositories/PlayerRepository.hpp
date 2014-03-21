@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 17:41:44 2014 alexis mestag
-// Last update Fri Mar 14 17:11:33 2014 alexis mestag
+// Last update Thu Mar 20 23:06:08 2014 alexis mestag
 //
 
 #ifndef				__PLAYERREPOSITORY_HPP__
@@ -46,6 +46,9 @@ public:
     Database::Transaction	*t = Database::getNewTransaction(inTr);
     bool			isInTr = (t || inTr) ? true : false;
 
+    if (!p.isPersistent())
+      BaseRepository<Player>::smartUpdate(p, isInTr);
+
     /*
     ** Updating Inventory
     */
@@ -62,10 +65,10 @@ public:
     /*
     ** Updating Stats
     */
-    Repository<Stat>		*rStat = &Database::getRepository<Stat>();
-    for (auto it = p.getStats().begin() ; it != p.getStats().end() ; ++it) {
-      rStat->smartUpdate(**it, isInTr);
-    }
+    // Repository<Stat>		*rStat = &Database::getRepository<Stat>();
+    // for (auto it = p.getStats().begin() ; it != p.getStats().end() ; ++it) {
+    //   rStat->smartUpdate(**it, isInTr);
+    // }
 
     /*
     ** Updating Jobs
@@ -74,8 +77,6 @@ public:
     for (auto it = p.getJobs().begin() ; it != p.getJobs().end() ; ++it) {
       rj->smartUpdate(**it, isInTr);
     }
-
-    BaseRepository<Player>::smartUpdate(p, isInTr);
 
     /*
     ** Updating Mobs
@@ -96,6 +97,8 @@ public:
       // std::cerr << "\tMob : " << (*it)->getName() << " (" << (*it) << ")" << std::endl;
       rm->smartUpdate(**it, isInTr);
     }
+
+    BaseRepository<Player>::smartUpdate(p, isInTr);
 
     /***
     **** The code above is correct

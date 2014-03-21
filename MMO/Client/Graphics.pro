@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = ../pfa-client
 DEPENDPATH += . src
 INCLUDEPATH += . include ../Common/include
-FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbarview.ui ../Res/stackview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui ../Res/craftview.ui ../Res/digitaliserview.ui ../Res/hudview.ui ../Res/splitstackview.ui ../Res/switchmobview.ui ../Res/guildview.ui ../Res/talentsview.ui ../Res/stuffstatsview.ui
+FORMS = ../Res/loginview.ui ../Res/characterview.ui ../Res/chardescription.ui ../Res/createchar.ui ../Res/spellbarview.ui ../Res/stackview.ui ../Res/inventoryview.ui ../Res/stuffview.ui ../Res/chatview.ui ../Res/menuview.ui ../Res/tradeview.ui ../Res/jobmenuview.ui ../Res/jobview.ui ../Res/craftview.ui ../Res/digitaliserview.ui ../Res/hudview.ui ../Res/splitstackview.ui ../Res/switchmobview.ui ../Res/guildview.ui ../Res/talentsview.ui ../Res/stuffstatsview.ui ../Res/talentview.ui
 LIBS += -lX11 -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio -lcryptopp -ljsoncpp -ldl
 QMAKE_CXXFLAGS += -std=c++0x -DCLIENT_COMPILATION -g
 OBJECTS_DIR = ./obj
@@ -41,6 +41,7 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/Qt/Views/FrameMobs.hh \
                 include/Qt/Views/SwitchMobView.hh \
                 include/Qt/Views/TalentsView.hh \
+                include/Qt/Views/TalentView.hh \
                 include/Qt/Views/StuffStatsView.hh \
                 include/Qt/WindowManager.hh \
                 include/Qt/CharDescription/CharDescription.hh \
@@ -60,6 +61,9 @@ HEADERS +=      include/Qt/QSFMLWidget.hpp \
                 include/SFML/Sprite/Sprite.hh \
                 include/SFML/Sprite/Animation.hh \
                 include/SFML/Sprite/Frame.hh \
+                include/SFML/Window.hh \
+                include/SFML/Window/ComputerScreen.hh \
+                include/SFML/Entities/Healer.hh \
                 include/Client.hh \
                 include/Common/eState.hh \
                 include/Common/eDirection.hh \
@@ -97,6 +101,7 @@ SOURCES +=      src/main.cpp \
                 src/Qt/Views/FrameMobs.cpp \
                 src/Qt/Views/SwitchMobView.cpp \
                 src/Qt/Views/TalentsView.cpp \
+                src/Qt/Views/TalentView.cpp \
                 src/Qt/Views/StuffStatsView.cpp \
                 src/Qt/WindowManager.cpp \
                 src/Qt/CharDescription.cpp \
@@ -116,6 +121,8 @@ SOURCES +=      src/main.cpp \
                 src/SFML/Sprite/Animation.cpp \
                 src/SFML/Sprite/Frame.cpp \
                 src/SFML/Sprite/SpriteManager.cpp \
+                src/SFML/Window/ComputerScreen.cpp \
+                src/SFML/Entities/Healer.cpp \
                 src/Client.cpp \
                 src/Common/ErrorBox.cpp \
                 src/Chat/Chat.cpp \

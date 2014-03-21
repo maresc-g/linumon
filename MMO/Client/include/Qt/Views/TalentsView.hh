@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Mar 17 22:31:32 2014 guillaume marescaux
-// Last update Tue Mar 18 10:53:08 2014 guillaume marescaux
+// Last update Thu Mar 20 15:51:22 2014 guillaume marescaux
 //
 
 #ifndef 		__TALENTSVIEW_HH__
@@ -16,8 +16,10 @@
 #include		"ui_talentsview.h"
 #include		"Qt/WindowManager.hh"
 #include		"Stats/TalentTree.hh"
+#include		"Qt/Views/TalentView.hh"
 
 class			WindowManager;
+class			TalentView;
 
 class			TalentsView : public QWidget
 {
@@ -30,6 +32,7 @@ public:
 private:
   Ui::talentsview	ui;
   WindowManager		*_wMan;
+  std::list<TalentView *>	*_talentViews;
 
 private:
   virtual void		paintEvent(QPaintEvent *);

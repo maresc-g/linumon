@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:07:00 2014 alexis mestag
-// Last update Thu Mar 20 11:05:08 2014 alexis mestag
+// Last update Fri Mar 21 00:36:19 2014 alexis mestag
 //
 
 #ifndef					__TALENTMODEL_HH__
@@ -29,6 +29,7 @@ private:
   EffectLib const			*_effectLib;
   TalentModel const			*_parent;
   std::list<TalentModel const *>	_talents;
+  std::string				_description;
 
 private:
   TalentModel();
@@ -57,6 +58,9 @@ public:
   TalentModel const			*getParent() const;
   void					setParent(TalentModel const *parent);
 
+  std::string const			&getDescription() const;
+  void					setDescription(std::string const &description);
+
   virtual bool				serialization(Trame &trame) const;
   bool					deserializationTreeModel(Trame const &trame);
   static TalentModel			*deserialization(Trame const &trame);
@@ -68,6 +72,7 @@ public:
 #  pragma db member(TalentModel::_parent) inverse(_talents)
 #  pragma db member(TalentModel::_talents) value_not_null
 #  pragma db member(TalentModel::_effectLib) not_null
+#  pragma db member(TalentModel::_description) get(getDescription()) set(setDescription(?))
 # endif
 
 #endif

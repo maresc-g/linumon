@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Wed Mar 19 16:51:50 2014 cyril jourdain
+// Last update Thu Mar 20 14:04:13 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -201,7 +201,6 @@ void			BattleView::resetPOV()
 void			BattleView::centerView()
 {
   _sfmlView->getMainView()->setCenter(sf::Vector2f(BATTLE_SIZE * CASE_SIZE / 2, BATTLE_SIZE * CASE_SIZE / 2));
-  qDebug() << "View centered";
 }
 
 void			BattleView::spellClick(std::string const &spell)
@@ -507,7 +506,7 @@ void			BattleView::rightButton(QMouseEvent *event)
       menu.addAction("Capture");
     else
       return;
-    QAction *action = menu.exec(QPoint(event->x(), event->y()));
+    QAction *action = menu.exec(QPoint(event->globalX(), event->globalY()));
 
     if (action)
       {
@@ -515,10 +514,6 @@ void			BattleView::rightButton(QMouseEvent *event)
 	  switchMobs(_selectedMob->getPlayerId());
 	if (action->text().toStdString() == "Capture")
 	  Client::getInstance()->capture((**_wMan->getBattle())->getId(), _selectedMob->getPlayerId());
-      }
-    else
-      {
-	std::cout << "not so lol" << std::endl;
       }
   }
   _selectedMob = NULL;
@@ -565,9 +560,13 @@ void			BattleView::noButton(QMouseEvent *event)
 
 void				BattleView::switchMobs(unsigned int mobId)
 {
-  std::cout << "switch mobs here" << std::endl;
-  SwitchMobView	*v = new SwitchMobView(_sfmlView, &(**_wMan->getMainPlayer())->getDigitaliser().getBattleMobs(), _wMan);
-  int change = v->exec();
-  Client::getInstance()->sendSwitch((**_wMan->getBattle())->getId(), mobId, change);
-  qDebug() << "change mob " << mobId << " with " << change;
+  SwitchMobView	*v = new SwitchMobView(_sfmlView,
+				       &(**_wMan->getMainPlayer())->getDigitaliser().getBattleMobs(), _wMan);
+  int change = 0;
+  v->show();
+  v->move((_sfmlView->size().width() - v->size().width()) / 2, (_sfmlView->size().height() - v->size().height()) / 2);
+  change = v->exec();
+  if (change >= 0)
+    Client::getInstance()->sendSwitch((**_wMan->getBattle())->getId(), mobId, change);
+  delete v;
 }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Sun Mar 16 15:15:25 2014 laurent ansel
+// Last update Thu Mar 20 16:56:31 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -14,7 +14,8 @@
 
 Digitaliser::Digitaliser(Player const *player) :
   ContainerWrapper<container_type>(),
-  _player(player)
+  _player(player),
+  _efficiency(1)
 {
 
 }
@@ -41,6 +42,7 @@ Digitaliser			&Digitaliser::operator=(Digitaliser const &rhs)
       for (auto it = rhs.getBattleMobs().begin() ; it != rhs.getBattleMobs().end(); ++it)
       	this->_battleMobs.push_back(new Mob(**it));
       this->setPlayer(rhs.getPlayer());
+      this->setEfficiency(rhs.getEfficiency());
     }
   return (*this);
 }
@@ -53,6 +55,16 @@ void				Digitaliser::setPlayer(Player const *player)
 Player const			*Digitaliser::getPlayer() const
 {
   return (_player);
+}
+
+double				Digitaliser::getEfficiency() const
+{
+  return (_efficiency);
+}
+
+void				Digitaliser::setEfficiency(double const efficiency)
+{
+  _efficiency = efficiency;
 }
 
 Digitaliser::container_type const	&Digitaliser::getMobs() const
