@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:22:49 2014 guillaume marescaux
-// Last update Wed Mar 19 13:37:00 2014 guillaume marescaux
+// Last update Fri Mar 21 13:39:30 2014 cyril jourdain
 //
 
 #ifndef 			__BATTLE_HH__
@@ -18,6 +18,15 @@
 
 class				Battle
 {
+public:
+
+  struct			Capture
+  {
+    unsigned int		id;
+    bool			res;
+    bool			isCapturing;
+  };
+
 private:
 
   Battle(Battle const &);
@@ -33,6 +42,7 @@ private:
   std::list<unsigned int>	*_turnTo;
   MutexVar<bool>		*_switch;
   MutexVar<Player *>		*_player;
+  Capture			*_capture;
   bool				_win;
   bool				_end;
 
@@ -61,6 +71,8 @@ public:
   bool				getEnd(void) const;
   void				setEnd(bool);
   void				leaveBattle(void);
+  Capture			*getCapture(void);
+  void				removeMob(void);
 };
 
 #endif

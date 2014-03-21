@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Fri Mar 21 11:14:56 2014 guillaume marescaux
+// Last update Fri Mar 21 15:49:07 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -28,7 +28,7 @@ Protocol::Protocol(bool const server):
   ObjectPoolManager::getInstance()->runObjectPool<Coordinate<int>>("coordinateint");
   ObjectPoolManager::getInstance()->runObjectPool<Coordinate<double>>("coordinatedouble");
 
-  if (server)
+if (server)
     {
       this->_container->load<unsigned int>("WELCOME", &welcome);
       this->_container->load<unsigned int>("CHECK", &check);
@@ -42,6 +42,7 @@ Protocol::Protocol(bool const server):
       this->_container->load<unsigned int, unsigned int, Stats const *>("OBJECTEFFECT", &objectEffect);
       this->_container->load<unsigned int, ACharacter const *>("UPDATECHARACTER", &updateCharacter);
 
+      this->_container->load<unsigned int>("HEAL", &heal);
       this->_container->load<unsigned int, unsigned int, std::string>("LAUNCHTRADE", &launchTrade);
       this->_container->load<unsigned int, unsigned int, Stack<AItem> const *>("PUTITEM", &putItem);
       this->_container->load<unsigned int, unsigned int, Stack<AItem> const *>("GETITEM", &getItem);
