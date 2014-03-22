@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar 14 15:33:05 2014 cyril jourdain
-// Last update Thu Mar 20 16:39:24 2014 cyril jourdain
+// Last update Sat Mar 22 17:28:35 2014 cyril jourdain
 //
 
 #include		<QMenu>
@@ -223,8 +223,13 @@ void			PlayerSprite::moveRight(float px, sf::View *view)
 
 void			PlayerSprite::moveFromServer(sf::View *v)
  {
+   std::cout << "pos:" << _pos.x << "/"<< _pos.y <<"-"
+	     << Map::getInstance()->getPlayerById(_playerId)->getX() << "/"
+	     << Map::getInstance()->getPlayerById(_playerId)->getY()
+	     << std::endl;
   if (_dir == END_MOVE)
     {
+      std::cout << "HERE" << std::endl;
       if (_pos.x != Map::getInstance()->getPlayerById(_playerId)->getX() || _pos.y != Map::getInstance()->getPlayerById(_playerId)->getY())
 	{
 	  setPosition(Map::getInstance()->getPlayerById(_playerId)->getX() * CASE_SIZE,
@@ -240,7 +245,7 @@ void			PlayerSprite::moveFromServer(sf::View *v)
 	    //   v->move((15 - _pos.x * CASE_SIZE),
 	    // 	       0);
 	    // std::cout << "NEW POS X AFTER MAGIC TP : "  << _pos.x << std::endl;
-	    // std::cout << "WADAFAK WITH POS ?" << std::endl;
+	    std::cout << "WADAFAK WITH POS ?" << std::endl;
 	  }
 	}
       _dir = NONE;

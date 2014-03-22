@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Sat Mar 22 16:49:58 2014 cyril jourdain
+// Last update Sat Mar 22 20:05:25 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -22,7 +22,7 @@
 
 WorldView::WorldView(SFMLView *v, WindowManager *w) :
   ContextView(v, w), _mainPerso(NULL), _playerList(new std::vector<OPlayerSprite *>),
-  _entities(new std::list<RessourceSprite *>), _topLayer(new std::list<RessourceSprite *>), _keyMap(new KeyMap()), _pressedKey(Qt::Key(0)), _ressourcesLoader(NULL), _currentWindow(NULL)
+  _keyMap(new KeyMap()), _pressedKey(Qt::Key(0)), _ressourcesLoader(NULL), _currentWindow(NULL)
 {
   (*_keyMap)[Qt::Key_Up] = &WorldView::keyUp;
   (*_keyMap)[Qt::Key_Down] = &WorldView::keyDown;
@@ -182,25 +182,26 @@ void			WorldView::onMouseEvent(QMouseEvent *event)
 void			WorldView::resetView()
 {
   delete _mainPerso;
-  for (auto it = _entities->begin(); it != _entities->end(); ++it)
-    delete *it;
-  _entities->clear();
+  _mainPerso = NULL;
   for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
     delete *it;
   _playerList->clear();
-  for (auto it = _topLayer->begin(); it != _topLayer->end(); ++it)
-    delete *it;
-  _topLayer->clear();
   for (auto it = _spriteMap->begin(); it != _spriteMap->end(); it++)
     {
       for (auto it2 = it->second.begin(); it2 != it->second.end(); it2++)
-  	delete (it2->second);
+	{
+	  delete (it2->second);
+	  it2->second = NULL;
+	}
       it->second.clear();
     }
   _spriteMap->clear();
   delete _backgroundTexture;
+  _backgroundTexture = NULL;
   delete _backgroundSprite;
+  _backgroundSprite = NULL;
   delete _ressourcesLoader;
+  _ressourcesLoader = NULL;
 }
 
 void			WorldView::resetPOV()
@@ -248,63 +249,63 @@ void			WorldView::loadPlayerList()
 
 void			WorldView::loadEntities()
 {
-  Zone	*zone = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone());
-  std::list<AEntity*>	*list;
-  RessourceSprite	*tmp;
-  sf::Vector2i		*pos = new sf::Vector2i(0,0);
+  // Zone	*zone = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone());
+  // std::list<AEntity*>	*list;
+  // RessourceSprite	*tmp;
+  // sf::Vector2i		*pos = new sf::Vector2i(0,0);
 
-  for (int y = 0; y < zone->getSizeY(); y++)
-    {
-      for (int x = 0; x < zone->getSizeX(); x++)
-	{
-	  list = zone->getCase(x,y)->getEntities();
-	  if (list && list->size() > 0)
-	    {
-	      for (auto it = list->begin(); it != list->end(); it++)
-		{
-		  std::cout << "RESSOURCE NAME : " << (*it)->getName() << std::endl;
-		  if ((*it)->getEntityType() == AEntity::RESSOURCE)
-		    {
-		      pos->x = static_cast<Ressource*>(*it)->getX();
-		      pos->y = static_cast<Ressource*>(*it)->getY();
-		      if ((*it)->getName() == "Tree")
-			{
-			  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
-			  if (!_sfmlView->getSpriteManager()->copySprite("tree_trunk", *tmp))
-			    continue;
-			  tmp->play("default");
-			  tmp->setPosition(pos->x * CASE_SIZE,
-					   pos->y * CASE_SIZE);
-			  tmp->setPos(pos->x,
-				      pos->y);
-			  _entities->push_back(tmp);
-			  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
-			  if (!_sfmlView->getSpriteManager()->copySprite("tree_top", *tmp))
-			    continue;
-			  tmp->play("default");
-			  tmp->setPosition(pos->x * CASE_SIZE- 64,
-					   pos->y * CASE_SIZE - 128);
-			  tmp->setPos(pos->x,
-				      pos->y);
-			  _topLayer->push_back(tmp);
-			}
-		      else
-			{
-			  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
-			  if (!_sfmlView->getSpriteManager()->copySprite((*it)->getName(), *tmp))
-			    continue;
-			  tmp->play("default");
-			  tmp->setPosition(pos->x * CASE_SIZE,
-					   pos->y * CASE_SIZE);
-			  tmp->setPos(pos->x,
-				      pos->y);
-			  _entities->push_back(tmp);
-			}
-		    }
-		}
-	    }
-	}
-    }
+  // for (int y = 0; y < zone->getSizeY(); y++)
+  //   {
+  //     for (int x = 0; x < zone->getSizeX(); x++)
+  // 	{
+  // 	  list = zone->getCase(x,y)->getEntities();
+  // 	  if (list && list->size() > 0)
+  // 	    {
+  // 	      for (auto it = list->begin(); it != list->end(); it++)
+  // 		{
+  // 		  std::cout << "RESSOURCE NAME : " << (*it)->getName() << std::endl;
+  // 		  if ((*it)->getEntityType() == AEntity::RESSOURCE)
+  // 		    {
+  // 		      pos->x = static_cast<Ressource*>(*it)->getX();
+  // 		      pos->y = static_cast<Ressource*>(*it)->getY();
+  // 		      if ((*it)->getName() == "Tree")
+  // 			{
+  // 			  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
+  // 			  if (!_sfmlView->getSpriteManager()->copySprite("tree_trunk", *tmp))
+  // 			    continue;
+  // 			  tmp->play("default");
+  // 			  tmp->setPosition(pos->x * CASE_SIZE,
+  // 					   pos->y * CASE_SIZE);
+  // 			  tmp->setPos(pos->x,
+  // 				      pos->y);
+  // 			  _entities->push_back(tmp);
+  // 			  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
+  // 			  if (!_sfmlView->getSpriteManager()->copySprite("tree_top", *tmp))
+  // 			    continue;
+  // 			  tmp->play("default");
+  // 			  tmp->setPosition(pos->x * CASE_SIZE- 64,
+  // 					   pos->y * CASE_SIZE - 128);
+  // 			  tmp->setPos(pos->x,
+  // 				      pos->y);
+  // 			  _topLayer->push_back(tmp);
+  // 			}
+  // 		      else
+  // 			{
+  // 			  tmp = new RessourceSprite(static_cast<Ressource*>(*it));
+  // 			  if (!_sfmlView->getSpriteManager()->copySprite((*it)->getName(), *tmp))
+  // 			    continue;
+  // 			  tmp->play("default");
+  // 			  tmp->setPosition(pos->x * CASE_SIZE,
+  // 					   pos->y * CASE_SIZE);
+  // 			  tmp->setPos(pos->x,
+  // 				      pos->y);
+  // 			  _entities->push_back(tmp);
+  // 			}
+  // 		    }
+  // 		}
+  // 	    }
+  // 	}
+  //   }
 }
 
 void			WorldView::keyUp()
