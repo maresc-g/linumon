@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Fri Mar 21 13:55:52 2014 cyril jourdain
+// Last update Fri Mar 21 17:53:59 2014 guillaume marescaux
 //
 
 #include			<algorithm>

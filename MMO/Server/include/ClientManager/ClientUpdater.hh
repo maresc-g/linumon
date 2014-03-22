@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Wed Mar 19 18:59:04 2014 laurent ansel
+// Last update Fri Mar 21 22:20:30 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -49,6 +49,7 @@ public:
   bool				playerObject(FD const fd, unsigned int const item, int const nb) const;
 
   bool				newGuild(FD const fd, Guild *guild) const;
+  bool				newGuild(std::string const &playerName, Guild *guild) const;
   bool				inGuild(FD const fd, bool &guild) const;
 
   bool				merge(FD const fd, unsigned int const idStack, unsigned int const idStack2) const;
@@ -63,6 +64,8 @@ public:
 
   void				sendAllInformationModel(FD const fd) const;
   bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;
+
+  void				heal(FD const fd, unsigned int const idHeal) const;
 
   bool				craftSomething(FD const fd, std::string const &craft, std::string const &job) const;
   bool				gatherSomething(FD const fd, unsigned int const gather, std::string const &job, unsigned int const carcass) const;

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Fri Mar 21 11:10:01 2014 guillaume marescaux
+// Last update Sat Mar 22 16:55:56 2014 cyril jourdain
 //
 
 #ifndef 		__CORE_HH__
@@ -65,13 +65,16 @@ private:
   MutexVar<bool>			*_newPlayer;
   MutexVar<Battle *>			*_battle;
   MutexVar<Trade *>			*_trade;
+  MutexVar<bool>			*_heal;
+  MutexVar<ErrorBox *>			*_errorBox;
   ErrorHandler				*_handler;
 
 public:
 
   // Ctor / Dtor
   Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players,
-       MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer, MutexVar<Battle *> *battle, MutexVar<Trade *> *trade);
+       MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer, MutexVar<Battle *> *battle, MutexVar<Trade *> *trade, MutexVar<bool> *heal,
+       MutexVar<ErrorBox *> *errorBox);
   virtual ~Core();
 
   // Methods
@@ -114,6 +117,11 @@ public:
   void			switchPlayer(void);
   void			merge(unsigned int idStack1, unsigned int idStack2);
   void			newStack(unsigned int idStack, unsigned int nb);
+  void			createGuild(std::string const &name);
+  void			invite(std::string const &name, std::string const &nameGuild);
+  void			acceptGuild(std::string const &name);
+  void			refuseGuild();
+  void			quitGuild();
 
 private:
 
@@ -160,6 +168,12 @@ private:
   bool			entity(Trame *);
   bool			newPlayer(Trame *);
   bool			newZone(Trame *);
+  bool			heal(Trame *);
+  bool			invite(Trame *);
+  bool			newGuild(Trame *);
+  bool			guild(Trame *);
+  bool			newMember(Trame *);
+  bool			deleteMember(Trame *);
 };
 
 #endif

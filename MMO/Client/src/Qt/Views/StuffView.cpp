@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Thu Mar 20 23:09:40 2014 alexis mestag
+// Last update Fri Mar 21 17:39:16 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -158,7 +158,10 @@ void				StuffView::initStuff(Mob const &mob)
       _labels->push_back(label);
       label->show();
       label = new QLabel(ui.f_stats);
-      label->setText(std::to_string(mob.getCurrentStat((*it)->getName())).c_str());
+      if ((*it)->getName() == "HP")
+	label->setText(std::string(std::to_string(mob.getCurrentStat((*it)->getName())) + "/" + std::to_string(mob.getMaxStat((*it)->getName()))).c_str());
+      else
+	label->setText(std::to_string(mob.getCurrentStat((*it)->getName())).c_str());
       label->move(180, 130 + i * 40);
       label->resize(80, 20);
       label->show();

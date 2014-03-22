@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Fri Mar 21 11:10:58 2014 guillaume marescaux
+// Last update Sat Mar 22 16:53:17 2014 cyril jourdain
 //
 
 #include			"Client.hh"
@@ -20,8 +20,9 @@ Client::Client():
   _newPlayer(new MutexVar<bool>(false)),
   _battle(new MutexVar<Battle *>(new Battle)),
   _trade(new MutexVar<Trade *>(new Trade)),
-  _core(new Core(_state, _player, _players, _chat, _newPlayer, _battle, _trade)),
+  _heal(new MutexVar<bool>(false)),
   _errorBox(new MutexVar<ErrorBox *>(new ErrorBox(NULL))),
+  _core(new Core(_state, _player, _players, _chat, _newPlayer, _battle, _trade, _heal, _errorBox)),
   _manager(NULL)
 {
 }
@@ -53,7 +54,7 @@ Client::~Client()
 void				Client::init(int &ac, char **av)
 {
   _core->init();
-  _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer, _battle, _trade, _errorBox);
+  _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer, _battle, _trade, _errorBox, _heal);
   _manager->exec();
   _core->quit();
 }
@@ -129,5 +130,16 @@ void				Client::switchMobs(unsigned int idMob1, unsigned int idMob2) { _core->sw
 void				Client::merge(unsigned int idStack1, unsigned int idStack2) { _core->merge(idStack1, idStack2); }
 
 void				Client::newStack(unsigned int idStack, unsigned int nb) { _core->newStack(idStack, nb); }
+
+void				Client::createGuild(std::string const &name) { _core->createGuild(name); }
+
+void				Client::invite(std::string const &name, std::string const &nameGuild)
+{ _core->invite(name, nameGuild); }
+
+void				Client::acceptGuild(std::string const &name) { _core->acceptGuild(name); }
+
+void				Client::refuseGuild() { _core->refuseGuild(); }
+
+void				Client::quitGuild() { _core->quitGuild(); }
 
 //--------------------------------------END METHODS--------------------------------------------

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar 21 14:18:27 2014 cyril jourdain
+// Last update Sat Mar 22 16:59:43 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -34,7 +34,9 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
 	   MutexVar<std::list<PlayerView *> *> *players,
 	   MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer,
 	   MutexVar<Battle *> *battle,
-	   MutexVar<Trade *> *trade):
+	   MutexVar<Trade *> *trade,
+	   MutexVar<bool> *heal,
+	   MutexVar<ErrorBox *> *errorBox):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
@@ -51,6 +53,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _newPlayer(newPlayer),
   _battle(battle),
   _trade(trade),
+  _heal(heal),
+  _errorBox(errorBox),
   _handler(new ErrorHandler)
 {
   std::function<bool (Trame *)> func;
@@ -116,6 +120,18 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("SWITCH", func);
   func = std::bind1st(std::mem_fun(&Core::captureEffect), this);
   _proto->addFunc("CAPTUREEFFECT", func);
+  func = std::bind1st(std::mem_fun<bool, Core, Trame*>(&Core::heal), this);
+  _proto->addFunc("HEAL", func);
+  func = std::bind1st(std::mem_fun(&Core::invite), this);
+  _proto->addFunc("INVITE", func);
+  func = std::bind1st(std::mem_fun(&Core::newGuild), this);
+  _proto->addFunc("NEWGUILD", func);
+  func = std::bind1st(std::mem_fun(&Core::guild), this);
+  _proto->addFunc("GUILD", func);
+  func = std::bind1st(std::mem_fun(&Core::newMember), this);
+  _proto->addFunc("NEWMEMBER", func);
+  func = std::bind1st(std::mem_fun(&Core::deleteMember), this);
+  _proto->addFunc("DELETEMEMBER", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -223,7 +239,7 @@ bool				Core::handleError(Trame *trame)
   Error				*error;
 
   error = Error::deserialization(*trame);
-  _handler->handleError(*error, _state);
+  _handler->handleError(*error, _state, _errorBox);
   delete error;
   return (true);
 }
@@ -528,36 +544,47 @@ bool				Core::newZone(Trame *trame)
   (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString());
   Map::getInstance()->addPlayer((**_player)->getZone(), (**_player));
   Map::getInstance()->getZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString())->deserialization(*trame);
-  // Map::getInstance()->changeZone((**_player)->getZone(), (*trame)[CONTENT]["NEWZONE"]["ZONE"].asString(), (**_player));
   *_state = CLIENT::LOADED;
-
-  // (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString());
-  // (**_player)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
-  // (**_player)->setY((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt());
-  // Map::getInstance()->move((**_player));
-
-  // Map				*map = Map::getInstance();
-  // AEntity			*entity = map->getEntityById((**_player)->getZone(),
-  // 							     (**_player)->getId());
-
-  // if (entity)
-  //   {
-  //     std::cout << "NEW PLAYER POSITION :" << (*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt()
-  // 		<< "/" << (*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt() << std::endl;
-  //     static_cast<Player *>(entity)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
-  //     static_cast<Player *>(entity)->setY((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt());
-  //     map->move(entity);
-  //   }
-  // else
-  //   {
-  //     std::cout << "THE ENTITY IS NOT FOUND, SORRY" << std::endl;
-  //   }
-
-  // (**_player)->setCoord((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asUInt(),
-  // 			(*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asUInt());
-
-
   return (true);
+}
+
+bool				Core::invite(Trame *)
+{
+  return (true);
+}
+
+bool				Core::newGuild(Trame *trame)
+{
+  Guild				*guild = new Guild((*trame)[CONTENT]["NEWGUILD"]["GUILD"].asString());
+
+  (**_player)->setGuild(guild);
+  return (true);
+}
+
+bool				Core::guild(Trame *trame)
+{
+  auto				members = (*trame)[CONTENT]["GUILD"]["MEMBERS"].getMemberNames();
+
+  // for (auto it 
+  return (true);
+}
+
+bool				Core::newMember(Trame *trame)
+{
+  // (**_player)->guildAddPlayer(PlayerView::deserialization((*trame)((*trame)[CONTENT]["NEWMEMBER"])));
+  return (true);
+}
+
+bool				Core::deleteMember(Trame *trame)
+{
+  // (**_player)->guildRemovePlayer((*trame)[CONTENT]["DELETEMEMBER"].asString());
+  return (true);
+}
+
+bool				Core::heal(Trame *)
+{
+  *_heal = true;
+  return true;
 }
 
 //----------------------------------END PRIVATE METHODS----------------------------------------
@@ -779,6 +806,9 @@ void				Core::refuse()
 
 void				Core::heal(void)
 {
+  for (auto it = (**_player)->getDigitaliser().begin() ; it != (**_player)->getDigitaliser().end() ; ++it)
+    (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
+
   (*_proto).operator()<unsigned int const>("HEAL", _id);  
 }
 
@@ -802,6 +832,31 @@ void				Core::merge(unsigned int idStack1, unsigned int idStack2)
 void				Core::newStack(unsigned int idStack, unsigned int nb)
 {
   (*_proto).operator()<unsigned int const, unsigned int, unsigned int>("NEWSTACK", _id, idStack, nb);
+}
+
+void				Core::createGuild(std::string const &name)
+{
+  (*_proto).operator()<unsigned int const, std::string>("GCREATE", _id, name);
+}
+
+void				Core::invite(std::string const &name, std::string const &nameGuild)
+{
+  (*_proto).operator()<unsigned int const, std::string, std::string>("INVITE", _id, name, nameGuild);
+}
+
+void				Core::acceptGuild(std::string const &name)
+{
+  (*_proto).operator()<unsigned int const, std::string>("ACCEPT", _id, name);
+}
+
+void				Core::refuseGuild()
+{
+  (*_proto).operator()<unsigned int const>("REFUSE", _id);
+}
+
+void				Core::quitGuild()
+{
+  (*_proto).operator()<unsigned int const>("GQUIT", _id);
 }
 
 void				Core::init(void)

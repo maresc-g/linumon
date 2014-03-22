@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Fri Mar 21 19:08:24 2014 alexis mestag
+// Last update Sat Mar 22 18:13:45 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -134,7 +134,7 @@ void				Stats::resetShortLivedStats(Stats const &rhs)
 void				Stats::removeShortLivedStats()
 {
   static std::function<bool(Stat)>	shortLivedStatSeeker = [](Stat s) -> bool {
-    return (s.isShortLived());
+    return (!(s.isShortLived()));
   };
 
   this->getContainer().remove_if(shortLivedStatSeeker);

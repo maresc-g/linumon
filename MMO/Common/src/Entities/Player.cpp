@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Mar 21 17:08:09 2014 alexis mestag
+// Last update Sat Mar 22 16:33:26 2014 laurent ansel
 //
 
 #include			<cmath>
@@ -139,7 +139,7 @@ Player				&Player::operator=(Player const &rhs)
       this->setDigitaliser(rhs.getDigitaliser());
       this->setCoord(rhs.getCoord());
       this->setFaction(rhs.getFaction());
-      this->setGuild(*rhs.getGuild());
+      this->setGuild(rhs.getGuild());
       this->setZone(rhs.getZone());
 #ifndef		CLIENT_COMPILATION
       this->setExperienceCurve(rhs.getExperienceCurve());
@@ -225,15 +225,25 @@ void				Player::setFaction(Faction const &faction)
   _faction = &faction;
 }
 
-Guild const			*Player::getGuild() const
+Guild				*Player::getGuild() const
 {
   return (_guild);
 }
 
-void				Player::setGuild(Guild const &guild)
+void				Player::setGuild(Guild *guild)
 {
-  _guild = &guild;
+  _guild = guild;
 }
+
+// void				Player::guildAddPlayer(PlayerView *playerView)
+// {
+//   _guild->addPlayer(playerView);
+// }
+
+// void				Player::guildRemovePlayer(std::string const &name)
+// {
+//   _guild->removePlayer(name);
+// }
 
 Digitaliser const		&Player::getDigitaliser() const
 {
@@ -516,7 +526,7 @@ Player				*Player::deserialization(Trame const &trame)
       if (trame["PLAYER"].isMember("GUILD"))
 	{
 	  guild = Guild::deserialization(trame(trame["PLAYER"]["GUILD"]));
-	  player->setGuild(*guild);
+	  player->setGuild(guild);
 	}
 
       player->setZone(trame["PLAYER"]["ZONE"].asString());

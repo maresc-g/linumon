@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Mar 13 16:28:22 2014 guillaume marescaux
-// Last update Thu Mar 13 16:47:17 2014 guillaume marescaux
+// Last update Fri Mar 21 19:08:53 2014 guillaume marescaux
 //
 
 #ifndef 		__GUILDVIEW_HH__
@@ -33,6 +33,12 @@ private:
 private:
 
   virtual void		paintEvent(QPaintEvent *);
+
+private slots:
+
+  void			on_b_invite_clicked();
+  void			on_b_create_clicked();
+  void			on_b_quit_clicked();
 
 public:
 

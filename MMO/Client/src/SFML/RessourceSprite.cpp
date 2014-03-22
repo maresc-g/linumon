@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Feb 26 14:58:57 2014 cyril jourdain
-// Last update Thu Mar 20 13:34:07 2014 cyril jourdain
+// Last update Fri Mar 21 15:48:14 2014 cyril jourdain
 //
 
 #include		<QMenu>
@@ -47,8 +47,7 @@ void		RessourceSprite::onClick(QMouseEvent *event)
       {
 	if (action->text() == "Gather")
 	  {
-	    std::cout << "Gather ressource" << std::endl;
-	    
+	    std::cout << "Gather ressource" << std::endl;	    
 	  }
       }
   }

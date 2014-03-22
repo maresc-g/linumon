@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Fri Mar 21 14:51:57 2014 antoine maitre
+// Last update Sat Mar 22 16:50:11 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -131,6 +131,14 @@ bool				Client::isUse() const
 FD				Client::getId() const
 {
   return (this->_id);
+}
+
+
+std::string const		Client::getName() const
+{
+  if (_player)
+    return (_player->getName());
+  return ("");
 }
 
 void				Client::use(FD const id)
@@ -493,14 +501,22 @@ void				Client::newStack(unsigned int const idStack, unsigned int const nb)
 
 bool				Client::newGuild(Guild *guild)
 {
-  if (_player && !_player->getGuild())
+  if (_player)
     {
       if (!guild)
-	Server::getInstance()->callProtocol<std::string, Zone *>("DELETEMEMBER", _id, _player->getName(), Map::getInstance()->getZone(_player->getZone()));
+	{
+	  Server::getInstance()->callProtocol<std::string, Zone *>("DELETEMEMBER", _id, _player->getName(), Map::getInstance()->getZone(_player->getZone()));
+	  if (_player->getGuild())
+	    {
+	      _player->getGuild()->removePlayer(_player->getName());
+	      _player->setGuild(guild);
+	    }
+	}
       else
 	{
 	  guild->addPlayer(*_player);
 	  Server::getInstance()->callProtocol<std::string, Zone *>("NEWMEMBER", _id, _player->getName(), Map::getInstance()->getZone(_player->getZone()));
+	  Server::getInstance()->callProtocol<Guild const *>("GUILD", _id, _player->getGuild());
 	}
       return (true);
     }
@@ -527,5 +543,17 @@ void				Client::modifyDigitaliser(unsigned int const idMob1, unsigned int const 
 	}
       else
 	_player->switchMobs(idMob1, idMob2);
+    }
+}
+
+void				Client::heal(unsigned int const idHeal) const
+{
+  PNJ				*pnj;
+
+  if (_player && _state == GAME)
+    {
+      pnj = static_cast<PNJ *>(Map::getInstance()->getEntityById(_player->getZone(), idHeal));
+      if (pnj)
+	pnj->action(_player);
     }
 }

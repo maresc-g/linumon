@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Mar 20 17:12:52 2014 alexis mestag
+// Last update Sat Mar 22 16:33:11 2014 laurent ansel
 //
 
 #ifndef			__PLAYER_HH__
@@ -63,7 +63,7 @@ private:
   User const			*_user;
   Inventory			*_inventory;
   Jobs				*_jobs;
-  Guild const			*_guild;
+  Guild				*_guild;
 # ifndef		CLIENT_COMPILATION
   ExperienceCurve const		*_expCurve;
   DBZone const			*_dbZone;
@@ -104,8 +104,10 @@ public:
   Faction const			&getFaction() const;
   void				setFaction(Faction const &faction);
 
-  Guild const			*getGuild() const;
-  void				setGuild(Guild const &guild);
+  Guild				*getGuild() const;
+  void				setGuild(Guild *guild);
+  void				guildAddPlayer(PlayerView *playerView);
+  void				guildRemovePlayer(std::string const &name);
 
   Digitaliser const		&getDigitaliser() const;
 

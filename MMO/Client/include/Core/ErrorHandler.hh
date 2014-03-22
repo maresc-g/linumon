@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb  3 12:55:31 2014 guillaume marescaux
-// Last update Wed Feb  5 11:25:32 2014 guillaume marescaux
+// Last update Sat Mar 22 13:17:27 2014 guillaume marescaux
 //
 
 #ifndef 		__ERRORHANDLER_HH__
@@ -15,6 +15,7 @@
 #include		"Error/Error.hpp"
 #include		"Mutex/MutexVar.hpp"
 #include		"Common/eState.hh"
+#include		"Common/ErrorBox.hh"
 
 class			ErrorHandler
 {
@@ -31,14 +32,16 @@ public:
   virtual ~ErrorHandler();
 
   // Methods
-  void			handleError(Error const &error, MutexVar<CLIENT::eState> *state);
+  void			handleError(Error const &error, MutexVar<CLIENT::eState> *state, MutexVar<ErrorBox *> *errorBox);
 
 private:
 
   // Private Methods
-  void			badUsernamePass(MutexVar<CLIENT::eState> *state);
-  void			userConnected(MutexVar<CLIENT::eState> *state);
-  void			nameExists(MutexVar<CLIENT::eState> *state);
+  void			badUsernamePass(MutexVar<CLIENT::eState> *state, MutexVar<ErrorBox *> *errorBox);
+  void			userConnected(MutexVar<CLIENT::eState> *state, MutexVar<ErrorBox *> *errorBox);
+  void			nameExists(MutexVar<CLIENT::eState> *state, MutexVar<ErrorBox *> *errorBox);
+  void			guildExists(MutexVar<CLIENT::eState> *state, MutexVar<ErrorBox *> *errorBox);
+  void			alreadyInGuild(MutexVar<CLIENT::eState> *state, MutexVar<ErrorBox *> *errorBox);
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:23:10 2014 laurent ansel
-// Last update Wed Mar 12 13:47:02 2014 laurent ansel
+// Last update Fri Mar 21 23:06:53 2014 laurent ansel
 //
 
 #include			<functional>
@@ -32,7 +32,7 @@ bool				TalentManager::talents(Trame *trame)
       auto			members = (*trame)["TALENTS"].getMemberNames();
 
       for (auto it = members.begin() ; it != members.end() ; ++it)
-	ClientManager::getInstance()->setPlayerTalent((*trame)[HEADER]["IDCLIENT"].asInt(), *it, (*trame)[CONTENT][*it].asUInt());
+	ClientManager::getInstance()->setPlayerTalent((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)["TALENTS"][*it]["NAME"].asString(), (*trame)["TALENTS"][*it]["PTS"].asUInt());
       return (true);
     }
   return (false);
