@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sat Mar 22 12:42:38 2014 guillaume marescaux
+// Last update Sat Mar 22 13:18:32 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -1355,7 +1355,6 @@ bool				refuseGuild(unsigned int const id)
   return (ret);
 }
 
-<<<<<<< HEAD
 bool				quitGuild(unsigned int const id)
 {
   bool			ret = false;

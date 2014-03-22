@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb  3 13:06:46 2014 guillaume marescaux
-// Last update Tue Mar  4 13:09:00 2014 guillaume marescaux
+// Last update Sat Mar 22 13:19:33 2014 guillaume marescaux
 //
 
 #include			"Core/ErrorHandler.hh"
@@ -24,36 +24,49 @@ ErrorHandler::~ErrorHandler()
 
 //---------------------------------BEGIN PRIVATE METHODS---------------------------------------
 
-void				ErrorHandler::badUsernamePass(MutexVar<CLIENT::eState> *state)
+void				ErrorHandler::badUsernamePass(MutexVar<CLIENT::eState> *state, MutexVar<ErrorBox *> *)
 {
   *state = CLIENT::NONE;
 }
 
-void				ErrorHandler::userConnected(MutexVar<CLIENT::eState> *state)
+void				ErrorHandler::userConnected(MutexVar<CLIENT::eState> *state, MutexVar<ErrorBox *> *)
 {
   *state = CLIENT::NONE;
 }
 
-void				ErrorHandler::nameExists(MutexVar<CLIENT::eState> *state)
+void				ErrorHandler::nameExists(MutexVar<CLIENT::eState> *state, MutexVar<ErrorBox *> *)
 {
   *state = CLIENT::CHOOSE_PLAYER;
+}
+
+void				ErrorHandler::guildExists(MutexVar<CLIENT::eState> *, MutexVar<ErrorBox *> *errorBox)
+{
+  (**errorBox)->printError("Error", "A guild already has this name");
+}
+
+void				ErrorHandler::alreadyInGuild(MutexVar<CLIENT::eState> *, MutexVar<ErrorBox *> *errorBox)
+{
+  (**errorBox)->printError("Error", "This player is already in a guild");
 }
 
 //----------------------------------END PRIVATE METHODS----------------------------------------
 
 //-------------------------------------BEGIN METHODS-------------------------------------------
 
-void				ErrorHandler::handleError(Error const &error, MutexVar<CLIENT::eState> *state)
+void				ErrorHandler::handleError(Error const &error, MutexVar<CLIENT::eState> *state,
+							  MutexVar<ErrorBox *> *errorBox)
 {
-  static std::map<Error::eError, void (ErrorHandler::*)(MutexVar<CLIENT::eState> *)>	ptrs =
+  static std::map<Error::eError, void (ErrorHandler::*)(MutexVar<CLIENT::eState> *, MutexVar<ErrorBox *> *)>	ptrs =
     {
       { Error::USER, &ErrorHandler::badUsernamePass },
       { Error::USERCONNECTED, &ErrorHandler::userConnected },
-      { Error::CREATEPLAYER, &ErrorHandler::nameExists }
+      { Error::CREATEPLAYER, &ErrorHandler::nameExists },
+      { Error::GUILDEXIST, &ErrorHandler::guildExists },
+      { Error::ALREADYINGUILD, &ErrorHandler::alreadyInGuild }
     };
 
   if (ptrs.find(error.getType()) != ptrs.end())
-    (this->*ptrs[error.getType()])(state);
+    (this->*ptrs[error.getType()])(state, errorBox);
 }
 
 //--------------------------------------END METHODS--------------------------------------------

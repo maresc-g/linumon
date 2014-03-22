@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Fri Mar 21 19:05:33 2014 guillaume marescaux
+// Last update Sat Mar 22 13:20:07 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -44,8 +44,8 @@ private:
   MutexVar<bool>		*_newPlayer;
   MutexVar<Battle *>		*_battle;
   MutexVar<Trade *>		*_trade;
-  Core				*_core;
   MutexVar<ErrorBox*>		*_errorBox;
+  Core				*_core;
   WindowManager			*_manager;
 
   // Ctor / Dtor

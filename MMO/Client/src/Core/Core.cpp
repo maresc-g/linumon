@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Sat Mar 22 12:39:58 2014 guillaume marescaux
+// Last update Sat Mar 22 13:18:56 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -34,7 +34,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
 	   MutexVar<std::list<PlayerView *> *> *players,
 	   MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer,
 	   MutexVar<Battle *> *battle,
-	   MutexVar<Trade *> *trade):
+	   MutexVar<Trade *> *trade,
+	   MutexVar<ErrorBox *> *errorBox):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
@@ -51,6 +52,7 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _newPlayer(newPlayer),
   _battle(battle),
   _trade(trade),
+  _errorBox(errorBox),
   _handler(new ErrorHandler)
 {
   std::function<bool (Trame *)> func;
@@ -233,7 +235,7 @@ bool				Core::handleError(Trame *trame)
   Error				*error;
 
   error = Error::deserialization(*trame);
-  _handler->handleError(*error, _state);
+  _handler->handleError(*error, _state, _errorBox);
   delete error;
   return (true);
 }
