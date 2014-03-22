@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Thu Mar 20 16:17:35 2014 antoine maitre
+// Last update Sat Mar 22 16:43:07 2014 laurent ansel
 //
 
 #include		"Zone/Case.hh"
@@ -152,7 +152,7 @@ void			Case::deserialization(Trame const &trame)
 	    {
 	      player->setCoord(*Player::PlayerCoordinate::deserialization(trame(trame[std::to_string(i)]["PLAYER"])));
 	      player->setFaction(*Faction::deserialization(trame(trame[std::to_string(i)]["PLAYER"])));
-	      player->setGuild(*new Guild(trame[std::to_string(i)]["PLAYER"]["GUILD"].asString()));
+	      player->setGuild(new Guild(trame[std::to_string(i)]["PLAYER"]["GUILD"].asString()));
 	      player->setZone((trame[std::to_string(i)]["PLAYER"]["ZONE"].asString()));
 	      this->_entities->push_back(player);
 	    }

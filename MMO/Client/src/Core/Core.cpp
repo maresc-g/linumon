@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Sat Mar 22 16:51:00 2014 cyril jourdain
+// Last update Sat Mar 22 16:57:24 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -560,7 +560,7 @@ bool				Core::newGuild(Trame *trame)
 {
   Guild				*guild = new Guild((*trame)[CONTENT]["NEWGUILD"]["GUILD"].asString());
 
-  (**_player)->setGuild(*guild);
+  (**_player)->setGuild(guild);
   return (true);
 }
 
