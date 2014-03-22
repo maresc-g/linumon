@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Sat Mar 22 16:57:24 2014 cyril jourdain
+// Last update Sat Mar 22 16:59:43 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -35,7 +35,7 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
 	   MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer,
 	   MutexVar<Battle *> *battle,
 	   MutexVar<Trade *> *trade,
-	   MutexVar<bool> *heal),
+	   MutexVar<bool> *heal,
 	   MutexVar<ErrorBox *> *errorBox):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
@@ -53,11 +53,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _newPlayer(newPlayer),
   _battle(battle),
   _trade(trade),
-<<<<<<< HEAD
   _heal(heal),
-=======
   _errorBox(errorBox),
->>>>>>> dbbc557fba933efc530da067fb577005409b7c63
   _handler(new ErrorHandler)
 {
   std::function<bool (Trame *)> func;
