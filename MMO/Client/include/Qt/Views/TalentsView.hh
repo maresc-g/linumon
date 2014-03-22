@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Mar 17 22:31:32 2014 guillaume marescaux
-// Last update Thu Mar 20 15:51:22 2014 guillaume marescaux
+// Last update Fri Mar 21 18:38:14 2014 guillaume marescaux
 //
 
 #ifndef 		__TALENTSVIEW_HH__
@@ -39,7 +39,7 @@ private:
 
 public:
 
-  void			initTalents(TalentTree const &tree);
+  void			initTalents(TalentTree const &tree, unsigned int pts);
 };
 
 #endif

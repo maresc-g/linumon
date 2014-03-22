@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Thu Mar 20 15:51:47 2014 cyril jourdain
+// Last update Fri Mar 21 19:57:26 2014 guillaume marescaux
 //
 
 /*
@@ -38,7 +38,7 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _jobMenu(new JobMenuView(this, w)), _job(new JobView(this, w)), _digit(new DigitaliserView(this, w)),
   _clickView(new PlayerClickView(this, w)), _splitStack(new SplitStackView(this, w)),
   _guild(new GuildView(this, w)), _trade(new TradeView(this, w)),
-  _talents(new TalentsView(this, w)), _stuffStats(new StuffStatsView(this, w)),
+  _talents(new TalentsView(this, w)), _stuffStats(new StuffStatsView(this, w)), _invite(new InviteView(this, w)),
   _worldView(new WorldView(this, w)), _battleView(new BattleView(this, w)),
   _currentView(NULL), _view1(NULL), _view2(NULL)
 {
@@ -58,6 +58,8 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _trade->hide();
   _talents->hide();
   _stuffStats->hide();
+  _invite->move(WIN_W / 2 - _invite->size().width() / 2, WIN_H / 2 - _invite->size().height() / 2);
+  _invite->hide();
   _chat->move(0, WIN_H - _chat->size().height());
   _textFont = new sf::Font();
   if (!_textFont->loadFromFile("./Res/arial.ttf"))
@@ -319,3 +321,4 @@ GuildView		*SFMLView::getGuildView(void) {return _guild; };
 TradeView		*SFMLView::getTradeView(void) {return _trade; };
 TalentsView		*SFMLView::getTalentsView(void) {return _talents; };
 StuffStatsView		*SFMLView::getStuffStatsView(void) {return _stuffStats; };
+InviteView		*SFMLView::getInviteView(void) {return _invite; };

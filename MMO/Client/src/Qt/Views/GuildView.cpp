@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Mar 13 16:29:23 2014 guillaume marescaux
-// Last update Fri Mar 21 16:02:25 2014 guillaume marescaux
+// Last update Fri Mar 21 19:35:54 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/GuildView.hh"
@@ -48,7 +48,6 @@ void				GuildView::on_b_invite_clicked()
 
 void				GuildView::on_b_create_clicked()
 {
-  std::cout << "I AM GOING TO CREATE" << std::endl;
   std::string			name = ui.le_gname->text().toStdString();
 
   if (!name.empty())
@@ -57,6 +56,11 @@ void				GuildView::on_b_create_clicked()
     }
   else
     (**_wMan->getErrorBox())->printError("Error", "You must enter guild name");
+}
+
+void				GuildView::on_b_quit_clicked()
+{
+  Client::getInstance()->quitGuild();
 }
 
 void				GuildView::initGuild(Guild const *guild)
@@ -89,9 +93,10 @@ void				GuildView::initGuild(Guild const *guild)
       ui.l_gname->hide();
       ui.le_gname->hide();
       ui.b_create->hide();
-      ui.b_invite->show();
       ui.l_invite->show();
       ui.le_invite->show();
+      ui.b_invite->show();
+      ui.b_quit->show();
     }
   else
     {
@@ -103,5 +108,6 @@ void				GuildView::initGuild(Guild const *guild)
       ui.b_invite->hide();
       ui.l_invite->hide();
       ui.le_invite->hide();
+      ui.b_quit->hide();
     }
 }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Fri Mar 21 15:16:45 2014 guillaume marescaux
+// Last update Fri Mar 21 19:06:35 2014 guillaume marescaux
 //
 
 #include			"Client.hh"
@@ -138,5 +138,7 @@ void				Client::invite(std::string const &name, std::string const &nameGuild)
 void				Client::acceptGuild(std::string const &name) { _core->acceptGuild(name); }
 
 void				Client::refuseGuild() { _core->refuseGuild(); }
+
+void				Client::quitGuild() { _core->quitGuild(); }
 
 //--------------------------------------END METHODS--------------------------------------------

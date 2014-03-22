@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Fri Mar 21 15:17:16 2014 guillaume marescaux
+// Last update Fri Mar 21 19:05:33 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -94,6 +94,7 @@ public:
   void				invite(std::string const &name, std::string const &nameGuild);
   void				acceptGuild(std::string const &name);
   void				refuseGuild();
+  void				quitGuild();
 };
 
 #endif

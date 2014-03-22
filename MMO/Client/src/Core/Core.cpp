@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar 21 17:53:50 2014 guillaume marescaux
+// Last update Sat Mar 22 12:39:58 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -116,6 +116,16 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("SWITCH", func);
   func = std::bind1st(std::mem_fun(&Core::captureEffect), this);
   _proto->addFunc("CAPTUREEFFECT", func);
+  func = std::bind1st(std::mem_fun(&Core::invite), this);
+  _proto->addFunc("INVITE", func);
+  func = std::bind1st(std::mem_fun(&Core::newGuild), this);
+  _proto->addFunc("NEWGUILD", func);
+  func = std::bind1st(std::mem_fun(&Core::guild), this);
+  _proto->addFunc("GUILD", func);
+  func = std::bind1st(std::mem_fun(&Core::newMember), this);
+  _proto->addFunc("NEWMEMBER", func);
+  func = std::bind1st(std::mem_fun(&Core::deleteMember), this);
+  _proto->addFunc("DELETEMEMBER", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -528,35 +538,40 @@ bool				Core::newZone(Trame *trame)
   (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString());
   Map::getInstance()->addPlayer((**_player)->getZone(), (**_player));
   Map::getInstance()->getZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString())->deserialization(*trame);
-  // Map::getInstance()->changeZone((**_player)->getZone(), (*trame)[CONTENT]["NEWZONE"]["ZONE"].asString(), (**_player));
   *_state = CLIENT::LOADED;
+  return (true);
+}
 
-  // (**_player)->setZone((*trame)[CONTENT]["NEWZONE"]["ZONE"].asString());
-  // (**_player)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
-  // (**_player)->setY((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt());
-  // Map::getInstance()->move((**_player));
+bool				Core::invite(Trame *)
+{
+  return (true);
+}
 
-  // Map				*map = Map::getInstance();
-  // AEntity			*entity = map->getEntityById((**_player)->getZone(),
-  // 							     (**_player)->getId());
+bool				Core::newGuild(Trame *trame)
+{
+  Guild				*guild = new Guild((*trame)[CONTENT]["NEWGUILD"]["GUILD"].asString());
 
-  // if (entity)
-  //   {
-  //     std::cout << "NEW PLAYER POSITION :" << (*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt()
-  // 		<< "/" << (*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt() << std::endl;
-  //     static_cast<Player *>(entity)->setX((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asInt());
-  //     static_cast<Player *>(entity)->setY((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asInt());
-  //     map->move(entity);
-  //   }
-  // else
-  //   {
-  //     std::cout << "THE ENTITY IS NOT FOUND, SORRY" << std::endl;
-  //   }
+  (**_player)->setGuild(*guild);
+  return (true);
+}
 
-  // (**_player)->setCoord((*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["X"].asUInt(),
-  // 			(*trame)[CONTENT]["NEWZONE"]["COORDINATE"]["Y"].asUInt());
+bool				Core::guild(Trame *trame)
+{
+  auto				members = (*trame)[CONTENT]["GUILD"]["MEMBERS"].getMemberNames();
 
+  // for (auto it 
+  return (true);
+}
 
+bool				Core::newMember(Trame *trame)
+{
+  // (**_player)->guildAddPlayer(PlayerView::deserialization((*trame)((*trame)[CONTENT]["NEWMEMBER"])));
+  return (true);
+}
+
+bool				Core::deleteMember(Trame *trame)
+{
+  // (**_player)->guildRemovePlayer((*trame)[CONTENT]["DELETEMEMBER"].asString());
   return (true);
 }
 
@@ -779,6 +794,9 @@ void				Core::refuse()
 
 void				Core::heal(void)
 {
+  for (auto it = (**_player)->getDigitaliser().begin() ; it != (**_player)->getDigitaliser().end() ; ++it)
+    (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
+
   (*_proto).operator()<unsigned int const>("HEAL", _id);  
 }
 
@@ -822,6 +840,11 @@ void				Core::acceptGuild(std::string const &name)
 void				Core::refuseGuild()
 {
   (*_proto).operator()<unsigned int const>("REFUSE", _id);
+}
+
+void				Core::quitGuild()
+{
+  (*_proto).operator()<unsigned int const>("GQUIT", _id);
 }
 
 void				Core::init(void)

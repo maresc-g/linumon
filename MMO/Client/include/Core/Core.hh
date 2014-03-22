@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Fri Mar 21 15:17:04 2014 guillaume marescaux
+// Last update Fri Mar 21 21:01:14 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -118,6 +118,7 @@ public:
   void			invite(std::string const &name, std::string const &nameGuild);
   void			acceptGuild(std::string const &name);
   void			refuseGuild();
+  void			quitGuild();
 
 private:
 
@@ -164,6 +165,11 @@ private:
   bool			entity(Trame *);
   bool			newPlayer(Trame *);
   bool			newZone(Trame *);
+  bool			invite(Trame *);
+  bool			newGuild(Trame *);
+  bool			guild(Trame *);
+  bool			newMember(Trame *);
+  bool			deleteMember(Trame *);
 };
 
 #endif

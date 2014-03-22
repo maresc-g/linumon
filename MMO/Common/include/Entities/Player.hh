@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Thu Mar 20 17:12:52 2014 alexis mestag
+// Last update Sat Mar 22 12:28:25 2014 guillaume marescaux
 //
 
 #ifndef			__PLAYER_HH__
@@ -106,6 +106,8 @@ public:
 
   Guild const			*getGuild() const;
   void				setGuild(Guild const &guild);
+  void				guildAddPlayer(PlayerView *playerView);
+  void				guildRemovePlayer(std::string const &name);
 
   Digitaliser const		&getDigitaliser() const;
 

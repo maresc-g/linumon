@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Feb 25 12:42:29 2014 laurent ansel
-// Last update Fri Mar 14 13:30:40 2014 laurent ansel
+// Last update Sat Mar 22 12:04:52 2014 guillaume marescaux
 //
 
 #ifndef 		__GUILD_HH__
@@ -53,6 +53,7 @@ public:
 #endif
 
   void			addPlayer(PlayerView *playerView);
+  void			removePlayer(std::string const &name);
 
   virtual bool		serialization(Trame &trame) const;
   static Guild		*deserialization(Trame const &trame);

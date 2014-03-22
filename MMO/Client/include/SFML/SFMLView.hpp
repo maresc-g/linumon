@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Thu Mar 20 15:51:17 2014 cyril jourdain
+// Last update Fri Mar 21 19:54:11 2014 guillaume marescaux
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -29,6 +29,7 @@
 #include                "Qt/Views/TradeView.hh"
 #include                "Qt/Views/TalentsView.hh"
 #include                "Qt/Views/StuffStatsView.hh"
+#include                "Qt/Views/InviteView.hh"
 #include		"SFML/Sprite/SpriteManager.hh"
 #include		"SFML/Sprite/Sprite.hh"
 
@@ -56,6 +57,7 @@ class			GuildView;
 class			TradeView;
 class			TalentsView;
 class			StuffStatsView;
+class			InviteView;
 class			ContextView;
 
 class			SFMLView : public QSFMLWidget
@@ -87,6 +89,7 @@ private:
   TradeView		*_trade;
   TalentsView		*_talents;
   StuffStatsView	*_stuffStats;
+  InviteView		*_invite;
 
   ContextView		*_worldView;
   ContextView		*_battleView;
@@ -135,6 +138,7 @@ public: /* Child view accessors for World and Battle view, not const */
   TradeView			*getTradeView(void);
   TalentsView			*getTalentsView(void);
   StuffStatsView		*getStuffStatsView(void);
+  InviteView			*getInviteView(void);
 };
 
 #endif

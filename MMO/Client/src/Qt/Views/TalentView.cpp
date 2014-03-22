@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Mar 20 11:02:32 2014 guillaume marescaux
-// Last update Fri Mar 21 14:47:15 2014 guillaume marescaux
+// Last update Fri Mar 21 18:47:34 2014 guillaume marescaux
 //
 
 #include			<boost/algorithm/string.hpp>
@@ -63,6 +63,8 @@ void				TalentView::mousePressEvent(QMouseEvent *mEvent)
 	      _talent = (**_wMan->getMainPlayer())->getTalentFromModel(*_talentModel);
 	      setInfos();
 	      Client::getInstance()->talents((**_wMan->getMainPlayer())->getTalents());
+	      _wMan->getSFMLView()->getTalentsView()->initTalents((**_wMan->getMainPlayer())->getTalentTree(),
+								  (**_wMan->getMainPlayer())->getTalents().getCurrentPts());
 	    }
 	}
     }

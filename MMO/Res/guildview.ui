@@ -40,7 +40,7 @@
      <x>20</x>
      <y>109</y>
      <width>510</width>
-     <height>351</height>
+     <height>331</height>
     </rect>
    </property>
    <property name="editTriggers">
@@ -151,6 +151,19 @@
      <width>320</width>
      <height>20</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="b_quit">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>450</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Quit Guild</string>
    </property>
   </widget>
  </widget>

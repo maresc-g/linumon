@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Fri Mar 21 11:32:08 2014 guillaume marescaux
+// Last update Fri Mar 21 18:40:22 2014 guillaume marescaux
 //
 
 #include		"SFML/WorldView.hh"
@@ -460,7 +460,8 @@ void			WorldView::keyT()
     {
       if (!_sfmlView->getTalentsView()->isVisible())
 	{
-	  _sfmlView->getTalentsView()->initTalents((**_wMan->getMainPlayer())->getTalentTree());
+	  _sfmlView->getTalentsView()->initTalents((**_wMan->getMainPlayer())->getTalentTree(),
+						   (**_wMan->getMainPlayer())->getTalents().getCurrentPts());
 	  _sfmlView->displayView(_sfmlView->getTalentsView());
 	}
       else
