@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Fri Mar 21 14:18:27 2014 cyril jourdain
+// Last update Fri Mar 21 15:40:20 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -34,7 +34,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
 	   MutexVar<std::list<PlayerView *> *> *players,
 	   MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer,
 	   MutexVar<Battle *> *battle,
-	   MutexVar<Trade *> *trade):
+	   MutexVar<Trade *> *trade,
+	   MutexVar<bool> *heal):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
   _socketsClient(new std::map<eSocket, ISocketClient *>),
@@ -51,6 +52,7 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _newPlayer(newPlayer),
   _battle(battle),
   _trade(trade),
+  _heal(heal),
   _handler(new ErrorHandler)
 {
   std::function<bool (Trame *)> func;
@@ -116,6 +118,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("SWITCH", func);
   func = std::bind1st(std::mem_fun(&Core::captureEffect), this);
   _proto->addFunc("CAPTUREEFFECT", func);
+  func = std::bind1st(std::mem_fun<bool, Core, Trame*>(&Core::heal), this);
+  _proto->addFunc("HEAL", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -558,6 +562,12 @@ bool				Core::newZone(Trame *trame)
 
 
   return (true);
+}
+
+bool				Core::heal(Trame *)
+{
+  *_heal = true;
+  return true;
 }
 
 //----------------------------------END PRIVATE METHODS----------------------------------------

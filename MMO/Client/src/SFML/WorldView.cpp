@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Fri Mar 21 11:32:08 2014 guillaume marescaux
+// Last update Fri Mar 21 15:44:56 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -86,6 +86,11 @@ void			WorldView::onUpdate()
     }
   if (_currentWindow)
     _currentWindow->update(*(_sfmlView->getMainClock()));
+  if ((**_wMan->getHeal()))
+    {
+      setCurrentWindow(NULL);
+      *(_wMan->getHeal()) = false;
+    }
 }
 
 void			WorldView::drawView()

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:19:55 2014 guillaume marescaux
-// Last update Fri Mar 21 11:10:58 2014 guillaume marescaux
+// Last update Fri Mar 21 15:38:19 2014 cyril jourdain
 //
 
 #include			"Client.hh"
@@ -20,7 +20,8 @@ Client::Client():
   _newPlayer(new MutexVar<bool>(false)),
   _battle(new MutexVar<Battle *>(new Battle)),
   _trade(new MutexVar<Trade *>(new Trade)),
-  _core(new Core(_state, _player, _players, _chat, _newPlayer, _battle, _trade)),
+  _heal(new MutexVar<bool>(false)),
+  _core(new Core(_state, _player, _players, _chat, _newPlayer, _battle, _trade, _heal)),
   _errorBox(new MutexVar<ErrorBox *>(new ErrorBox(NULL))),
   _manager(NULL)
 {
@@ -53,7 +54,7 @@ Client::~Client()
 void				Client::init(int &ac, char **av)
 {
   _core->init();
-  _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer, _battle, _trade, _errorBox);
+  _manager = new WindowManager(ac, av, _state, _players, _player, _newPlayer, _battle, _trade, _errorBox, _heal);
   _manager->exec();
   _core->quit();
 }

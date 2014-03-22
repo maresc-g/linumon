@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Fri Mar 21 11:10:01 2014 guillaume marescaux
+// Last update Fri Mar 21 15:33:57 2014 cyril jourdain
 //
 
 #ifndef 		__CORE_HH__
@@ -65,13 +65,14 @@ private:
   MutexVar<bool>			*_newPlayer;
   MutexVar<Battle *>			*_battle;
   MutexVar<Trade *>			*_trade;
+  MutexVar<bool>			*_heal;
   ErrorHandler				*_handler;
 
 public:
 
   // Ctor / Dtor
   Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players,
-       MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer, MutexVar<Battle *> *battle, MutexVar<Trade *> *trade);
+       MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer, MutexVar<Battle *> *battle, MutexVar<Trade *> *trade, MutexVar<bool> *heal);
   virtual ~Core();
 
   // Methods
@@ -160,6 +161,7 @@ private:
   bool			entity(Trame *);
   bool			newPlayer(Trame *);
   bool			newZone(Trame *);
+  bool			heal(Trame *);
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Fri Mar 21 11:09:40 2014 guillaume marescaux
+// Last update Fri Mar 21 15:38:30 2014 cyril jourdain
 //
 
 #ifndef				__CLIENT_HH__
@@ -44,6 +44,7 @@ private:
   MutexVar<bool>		*_newPlayer;
   MutexVar<Battle *>		*_battle;
   MutexVar<Trade *>		*_trade;
+  MutexVar<bool>		*_heal;
   Core				*_core;
   MutexVar<ErrorBox*>		*_errorBox;
   WindowManager			*_manager;
