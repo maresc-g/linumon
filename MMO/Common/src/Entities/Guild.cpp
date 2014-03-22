@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Feb 25 12:43:18 2014 laurent ansel
-// Last update Sat Mar 22 12:18:52 2014 guillaume marescaux
+// Last update Sat Mar 22 12:42:54 2014 guillaume marescaux
 //
 
 #include			<algorithm>
@@ -148,6 +148,14 @@ Guild				*Guild::getGuild(std::string const &name)
 }
 
 #endif
+
+bool				Guild::inGuild(std::string const &namePlayer) const
+{
+  for (auto it = this->begin() ; it != this->end() ; ++it)
+    if ((*it)->name == namePlayer)
+      return (true);
+  return (false);
+}
 
 void				Guild::addPlayer(PlayerView *playerView)
 {

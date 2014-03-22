@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Wed Mar 19 19:25:46 2014 laurent ansel
+// Last update Fri Mar 21 22:16:43 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -51,6 +51,7 @@ public:
   void				modifyDigitaliser(FD const fd, unsigned int const idMob1, unsigned int const idMob2, bool const tobattleMob) const;
 
   void				newGuild(FD const fd, Guild *guild) const;
+  void				newGuild(std::string const &playerName, Guild *guild) const;
   bool				inGuild(FD const fd) const;
 
   void				startBattle(FD const fd, Player *&player) const;
@@ -59,6 +60,8 @@ public:
   void				endTrade(FD const fd) const;
 
   void				newState(FD const fd, Client::eState const state) const;
+
+  void				heal(FD const fd, unsigned int const idHeal) const;
 
   void				sendAllInformationModel(FD const fd) const;
   bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Wed Mar 19 19:18:00 2014 laurent ansel
+// Last update Fri Mar 21 22:21:09 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -50,6 +50,7 @@ public:
   void				state(eState const state);
   void				sendAllInformationModel() const;
   FD				getId() const;
+  std::string const		getName() const;
   void				setSocket(ISocketClient const *socket, std::string const &proto);
   bool				writeTrame(Trame *trame, std::string const &proto);
   bool				readTrame(std::string &str, std::string const &proto);
@@ -73,6 +74,7 @@ public:
   bool				newGuild(Guild * guild);
   bool				inGuild() const;
   void				modifyDigitaliser(unsigned int const idMob1, unsigned int const idMob2, bool const toBattleMob) const;
+  void				heal(unsigned int const idHeal) const;
 };
 
 #endif

@@ -108,10 +108,11 @@
 			REFUSE : {} -> client
 			NEWGUILD : {guild : name} -> server
 			GUILD : {list of members : list<string>} -> server
+
 			NEWMEMBER : {name : std::string} -> server
+			DELETEMEMBER : {name : std::string} -> server
 
 			GQUIT : {} -> client
-			DELETEMEMBER : {name : std::string} -> server
 			# end
 
 			# others
@@ -123,7 +124,7 @@
 			QUIT : {} -> client / server
 			REMOVEENTITY : {id : int} -> server
 			ENTITY : {id : int, coord : Coordinate} -> server/client
-			HEAL : {} -> client, server
+			HEAL : {idHeal : unsigned int} -> client
 			DISCONNECT : {} -> client
 			SWITCHPLAYER : {} -> client
 			NEWZONE : {zone : string, coord : Coordinate} -> server

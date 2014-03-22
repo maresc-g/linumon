@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Wed Mar 19 18:59:41 2014 laurent ansel
+// Last update Fri Mar 21 23:05:49 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -437,6 +437,20 @@ bool				ClientUpdater::newGuild(FD const fd, Guild *guild) const
   return (ret);
 }
 
+bool				ClientUpdater::newGuild(std::string const &playerName, Guild *guild) const
+{
+  bool				ret = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (playerName == (*it).first->getName() && (*it).first->isUse())
+	ret = (*it).first->newGuild(guild);
+    }
+  this->_mutex->unlock();
+  return (ret);
+}
+
 bool				ClientUpdater::inGuild(FD const fd, bool &guild) const
 {
   bool				ret = false;
@@ -532,6 +546,21 @@ void				ClientUpdater::newState(FD const fd, Client::eState const st) const
       if (fd == (*it).first->getId() && (*it).first->isUse())
 	{
 	  it->first->state(st);
+	  this->_mutex->unlock();
+	  return;
+	}
+    }
+  this->_mutex->unlock();
+}
+
+void				ClientUpdater::heal(FD const fd, unsigned int const idHeal) const
+{
+  this->_mutex->lock();
+  for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
+    {
+      if (fd == (*it).first->getId() && (*it).first->isUse())
+	{
+	  it->first->heal(idHeal);
 	  this->_mutex->unlock();
 	  return;
 	}
