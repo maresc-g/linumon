@@ -155,18 +155,15 @@ INSERT INTO `Type_relations`(`object_id`, `value_oType_id`, `value_coeff`) VALUE
 DELETE FROM `StatKey`;
 
 INSERT INTO `StatKey`(`id`, `name`, `shortLived`) VALUES
-       ( 1, 'HP',		0),
-       ( 2, 'Attack',		1),
-       ( 3, 'Defense',		1),
-       ( 4, 'Speed',		1),
-       ( 5, 'Precision',	1),
-       ( 6, 'Dodge',		1),
-       ( 7, 'Parade',		1),
-       ( 8, 'Critic',		1),
+       ( 1, 'HP',		0), /* Keep */
+       ( 2, 'Attack',		1), /* Keep */
+       ( 3, 'Defense',		1), /* Keep */
+       ( 4, 'Speed',		1), /* Keep */
+       ( 5, 'Heal',		1),
 
-       ( 9, 'Capture',		1),
-       (10, 'Limit mob',	1),
-       (11, 'Bag capacity',	1);
+       ( 6, 'Capture',		1),
+       ( 7, 'Limit mob',	1),
+       ( 8, 'Bag capacity',	1);
 
 /* Inserting AuthorizedStatKeys */
 DELETE FROM `AuthorizedStatKeys`;
@@ -179,19 +176,14 @@ INSERT INTO `AuthorizedStatKeys`(`id`, `name`) VALUES
 DELETE FROM `AuthorizedStatKeys_keys`;
 
 INSERT INTO `AuthorizedStatKeys_keys`(`object_id`, `index`, `value`) VALUES
-       (1, 0,  2),
-       (1, 1,  3),
-       (1, 2,  9),
-       (1, 3, 10),
-       (1, 4, 11),
+       (1, 0,  6),
+       (1, 1,  7),
+       (1, 2,  8),
        (2, 0,  1),
        (2, 1,  2),
        (2, 2,  3),
        (2, 3,  4),
-       (2, 4,  5),
-       (2, 5,  6),
-       (2, 6,  7),
-       (2, 7,  8);
+       (2, 4,  5);
 
 /* Inserting Guilds */
 DELETE FROM `Guild`;
@@ -273,7 +265,7 @@ INSERT INTO `Spell`(`id`, `name`, `type`, `power`, `useLimit`, `effectLib`) VALU
        (20, 'Lame de Roc',	5, 100, 0, 3),
        (21, 'Tete de Fer',	6,  80, 0, 3),
        (22, 'Gyroballe',	6,  25, 0, 3),
-       (23, 'Poing, Meteor',	6,  90, 0, 3),
+       (23, 'Poing Meteor',	6,  90, 0, 3),
        (24, 'Tacle lourd',	6, 100, 0, 3);
 
 /* Assigning Spells to MobModels */
@@ -299,7 +291,17 @@ INSERT INTO `MobModel_spells`(`object_id`, `index`, `value`) VALUES
        (4, 0, 13),
        (4, 1, 14),
        (4, 2, 15),
-       (4, 3, 16);
+       (4, 3, 16),
+       /* Sudowoodo */
+       (5, 0, 17),
+       (5, 1, 18),
+       (5, 2, 19),
+       (5, 3, 20),
+       /* Klink */
+       (6, 0, 21),
+       (6, 1, 22),
+       (6, 2, 23),
+       (6, 3, 24);
 
 /* Assigning Stats to MobModels */
 DELETE FROM `MobModel_stats`;
@@ -310,55 +312,37 @@ INSERT INTO `MobModel_stats`(`object_id`, `key`, `value`) VALUES
        ( 1,  2,  84),
        ( 1,  3,  78),
        ( 1,  4, 100),
-       ( 1,  5, 109),
-       ( 1,  6, 100),
-       ( 1,  7,  85),
-       ( 1,  8, 109),
+       ( 1,  5,  10),
        /* Blastoise OK */
        ( 2,  1,  79),
        ( 2,  2,  83),
        ( 2,  3, 100),
        ( 2,  4,  78),
-       ( 2,  5,  85),
-       ( 2,  6,  78),
-       ( 2,  7, 105),
-       ( 2,  8,  85),
+       ( 2,  5,  80),
        /* Venusaur OK */
        ( 3,  1,  80),
        ( 3,  2,  82),
        ( 3,  3,  83),
        ( 3,  4,  80),
        ( 3,  5, 100),
-       ( 3,  6,  80),
-       ( 3,  7, 100),
-       ( 3,  8, 100),
        /* Pikachu OK */
        ( 4,  1,  35), /*  PV   */
        ( 4,  2,  55), /*  Atk  */
        ( 4,  3,  40), /*  Def  */
        ( 4,  4,  90), /*  Vit  */
-       ( 4,  5,  50), /*  As  */
-       ( 4,  6,  90), /*  Vit  */
-       ( 4,  7,  50), /*  Ds   */
-       ( 4,  8,  50), /*  As   */
+       ( 4,  5,  10), /*  As  */
        /* Sudowoodo OK */
        ( 5,  1,  70),
        ( 5,  2, 100),
        ( 5,  3, 115),
        ( 5,  4,  30),
-       ( 5,  5,  30),
-       ( 5,  6,  30),
-       ( 5,  7,  65),
-       ( 5,  8,  30),
+       ( 5,  5,  10),
        /* Klink OK */
        ( 6,  1,  40),
        ( 6,  2,  55),
        ( 6,  3,  70),
        ( 6,  4,  30),
-       ( 6,  5,  45),
-       ( 6,  6,  30),
-       ( 6,  7,  60),
-       ( 6,  8,  45);
+       ( 6,  5,  10);
 
 /* Inserting Mobs */
 DELETE FROM `Mob`;
@@ -372,9 +356,6 @@ INSERT INTO `Mob`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `model
        (6, 'UltraBushy',	2,  2035, 15,  2535, 3),
        (7, 'Pikabillaud',	2,  3375, 15,  4096, 4),
        (8, 'Pikatheorie',	2,  3375, 15,  4096, 4);
-
-/* Assigning Stats to Mobs */
-DELETE FROM `Mob_stats`;
 
 /* Inserting JobModels */
 DELETE FROM `JobModel`;
@@ -490,13 +471,13 @@ INSERT INTO `Stuff_stats`(`object_id`, `key`, `value`) VALUES
        ( 3, 3,   5),
        ( 3, 4,  15),
        ( 4, 1,  20),
-       ( 4, 6,   4),
-       ( 5, 6,   4),
+       ( 4, 5,   4),
+       ( 5, 5,   4),
        ( 5, 2,   5),
        ( 6, 1,  20),
        ( 6, 3,   5),
        ( 7, 1,  20),
-       ( 7, 6,   4),
+       ( 7, 5,   4),
        ( 8, 1,  20),
        ( 8, 2,   5),
        ( 9, 1,  20),
@@ -524,12 +505,12 @@ INSERT INTO `Player_equipment`(`object_id`, `key`, `value`) VALUES
 DELETE FROM `Player_stats`;
 
 INSERT INTO `Player_stats`(`object_id`, `key`, `value`) VALUES
-       ( 1,  9,  10),
-       ( 1, 10,  12),
-       ( 1, 11,  40),
-       ( 2,  9,  20),
-       ( 2, 10,  22),
-       ( 2, 11,  50);
+       ( 1,  6,  10),
+       ( 1,  7,  12),
+       ( 1,  8,  40),
+       ( 2,  6,  20),
+       ( 2,  7,  22),
+       ( 2,  8,  50);
 
 /* Inserting Heals */
 DELETE FROM `Heal`;

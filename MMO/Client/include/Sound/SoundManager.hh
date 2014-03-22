@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 19:55:36 2013 cyril jourdain
-// Last update Sun Nov 24 17:44:51 2013 cyril jourdain
+// Last update Sat Mar 22 21:41:05 2014 cyril jourdain
 //
 
 #ifndef 		__SOUNDMANAGER_HH__
@@ -38,6 +38,7 @@ public:
   void			pauseMusic(std::string const &name);
   void			stopMusic(std::string const &name);
   void			loadDefaultSounds();
+  void			loadSoundsFromFile(std::string const &file);
 };
 
 #endif

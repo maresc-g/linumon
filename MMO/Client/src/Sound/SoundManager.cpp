@@ -5,10 +5,11 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 20:11:19 2013 cyril jourdain
-// Last update Sat Mar  8 02:49:36 2014 cyril jourdain
+// Last update Sat Mar 22 21:47:52 2014 cyril jourdain
 //
 
 #include		"Sound/SoundManager.hh"
+#include		"JsonFile/JsonFile.hh"
 
 SoundManager::SoundManager() :
   _sounds(new std::map<std::string, sf::SoundBuffer *>),
@@ -85,4 +86,17 @@ void			SoundManager::loadDefaultSounds()
   // addSound(BLAST1, BLAST1_RES);
   // addMusic(LOBBY_MUSIC, LOBBY_MUSIC_RES);
   // addMusic(GAME_MUSIC, GAME_MUSIC_RES, true, 40);
+}
+
+void			SoundManager::loadSoundsFromFile(std::string const &file)
+{
+  JsonFile		jFile;
+
+  JsonFile::readFile(jFile, file);
+  for (auto it = jFile["Musics"].getMemberNames().begin(); it != jFile["Musics"].getMemberNames().end();
+       ++it)
+    addMusic(*it, jFile["Musics"][*it].asString());
+  for (auto it = jFile["Sounds"].getMemberNames().begin(); it != jFile["Sounds"].getMemberNames().end();
+       ++it)
+    addSound(*it, jFile["Sounds"][*it].asString());
 }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb  3 13:06:46 2014 guillaume marescaux
-// Last update Sat Mar 22 13:19:33 2014 guillaume marescaux
+// Last update Sat Mar 22 17:55:38 2014 guillaume marescaux
 //
 
 #include			"Core/ErrorHandler.hh"
@@ -41,12 +41,12 @@ void				ErrorHandler::nameExists(MutexVar<CLIENT::eState> *state, MutexVar<Error
 
 void				ErrorHandler::guildExists(MutexVar<CLIENT::eState> *, MutexVar<ErrorBox *> *errorBox)
 {
-  (**errorBox)->printError("Error", "A guild already has this name");
+  (**errorBox)->setInfos("Error", "There already is a guild of this name");
 }
 
 void				ErrorHandler::alreadyInGuild(MutexVar<CLIENT::eState> *, MutexVar<ErrorBox *> *errorBox)
 {
-  (**errorBox)->printError("Error", "This player is already in a guild");
+  (**errorBox)->setInfos("Error", "Player not found or is already in a guild");
 }
 
 //----------------------------------END PRIVATE METHODS----------------------------------------

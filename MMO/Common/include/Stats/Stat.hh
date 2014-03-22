@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:00:16 2013 alexis mestag
-// Last update Thu Mar 20 23:07:31 2014 alexis mestag
+// Last update Fri Mar 21 19:52:44 2014 alexis mestag
 //
 
 #ifndef			__STAT_HH__
@@ -21,16 +21,18 @@ class			Stat : public ISerialization
 
 public:
   typedef unsigned int	value_type;
+  typedef int		bonus_type;
 
 private:
   StatKey const		*_key;
-  value_type		_value;
+  value_type		_rawValue;
+  bonus_type		_bonus;
 
 private:
   Stat();
 
 public:
-  Stat(StatKey const &key, value_type const value = 0);
+  Stat(StatKey const &key, value_type const value = 0, bonus_type const bonus = 0);
   Stat(Stat const &rhs);
   virtual ~Stat();
 
@@ -48,8 +50,13 @@ public:
   StatKey const		&getKey() const;
   void			setKey(StatKey const &key);
 
+  value_type		getRawValue() const;
+  void			setRawValue(value_type const rawValue);
+
+  bonus_type		getBonus() const;
+  void			setBonus(bonus_type const bonus);
+
   value_type		getValue() const;
-  void			setValue(value_type const value);
 
   bool			isShortLived() const;
 
@@ -60,7 +67,8 @@ public:
 # ifdef	ODB_COMPILER
 #  pragma db value(Stat)
 #  pragma db member(Stat::_key) not_null
-#  pragma db member(Stat::_value)
+#  pragma db member(Stat::_rawValue) get(getRawValue()) set(setRawValue(?)) column("value")
+#  pragma db member(Stat::_bonus) get(getBonus()) set(setBonus(?))
 # endif
 
 #endif

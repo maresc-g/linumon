@@ -19,7 +19,7 @@ WindowManager::WindowManager(int &ac, char **av, MutexVar<CLIENT::eState> *state
 			     MutexVar<Battle*> *battle,
 			     MutexVar<Trade*> *trade,
 			     MutexVar<ErrorBox*> *eBox,
-			     MutexVar<bool> *heal) :
+			     MutexVar<Invite *> *invite) :
   _app(new QApplication(ac, av)),
   _mainLayout(new QGridLayout),
   _mainFrame(new QFrame),
@@ -30,7 +30,7 @@ WindowManager::WindowManager(int &ac, char **av, MutexVar<CLIENT::eState> *state
   _battle(battle),
   _trade(trade),
   _errorBox(eBox),
-  _heal(heal)
+  _invite(invite)
 {
   _mainFrame->setWindowTitle("Qt SFML");
   _mainFrame->resize(WIN_W, WIN_H);
@@ -47,7 +47,8 @@ WindowManager::WindowManager(int &ac, char **av, MutexVar<CLIENT::eState> *state
   hideSfmlView();
   hideCharacter();
   showLogin();
-  SoundManager::getInstance()->loadDefaultSounds();
+  // SoundManager::getInstance()->loadDefaultSounds();
+  SoundManager::getInstance()->loadSoundsFromFile("./Res/Music/soundList.json");
   SoundManager::getInstance()->playMusic(MENU_THEME);
 }
 
@@ -138,9 +139,9 @@ MutexVar<ErrorBox*>		*WindowManager::getErrorBox()
   return _errorBox;
 }
 
-MutexVar<bool>		*WindowManager::getHeal()
+MutexVar<Invite *>		*WindowManager::getInvite()
 {
-  return _heal;
+  return _invite;
 }
 
 SFMLView		*WindowManager::getSFMLView(void)

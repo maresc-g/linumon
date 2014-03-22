@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Sat Mar 22 16:55:56 2014 cyril jourdain
+// Last update Sat Mar 22 19:44:03 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -28,6 +28,7 @@
 # include		"Battle/Battle.hh"
 # include		"Trade/Trade.hh"
 # include		"Utility/CommonDefine.hh"
+# include		"Common/Invite.hh"
 
 # define		CONNECT_FILE	"Res/Connection.json"
 
@@ -65,7 +66,7 @@ private:
   MutexVar<bool>			*_newPlayer;
   MutexVar<Battle *>			*_battle;
   MutexVar<Trade *>			*_trade;
-  MutexVar<bool>			*_heal;
+  MutexVar<Invite *>		*_invite;
   MutexVar<ErrorBox *>			*_errorBox;
   ErrorHandler				*_handler;
 
@@ -73,8 +74,8 @@ public:
 
   // Ctor / Dtor
   Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player, MutexVar<std::list<PlayerView *> *> *players,
-       MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer, MutexVar<Battle *> *battle, MutexVar<Trade *> *trade, MutexVar<bool> *heal,
-       MutexVar<ErrorBox *> *errorBox);
+       MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer, MutexVar<Battle *> *battle, MutexVar<Trade *> *trade,
+       MutexVar<Invite *> *invite, MutexVar<ErrorBox *> *errorBox);
   virtual ~Core();
 
   // Methods
