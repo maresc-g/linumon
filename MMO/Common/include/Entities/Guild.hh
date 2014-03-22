@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Feb 25 12:42:29 2014 laurent ansel
-// Last update Sat Mar 22 12:43:29 2014 guillaume marescaux
+// Last update Sat Mar 22 21:40:44 2014 laurent ansel
 //
 
 #ifndef 		__GUILD_HH__
@@ -44,6 +44,8 @@ private:
 public:
   Guild(std::string const &name);
   virtual ~Guild();
+
+  PlayerView		*getMember(std::string const &name) const;
 
 #ifndef			CLIENT_COMPILATION
   void			addPlayer(Player &player);

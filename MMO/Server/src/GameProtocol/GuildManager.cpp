@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Mar 13 15:42:01 2014 laurent ansel
-// Last update Fri Mar 21 22:40:33 2014 laurent ansel
+// Last update Sat Mar 22 21:31:38 2014 laurent ansel
 //
 
 #include			<functional>
@@ -83,7 +83,8 @@ bool				GuildManager::invite(Trame *trame)
       guild = Guild::getGuild((*trame)[CONTENT]["INVITE"]["GUILD"].asString());
       if (guild && !guild->inGuild((*trame)[CONTENT]["INVITE"]["PLAYER"].asString()))
 	{
-	  ClientManager::getInstance()->newGuild((*trame)[CONTENT]["INVITE"]["PLAYER"].asString(), guild);
+	  ClientManager::getInstance()->inviteInGuild((*trame)[CONTENT]["INVITE"]["PLAYER"].asString(), (*trame)[CONTENT]["INVITE"]["GUILD"].asString());
+	  //	  ClientManager::getInstance()->newGuild((*trame)[CONTENT]["INVITE"]["PLAYER"].asString(), guild);
 	  return (true);
 	}
       else if (ObjectPoolManager::getInstance()->setObject(error, "error"))

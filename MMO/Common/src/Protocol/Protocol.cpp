@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sat Mar 22 18:15:12 2014 guillaume marescaux
+// Last update Sat Mar 22 21:54:59 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -86,9 +86,9 @@ if (server)
 
       this->_container->load<unsigned int, std::string>("NEWGUILD", &newGuild);
       this->_container->load<unsigned int, Guild const *>("GUILD", &guild);
-      this->_container->load<unsigned int, std::string, Zone *>("NEWMEMBER", &newMember);
+      this->_container->load<unsigned int, PlayerView *, Zone *>("NEWMEMBER", &newMember);
       this->_container->load<unsigned int, std::string, Zone *>("DELETEMEMBER", &deleteMember);
-      this->_container->load<unsigned int, std::string>("invite", &invite);
+      this->_container->load<unsigned int, std::string>("INVITE", &invite);
 
     }
   else
@@ -1397,7 +1397,7 @@ bool			guild(unsigned int const id, Guild const *g)
   return (ret);
 }
 
-bool			newMember(unsigned int const id, std::string player, Zone *zone)
+bool			newMember(unsigned int const id, PlayerView *player, Zone *zone)
 {
   bool			ret = false;
   Trame			*trame;
@@ -1409,7 +1409,7 @@ bool			newMember(unsigned int const id, std::string player, Zone *zone)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["NEWMEMBER"] = player;
+      player->serialization((*trame)((*trame)[CONTENT]["NEWMEMBER"]));
       trame->setEnd(true);
       ret = sendToAllClient(id, trame, zone, false);
     }
