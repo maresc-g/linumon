@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sat Mar 22 13:18:32 2014 guillaume marescaux
+// Last update Sat Mar 22 18:15:12 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -1283,7 +1283,7 @@ bool			invite(unsigned int const id, std::string name, std::string nameGuild)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["INVITE"]["PLAYER"] = name;
-      (*trame)[CONTENT]["INVITE"]["NAMEGUILD"] = nameGuild;
+      (*trame)[CONTENT]["INVITE"]["GUILD"] = nameGuild;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;

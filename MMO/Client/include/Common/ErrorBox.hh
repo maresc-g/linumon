@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Mar 18 20:42:41 2014 cyril jourdain
-// Last update Tue Mar 18 21:06:27 2014 cyril jourdain
+// Last update Sat Mar 22 17:51:32 2014 guillaume marescaux
 //
 
 #ifndef 		__ERRORBOX_HH__
@@ -16,6 +16,11 @@
 
 class			ErrorBox
 {
+private:
+
+  std::string		_title;
+  std::string		_msg;
+
 public:
   ErrorBox(QWidget *);
   virtual ~ErrorBox();
@@ -25,6 +30,8 @@ public:
 				   QWidget *w = NULL);
   void			printError(std::string const &title, std::string const &message,
 				   QWidget *w = NULL);
+  void			setInfos(std::string const &title, std::string const &msg);
+  void			update();
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Dec  3 13:15:41 2013 cyril jourdain
-// Last update Fri Mar 21 15:45:30 2014 cyril jourdain
+// Last update Sat Mar 22 19:45:17 2014 guillaume marescaux
 //
 
 #ifndef 		__WINDOWMANAGER_HH__
@@ -22,6 +22,7 @@
 # include	"Client.hh"
 # include	"Entities/Views/PlayerView.hh"
 # include	"Common/ErrorBox.hh"
+# include	"Common/Invite.hh"
 
 # define	ITEM_SIZE	50	
 
@@ -44,7 +45,7 @@ private:
   MutexVar<Battle*>	*_battle;
   MutexVar<Trade *>	*_trade;
   MutexVar<ErrorBox*>	*_errorBox;
-  MutexVar<bool>	*_heal;
+  MutexVar<Invite *>	*_invite;
   LoginView		*_loginView;
   CharacterView		*_characterView;
   SFMLView		*_sfmlView;
@@ -52,7 +53,7 @@ private:
 public:
   WindowManager(int &, char **, MutexVar<CLIENT::eState> *, MutexVar<std::list<PlayerView *> *> *,
 		MutexVar<Player *>*, MutexVar<bool>*, MutexVar<Battle*>*, MutexVar<Trade*>*,
-		MutexVar<ErrorBox*>*, MutexVar<bool>*);
+		MutexVar<ErrorBox*>*, MutexVar<Invite *>*);
   virtual ~WindowManager();
 
 public:
@@ -69,7 +70,7 @@ public:
   MutexVar<Battle*>		*getBattle();
   MutexVar<Trade*>		*getTrade();
   MutexVar<ErrorBox*>		*getErrorBox();
-  MutexVar<bool>		*getHeal();
+  MutexVar<Invite *>		*getInvite();
   SFMLView		*getSFMLView(void);
 };
 
