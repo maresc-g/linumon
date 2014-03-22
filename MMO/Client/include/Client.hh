@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Fri Mar 21 15:38:30 2014 cyril jourdain
+// Last update Sat Mar 22 16:56:23 2014 cyril jourdain
 //
 
 #ifndef				__CLIENT_HH__
@@ -45,8 +45,8 @@ private:
   MutexVar<Battle *>		*_battle;
   MutexVar<Trade *>		*_trade;
   MutexVar<bool>		*_heal;
-  Core				*_core;
   MutexVar<ErrorBox*>		*_errorBox;
+  Core				*_core;
   WindowManager			*_manager;
 
   // Ctor / Dtor
@@ -91,6 +91,11 @@ public:
   void				switchMobs(unsigned int idMob1, unsigned int idMob2);
   void				merge(unsigned int idStack1, unsigned int idStack2);
   void				newStack(unsigned int idStack, unsigned int nb);
+  void				createGuild(std::string const &name);
+  void				invite(std::string const &name, std::string const &nameGuild);
+  void				acceptGuild(std::string const &name);
+  void				refuseGuild();
+  void				quitGuild();
 };
 
 #endif

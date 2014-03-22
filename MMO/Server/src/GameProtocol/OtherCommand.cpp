@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:46:12 2014 laurent ansel
-// Last update Fri Mar 21 15:24:00 2014 antoine maitre
+// Last update Fri Mar 21 21:48:43 2014 laurent ansel
 //
 
 #include			<functional>
@@ -31,8 +31,8 @@ bool				OtherCommand::heal(Trame *trame)
   if (trame && (*trame)[CONTENT].isMember("HEAL"))
     {
       std::cout << "BEREFORE CALL PROTOCOL" << std::endl;
-      Server::getInstance()->callProtocol("HEAL", (*trame)[HEADER]["IDCLIENT"].asUInt());
-      std::cout << "after CALL PROTOCOL" << std::endl;      
+      ClientManager::getInstance()->heal((*trame)[HEADER]["IDCLIENT"].asUInt(), (*trame)[CONTENT]["HEAL"].asUInt());
+      std::cout << "after CALL PROTOCOL" << std::endl;
       return (true);
     }
   return (false);

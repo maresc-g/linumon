@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Mar 13 16:29:23 2014 guillaume marescaux
-// Last update Mon Mar 17 17:05:09 2014 guillaume marescaux
+// Last update Fri Mar 21 19:35:54 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/GuildView.hh"
@@ -31,6 +31,36 @@ void				GuildView::paintEvent(QPaintEvent *)
 
   opt.init(this);
   style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+
+void				GuildView::on_b_invite_clicked()
+{
+  std::cout << "I AM GOING TO INVITE" << std::endl;
+  std::string			name = ui.le_invite->text().toStdString();
+
+  if (!name.empty())
+    {
+      Client::getInstance()->invite(name, (**_wMan->getMainPlayer())->getGuild()->getName());
+    }
+  else
+    (**_wMan->getErrorBox())->printError("Error", "You must enter a name");
+}
+
+void				GuildView::on_b_create_clicked()
+{
+  std::string			name = ui.le_gname->text().toStdString();
+
+  if (!name.empty())
+    {
+      Client::getInstance()->createGuild(name);
+    }
+  else
+    (**_wMan->getErrorBox())->printError("Error", "You must enter guild name");
+}
+
+void				GuildView::on_b_quit_clicked()
+{
+  Client::getInstance()->quitGuild();
 }
 
 void				GuildView::initGuild(Guild const *guild)
@@ -63,6 +93,10 @@ void				GuildView::initGuild(Guild const *guild)
       ui.l_gname->hide();
       ui.le_gname->hide();
       ui.b_create->hide();
+      ui.l_invite->show();
+      ui.le_invite->show();
+      ui.b_invite->show();
+      ui.b_quit->show();
     }
   else
     {
@@ -71,5 +105,9 @@ void				GuildView::initGuild(Guild const *guild)
       ui.l_gname->show();
       ui.le_gname->show();
       ui.b_create->show();
+      ui.b_invite->hide();
+      ui.l_invite->hide();
+      ui.le_invite->hide();
+      ui.b_quit->hide();
     }
 }

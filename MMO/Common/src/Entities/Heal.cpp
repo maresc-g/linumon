@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb 21 13:05:16 2014 laurent ansel
-// Last update Mon Mar 10 01:18:08 2014 alexis mestag
+// Last update Fri Mar 21 21:36:21 2014 laurent ansel
 //
 
 #include			"Entities/Heal.hh"
@@ -53,12 +53,12 @@ bool				Heal::heal(Digitaliser const &digitaliser) const
 #ifndef CLIENT_COMPILATION
   Digitaliser::Mobs const	*mobs = &digitaliser.getBattleMobs();
 
-  for (auto it = mobs->begin() ; it !=mobs->end() ; ++it)
+  for (auto it = mobs->begin() ; it != mobs->end() ; ++it)
     (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
   return (true);
 #else
 (void)digitaliser;
-return (false);
+ return (false);
 #endif
 }
 

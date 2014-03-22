@@ -77,8 +77,8 @@ INSERT INTO `TalentModel_talents`(`object_id`, `index`, `value`) VALUES
 DELETE FROM `Talent`;
 
 INSERT INTO `Talent`(`id`, `model`, `currentPoints`) VALUES
-       (1, 1, 0),
-       (2, 2, 0);
+       (1,  1, 0),
+       (2, 11, 0);
 
 /* Inserting TalentTrees */
 DELETE FROM `TalentTree`;

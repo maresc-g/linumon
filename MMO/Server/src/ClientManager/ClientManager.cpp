@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Wed Mar 19 19:26:10 2014 laurent ansel
+// Last update Fri Mar 21 23:06:06 2014 laurent ansel
 //
 
 #include			"Database/Database.hpp"
@@ -357,6 +357,17 @@ void				ClientManager::newGuild(FD const fd, Guild *guild) const
   this->_mutex->unlock();
 }
 
+void				ClientManager::newGuild(std::string const &playerName, Guild *guild) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      set = (*it).first->newGuild(playerName, guild);
+  this->_mutex->unlock();
+}
+
 bool				ClientManager::inGuild(FD const fd) const
 {
   bool				set = false;
@@ -368,6 +379,17 @@ bool				ClientManager::inGuild(FD const fd) const
       set = (*it).first->inGuild(fd, ret);
   this->_mutex->unlock();
   return (ret);
+}
+
+void				ClientManager::heal(FD const fd, unsigned int const idHeal) const
+{
+  bool				set = false;
+
+  this->_mutex->lock();
+  for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
+    if ((*it).first && (*it).second)
+      (*it).first->heal(fd, idHeal);
+  this->_mutex->unlock();
 }
 
 bool				ClientManager::craftSomething(FD const fd, std::string const &craft, std::string const &job) const

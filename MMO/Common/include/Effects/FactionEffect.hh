@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 26 13:27:00 2014 alexis mestag
-// Last update Wed Mar  5 11:22:22 2014 laurent ansel
+// Last update Fri Mar 21 15:01:37 2014 alexis mestag
 //
 
 #ifndef				__FACTIONEFFECT_HH__
@@ -14,7 +14,7 @@
 # include			"Effects/IEffect.hpp"
 # include			"Entities/Faction.hh"
 
-class				FactionEffect : AEffect<Faction>
+class				FactionEffect : public AEffect<Faction>
 {
 protected:
   FactionEffect();

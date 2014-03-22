@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Fri Mar 21 15:01:43 2014 cyril jourdain
+// Last update Sat Mar 22 12:39:48 2014 guillaume marescaux
 //
 
 #include			<cmath>
@@ -234,6 +234,16 @@ void				Player::setGuild(Guild const &guild)
 {
   _guild = &guild;
 }
+
+// void				Player::guildAddPlayer(PlayerView *playerView)
+// {
+//   _guild->addPlayer(playerView);
+// }
+
+// void				Player::guildRemovePlayer(std::string const &name)
+// {
+//   _guild->removePlayer(name);
+// }
 
 Digitaliser const		&Player::getDigitaliser() const
 {
@@ -628,9 +638,9 @@ bool				Player::capture(Mob &mob, bool const check)
   bool				done = !check;
 
   if (!done) {
-    unsigned int		seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine	rGen(seed);
-    double			a = 3.0 * mob.getMaxStat("HP") - 2.0 * mob.getCurrentStat("HP");
+    static unsigned int			seed = std::chrono::system_clock::now().time_since_epoch().count();
+    static std::default_random_engine	rGen(seed);
+    double				a = 3.0 * mob.getMaxStat("HP") - 2.0 * mob.getCurrentStat("HP");
 
     a *= mob.getCatchRate();
     a /= 3.0 * mob.getMaxStat("HP");
@@ -648,17 +658,7 @@ bool				Player::capture(Mob &mob, bool const check)
 	  return (nb <= b);
 	};
 
-	// std::cerr << mob.getName() << "[" << mob.getLevel() << "]" << std::endl;
-	// std::cerr << "\ta : " << a << std::endl;
-	// std::cerr << "\tb : " << b << std::endl << "\t";
-	// for (auto it = rNb.begin() ; it != rNb.end() ; ++it) {
-	//   std::cerr << *it << ", ";
-	// }
-	// std::cerr << std::endl;
-	if (std::all_of(rNb.begin(), rNb.end(), rChecker)) {
-	  // std::cerr << "\t\ttReturning true" << std::endl;
-	  done = true;
-	}
+	done = std::all_of(rNb.begin(), rNb.end(), rChecker);
       }
   }
   if (done) {

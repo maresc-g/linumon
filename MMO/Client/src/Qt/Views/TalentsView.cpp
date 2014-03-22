@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Mar 17 22:32:36 2014 guillaume marescaux
-// Last update Thu Mar 20 16:44:37 2014 guillaume marescaux
+// Last update Fri Mar 21 18:37:56 2014 guillaume marescaux
 //
 
 #include		<iostream>
@@ -34,13 +34,14 @@ void			TalentsView::paintEvent(QPaintEvent *)
   style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
-void			TalentsView::initTalents(TalentTree const &tree)
+void			TalentsView::initTalents(TalentTree const &tree, unsigned int pts)
 {
   std::list<TalentModel const *> const	*current = &tree.getTalents();
   std::list<TalentModel const *>	*next = new std::list<TalentModel const *>;
   TalentView				*talent;
   JsonFile				file;
 
+  ui.l_pts->setText(std::to_string(pts).c_str());
   JsonFile::readFile(file, "Res/TalentCoords.json");
   for (auto it = _talentViews->begin() ; it != _talentViews->end() ; it++)
     delete *it;

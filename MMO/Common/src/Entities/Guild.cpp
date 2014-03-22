@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Feb 25 12:43:18 2014 laurent ansel
-// Last update Fri Mar 14 13:46:46 2014 laurent ansel
+// Last update Sat Mar 22 12:42:54 2014 guillaume marescaux
 //
 
 #include			<algorithm>
@@ -149,9 +149,27 @@ Guild				*Guild::getGuild(std::string const &name)
 
 #endif
 
+bool				Guild::inGuild(std::string const &namePlayer) const
+{
+  for (auto it = this->begin() ; it != this->end() ; ++it)
+    if ((*it)->name == namePlayer)
+      return (true);
+  return (false);
+}
+
 void				Guild::addPlayer(PlayerView *playerView)
 {
   this->getContainer().push_back(playerView);
+}
+
+void				Guild::removePlayer(std::string const &name)
+{
+  this->getContainer().remove_if([&](PlayerView const *pv)
+				 {
+				   if (pv->name == name)
+				     return (true);
+				   return (false);
+				 });
 }
 
 bool				Guild::serialization(Trame &trame) const

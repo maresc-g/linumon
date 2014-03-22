@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Mar 13 15:42:01 2014 laurent ansel
-// Last update Thu Mar 13 20:25:13 2014 laurent ansel
+// Last update Fri Mar 21 22:40:33 2014 laurent ansel
 //
 
 #include			<functional>
@@ -76,18 +76,22 @@ bool				GuildManager::gQuit(Trame *trame)
 bool				GuildManager::invite(Trame *trame)
 {
   Error				*error = NULL;
-  bool				ret = false;
+  Guild				*guild;
 
-  if ((*trame)[CONTENT].isMember("GCREATE"))
+  if ((*trame)[CONTENT].isMember("INVITE"))
     {
-      ret = ClientManager::getInstance()->inGuild((*trame)[HEADER]["IDCLIENT"].asInt());
-      if (ret && ObjectPoolManager::getInstance()->setObject(error, "error"))
+      guild = Guild::getGuild((*trame)[CONTENT]["INVITE"]["GUILD"].asString());
+      if (guild && !guild->inGuild((*trame)[CONTENT]["INVITE"]["PLAYER"].asString()))
+	{
+	  ClientManager::getInstance()->newGuild((*trame)[CONTENT]["INVITE"]["PLAYER"].asString(), guild);
+	  return (true);
+	}
+      else if (ObjectPoolManager::getInstance()->setObject(error, "error"))
 	{
 	  error->setType(Error::ALREADYINGUILD);
 	  Server::getInstance()->callProtocol<Error *>("ERROR", (*trame)[HEADER]["IDCLIENT"].asInt(), error);
 	  delete error;
 	}
-      return (true);
     }
   return (false);
 }
