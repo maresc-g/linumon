@@ -5,20 +5,20 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:08:36 2013 alexis mestag
-// Last update Thu Mar 20 23:19:22 2014 alexis mestag
+// Last update Fri Mar 21 19:07:16 2014 alexis mestag
 //
 
 #include			<sstream>
 #include			"Stats/Stat.hh"
 
 Stat::Stat() :
-  _key(NULL), _value(0)
+  _key(NULL), _rawValue(0), _bonus(0)
 {
 
 }
 
-Stat::Stat(StatKey const &key, value_type const value) :
-  _key(&key), _value(value)
+Stat::Stat(StatKey const &key, value_type const value, bonus_type const bonus) :
+  _key(&key), _rawValue(value), _bonus(bonus)
 {
 
 }
@@ -38,7 +38,8 @@ Stat				&Stat::operator=(Stat const &rhs)
   if (this != &rhs)
     {
       this->setKey(rhs.getKey());
-      this->setValue(rhs.getValue());
+      this->setRawValue(rhs.getRawValue());
+      this->setBonus(rhs.getBonus());
     }
   return (*this);
 }
@@ -83,14 +84,19 @@ Stat				&Stat::operator-=(Stat const &rhs)
 
 void				Stat::add(Stat const &rhs)
 {
-  if (this->getKey() == rhs.getKey())
-    this->setValue(this->getValue() + rhs.getValue());
+  if (this->getKey() == rhs.getKey()) {
+    this->setRawValue(this->getRawValue() + rhs.getRawValue());
+    this->setBonus(this->getBonus() + rhs.getBonus());
+  }
 }
 
 void				Stat::sub(Stat const &rhs)
 {
-  if (this->getKey() == rhs.getKey())
-    this->setValue(rhs.getValue() >= this->getValue() ? 0 : this->getValue() - rhs.getValue());
+  if (this->getKey() == rhs.getKey()) {
+    this->setRawValue(rhs.getRawValue() >= this->getRawValue() ? 0 :
+		      this->getRawValue() - rhs.getRawValue());
+    this->setBonus(this->getBonus() - rhs.getBonus());
+  }
 }
 
 StatKey const			&Stat::getKey() const
@@ -103,14 +109,29 @@ void				Stat::setKey(StatKey const &key)
   _key = &key;
 }
 
-Stat::value_type		Stat::getValue() const
+Stat::value_type		Stat::getRawValue() const
 {
-  return (_value);
+  return (_rawValue);
 }
 
-void				Stat::setValue(value_type const value)
+void				Stat::setRawValue(value_type const value)
 {
-  _value = value;
+  _rawValue = value;
+}
+
+Stat::bonus_type		Stat::getBonus() const
+{
+  return (_bonus);
+}
+
+void				Stat::setBonus(bonus_type const bonus)
+{
+  _bonus = bonus;
+}
+
+Stat::value_type		Stat::getValue() const
+{
+  return (_rawValue + _rawValue * this->getBonus() / 100.0);
 }
 
 bool				Stat::isShortLived() const
@@ -123,7 +144,8 @@ bool		 		Stat::serialization(Trame &trame) const
   bool				ret = true;
 
   // trame["KEY"] = this->getKey().getName();
-  trame[this->getKey().getName()] = this->getValue();
+  trame[this->getKey().getName()]["VALUE"] = this->getRawValue();
+  trame[this->getKey().getName()]["BONUS"] = this->getBonus();
   return (ret);
 }
 
@@ -133,6 +155,7 @@ Stat				*Stat::deserialization(Trame const &trame)
 
   //  stat = new Stat(*new StatKey(trame["KEY"].asString()), trame["VALUE"].asInt());
   stat = new Stat();
-  stat->setValue(trame.asUInt());
+  stat->setRawValue(trame["VALUE"].asUInt());
+  stat->setBonus(trame["BONUS"].asInt());
   return (stat);
 }
