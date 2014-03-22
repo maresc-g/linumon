@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Fri Mar 21 22:51:35 2014 laurent ansel
+// Last update Sat Mar 22 16:50:11 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -501,10 +501,17 @@ void				Client::newStack(unsigned int const idStack, unsigned int const nb)
 
 bool				Client::newGuild(Guild *guild)
 {
-  if (_player && !_player->getGuild())
+  if (_player)
     {
       if (!guild)
-	Server::getInstance()->callProtocol<std::string, Zone *>("DELETEMEMBER", _id, _player->getName(), Map::getInstance()->getZone(_player->getZone()));
+	{
+	  Server::getInstance()->callProtocol<std::string, Zone *>("DELETEMEMBER", _id, _player->getName(), Map::getInstance()->getZone(_player->getZone()));
+	  if (_player->getGuild())
+	    {
+	      _player->getGuild()->removePlayer(_player->getName());
+	      _player->setGuild(guild);
+	    }
+	}
       else
 	{
 	  guild->addPlayer(*_player);

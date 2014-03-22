@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Feb 25 12:43:18 2014 laurent ansel
-// Last update Sat Mar 22 12:42:54 2014 guillaume marescaux
+// Last update Sat Mar 22 16:39:49 2014 laurent ansel
 //
 
 #include			<algorithm>
@@ -121,7 +121,7 @@ void				Guild::addPlayer(Player &player)
   if (pv && it != pv->end()) {
     this->getContainer().push_back(new PlayerView(**it));
   }
-  player.setGuild(*this);
+  player.setGuild(this);
 }
 
 Guild				*Guild::createAndPersist(std::string const &name)
