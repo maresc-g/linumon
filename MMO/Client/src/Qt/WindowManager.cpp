@@ -49,7 +49,7 @@ WindowManager::WindowManager(int &ac, char **av, MutexVar<CLIENT::eState> *state
   showLogin();
   // SoundManager::getInstance()->loadDefaultSounds();
   SoundManager::getInstance()->loadSoundsFromFile("./Res/Music/soundList.json");
-  SoundManager::getInstance()->playMusic(MENU_THEME);
+  SoundManager::getInstance()->playMusic("MenuTheme");
 }
 
 WindowManager::~WindowManager()

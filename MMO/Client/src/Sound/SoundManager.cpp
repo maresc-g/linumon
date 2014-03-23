@@ -5,9 +5,10 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 20:11:19 2013 cyril jourdain
-// Last update Sat Mar 22 21:47:52 2014 cyril jourdain
+// Last update Sat Mar 22 22:46:23 2014 cyril jourdain
 //
 
+#include		<stdexcept>
 #include		"Sound/SoundManager.hh"
 #include		"JsonFile/JsonFile.hh"
 
@@ -47,34 +48,42 @@ void			SoundManager::addSound(std::string const &name, std::string const &path)
   (*_musics)[name]->setVolume(volume);
 }
 
-void			SoundManager::playSound(std::string const &name)
+void			SoundManager::playSound(std::string const &name, int volume)
 {
   sf::Sound		sound;
 
-  if ((*_sounds)[name])
-    {
-      _sound.setBuffer(*(*_sounds)[name]);
-      _sound.setVolume(80);
-      _sound.play();
-    }
+  try {
+    _sound.setBuffer(*(_sounds->at(name)));
+    _sound.setVolume(volume);
+    _sound.play();
+  } catch (std::out_of_range const &e){
+    std::cout << "SoundManager::playSound - " << name << " not found" << std::endl;
+  }
 }
 
 void			SoundManager::playMusic(std::string const &name)
 {
-  if ((*_musics)[name])
-    (*_musics)[name]->play();
+  try {
+    _musics->at(name)->play();
+  } catch (std::out_of_range const &e){
+    std::cout << "SoundManager::playMusic - " << name << " not found" << std::endl;
+  }
 }
 
 void			SoundManager::pauseMusic(std::string const &name)
 {
-  if ((*_musics)[name])
-    (*_musics)[name]->pause();
+  try {
+    _musics->at(name)->pause();
+  } catch (std::out_of_range const &e){
+  }
 }
 
 void			SoundManager::stopMusic(std::string const &name)
 {
-  if ((*_musics)[name])
-    (*_musics)[name]->stop();
+  try {
+    _musics->at(name)->stop();
+  } catch (std::out_of_range const &e){
+  }
 }
 
 void			SoundManager::loadDefaultSounds()
@@ -91,12 +100,17 @@ void			SoundManager::loadDefaultSounds()
 void			SoundManager::loadSoundsFromFile(std::string const &file)
 {
   JsonFile		jFile;
+  std::vector<std::string>		musics;
+  std::vector<std::string>		sounds;
 
   JsonFile::readFile(jFile, file);
-  for (auto it = jFile["Musics"].getMemberNames().begin(); it != jFile["Musics"].getMemberNames().end();
-       ++it)
-    addMusic(*it, jFile["Musics"][*it].asString());
-  for (auto it = jFile["Sounds"].getMemberNames().begin(); it != jFile["Sounds"].getMemberNames().end();
-       ++it)
+  musics = jFile["Musics"].getMemberNames();
+  for (auto it = musics.begin(); it != musics.end(); ++it)
+    {
+      std::cout << *it << std::endl;
+      addMusic(*it, jFile["Musics"][*it].asString());
+    }
+  sounds = jFile["Sounds"].getMemberNames();
+  for (auto it = sounds.begin(); it != sounds.end(); ++it)
     addSound(*it, jFile["Sounds"][*it].asString());
 }

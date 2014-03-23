@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Thu Mar 20 16:15:41 2014 cyril jourdain
+// Last update Sat Mar 22 21:57:47 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -147,7 +147,7 @@ void			Sprite::loadFromFile(std::string const path)
 void			Sprite::addAnim(std::string const &name)
 {
   _anim->insert(std::pair<std::string, Animation*>(name, new Animation()));
-  std::cout << name << std::endl;
+  // std::cout << name << std::endl;
 }
 
 void			Sprite::play(std::string const &name)

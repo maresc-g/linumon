@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Mar 20 15:44:41 2014 cyril jourdain
-// Last update Fri Mar 21 13:01:06 2014 cyril jourdain
+// Last update Sat Mar 22 22:24:56 2014 cyril jourdain
 //
 
 #ifndef 		__COMPUTERSCREEN_HH__
@@ -25,7 +25,7 @@ private:
   sf::Text		*_textDraw;
   sf::Text		*_yes;
   sf::Text		*_no;
-  int			_pos;
+  unsigned int		_pos;
   sf::Clock		_clock;
   sf::Text		*_selection;
 

@@ -1,0 +1,13 @@
+{
+    "Musics":{
+	"WorldTheme":"./Res/Music/world_theme.ogg",
+	"MenuTheme":"./Res/Music/menu_theme.ogg",
+	"BattleTheme":"./Res/Music/battle.ogg"
+    },
+    "Sounds":{
+	"ToBattle":"./Res/Music/to_battle.ogg",
+	"KeyboardKey":"./Res/Music/keyboardKey.ogg",
+	"KeyboardSpace":"./Res/Music/keyboardSpace.ogg",
+	"KeyboardEnter":"./Res/Music/keyboardEnter.ogg"
+    }
+}
