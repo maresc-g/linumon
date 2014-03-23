@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sat Mar 22 18:15:12 2014 guillaume marescaux
+// Last update Sun Mar 23 13:35:48 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -86,9 +86,9 @@ if (server)
 
       this->_container->load<unsigned int, std::string>("NEWGUILD", &newGuild);
       this->_container->load<unsigned int, Guild const *>("GUILD", &guild);
-      this->_container->load<unsigned int, std::string, Zone *>("NEWMEMBER", &newMember);
+      this->_container->load<unsigned int, PlayerView *, Zone *>("NEWMEMBER", &newMember);
       this->_container->load<unsigned int, std::string, Zone *>("DELETEMEMBER", &deleteMember);
-      this->_container->load<unsigned int, std::string>("invite", &invite);
+      this->_container->load<unsigned int, std::string>("INVITE", &invite);
 
     }
   else
@@ -128,8 +128,8 @@ if (server)
       this->_container->load<unsigned int, unsigned int, unsigned int>("GETSTUFF", &getStuff);
       this->_container->load<unsigned int, std::string>("GCREATE", &createGuild);
       this->_container->load<unsigned int, std::string, std::string>("INVITE", &invite);
-      this->_container->load<unsigned int, std::string>("ACCEPT", &acceptGuild);
-      this->_container->load<unsigned int>("REFUSE", &refuseGuild);
+      this->_container->load<unsigned int, std::string>("GACCEPT", &acceptGuild);
+      this->_container->load<unsigned int>("GREFUSE", &refuseGuild);
       this->_container->load<unsigned int>("GQUIT", &quitGuild);
       this->_container->load<unsigned int, eInteraction, std::string>("INTERACTION", &interaction);
     }
@@ -1325,7 +1325,7 @@ bool				acceptGuild(unsigned int const id, std::string name)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["ACCEPT"] = name;
+      (*trame)[CONTENT]["GACCEPT"] = name;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
@@ -1346,7 +1346,7 @@ bool				refuseGuild(unsigned int const id)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["REFUSE"];
+      (*trame)[CONTENT]["GREFUSE"];
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
@@ -1397,7 +1397,7 @@ bool			guild(unsigned int const id, Guild const *g)
   return (ret);
 }
 
-bool			newMember(unsigned int const id, std::string player, Zone *zone)
+bool			newMember(unsigned int const id, PlayerView *player, Zone *zone)
 {
   bool			ret = false;
   Trame			*trame;
@@ -1409,7 +1409,7 @@ bool			newMember(unsigned int const id, std::string player, Zone *zone)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["NEWMEMBER"] = player;
+      player->serialization((*trame)((*trame)[CONTENT]["NEWMEMBER"]));
       trame->setEnd(true);
       ret = sendToAllClient(id, trame, zone, false);
     }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Sat Mar 22 19:48:08 2014 guillaume marescaux
+// Last update Sun Mar 23 13:33:32 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -551,7 +551,7 @@ bool				Core::newZone(Trame *trame)
 bool				Core::invite(Trame *trame)
 {
   (**_invite)->invited = true;
-  (**_invite)->name = (*trame)[CONTENT]["INVITE"]["NAME"].asString();
+  (**_invite)->name = (*trame)[CONTENT]["INVITE"].asString();
   return (true);
 }
 
@@ -845,12 +845,12 @@ void				Core::invite(std::string const &name, std::string const &nameGuild)
 
 void				Core::acceptGuild(std::string const &name)
 {
-  (*_proto).operator()<unsigned int const, std::string>("ACCEPT", _id, name);
+  (*_proto).operator()<unsigned int const, std::string>("GACCEPT", _id, name);
 }
 
 void				Core::refuseGuild()
 {
-  (*_proto).operator()<unsigned int const>("REFUSE", _id);
+  (*_proto).operator()<unsigned int const>("GREFUSE", _id);
 }
 
 void				Core::quitGuild()

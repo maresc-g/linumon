@@ -284,6 +284,11 @@ StuffStatsView
 	background-color: #FFFFFF;
 }
 
+InviteView
+{
+	background-color: #FFFFFF;
+}
+
 MobView::disabled
 {
 	background-color: #FF1010;

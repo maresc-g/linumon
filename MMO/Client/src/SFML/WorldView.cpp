@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Sat Mar 22 20:13:02 2014 cyril jourdain
+// Last update Sun Mar 23 15:02:09 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -13,12 +13,6 @@
 #include		<QMenu>
 #include <QDebug>
 #include		"SFML/Window/ComputerScreen.hh"
-/*
-  Load player list
-  Uncomment entities
-  Map for key handling
-  Clean SFMLView class plz
- */
 
 WorldView::WorldView(SFMLView *v, WindowManager *w) :
   ContextView(v, w), _mainPerso(NULL), _playerList(new std::vector<OPlayerSprite *>),
@@ -88,6 +82,7 @@ void			WorldView::onUpdate()
     _currentWindow->update(*(_sfmlView->getMainClock()));
   if ((**_wMan->getInvite())->invited)
     {
+      _wMan->getSFMLView()->getInviteView()->setInfos((**_wMan->getInvite())->name);
       _wMan->getSFMLView()->getInviteView()->show();
       (**_wMan->getInvite())->invited = false;
     }
