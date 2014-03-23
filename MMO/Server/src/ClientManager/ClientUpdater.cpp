@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Sat Mar 22 21:45:40 2014 laurent ansel
+// Last update Sun Mar 23 21:48:01 2014 laurent ansel
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -460,8 +460,9 @@ bool				ClientUpdater::inviteInGuild(std::string const &name, std::string const 
     {
       if (name == (*it).first->getName() && (*it).first->isUse())
 	{
-	  (*it).first->inviteInGuild(nameGuild);
-	  ret = true;
+	  ret = (*it).first->inviteInGuild(nameGuild);
+	  this->_mutex->unlock();
+	  return (ret);
 	}
     }
   this->_mutex->unlock();

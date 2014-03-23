@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Sat Mar 22 21:44:28 2014 laurent ansel
+// Last update Sun Mar 23 21:45:21 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -501,7 +501,7 @@ void				Client::newStack(unsigned int const idStack, unsigned int const nb)
 
 bool				Client::newGuild(Guild *guild)
 {
-  if (_player)
+  if (_state == GAME && _player)
     {
       if (!guild)
 	{
@@ -527,14 +527,14 @@ bool				Client::newGuild(Guild *guild)
 
 bool				Client::inGuild() const
 {
-  if (_player && _player->getGuild())
+  if (_state == GAME && _player && _player->getGuild())
     return (true);
   return (false);
 }
 
 void				Client::modifyDigitaliser(unsigned int const idMob1, unsigned int const idMob2, bool const toBattleMob) const
 {
-  if (_player)
+  if (_state == GAME && _player)
     {
       if (!idMob2)
 	{
@@ -560,10 +560,12 @@ void				Client::heal(unsigned int const idHeal) const
     }
 }
 
-void				Client::inviteInGuild(std::string const &name) const
+bool				Client::inviteInGuild(std::string const &name) const
 {
-  if (_player && !_player->getGuild())
+  if (_state == GAME && _player && !_player->getGuild())
     {
       Server::getInstance()->callProtocol<std::string>("INVITE", _id, name);
+      return (true);
     }
+  return (false);
 }
