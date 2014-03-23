@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Sun Mar 23 15:02:09 2014 cyril jourdain
+// Last update Sun Mar 23 17:08:23 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -13,6 +13,7 @@
 #include		<QMenu>
 #include <QDebug>
 #include		"SFML/Window/ComputerScreen.hh"
+#include		"Sound/SoundManager.hh"
 
 WorldView::WorldView(SFMLView *v, WindowManager *w) :
   ContextView(v, w), _mainPerso(NULL), _playerList(new std::vector<OPlayerSprite *>),
@@ -371,7 +372,9 @@ void			WorldView::keyRight()
   else if (_mainPerso->isMoving() && _mainPerso->isUserInputable() && _pressedKey == Qt::Key_Right)
     {
       if (Client::getInstance()->move(CLIENT::RIGHT))
-	_mainPerso->receivedInput();
+	{
+	  _mainPerso->receivedInput();
+	}
     }
 }
 
@@ -389,11 +392,14 @@ void			WorldView::keyI()
     {
       if (!_sfmlView->getInventoryView()->isVisible())
 	{
+	  SoundManager::getInstance()->playSoundForce("Inventory_open",30);
 	  _sfmlView->getInventoryView()->initInventory();
 	  _sfmlView->displayView(_sfmlView->getInventoryView());
 	}
-      else
+      else{
 	_sfmlView->hideView(_sfmlView->getInventoryView());
+	SoundManager::getInstance()->playSoundForce("Inventory_close",30);
+      }
       _sfmlView->getKeyDelayer()->addWatcher(Qt::Key_I, 100000);
     }
 }

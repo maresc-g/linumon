@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 20:11:19 2013 cyril jourdain
-// Last update Sat Mar 22 22:46:23 2014 cyril jourdain
+// Last update Sun Mar 23 17:06:27 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -50,8 +50,8 @@ void			SoundManager::addSound(std::string const &name, std::string const &path)
 
 void			SoundManager::playSound(std::string const &name, int volume)
 {
-  sf::Sound		sound;
-
+  if (_sound.getStatus() == sf::Sound::Playing)
+    return;
   try {
     _sound.setBuffer(*(_sounds->at(name)));
     _sound.setVolume(volume);
@@ -60,6 +60,18 @@ void			SoundManager::playSound(std::string const &name, int volume)
     std::cout << "SoundManager::playSound - " << name << " not found" << std::endl;
   }
 }
+
+void			SoundManager::playSoundForce(std::string const &name, int volume)
+{
+  try {
+    _sound.setBuffer(*(_sounds->at(name)));
+    _sound.setVolume(volume);
+    _sound.play();
+  } catch (std::out_of_range const &e){
+    std::cout << "SoundManager::playSound - " << name << " not found" << std::endl;
+  }
+}
+
 
 void			SoundManager::playMusic(std::string const &name)
 {

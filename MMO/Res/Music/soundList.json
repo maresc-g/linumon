@@ -8,6 +8,9 @@
 	"ToBattle":"./Res/Music/to_battle.ogg",
 	"KeyboardKey":"./Res/Music/keyboardKey.ogg",
 	"KeyboardSpace":"./Res/Music/keyboardSpace.ogg",
-	"KeyboardEnter":"./Res/Music/keyboardEnter.ogg"
+	"KeyboardEnter":"./Res/Music/keyboardEnter.ogg",
+	"Footstep_dirt":"./Res/Music/footstep_dirt.ogg",
+	"Inventory_open":"./Res/Music/inventory_open.ogg",
+	"Inventory_close":"./Res/Music/inventory_close.ogg"
     }
 }
