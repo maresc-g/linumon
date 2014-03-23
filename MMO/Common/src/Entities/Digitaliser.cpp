@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Thu Mar 20 16:56:31 2014 alexis mestag
+// Last update Sun Mar 23 18:58:22 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -85,6 +85,11 @@ void				Digitaliser::setMobs(Digitaliser::container_type const &mobs)
 }
 
 Digitaliser::container_type const	&Digitaliser::getBattleMobs() const
+{
+  return (_battleMobs);
+}
+
+Digitaliser::container_type		&Digitaliser::getBattleMobs()
 {
   return (_battleMobs);
 }

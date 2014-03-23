@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Sat Mar 22 17:33:54 2014 guillaume marescaux
+// Last update Sun Mar 23 18:56:23 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -246,6 +246,11 @@ void				Player::guildRemovePlayer(std::string const &name)
 }
 
 Digitaliser const		&Player::getDigitaliser() const
+{
+  return (*_digitaliser);
+}
+
+Digitaliser			&Player::getDigitaliser()
 {
   return (*_digitaliser);
 }

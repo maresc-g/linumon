@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Sat Mar 22 16:33:11 2014 laurent ansel
+// Last update Sun Mar 23 18:55:32 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -110,6 +110,7 @@ public:
   void				guildRemovePlayer(std::string const &name);
 
   Digitaliser const		&getDigitaliser() const;
+  Digitaliser			&getDigitaliser();
 
 # ifndef	CLIENT_COMPILATION
   DBZone const			&getDBZone() const;

@@ -5,9 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Feb 26 13:59:15 2014 alexis mestag
-// Last update Tue Mar 11 14:57:03 2014 alexis mestag
+// Last update Sun Mar 23 18:59:37 2014 alexis mestag
 //
 
+#include				<algorithm>
+#include				<functional>
 #include				"CelestiaEffect.hh"
 
 CelestiaEffect::CelestiaEffect() :
@@ -23,6 +25,12 @@ CelestiaEffect::~CelestiaEffect()
 
 bool					CelestiaEffect::apply(Player &player)
 {
-  player.incStat("Defense", 10);
+  std::function<void(Mob *)>			f = [](Mob *m) -> void {
+    m->incStat("Defense", 10);
+  };
+
+  std::for_each(player.getDigitaliser().begin(), player.getDigitaliser().end(), f);
+  std::for_each(player.getDigitaliser().getBattleMobs().begin(),
+		player.getDigitaliser().getBattleMobs().end(), f);
   return (true);
 }
