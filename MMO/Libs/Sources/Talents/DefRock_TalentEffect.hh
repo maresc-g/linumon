@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 13:51:05 2014 alexis mestag
-// Last update Sun Mar 23 13:51:34 2014 alexis mestag
+// Last update Sun Mar 23 14:32:29 2014 alexis mestag
 //
 
 #ifndef				__DEFROCK_TALENTEFFECT_HH__
@@ -17,7 +17,7 @@ class				DefRock_TalentEffect : public TalentEffect
 {
 public:
   DefRock_TalentEffect();
-  virtual DefRock_TalentEffect();
+  virtual ~DefRock_TalentEffect();
 
 public:
   virtual bool			apply(Player &player);

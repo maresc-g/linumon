@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 13:48:44 2014 alexis mestag
-// Last update Sun Mar 23 13:49:12 2014 alexis mestag
+// Last update Sun Mar 23 14:34:44 2014 alexis mestag
 //
 
 #ifndef				__ATKELECTRIC_TALENTEFFECT_HH__
@@ -17,7 +17,7 @@ class				AtkElectric_TalentEffect : public TalentEffect
 {
 public:
   AtkElectric_TalentEffect();
-  virtual AtkElectric_TalentEffect();
+  virtual ~AtkElectric_TalentEffect();
 
 public:
   virtual bool			apply(Player &player);

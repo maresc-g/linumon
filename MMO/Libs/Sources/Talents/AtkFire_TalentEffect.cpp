@@ -5,10 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 13:56:42 2014 alexis mestag
-// Last update Sun Mar 23 13:58:24 2014 alexis mestag
+// Last update Sun Mar 23 14:36:10 2014 alexis mestag
 //
 
 #include				"AtkFire_TalentEffect.hh"
+#include				"Database/Repositories/TypeRepository.hpp"
 
 AtkFire_TalentEffect::AtkFire_TalentEffect() :
   TalentEffect(true)

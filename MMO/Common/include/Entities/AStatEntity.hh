@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:21:41 2013 alexis mestag
-// Last update Thu Mar 20 23:34:24 2014 alexis mestag
+// Last update Sun Mar 23 14:22:03 2014 alexis mestag
 //
 
 #ifndef			__ASTATENTITY_HH__
@@ -70,6 +70,11 @@ public:
   bool			setStat(std::string const &key, Stat::value_type const value);
   bool			incStat(std::string const &key, Stat::value_type const inc);
   bool			decStat(std::string const &key, Stat::value_type const dec);
+
+  Stat::bonus_type	getBonus(std::string const &key) const;
+  bool			setBonus(std::string const &key, Stat::bonus_type const value);
+  bool			incBonus(std::string const &key, Stat::bonus_type const inc);
+  bool			decBonus(std::string const &key, Stat::bonus_type const dec);
 };
 
 # ifdef	ODB_COMPILER

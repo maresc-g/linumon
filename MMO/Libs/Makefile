@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Sun Feb 16 17:04:54 2014 alexis mestag
-## Last update Sun Mar 23 13:13:13 2014 alexis mestag
+## Last update Sun Mar 23 17:41:49 2014 alexis mestag
 ##
 
 LIBS_SRC_DIR=		Sources
@@ -28,9 +28,19 @@ EXPFUNC_SRC:=		$(addprefix $(EXPFUNC_DIR)/,$(EXPFUNC_SRC))
 
 TALENT_DIR=		Talents
 TALENT_SRC=		HP_TalentEffect.cpp			\
-			Heal_TalentEffect.cpp			\
+			Atk_TalentEffect.cpp			\
 			Def_TalentEffect.cpp			\
-			Atk_TalentEffect.cpp
+			Heal_TalentEffect.cpp			\
+			Heal_TalentEffect.cpp			\
+			AtkFire_TalentEffect.cpp		\
+			AtkElectric_TalentEffect.cpp		\
+			DefRock_TalentEffect.cpp		\
+			DefSteel_TalentEffect.cpp		\
+			HealGrass_TalentEffect.cpp		\
+			HealWater_TalentEffect.cpp		\
+			Capture_TalentEffect.cpp		\
+			BattleMob_TalentEffect.cpp		\
+			BagCapacity_TalentEffect.cpp
 TALENT_SRC:=		$(addprefix $(TALENT_DIR)/,$(TALENT_SRC))
 
 LIBS_SRC=		$(EFFECT_SRC)				\

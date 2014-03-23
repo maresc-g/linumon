@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 13:52:32 2014 alexis mestag
-// Last update Sun Mar 23 13:56:11 2014 alexis mestag
+// Last update Sun Mar 23 14:33:01 2014 alexis mestag
 //
 
 #ifndef				__HEALGRASS_TALENTEFFECT_HH__
@@ -17,7 +17,7 @@ class				HealGrass_TalentEffect : public TalentEffect
 {
 public:
   HealGrass_TalentEffect();
-  virtual HealGrass_TalentEffect();
+  virtual ~HealGrass_TalentEffect();
 
 public:
   virtual bool			apply(Player &player);

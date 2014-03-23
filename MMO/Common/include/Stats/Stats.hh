@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:58:39 2013 alexis mestag
-// Last update Thu Mar 20 22:59:01 2014 alexis mestag
+// Last update Sun Mar 23 14:15:52 2014 alexis mestag
 //
 
 #ifndef				__STATS_HH__
@@ -49,6 +49,9 @@ public:
 
   Stat::value_type		getStat(StatKey const &key) const;
   void				setStat(StatKey const &key, Stat::value_type const value);
+
+  Stat::bonus_type		getBonus(StatKey const &key) const;
+  void				setBonus(StatKey const &key, Stat::bonus_type const value);
 
   virtual bool			serialization(Trame &trame) const;
   static Stats			*deserialization(Trame const &trame);

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 13:53:45 2014 alexis mestag
-// Last update Sun Mar 23 13:56:08 2014 alexis mestag
+// Last update Sun Mar 23 14:33:08 2014 alexis mestag
 //
 
 #ifndef				__HEALGRASS_TALENTEFFECT_HH__
@@ -17,7 +17,7 @@ class				HealWater_TalentEffect : public TalentEffect
 {
 public:
   HealWater_TalentEffect();
-  virtual HealWater_TalentEffect();
+  virtual ~HealWater_TalentEffect();
 
 public:
   virtual bool			apply(Player &player);

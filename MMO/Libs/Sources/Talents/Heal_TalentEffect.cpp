@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 13:08:41 2014 alexis mestag
-// Last update Sun Mar 23 13:56:55 2014 alexis mestag
+// Last update Sun Mar 23 14:35:35 2014 alexis mestag
 //
 
 #include				"Heal_TalentEffect.hh"

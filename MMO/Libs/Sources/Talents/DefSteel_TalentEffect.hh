@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 13:51:50 2014 alexis mestag
-// Last update Sun Mar 23 13:52:08 2014 alexis mestag
+// Last update Sun Mar 23 14:32:54 2014 alexis mestag
 //
 
 #ifndef				__DEFSTEEL_TALENTEFFECT_HH__
@@ -17,7 +17,7 @@ class				DefSteel_TalentEffect : public TalentEffect
 {
 public:
   DefSteel_TalentEffect();
-  virtual DefSteel_TalentEffect();
+  virtual ~DefSteel_TalentEffect();
 
 public:
   virtual bool			apply(Player &player);

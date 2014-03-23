@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:33:57 2013 alexis mestag
-// Last update Tue Mar 11 14:48:37 2014 alexis mestag
+// Last update Sun Mar 23 14:24:42 2014 alexis mestag
 //
 
 #include			"Entities/AStatEntity.hh"
@@ -134,4 +134,36 @@ bool				AStatEntity::decStat(std::string const &key, Stat::value_type const dec)
     ret = true;
   }
   return (ret);
+}
+
+Stat::bonus_type		AStatEntity::getBonus(std::string const &key) const
+{
+  StatKey const			*sk = this->getKey(key);
+
+  return (sk ? _stats->getBonus(*sk) : Stat::bonus_type());
+}
+
+bool				AStatEntity::setBonus(std::string const &key,
+						      Stat::bonus_type const value)
+{
+  StatKey const			*sk = this->getKey(key);
+  bool				ret = false;
+
+  if (sk) {
+    _stats->setBonus(*sk, value);
+    ret = true;
+  }
+  return (ret);
+}
+
+bool				AStatEntity::incBonus(std::string const &key,
+						      Stat::bonus_type const inc)
+{
+  return (this->setBonus(key, this->getBonus(key) + inc));
+}
+
+bool				AStatEntity::decBonus(std::string const &key,
+						      Stat::bonus_type const dec)
+{
+  return (this->setBonus(key, this->getBonus(key) - dec));
 }
