@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Thu Mar 20 23:04:46 2014 alexis mestag
+// Last update Sat Mar 22 18:31:07 2014 guillaume marescaux
 //
 
 #include			<algorithm>
@@ -137,6 +137,18 @@ Stat::value_type		Mob::getCurrentStat(std::string const &key) const
     ret = stat ? stat->getValue() : this->getMaxStat(key);
   }
   return (ret);
+}
+
+int				Mob::getBonus(std::string const &key) const
+{
+  StatKey const			*sk = this->getKey(key);
+
+  if (sk) {
+    Stat const			*stat = reinterpret_cast<Stats const *>(_currentStats)->get(*sk);
+
+    return (stat->getBonus());
+  }
+  return (0);
 }
 
 bool				Mob::setCurrentStat(std::string const &key, Stat::value_type const v)

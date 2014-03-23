@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Thu Mar 20 23:34:31 2014 alexis mestag
+// Last update Sat Mar 22 18:29:09 2014 guillaume marescaux
 //
 
 #ifndef			__MOB_HH__
@@ -58,6 +58,7 @@ public:
   Stats const		&getRawCurrentStats() const;
   Stats			getCurrentStats() const;
   Stat::value_type	getCurrentStat(std::string const &key) const;
+  int			getBonus(std::string const &key) const;
   bool			setCurrentStat(std::string const &key, Stat::value_type const value);
   bool			incCurrentStat(std::string const &key, Stat::value_type const inc);
   bool			decCurrentStat(std::string const &key, Stat::value_type const dec);

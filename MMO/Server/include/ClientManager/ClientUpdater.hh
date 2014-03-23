@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Fri Mar 21 22:20:30 2014 laurent ansel
+// Last update Sat Mar 22 21:33:19 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -50,6 +50,7 @@ public:
 
   bool				newGuild(FD const fd, Guild *guild) const;
   bool				newGuild(std::string const &playerName, Guild *guild) const;
+  bool				inviteInGuild(std::string const &playerName, std::string const &guild) const;
   bool				inGuild(FD const fd, bool &guild) const;
 
   bool				merge(FD const fd, unsigned int const idStack, unsigned int const idStack2) const;

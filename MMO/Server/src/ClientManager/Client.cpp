@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Sat Mar 22 16:50:11 2014 laurent ansel
+// Last update Sat Mar 22 21:44:28 2014 laurent ansel
 //
 
 #include			"ClientManager/Client.hh"
@@ -515,7 +515,9 @@ bool				Client::newGuild(Guild *guild)
       else
 	{
 	  guild->addPlayer(*_player);
-	  Server::getInstance()->callProtocol<std::string, Zone *>("NEWMEMBER", _id, _player->getName(), Map::getInstance()->getZone(_player->getZone()));
+	  PlayerView		*player = guild->getMember(_player->getName());
+
+	  Server::getInstance()->callProtocol<PlayerView *, Zone *>("NEWMEMBER", _id, player, Map::getInstance()->getZone(_player->getZone()));
 	  Server::getInstance()->callProtocol<Guild const *>("GUILD", _id, _player->getGuild());
 	}
       return (true);
@@ -555,5 +557,13 @@ void				Client::heal(unsigned int const idHeal) const
       pnj = static_cast<PNJ *>(Map::getInstance()->getEntityById(_player->getZone(), idHeal));
       if (pnj)
 	pnj->action(_player);
+    }
+}
+
+void				Client::inviteInGuild(std::string const &name) const
+{
+  if (_player && !_player->getGuild())
+    {
+      Server::getInstance()->callProtocol<std::string>("INVITE", _id, name);
     }
 }

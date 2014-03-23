@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Fri Mar 21 22:16:43 2014 laurent ansel
+// Last update Sat Mar 22 21:45:21 2014 laurent ansel
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -52,6 +52,7 @@ public:
 
   void				newGuild(FD const fd, Guild *guild) const;
   void				newGuild(std::string const &playerName, Guild *guild) const;
+  bool				inviteInGuild(std::string const &playerName, std::string const &guild) const;
   bool				inGuild(FD const fd) const;
 
   void				startBattle(FD const fd, Player *&player) const;

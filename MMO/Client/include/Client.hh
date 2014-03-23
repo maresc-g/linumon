@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:21:17 2014 guillaume marescaux
-// Last update Sat Mar 22 16:56:23 2014 cyril jourdain
+// Last update Sat Mar 22 19:43:41 2014 guillaume marescaux
 //
 
 #ifndef				__CLIENT_HH__
@@ -29,6 +29,7 @@
 # include			"Trade/Trade.hh"
 # include			"Entities/AItem.hh"
 # include			"Common/ErrorBox.hh"
+# include			"Common/Invite.hh"
 
 class				Client : public Singleton<Client>
 {
@@ -44,7 +45,7 @@ private:
   MutexVar<bool>		*_newPlayer;
   MutexVar<Battle *>		*_battle;
   MutexVar<Trade *>		*_trade;
-  MutexVar<bool>		*_heal;
+  MutexVar<Invite *>		*_invite;
   MutexVar<ErrorBox*>		*_errorBox;
   Core				*_core;
   WindowManager			*_manager;

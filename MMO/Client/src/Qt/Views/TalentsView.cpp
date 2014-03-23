@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Mar 17 22:32:36 2014 guillaume marescaux
-// Last update Fri Mar 21 18:37:56 2014 guillaume marescaux
+// Last update Sat Mar 22 18:50:26 2014 guillaume marescaux
 //
 
 #include		<iostream>
@@ -44,7 +44,10 @@ void			TalentsView::initTalents(TalentTree const &tree, unsigned int pts)
   ui.l_pts->setText(std::to_string(pts).c_str());
   JsonFile::readFile(file, "Res/TalentCoords.json");
   for (auto it = _talentViews->begin() ; it != _talentViews->end() ; it++)
-    delete *it;
+    {
+      (*it)->hide();
+      delete *it;
+    }
   _talentViews->clear();
   current = &tree.getTalents();
   next = new std::list<TalentModel const *>;

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:58:04 2013 laurent ansel
-// Last update Fri Mar 21 22:21:09 2014 laurent ansel
+// Last update Sat Mar 22 21:32:36 2014 laurent ansel
 //
 
 #ifndef 			__CLIENT_HH__
@@ -75,6 +75,7 @@ public:
   bool				inGuild() const;
   void				modifyDigitaliser(unsigned int const idMob1, unsigned int const idMob2, bool const toBattleMob) const;
   void				heal(unsigned int const idHeal) const;
+  void				inviteInGuild(std::string const &nameGuild) const;
 };
 
 #endif

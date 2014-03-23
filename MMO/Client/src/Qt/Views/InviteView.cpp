@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Mar 21 19:32:53 2014 guillaume marescaux
-// Last update Fri Mar 21 19:37:55 2014 guillaume marescaux
+// Last update Sun Mar 23 13:37:22 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/InviteView.hh"
@@ -31,11 +31,13 @@ void				InviteView::paintEvent(QPaintEvent *)
 
 void				InviteView::on_b_join_clicked()
 {
+  hide();
   Client::getInstance()->acceptGuild(_name);
 }
 
 void				InviteView::on_b_decline_clicked()
 {
+  hide();
   Client::getInstance()->refuseGuild();
 }
 

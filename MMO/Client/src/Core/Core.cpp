@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Sat Mar 22 16:59:43 2014 cyril jourdain
+// Last update Sun Mar 23 13:33:32 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -35,7 +35,7 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
 	   MutexVar<Chat *> *chat, MutexVar<bool> *newPlayer,
 	   MutexVar<Battle *> *battle,
 	   MutexVar<Trade *> *trade,
-	   MutexVar<bool> *heal,
+	   MutexVar<Invite *> *invite,
 	   MutexVar<ErrorBox *> *errorBox):
   Thread(),
   _sockets(new std::map<eSocket, Socket *>),
@@ -53,7 +53,7 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _newPlayer(newPlayer),
   _battle(battle),
   _trade(trade),
-  _heal(heal),
+  _invite(invite),
   _errorBox(errorBox),
   _handler(new ErrorHandler)
 {
@@ -548,8 +548,10 @@ bool				Core::newZone(Trame *trame)
   return (true);
 }
 
-bool				Core::invite(Trame *)
+bool				Core::invite(Trame *trame)
 {
+  (**_invite)->invited = true;
+  (**_invite)->name = (*trame)[CONTENT]["INVITE"].asString();
   return (true);
 }
 
@@ -563,27 +565,24 @@ bool				Core::newGuild(Trame *trame)
 
 bool				Core::guild(Trame *trame)
 {
-  auto				members = (*trame)[CONTENT]["GUILD"]["MEMBERS"].getMemberNames();
-
-  // for (auto it 
+  (**_player)->setGuild(Guild::deserialization((*trame)((*trame)[CONTENT]["GUILD"])));
   return (true);
 }
 
 bool				Core::newMember(Trame *trame)
 {
-  // (**_player)->guildAddPlayer(PlayerView::deserialization((*trame)((*trame)[CONTENT]["NEWMEMBER"])));
+  (**_player)->guildAddPlayer(PlayerView::deserialization((*trame)((*trame)[CONTENT]["NEWMEMBER"])));
   return (true);
 }
 
 bool				Core::deleteMember(Trame *trame)
 {
-  // (**_player)->guildRemovePlayer((*trame)[CONTENT]["DELETEMEMBER"].asString());
+  (**_player)->guildRemovePlayer((*trame)[CONTENT]["DELETEMEMBER"].asString());
   return (true);
 }
 
 bool				Core::heal(Trame *)
 {
-  *_heal = true;
   return true;
 }
 
@@ -846,16 +845,17 @@ void				Core::invite(std::string const &name, std::string const &nameGuild)
 
 void				Core::acceptGuild(std::string const &name)
 {
-  (*_proto).operator()<unsigned int const, std::string>("ACCEPT", _id, name);
+  (*_proto).operator()<unsigned int const, std::string>("GACCEPT", _id, name);
 }
 
 void				Core::refuseGuild()
 {
-  (*_proto).operator()<unsigned int const>("REFUSE", _id);
+  (*_proto).operator()<unsigned int const>("GREFUSE", _id);
 }
 
 void				Core::quitGuild()
 {
+  (**_player)->setGuild(NULL);
   (*_proto).operator()<unsigned int const>("GQUIT", _id);
 }
 
