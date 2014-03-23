@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:08:26 2014 cyril jourdain
-// Last update Sat Mar 15 21:38:45 2014 cyril jourdain
+// Last update Sun Mar 23 16:19:32 2014 cyril jourdain
 //
 
 #include		"SFML/Sprite/Animation.hh"
@@ -13,7 +13,7 @@
 
 Animation::Animation() :
   _spriteList(new std::vector<Frame*>), _initialPos(new sf::Vector2f()), _currentId(0), _frameCount(0),
-  _frameLenght(120000), _cFrameTime(0), _playing(false), _loopPlay(true)
+  _frameLenght(160000), _cFrameTime(0), _playing(false), _loopPlay(true)
 {
 }
 

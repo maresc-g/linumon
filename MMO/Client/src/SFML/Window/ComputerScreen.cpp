@@ -5,11 +5,12 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Mar 20 16:17:20 2014 cyril jourdain
-// Last update Fri Mar 21 13:00:40 2014 cyril jourdain
+// Last update Sat Mar 22 22:54:53 2014 cyril jourdain
 //
 
 #include			"SFML/WorldView.hh"
 #include			"SFML/Window/ComputerScreen.hh"
+#include			"Sound/SoundManager.hh"
 #include			<iostream>
 
 ComputerScreen::ComputerScreen(SFMLView *s) :
@@ -79,12 +80,18 @@ void				ComputerScreen::draw() const
 void				ComputerScreen::update(sf::Clock &clock)
 {
   _arrow->setPosition(_selection->getPosition().x - 45, _selection->getPosition().y + 5);
-  if (_clock.getElapsedTime().asMicroseconds() > 35000)
+  if (_clock.getElapsedTime().asMicroseconds() > 75000)
     {
-      _pos += _clock.getElapsedTime().asMicroseconds() / 50000;
-      if (_text[_pos] == '$')
-	_pos += 2;
-      _clock.restart();
+      if (_pos < _text.size()){
+	if (_text[_pos] != ' ')
+	  SoundManager::getInstance()->playSound("KeyboardKey",rand()%10+5);
+	else
+	  SoundManager::getInstance()->playSound("KeyboardSpace",rand()%10+5);
+	_pos+=(rand()%3+1);
+	if (_text[_pos] == '$')
+	  _pos += 2;
+	_clock.restart();
+      }
     }
   _textDraw->setString(_text.substr(0,_pos));
   _background->update(clock);
@@ -104,6 +111,7 @@ void				ComputerScreen::onKeyEvent(QKeyEvent *event)
       else
 	static_cast<WorldView*>(_sfmlView->getCurrentView())->setCurrentWindow(NULL);
     }
+  SoundManager::getInstance()->playSound("KeyboardEnter",20);
 }
 
 void				ComputerScreen::onMouseEvent(QMouseEvent *)

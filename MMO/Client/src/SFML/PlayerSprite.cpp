@@ -5,13 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar 14 15:33:05 2014 cyril jourdain
-// Last update Thu Mar 20 16:39:24 2014 cyril jourdain
+// Last update Sun Mar 23 16:31:37 2014 cyril jourdain
 //
 
 #include		<QMenu>
 #include		"SFML/PlayerSprite.hh"
 #include		"Client.hh"
 #include		"Map/Map.hh"
+#include		"Sound/SoundManager.hh"
 
 
 PlayerSprite::PlayerSprite() :
@@ -118,6 +119,7 @@ void			PlayerSprite::moveUp(float px, sf::View *view)
       _receivedInput = false;
       _isInputable = true;
     }
+  SoundManager::getInstance()->playSound("Footstep_dirt",100);
 }
 
 void			PlayerSprite::moveDown(float px, sf::View *view)
@@ -147,12 +149,12 @@ void			PlayerSprite::moveDown(float px, sf::View *view)
       _receivedInput = false;
       _isInputable = true;
     }
+  SoundManager::getInstance()->playSound("Footstep_dirt",100);
 }
 
 void			PlayerSprite::moveLeft(float px, sf::View *view)
 {
   play("left");
-  // if (view && _pos.x > 15)
   view->move(-px, 0);
   move(-px,0);
   _deltaPos.y += px;
@@ -164,30 +166,26 @@ void			PlayerSprite::moveLeft(float px, sf::View *view)
     _isInputable = false;
   if (_deltaPos.y >= CASE_SIZE)
     {
-      std::cout << "View center : "  << view->getCenter().x << std::endl;
       _pos.x -= 1;
       _deltaPos.y -= CASE_SIZE;
       if (!_receivedInput)
 	{
 	  _dir = END_MOVE;
 	  move(_deltaPos.y, 0);
-	  // if (_pos.x >= 15)
-	    view->move(_deltaPos.y,0);
+	  view->move(_deltaPos.y,0);
 	  _deltaPos.y = 0;
 	  play("default_left");
-	  std::cout << "View center at stop : "  << view->getCenter().x << std::endl;
 	}
       _receivedInput = false;
       _isInputable = true;
     }
+  SoundManager::getInstance()->playSound("Footstep_dirt",100);
 }
 
 void			PlayerSprite::moveRight(float px, sf::View *view)
 {
   play("right");
-  if (view // && _pos.x >= 15
-      )
-    view->move(px, 0);
+  view->move(px, 0);
   move(px,0);
   _deltaPos.y += px;
   if (_deltaPos.y <= CASE_SIZE - 10 && !_receivedInput)
@@ -198,33 +196,31 @@ void			PlayerSprite::moveRight(float px, sf::View *view)
     _isInputable = false;
   if (_deltaPos.y >= CASE_SIZE)
     {
-
-      // NEED TO FIX DECAL
-
-
-      std::cout << _deltaPos.y << std::endl;
-      std::cout << "View center : "  << view->getCenter().x << std::endl;
       _pos.x += 1;
       _deltaPos.y -= CASE_SIZE;
       if (!_receivedInput)
 	{
 	  _dir = END_MOVE;
 	  move(-_deltaPos.y, 0);
-	  // if (_pos.x > 15)
-	    view->move(-_deltaPos.y,0);
+	  view->move(-_deltaPos.y,0);
 	  _deltaPos.y = 0;
 	  play("default_right");
-	  std::cout << "View center at stop : "  << view->getCenter().x << std::endl;
 	}
       _receivedInput = false;
       _isInputable = true;
     }
+  SoundManager::getInstance()->playSound("Footstep_dirt",100);
 }
 
 void			PlayerSprite::moveFromServer(sf::View *v)
  {
+   // std::cout << "pos:" << _pos.x << "/"<< _pos.y <<"-"
+   // 	     << Map::getInstance()->getPlayerById(_playerId)->getX() << "/"
+   // 	     << Map::getInstance()->getPlayerById(_playerId)->getY()
+   // 	     << std::endl;
   if (_dir == END_MOVE)
     {
+      // std::cout << "HERE" << std::endl;
       if (_pos.x != Map::getInstance()->getPlayerById(_playerId)->getX() || _pos.y != Map::getInstance()->getPlayerById(_playerId)->getY())
 	{
 	  setPosition(Map::getInstance()->getPlayerById(_playerId)->getX() * CASE_SIZE,
@@ -240,7 +236,7 @@ void			PlayerSprite::moveFromServer(sf::View *v)
 	    //   v->move((15 - _pos.x * CASE_SIZE),
 	    // 	       0);
 	    // std::cout << "NEW POS X AFTER MAGIC TP : "  << _pos.x << std::endl;
-	    // std::cout << "WADAFAK WITH POS ?" << std::endl;
+	    std::cout << "WADAFAK WITH POS ?" << std::endl;
 	  }
 	}
       _dir = NONE;

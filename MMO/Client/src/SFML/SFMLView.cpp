@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Sat Mar 22 19:29:11 2014 guillaume marescaux
+// Last update Sat Mar 22 22:47:04 2014 cyril jourdain
 //
 
 /*
@@ -88,8 +88,9 @@ SFMLView::~SFMLView()
 void			SFMLView::onInit()
 {
   std::cout << "INIT SFML" << std::endl;
-  SoundManager::getInstance()->stopMusic(MENU_THEME);
-  SoundManager::getInstance()->playMusic(WORLD_THEME);
+  SoundManager::getInstance()->stopMusic("MenuTheme");
+  // SoundManager::getInstance()->playMusic("WorldTheme");
+
   _reset = false;
   _clock->restart();
   _inventory->initInventory();
@@ -163,6 +164,7 @@ void			SFMLView::onUpdate()
 	  static_cast<BattleView*>(_battleView)->quitBattle();
 	  *(_wMan->getState()) = CLIENT::PLAYING;      
 	  _grow = false;
+	  SoundManager::getInstance()->playMusic("WorldTheme");
 	}
       }
       break;
@@ -181,8 +183,8 @@ void			SFMLView::onUpdate()
       if (!_grow)
 	{
 	  if (!_enterBattle){
-	    SoundManager::getInstance()->stopMusic(WORLD_THEME);
-	    SoundManager::getInstance()->playSound(TO_BATTLE);
+	    SoundManager::getInstance()->stopMusic("WorldTheme");
+	    SoundManager::getInstance()->playSound("ToBattle");
 	    _chat->hide();
 	    _enterBattle = true;
 	  }
