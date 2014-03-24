@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Mar 24 15:57:20 2014 alexis mestag
+// Last update Mon Mar 24 17:34:05 2014 alexis mestag
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -1320,10 +1320,10 @@ bool			newCarcass(unsigned int const id, Zone *zone, Carcass const *carcass)
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["NEWCARCASS"]["ZONE"] = zone->getName();
-      carcass->getCoord().serialization((*trame)((*trame)[CONTENT]["NEWCARCASS"]));
+      carcass->serialization((*trame)((*trame)[CONTENT]["NEWCARCASS"]));
       trame->setEnd(true);
       // CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
-      ret = sendToAllClient(id, trame, zone, false);
+      ret = sendToAllClient(id, trame, zone, true);
     }
   delete header;
   return (ret);
