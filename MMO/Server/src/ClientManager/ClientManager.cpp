@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Sat Mar 22 21:46:16 2014 laurent ansel
+// Last update Mon Mar 24 14:29:21 2014 antoine maitre
 //
 
 #include			"Database/Database.hpp"
@@ -393,14 +393,14 @@ bool				ClientManager::inGuild(FD const fd) const
   return (ret);
 }
 
-void				ClientManager::heal(FD const fd, unsigned int const idHeal) const
+void				ClientManager::heal(FD const fd) const
 {
   bool				set = false;
 
   this->_mutex->lock();
   for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
     if ((*it).first && (*it).second)
-      (*it).first->heal(fd, idHeal);
+      (*it).first->heal(fd);
   this->_mutex->unlock();
 }
 

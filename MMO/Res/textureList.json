@@ -2,7 +2,7 @@
     "perso1" : "./Res/perso1.png",
     "Nyan" : "./Res/Mobs/nyan.png",
     "Dragoball" : "./Res/Mobs/dragoball.png",
-    "priest" : "./Res/priest.png",
+    "healer" : "./Res/healer.png",
     "battleScreen":"./Res/battleScreen.png",
     "battleEnd":"./Res/battleEnd.png",
     "textures" : "./Res/textures.png",

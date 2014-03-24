@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:19:28 2013 laurent ansel
-// Last update Sat Mar 22 21:33:19 2014 laurent ansel
+// Last update Mon Mar 24 14:30:40 2014 antoine maitre
 //
 
 #ifndef 			__CLIENTUPDATER_HH__
@@ -66,7 +66,7 @@ public:
   void				sendAllInformationModel(FD const fd) const;
   bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;
 
-  void				heal(FD const fd, unsigned int const idHeal) const;
+  void				heal(FD const fd) const;
 
   bool				craftSomething(FD const fd, std::string const &craft, std::string const &job) const;
   bool				gatherSomething(FD const fd, unsigned int const gather, std::string const &job, unsigned int const carcass) const;

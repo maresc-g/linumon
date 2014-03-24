@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Mon Mar 24 13:52:58 2014 cyril jourdain
+// Last update Mon Mar 24 14:00:39 2014 cyril jourdain
 //
 
 #include			"ClientManager/Client.hh"
@@ -550,13 +550,13 @@ void				Client::modifyDigitaliser(unsigned int const idMob1, unsigned int const 
     }
 }
 
-void				Client::heal(unsigned int const idHeal) const
+void				Client::heal() const
 {
   PNJ				*pnj;
 
   if (_player && _state == GAME)
     {
-      pnj = static_cast<PNJ *>(Map::getInstance()->getEntityById(_player->getZone(), idHeal));
+      pnj = static_cast<PNJ *>(Map::getInstance()->getHealer(_player->getZone()));
       if (pnj)
 	pnj->action(_player);
     }
