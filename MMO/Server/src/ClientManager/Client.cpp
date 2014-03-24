@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Mon Mar 24 12:20:54 2014 antoine maitre
+// Last update Mon Mar 24 14:00:39 2014 cyril jourdain
 //
 
 #include			"ClientManager/Client.hh"
@@ -424,7 +424,6 @@ bool				Client::gather(unsigned int const ressource, std::string const &job, uns
 
   if (_state == GAME && _player && _user)
     {
-      result = new Stack<AItem>(0);
       if (carcass > 0)
 	{
 	  entity = Map::getInstance()->getEntityById(_player->getZone(), carcass);
@@ -433,17 +432,20 @@ bool				Client::gather(unsigned int const ressource, std::string const &job, uns
 	}
       else
 	res = static_cast<Ressource *>(Map::getInstance()->getEntityById(_player->getZone(), ressource));
+      result = new Stack<AItem>(1, res);
       ret = _player->doGather(job, res->getName(), result, idRessource, (carcass > 0 ? static_cast<Carcass *>(entity) : NULL));
       if (ret)
 	{
 
 	  Server::getInstance()->callProtocol<Stack<AItem> *>("ADDTOINVENTORY", _id, result);
 	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
-	  if (!entity)
+	  if (!carcass)
 	    {
-	      if (entity)
+	      std::cout << "NO CARCASS" << std::endl;
+	      if (res)
 		{
-		  static_cast<Ressource *>(entity)->setVisible(false);
+		  std::cout << "ENTITY EXITS" << std::endl;
+		  res->setVisible(false);
 		  RessourceManager::getInstance()->needRessource(res->getName(), _player->getZone(), res);
 		  Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("VISIBLE", _id, ressource, false, Map::getInstance()->getZone(_player->getZone()));
 		}

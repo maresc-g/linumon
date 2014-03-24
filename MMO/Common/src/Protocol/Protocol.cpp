@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Mar 24 15:35:14 2014 alexis mestag
+// Last update Mon Mar 24 15:36:52 2014 alexis mestag
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -1709,7 +1709,8 @@ bool			addToInventory(unsigned int const id, Stack<AItem> *stack)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      (*trame)[CONTENT]["ADDTOINVENTORY"][stack->getItem()->getName()] = stack->getNb();
+      stack->serialization((*trame)((*trame)[CONTENT]["ADDTOINVENTORY"]));
+      // (*trame)[CONTENT]["ADDTOINVENTORY"][stack->getItem()->getName()] = stack->getNb();
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;

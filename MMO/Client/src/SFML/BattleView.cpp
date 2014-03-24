@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Fri Mar 21 14:57:59 2014 cyril jourdain
+// Last update Mon Mar 24 15:07:19 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -359,7 +359,8 @@ void			BattleView::loadPlayerList()
     {
       tmp = new MobSprite((static_cast<Mob*>(*it))->getName(),
 			  _sfmlView->getFont(), _wMan);
-      _sfmlView->getSpriteManager()->copySprite("Nyan", *tmp);
+      if (!_sfmlView->getSpriteManager()->copySprite((*it)->getModel().getName(), *tmp))
+	_sfmlView->getSpriteManager()->copySprite("Nyan", *tmp);
       tmp->play("default_up");
       tmp->generateOffset();
       tmp->setPosition(posY, ((BATTLE_SIZE- 2) * CASE_SIZE) - tmp->getCurrentBound()->height / 2 + 4);
@@ -379,7 +380,8 @@ void			BattleView::loadPlayerList()
     {
       tmp = new MobSprite((static_cast<Mob*>(*it))->getName(),
 			  _sfmlView->getFont(), _wMan);
-      _sfmlView->getSpriteManager()->copySprite("Dragoball", *tmp);
+      if (!_sfmlView->getSpriteManager()->copySprite((*it)->getModel().getName(), *tmp))
+	_sfmlView->getSpriteManager()->copySprite("Dragoball", *tmp);
       tmp->play("default_down");
       tmp->generateOffset();
       tmp->setPosition(posY, ((2) * CASE_SIZE) - tmp->getCurrentBound()->height / 2 + 4);
