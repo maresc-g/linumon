@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Thu Mar 20 16:17:44 2014 alexis mestag
+// Last update Sun Mar 23 23:47:08 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -152,7 +152,7 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2, unsigned int 
       this->_battles->push_back(new Battle(id, Battle::PVE, mobInBattle, player1, tmp));
     }
   else
-    new Battle(id, Battle::PVP, rand()%3 + 1, player1, player2);
+    this->_battles->push_back(new Battle(id, Battle::PVP, rand()%3 + 1, player1, player2));
   return (true);
 }
 
@@ -165,10 +165,13 @@ bool				BattleUpdater::spell(Trame *trame)
   Spell				*spell = (**LoaderManager::getInstance()->getSpellLoader())->getValue((*trame)["SPELL"]["NAME"].asString());
   Battle			*tmp = NULL;
 
+  std::cout << "ME VOICI DANS LE SPELL" << std::endl;
   for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
     {
+      std::cout << "Il y a bien des battles ICI" << std::endl;
       if ((*it)->getID() == (*trame)["SPELL"]["IDBATTLE"].asUInt())
 	{
+	  std::cout << "J AI TROUVE L IDBATTLE" << std::endl;
 	  if ((*it)->spell((*trame)["SPELL"]["LAUNCHER"].asUInt(), (*trame)["SPELL"]["TARGET"].asUInt(), spell))
 	    tmp = (*it);
 	  else

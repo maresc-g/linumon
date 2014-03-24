@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:29:21 2014 antoine maitre
-// Last update Wed Mar 12 15:02:26 2014 antoine maitre
+// Last update Fri Mar 21 16:50:13 2014 antoine maitre
 //
 
 #include			"Battle/BattleManager.hh"
@@ -101,6 +101,7 @@ bool				BattleManager::spell(Trame *trame)
 {
   std::list<Battle *>		tmp;
   
+  std::cout << "LE SPELL EST ENVOYER" << std::endl;
   this->_mutex->lock();
   if ((*trame)[CONTENT]["SPELL"].isMember("IDBATTLE") &&
       (*trame)[CONTENT]["SPELL"].isMember("NAME") &&
