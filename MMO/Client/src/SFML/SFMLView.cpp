@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Mon Mar 24 15:04:05 2014 cyril jourdain
+// Last update Mon Mar 24 15:23:48 2014 cyril jourdain
 //
 
 /*
@@ -67,13 +67,6 @@ SFMLView::SFMLView(QWidget *parent, QPoint const &position, QSize const &size, W
   _reset = false;
   _sMan->loadTextures("./Res/textureList.json");
   _sMan->loadSprites("./Res/spriteList.json");
-  // _sMan->loadAnimations("./Res/perso1.json");
-  // _sMan->loadAnimations("./Res/textures.json");
-  // _sMan->loadAnimations("./Res/selectedPlayer.json");
-  // _sMan->loadAnimations("./Res/Spell/Lance-Flamme.json");
-  // _sMan->loadAnimations("./Res/Spell/Surf.json");
-  // _sMan->loadAnimations("./Res/Spell/Boutefeu.json");
-  // _sMan->loadAnimations("./Res/Spell/Danse-Fleur.json");
   _grow = false;
   _enterBattle = false;
 
@@ -87,17 +80,13 @@ SFMLView::~SFMLView()
 
 void			SFMLView::onInit()
 {
-  std::cout << "INIT SFML" << std::endl;
   SoundManager::getInstance()->stopMusic("MenuTheme");
-  // SoundManager::getInstance()->playMusic("WorldTheme");
+  SoundManager::getInstance()->playMusic("WorldTheme");
 
   _reset = false;
   _clock->restart();
   _inventory->initInventory();
   _digit->initDigit((**_wMan->getMainPlayer())->getDigitaliser());
-  // _worldView->onInit();
-  // _currentView = _worldView;
-  // _currentView->resetPOV();
   static_cast<BattleView*>(_battleView)->setLifeVisibility(false);
   raise();
   setFocus(Qt::OtherFocusReason);
