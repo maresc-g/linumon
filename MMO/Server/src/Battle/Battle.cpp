@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Thu Mar 20 17:12:39 2014 alexis mestag
+// Last update Mon Mar 24 14:02:37 2014 alexis mestag
 //
 
 #include				"Battle/Battle.hh"
@@ -300,9 +300,43 @@ void					Battle::trameEndBattle()
     {
       if ((*it)->getType() == Player::PlayerType::PLAYER)
 	{
-	  if ((*it)->getId() == this->_idLooser)
+	  if ((*it)->getId() == this->_idLooser) {
 	    (*it)->setOut(true);
-	  Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, std::list<AItem *> *>("ENDBATTLE", (*it)->getUser().getId(), this->_id, ((*it)->getId() == this->_idLooser)?(false):(true), this->_money, this->_exp, NULL);
+	  }
+	  /*
+	  ** Get the other Player
+	  */
+	  Player			*player = *it;
+	  Player			*otherPlayer = _players.back();
+	  unsigned int			givenExp = 0;
+	  unsigned int			givenMoney = 1000;
+	  Drop				givenDrop;
+	  Drop				*tmpDrop;
+
+	  /* Adding money */
+	  player->addMoney(givenMoney);
+	  /* Calculating total givenExp */
+	  std::for_each(otherPlayer->getDigitaliser().getBattleMobs().begin(),
+			otherPlayer->getDigitaliser().getBattleMobs().end(), [&](Mob *m) -> void {
+			  givenExp += m->getGivenExp();
+			  tmpDrop = m->getNewDrop();
+			  givenDrop += *tmpDrop;
+			  delete tmpDrop;
+			});
+	  /* Applying total givenExp to player and his battleMobs */
+	  Levelable::type				playerUp = player->incCurrentExp(givenExp);
+	  std::map<unsigned int, Levelable::type>	mobsUp;
+
+	  std::for_each(player->getDigitaliser().getBattleMobs().begin(),
+			player->getDigitaliser().getBattleMobs().end(), [&](Mob *m) -> void {
+			  mobsUp[m->getId()] = m->incCurrentExp(givenExp);
+			});
+	  (void)playerUp;
+	  /* Adding drop to Player inventory */
+	  player->drop(givenDrop);
+
+	  /* Send trame */
+	  Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, Player const *, Drop const *>("ENDBATTLE", player->getUser().getId(), this->_id, (player->getId() == this->_idLooser)?(false):(true), givenMoney, givenExp, player, &givenDrop);
   	  ClientManager::getInstance()->endBattle((*it)->getUser().getId());
 	}
     }

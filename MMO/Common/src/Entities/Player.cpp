@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Mar 24 10:54:24 2014 alexis mestag
+// Last update Mon Mar 24 13:46:49 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -350,6 +350,13 @@ void				Player::addItem(Stack<AItem> *stack)
 AItem				*Player::getAndDeleteItem(unsigned int const item) const
 {
   return (this->_inventory->getAndDeleteItem(item));
+}
+
+void				Player::drop(Drop const &drop)
+{
+  std::for_each(drop.begin(), drop.end(), [&](Drop::value_type const &stack) -> void {
+      this->_inventory->addItem(stack.getItem(), stack.getNb());
+    });
 }
 
 void				Player::addMob(Mob *mob)

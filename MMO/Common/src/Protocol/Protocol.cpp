@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sun Mar 23 19:41:44 2014 laurent ansel
+// Last update Mon Mar 24 13:59:42 2014 alexis mestag
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -60,7 +60,7 @@ if (server)
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, unsigned int>("DEADMOB", &deadMob);
       this->_container->load<unsigned int, unsigned int>("TURNTO", &turnTo);
-      this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, std::list<AItem *>*>("ENDBATTLE", &endBattle);
+      this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, Player const *, Drop const *>("ENDBATTLE", &endBattle);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
       this->_container->load<unsigned int, int, Zone *>("REMOVEENTITY", &removeEntity);
 
@@ -788,11 +788,12 @@ bool			turnTo(unsigned int const id, unsigned int const idMob)
 }
 
 bool			endBattle(unsigned int const id, 
-					    unsigned int const idBattle,
-					    bool win, 
-					    unsigned int const money, 
-					    unsigned int const exp, 
-					    std::list<AItem *> *items)
+				  unsigned int const idBattle,
+				  bool win, 
+				  unsigned int const money, 
+				  unsigned int const exp,
+				  Player const *player,
+				  Drop const *drop)
 {
   Trame			*trame;
   Header		*header;
@@ -808,8 +809,18 @@ bool			endBattle(unsigned int const id,
       (*trame)[CONTENT]["ENDBATTLE"]["WIN"] = win;
       (*trame)[CONTENT]["ENDBATTLE"]["MONEY"] = money;
       (*trame)[CONTENT]["ENDBATTLE"]["EXP"] = exp;
-      (void) items;
-      // (*trame)[CONTENT]["ENDBATTLE"]["ITEMS"] = std::get<1>(*params);
+      /* Send Mob modif */
+      
+      /* Send Drop only */
+      Drop::value_type const	*stack;
+
+      for (auto it = drop->begin() ; it != drop->end() ; ++it) {
+	stack = &*it;
+	(*trame)[CONTENT]["ENDBATTLE"]["DROP"][stack->getItem()->getName()] = stack->getNb();
+      }
+      /* Send Player inventory */
+      player->serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]));
+
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
