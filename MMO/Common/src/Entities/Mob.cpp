@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Mon Mar 24 10:09:04 2014 alexis mestag
+// Last update Mon Mar 24 14:39:54 2014 alexis mestag
 //
 
 #include			<random>
@@ -177,7 +177,10 @@ bool				Mob::decCurrentStat(std::string const &key, Stat::value_type const dec)
 */
 Carcass				*Mob::getNewCarcass() const
 {
-  return (this->getModel().getNewCarcass());
+  Carcass			*ret = this->getModel().getNewCarcass();
+
+  /* Do some stuff here */
+  return (ret);
 }
 
 /*

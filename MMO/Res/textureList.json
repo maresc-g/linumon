@@ -1,7 +1,7 @@
 {
     "perso1" : "./Res/perso1.png",
     "Nyan" : "./Res/Mobs/nyan.png",
-    "Dragoball" : "./Res/Mobs/dragoball.png",
+    "Dragoball" : "./Res/Mobs/blastoise.png",
     "healer" : "./Res/healer.png",
     "battleScreen":"./Res/battleScreen.png",
     "battleEnd":"./Res/battleEnd.png",

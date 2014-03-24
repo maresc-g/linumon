@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Sat Mar 22 22:47:04 2014 cyril jourdain
+// Last update Mon Mar 24 15:04:05 2014 cyril jourdain
 //
 
 /*
@@ -116,7 +116,7 @@ void			SFMLView::onUpdate()
   while (pollEvent(event))
     {
       // if (**(_wMan->getState()) != CLIENT::ENTER_BATTLE)
-      // 	if (event.type == sf::Event::KeyPressed)
+      // 	if (event.type == sf::Event::Keyressed)
       // 	  _currentView->onKeyEvent(event);
     }
   CLIENT::eState s = **(_wMan->getState());
