@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Thu Mar 20 15:28:42 2014 alexis mestag
+// Last update Sun Mar 23 18:57:45 2014 alexis mestag
 //
 
 #ifndef			__DIGITALISER_HH__
@@ -44,6 +44,7 @@ public:
   void			setMobs(Mobs const &mobs);
 
   Mobs const		&getBattleMobs() const;
+  Mobs			&getBattleMobs();
   void			setBattleMobs(Mobs const &mobs);
 
   void			setPlayer(Player const *player);

@@ -5,9 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Mar 10 14:57:10 2014 antoine maitre
-// Last update Sun Mar 16 18:20:43 2014 alexis mestag
+// Last update Mon Mar 24 10:25:57 2014 alexis mestag
 //
 
+#include			<algorithm>
+#include			<functional>
 #include			"Entities/Drop.hh"
 
 Drop::Drop() :
@@ -36,12 +38,42 @@ Drop				&Drop::operator=(Drop const &rhs)
   return (*this);
 }
 
+Drop				&Drop::operator+=(Drop const &rhs)
+{
+  this->add(rhs);
+  return (*this);
+}
+
 void				Drop::clear()
 {
   this->getContainer().clear();
 }
 
+Stack<AItem>			*Drop::getStack(AItem *item)
+{
+  std::function<bool(Stack<AItem> &s)>	stackSeeker = [&](Stack<AItem> &s) {
+    return (item == s.getItem());
+  };
+  auto					it = std::find_if(this->begin(), this->end(), stackSeeker);
+
+  return (it != this->end() ? &*it : NULL);
+}
+
 void				Drop::addItem(AItem *item, unsigned int const nb)
 {
-  this->getContainer().push_back(Stack<AItem>(0, item, nb));
+  Stack<AItem>			*stack = this->getStack(item);
+
+  if (stack) {
+    stack->setNb(stack->getNb() + nb);
+  }
+  else
+    this->getContainer().push_back(Stack<AItem>(0, item, nb));
+}
+
+Drop				&Drop::add(Drop const &rhs)
+{
+  std::for_each(rhs.begin(), rhs.end(), [&](Stack<AItem> const &s) -> void {
+      this->addItem(s.getItem(), s.getNb());
+    });
+  return (*this);
 }
