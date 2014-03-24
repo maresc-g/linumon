@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Mar 24 14:17:20 2014 guillaume marescaux
+// Last update Mon Mar 24 16:27:58 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -357,8 +357,13 @@ bool				Core::deadMob(Trame *)
 bool				Core::endBattle(Trame *trame)
 {
   (**_battle)->setWin((*trame)[CONTENT]["ENDBATTLE"]["WIN"].asBool());
-  (**_battle)->setEnd(true);
   (**_battle)->leaveBattle();
+  (**_player)->setDigitaliser(*Digitaliser::deserialization((*trame)((*trame)[CONTENT]["ENDBATTLE"])));
+  (**_player)->setInventory(Inventory::deserialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]["PLAYER"])));
+  (**_player)->setCurrentExp((*trame)[CONTENT]["ENDBATTLE"]["CEXP"].asUInt());
+  (**_player)->setExp((*trame)[CONTENT]["ENDBATTLE"]["EXP"].asUInt());
+  (**_player)->setLevel((*trame)[CONTENT]["ENDBATTLE"]["LVL"].asUInt());
+  (**_battle)->setEnd(true);
   std::cout << "------------ END BATTLE" << std::endl;
   return (true);
 }
