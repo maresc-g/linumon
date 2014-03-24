@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Mar 24 16:42:55 2014 alexis mestag
+// Last update Mon Mar 24 17:08:12 2014 alexis mestag
 //
 
 #include				"Battle/Battle.hh"
@@ -310,8 +310,8 @@ void					Battle::trameEndBattle()
 	      m = *jt;
 	      c = m->getNewCarcass();
 	      c->setCoord(oPlayer->getCoord());
-	      Map::getInstance()->addEntity(p->getZone(), c);
-	      Server::getInstance()->callProtocol<Zone *, Carcass const *>("NEWCARCASS", p->getUser().getId(), Map::getInstance()->getZone(p->getZone()), c);
+	      Map::getInstance()->addCarcass(oPlayer->getZone(), c);
+	      Server::getInstance()->callProtocol<Zone *, Carcass const *>("NEWCARCASS", oPlayer->getUser().getId(), Map::getInstance()->getZone(oPlayer->getZone()), c);
 	    }
 	}
       if ((*it)->getType() == Player::PlayerType::PLAYER)
