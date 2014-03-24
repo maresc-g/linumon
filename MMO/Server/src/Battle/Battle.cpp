@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Mar 24 14:42:05 2014 alexis mestag
+// Last update Mon Mar 24 16:42:55 2014 alexis mestag
 //
 
 #include				"Battle/Battle.hh"
@@ -311,9 +311,7 @@ void					Battle::trameEndBattle()
 	      c = m->getNewCarcass();
 	      c->setCoord(oPlayer->getCoord());
 	      Map::getInstance()->addEntity(p->getZone(), c);
-	      /*
-	      ** Reste à envoyer les carcass aux Clients
-	      */
+	      Server::getInstance()->callProtocol<Zone *, Carcass const *>("NEWCARCASS", p->getUser().getId(), Map::getInstance()->getZone(p->getZone()), c);
 	    }
 	}
       if ((*it)->getType() == Player::PlayerType::PLAYER)
