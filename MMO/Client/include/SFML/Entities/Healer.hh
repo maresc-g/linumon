@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Mar 20 12:57:37 2014 cyril jourdain
-// Last update Thu Mar 20 15:27:20 2014 cyril jourdain
+// Last update Mon Mar 24 11:22:49 2014 cyril jourdain
 //
 
 #ifndef 		__HEALER_HH__

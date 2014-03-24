@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:44:31 2014 antoine maitre
-// Last update Sat Mar 22 16:43:07 2014 laurent ansel
+// Last update Mon Mar 24 13:16:17 2014 cyril jourdain
 //
 
 #include		"Zone/Case.hh"
@@ -111,7 +111,8 @@ bool			Case::serialization(Trame &trame) const
 	  else if ((*it)->getEntityType() == AEntity::RESSOURCE)
 	    {
 	      auto tmp = static_cast<Ressource *>(*it);
-	      trame[std::to_string(i)]["RES"] = tmp->getName();
+	      trame[std::to_string(i)]["RES"]["NAME"] = tmp->getName();
+	      trame[std::to_string(i)]["RES"]["ID"] = static_cast<int>(tmp->getId());
 	      tmp->getCoord().serialization(trame(trame[std::to_string(i)]));
 	      //	      tmp->serialization(trame(trame[std::to_string(i)]));
 	    }
@@ -160,9 +161,10 @@ void			Case::deserialization(Trame const &trame)
       else if (trame[std::to_string(i)].isMember("RES"))
 	{
 	  item = new Ressource;
-	  *item = *(**LoaderManager::getInstance()->getRessourceLoader())->getValue(trame[std::to_string(i)]["RES"].asString());//Ressource::deserialization(trame(trame[std::to_string(i)])));
+	  *item = *(**LoaderManager::getInstance()->getRessourceLoader())->getValue(trame[std::to_string(i)]["RES"]["NAME"].asString());//Ressource::deserialization(trame(trame[std::to_string(i)])));
 	  if (item)
 	    {
+	      item->setId(trame[std::to_string(i)]["RES"]["ID"].asUInt());
 	      item->setCoord(*Ressource::RessourceCoordinate::deserialization(trame(trame[std::to_string(i)])));
 	      this->_entities->push_back(item);
 	    }

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Mar 20 16:17:20 2014 cyril jourdain
-// Last update Sat Mar 22 22:54:53 2014 cyril jourdain
+// Last update Mon Mar 24 11:14:14 2014 cyril jourdain
 //
 
 #include			"SFML/WorldView.hh"
@@ -108,8 +108,7 @@ void				ComputerScreen::onKeyEvent(QKeyEvent *event)
     {
       if (_selection == _yes)
 	Client::getInstance()->heal();
-      else
-	static_cast<WorldView*>(_sfmlView->getCurrentView())->setCurrentWindow(NULL);
+      static_cast<WorldView*>(_sfmlView->getCurrentView())->setCurrentWindow(NULL);
     }
   SoundManager::getInstance()->playSound("KeyboardEnter",20);
 }
