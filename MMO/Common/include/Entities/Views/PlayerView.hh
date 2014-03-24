@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Feb  3 10:15:18 2014 alexis mestag
-// Last update Fri Mar 14 13:48:09 2014 laurent ansel
+// Last update Mon Mar 24 10:36:17 2014 guillaume marescaux
 //
 
 #ifndef				__PLAYERVIEW_HH__
@@ -56,6 +56,7 @@ public:
 
     trame["LVL"] = level;
     trame["FAC"] = faction;
+    trame["NAME"] = name;
     return (ret);
   }
 
@@ -65,6 +66,7 @@ public:
 
     view->level = trame["LVL"].asUInt();
     view->faction = trame["FAC"].asString();
+    view->name = trame["NAME"].asString();
     return (view);
   }
 };

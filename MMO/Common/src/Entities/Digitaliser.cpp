@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Sun Mar 23 18:58:22 2014 alexis mestag
+// Last update Mon Mar 24 16:01:26 2014 guillaume marescaux
 //
 
 #include			<sstream>
@@ -37,10 +37,12 @@ Digitaliser			&Digitaliser::operator=(Digitaliser const &rhs)
   if (this != &rhs)
     {
       // Je tuerai celui qui a fait ça (mestag_a)
-      for (auto it = rhs.begin() ; it != rhs.end(); ++it)
-      	this->getContainer().push_back(new Mob(**it));
-      for (auto it = rhs.getBattleMobs().begin() ; it != rhs.getBattleMobs().end(); ++it)
-      	this->_battleMobs.push_back(new Mob(**it));
+      // for (auto it = rhs.begin() ; it != rhs.end(); ++it)
+      // 	this->getContainer().push_back(new Mob(**it));
+      // for (auto it = rhs.getBattleMobs().begin() ; it != rhs.getBattleMobs().end(); ++it)
+      // 	this->_battleMobs.push_back(new Mob(**it));
+      this->setContainer(rhs.getContainer());
+      this->_battleMobs = rhs.getBattleMobs();
       this->setPlayer(rhs.getPlayer());
       this->setEfficiency(rhs.getEfficiency());
     }

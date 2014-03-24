@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Thu Mar 20 16:19:17 2014 antoine maitre
+// Last update Mon Mar 24 16:51:57 2014 guillaume marescaux
 //
 
 #include			"Map/Map.hh"
@@ -113,12 +113,44 @@ void				Map::delEntity(std::string const &zone, unsigned int const id, Ressource
   this->unlock();
 }
 
+void				Map::addCarcass(std::string const &zone, Carcass *carcass)
+{
+  this->lock();
+  if (this->_map.find(zone) != this->_map.end())
+    this->_map[zone]->addCarcass(carcass);
+  this->unlock();
+}
+
+void				Map::delCarcass(std::string const &zone, Carcass *carcass)
+{
+  this->lock();
+  if (this->_map.find(zone) != this->_map.end())
+    this->_map[zone]->delCarcass(carcass);
+  this->unlock();
+}
+
 std::list<AEntity *>		*Map::getPlayers(std::string const &zone)
 {
   this->lock();
   if (this->_map.find(zone) != this->_map.end())
     {
       std::list<AEntity*> *list = &this->_map[zone]->getPlayers();
+      this->unlock();
+      return (list);
+    }
+  else
+    {
+      this->unlock();
+      return (NULL);
+    }
+}
+
+std::list<Carcass *>		*Map::getCarcasses(std::string const &zone)
+{
+  this->lock();
+  if (this->_map.find(zone) != this->_map.end())
+    {
+      std::list<Carcass*> *list = &this->_map[zone]->getCarcasses();
       this->unlock();
       return (list);
     }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb  3 13:06:46 2014 guillaume marescaux
-// Last update Sat Mar 22 17:55:38 2014 guillaume marescaux
+// Last update Mon Mar 24 11:21:22 2014 guillaume marescaux
 //
 
 #include			"Core/ErrorHandler.hh"
@@ -46,7 +46,12 @@ void				ErrorHandler::guildExists(MutexVar<CLIENT::eState> *, MutexVar<ErrorBox 
 
 void				ErrorHandler::alreadyInGuild(MutexVar<CLIENT::eState> *, MutexVar<ErrorBox *> *errorBox)
 {
-  (**errorBox)->setInfos("Error", "Player not found or is already in a guild");
+  (**errorBox)->setInfos("Error", "Player is already in a guild");
+}
+
+void				ErrorHandler::occupied(MutexVar<CLIENT::eState> *, MutexVar<ErrorBox *> *errorBox)
+{
+  (**errorBox)->setInfos("Error", "Player is occupied");
 }
 
 //----------------------------------END PRIVATE METHODS----------------------------------------
@@ -62,7 +67,8 @@ void				ErrorHandler::handleError(Error const &error, MutexVar<CLIENT::eState> *
       { Error::USERCONNECTED, &ErrorHandler::userConnected },
       { Error::CREATEPLAYER, &ErrorHandler::nameExists },
       { Error::GUILDEXIST, &ErrorHandler::guildExists },
-      { Error::ALREADYINGUILD, &ErrorHandler::alreadyInGuild }
+      { Error::ALREADYINGUILD, &ErrorHandler::alreadyInGuild },
+      { Error::OCCUPED, &ErrorHandler::occupied }
     };
 
   if (ptrs.find(error.getType()) != ptrs.end())
