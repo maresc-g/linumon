@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:37:01 2013 alexis mestag
-// Last update Tue Mar 18 23:10:14 2014 alexis mestag
+// Last update Mon Mar 24 16:23:03 2014 alexis mestag
 //
 
 #include			"Entities/ACharacter.hh"
@@ -73,6 +73,7 @@ void				ACharacter::levelUp()
   this->setLevel(this->getLevel() + 1);
 #ifndef		CLIENT_COMPILATION
   this->setExp(this->getExperienceCurve()(this->getLevel()));
+  this->setOldExp(this->getExperienceCurve()(this->getLevel() - 1));
 #endif
 }
 

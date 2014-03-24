@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Mon Mar 24 13:59:01 2014 alexis mestag
+// Last update Mon Mar 24 15:57:12 2014 alexis mestag
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -143,5 +143,7 @@ bool				acceptGuild(unsigned int const id, std::string name);
 bool				refuseGuild(unsigned int const id);
 bool				quitGuild(unsigned int const id);
 bool		                isInBattle(unsigned int const id, unsigned int const playerId, bool const battle, Zone *zone);
+
+bool				newCarcass(unsigned int const id, Zone *zone, Carcass const *carcass);
 
 #endif

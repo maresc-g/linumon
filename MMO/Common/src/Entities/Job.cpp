@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Mon Mar 24 12:59:12 2014 cyril jourdain
+// Last update Mon Mar 24 16:23:29 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -75,6 +75,7 @@ void				Job::levelUp()
   this->setLevel(this->getLevel() + 1);
 #ifndef			CLIENT_COMPILATION
   this->setExp(this->getExperienceCurve()(this->getLevel()));
+  this->setOldExp(this->getExperienceCurve()(this->getLevel() - 1));
 #endif
 }
 
@@ -191,6 +192,7 @@ bool				Job::serialization(Trame &trame) const
   trame["LVL"] = this->getLevel();
   trame["MOD"] = this->_jobModel->getName();
   trame["CEXP"] = this->getCurrentExp();
+  trame["OLDEXP"] = this->getOldExp();
   return (ret);
 }
 
@@ -203,6 +205,7 @@ Job				*Job::deserialization(Trame const &trame)
   job->setCurrentExp(trame["CEXP"].asUInt(), false);
   job->setLevel(trame["LVL"].asUInt());
   job->setExp(trame["EXP"].asUInt());
+  job->setOldExp(trame["OLDEXP"].asUInt());
   return (job);
 }
 

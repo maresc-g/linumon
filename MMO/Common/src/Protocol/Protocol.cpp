@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Mar 24 15:36:52 2014 alexis mestag
+// Last update Mon Mar 24 15:57:20 2014 alexis mestag
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -89,7 +89,7 @@ if (server)
       this->_container->load<unsigned int, PlayerView *, Zone *>("NEWMEMBER", &newMember);
       this->_container->load<unsigned int, std::string, Zone *>("DELETEMEMBER", &deleteMember);
       this->_container->load<unsigned int, std::string>("INVITE", &invite);
-
+      this->_container->load<unsigned int, Zone *, Carcass const *>("NEWCARCASS", &newCarcass);
     }
   else
     {
@@ -1302,6 +1302,28 @@ bool			invite(unsigned int const id, std::string name, std::string nameGuild)
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			newCarcass(unsigned int const id, Zone *zone, Carcass const *carcass)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["NEWCARCASS"]["ZONE"] = zone->getName();
+      carcass->getCoord().serialization((*trame)((*trame)[CONTENT]["NEWCARCASS"]));
+      trame->setEnd(true);
+      // CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = sendToAllClient(id, trame, zone, false);
     }
   delete header;
   return (ret);
