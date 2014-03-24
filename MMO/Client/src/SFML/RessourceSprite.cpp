@@ -5,15 +5,15 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Feb 26 14:58:57 2014 cyril jourdain
-// Last update Fri Mar 21 15:48:14 2014 cyril jourdain
+// Last update Mon Mar 24 12:41:23 2014 cyril jourdain
 //
 
 #include		<QMenu>
 #include		"SFML/RessourceSprite.hh"
 #include		"Map/Map.hh"
 
-RessourceSprite::RessourceSprite(Ressource *ptr) :
-  Sprite(), _resPtr(ptr)
+RessourceSprite::RessourceSprite(Ressource *ptr, WindowManager *w) :
+  Sprite(), _resPtr(ptr), _wMan(w)
 {
 }
 
@@ -47,7 +47,9 @@ void		RessourceSprite::onClick(QMouseEvent *event)
       {
 	if (action->text() == "Gather")
 	  {
-	    std::cout << "Gather ressource" << std::endl;	    
+	    std::cout << (**_wMan->getMainPlayer())->getJobs().getJobWithRessource(_resPtr->getName())->getJobModel().getName() << std::endl;
+	    Client::getInstance()->gather(_resPtr->getId(), (**_wMan->getMainPlayer())->getJobs().getJobWithRessource(_resPtr->getName())->getJobModel().getName(),0);
+	    std::cout << "Gather ressource" << std::endl;
 	  }
       }
   }

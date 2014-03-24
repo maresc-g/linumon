@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Sat Mar 22 19:44:03 2014 guillaume marescaux
+// Last update Mon Mar 24 13:54:45 2014 cyril jourdain
 //
 
 #ifndef 		__CORE_HH__
@@ -175,6 +175,7 @@ private:
   bool			guild(Trame *);
   bool			newMember(Trame *);
   bool			deleteMember(Trame *);
+  bool			visible(Trame *);
 };
 
 #endif

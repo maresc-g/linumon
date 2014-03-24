@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Mar 24 11:09:14 2014 guillaume marescaux
+// Last update Mon Mar 24 14:17:20 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -132,6 +132,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("NEWMEMBER", func);
   func = std::bind1st(std::mem_fun(&Core::deleteMember), this);
   _proto->addFunc("DELETEMEMBER", func);
+  func = std::bind1st(std::mem_fun(&Core::visible), this);
+  _proto->addFunc("VISIBLE", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -374,13 +376,13 @@ bool				Core::upTalents(Trame *)
 bool				Core::addToInventory(Trame *trame)
 {
   std::vector<std::string>	keys = (*trame)[CONTENT]["ADDTOINVENTORY"].getMemberNames();
-  AItem				*item;
+  Stack<AItem>				*item;
 
   for (auto it = keys.begin() ; it != keys.end() ; it++)
     {
-      item = AItem::deserialization((*trame)((*trame)[CONTENT]["ADDTOINVENTORY"]["ITEM"]));
-      for (int i = 0 ; i < (*trame)[CONTENT]["ADDTOINVENTORY"][*it]["NB"].asInt() ; i++)
-	(**_player)->addItem(item);
+      item = Stack<AItem>::deserialization((*trame)((*trame)[CONTENT]["ADDTOINVENTORY"][*it]));
+      // for (int i = 0 ; i < (*trame)[CONTENT]["ADDTOINVENTORY"][*it].asInt() ; i++)
+      (**_player)->addItem(item);
     }
   return (true);
 }
@@ -583,6 +585,15 @@ bool				Core::newMember(Trame *trame)
 bool				Core::deleteMember(Trame *trame)
 {
   (**_player)->guildRemovePlayer((*trame)[CONTENT]["DELETEMEMBER"].asString());
+  return (true);
+}
+
+bool				Core::visible(Trame *trame)
+{
+  Ressource			*ressource =
+    static_cast<Ressource *>(Map::getInstance()->getEntityById((**_player)->getZone(), (*trame)[CONTENT]["VISIBLE"]["ID"].asUInt()));
+
+  ressource->setVisible((*trame)[CONTENT]["VISIBLE"]["IS"].asBool());
   return (true);
 }
 

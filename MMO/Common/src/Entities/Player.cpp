@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Mar 24 13:46:49 2014 alexis mestag
+// Last update Mon Mar 24 14:08:44 2014 cyril jourdain
 //
 
 #include			<cmath>
@@ -705,8 +705,10 @@ bool				Player::doGather(std::string const &job, std::string const &res, Stack<A
   Job				*tmp = NULL;
 
   tmp = this->getJob(job);
+  std::cout << "Player::doGather() : tmp=" << tmp << std::endl;
   if (tmp)
     {
+      std::cout << "Player::doGather() : if tmp" << std::endl;
       if (carcass)
 	ret = tmp->doGather(res, result, idRessource, carcass);
       else

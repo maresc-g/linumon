@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Wed Mar 19 00:03:25 2014 alexis mestag
+// Last update Mon Mar 24 12:59:12 2014 cyril jourdain
 //
 
 #include			<sstream>
@@ -119,7 +119,8 @@ bool				Job::doGather(std::string const &nameRessource, Stack<AItem> *&result, u
   // unsigned int			exp = 0;
   Ressource			*item;
 
-  for (auto it = this->getJobModel().getGathers().begin() ; it != this->getJobModel().getGathers().end() && !ret; ++it)
+  for (auto it = this->getJobModel().getGathers().begin() ; it != this->getJobModel().getGathers().end() && !ret; ++it){
+    std::cout << "Looking for " << nameRessource << " in " << (*it).getRessource().getName() << std::endl;
     if ((*it).getRessource().getName() == nameRessource)
       {
 	int			i = rand() % 4 + 1;
@@ -143,6 +144,7 @@ bool				Job::doGather(std::string const &nameRessource, Stack<AItem> *&result, u
 	this->incCurrentExp(it->getExp());
 	ret = true;
       }
+  }
   return (ret);
 }
 
@@ -153,7 +155,7 @@ bool				Job::doGather(std::string const &nameRessource, Stack<AItem> *&result, u
   Ressource			*item;
   auto				itemCarcass = carcass->begin();
 
-  for (auto it = this->getJobModel().getGathers().begin() ; it != this->getJobModel().getGathers().end() && !ret; ++it)
+  for (auto it = this->getJobModel().getGathers().begin() ; it != this->getJobModel().getGathers().end() && !ret; ++it){
     if ((*it).getRessource().getName() == nameRessource)
       {
 	idRessource = (*it).getRessource().getId();
@@ -177,6 +179,7 @@ bool				Job::doGather(std::string const &nameRessource, Stack<AItem> *&result, u
 	this->incCurrentExp(it->getExp());
 	ret = true;
       }
+  }
   return (ret);
 }
 

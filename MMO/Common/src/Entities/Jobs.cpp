@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 12:53:14 2014 laurent ansel
-// Last update Sun Mar 23 19:50:57 2014 laurent ansel
+// Last update Mon Mar 24 12:37:58 2014 cyril jourdain
 //
 
 #include			<sstream>
@@ -51,7 +51,7 @@ Job				*Jobs::getJobWithRessource(std::string const &gather) const
 {
   for (auto it = this->begin() ; it != this->end() ; it++)
     {
-      for (auto itG = (*it)->getJobModel().getGathers().begin() ; itG != (*it)->getJobModel().getGathers().begin() ; ++itG)
+      for (auto itG = (*it)->getJobModel().getGathers().begin() ; itG != (*it)->getJobModel().getGathers().end() ; ++itG)
 	{
 	  if ((*itG).getRessource().getName() == gather)
 	    return (*it);
