@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Sun Mar 23 21:48:01 2014 laurent ansel
+// Last update Mon Mar 24 14:30:53 2014 antoine maitre
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -571,14 +571,14 @@ void				ClientUpdater::newState(FD const fd, Client::eState const st) const
   this->_mutex->unlock();
 }
 
-void				ClientUpdater::heal(FD const fd, unsigned int const idHeal) const
+void				ClientUpdater::heal(FD const fd) const
 {
   this->_mutex->lock();
   for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
     {
       if (fd == (*it).first->getId() && (*it).first->isUse())
 	{
-	  it->first->heal(idHeal);
+	  it->first->heal();
 	  this->_mutex->unlock();
 	  return;
 	}

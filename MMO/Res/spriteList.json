@@ -7,7 +7,7 @@
     "Perso1":"./Res/perso1.json",
     "Nyan":"./Res/Mobs/Nyan.json",
     "Dragoball":"./Res/Mobs/Dragoball.json",
-    "Priest":"./Res/priest.json",
+    "Healer":"./Res/healer.json",
     "Textures":"./Res/textures.json",
     "SelectedPlayer":"./Res/selectedPlayer.json",
     "CountDown":"./Res/countDown.json",
