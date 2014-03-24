@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Sun Mar 23 18:56:23 2014 alexis mestag
+// Last update Mon Mar 24 10:54:24 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -574,9 +574,9 @@ Player				*Player::deserialization(Trame const &trame)
   return (player);
 }
 
-void				Player::addTalent(Talent const &talent)
+void				Player::addTalent(Talent *talent)
 {
-  this->_talents->getContainer().push_back(new Talent(talent));
+  this->_talents->getContainer().push_back(talent);
 }
 
 TalentTree const		&Player::getTalentTree() const

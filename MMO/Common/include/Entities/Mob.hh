@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:37:13 2013 alexis mestag
-// Last update Sat Mar 22 18:29:09 2014 guillaume marescaux
+// Last update Sun Mar 23 19:05:47 2014 alexis mestag
 //
 
 #ifndef			__MOB_HH__
@@ -15,9 +15,10 @@
 # include		"Entities/ACharacter.hh"
 # include		"Utility/ISerialization.hh"
 
-class			Player;
-class			MobModel;
 class			Carcass;
+class			Drop;
+class			MobModel;
+class			Player;
 class			Type;
 
 class			Mob : public Persistent, public ACharacter, public ISerialization
@@ -58,15 +59,19 @@ public:
   Stats const		&getRawCurrentStats() const;
   Stats			getCurrentStats() const;
   Stat::value_type	getCurrentStat(std::string const &key) const;
-  int			getBonus(std::string const &key) const;
   bool			setCurrentStat(std::string const &key, Stat::value_type const value);
   bool			incCurrentStat(std::string const &key, Stat::value_type const inc);
   bool			decCurrentStat(std::string const &key, Stat::value_type const dec);
 
   /*
-  ** Mob's Carcass
+  ** Mob's Carcass and Drop
   */
   Carcass		*getNewCarcass() const;
+
+  /*
+  ** Returns a random drop based on the one stored in the MobModel
+  */
+  Drop			*getNewDrop() const;
 
   /*
   ** Mobs'ExperienceCurve

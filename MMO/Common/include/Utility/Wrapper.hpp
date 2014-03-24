@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Feb 28 13:17:26 2014 alexis mestag
-// Last update Fri Mar 21 16:09:23 2014 alexis mestag
+// Last update Mon Mar 24 09:44:54 2014 alexis mestag
 //
 
 #ifndef				__WRAPPER_HPP__
@@ -37,7 +37,7 @@ public:
   typedef typename container_type::reverse_iterator		reverse_iterator;
   typedef typename container_type::const_reverse_iterator	const_reverse_iterator;
   typedef typename container_type::size_type			size_type;
-
+  typedef typename container_type::value_type			value_type;
 private:
   ContainerWrapper(ContainerWrapper const &rhs);
   ContainerWrapper		&operator=(ContainerWrapper const &rhs);

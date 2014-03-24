@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Mar 10 14:57:05 2014 antoine maitre
-// Last update Sun Mar 16 18:20:40 2014 alexis mestag
+// Last update Mon Mar 24 10:18:01 2014 alexis mestag
 //
 
 #ifndef				__DROP_HH__
@@ -23,10 +23,14 @@ public:
   virtual ~Drop();
 
   Drop				&operator=(Drop const &rhs);
+  Drop				&operator+=(Drop const &rhs);
+
+  Drop				&add(Drop const &rhs);
 
 public:
   void				clear();
   void				addItem(AItem *item, unsigned int const nb);
+  Stack<AItem>			*getStack(AItem *item);
 };
 
 #endif
