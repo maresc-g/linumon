@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Sun Mar 23 17:08:23 2014 cyril jourdain
+// Last update Mon Mar 24 17:55:31 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -69,6 +69,7 @@ void			WorldView::onInit()
 
 void			WorldView::onUpdate()
 {
+  _ressourcesLoader->checkCarcass();
   if (_mainPerso) {
     _mainPerso->moveFromServer(_sfmlView->getMainView());
     _mainPerso->updateMoves(_sfmlView->getMainClock(), _sfmlView->getMainView());
@@ -109,6 +110,7 @@ void			WorldView::drawView()
   if (_mainPerso) {
     _sfmlView->draw(*_mainPerso);
   }
+  _ressourcesLoader->drawLayer(RessourcesSpriteLoader::CARCASS_LAYER);
   _ressourcesLoader->drawLayer(RessourcesSpriteLoader::TOP_LAYER);
   if (_currentWindow)
     _currentWindow->draw();

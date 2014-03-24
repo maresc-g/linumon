@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar 14 11:04:13 2014 laurent ansel
-// Last update Wed Mar 19 19:05:38 2014 laurent ansel
+// Last update Mon Mar 24 18:18:37 2014 cyril jourdain
 //
 
 #include			"Entities/Carcass.hh"
@@ -106,6 +106,7 @@ bool				Carcass::serialization(Trame &trame) const
   trame["ID"] = static_cast<unsigned int>(this->getId());
   // this->_coord->serialization(trame);
   trame["RES"];
+  this->getCoord().serialization(trame(trame));
   for (auto it = this->begin() ; it != this->end() ; ++it)
     trame["RES"][(*it).getItem()->getName()] = (*it).getNb();
   return (true);

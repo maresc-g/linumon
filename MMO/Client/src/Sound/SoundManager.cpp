@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 20:11:19 2013 cyril jourdain
-// Last update Sun Mar 23 17:06:27 2014 cyril jourdain
+// Last update Mon Mar 24 16:58:00 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -120,7 +120,7 @@ void			SoundManager::loadSoundsFromFile(std::string const &file)
   for (auto it = musics.begin(); it != musics.end(); ++it)
     {
       std::cout << *it << std::endl;
-      addMusic(*it, jFile["Musics"][*it].asString());
+      addMusic(*it, jFile["Musics"][*it].asString(), true, 50);
     }
   sounds = jFile["Sounds"].getMemberNames();
   for (auto it = sounds.begin(); it != sounds.end(); ++it)

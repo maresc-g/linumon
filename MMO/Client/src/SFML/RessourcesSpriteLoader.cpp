@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Mar 19 16:18:26 2014 cyril jourdain
-// Last update Mon Mar 24 13:05:13 2014 cyril jourdain
+// Last update Mon Mar 24 18:24:44 2014 cyril jourdain
 //
 
 #include			<algorithm>
@@ -13,11 +13,13 @@
 #include			<QMenu>
 #include			"SFML/RessourcesSpriteLoader.hh"
 #include			"SFML/Entities/Healer.hh"
+#include			"SFML/CarcassSprite.hh"
 
 RessourcesSpriteLoader::RessourcesSpriteLoader(WindowManager *wMan) :
   _wMan(wMan), _loadMap(new RessourceLoadMap()),
   _layers(new LayerList())
 {
+  _layers->push_back(new Layer());
   _layers->push_back(new Layer());
   _layers->push_back(new Layer());
   _layers->push_back(new Layer());
@@ -111,7 +113,52 @@ void				RessourcesSpriteLoader::onMouseEvent(QMouseEvent *event)
 	    }
 	}  
     }
+    for (auto it = (*_layers)[CARCASS_LAYER]->begin(); it != (*_layers)[CARCASS_LAYER]->end(); ++it) {
+      if ((*it)->isClicked(v.x, v.y))
+	{
+	  (*it)->onClick(event);
+	  return;
+	}
+    }
   }
+}
+
+void				RessourcesSpriteLoader::checkCarcass()
+{
+  std::list<Carcass*>		*tmp = Map::getInstance()->getCarcasses((**_wMan->getMainPlayer())->getZone());
+
+  CarcassSprite			*car = NULL;
+  sf::Vector2i		*pos = new sf::Vector2i(0,0);
+
+  for (auto it2 = tmp->begin(); it2 != tmp->end(); ++it2)
+    {
+      auto it = find_if(_layers->at(CARCASS_LAYER)->begin(), _layers->at(CARCASS_LAYER)->end(),
+	      [&](Sprite *val){
+		if (static_cast<CarcassSprite*>(val)->getCarcassId() == (*it2)->getId())
+		  return true;
+		return false;
+	      });
+      if (it == _layers->at(CARCASS_LAYER)->end())
+	{
+	  car = new CarcassSprite(*it2, _wMan);
+	  if (!_wMan->getSFMLView()->getSpriteManager()->copySprite("Dragoball", *car))
+	    {
+	      delete car;
+	      return;
+	    }
+	  pos->x = static_cast<Carcass*>(*it2)->getX();
+	  pos->y = static_cast<Carcass*>(*it2)->getY();
+	  car->play("default_down");
+	  car->setPosition(pos->x * CASE_SIZE,
+			   pos->y * CASE_SIZE);
+	  car->setPos(pos->x,
+		      pos->y);
+	  _layers->at(CARCASS_LAYER)->push_back(car);
+	  std::cout << "Adding carcass to layer : pos" << pos->x << "/" << pos->y << std::endl;
+	}
+    }
+  delete pos;
+  // std::cout << "Nb carcass : " << tmp->size() << std::endl;
 }
 
 void				RessourcesSpriteLoader::defaultLoader(AEntity *en)

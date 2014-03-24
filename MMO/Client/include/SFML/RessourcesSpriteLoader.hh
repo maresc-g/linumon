@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Mar 15 23:10:42 2014 cyril jourdain
-// Last update Thu Mar 20 11:37:48 2014 cyril jourdain
+// Last update Mon Mar 24 17:41:22 2014 cyril jourdain
 //
 
 #ifndef 		__RESSOURCESSPRITELOADER_HH__
@@ -23,7 +23,8 @@ public:
     FLOOR_LAYER = 0,
     ON_FLOOR_LAYER,
     PNJ_LAYER,
-    TOP_LAYER
+    TOP_LAYER,
+    CARCASS_LAYER
   };
 
 private:
@@ -42,6 +43,7 @@ public:
   void			loadRessources();
   void			drawLayer(unsigned int layerId);
   void			onMouseEvent(QMouseEvent *event);
+  void			checkCarcass();
 
 private:
   void			defaultLoader(AEntity *);

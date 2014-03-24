@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Feb 26 14:58:57 2014 cyril jourdain
-// Last update Mon Mar 24 15:20:54 2014 cyril jourdain
+// Last update Mon Mar 24 17:07:29 2014 cyril jourdain
 //
 
 #include		<QMenu>
