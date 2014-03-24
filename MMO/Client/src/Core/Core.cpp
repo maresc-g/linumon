@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Mar 24 16:27:58 2014 guillaume marescaux
+// Last update Mon Mar 24 17:12:49 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -134,6 +134,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("DELETEMEMBER", func);
   func = std::bind1st(std::mem_fun(&Core::visible), this);
   _proto->addFunc("VISIBLE", func);
+  func = std::bind1st(std::mem_fun(&Core::newCarcass), this);
+  _proto->addFunc("NEWCARCASS", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -599,6 +601,12 @@ bool				Core::visible(Trame *trame)
     static_cast<Ressource *>(Map::getInstance()->getEntityById((**_player)->getZone(), (*trame)[CONTENT]["VISIBLE"]["ID"].asUInt()));
 
   ressource->setVisible((*trame)[CONTENT]["VISIBLE"]["IS"].asBool());
+  return (true);
+}
+
+bool				Core::newCarcass(Trame *trame)
+{
+  Map::getInstance()->addCarcass((**_player)->getZone(), Carcass::deserialization((*trame)((*trame)[CONTENT]["NEWCARCASS"])));
   return (true);
 }
 
