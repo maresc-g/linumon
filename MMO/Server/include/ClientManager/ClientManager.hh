@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 15:57:38 2013 laurent ansel
-// Last update Sat Mar 22 21:45:21 2014 laurent ansel
+// Last update Mon Mar 24 14:29:30 2014 antoine maitre
 //
 
 #ifndef 			__CLIENTMANAGER_HH__
@@ -62,7 +62,7 @@ public:
 
   void				newState(FD const fd, Client::eState const state) const;
 
-  void				heal(FD const fd, unsigned int const idHeal) const;
+  void				heal(FD const fd) const;
 
   void				sendAllInformationModel(FD const fd) const;
   bool				stuff(FD const fd, bool const get, unsigned int const idItem, unsigned int const target) const;
