@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Sat Mar 22 17:33:54 2014 guillaume marescaux
+// Last update Mon Mar 24 13:46:49 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -250,6 +250,11 @@ Digitaliser const		&Player::getDigitaliser() const
   return (*_digitaliser);
 }
 
+Digitaliser			&Player::getDigitaliser()
+{
+  return (*_digitaliser);
+}
+
 void				Player::setDigitaliser(Digitaliser const &digit)
 {
   *this->_digitaliser = digit;
@@ -345,6 +350,13 @@ void				Player::addItem(Stack<AItem> *stack)
 AItem				*Player::getAndDeleteItem(unsigned int const item) const
 {
   return (this->_inventory->getAndDeleteItem(item));
+}
+
+void				Player::drop(Drop const &drop)
+{
+  std::for_each(drop.begin(), drop.end(), [&](Drop::value_type const &stack) -> void {
+      this->_inventory->addItem(stack.getItem(), stack.getNb());
+    });
 }
 
 void				Player::addMob(Mob *mob)
@@ -569,9 +581,9 @@ Player				*Player::deserialization(Trame const &trame)
   return (player);
 }
 
-void				Player::addTalent(Talent const &talent)
+void				Player::addTalent(Talent *talent)
 {
-  this->_talents->getContainer().push_back(new Talent(talent));
+  this->_talents->getContainer().push_back(talent);
 }
 
 TalentTree const		&Player::getTalentTree() const

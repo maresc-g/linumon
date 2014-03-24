@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Sat Mar 22 16:33:11 2014 laurent ansel
+// Last update Mon Mar 24 13:51:33 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -28,6 +28,7 @@
 
 class			User;
 class			Faction;
+class			Drop;
 
 class			Player : public Persistent, public ACharacter, public ISerialization
 {
@@ -110,6 +111,7 @@ public:
   void				guildRemovePlayer(std::string const &name);
 
   Digitaliser const		&getDigitaliser() const;
+  Digitaliser			&getDigitaliser();
 
 # ifndef	CLIENT_COMPILATION
   DBZone const			&getDBZone() const;
@@ -126,7 +128,7 @@ public:
 # endif
   virtual void			levelUp();
 
-  void				addTalent(Talent const &talent);
+  void				addTalent(Talent *talent);
   Talents const			&getTalents() const;
   void				setTalents(Talents const &list);
   bool				incTalent(TalentModel const &model);
@@ -149,6 +151,7 @@ public:
   void				addItem(AItem *item);
   void				addItem(Stack<AItem> *stack);
   AItem				*getAndDeleteItem(unsigned int const stack) const;
+  void				drop(Drop const &drop);
 
   void				addMob(Mob *mob);
   Mob				*getAndDeleteMob(unsigned int const mob) const;
