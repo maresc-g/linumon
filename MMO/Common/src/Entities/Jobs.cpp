@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 12:53:14 2014 laurent ansel
-// Last update Tue Mar  4 15:49:03 2014 alexis mestag
+// Last update Sun Mar 23 19:50:57 2014 laurent ansel
 //
 
 #include			<sstream>
@@ -45,6 +45,19 @@ Jobs::container_type const	&Jobs::getJobs() const
 void				Jobs::setJobs(container_type const &jobs)
 {
   this->setContainer(jobs);
+}
+
+Job				*Jobs::getJobWithRessource(std::string const &gather) const
+{
+  for (auto it = this->begin() ; it != this->end() ; it++)
+    {
+      for (auto itG = (*it)->getJobModel().getGathers().begin() ; itG != (*it)->getJobModel().getGathers().begin() ; ++itG)
+	{
+	  if ((*itG).getRessource().getName() == gather)
+	    return (*it);
+	}
+    }
+  return (NULL);
 }
 
 void				Jobs::setJob(Job *job)

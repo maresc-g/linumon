@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Mar 13 15:42:01 2014 laurent ansel
-// Last update Sat Mar 22 21:31:38 2014 laurent ansel
+// Last update Sun Mar 23 21:42:50 2014 laurent ansel
 //
 
 #include			<functional>
@@ -24,10 +24,10 @@ GuildManager::GuildManager()
   Server::getInstance()->addFuncProtocol("INVITE", func);
 
   func = std::bind1st(std::mem_fun(&GuildManager::accept), this);
-  Server::getInstance()->addFuncProtocol("ACCEPT", func);
+  Server::getInstance()->addFuncProtocol("GACCEPT", func);
 
   func = std::bind1st(std::mem_fun(&GuildManager::refuse), this);
-  Server::getInstance()->addFuncProtocol("REFUSE", func);
+  Server::getInstance()->addFuncProtocol("GREFUSE", func);
 
   func = std::bind1st(std::mem_fun(&GuildManager::gQuit), this);
   Server::getInstance()->addFuncProtocol("GQUIT", func);
@@ -83,9 +83,15 @@ bool				GuildManager::invite(Trame *trame)
       guild = Guild::getGuild((*trame)[CONTENT]["INVITE"]["GUILD"].asString());
       if (guild && !guild->inGuild((*trame)[CONTENT]["INVITE"]["PLAYER"].asString()))
 	{
-	  ClientManager::getInstance()->inviteInGuild((*trame)[CONTENT]["INVITE"]["PLAYER"].asString(), (*trame)[CONTENT]["INVITE"]["GUILD"].asString());
+	  if (ClientManager::getInstance()->inviteInGuild((*trame)[CONTENT]["INVITE"]["PLAYER"].asString(), (*trame)[CONTENT]["INVITE"]["GUILD"].asString()))
 	  //	  ClientManager::getInstance()->newGuild((*trame)[CONTENT]["INVITE"]["PLAYER"].asString(), guild);
-	  return (true);
+	    return (true);
+	  else if (ObjectPoolManager::getInstance()->setObject(error, "error"))
+	    {
+	      error->setType(Error::OCCUPED);
+	      Server::getInstance()->callProtocol<Error *>("ERROR", (*trame)[HEADER]["IDCLIENT"].asInt(), error);
+	      delete error;
+	    }
 	}
       else if (ObjectPoolManager::getInstance()->setObject(error, "error"))
 	{
@@ -107,9 +113,9 @@ bool				GuildManager::accept(Trame *trame)
   Guild				*guild;
   bool				ret = false;
 
-  if ((*trame)[CONTENT].isMember("ACCEPT"))
+  if ((*trame)[CONTENT].isMember("GACCEPT"))
     {
-      guild = Guild::getGuild((*trame)[CONTENT]["ACCEPT"].asString());
+      guild = Guild::getGuild((*trame)[CONTENT]["GACCEPT"].asString());
       if (guild)
 	ClientManager::getInstance()->newGuild((*trame)[HEADER]["IDCLIENT"].asInt(), guild);
     }

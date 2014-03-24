@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 19:55:36 2013 cyril jourdain
-// Last update Sun Nov 24 17:44:51 2013 cyril jourdain
+// Last update Sun Mar 23 17:05:30 2014 cyril jourdain
 //
 
 #ifndef 		__SOUNDMANAGER_HH__
@@ -33,11 +33,13 @@ public:
   void			addSound(std::string const &name,std::string const &path);
   void			addMusic(std::string const &name,std::string const &path, bool loop = true,
 				 int volume = 100);
-  void			playSound(std::string const &name);
+  void			playSound(std::string const &name, int volume = 80);
+  void			playSoundForce(std::string const &name, int volume = 80);
   void			playMusic(std::string const &name);
   void			pauseMusic(std::string const &name);
   void			stopMusic(std::string const &name);
   void			loadDefaultSounds();
+  void			loadSoundsFromFile(std::string const &file);
 };
 
 #endif

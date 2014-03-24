@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Sat Mar 22 18:13:45 2014 alexis mestag
+// Last update Sun Mar 23 14:23:00 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -155,6 +155,21 @@ void				Stats::setStat(StatKey const &key, Stat::value_type const value)
     s->setRawValue(value);
   else
     this->getContainer().push_back(Stat(key, value));
+}
+
+Stat::bonus_type		Stats::getBonus(StatKey const &key) const
+{
+  Stat const			*s = this->get(key);
+
+  return (s ? s->getBonus() : Stat::bonus_type());
+}
+
+void				Stats::setBonus(StatKey const &key, Stat::bonus_type const value)
+{
+  Stat				*s = this->get(key);
+
+  if (s)
+    s->setBonus(value);
 }
 
 Stats::container_type const	&Stats::getStats() const

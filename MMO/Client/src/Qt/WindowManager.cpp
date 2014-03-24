@@ -47,8 +47,9 @@ WindowManager::WindowManager(int &ac, char **av, MutexVar<CLIENT::eState> *state
   hideSfmlView();
   hideCharacter();
   showLogin();
-  SoundManager::getInstance()->loadDefaultSounds();
-  SoundManager::getInstance()->playMusic(MENU_THEME);
+  // SoundManager::getInstance()->loadDefaultSounds();
+  SoundManager::getInstance()->loadSoundsFromFile("./Res/Music/soundList.json");
+  SoundManager::getInstance()->playMusic("MenuTheme");
 }
 
 WindowManager::~WindowManager()

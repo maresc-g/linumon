@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb 17 15:32:06 2014 cyril jourdain
-// Last update Fri Mar 21 11:12:56 2014 cyril jourdain
+// Last update Sat Mar 22 19:42:22 2014 cyril jourdain
 //
 
 #ifndef				__WORLDVIEW_HH__
@@ -28,8 +28,6 @@ private:
 private:
   PlayerSprite			*_mainPerso;
   std::vector<OPlayerSprite *>	*_playerList;
-  std::list<RessourceSprite*>	*_entities;
-  std::list<RessourceSprite*>	*_topLayer;
   KeyMap			*_keyMap;
   Qt::Key			_pressedKey;
   RessourcesSpriteLoader	*_ressourcesLoader;

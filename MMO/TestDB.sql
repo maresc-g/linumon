@@ -11,11 +11,24 @@ INSERT INTO `User`(`id`, `pseudo`, `password`) VALUES
 DELETE FROM `EffectLib`;
 
 INSERT INTO `EffectLib`(`id`, `name`, `path`) VALUES
-       (1, 'HesodeEffect', 'Libs/HesodeEffect.so'),
-       (2, 'CelestiaEffect', 'Libs/CelestiaEffect.so'),
-       (3, 'NormalEffect', 'Libs/NormalEffect.so'),
-       (4, 'PotionEffect', 'Libs/PotionEffect.so'),
-       (5, 'SuperPotionEffect', 'Libs/SuperPotionEffect.so');
+       ( 1, 'HesodeEffect',			'Libs/HesodeEffect.so'),
+       ( 2, 'CelestiaEffect',			'Libs/CelestiaEffect.so'),
+       ( 3, 'NormalEffect',			'Libs/NormalEffect.so'),
+       ( 4, 'PotionEffect',			'Libs/PotionEffect.so'),
+       ( 5, 'SuperPotionEffect',		'Libs/SuperPotionEffect.so'),
+       ( 6, 'AtkElectricTalentEffect',		'Libs/AtkElectric_TalentEffect.so'),
+       ( 7, 'AtkFireTalentEffect',		'Libs/AtkFire_TalentEffect.so'),
+       ( 8, 'AtkTalentEffect',			'Libs/Atk_TalentEffect.so'),
+       ( 9, 'BagCapacityTalentEffect',		'Libs/BagCapacity_TalentEffect.so'),
+       (10, 'BattleMobTalentEffect',		'Libs/BattleMob_TalentEffect.so'),
+       (11, 'CaptureTalentEffect',		'Libs/Capture_TalentEffect.so'),
+       (12, 'DefRockTalentEffect',		'Libs/DefRock_TalentEffect.so'),
+       (13, 'DefSteelTalentEffect',		'Libs/DefSteel_TalentEffect.so'),
+       (14, 'DefTalentEffect',			'Libs/Def_TalentEffect.so'),
+       (15, 'HealGrassTalentEffect',		'Libs/HealGrass_TalentEffect.so'),
+       (16, 'HealWaterTalentEffect',		'Libs/HealWater_TalentEffect.so'),
+       (17, 'HealTalentEffect',			'Libs/Heal_TalentEffect.so'),
+       (18, 'HPTalentEffect',			'Libs/HP_TalentEffect.so');
 
 /* Inserting Factions */
 DELETE FROM `Faction`;

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb 17 12:55:28 2014 cyril jourdain
-// Last update Sun Mar 16 16:50:54 2014 cyril jourdain
+// Last update Sat Mar 22 22:57:00 2014 cyril jourdain
 //
 
 #include		<QMessageBox>
@@ -18,7 +18,6 @@ ChatView::ChatView(QWidget *parent, WindowManager *man) :
 {
   ui.setupUi(this);
   ui.le_chatText->clearFocus();
-  connect(ui.le_chatText, SIGNAL(clicked()), this, SLOT(setLineFocus()));
   ui.le_chatText->installEventFilter(this);
   ui.tb_chat->installEventFilter(this);
 }
