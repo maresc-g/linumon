@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Mar 24 14:04:41 2014 alexis mestag
+// Last update Mon Mar 24 15:35:14 2014 alexis mestag
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -819,8 +819,12 @@ bool			endBattle(unsigned int const id,
 	(*trame)[CONTENT]["ENDBATTLE"]["DROP"][stack->getItem()->getName()] = stack->getNb();
       }
       /* Send Player inventory */
-      player->serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]));
-
+      // player->serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]));
+      player->getDigitaliser().serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]));
+      (*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]["CEXP"] = player->getCurrentExp();
+      (*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]["EXP"] = player->getExp();
+      (*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]["LVL"] = player->getLevel();
+      player->getInventory().serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;

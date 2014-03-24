@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Mar 24 14:02:37 2014 alexis mestag
+// Last update Mon Mar 24 14:42:05 2014 alexis mestag
 //
 
 #include				"Battle/Battle.hh"
@@ -90,7 +90,6 @@ bool					Battle::checkEnd()
 	}
     }
   return (false);
-  
 }
 
 bool					Battle::spell(unsigned int const launcher, unsigned int const target, Spell *spell) //, int id_lanceur
@@ -298,6 +297,25 @@ void					Battle::trameEndBattle()
 {
   for (auto it = this->_players.begin(); it != this->_players.end(); ++it)
     {
+      if ((*it)->getType() == Player::PlayerType::AI && (*it)->getId() == this->_idLooser)
+	{
+	  Player			*p = *it;
+	  Player			*oPlayer = this->_players.front();
+	  Mob				*m;
+	  Carcass			*c;
+
+	  for (auto jt = p->getDigitaliser().getBattleMobs().begin() ;
+	       jt != p->getDigitaliser().getBattleMobs().end() ; ++jt)
+	    {
+	      m = *jt;
+	      c = m->getNewCarcass();
+	      c->setCoord(oPlayer->getCoord());
+	      Map::getInstance()->addEntity(p->getZone(), c);
+	      /*
+	      ** Reste à envoyer les carcass aux Clients
+	      */
+	    }
+	}
       if ((*it)->getType() == Player::PlayerType::PLAYER)
 	{
 	  if ((*it)->getId() == this->_idLooser) {
