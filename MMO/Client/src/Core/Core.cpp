@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Sun Mar 23 13:33:32 2014 guillaume marescaux
+// Last update Mon Mar 24 11:09:14 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -523,6 +523,11 @@ bool				Core::entity(Trame *trame)
       static_cast<Player *>(entity)->setX((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["X"].asInt());
       static_cast<Player *>(entity)->setY((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["Y"].asInt());
       map->move(entity);
+      if (entity->getId() == (**_player)->getId())
+	{
+	  (**_player)->setCoord((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["X"].asInt(),
+				((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["Y"].asInt()));
+	}
     }
   return (true);
 }
@@ -583,6 +588,10 @@ bool				Core::deleteMember(Trame *trame)
 
 bool				Core::heal(Trame *)
 {
+  for (auto it = (**_player)->getDigitaliser().begin() ; it != (**_player)->getDigitaliser().end() ; ++it)
+    (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
+  for (auto it = (**_player)->getDigitaliser().getBattleMobs().begin() ; it != (**_player)->getDigitaliser().getBattleMobs().end() ; ++it)
+    (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
   return true;
 }
 
@@ -807,7 +816,8 @@ void				Core::heal(void)
 {
   for (auto it = (**_player)->getDigitaliser().begin() ; it != (**_player)->getDigitaliser().end() ; ++it)
     (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
-
+  for (auto it = (**_player)->getDigitaliser().getBattleMobs().begin() ; it != (**_player)->getDigitaliser().getBattleMobs().end() ; ++it)
+    (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
   (*_proto).operator()<unsigned int const>("HEAL", _id);  
 }
 

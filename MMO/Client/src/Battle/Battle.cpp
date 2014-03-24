@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar  5 12:23:42 2014 guillaume marescaux
-// Last update Fri Mar 21 17:53:59 2014 guillaume marescaux
+// Last update Mon Mar 24 10:43:56 2014 guillaume marescaux
 //
 
 #include			<algorithm>
@@ -50,7 +50,8 @@ void				Battle::setInfos(MutexVar<Player *> *player, unsigned int id, Player *en
 	  i++;
 	}
     }
-  for (auto it = mobs.begin() ; it != mobs.end() ; ++it)
+  i = 0;
+  for (auto it = mobs.begin() ; it != mobs.end() && i < maxMobs; ++it)
     (*it)->enterBattle();
   _id = id;
   _enemy = enemy;

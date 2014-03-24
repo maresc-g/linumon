@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Feb  3 12:55:31 2014 guillaume marescaux
-// Last update Sat Mar 22 13:17:27 2014 guillaume marescaux
+// Last update Mon Mar 24 11:22:18 2014 guillaume marescaux
 //
 
 #ifndef 		__ERRORHANDLER_HH__
@@ -42,6 +42,7 @@ private:
   void			nameExists(MutexVar<CLIENT::eState> *state, MutexVar<ErrorBox *> *errorBox);
   void			guildExists(MutexVar<CLIENT::eState> *state, MutexVar<ErrorBox *> *errorBox);
   void			alreadyInGuild(MutexVar<CLIENT::eState> *state, MutexVar<ErrorBox *> *errorBox);
+  void			occupied(MutexVar<CLIENT::eState> *state, MutexVar<ErrorBox *> *errorBox);
 };
 
 #endif
