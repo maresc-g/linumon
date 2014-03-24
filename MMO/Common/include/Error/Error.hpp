@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Jan 25 14:45:20 2014 laurent ansel
-// Last update Thu Mar 13 15:55:03 2014 laurent ansel
+// Last update Sun Mar 23 21:44:29 2014 laurent ansel
 //
 
 #ifndef			__ERROR_HPP__
@@ -26,6 +26,7 @@ public:
       NOITEM,
       GUILDEXIST,
       ALREADYINGUILD,
+      OCCUPED,
       NOTHING
     };
 
@@ -83,7 +84,8 @@ public:
 	{NOTEQUIPPABLE,	"not equippable"},
 	{NOITEM,	"no item"},
 	{GUILDEXIST,	"guild already exist"},
-	{ALREADYINGUILD,"player already in guild"}
+	{ALREADYINGUILD,"player already in guild"},
+	{OCCUPED,	"player occuped"}
       };
     _msg = "Error  : " + map[_type];
   }

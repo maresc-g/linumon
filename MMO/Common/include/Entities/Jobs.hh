@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 12:52:53 2014 laurent ansel
-// Last update Tue Mar  4 15:46:54 2014 alexis mestag
+// Last update Sun Mar 23 19:50:06 2014 laurent ansel
 //
 
 #ifndef 			__JOBS_HH__
@@ -31,6 +31,8 @@ public:
   void				setJobs(container_type const &jobs);
   void				setJob(Job *job);
   void				setJob(std::string const &name, Job *job);
+
+  Job				*getJobWithRessource(std::string const &gather) const;
 
   virtual bool			serialization(Trame &trame) const;
   static Jobs			*deserialization(Trame const &trame);

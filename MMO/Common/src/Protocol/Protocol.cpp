@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Sun Mar 23 13:35:48 2014 guillaume marescaux
+// Last update Sun Mar 23 19:41:44 2014 laurent ansel
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -1409,7 +1409,7 @@ bool			newMember(unsigned int const id, PlayerView *player, Zone *zone)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      player->serialization((*trame)((*trame)[CONTENT]["NEWMEMBER"]));
+      player->serialization((*trame)((*trame)[CONTENT]["NEWMEMBER"][player->name]));
       trame->setEnd(true);
       ret = sendToAllClient(id, trame, zone, false);
     }
