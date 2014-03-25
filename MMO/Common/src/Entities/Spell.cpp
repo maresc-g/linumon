@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:54:34 2013 alexis mestag
-// Last update Sun Mar  9 01:30:07 2014 cyril jourdain
+// Last update Tue Mar 25 14:42:31 2014 alexis mestag
 //
 
 #include			"Entities/Spell.hh"
@@ -38,9 +38,9 @@ Spell				&Spell::operator=(Spell const &rhs)
   return (*this);
 }
 
-void				Spell::operator()(Mob &caster, Mob &target)
+#ifdef			SERVER_COMPILATION
+void				Spell::operator()(Mob &caster, Mob &target, BattleParams &battle)
 {
-#ifndef			CLIENT_COMPILATION
 
   static std::vector<std::type_info const *> const	typeTab = {
     &typeid(Mob),
@@ -53,15 +53,11 @@ void				Spell::operator()(Mob &caster, Mob &target)
     return ;
   }
 
-  sEffect->initialize(caster, *this, target);
+  sEffect->initialize(caster, *this, target, battle);
   sEffect->apply(target);
-
   delete effect;
-
-#endif
-  (void)caster;
-  (void)target;
 }
+#endif
 
 Type const			&Spell::getType() const
 {

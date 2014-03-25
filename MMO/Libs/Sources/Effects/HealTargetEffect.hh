@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Mar 25 10:17:29 2014 alexis mestag
-// Last update Tue Mar 25 10:20:58 2014 alexis mestag
+// Last update Tue Mar 25 14:47:53 2014 alexis mestag
 //
 
 #ifndef				__HEALTARGETEFFECT_HH__
@@ -23,7 +23,8 @@ public:
   virtual ~HealTargetEffect();
 
 public:
-  virtual void			initialize(Mob &caster, Spell &spell, Mob &target);
+  virtual void			initialize(Mob &caster, Spell &spell, Mob &target,
+					   BattleParams &battle);
   virtual bool			apply(Mob &mob);
 };
 

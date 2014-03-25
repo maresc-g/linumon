@@ -5,12 +5,13 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Sun Mar 23 23:47:08 2014 antoine maitre
+// Last update Tue Mar 25 15:28:41 2014 alexis mestag
 //
 
 #include			"Battle/BattleUpdater.hh"
 #include			"Server/Server.hh"
 #include			"Loader/LoaderManager.hh"
+#include			"AI/AI.hh"
 
 BattleUpdater::BattleUpdater()
   : Thread(),
@@ -172,7 +173,10 @@ bool				BattleUpdater::spell(Trame *trame)
       if ((*it)->getID() == (*trame)["SPELL"]["IDBATTLE"].asUInt())
 	{
 	  std::cout << "J AI TROUVE L IDBATTLE" << std::endl;
-	  if ((*it)->spell((*trame)["SPELL"]["LAUNCHER"].asUInt(), (*trame)["SPELL"]["TARGET"].asUInt(), spell))
+	  (*it)->setLauncherMob((*it)->getMobById((*trame)["SPELL"]["LAUNCHER"].asUInt()));
+	  (*it)->setTargetMob((*it)->getMobById((*trame)["SPELL"]["TARGET"].asUInt()));
+	  (*it)->setSpell(spell);
+	  if ((*it)->spell())
 	    tmp = (*it);
 	  else
 	    (*it)->next();

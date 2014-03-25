@@ -5,17 +5,18 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Mar 25 10:50:25 2014 alexis mestag
+// Last update Tue Mar 25 16:19:54 2014 alexis mestag
 //
 
+#include				"Server/Server.hh"
 #include				"Battle/Battle.hh"
-#include				"Database/Repositories/StatKeyRepository.hpp"
+#include				"AI/AI.hh"
 
 Battle::Battle(unsigned int const id, eBattle const type, unsigned int const mobNumber, Player *player1, Player *player2)
   : _id(id), _type(type),
-    _mobNumber(mobNumber), _money(0), _exp(0), _success(true)
+    _mobNumber(mobNumber), _success(true),
+    _battleParams(new BattleParams(&_mobs))
 {
-  // static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
   unsigned int i = 0;
 
   for (auto it = player1->getDigitaliser().getBattleMobs().begin(); it != player1->getDigitaliser().getBattleMobs().end(); it++)
@@ -47,6 +48,7 @@ Battle::~Battle()
 	if ((*it)->getType() == Player::PlayerType::PLAYER)
 	  ClientManager::getInstance()->endBattle((*it)->getId());
     }
+  delete _battleParams;
 }
 
 void					Battle::disconnect(unsigned int const idPlayer) const
@@ -92,41 +94,48 @@ bool					Battle::checkEnd()
   return (false);
 }
 
-bool					Battle::spell(unsigned int const launcher, unsigned int const target, Spell *spell) //, int id_lanceur
+bool					Battle::spell()
 {
-  static StatKey const			*hpKey = Database::getRepository<StatKey>().getByName("HP");
-  Mob					*mobLauncher = NULL;
-  Mob					*mobTarget = NULL;
-  int					hpChange[2] = {0, 0};
+  Mob					*mobLauncher = this->getLauncherMob();
 
-  for (auto it = this->_mobs.begin(); it != this->_mobs.end(); it++)
-    {
-      if ((*it)->getId() == launcher)
-	mobLauncher = (*it);
-      if ((*it)->getId() == target)
-	mobTarget = (*it);
-    }
+  /*
+  ** Check if there's not autoAssigned target for launcher
+  */
+  Mob	*autoAssignedTarget = _battleParams->getAutoAssignedTargetFor(mobLauncher);
+
+  // std::cerr << "Launching " << this->getSpell()->getName() << std::endl;
+  // std::cerr << "Searching for auto assigned targets for " << mobLauncher->getName() << std::endl;
+  if (autoAssignedTarget) {
+    // std::cerr << "\tFound it : " << autoAssignedTarget->getName() << std::endl;
+    this->setTargetMob(autoAssignedTarget);
+    _battleParams->eraseAutoAssignedTargetFor(mobLauncher);
+  }
+
+  Mob					*mobTarget = this->getTargetMob();
+
   if (mobLauncher && mobTarget)
     {
+      int				hpChange[2] = {0, 0};
+
       hpChange[0] = mobTarget->getCurrentStat("HP");
       hpChange[1] = mobLauncher->getCurrentStat("HP");
-      (*spell)(*mobLauncher, *mobTarget);
+      (*this->getSpell())(*mobLauncher, *mobTarget, *_battleParams);
       for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	if ((*it)->getType() == Player::PlayerType::PLAYER)
 	  {
 	    hpChange[0] -= mobTarget->getCurrentStat("HP");
 	    hpChange[1] -= mobLauncher->getCurrentStat("HP");
-	    this->trameSpell((*it)->getUser().getId(), spell, launcher, target);
-	    this->trameSpellEffect((*it)->getUser().getId(), target, -hpChange[0]);
-	    if (launcher != target)
-	      this->trameSpellEffect((*it)->getUser().getId(), launcher, -hpChange[1]);
-	  } 
-      Stats const			&statMob = mobTarget->getCurrentStats();
-      if (statMob.getStat(*hpKey) <= 0)
+	    this->trameSpell((*it)->getUser().getId(), this->getSpell(),
+			     mobLauncher->getId(), mobTarget->getId());
+	    this->trameSpellEffect((*it)->getUser().getId(), mobTarget->getId(), -hpChange[0]);
+	    if (mobLauncher != mobTarget)
+	      this->trameSpellEffect((*it)->getUser().getId(), mobLauncher->getId(), -hpChange[1]);
+	  }
+      if (mobTarget->getCurrentStat("HP") <= 0)
 	{
 	  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	    if ((*it)->getType() == Player::PlayerType::PLAYER)
-	      this->trameDeadMob((*it)->getUser().getId(), target);
+	      this->trameDeadMob((*it)->getUser().getId(), mobTarget->getId());
 	  this->replace();
 	}
     }
@@ -223,15 +232,19 @@ void					Battle::next()
     }
   else if (this->checkEnd())
     return;
-  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+  for (auto it = this->_players.begin(); it != this->_players.end(); ++it)
     if ((*it)->getType() == Player::PlayerType::PLAYER)
       this->trameTurnTo((*it)->getUser().getId(), tmp->getId());
-  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+  for (auto it = this->_players.begin(); it != this->_players.end(); ++it)
     {
       if ((*it)->isMyMob(tmp->getId()) && (*it)->getType() == Player::PlayerType::AI)
 	{
 	  auto tmp2 = static_cast<AI *>((*it))->action(tmp->getId(), this->_mobNumber);
-	  if (!this->spell(std::get<0>(tmp2), std::get<1>(tmp2), (Spell *)std::get<2>(tmp2)))
+
+	  this->setLauncherMob(this->getMobById(std::get<0>(tmp2)));
+	  this->setTargetMob(this->getMobById(std::get<1>(tmp2)));
+	  this->setSpell((Spell *)std::get<2>(tmp2));
+	  if (!this->spell())
 	    this->next();
 	  return;
 	}
@@ -240,7 +253,7 @@ void					Battle::next()
 
 bool					Battle::isInThisBattle(unsigned int const idPlayer)
 {
-  for (auto it = this->_players.begin(); it != this->_players.end(); it++)
+  for (auto it = this->_players.begin(); it != this->_players.end(); ++it)
     if ((*it)->getId() == idPlayer)
       {
 	// this->_money = 0;
@@ -313,9 +326,13 @@ void					Battle::trameEndBattle()
 	    {
 	      m = *jt;
 	      c = m->getNewCarcass();
-	      c->setCoord(oPlayer->getCoord());
-	      Map::getInstance()->addCarcass(oPlayer->getZone(), c);
-	      Server::getInstance()->callProtocol<Zone *, Carcass const *>("NEWCARCASS", oPlayer->getUser().getId(), Map::getInstance()->getZone(oPlayer->getZone()), c);
+	      if (c->size()) {
+		c->setCoord(oPlayer->getCoord());
+		Map::getInstance()->addCarcass(oPlayer->getZone(), c);
+		Server::getInstance()->callProtocol<Zone *, Carcass const *>("NEWCARCASS", oPlayer->getUser().getId(), Map::getInstance()->getZone(oPlayer->getZone()), c);
+	      }
+	      else
+		delete c;
 	    }
 	}
       if ((*it)->getType() == Player::PlayerType::PLAYER)
@@ -371,4 +388,46 @@ bool					compareSpeed(Mob *mob1, Mob *mob2)
     return (true);
   else
     return (false);
+}
+
+Mob					*Battle::getMobById(unsigned int const id)
+{
+  std::function<bool(Mob *)>		mobSeeker = [&](Mob *m) -> bool {
+    return (m->getId() == id);
+  };
+  auto					it = std::find_if(_mobs.begin(),
+							  _mobs.end(),
+							  mobSeeker);
+
+  return (it != _mobs.end() ? *it : NULL);
+}
+
+Mob					*Battle::getLauncherMob()
+{
+  return (_battleParams->getLauncherMob());
+}
+
+void					Battle::setLauncherMob(Mob *mob)
+{
+  _battleParams->setLauncherMob(mob);
+}
+
+Mob					*Battle::getTargetMob()
+{
+  return (_battleParams->getTargetMob());
+}
+
+void					Battle::setTargetMob(Mob *mob)
+{
+  _battleParams->setTargetMob(mob);
+}
+
+Spell					*Battle::getSpell()
+{
+  return (_battleParams->getSpell());
+}
+
+void					Battle::setSpell(Spell *s)
+{
+  _battleParams->setSpell(s);
 }

@@ -136,6 +136,7 @@ SOURCES +=      src/main.cpp \
                 src/Battle/SpellContainer.cpp \
                 src/Trade/Trade.cpp \
                 src/Sound/SoundManager.cpp \
+                ../Common/src/Battle/BattleParams.cpp \ 
                 ../Common/src/Map/Map.cpp \
                 ../Common/src/Crypto/Crypto.cpp \ 
                 ../Common/src/Mutex/AMutex.cpp \ 

@@ -30,7 +30,9 @@ INSERT INTO `EffectLib`(`id`, `name`, `path`) VALUES
        (17, 'HealTalentEffect',			'Libs/Heal_TalentEffect.so'),
        (18, 'HPTalentEffect',			'Libs/HP_TalentEffect.so'),
        (19, 'HealEffect',			'Libs/HealEffect.so'),
-       (20, 'HealTargetEffect',			'Libs/HealTargetEffect.so');
+       (20, 'HealTargetEffect',			'Libs/HealTargetEffect.so'),
+       (21, 'ContreEffect',			'Libs/ContreEffect.so'),
+       (22, 'AttiranceEffect',			'Libs/AttiranceEffect.so');
 
 /* Inserting Factions */
 DELETE FROM `Faction`;
@@ -123,7 +125,8 @@ INSERT INTO `Type`(`id`, `name`) VALUES
        (3, 'Grass'),
        (4, 'Electric'),
        (5, 'Rock'),
-       (6, 'Steel');
+       (6, 'Steel'),
+       (7, 'Normal');
 
 /* Assigning Types to Types */
 DELETE FROM `Type_relations`;
@@ -284,7 +287,9 @@ INSERT INTO `Spell`(`id`, `name`, `type`, `power`, `useLimit`, `effectLib`) VALU
        (24, 'Tacle lourd',	6, 100, 0,  3),
        (25, 'Mega-Sangsue',	3,  40, 0, 19),
        (26, 'Absorption',	2,  60, 0, 19),
-       (27, 'Soin',		3,   0, 0, 20);
+       (27, 'Soin',		3,   0, 0, 20),
+       (28, 'Contre',		7,   0, 0, 21),
+       (29, 'Attirance',	7,   0, 0, 22);
 
 /* Assigning Spells to MobModels */
 DELETE FROM `MobModel_spells`;
@@ -295,16 +300,21 @@ INSERT INTO `MobModel_spells`(`object_id`, `index`, `value`) VALUES
        (1, 1,  2),
        (1, 2,  3),
        (1, 3,  4),
+       (1, 4, 28),
+       (1, 5, 29),
        /* Blastoise */
-       (2, 0, 26),
+       (2, 0,  5),
        (2, 1,  6),
        (2, 2,  7),
        (2, 3,  8),
+       (2, 4, 26),
        /* Venusaur */
-       (3, 0, 27),
-       (3, 1, 25),
+       (3, 0,  9),
+       (3, 1, 10),
        (3, 2, 11),
        (3, 3, 12),
+       (3, 4, 27),
+       (3, 5, 25),
        /* Pikachu */
        (4, 0, 13),
        (4, 1, 14),
@@ -315,11 +325,13 @@ INSERT INTO `MobModel_spells`(`object_id`, `index`, `value`) VALUES
        (5, 1, 18),
        (5, 2, 19),
        (5, 3, 20),
+       (5, 4, 29),
        /* Klink */
        (6, 0, 21),
        (6, 1, 22),
        (6, 2, 23),
-       (6, 3, 24);
+       (6, 3, 24),
+       (6, 4, 29);
 
 /* Assigning Stats to MobModels */
 DELETE FROM `MobModel_stats`;
