@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Mon Mar 24 16:23:29 2014 alexis mestag
+// Last update Tue Mar 25 15:07:36 2014 cyril jourdain
 //
 
 #include			<sstream>
@@ -183,6 +183,46 @@ bool				Job::doGather(std::string const &nameRessource, Stack<AItem> *&result, u
   }
   return (ret);
 }
+
+bool				Job::doGather(std::list<Stack<AItem> *> *&result, Carcass *carcass)
+{
+  bool				ret = false;
+  // unsigned int			exp = 0;
+  Ressource			*item;
+  auto				itemCarcass = carcass->begin();
+  Stack<AItem>			*stack;
+
+  for (auto it = carcass->begin(); it != carcass->end(); ++it)
+    {
+      std::cout << "Job::doGather : in for" << std::endl;
+      ret = true;
+      auto res = find_if(getJobModel().getGathers().begin(),
+			 getJobModel().getGathers().end(),[&](Gather const g){
+			   std::cout << "Looking for " << g.getRessource().getName() << " in "
+			   << it->getItem()->getName() << std::endl;
+			   if (g.getRessource().getName() == it->getItem()->getName())
+			     return true;
+			   return false;
+			 });
+      if (res != getJobModel().getGathers().end()){
+	std::cout << "Found ressources in jobModel" << std::endl;
+	item = NULL;
+	this->incCurrentExp(res->getExp());
+	item = (**LoaderManager::getInstance()->getRessourceLoader())->getValue(res->getRessource().getName());
+	if (item)
+	  {
+	    stack = new Stack<AItem>;
+	    stack->setNb(it->getNb());
+	    stack->setItem(item);
+	    std::cout << "SETTING " << it->getNb() << " of " << item->getName() << std::endl;
+	    result->push_back(stack);
+	    // result->push_back(new Stack<AItem>(it->getNb(), item));
+	  }
+      }
+    }
+  return (ret);
+}
+
 
 bool				Job::serialization(Trame &trame) const
 {

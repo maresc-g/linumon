@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Mar 24 17:34:05 2014 alexis mestag
+// Last update Tue Mar 25 13:07:23 2014 cyril jourdain
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -1888,7 +1888,7 @@ bool			gather(unsigned int const id, unsigned int idRessource, std::string jobNa
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["GATHER"]["IDRESSOURCE"] = idRessource;
-      (*trame)[CONTENT]["GATHER"]["IDCARCASS"] = idCarcass;
+      (*trame)[CONTENT]["GATHER"]["CARCASS"] = idCarcass;
       (*trame)[CONTENT]["GATHER"]["JOBNAME"] = jobName;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);

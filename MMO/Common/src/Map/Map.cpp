@@ -5,9 +5,10 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Mon Mar 24 16:51:57 2014 guillaume marescaux
+// Last update Tue Mar 25 13:17:41 2014 cyril jourdain
 //
 
+#include			<algorithm>
 #include			"Map/Map.hh"
 
 Map::Map()
@@ -225,7 +226,17 @@ AEntity				*Map::getEntityById(std::string const &zone, unsigned int id)
   	      this->unlock();
   	      return (*itb);
   	    }
-  	}
+	}
+    }
+  auto it =find_if(_map[zone]->getCarcasses().begin(),_map[zone]->getCarcasses().end(), [&](Carcass const *car){
+      if (car->getId() == id)
+	return true;
+      return false;
+    });
+  if (it != _map[zone]->getCarcasses().end())
+    {
+      this->unlock();
+      return *it;
     }
   this->unlock();
   return (NULL);

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Mar 19 16:18:26 2014 cyril jourdain
-// Last update Mon Mar 24 18:24:44 2014 cyril jourdain
+// Last update Tue Mar 25 15:26:43 2014 cyril jourdain
 //
 
 #include			<algorithm>
@@ -80,7 +80,7 @@ void				RessourcesSpriteLoader::loadRessources()
 	    }
 	}
     }
-
+  checkCarcass();
 }
 
 void				RessourcesSpriteLoader::drawLayer(unsigned int layerId)
@@ -157,6 +157,15 @@ void				RessourcesSpriteLoader::checkCarcass()
 	  std::cout << "Adding carcass to layer : pos" << pos->x << "/" << pos->y << std::endl;
 	}
     }
+  std::for_each(_layers->at(CARCASS_LAYER)->begin(),_layers->at(CARCASS_LAYER)->end(), [&](Sprite *sprite){
+      auto it = find_if(tmp->begin(), tmp->end(), [&](Carcass *carcass){
+	  if (static_cast<CarcassSprite*>(sprite)->getCarcassId() == carcass->getId())
+	    return true;
+	  return false;
+	});
+      if (it == tmp->end())
+	_layers->at(CARCASS_LAYER)->remove(sprite);
+    });
   delete pos;
   // std::cout << "Nb carcass : " << tmp->size() << std::endl;
 }
