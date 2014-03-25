@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Mar 24 17:34:05 2014 alexis mestag
+// Last update Tue Mar 25 16:34:12 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -60,7 +60,7 @@ if (server)
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, unsigned int>("DEADMOB", &deadMob);
       this->_container->load<unsigned int, unsigned int>("TURNTO", &turnTo);
-      this->_container->load<unsigned int, unsigned int, bool, unsigned int, unsigned int, Player const *, Drop const *>("ENDBATTLE", &endBattle);
+      this->_container->load<unsigned int, unsigned int, bool, bool, unsigned int, unsigned int, Player const *, Drop const *>("ENDBATTLE", &endBattle);
       this->_container->load<unsigned int, int, Player::PlayerCoordinate const *>("ENTITY", &entity);
       this->_container->load<unsigned int, int, Zone *>("REMOVEENTITY", &removeEntity);
 
@@ -790,6 +790,7 @@ bool			turnTo(unsigned int const id, unsigned int const idMob)
 bool			endBattle(unsigned int const id, 
 				  unsigned int const idBattle,
 				  bool win, 
+				  bool pvp,
 				  unsigned int const money, 
 				  unsigned int const exp,
 				  Player const *player,
@@ -809,22 +810,30 @@ bool			endBattle(unsigned int const id,
       (*trame)[CONTENT]["ENDBATTLE"]["WIN"] = win;
       (*trame)[CONTENT]["ENDBATTLE"]["MONEY"] = money;
       (*trame)[CONTENT]["ENDBATTLE"]["EXP"] = exp;
+      (*trame)[CONTENT]["ENDBATTLE"]["PVP"] = pvp;
       /* Send Mob modif */
       
       /* Send Drop only */
       Drop::value_type const	*stack;
 
-      for (auto it = drop->begin() ; it != drop->end() ; ++it) {
-	stack = &*it;
-	(*trame)[CONTENT]["ENDBATTLE"]["DROP"][stack->getItem()->getName()] = stack->getNb();
-      }
+      if (drop)
+	{
+	  for (auto it = drop->begin() ; it != drop->end() ; ++it) {
+	    stack = &*it;
+	    (*trame)[CONTENT]["ENDBATTLE"]["DROP"][stack->getItem()->getName()] = stack->getNb();
+	  }
+	}
       /* Send Player inventory */
       // player->serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]));
-      player->getDigitaliser().serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]));
-      (*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]["CEXP"] = player->getCurrentExp();
-      (*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]["EXP"] = player->getExp();
-      (*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]["LVL"] = player->getLevel();
-      player->getInventory().serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]));
+      if (player)
+	{
+	  player->getDigitaliser().serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]));
+	  (*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]["CEXP"] = player->getCurrentExp();
+	  (*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]["EXP"] = player->getExp();
+	  (*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]["LVL"] = player->getLevel();
+	  player->getInventory().serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]));
+	}
+      std::cout << "J ENVOIE LA FIN DU COMBAT" << std::endl;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Mar 25 13:29:39 2014 antoine maitre
+// Last update Tue Mar 25 16:33:44 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -42,14 +42,13 @@ Battle::~Battle()
 {
   if (this->_success)
     {
-      this->trameEndBattle();
       for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	if ((*it)->getType() == Player::PlayerType::PLAYER)
 	  ClientManager::getInstance()->endBattle((*it)->getId());
     }
 }
 
-void					Battle::disconnect(unsigned int const idPlayer) const
+void					Battle::disconnect(unsigned int const idPlayer)
 {
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     if ((*it)->getId() != idPlayer && (*it)->getType() == Player::PlayerType::PLAYER)
@@ -70,6 +69,8 @@ bool					Battle::checkEnd()
 {
   unsigned int				i;
 
+  if (!this->_success)
+    return (true);
   for (auto it = this->_players.begin(); it != this->_players.end(); it++)
     {
       i = 0;
@@ -356,8 +357,8 @@ void					Battle::trameEndBattle()
 	  player->drop(givenDrop);
 
 	  /* Send trame */
-	  Server::getInstance()->callProtocol<unsigned int, bool, unsigned int, unsigned int, Player const *, Drop const *>("ENDBATTLE", player->getUser().getId(), this->_id, (player->getId() == this->_idLooser)?(false):(true), givenMoney, givenExp, player, &givenDrop);
-  	  ClientManager::getInstance()->endBattle((*it)->getUser().getId());
+	  Server::getInstance()->callProtocol<unsigned int, bool, bool, unsigned int, unsigned int, Player const *, Drop const *>("ENDBATTLE", player->getUser().getId(), this->_id, (player->getId() == this->_idLooser)?(false):(true), (this->_type == Battle::eBattle::PVP)?(true):(false), givenMoney, givenExp, player, &givenDrop);
+	  ClientManager::getInstance()->endBattle((*it)->getUser().getId());
 	}
     }
 }
@@ -367,7 +368,7 @@ bool					compareSpeed(Mob *mob1, Mob *mob2)
   Stat::value_type			speed1 = mob1->getCurrentStat("Speed");
   Stat::value_type			speed2 = mob2->getCurrentStat("Speed");
 
-  if (speed1 < speed2)
+  if (speed1 > speed2)
     return (true);
   else
     return (false);
