@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Mar 25 16:33:44 2014 antoine maitre
+// Last update Tue Mar 25 16:47:25 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -42,6 +42,7 @@ Battle::~Battle()
 {
   if (this->_success)
     {
+      this->trameEndBattle();
       for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	if ((*it)->getType() == Player::PlayerType::PLAYER)
 	  ClientManager::getInstance()->endBattle((*it)->getId());
