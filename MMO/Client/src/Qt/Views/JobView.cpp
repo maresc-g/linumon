@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:55:36 2014 guillaume marescaux
-// Last update Wed Mar 12 23:00:59 2014 laurent ansel
+// Last update Tue Mar 25 16:49:52 2014 guillaume marescaux
 //
 
 #include			<QMessageBox>
@@ -80,6 +80,7 @@ void				JobView::setInfos(Job const &job)
   _job = &job;
   ui.l_name->setText(job.getJobModel().getName().c_str());
   ui.l_level->setText(std::to_string(job.getLevel()).c_str());
+  ui.l_exp->setText(std::string("EXP : " + std::to_string(job.getCurrentExp()) + "/" + std::to_string(job.getExp())).c_str());
   ui.pb_exp->setMaximum(job.getExp());
   ui.pb_exp->setValue(job.getCurrentExp());
   int				count = ui.tw_crafts->rowCount();

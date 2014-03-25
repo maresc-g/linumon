@@ -233,7 +233,7 @@ CraftView
 
 DigitaliserView
 {
-	background-color: #FFFFFF;
+	border-image:url(./Res/UI/digitaliser.png);
 }
 
 HUDView
@@ -248,7 +248,17 @@ TinyHUDView
 
 TradeView
 {
-	background-color: #FFFFFF;
+	border-image:url(./Res/UI/trade.png);
+}
+
+TradeView QPushButton#b_accept
+{
+	border-image:url(./Res/UI/trade_accept.png);
+}
+
+TradeView QPushButton#b_cancel
+{
+	border-image:url(./Res/UI/trade_refuse.png);
 }
 
 GuildView

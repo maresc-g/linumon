@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Mar  6 13:10:17 2014 guillaume marescaux
-// Last update Fri Mar 14 16:33:02 2014 guillaume marescaux
+// Last update Tue Mar 25 16:53:53 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/HUDView.hh"
@@ -51,6 +51,9 @@ void				HUDView::setInfos(Mob const *mob)
       	ui.pb_hp->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(ORANGE) + "; }").c_str());
       else
       	ui.pb_hp->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(GREEN) + "; }").c_str());
+      ui.l_exp->setText(std::string("EXP : " + std::to_string(mob->getCurrentExp()) + "/" + std::to_string(mob->getExp())).c_str());
+      ui.l_hp->setText(std::string("HP : " + std::to_string((int)current) + "/" + std::to_string(max)).c_str());
+      ui.pb_exp->setMinimum(mob->getOldExp());
       ui.pb_exp->setMaximum(mob->getExp());
       ui.pb_exp->setValue(mob->getCurrentExp());
       ui.l_name->setText(mob->getName().c_str());

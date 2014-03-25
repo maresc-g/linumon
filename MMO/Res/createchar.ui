@@ -72,6 +72,9 @@
       <height>25</height>
      </rect>
     </property>
+    <property name="maxLength">
+     <number>24</number>
+    </property>
    </widget>
    <widget class="QPushButton" name="b_spritePerso1">
     <property name="geometry">
