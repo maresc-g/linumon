@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 27 16:46:56 2014 alexis mestag
-// Last update Tue Mar 25 10:17:58 2014 alexis mestag
+// Last update Tue Mar 25 14:48:23 2014 alexis mestag
 //
 
 #ifndef				__NORMALEFFECT_HH__
@@ -23,7 +23,8 @@ public:
   virtual ~NormalEffect();
 
 public:
-  virtual void			initialize(Mob &caster, Spell &spell, Mob &target);
+  virtual void			initialize(Mob &caster, Spell &spell, Mob &target,
+					   BattleParams &battle);
   virtual bool			apply(Mob &mob);
 };
 
