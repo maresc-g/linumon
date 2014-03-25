@@ -5,13 +5,13 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Wed Jan 29 14:08:00 2014 alexis mestag
-// Last update Tue Mar 18 23:31:52 2014 alexis mestag
+// Last update Mon Mar 24 16:22:45 2014 alexis mestag
 //
 
 #include			"Entities/Levelable.hh"
 
 Levelable::Levelable() :
-  _currentExp(0), _level(0), _exp(0)
+  _currentExp(0), _level(0), _exp(0), _oldExp(0)
 {
 
 }
@@ -22,7 +22,7 @@ Levelable::Levelable(Levelable const &rhs)
 }
 
 Levelable::Levelable(type const currentExp, type const level, type const exp) :
-  _currentExp(currentExp), _level(level), _exp(exp)
+  _currentExp(currentExp), _level(level), _exp(exp), _oldExp(0)
 {
 
 }
@@ -39,6 +39,7 @@ Levelable				&Levelable::operator=(Levelable const &rhs)
       this->setCurrentExp(rhs.getCurrentExp(), false);
       this->setLevel(rhs.getLevel());
       this->setExp(rhs.getExp());
+      this->setOldExp(rhs.getOldExp());
     }
   return (*this);
 }
@@ -86,6 +87,16 @@ Levelable::type			Levelable::getExp() const
 void				Levelable::setExp(type const exp)
 {
   _exp = exp;
+}
+
+Levelable::type			Levelable::getOldExp() const
+{
+  return (_oldExp);
+}
+
+void				Levelable::setOldExp(type const oldExp)
+{
+  _oldExp = oldExp;
 }
 
 unsigned int			Levelable::checkLevelUp()

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Mar 18 17:02:50 2014 alexis mestag
-// Last update Tue Mar 18 23:31:25 2014 alexis mestag
+// Last update Mon Mar 24 16:11:27 2014 alexis mestag
 //
 
 #ifndef				__LEVELABLE_HH__
@@ -20,6 +20,7 @@ private:
   type				_currentExp;
   type				_level;
   type				_exp;
+  type				_oldExp;
 
 public:
   Levelable();
@@ -39,6 +40,9 @@ public:
 
   type				getExp() const;
   void				setExp(type const exp);
+
+  type				getOldExp() const;
+  void				setOldExp(type const oldExp);
 
   virtual void			levelUp() = 0;
 

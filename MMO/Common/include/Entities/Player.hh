@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Mar 24 13:51:33 2014 alexis mestag
+// Last update Mon Mar 24 15:41:56 2014 guillaume marescaux
 //
 
 #ifndef			__PLAYER_HH__
@@ -78,8 +78,6 @@ private:
 
   Player		&operator=(Player const &rhs);
 
-  void			setDigitaliser(Digitaliser const &digit);
-
 # ifndef		CLIENT_COMPILATION
   void			initConstPointersForNewPlayers();
   void			applyFactionEffect();
@@ -110,6 +108,7 @@ public:
   void				guildAddPlayer(PlayerView *playerView);
   void				guildRemovePlayer(std::string const &name);
 
+  void				setDigitaliser(Digitaliser const &digit);
   Digitaliser const		&getDigitaliser() const;
   Digitaliser			&getDigitaliser();
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Mon Mar 24 14:08:25 2014 cyril jourdain
+// Last update Mon Mar 24 17:34:05 2014 alexis mestag
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -89,7 +89,7 @@ if (server)
       this->_container->load<unsigned int, PlayerView *, Zone *>("NEWMEMBER", &newMember);
       this->_container->load<unsigned int, std::string, Zone *>("DELETEMEMBER", &deleteMember);
       this->_container->load<unsigned int, std::string>("INVITE", &invite);
-
+      this->_container->load<unsigned int, Zone *, Carcass const *>("NEWCARCASS", &newCarcass);
     }
   else
     {
@@ -819,8 +819,12 @@ bool			endBattle(unsigned int const id,
 	(*trame)[CONTENT]["ENDBATTLE"]["DROP"][stack->getItem()->getName()] = stack->getNb();
       }
       /* Send Player inventory */
-      player->serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]));
-
+      // player->serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]));
+      player->getDigitaliser().serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]));
+      (*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]["CEXP"] = player->getCurrentExp();
+      (*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]["EXP"] = player->getExp();
+      (*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]["LVL"] = player->getLevel();
+      player->getInventory().serialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]["PLAYER"]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
@@ -1298,6 +1302,28 @@ bool			invite(unsigned int const id, std::string name, std::string nameGuild)
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
+bool			newCarcass(unsigned int const id, Zone *zone, Carcass const *carcass)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      (*trame)[CONTENT]["NEWCARCASS"]["ZONE"] = zone->getName();
+      carcass->serialization((*trame)((*trame)[CONTENT]["NEWCARCASS"]));
+      trame->setEnd(true);
+      // CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      ret = sendToAllClient(id, trame, zone, true);
     }
   delete header;
   return (ret);

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Mon Mar 24 14:02:37 2014 alexis mestag
+// Last update Tue Mar 25 11:33:09 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -90,7 +90,6 @@ bool					Battle::checkEnd()
 	}
     }
   return (false);
-  
 }
 
 bool					Battle::spell(unsigned int const launcher, unsigned int const target, Spell *spell) //, int id_lanceur
@@ -114,9 +113,9 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
       for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	if ((*it)->getType() == Player::PlayerType::PLAYER)
 	  {
-	    hpChange = mobTarget->getCurrentStat("HP") - hpChange;
+	    int tmp = mobTarget->getCurrentStat("HP") - hpChange;
 	    this->trameSpell((*it)->getUser().getId(), spell, launcher, target);
-	    this->trameSpellEffect((*it)->getUser().getId(), target, hpChange);
+	    this->trameSpellEffect((*it)->getUser().getId(), target, tmp);
 	  } 
       Stats const			&statMob = mobTarget->getCurrentStats();
       if (statMob.getStat(*hpKey) <= 0)
@@ -298,6 +297,23 @@ void					Battle::trameEndBattle()
 {
   for (auto it = this->_players.begin(); it != this->_players.end(); ++it)
     {
+      if ((*it)->getType() == Player::PlayerType::AI && (*it)->getId() == this->_idLooser)
+	{
+	  Player			*p = *it;
+	  Player			*oPlayer = this->_players.front();
+	  Mob				*m;
+	  Carcass			*c;
+
+	  for (auto jt = p->getDigitaliser().getBattleMobs().begin() ;
+	       jt != p->getDigitaliser().getBattleMobs().end() ; ++jt)
+	    {
+	      m = *jt;
+	      c = m->getNewCarcass();
+	      c->setCoord(oPlayer->getCoord());
+	      Map::getInstance()->addCarcass(oPlayer->getZone(), c);
+	      Server::getInstance()->callProtocol<Zone *, Carcass const *>("NEWCARCASS", oPlayer->getUser().getId(), Map::getInstance()->getZone(oPlayer->getZone()), c);
+	    }
+	}
       if ((*it)->getType() == Player::PlayerType::PLAYER)
 	{
 	  if ((*it)->getId() == this->_idLooser) {

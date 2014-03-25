@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Thu Mar 20 16:03:26 2014 antoine maitre
+// Last update Mon Mar 24 16:50:40 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -19,6 +19,7 @@ Zone::Zone(Json::Value const topography):
   _posX(topography["POSITION"]["X"].asInt()),
   _posY(topography["POSITION"]["Y"].asInt()),
   _players(new std::list<AEntity *>),
+  _carcasses(new std::list<Carcass *>),
   _cases(new std::list<Case *>)
 
 # ifdef	SERVER
@@ -133,9 +134,25 @@ void				Zone::delEntity(unsigned int const id, Ressource::RessourceCoordinate co
     cas->delAEntity(id);
 }
 
+
+void				Zone::addCarcass(Carcass *carcass)
+{
+  this->_carcasses->push_back(carcass);
+}
+
+void				Zone::delCarcass(Carcass *carcass)
+{
+  this->_carcasses->remove(carcass);
+}
+
 std::list<AEntity *>		&Zone::getPlayers() const
 {
   return (*this->_players);
+}
+
+std::list<Carcass *>		&Zone::getCarcasses() const
+{
+  return (*this->_carcasses);
 }
 
 void				Zone::addCase(Case *cas)

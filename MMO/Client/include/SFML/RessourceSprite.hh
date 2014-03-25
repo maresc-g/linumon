@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Feb 26 14:50:34 2014 cyril jourdain
-// Last update Mon Mar 24 14:32:27 2014 cyril jourdain
+// Last update Mon Mar 24 16:52:28 2014 cyril jourdain
 //
 
 #ifndef 		__RESSOURCESPRITE_HH__

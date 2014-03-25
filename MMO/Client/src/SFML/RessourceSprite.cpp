@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Feb 26 14:58:57 2014 cyril jourdain
-// Last update Mon Mar 24 14:31:59 2014 cyril jourdain
+// Last update Mon Mar 24 17:07:29 2014 cyril jourdain
 //
 
 #include		<QMenu>
@@ -40,7 +40,7 @@ void		RessourceSprite::onClick(QMouseEvent *event)
   std::cout << "Ressource Clicked" << std::endl;
   if (isGather()){
     QMenu menu;
-    
+
     menu.addAction("Gather");
     QAction *action = menu.exec(QPoint(event->globalX(), event->globalY()));
     if (action)

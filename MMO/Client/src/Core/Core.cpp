@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Mon Mar 24 13:57:51 2014 cyril jourdain
+// Last update Mon Mar 24 17:12:49 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -134,6 +134,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("DELETEMEMBER", func);
   func = std::bind1st(std::mem_fun(&Core::visible), this);
   _proto->addFunc("VISIBLE", func);
+  func = std::bind1st(std::mem_fun(&Core::newCarcass), this);
+  _proto->addFunc("NEWCARCASS", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -357,8 +359,13 @@ bool				Core::deadMob(Trame *)
 bool				Core::endBattle(Trame *trame)
 {
   (**_battle)->setWin((*trame)[CONTENT]["ENDBATTLE"]["WIN"].asBool());
-  (**_battle)->setEnd(true);
   (**_battle)->leaveBattle();
+  (**_player)->setDigitaliser(*Digitaliser::deserialization((*trame)((*trame)[CONTENT]["ENDBATTLE"])));
+  (**_player)->setInventory(Inventory::deserialization((*trame)((*trame)[CONTENT]["ENDBATTLE"]["PLAYER"])));
+  (**_player)->setCurrentExp((*trame)[CONTENT]["ENDBATTLE"]["CEXP"].asUInt());
+  (**_player)->setExp((*trame)[CONTENT]["ENDBATTLE"]["EXP"].asUInt());
+  (**_player)->setLevel((*trame)[CONTENT]["ENDBATTLE"]["LVL"].asUInt());
+  (**_battle)->setEnd(true);
   std::cout << "------------ END BATTLE" << std::endl;
   return (true);
 }
@@ -525,6 +532,11 @@ bool				Core::entity(Trame *trame)
       static_cast<Player *>(entity)->setX((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["X"].asInt());
       static_cast<Player *>(entity)->setY((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["Y"].asInt());
       map->move(entity);
+      if (entity->getId() == (**_player)->getId())
+	{
+	  (**_player)->setCoord((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["X"].asInt(),
+				((*trame)[CONTENT]["ENTITY"]["COORDINATE"]["Y"].asInt()));
+	}
     }
   return (true);
 }
@@ -592,8 +604,18 @@ bool				Core::visible(Trame *trame)
   return (true);
 }
 
+bool				Core::newCarcass(Trame *trame)
+{
+  Map::getInstance()->addCarcass((**_player)->getZone(), Carcass::deserialization((*trame)((*trame)[CONTENT]["NEWCARCASS"])));
+  return (true);
+}
+
 bool				Core::heal(Trame *)
 {
+  for (auto it = (**_player)->getDigitaliser().begin() ; it != (**_player)->getDigitaliser().end() ; ++it)
+    (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
+  for (auto it = (**_player)->getDigitaliser().getBattleMobs().begin() ; it != (**_player)->getDigitaliser().getBattleMobs().end() ; ++it)
+    (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
   return true;
 }
 
@@ -818,7 +840,8 @@ void				Core::heal(void)
 {
   for (auto it = (**_player)->getDigitaliser().begin() ; it != (**_player)->getDigitaliser().end() ; ++it)
     (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
-
+  for (auto it = (**_player)->getDigitaliser().getBattleMobs().begin() ; it != (**_player)->getDigitaliser().getBattleMobs().end() ; ++it)
+    (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
   (*_proto).operator()<unsigned int const>("HEAL", _id);  
 }
 

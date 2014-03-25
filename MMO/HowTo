@@ -1,0 +1,55 @@
+How to : Ajouter des sprites au jeu
+Level : [*                     ] (Retard)
+
+Step 1 : Mettre le fichier de texture dans le dossier approprié
+     (Tips - Si c'est un mob, dans le dossier mob, par exemple)
+
+Step 2 : Ouvrir le fichier "textureList.json" et y ajouter la texture. Nommez la correctement et retenez le nom (Appelons le [TextureName])
+     Exemple : "TOTO":"./Res/Toto.png"
+
+Step 3 : Creer le fichier json associé au sprite (Exemple toto.json)
+
+Step 4 : Inserez le contenu du fichier. Exemple :
+{
+	"info": {
+		"texture": "[TextureName]",
+		"size": 64
+	},	
+	"sprites": {
+		"[SpriteName]": {
+			"default_down": {
+			    "1":{"x": 0,"y": 0}
+			},
+			"default_up": {
+			    "1":{"x": 64,"y": 0}
+			}
+		}
+	}
+}
+
+Ceci est le format de base. Si le sprite est animé, vous pouvez ajouter d'autres frames.
+[SpriteName] est nouveau ici. Cela peu sembler surprenant, mais reflechissez ...
+...
+...
+Ca y est ?
+SpriteName est le nom du sprite, utilisé dans le code.
+Par exemple, pour les mobs il correspond au nom du MobModel, par exemple Charizard.
+Si ce nom n'est pas correct, le client le dira.
+
+Step 5 : Nous venons de creer le fichier json.
+Maintenant, il sagit de le charger. Pour ce faire, ouvrez le fichier "spriteList.json"
+Inserez y une ligne décrivant le sprite.
+Exemple :
+	"[SpriteName]":"./Res/toto.json" (toto.json est le fichier créé au step 4)
+Petite chose a savoir :
+Le [SpriteName] n'a pas d'importance, il est là pour la clareté et la lisibilité.
+
+Step 6 : Lancer le client (./pfa-client ) une fois le serveur lancé (./pfa-server 4242)
+
+Step 7 : Lancer une battle et voir si :
+       	 	- Il n'y a pas d'erreur au lancement du client
+		- Les sprites sont bien affichés
+
+Step 8 : Commit le fichier de sprite, si celui-ci est coherent et fonctionne
+
+Step 9 : NE PAS COMMIT RESSOURCES.JSON

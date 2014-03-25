@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 13:55:50 2014 antoine maitre
-// Last update Thu Mar 20 15:48:00 2014 antoine maitre
+// Last update Mon Mar 24 16:51:13 2014 guillaume marescaux
 //
 
 #ifndef			__ZONE_HH__
@@ -37,6 +37,7 @@ private:
   int const		_posX;
   int const		_posY;
   std::list<AEntity *>	*_players;
+  std::list<Carcass *>	*_carcasses;
   std::list<Case *>	*_cases;
 
 # ifdef	SERVER
@@ -58,7 +59,10 @@ public:
   void			addEntity(AEntity *entity);
   void			delEntity(AEntity *entity);
   void			delEntity(unsigned int const id, Ressource::RessourceCoordinate const &coord);
+  void			addCarcass(Carcass *carcass);
+  void			delCarcass(Carcass *carcass);
   std::list<AEntity*>	&getPlayers() const;
+  std::list<Carcass*>	&getCarcasses() const;
   void			addCase(Case *);
   void			delCase(Case *);
   Case			*getCase(int const, int const) const;

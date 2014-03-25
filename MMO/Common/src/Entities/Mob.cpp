@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Mon Mar 24 10:09:04 2014 alexis mestag
+// Last update Mon Mar 24 16:21:27 2014 alexis mestag
 //
 
 #include			<random>
@@ -177,7 +177,10 @@ bool				Mob::decCurrentStat(std::string const &key, Stat::value_type const dec)
 */
 Carcass				*Mob::getNewCarcass() const
 {
-  return (this->getModel().getNewCarcass());
+  Carcass			*ret = this->getModel().getNewCarcass();
+
+  /* Do some stuff here */
+  return (ret);
 }
 
 /*
@@ -295,6 +298,7 @@ bool				Mob::serialization(Trame &trame) const
   trame["CEXP"] = this->getCurrentExp();
   trame["LVL"] = this->getLevel();
   trame["EXP"] = this->getExp();
+  trame["OLDEXP"] = this->getOldExp();
   trame["ID"] = static_cast<unsigned int>(this->getId());
   // this->getLevelObject().serialization(trame);
   trame["MOD"] = this->getModel().getName();
@@ -317,6 +321,7 @@ Mob				*Mob::deserialization(Trame const &trame)
   mob->setCurrentExp(trame["CEXP"].asUInt(), false);
   mob->setLevel(trame["LVL"].asUInt());
   mob->setExp(trame["EXP"].asUInt());
+  mob->setOldExp(trame["OLDEXP"].asUInt());
   mob->setName(trame["NAME"].asString());
   mob->setId(trame["ID"].asUInt());
   if (trame.isMember("MOD"))
