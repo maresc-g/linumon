@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Feb 17 12:55:28 2014 cyril jourdain
-// Last update Sat Mar 22 22:57:00 2014 cyril jourdain
+// Last update Tue Mar 25 12:11:35 2014 cyril jourdain
 //
 
 #include		<QMessageBox>
@@ -30,6 +30,7 @@ void		ChatView::setLineFocus()
 {
   std::cout << "FOCUS" << std::endl;
   setFocused(true);
+  ui.le_chatText->setFocus(Qt::OtherFocusReason);
 }
 
 void		ChatView::paintEvent(QPaintEvent *)

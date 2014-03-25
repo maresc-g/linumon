@@ -5,9 +5,10 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Mon Mar 24 16:51:57 2014 guillaume marescaux
+// Last update Tue Mar 25 16:04:50 2014 cyril jourdain
 //
 
+#include			<algorithm>
 #include			"Map/Map.hh"
 
 Map::Map()
@@ -123,6 +124,7 @@ void				Map::addCarcass(std::string const &zone, Carcass *carcass)
 
 void				Map::delCarcass(std::string const &zone, Carcass *carcass)
 {
+  std::cout << "DELETING CARCASS IN MAP" << std::endl;
   this->lock();
   if (this->_map.find(zone) != this->_map.end())
     this->_map[zone]->delCarcass(carcass);
@@ -225,7 +227,17 @@ AEntity				*Map::getEntityById(std::string const &zone, unsigned int id)
   	      this->unlock();
   	      return (*itb);
   	    }
-  	}
+	}
+    }
+  auto it =find_if(_map[zone]->getCarcasses().begin(),_map[zone]->getCarcasses().end(), [&](Carcass const *car){
+      if (car->getId() == id)
+	return true;
+      return false;
+    });
+  if (it != _map[zone]->getCarcasses().end())
+    {
+      this->unlock();
+      return *it;
     }
   this->unlock();
   return (NULL);

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Mar 25 15:36:27 2014 guillaume marescaux
+// Last update Tue Mar 25 16:06:45 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -136,6 +136,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("VISIBLE", func);
   func = std::bind1st(std::mem_fun(&Core::newCarcass), this);
   _proto->addFunc("NEWCARCASS", func);
+  func = std::bind1st(std::mem_fun(&Core::removeEntity), this);
+  _proto->addFunc("REMOVEENTITY", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);

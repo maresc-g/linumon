@@ -137,7 +137,18 @@ StuffView QFrame#f_stats
 
 ChatView
 {
-	background-color: #FFFFFF;
+	background-color: #DDDDDD;
+}
+
+ChatView QTextEdit, ChatView QLineEdit
+{
+	border-image:url(./Res/UI/charSelectDescription.png);
+	padding:5px;
+}
+
+ChatView QLineEdit
+{
+	padding:10px;
 }
 
 MenuView

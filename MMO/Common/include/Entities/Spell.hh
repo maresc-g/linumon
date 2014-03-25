@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 22:32:05 2013 alexis mestag
-// Last update Tue Mar 11 16:17:49 2014 alexis mestag
+// Last update Tue Mar 25 14:42:19 2014 alexis mestag
 //
 
 #ifndef			__SPELL_HH__
@@ -18,6 +18,7 @@
 # include		"Utility/ISerialization.hh"
 
 class			Mob;
+class			BattleParams;
 
 class			Spell : public Persistent, public Nameable, public ISerialization
 {
@@ -40,8 +41,9 @@ public:
   virtual ~Spell();
 
   Spell			&operator=(Spell const &rhs);
-  void			operator()(Mob &cast, Mob &target);
-
+# ifdef			SERVER_COMPILATION
+  void			operator()(Mob &cast, Mob &target, BattleParams &battle);
+# endif
   Type const		&getType() const;
   void			setType(Type const &type);
 
@@ -55,6 +57,7 @@ public:
 };
 
 # include		"Entities/Mob.hh"
+# include		"Battle/BattleParams.hh"
 
 # ifdef	ODB_COMPILER
 #  pragma db object(Spell)

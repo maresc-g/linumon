@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Mar 25 09:38:15 2014 alexis mestag
-// Last update Tue Mar 25 10:23:10 2014 alexis mestag
+// Last update Tue Mar 25 14:47:41 2014 alexis mestag
 //
 
 #include				"HealEffect.hh"
@@ -21,7 +21,8 @@ HealEffect::~HealEffect()
 
 }
 
-void					HealEffect::initialize(Mob &caster, Spell &spell, Mob &target)
+void					HealEffect::initialize(Mob &caster, Spell &spell, Mob &target,
+							       BattleParams &battle __attribute__((unused)))
 {
   double				hp;
 

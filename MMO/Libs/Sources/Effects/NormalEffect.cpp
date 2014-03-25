@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Feb 27 16:57:56 2014 alexis mestag
-// Last update Tue Mar 25 09:40:10 2014 alexis mestag
+// Last update Tue Mar 25 14:48:33 2014 alexis mestag
 //
 
 #include				"NormalEffect.hh"
@@ -21,7 +21,8 @@ NormalEffect::~NormalEffect()
 
 }
 
-void					NormalEffect::initialize(Mob &caster, Spell &spell, Mob &target)
+void					NormalEffect::initialize(Mob &caster, Spell &spell, Mob &target,
+								 BattleParams &battle __attribute__((unused)))
 {
   double				hp;
 

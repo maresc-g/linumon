@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar 14 11:04:13 2014 laurent ansel
-// Last update Mon Mar 24 18:18:37 2014 cyril jourdain
+// Last update Tue Mar 25 15:00:06 2014 cyril jourdain
 //
 
 #include			"Entities/Carcass.hh"
@@ -91,6 +91,19 @@ bool				Carcass::empty() const
   return (ret);
 }
 
+Stack<Ressource> const		*Carcass::getStack(unsigned int const id) const
+{
+  auto it = find_if(this->begin(), this->end(), [&](Stack<Ressource> stack)
+		    {
+		      if (stack.getItem()->getId() == id)
+			return (true);
+		      return (false);
+		    });
+  if (it != this->end())
+    return (&(*it));
+  return (NULL);
+}
+
 Ressource			*Carcass::getRessource(unsigned int const id) const
 {
   for (auto it = this->begin() ; it != this->end() ; ++it)
@@ -98,6 +111,8 @@ Ressource			*Carcass::getRessource(unsigned int const id) const
       return ((*it).getItem());
   return (NULL);
 }
+
+
 
 bool				Carcass::serialization(Trame &trame) const
 {

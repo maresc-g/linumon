@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Mar 14 11:04:31 2014 laurent ansel
-// Last update Wed Mar 19 19:03:45 2014 laurent ansel
+// Last update Tue Mar 25 14:59:43 2014 cyril jourdain
 //
 
 #ifndef 		__CARCASS_HH__
@@ -20,6 +20,8 @@
 
 typedef Stack<Ressource>		StackRessource;
 typedef std::list<StackRessource>	RessourceStackList;
+
+// std::list<Stack<Ressource>>
 
 class			Carcass : public AEntity,
 				  public ContainerWrapper<RessourceStackList>,
@@ -49,6 +51,7 @@ public:
 
   bool			empty() const;
 
+  Stack<Ressource> const	*getStack(unsigned int const id) const;
   Ressource		*getRessource(unsigned int const id) const;
 
   virtual bool		serialization(Trame &trame) const;

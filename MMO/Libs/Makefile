@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Sun Feb 16 17:04:54 2014 alexis mestag
-## Last update Tue Mar 25 10:41:25 2014 alexis mestag
+## Last update Tue Mar 25 15:42:33 2014 alexis mestag
 ##
 
 LIBS_SRC_DIR=		Sources
@@ -15,6 +15,8 @@ EFFECT_SRC=		HesodeEffect.cpp			\
 			CelestiaEffect.cpp			\
 			HealEffect.cpp				\
 			HealTargetEffect.cpp			\
+			AttiranceEffect.cpp			\
+			ContreEffect.cpp			\
 			NormalEffect.cpp			\
 			PotionEffect.cpp			\
 			SuperPotionEffect.cpp
@@ -54,7 +56,7 @@ LIBS=			$(LIBS_OBJ:.o=.so)
 
 FINAL_LIBS=		$(notdir $(LIBS))
 
-CPPFLAGS=		-W -Wall -Wextra -fPIC -I ../Common/include -std=c++0x -g -D SERVER
+CPPFLAGS=		-W -Wall -Wextra -fPIC -I ../Common/include -std=c++0x -g -D SERVER -D SERVER_COMPILATION
 LDFLAGS=		
 
 %.o:			%.cpp
