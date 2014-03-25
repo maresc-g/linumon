@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Tue Mar 25 14:40:38 2014 antoine maitre
+// Last update Tue Mar 25 16:41:35 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -153,7 +153,7 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2, unsigned int 
       this->_battles->push_back(new Battle(id, Battle::PVE, mobInBattle, player1, tmp));
     }
   else
-    this->_battles->push_back(new Battle(id, Battle::PVP, rand()%3 + 1, player1, player2));
+    this->_battles->push_back(new Battle(id, Battle::PVP, 3, player1, player2));
   return (true);
 }
 
