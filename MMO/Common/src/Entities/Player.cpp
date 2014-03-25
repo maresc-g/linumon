@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 26 00:07:44 2014 alexis mestag
+// Last update Wed Mar 26 00:26:06 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -761,6 +761,28 @@ bool				Player::doGather(std::string const &job, std::string const &res, Stack<A
     }
   return (ret);
 }
+
+bool				Player::doGather(std::string const &job, std::list<Stack<AItem>*> *&result,
+						 Carcass *carcass)
+{
+  bool				ret = false;
+  Job				*tmp = NULL;
+
+  tmp = this->getJob(job);
+  std::cout << "Player::doGather() for carcass : tmp=" << tmp << std::endl;
+  if (tmp)
+    {
+      std::cout << "Player::doGather() : if tmp" << std::endl;
+      if (carcass)
+	ret = tmp->doGather(result, carcass);
+      std::for_each(result->begin(), result->end(), [&](Stack<AItem> *s){
+	  addItem(s);
+	});
+      // this->addItem(result);
+    }
+  return (ret);
+}
+
 
 bool				Player::mobtoBattleMob(unsigned int const id)
 {

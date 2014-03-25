@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Wed Mar 26 00:22:18 2014 alexis mestag
+// Last update Wed Mar 26 00:26:16 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -167,6 +167,8 @@ public:
 
   bool				doCraft(std::string const &job, std::string const &craft, Stack<AItem> *&result, std::list<Stack<AItem> *> *&object);
   bool				doGather(std::string const &job, std::string const &ressource, Stack<AItem> *&result, unsigned int &idRessource, Carcass *carcass);
+  bool				doGather(std::string const &job, std::list<Stack<AItem>*> *&result,
+  					 Carcass *carcass);
 
   bool				getPlayerEquipment(unsigned int const idItem);
   bool				getMobEquipment(unsigned int const idMod, unsigned int const idItem);

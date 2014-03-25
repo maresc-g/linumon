@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Mar 26 00:03:13 2014 alexis mestag
+// Last update Wed Mar 26 00:25:46 2014 alexis mestag
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -295,7 +295,7 @@ bool		         removeEntity(unsigned int const id, int entityId, Zone *zone)
     {
       (*trame)[CONTENT]["REMOVEENTITY"]["ID"] = entityId;
       trame->setEnd(true);
-      ret = sendToAllClient(id, trame, zone, false);
+      ret = sendToAllClient(id, trame, zone, true);
     }
   delete header;
   return (ret);
@@ -1919,7 +1919,7 @@ bool			gather(unsigned int const id, unsigned int idRessource, std::string jobNa
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["GATHER"]["IDRESSOURCE"] = idRessource;
-      (*trame)[CONTENT]["GATHER"]["IDCARCASS"] = idCarcass;
+      (*trame)[CONTENT]["GATHER"]["CARCASS"] = idCarcass;
       (*trame)[CONTENT]["GATHER"]["JOBNAME"] = jobName;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);

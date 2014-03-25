@@ -404,7 +404,11 @@ DELETE FROM `JobModel_gathers`;
 
 INSERT INTO `JobModel_gathers`(`object_id`, `index`, `value_level`, `value_exp`, `value_ressource`) VALUES
        (5, 0, 1, 10, 1),
-       (7, 0, 1, 10, 2);
+       (7, 0, 1, 10, 2),
+       (7, 1, 1, 10, 4),
+       (7, 2, 1, 10, 5),
+       (7, 3, 1, 10, 6),
+       (7, 4, 1, 10, 7);
 
 /* Inserting Job */
 DELETE FROM `Job`;

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Mar 13 18:32:05 2014 laurent ansel
-// Last update Thu Mar 13 19:56:34 2014 laurent ansel
+// Last update Tue Mar 25 19:10:15 2014 laurent ansel
 //
 
 #include			<functional>
@@ -55,7 +55,7 @@ bool				DigitaliserManager::switchMobs(Trame *trame)
 {
   if ((*trame)[CONTENT].isMember("SWITCHMOBS"))
     {
-      ClientManager::getInstance()->modifyDigitaliser((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["SWITCHMOBS"]["IDMOD1"].asUInt(), (*trame)[CONTENT]["SWITCHMOBS"]["IDMOB2"].asUInt(), false);
+      ClientManager::getInstance()->modifyDigitaliser((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)[CONTENT]["SWITCHMOBS"]["IDMOB1"].asUInt(), (*trame)[CONTENT]["SWITCHMOBS"]["IDMOB2"].asUInt(), false);
       return (true);
     }
   return (false);

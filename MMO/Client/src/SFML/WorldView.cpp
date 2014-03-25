@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Mon Mar 24 17:55:31 2014 cyril jourdain
+// Last update Tue Mar 25 12:34:07 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -118,8 +118,9 @@ void			WorldView::drawView()
 
 void			WorldView::onKeyEvent(QKeyEvent *event)
 {
+  CLIENT::eState s = **(_wMan->getState());
   if ((!_currentWindow) || (_currentWindow && !_currentWindow->isModal())){
-    CLIENT::eState s = **(_wMan->getState());
+    // CLIENT::eState s = **(_wMan->getState());
     if (s == CLIENT::PLAYING || s == CLIENT::TRADE){
       try {
 	(this->*(_keyMap->at(Qt::Key(event->key()))))();
@@ -392,6 +393,7 @@ void			WorldView::keyI()
 {
   if (_sfmlView->getKeyDelayer()->isAvailable(Qt::Key_I) && !_sfmlView->getChatView()->getFocused())
     {
+      std::cout << "KEY I" << std::endl;
       if (!_sfmlView->getInventoryView()->isVisible())
 	{
 	  SoundManager::getInstance()->playSoundForce("Inventory_open",30);
