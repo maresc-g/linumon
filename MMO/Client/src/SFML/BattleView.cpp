@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Mon Mar 24 15:07:19 2014 cyril jourdain
+// Last update Tue Mar 25 11:22:06 2014 guillaume marescaux
 //
 
 #include		<stdexcept>
@@ -345,7 +345,7 @@ void			BattleView::loadPlayerList()
   std::list<Mob*> const 	mobs = (**_wMan->getBattle())->getMobs();
   std::list<Mob*>	enemyMobs = (**_wMan->getBattle())->getEnemy().getDigitaliser().getBattleMobs();
   int			posY = 2 * CASE_SIZE;
-  int			limit = 0;
+  unsigned int		limit = 0;
   MobSprite		*tmp;
 
   for (auto it = _playerList->begin(); it != _playerList->end(); it++)
@@ -355,7 +355,7 @@ void			BattleView::loadPlayerList()
   _playerList->clear();
   _enemyList->clear();
 
-  for (auto it = mobs.begin(); it != mobs.end() && limit < 3; ++it)
+  for (auto it = mobs.begin(); it != mobs.end() && limit < (**_wMan->getBattle())->getMaxMobs() ; ++it)
     {
       tmp = new MobSprite((static_cast<Mob*>(*it))->getName(),
 			  _sfmlView->getFont(), _wMan);
@@ -376,7 +376,8 @@ void			BattleView::loadPlayerList()
       qDebug() << "Adding player with id : " << (*it)->getId();
     }
   posY = 2*CASE_SIZE;
-  for (auto it = enemyMobs.begin(); it != enemyMobs.end(); ++it)
+  limit = 0;
+  for (auto it = enemyMobs.begin(); it != enemyMobs.end() && limit < (**_wMan->getBattle())->getMaxMobs() ; ++it)
     {
       tmp = new MobSprite((static_cast<Mob*>(*it))->getName(),
 			  _sfmlView->getFont(), _wMan);
@@ -392,6 +393,7 @@ void			BattleView::loadPlayerList()
       _enemyList->push_back(tmp);
       posY += 3*CASE_SIZE;
       qDebug() << "Adding mob with id : " << (*it)->getId();
+      limit++;
     }  
 }
 

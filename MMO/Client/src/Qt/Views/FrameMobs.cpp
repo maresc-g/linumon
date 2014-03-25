@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Wed Mar 12 14:45:37 2014 guillaume marescaux
-// Last update Sun Mar 16 16:20:12 2014 guillaume marescaux
+// Last update Tue Mar 25 11:06:18 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/FrameMobs.hh"

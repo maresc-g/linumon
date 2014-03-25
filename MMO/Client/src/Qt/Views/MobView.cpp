@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Wed Mar 19 15:30:00 2014 cyril jourdain
+// Last update Tue Mar 25 11:12:10 2014 guillaume marescaux
 //
 
 #include			<QMenu>
@@ -65,7 +65,10 @@ void				MobView::setInfos(Mob const *mob)
       connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayMenu(const QPoint&)));
     }
   else
-    this->setObjectName("default");
+    {
+      this->setObjectName("default");
+      this->setStyleSheet("MobView QFrame#default { border-image: ''; }");
+    }
 }
 
 void				MobView::displayMenu(const QPoint &pos)
@@ -191,8 +194,8 @@ void				MobView::dropEvent(QDropEvent *de)
 	  _wMan->getSFMLView()->getInventoryView()->initInventory();
 	}
     }
-  else if (sourceInfos->name == "digitaliserview" && infos->name == "tradeview")
-    {      
+  else if (sourceInfos && sourceInfos->name == "digitaliserview" && infos->name == "tradeview" && !_mob)
+    {
       Mob const			*mob = reinterpret_cast<Mob const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
       static_cast<MobView *>(de->source())->setInfos(_mob);
       (**_wMan->getMainPlayer())->getAndDeleteMob(mob->getId());
@@ -203,13 +206,16 @@ void				MobView::dropEvent(QDropEvent *de)
   else if (sourceInfos->name == "tradeview" && infos->name == "digitaliserview")
     {      
     }
-  else if (sourceInfos && sourceInfos->name == "digitaliserview")
+  else if (sourceInfos && sourceInfos->name == "digitaliserview" && infos->name != "tradeview")
     {
       Mob const			*mob = reinterpret_cast<Mob const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
       static_cast<MobView *>(de->source())->setInfos(_mob);
+      (**_wMan->getMainPlayer())->switchMobs(_mob->getId(), mob->getId());
       Client::getInstance()->switchMobs(_mob->getId(), mob->getId());
       setInfos(mob);
     }
   // else if (infos && sourceInfos && (infos->name == "tradeview" || sourceInfos->name == "tradeview"))
   //   _wMan->getSFMLView()->getTradeView()->handleMobChange(de->source(), this);
 }
+
+Mob const			*MobView::getMob(void) const { return (_mob); }
