@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar 24 17:04:15 2014 cyril jourdain
-// Last update Tue Mar 25 15:14:05 2014 cyril jourdain
+// Last update Tue Mar 25 15:49:42 2014 cyril jourdain
 //
 
 #include			<QMenu>		
@@ -43,7 +43,6 @@ void		CarcassSprite::onClick(QMouseEvent *event)
 	{
 	  // std::cout << (**_wMan->getMainPlayer())->getJobs().getJobWithRessource(_resPtr->getName()) << std::endl;
 	  Client::getInstance()->gather(_resPtr->getId(),"Trappeur",_resPtr->getId());
-	  Map::getInstance()->delCarcass((**_wMan->getMainPlayer())->getZone(), _resPtr);
 	}
     }
 }

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Tue Mar 25 15:43:19 2014 cyril jourdain
+// Last update Tue Mar 25 15:56:59 2014 cyril jourdain
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -294,7 +294,7 @@ bool		         removeEntity(unsigned int const id, int entityId, Zone *zone)
     {
       (*trame)[CONTENT]["REMOVEENTITY"]["ID"] = entityId;
       trame->setEnd(true);
-      ret = sendToAllClient(id, trame, zone, false);
+      ret = sendToAllClient(id, trame, zone, true);
     }
   delete header;
   return (ret);

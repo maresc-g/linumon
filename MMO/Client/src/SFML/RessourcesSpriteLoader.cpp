@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Mar 19 16:18:26 2014 cyril jourdain
-// Last update Tue Mar 25 15:26:43 2014 cyril jourdain
+// Last update Tue Mar 25 16:18:41 2014 cyril jourdain
 //
 
 #include			<algorithm>
@@ -154,18 +154,17 @@ void				RessourcesSpriteLoader::checkCarcass()
 	  car->setPos(pos->x,
 		      pos->y);
 	  _layers->at(CARCASS_LAYER)->push_back(car);
-	  std::cout << "Adding carcass to layer : pos" << pos->x << "/" << pos->y << std::endl;
 	}
     }
-  std::for_each(_layers->at(CARCASS_LAYER)->begin(),_layers->at(CARCASS_LAYER)->end(), [&](Sprite *sprite){
-      auto it = find_if(tmp->begin(), tmp->end(), [&](Carcass *carcass){
-	  if (static_cast<CarcassSprite*>(sprite)->getCarcassId() == carcass->getId())
-	    return true;
-	  return false;
-	});
-      if (it == tmp->end())
-	_layers->at(CARCASS_LAYER)->remove(sprite);
-    });
+  for (auto itb =  _layers->at(CARCASS_LAYER)->begin();itb != _layers->at(CARCASS_LAYER)->end();++itb){
+    auto it = find_if(tmp->begin(), tmp->end(), [&](Carcass *carcass){
+	if (static_cast<CarcassSprite*>(*itb)->getCarcassId() == carcass->getId())
+	  return true;
+	return false;
+      });
+    if (it == tmp->end())
+      itb = _layers->at(CARCASS_LAYER)->erase(itb);	
+  }
   delete pos;
   // std::cout << "Nb carcass : " << tmp->size() << std::endl;
 }

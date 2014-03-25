@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Tue Mar 25 13:17:41 2014 cyril jourdain
+// Last update Tue Mar 25 16:04:50 2014 cyril jourdain
 //
 
 #include			<algorithm>
@@ -124,6 +124,7 @@ void				Map::addCarcass(std::string const &zone, Carcass *carcass)
 
 void				Map::delCarcass(std::string const &zone, Carcass *carcass)
 {
+  std::cout << "DELETING CARCASS IN MAP" << std::endl;
   this->lock();
   if (this->_map.find(zone) != this->_map.end())
     this->_map[zone]->delCarcass(carcass);
