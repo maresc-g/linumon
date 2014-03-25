@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar 24 17:04:15 2014 cyril jourdain
-// Last update Mon Mar 24 18:22:41 2014 cyril jourdain
+// Last update Tue Mar 25 12:25:39 2014 cyril jourdain
 //
 
 #include			<QMenu>		
@@ -24,7 +24,6 @@ void		CarcassSprite::draw(sf::RenderTarget &target, sf::RenderStates states) con
 {
   if (_resPtr){
     if (_texture && _vertex) {
-      std::cout << "Drawing carcass" << std::endl;
       states.texture = _texture;
       states.transform *= getTransform();
       target.draw(_vertex, 4, sf::Quads, states);
@@ -42,8 +41,8 @@ void		CarcassSprite::onClick(QMouseEvent *event)
     {
       if (action->text() == "Loot")
 	{
-	  // std::cout << (**_wMan->getMainPlayer())->getJobs().getJobWithRessource(_resPtr->getName())->getJobModel().getName() << std::endl;
-	  Client::getInstance()->gather(0,"",_resPtr->getId());
+	  // std::cout << (**_wMan->getMainPlayer())->getJobs().getJobWithRessource(_resPtr->getName()) << std::endl;
+	  Client::getInstance()->gather(0,"Trappeur",_resPtr->getId());
 	}
     }
 }
