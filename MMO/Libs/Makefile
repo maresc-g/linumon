@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Sun Feb 16 17:04:54 2014 alexis mestag
-## Last update Sun Mar 23 17:41:49 2014 alexis mestag
+## Last update Tue Mar 25 10:41:25 2014 alexis mestag
 ##
 
 LIBS_SRC_DIR=		Sources
@@ -13,6 +13,8 @@ LIBS_SRC_DIR=		Sources
 EFFECT_DIR=		Effects
 EFFECT_SRC=		HesodeEffect.cpp			\
 			CelestiaEffect.cpp			\
+			HealEffect.cpp				\
+			HealTargetEffect.cpp			\
 			NormalEffect.cpp			\
 			PotionEffect.cpp			\
 			SuperPotionEffect.cpp

@@ -28,7 +28,9 @@ INSERT INTO `EffectLib`(`id`, `name`, `path`) VALUES
        (15, 'HealGrassTalentEffect',		'Libs/HealGrass_TalentEffect.so'),
        (16, 'HealWaterTalentEffect',		'Libs/HealWater_TalentEffect.so'),
        (17, 'HealTalentEffect',			'Libs/Heal_TalentEffect.so'),
-       (18, 'HPTalentEffect',			'Libs/HP_TalentEffect.so');
+       (18, 'HPTalentEffect',			'Libs/HP_TalentEffect.so'),
+       (19, 'HealEffect',			'Libs/HealEffect.so'),
+       (20, 'HealTargetEffect',			'Libs/HealTargetEffect.so');
 
 /* Inserting Factions */
 DELETE FROM `Faction`;
@@ -256,48 +258,51 @@ INSERT INTO `MobModel_carcass`(`object_id`, `ressource`, `nb`) VALUES
 DELETE FROM `Spell`;
 
 INSERT INTO `Spell`(`id`, `name`, `type`, `power`, `useLimit`, `effectLib`) VALUES
-       (1,  'Lance-Flamme',	1,  90, 0, 3),
-       (2,  'Flammeche',	1,  40, 0, 3),
-       (3,  'Crocs Feu',	1,  65, 0, 3),
-       (4,  'Boutefeu',		1, 120, 0, 3),
-       (5,  'Vibraqua',		2,  60, 0, 3),
-       (6,  'Hydroqueue',	2,  90, 0, 3),
-       (7,  'Hydrocanon',	2, 110, 0, 3),
-       (8,  'Surf',		2,  90, 0, 3),
-       (9,  'Tranch''Herbe',	3,  55, 0, 3),
-       (10, 'Fouet Lianes',	3,  35, 0, 3),
-       (11, 'Danse-Fleur',	3, 120, 0, 3),
-       (12, 'Lance-Soleil',	3, 120, 0, 3),
-       (13, 'Crocs Eclair',	4,  65, 0, 3),
-       (14, 'Fatal-Foudre',	4, 110, 0, 3),
-       (15, 'Onde de Choc',	4,  60, 0, 3),
-       (16, 'Tonnerre',		4,  90, 0, 3),
-       (17, 'Eboulement',	5,  75, 0, 3),
-       (18, 'Tomberoche',	5,  65, 0, 3),
-       (19, 'Jet-Pierres',	5,  50, 0, 3),
-       (20, 'Lame de Roc',	5, 100, 0, 3),
-       (21, 'Tete de Fer',	6,  80, 0, 3),
-       (22, 'Gyroballe',	6,  25, 0, 3),
-       (23, 'Poing Meteor',	6,  90, 0, 3),
-       (24, 'Tacle lourd',	6, 100, 0, 3);
+       (1,  'Lance-Flamme',	1,  90, 0,  3),
+       (2,  'Flammeche',	1,  40, 0,  3),
+       (3,  'Crocs Feu',	1,  65, 0,  3),
+       (4,  'Boutefeu',		1, 120, 0,  3),
+       (5,  'Vibraqua',		2,  60, 0,  3),
+       (6,  'Hydroqueue',	2,  90, 0,  3),
+       (7,  'Hydrocanon',	2, 110, 0,  3),
+       (8,  'Surf',		2,  90, 0,  3),
+       (9,  'Tranch''Herbe',	3,  55, 0,  3),
+       (10, 'Fouet Lianes',	3,  35, 0,  3),
+       (11, 'Danse-Fleur',	3, 120, 0,  3),
+       (12, 'Lance-Soleil',	3, 120, 0,  3),
+       (13, 'Crocs Eclair',	4,  65, 0,  3),
+       (14, 'Fatal-Foudre',	4, 110, 0,  3),
+       (15, 'Onde de Choc',	4,  60, 0,  3),
+       (16, 'Tonnerre',		4,  90, 0,  3),
+       (17, 'Eboulement',	5,  75, 0,  3),
+       (18, 'Tomberoche',	5,  65, 0,  3),
+       (19, 'Jet-Pierres',	5,  50, 0,  3),
+       (20, 'Lame de Roc',	5, 100, 0,  3),
+       (21, 'Tete de Fer',	6,  80, 0,  3),
+       (22, 'Gyroballe',	6,  25, 0,  3),
+       (23, 'Poing Meteor',	6,  90, 0,  3),
+       (24, 'Tacle lourd',	6, 100, 0,  3),
+       (25, 'Mega-Sangsue',	3,  40, 0, 19),
+       (26, 'Absorption',	2,  60, 0, 19),
+       (27, 'Soin',		3,   0, 0, 20);
 
 /* Assigning Spells to MobModels */
 DELETE FROM `MobModel_spells`;
 
 INSERT INTO `MobModel_spells`(`object_id`, `index`, `value`) VALUES
        /* Charizard */
-       (1, 0, 1),
-       (1, 1, 2),
-       (1, 2, 3),
-       (1, 3, 4),
+       (1, 0,  1),
+       (1, 1,  2),
+       (1, 2,  3),
+       (1, 3,  4),
        /* Blastoise */
-       (2, 0, 5),
-       (2, 1, 6),
-       (2, 2, 7),
-       (2, 3, 8),
+       (2, 0, 26),
+       (2, 1,  6),
+       (2, 2,  7),
+       (2, 3,  8),
        /* Venusaur */
-       (3, 0, 9),
-       (3, 1, 10),
+       (3, 0, 27),
+       (3, 1, 25),
        (3, 2, 11),
        (3, 3, 12),
        /* Pikachu */
