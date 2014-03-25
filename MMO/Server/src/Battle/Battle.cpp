@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Mar 25 12:05:42 2014 antoine maitre
+// Last update Tue Mar 25 13:29:39 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -114,18 +114,12 @@ bool					Battle::spell(unsigned int const launcher, unsigned int const target, S
       for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	if ((*it)->getType() == Player::PlayerType::PLAYER)
 	  {
-<<<<<<< HEAD
-	    int tmp = mobTarget->getCurrentStat("HP") - hpChange;
-	    this->trameSpell((*it)->getUser().getId(), spell, launcher, target);
-	    this->trameSpellEffect((*it)->getUser().getId(), target, tmp);
-=======
 	    hpChange[0] -= mobTarget->getCurrentStat("HP");
 	    hpChange[1] -= mobLauncher->getCurrentStat("HP");
 	    this->trameSpell((*it)->getUser().getId(), spell, launcher, target);
 	    this->trameSpellEffect((*it)->getUser().getId(), target, -hpChange[0]);
 	    if (launcher != target)
 	      this->trameSpellEffect((*it)->getUser().getId(), launcher, -hpChange[1]);
->>>>>>> b77c39a5f0ac10ef2c5ea71e9aac09e58693c39f
 	  } 
       Stats const			&statMob = mobTarget->getCurrentStats();
       if (statMob.getStat(*hpKey) <= 0)
