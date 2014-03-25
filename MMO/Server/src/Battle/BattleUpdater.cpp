@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Sun Mar 23 23:47:08 2014 antoine maitre
+// Last update Tue Mar 25 14:40:38 2014 antoine maitre
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -121,6 +121,7 @@ void				BattleUpdater::run()
 	  for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
 	    if ((*it)->checkEnd())
 	      {
+		std::cout << "J AI TROUVE UNE BATTLE FINIE" << std::endl;
 		Battle	*b = *it;
 		this->_battles->remove((*it));
 		delete b;

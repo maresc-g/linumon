@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Mar 25 15:29:03 2014 cyril jourdain
+// Last update Tue Mar 25 15:42:52 2014 cyril jourdain
 //
 
 #include			"ClientManager/Client.hh"
@@ -167,8 +167,8 @@ void				Client::state(eState const state)
   std::cout << "JE SUIS DANS STATE" << std::endl;
   if (_state == BATTLE && state == GAME)
     {
-      Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("ISINBATTLE", _id, _player->getId
-(), false, Map::getInstance()->getZone(_player->getZone()));
+      Server::getInstance()->callProtocol<unsigned int, bool, bool, unsigned int, unsigned int, Player const *, Drop const *>("ENDBATTLE", _id, 0, true, true, 0, 0, NULL, NULL);
+      Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("ISINBATTLE", _id, _player->getId(), false, Map::getInstance()->getZone(_player->getZone()));
       // Map::getInstance()->addPlayer(_player->getZone(), _player);
     }
   else if (state == BATTLE && _state == GAME)
