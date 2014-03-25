@@ -218,7 +218,12 @@ JobMenuView QPushButton#b_inge
 
 JobView
 {
-	background-color: #FFFFFF;
+	border-image:url(./Res/UI/job.png);
+}
+
+JobView QPushButton#b_craft
+{
+	border-image:url(./Res/UI/craft.png);
 }
 
 CraftView
@@ -248,7 +253,17 @@ TradeView
 
 GuildView
 {
-	background-color: #FFFFFF;
+	border-image:url(./Res/UI/guild.png);
+}
+
+GuildView QPushButton#b_invite
+{
+	border-image:url(./Res/UI/guild_invit.png);
+}
+
+GuildView QPushButton#b_quit
+{
+	border-image:url(./Res/UI/guild_quitGuild.png);
 }
 
 FrameMobs
@@ -286,7 +301,7 @@ StuffStatsView
 
 InviteView
 {
-	background-color: #FFFFFF;
+	border-image:url(./Res/UI/.png);
 }
 
 MobView::disabled
