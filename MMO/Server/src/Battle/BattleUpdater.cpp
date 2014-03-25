@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 13:30:14 2014 antoine maitre
-// Last update Tue Mar 25 15:28:41 2014 alexis mestag
+// Last update Tue Mar 25 16:22:56 2014 alexis mestag
 //
 
 #include			"Battle/BattleUpdater.hh"
@@ -122,6 +122,7 @@ void				BattleUpdater::run()
 	  for (auto it = this->_battles->begin(); it != this->_battles->end(); it++)
 	    if ((*it)->checkEnd())
 	      {
+		std::cout << "J AI TROUVE UNE BATTLE FINIE" << std::endl;
 		Battle	*b = *it;
 		this->_battles->remove((*it));
 		delete b;
@@ -153,7 +154,7 @@ bool				BattleUpdater::newBattle(Player *player1, Player *player2, unsigned int 
       this->_battles->push_back(new Battle(id, Battle::PVE, mobInBattle, player1, tmp));
     }
   else
-    this->_battles->push_back(new Battle(id, Battle::PVP, rand()%3 + 1, player1, player2));
+    this->_battles->push_back(new Battle(id, Battle::PVP, 3, player1, player2));
   return (true);
 }
 

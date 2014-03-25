@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar 14 15:33:05 2014 cyril jourdain
-// Last update Sun Mar 23 16:31:37 2014 cyril jourdain
+// Last update Tue Mar 25 12:01:46 2014 antoine maitre
 //
 
 #include		<QMenu>
@@ -221,25 +221,27 @@ void			PlayerSprite::moveFromServer(sf::View *v)
   if (_dir == END_MOVE)
     {
       // std::cout << "HERE" << std::endl;
-      if (_pos.x != Map::getInstance()->getPlayerById(_playerId)->getX() || _pos.y != Map::getInstance()->getPlayerById(_playerId)->getY())
-	{
-	  setPosition(Map::getInstance()->getPlayerById(_playerId)->getX() * CASE_SIZE,
-		      Map::getInstance()->getPlayerById(_playerId)->getY() * CASE_SIZE - getCurrentBound()->height / 2 + 4);
-	  if (v) {
-	    v->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
-	    v->move(Map::getInstance()->getPlayerById(_playerId)->getX() * CASE_SIZE - WIN_W / 2,
-		    Map::getInstance()->getPlayerById(_playerId)->getY() * CASE_SIZE - WIN_H / 2);
-	    _pos.x = Map::getInstance()->getPlayerById(_playerId)->getX();
-	    _pos.y = Map::getInstance()->getPlayerById(_playerId)->getY();
-	    v->zoom(0.8);
-	    // if (_pos.x <= 15)
-	    //   v->move((15 - _pos.x * CASE_SIZE),
-	    // 	       0);
-	    // std::cout << "NEW POS X AFTER MAGIC TP : "  << _pos.x << std::endl;
-	    std::cout << "WADAFAK WITH POS ?" << std::endl;
+      if (Map::getInstance()->getPlayerById(_playerId)){
+	if (_pos.x != Map::getInstance()->getPlayerById(_playerId)->getX() || _pos.y != Map::getInstance()->getPlayerById(_playerId)->getY())
+	  {
+	    setPosition(Map::getInstance()->getPlayerById(_playerId)->getX() * CASE_SIZE,
+			Map::getInstance()->getPlayerById(_playerId)->getY() * CASE_SIZE - getCurrentBound()->height / 2 + 4);
+	    if (v) {
+	      v->reset(sf::FloatRect(0,0, WIN_W, WIN_H));
+	      v->move(Map::getInstance()->getPlayerById(_playerId)->getX() * CASE_SIZE - WIN_W / 2,
+		      Map::getInstance()->getPlayerById(_playerId)->getY() * CASE_SIZE - WIN_H / 2);
+	      _pos.x = Map::getInstance()->getPlayerById(_playerId)->getX();
+	      _pos.y = Map::getInstance()->getPlayerById(_playerId)->getY();
+	      v->zoom(0.8);
+	      // if (_pos.x <= 15)
+	      //   v->move((15 - _pos.x * CASE_SIZE),
+	      // 	       0);
+	      // std::cout << "NEW POS X AFTER MAGIC TP : "  << _pos.x << std::endl;
+	      std::cout << "WADAFAK WITH POS ?" << std::endl;
+	    }
 	  }
-	}
-      _dir = NONE;
+	_dir = NONE;
+      }
     }
   if (_dir == NONE || _dir == WAITING)
     {
@@ -247,14 +249,16 @@ void			PlayerSprite::moveFromServer(sf::View *v)
       // 		<< Map::getInstance()->getPlayerById(_playerId)->getX()
       // 		<< "/"
       // 		<< Map::getInstance()->getPlayerById(_playerId)->getY() <<std::endl;
-      _deltaPos.x = (_pos.x - Map::getInstance()->getPlayerById(_playerId)->getX()) * -CASE_SIZE;
-      _deltaPos.y = (_pos.y - Map::getInstance()->getPlayerById(_playerId)->getY()) * -CASE_SIZE;
-      if (_deltaPos.y != 0)
-	_dir = (_deltaPos.y < 0 ? UP : DOWN);
-      else if (_deltaPos.x != 0)
-	_dir = (_deltaPos.x < 0 ? LEFT : RIGHT);
-      _deltaPos.x = 0;
-      _deltaPos.y = 0;
+      if (Map::getInstance()->getPlayerById(_playerId)){
+	_deltaPos.x = (_pos.x - Map::getInstance()->getPlayerById(_playerId)->getX()) * -CASE_SIZE;
+	_deltaPos.y = (_pos.y - Map::getInstance()->getPlayerById(_playerId)->getY()) * -CASE_SIZE;
+	if (_deltaPos.y != 0)
+	  _dir = (_deltaPos.y < 0 ? UP : DOWN);
+	else if (_deltaPos.x != 0)
+	  _dir = (_deltaPos.x < 0 ? LEFT : RIGHT);
+	_deltaPos.x = 0;
+	_deltaPos.y = 0;
+      }
     }
 }
 

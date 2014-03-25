@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Mon Mar 24 16:50:40 2014 guillaume marescaux
+// Last update Tue Mar 25 12:25:15 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -228,11 +228,19 @@ bool				Zone::serialization(Trame &trame) const
   for (auto it = this->_cases->begin(); it != this->_cases->end(); it++)
     if ((*it)->serialization(trame(trame[CONTENT]["MAP"][std::to_string(i)])))
       i++;
+  i = 1;
+  for (auto it = this->_carcasses->begin() ; it != this->_carcasses->end() ; ++it)
+    {
+      if ((*it)->serialization(trame(trame[CONTENT]["MAP"]["CAR"][std::to_string(i)])))
+	i++;
+    }
   return (true);
 }
 
 void				Zone::deserialization(Trame const &trame)
 {
+  Carcass			*car;
+
   std::cout << "ZONE BEGINNING" << std::endl;
   this->_players->clear();
   for (int i = 1; trame[CONTENT]["MAP"].isMember(std::to_string(i)); i++)
@@ -244,6 +252,11 @@ void				Zone::deserialization(Trame const &trame)
 	  if ((*it)->getEntityType() == AEntity::STATENTITY)
 	    this->_players->push_back((*it));
 	}
+    }
+  for (int i = 1 ; trame[CONTENT]["MAP"]["CAR"].isMember(std::to_string(i)) ; ++i)
+    {
+      car = Carcass::deserialization(trame(trame[CONTENT]["MAP"]["CAR"][std::to_string(i)]));
+      this->_carcasses->push_back(car);
     }
 }
 

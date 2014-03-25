@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:41:39 2014 guillaume marescaux
-// Last update Wed Mar 19 15:29:40 2014 cyril jourdain
+// Last update Tue Mar 25 11:09:00 2014 guillaume marescaux
 //
 
 #ifndef 		__MOBVIEW_HH__
@@ -58,6 +58,10 @@ protected:
   virtual void		dropEvent(QDropEvent *de);
   virtual void		dragMoveEvent(QDragMoveEvent *de);
   virtual void		dragEnterEvent(QDragEnterEvent *event);
+
+public:
+
+  Mob const		*getMob(void) const;
 };
 
 #endif
