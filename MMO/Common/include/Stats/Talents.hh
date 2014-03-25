@@ -5,17 +5,18 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Mar  4 00:03:52 2014 alexis mestag
-// Last update Thu Mar 20 11:30:22 2014 alexis mestag
+// Last update Wed Mar 26 00:15:10 2014 alexis mestag
 //
 
 #ifndef				__TALENTS_HH__
 # define			__TALENTS_HH__
 
-# include			"Stats/Talent.hh"
 # include			"Utility/Wrapper.hpp"
 # include			"Utility/ISerialization.hh"
 
 class				Player;
+class				Talent;
+class				TalentModel;
 
 class				Talents : public ContainerWrapper<std::list<Talent *> >, public ISerialization
 {
@@ -27,7 +28,6 @@ private:
   void				setTalents(container_type const &talents);
 
   void				deleteTalents();
-  Talent			*getTalentFromModel(TalentModel const &talent);
 
 public:
   Talents();
@@ -41,6 +41,7 @@ public:
 
   Talents			&operator=(Talents const &rhs);
 
+  Talent			*getTalentFromModel(TalentModel const &talent);
   Talent const			*getTalentFromModel(TalentModel const &talent) const;
   bool				incTalent(TalentModel const &talent);
   void				apply(Player &player);
@@ -50,5 +51,6 @@ public:
 };
 
 # include			"Entities/Player.hh"
+# include			"Stats/Talent.hh"
 
 #endif

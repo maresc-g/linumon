@@ -158,6 +158,8 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Thread/UnixThread.cpp \ 
                 ../Common/src/Protocol/Protocol.cpp \ 
                 ../Common/src/Effects/EffectLib.cpp \ 
+                ../Common/src/Effects/PlayerEffect.cpp \ 
+                ../Common/src/Effects/TalentEffect.cpp \ 
                 ../Common/src/DynamicLibrary/UnixDynamicLibrary.cpp \
 		../Common/src/DynamicLibrary/ADynamicLibrary.cpp \
 		../Common/src/DynamicLibrary/DynamicLibrary.cpp \

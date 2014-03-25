@@ -5,10 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:18:40 2014 alexis mestag
-// Last update Fri Mar 21 00:37:46 2014 alexis mestag
+// Last update Tue Mar 25 22:43:11 2014 alexis mestag
 //
 
 #include			<functional>
+#include			"Effects/TalentEffect.hh"
 #include			"Stats/TalentModel.hh"
 #include			"Loader/LoaderManager.hh"
 
@@ -82,6 +83,22 @@ void				TalentModel::setEffectLib(EffectLib const &effectLib)
   }
   else
     _effectLib = &effectLib;
+}
+
+bool				TalentModel::applyEffect(Player &player, unsigned int const fromPts,
+							 unsigned int const toPts) const
+{
+  IEffect			*effect = this->getEffectLib().getEffect();
+  TalentEffect			*tEffect = dynamic_cast<TalentEffect *>(effect);
+  bool				ret = false;
+
+  if (tEffect) {
+    tEffect->apply(player, fromPts, toPts);
+    ret = true;
+  }
+  else
+    std::cerr << "Bad cast in TalentModel::applyEffect()" << std::endl;
+  return (ret);
 }
 
 void				TalentModel::addTalent(TalentModel const &talent)

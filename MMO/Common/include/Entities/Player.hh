@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Mon Mar 24 15:41:56 2014 guillaume marescaux
+// Last update Wed Mar 26 00:22:18 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -18,7 +18,6 @@
 #  include		"Entities/DBZone.hh"
 # endif
 # include		"Entities/ACharacter.hh"
-# include		"Stats/TalentTree.hh"
 # include		"Stats/Talents.hh"
 # include		"Zone/Coordinate.hpp"
 # include		"Utility/ISerialization.hh"
@@ -29,6 +28,7 @@
 class			User;
 class			Faction;
 class			Drop;
+class			TalentTree;
 
 class			Player : public Persistent, public ACharacter, public ISerialization
 {
@@ -132,6 +132,8 @@ public:
   void				setTalents(Talents const &list);
   bool				incTalent(TalentModel const &model);
   Talent const			*getTalentFromModel(TalentModel const &model) const;
+  bool				updateTalent(TalentModel const &model, unsigned int const toPoints);
+  void				applyAllTalentsToMob(Mob &mob);
 
   TalentTree const		&getTalentTree() const;
   void				setTalentTree(TalentTree const &tree);
@@ -185,6 +187,7 @@ public:
   static Player			*deserialization(Trame const &trame);
 };
 
+# include			"Stats/TalentTree.hh"
 # include			"Entities/User.hh"
 # include			"Entities/Faction.hh"
 

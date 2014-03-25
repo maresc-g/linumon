@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 12:57:49 2014 alexis mestag
-// Last update Sun Mar 23 13:06:27 2014 alexis mestag
+// Last update Tue Mar 25 23:28:04 2014 alexis mestag
 //
 
 #include				"HP_TalentEffect.hh"
@@ -21,13 +21,19 @@ HP_TalentEffect::~HP_TalentEffect()
 
 }
 
-bool					HP_TalentEffect::apply(Player &player __attribute__((unused)))
+bool					HP_TalentEffect::apply(Player &player,
+							       unsigned int const fromPts,
+							       unsigned int const toPts)
 {
+  this->applyToAllMobs(player, fromPts, toPts);
   return (true);
 }
 
-bool					HP_TalentEffect::apply(Mob &mob __attribute__((unused)))
+bool					HP_TalentEffect::apply(Mob &mob,
+							       unsigned int const fromPts,
+							       unsigned int const toPts)
 {
-  mob.incStat("HP", 5);
+  for (unsigned int i = fromPts ; i <= toPts ; ++i)
+    mob.incStat("HP", 5);
   return (true);
 }

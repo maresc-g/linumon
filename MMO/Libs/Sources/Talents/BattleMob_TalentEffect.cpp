@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 17:40:45 2014 alexis mestag
-// Last update Sun Mar 23 17:41:05 2014 alexis mestag
+// Last update Tue Mar 25 23:22:47 2014 alexis mestag
 //
 
 #include				"BattleMob_TalentEffect.hh"
@@ -21,13 +21,17 @@ BattleMob_TalentEffect::~BattleMob_TalentEffect()
 
 }
 
-bool				BattleMob_TalentEffect::apply(Player &player)
+bool				BattleMob_TalentEffect::apply(Player &player,
+							      unsigned int const fromPts,
+							      unsigned int const toPts)
 {
-  player.incStat("Limit mob", 1);
+  for (unsigned int i = fromPts ; i <= toPts ; ++i)
+    player.incStat("Limit mob", 1);
   return (true);
 }
 
-bool				BattleMob_TalentEffect::apply(Mob &mob __attribute__((unused)))
+bool				BattleMob_TalentEffect::apply(Mob &mob __attribute__((unused)),
+							      unsigned int const fromPts __attribute__((unused)), unsigned int const toPts __attribute__((unused)))
 {
   return (true);
 }

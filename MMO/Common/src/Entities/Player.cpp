@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Mar 24 16:17:10 2014 alexis mestag
+// Last update Wed Mar 26 00:07:44 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -13,6 +13,7 @@
 #include			<chrono>
 #include			<limits>
 #include			<functional>
+#include			"Effects/TalentEffect.hh"
 #include			"Entities/Player.hh"
 #include			"Map/Map.hh"
 #ifndef			CLIENT_COMPILATION
@@ -486,6 +487,45 @@ bool				Player::incTalent(TalentModel const &model)
   return (_talents->incTalent(model));
 }
 
+bool				Player::updateTalent(TalentModel const &model,
+						     unsigned int const toPoints)
+{
+  Talent			*talent = _talents->getTalentFromModel(model);
+  bool				ret = false;
+
+  if (talent) {
+    unsigned int		fromPoints = talent->getCurrentPoints();
+
+    ret = fromPoints != toPoints ? true : false;
+    _talents->decCurrentPts(toPoints - fromPoints);
+    if (ret) {
+      talent->setCurrentPoints(toPoints);
+
+      talent->applyEffect(*this, fromPoints + 1, toPoints);
+    }
+  }
+  return (ret);
+}
+
+void				Player::applyAllTalentsToMob(Mob &mob)
+{
+  IEffect			*effect;
+  TalentEffect			*tEffect;
+
+  std::for_each(_talents->begin(), _talents->end(), [&](Talent *talent) -> void {
+      effect = talent->getModel().getEffectLib().getEffect();
+      tEffect = dynamic_cast<TalentEffect *>(effect);
+
+      if (tEffect && tEffect->isForMob()) {
+	tEffect->apply(mob, 1, talent->getCurrentPoints());
+      }
+      else
+	std::cerr << "Bad cast in Player::applyAllTalentsToMob()" << std::endl;
+      delete effect;
+    });
+  // Resend the Mob to client
+}
+
 Talent const			*Player::getTalentFromModel(TalentModel const &model) const
 {
   return (const_cast<Talents const *>(_talents)->getTalentFromModel(model));
@@ -681,6 +721,7 @@ bool				Player::capture(Mob &mob, bool const check)
     mob.setPlayer(this);
 #ifndef		CLIENT_COMPILATION
     mob.resetExp();
+    this->applyAllTalentsToMob(mob);
 #endif
   }
   return (done);

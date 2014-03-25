@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 13:06:12 2014 alexis mestag
-// Last update Sun Mar 23 13:06:44 2014 alexis mestag
+// Last update Tue Mar 25 23:18:45 2014 alexis mestag
 //
 
 #include				"Atk_TalentEffect.hh"
@@ -21,13 +21,19 @@ Atk_TalentEffect::~Atk_TalentEffect()
 
 }
 
-bool					Atk_TalentEffect::apply(Player &player __attribute__((unused)))
+bool					Atk_TalentEffect::apply(Player &player,
+								unsigned int const fromPts,
+								unsigned int const toPts)
 {
+  this->applyToAllMobs(player, fromPts, toPts);
   return (true);
 }
 
-bool					Atk_TalentEffect::apply(Mob &mob __attribute__((unused)))
+bool					Atk_TalentEffect::apply(Mob &mob,
+								unsigned int const fromPts,
+								unsigned int const toPts)
 {
-  mob.incStat("Attack", 5);
+  for (unsigned int i = fromPts ; i <= toPts ; ++i)
+    mob.incStat("Attack", 5);
   return (true);
 }
