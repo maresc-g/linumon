@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Tue Mar 25 16:47:25 2014 antoine maitre
+// Last update Wed Mar 26 11:27:33 2014 antoine maitre
 //
 
 #include				"Battle/Battle.hh"
@@ -171,11 +171,11 @@ bool					Battle::capture(unsigned int const target)
 	    if (this->_players.front()->capture(*(*it)))
 	      {
 		static_cast<AI *>(this->_players.back())->remove(target);
+		this->trameCapture(this->_players.front()->getUser().getId(), (*it), true);
 		this->_mobs.erase(it);
-		this->trameCapture(this->_players.front()->getUser().getId(), target, true);
 	      }
 	    else
-	      this->trameCapture(this->_players.front()->getUser().getId(), target, false);
+	      this->trameCapture(this->_players.front()->getUser().getId(), NULL, false);
 	    break;
 	  }
       }
@@ -284,9 +284,9 @@ void					Battle::trameDeadMob(unsigned int const idPlayer, unsigned int const id
   Server::getInstance()->callProtocol<unsigned int, unsigned int>("DEADMOB", idPlayer, this->_id, idMob);
 }
 
-void					Battle::trameCapture(unsigned int const idPlayer, unsigned int const idMob, bool const success) const
+void					Battle::trameCapture(unsigned int const idPlayer, Mob const *mob, bool const success) const
 {
-  Server::getInstance()->callProtocol<unsigned int, bool>("CAPTUREEFFECT", idPlayer, idMob, success);
+  Server::getInstance()->callProtocol<unsigned int, Mob const*, bool>("CAPTUREEFFECT", idPlayer, this->_id, mob, success);
 }
 
 void					Battle::trameLaunchBattle(unsigned int const idPlayer, Player *player) const
