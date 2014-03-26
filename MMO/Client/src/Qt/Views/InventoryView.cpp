@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Wed Mar 26 11:17:28 2014 guillaume marescaux
+// Last update Wed Mar 26 12:40:04 2014 guillaume marescaux
 //
 
 #include <iostream>
@@ -109,8 +109,8 @@ void				InventoryView::stackAction(StackView *stackView)
     {
       Consumable const		*consumable = static_cast<Consumable const *>(stackView->getStack().getItem());
 
-      (**_wMan->getMainPlayer())->useObject((**(_wMan->getMainPlayer()))->getId(), consumable->getId());
-      Client::getInstance()->useObject((**(_wMan->getMainPlayer()))->getId(), consumable->getId());
+      (**_wMan->getMainPlayer())->useObject((**(_wMan->getMainPlayer()))->getId(), stackView->getStack().getId());
+      Client::getInstance()->useObject((**(_wMan->getMainPlayer()))->getId(), stackView->getStack().getId());
       _wMan->getSFMLView()->getInventoryView()->initInventory();
     }
 }
