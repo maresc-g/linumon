@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Dec  5 20:42:03 2013 alexis mestag
-// Last update Mon Mar 24 16:21:27 2014 alexis mestag
+// Last update Wed Mar 26 14:18:05 2014 antoine maitre
 //
 
 #include			<random>
@@ -312,7 +312,7 @@ Mob				*Mob::deserialization(Trame const &trame)
 {
   Mob				*mob = new Mob;
 
-  std::cout << "TRAMe =" << trame.toString() << std::endl;
+  // std::cout << "TRAMe =" << trame.toString() << std::endl;
   if (trame.isMember("KEY"))
     mob->setAuthorizedStatKeys(*(**LoaderManager::getInstance()->getAuthorizedStatKeyLoader())->getValue(trame["KEY"].asString()));
   mob->setCurrentStats(*Stats::deserialization(trame(trame["STATS"])));
