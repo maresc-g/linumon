@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar 26 00:25:20 2014 alexis mestag
+// Last update Wed Mar 26 11:06:14 2014 guillaume marescaux
 //
 
 #include			"ClientManager/Client.hh"
@@ -48,7 +48,7 @@ void				Client::clear()
   if (_player)
     {
       Map::getInstance()->delPlayer(_player->getZone(), _player);
-      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _player->getId(), Map::getInstance()->getZone(_player->getZone()));
     }
   delete (*_sockets)["UDP"];
   delete (*_sockets)["TCP"];
@@ -80,7 +80,7 @@ void				Client::disconnectUser()
   if (_player)
     {
       Map::getInstance()->delPlayer(_player->getZone(), _player);
-      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _player->getId(), Map::getInstance()->getZone(_player->getZone()));
     }
   if (_user)
     _user->setId(0);
@@ -107,7 +107,7 @@ void				Client::disconnectPlayer()
   if (_player)
     {
       Map::getInstance()->delPlayer(_player->getZone(), _player);
-      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _player->getId(), Map::getInstance()->getZone(_player->getZone()));
     }
 
   if (_player)
