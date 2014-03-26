@@ -248,15 +248,16 @@ INSERT INTO `MobModel`(`id`, `name`, `authKeys`, `type`, `expCurve`, `expSeed`, 
 DELETE FROM `Ressource`;
 
 INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
-       (1, 'Orchidee',			1, 10, 100),
-       (2, 'Peau de bouftou',		1,  1,  10),
-       (3, 'Tree',			0,  0,   0),
-       (4, 'Venuzaur Leaf',	1,  0,   0),
-       (5, 'Charizard Tooth',		1,  0,   0),
-       (6, 'Blastoise Scale',	1,  0,   0),
-       (7, 'Bone',			0,  0,   0),
-       (8, 'Bush',			0,  0,   0),
-       (9, 'House',			0,  0,   0);
+       ( 1, 'Orchidee',			1, 10, 100),
+       ( 2, 'Peau de bouftou',		1,  1,  10),
+       ( 3, 'Tree',			0,  0,   0),
+       ( 4, 'Venuzaur Leaf',		1,  0,   0),
+       ( 5, 'Charizard Tooth',		1,  0,   0),
+       ( 6, 'Blastoise Scale',		1,  0,   0),
+       ( 7, 'Bone',			0,  0,   0),
+       ( 8, 'Bush',			0,  0,   0),
+       ( 9, 'House',			0,  0,   0),
+       (10, 'Cuivre',			1,  0, 100);
 
 /* Assigning Ressources to MobModels */
 DELETE FROM `MobModel_carcass`;
