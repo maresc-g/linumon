@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Tue Mar 25 12:33:57 2014 cyril jourdain
+// Last update Tue Mar 25 20:17:50 2014 guillaume marescaux
 //
 
 /*
@@ -294,7 +294,21 @@ void			SFMLView::hideView(QWidget *view)
     }
 }
 
-  ContextView		*SFMLView::getCurrentView(void){return _currentView; }
+void			SFMLView::hideViews()
+{
+  if (_view1)
+    {
+      _view1->hide();
+      _view1 = NULL;
+    }
+  if (_view2)
+    {
+      _view2->hide();
+      _view2 = NULL;
+    }
+}
+
+ContextView		*SFMLView::getCurrentView(void){return _currentView; }
 InventoryView		*SFMLView::getInventoryView(void){return (_inventory); }
 StuffView		*SFMLView::getStuffView(void){return (_stuff); }
 ChatView		*SFMLView::getChatView(void){return (_chat); }

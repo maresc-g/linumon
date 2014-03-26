@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:19:06 2014 guillaume marescaux
-// Last update Wed Mar 19 13:26:09 2014 cyril jourdain
+// Last update Tue Mar 25 23:43:26 2014 guillaume marescaux
 //
 
 #include			<qtooltip.h>
@@ -63,7 +63,10 @@ void				StackView::mousePressEvent(QMouseEvent *mEvent)
   if (mEvent->button() == Qt::LeftButton)
     {
       if (this->parentWidget()->objectName() != "f_craft")
-	makeDrag();
+	{
+	  _wMan->getSFMLView()->getStuffStatsView()->hide();
+	  makeDrag();
+	}
     }
 }
 
@@ -71,6 +74,7 @@ void				StackView::mouseDoubleClickEvent(QMouseEvent *)
 {
   ParentInfos			*infos = getNameFirstParent(this);
 
+  _wMan->getSFMLView()->getStuffStatsView()->hide();
   if (_stack && infos->name == "inventoryview")
     static_cast<InventoryView *>(infos->parent)->stackAction(this);
   else if (_stack && infos->name == "stuffview")

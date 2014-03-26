@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:00:20 2013 cyril jourdain
-// Last update Fri Mar 21 19:54:11 2014 guillaume marescaux
+// Last update Tue Mar 25 20:15:40 2014 guillaume marescaux
 //
 
 #ifndef 		__SFMLVIEW_HPP__
@@ -121,6 +121,7 @@ private:
 public:
   void				displayView(QWidget *view);
   void				hideView(QWidget *view);
+  void				hideViews(void);
 
 public: /* Child view accessors for World and Battle view, not const */
   ContextView			*getCurrentView();
