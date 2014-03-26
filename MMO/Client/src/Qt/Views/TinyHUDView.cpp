@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Mar  6 14:21:30 2014 guillaume marescaux
-// Last update Fri Mar 14 16:33:12 2014 guillaume marescaux
+// Last update Tue Mar 25 16:54:03 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/TinyHUDView.hh"
@@ -25,6 +25,10 @@ TinyHUDView::TinyHUDView(QWidget *parent, WindowManager *wMan):
   ui.pb_hp->resize(80, 15);
   ui.pb_exp->resize(80, 10);
   ui.pb_exp->move(5, 85);
+  ui.l_hp->move(5, 60);
+  ui.l_hp->resize(80, 15);
+  ui.l_exp->resize(80, 10);
+  ui.l_exp->move(5, 85);
   ui.pb_exp->setTextVisible(false);
   ui.pb_hp->setTextVisible(false);
   ui.l_lvl->move(70, 5);
@@ -61,6 +65,9 @@ void				TinyHUDView::setInfos(Mob const *mob)
       	ui.pb_hp->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(ORANGE) + "; }").c_str());
       else
       	ui.pb_hp->setStyleSheet(std::string("QProgressBar::chunk { background-color: " + std::string(GREEN) + "; }").c_str());
+      ui.l_exp->setText(std::string("EXP : " + std::to_string(mob->getCurrentExp()) + "/" + std::to_string(mob->getExp())).c_str());
+      ui.l_hp->setText(std::string("HP : " + std::to_string((int)current) + "/" + std::to_string(max)).c_str());
+      ui.pb_exp->setMinimum(mob->getOldExp());
       ui.pb_exp->setMaximum(mob->getExp());
       ui.pb_exp->setValue(mob->getCurrentExp());
       ui.l_lvl->setText(std::to_string(mob->getLevel()).c_str());

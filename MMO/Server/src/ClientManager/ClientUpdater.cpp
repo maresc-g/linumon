@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 13:04:27 2013 laurent ansel
-// Last update Mon Mar 24 14:30:53 2014 antoine maitre
+// Last update Wed Mar 26 10:39:07 2014 guillaume marescaux
 //
 
 #include			"ClientManager/ClientUpdater.hh"
@@ -361,10 +361,12 @@ void				ClientUpdater::getClients(std::list<FD> &list) const
 bool				ClientUpdater::setTalents(FD const fd, std::string const &talent, unsigned int const pts) const
 {
   this->_mutex->lock();
+  std::cout << "I AM IN SET TALENTS" << std::endl;
   for (auto it = this->_action->begin() ; it != this->_action->end() ; ++it)
     {
       if (fd == (*it).first->getId() && (*it).first->isUse())
 	{
+	  std::cout << "I AM UPDATING TALENTS" << std::endl;
 	  (*it).first->updateTalents(talent, pts);
 	  this->_mutex->unlock();
 	  return (true);

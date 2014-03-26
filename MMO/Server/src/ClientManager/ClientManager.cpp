@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Dec  4 11:22:44 2013 laurent ansel
-// Last update Tue Mar 25 13:03:24 2014 cyril jourdain
+// Last update Wed Mar 26 10:40:49 2014 guillaume marescaux
 //
 
 #include			"Database/Database.hpp"
@@ -215,6 +215,7 @@ void				ClientManager::setPlayerTalent(FD const fd, std::string const &talent, u
   bool				set = false;
 
   this->_mutex->lock();
+  std::cout << "I AM IN SET PLAYERS TALENTS" << std::endl;
   for (auto it = this->_updaters->begin() ; it != this->_updaters->end() && !set ; ++it)
     if ((*it).first && (*it).second)
       set = (*it).first->setTalents(fd, talent, pts);

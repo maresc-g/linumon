@@ -81,7 +81,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Create Guild</string>
+    <string/>
    </property>
   </widget>
   <widget class="QLineEdit" name="le_gname">
@@ -140,7 +140,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Invite</string>
+    <string/>
    </property>
   </widget>
   <widget class="QLineEdit" name="le_invite">
@@ -151,6 +151,9 @@
      <width>320</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="maxLength">
+    <number>24</number>
    </property>
   </widget>
   <widget class="QPushButton" name="b_quit">
@@ -163,7 +166,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Quit Guild</string>
+    <string/>
    </property>
   </widget>
  </widget>

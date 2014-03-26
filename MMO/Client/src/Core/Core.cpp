@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 26 00:29:27 2014 cyril jourdain
+// Last update Wed Mar 26 11:15:58 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -138,6 +138,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("NEWCARCASS", func);
   func = std::bind1st(std::mem_fun(&Core::removeEntity), this);
   _proto->addFunc("REMOVEENTITY", func);
+  func = std::bind1st(std::mem_fun(&Core::upTalents), this);
+  _proto->addFunc("TALENTUPDATE", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -380,8 +382,10 @@ bool				Core::upStats(Trame *)
   return (true);
 }
 
-bool				Core::upTalents(Trame *)
+bool				Core::upTalents(Trame *trame)
 {
+  (**_player)->setDigitaliser(*Digitaliser::deserialization((*trame)((*trame)[CONTENT]["UPDATETALENTS"])));
+  (**_player)->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["UPDATETALENTS"])));
   return (true);
 }
 
@@ -519,7 +523,10 @@ bool				Core::removeEntity(Trame *trame)
 							     (*trame)[CONTENT]["REMOVEENTITY"]["ID"].asUInt());
   if (entity){
     if (entity->getEntityType() == AEntity::STATENTITY)
-      map->delPlayer((**_player)->getZone(), entity);
+      {
+	*_newPlayer = true;
+	map->delPlayer((**_player)->getZone(), entity);
+      }
     else if (entity->getEntityType() == AEntity::CARCASS)
       map->delCarcass((**_player)->getZone(), static_cast<Carcass *>(entity));
     else
@@ -534,6 +541,8 @@ bool				Core::entity(Trame *trame)
   AEntity			*entity = map->getEntityById((**_player)->getZone(),
   							     (*trame)[CONTENT]["ENTITY"]["ID"].asUInt());
 
+  std::cout << (**_player)->getZone() << std::endl;
+  std::cout << (**_player)->getId() << std::endl;
   if (entity)
     {
       std::cout << "MOVING ENTITY WITH ID : " << (*trame)[CONTENT]["ENTITY"]["ID"].asUInt() << std::endl;

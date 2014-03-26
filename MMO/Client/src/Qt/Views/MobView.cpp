@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Tue Mar 25 11:12:10 2014 guillaume marescaux
+// Last update Tue Mar 25 19:59:05 2014 guillaume marescaux
 //
 
 #include			<QMenu>
@@ -83,6 +83,7 @@ void				MobView::displayMenu(const QPoint &pos)
   if (selectedItem)
     {
       _wMan->getSFMLView()->getStuffView()->initStuff(*_mob);
+      _wMan->getSFMLView()->displayView(_wMan->getSFMLView()->getStuffView());
     }
 }
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar 26 00:25:20 2014 alexis mestag
+// Last update Wed Mar 26 11:23:08 2014 alexis mestag
 //
 
 #include			"ClientManager/Client.hh"
@@ -48,7 +48,7 @@ void				Client::clear()
   if (_player)
     {
       Map::getInstance()->delPlayer(_player->getZone(), _player);
-      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _player->getId(), Map::getInstance()->getZone(_player->getZone()));
     }
   delete (*_sockets)["UDP"];
   delete (*_sockets)["TCP"];
@@ -80,7 +80,7 @@ void				Client::disconnectUser()
   if (_player)
     {
       Map::getInstance()->delPlayer(_player->getZone(), _player);
-      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _player->getId(), Map::getInstance()->getZone(_player->getZone()));
     }
   if (_user)
     _user->setId(0);
@@ -107,7 +107,7 @@ void				Client::disconnectPlayer()
   if (_player)
     {
       Map::getInstance()->delPlayer(_player->getZone(), _player);
-      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _player->getId(), Map::getInstance()->getZone(_player->getZone()));
     }
 
   if (_player)
@@ -242,11 +242,14 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
       if (!pv)
 	{
 	  Repository<Player>	*rp = &Database::getRepository<Player>();
-	  Player		*player = new Player(name, faction->getName());
+	  Player		*player = new Player(name, faction->getName(), this->_user);
 
+	  std::cerr << "Creating new Player" << std::endl;
 	  player->resetExp();
 	  delete faction;
-	  this->_user->addPlayer(*player);
+	  // this->_user->addPlayer(*player);
+	  std::cerr << "\tUser is set !" << std::endl;
+	  // Map::getInstance()->getZone(player->getZone())->addPlayer(player);
 	  rp->smartUpdate(*player);
 	  return (true);
 	}
@@ -329,14 +332,19 @@ void				Client::move(Player::PlayerCoordinate *coord)
 
 void				Client::updateTalents(std::string const &talent, unsigned int const pts) const
 {
+  std::cerr << "In Client::updateTalents" << std::endl;
   if (_state == GAME && _player)
     {
       TalentModel const		*model = (**LoaderManager::getInstance()->getTalentModelLoader())->getValue(talent);
       if (_player->updateTalent(*model, pts)) {
+	// std::cerr << "Calling updateTalent with " << _player->getName() << std::endl;
 	// Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
 	Server::getInstance()->callProtocol<Player const *>("TALENTUPDATE", _id, _player);
+	// std::cerr << "\tmsg sent with protocol" << std::endl;
       }
     }
+  // else
+  //   std::cerr << "\tLe if n'est pas passé" << std::endl;
 }
 
 void				Client::useObject(unsigned int const target, unsigned int const item)
