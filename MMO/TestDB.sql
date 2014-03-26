@@ -251,10 +251,10 @@ INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
        (1, 'Orchidee',			1, 10, 100),
        (2, 'Peau de bouftou',		1,  1,  10),
        (3, 'Tree',			0,  0,   0),
-       (4, 'Feuille de Venuzaur',	1,  0,   0),
+       (4, 'Venuzaur Leaf',	1,  0,   0),
        (5, 'Dent de Charizard',		1,  0,   0),
        (6, 'Ecaille de Blastoise',	1,  0,   0),
-       (7, 'Os',			0,  0,   0),
+       (7, 'Bone',			0,  0,   0),
        (8, 'Bush',			0,  0,   0),
        (9, 'House',			0,  0,   0);
 
@@ -489,19 +489,32 @@ INSERT INTO `DBZone_mobModels`(`object_id`, `index`, `value`) VALUES
 DELETE FROM `Stuff`;
 
 INSERT INTO `Stuff`(`id`, `name`, `stuffType`) VALUES
-       ( 1, 'Coiffe Bouftou', 'HELMET'),
-       ( 2, 'Cape Bouftou', 'CLOAK'),
-       ( 3, 'Bottes Bouftou', 'BOOTS'),
-       ( 4, 'Amulette Bouftou', 'NECKLACE'),
-       ( 5, 'Epaulettes Bouftou', 'SHOULDERS'),
-       ( 6, 'Plastron Bouftou', 'BREASTPLATE'),
-       ( 7, 'Anneau Bouftou', 'RING'),
-       ( 8, 'Ceinture Bouftou', 'BELT'),
-       ( 9, 'Marteau Bouftou', 'WEAPON'),
-       (10, 'Casque Piou', 'HELMET'),
-       (11, 'Crane de Charizard', 'HELMET'),
-       (12, 'Canons de Blastoise', 'SHOULDERS'),
-       (13, 'Feuillage de Venusaur', 'CLOAK');
+       ( 1, 'Bouftou Helmet', 'HELMET'),
+       ( 2, 'Bouftou Cloak', 'CLOAK'),
+       ( 3, 'Bouftou Boots', 'BOOTS'),
+       ( 4, 'Bouftou Necklace', 'NECKLACE'),
+       ( 5, 'Bouftou Shoulders', 'SHOULDERS'),
+       ( 6, 'Bouftou Breastplate', 'BREASTPLATE'),
+       ( 7, 'Bouftou Ring', 'RING'),
+       ( 8, 'Bouftou Belt', 'BELT'),
+       ( 9, 'Bouftou Hammer', 'WEAPON'),
+       (10, 'Piou Helmet', 'HELMET'),
+       (11, 'Charizard Skull', 'HELMET'),
+       (12, 'Blastoise Canon', 'SHOULDERS'),
+       (13, 'Venusaur Leafs', 'CLOAK'),
+       (14, 'Black Helmet', 'HELMET'),
+       (15, 'Diamond Breastplate', 'BREASTPLATE'),
+       (16, 'Egyptian Necklace', 'NECKLACE'),
+       (17, 'Fantomas Boots', 'BOOTS'),
+       (18, 'Frodos Ring', 'RING'),
+       (19, 'Gold Helmet', 'HELMET'),
+       (20, 'Warrior Helmet', 'HELMET'),
+       (21, 'Leather Boots', 'BOOTS'),
+       (22, 'Pendala Necklace', 'NECKLACE'),
+       (23, 'Power Ring', 'RING'),
+       (24, 'Poor Ring', 'RING'),
+       (25, 'Slayer Cloak', 'CLOAK'),
+       (26, 'Vampire Cloak', 'CLOAK');
 
 /* Inserting Stuff */
 DELETE FROM `Stuff_stats`;
@@ -529,7 +542,17 @@ INSERT INTO `Stuff_stats`(`object_id`, `key`, `value`) VALUES
        (10, 2,   5),
        (11, 2,  10),
        (12, 2,  10),
-       (13, 2,  10);
+       (13, 2,  10),
+       (14, 4,  10),
+       (15, 5,  10),
+       (16, 4,  10),
+       (17, 1,  10),
+       (18, 4,  10),
+       (19, 2,  10),
+       (20, 4,  10),
+       (21, 3,  10),
+       (22, 1,  10),
+       (23, 2,  10);
 
 /* Assigning Stuff to Players */
 DELETE FROM `Player_equipment`;
@@ -538,7 +561,7 @@ INSERT INTO `Player_equipment`(`object_id`, `key`, `value`) VALUES
        (1, 'HELMET', 1),
        (1, 'BREASTPLATE', 6),
        (1, 'SHOULDERS', 5),
-       (1, 'CLOAK', 2),
+       (1, 'CLOAK', 26),
        (2, 'WEAPON', 9),
        (2, 'BELT', 8),
        (2, 'RING', 7),
