@@ -8,7 +8,7 @@
 	"INGS" :
 	{
 	    "Orchidee" : 1,
-	    "Peau de bouftou" : 3
+	    "Charizard Tooth" : 3
 	}
     },
     "2" :
@@ -20,7 +20,43 @@
 	"INGS" :
 	{
 	    "Orchidee" : 3,
-	    "Peau de bouftou" : 1
+	    "Charizard Tooth" : 1
+	}
+    }
+    "3" :
+    {
+	"NAME" : "Leather Boots",
+	"LVL" : 1,
+	"EXP" : 150,
+	"RES" : "Leather Boots",
+	"INGS" :
+	{
+	    "Orchidee" : 3,
+	    "Venuzaur Leaf" : 1
+	}
+    }
+    "4" :
+    {
+	"NAME" : "Slayer Cloak",
+	"LVL" : 1,
+	"EXP" : 150,
+	"RES" : "Slayer Cloak",
+	"INGS" :
+	{
+	    "Orchidee" : 1,
+	    "Venuzaur Leaf" : 3
+	}
+    }
+    "5" :
+    {
+	"NAME" : "Blastoise Canon",
+	"LVL" : 1,
+	"EXP" : 150,
+	"RES" : "Blastoise Canon",
+	"INGS" :
+	{
+	    "Orchidee" : 3,
+	    "Blastoise Scale" : 1
 	}
     }
 }

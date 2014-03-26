@@ -1,0 +1,24 @@
+{
+    "1":
+    {
+	"NAME" : "Normal Cartridge x10",
+	"LVL" : 0,
+	"EXP" : 150,
+	"RES" : "Normal Cartridge x10",
+	"INGS" :
+	{
+	    "Orchidee" : 3
+	}
+    },
+    "2":
+    {
+	"NAME" : "Super Cartridge x10",
+	"LVL" : 5,
+	"EXP" : 500,
+	"RES" : "Super Cartridge x10",
+	"INGS" :
+	{
+	    "Orchidee" : 6
+	}
+    }
+}
