@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 26 03:11:17 2014 alexis mestag
+// Last update Wed Mar 26 10:29:36 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -505,16 +505,18 @@ bool				Player::updateTalent(TalentModel const &model,
   Talent			*talent = _talents->getTalentFromModel(model);
   bool				ret = false;
 
-  if (talent) {
-    unsigned int		fromPoints = talent->getCurrentPoints();
+  if (!talent) {
+    talent = new Talent(model, 0);
+    _talents->getContainer().push_back(talent);
+  }
+  unsigned int			fromPoints = talent->getCurrentPoints();
 
-    ret = fromPoints != toPoints ? true : false;
-    _talents->decCurrentPts(toPoints - fromPoints);
-    if (ret) {
-      talent->setCurrentPoints(toPoints);
+  ret = fromPoints != toPoints ? true : false;
+  _talents->decCurrentPts(toPoints - fromPoints);
+  if (ret) {
+    talent->setCurrentPoints(toPoints);
 
-      talent->applyEffect(*this, fromPoints + 1, toPoints);
-    }
+    talent->applyEffect(*this, fromPoints + 1, toPoints);
   }
   return (ret);
 }
