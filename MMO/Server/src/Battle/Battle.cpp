@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Jan 29 15:37:55 2014 antoine maitre
-// Last update Wed Mar 26 14:27:31 2014 antoine maitre
+// Last update Wed Mar 26 15:39:48 2014 antoine maitre
 //
 
 #include				"Server/Server.hh"
@@ -119,14 +119,14 @@ bool					Battle::spell()
     {
       int				hpChange[2] = {0, 0};
 
+      hpChange[0] = mobTarget->getCurrentStat("HP");
+      hpChange[1] = mobLauncher->getCurrentStat("HP");
       (*this->getSpell())(*mobLauncher, *mobTarget, *_battleParams);
+      hpChange[0] -= mobTarget->getCurrentStat("HP");
+      hpChange[1] -= mobLauncher->getCurrentStat("HP");
       for (auto it = this->_players.begin(); it != this->_players.end(); it++)
 	if ((*it)->getType() == Player::PlayerType::PLAYER)
 	  {
-	    hpChange[0] = mobTarget->getCurrentStat("HP");
-	    hpChange[1] = mobLauncher->getCurrentStat("HP");
-	    hpChange[0] -= mobTarget->getCurrentStat("HP");
-	    hpChange[1] -= mobLauncher->getCurrentStat("HP");
 	    this->trameSpell((*it)->getUser().getId(), this->getSpell(),
 			     mobLauncher->getId(), mobTarget->getId());
 	    this->trameSpellEffect((*it)->getUser().getId(), mobTarget->getId(), -hpChange[0]);
