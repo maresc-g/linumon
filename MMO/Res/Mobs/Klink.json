@@ -1,0 +1,16 @@
+{
+	"info": {
+		"texture": "Klink",
+		"size": 64
+	},	
+	"sprites": {
+		"Klink": {
+			"default_down": {
+			    "1":{"x": 0,"y": 0}
+			},
+			"default_up": {
+			    "1":{"x": 64,"y": 0}
+			}
+		}
+	}
+}

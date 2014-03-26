@@ -1,5 +1,10 @@
 {
     "Charizard":"./Res/Mobs/Charizard.json",
+	"Blastoise"."./Res/Mobs/Blastoise.json",
+	"Klink"."./Res/Mobs/Klink.json",
+	"Pikachu"."./Res/Mobs/Pikachu.json",
+	"Sudowoodo"."./Res/Mobs/Sudowoodo.json",
+	"Venusaur"."./Res/Mobs/Venusaur.json",
     "Boutefeu":"./Res/Spell/Boutefeu.json",
     "Danse-Fleur":"./Res/Spell/Danse-Fleur.json",
     "Lance-Flamme":"./Res/Spell/Lance-Flamme.json",
