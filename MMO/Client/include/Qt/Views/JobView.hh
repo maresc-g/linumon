@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:54:38 2014 guillaume marescaux
-// Last update Thu Feb 27 13:12:56 2014 guillaume marescaux
+// Last update Wed Mar 26 14:04:45 2014 guillaume marescaux
 //
 
 #ifndef 		__JOBVIEW_HH__
@@ -45,6 +45,7 @@ private:
 private slots:
 
   void			on_b_craft_clicked();
+  void			on_b_quit_clicked();
   void			handleChange();
 };
 
