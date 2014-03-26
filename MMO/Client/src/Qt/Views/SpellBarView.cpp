@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Feb  6 15:42:00 2014 guillaume marescaux
-// Last update Wed Mar 26 01:25:05 2014 cyril jourdain
+// Last update Wed Mar 26 10:26:35 2014 cyril jourdain
 //
 
 #include			"SFML/BattleView.hh"
@@ -47,9 +47,7 @@ void				SpellBarView::setInfos(Spells const &spells)
   for (auto it = spells.begin() ; it != spells.end() ; it++)
     {
       button = new QPushButton((*it)->getName().c_str(), this);
-      button->setStyleSheet(QString("QWidget {border-image:url(./Res/Spell/" + QString((*it)->getType().getName().c_str()) + ".png)}"));
-      std::cout << (*it)->getType().getName() << std::endl;
-      // std::cout << "QWidget {border-image:url(./Res/Spell/" + QString((*it)->getName().c_str()) + "_m.png)}") << std::endl;
+      button->setStyleSheet(QString("QWidget {border-image:url(./Res/Spell/" + QString((*it)->getType().getName().c_str()) + ".png);font-weight:bold;text-align:top}"));
       button->resize(100, 100);
       button->move(101 * i, 0);
       button->show();
