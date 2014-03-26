@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Feb  8 17:23:10 2014 laurent ansel
-// Last update Fri Mar 21 23:06:53 2014 laurent ansel
+// Last update Tue Mar 25 21:49:34 2014 alexis mestag
 //
 
 #include			<functional>
@@ -31,6 +31,9 @@ bool				TalentManager::talents(Trame *trame)
     {
       auto			members = (*trame)["TALENTS"].getMemberNames();
 
+      /*
+      ** Possible fail beceause there's Player::Talents::_currentPoins serialized too
+      */
       for (auto it = members.begin() ; it != members.end() ; ++it)
 	ClientManager::getInstance()->setPlayerTalent((*trame)[HEADER]["IDCLIENT"].asInt(), (*trame)["TALENTS"][*it]["NAME"].asString(), (*trame)["TALENTS"][*it]["PTS"].asUInt());
       return (true);

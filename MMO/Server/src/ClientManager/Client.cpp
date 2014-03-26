@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Mar 25 15:42:52 2014 cyril jourdain
+// Last update Wed Mar 26 00:25:20 2014 alexis mestag
 //
 
 #include			"ClientManager/Client.hh"
@@ -332,9 +332,10 @@ void				Client::updateTalents(std::string const &talent, unsigned int const pts)
   if (_state == GAME && _player)
     {
       TalentModel const		*model = (**LoaderManager::getInstance()->getTalentModelLoader())->getValue(talent);
-      for (unsigned int i = 0 ; i < pts ; ++i)
-	_player->incTalent(*model);
-      Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
+      if (_player->updateTalent(*model, pts)) {
+	// Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
+	Server::getInstance()->callProtocol<Player const *>("TALENTUPDATE", _id, _player);
+      }
     }
 }
 

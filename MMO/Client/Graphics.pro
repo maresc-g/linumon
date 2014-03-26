@@ -158,6 +158,8 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Thread/UnixThread.cpp \ 
                 ../Common/src/Protocol/Protocol.cpp \ 
                 ../Common/src/Effects/EffectLib.cpp \ 
+                ../Common/src/Effects/PlayerEffect.cpp \ 
+                ../Common/src/Effects/TalentEffect.cpp \ 
                 ../Common/src/DynamicLibrary/UnixDynamicLibrary.cpp \
 		../Common/src/DynamicLibrary/ADynamicLibrary.cpp \
 		../Common/src/DynamicLibrary/DynamicLibrary.cpp \
@@ -172,6 +174,8 @@ SOURCES +=      src/main.cpp \
                 ../Common/src/Stats/TalentModel.cpp \ 
                 ../Common/src/Trame/Trame.cpp \ 
                 ../Common/src/Header/Header.cpp \ 
+                ../Common/src/Entities/Cartridge.cpp \ 
+                ../Common/src/Entities/CartridgeClip.cpp \ 
                 ../Common/src/Entities/Guild.cpp \ 
                 ../Common/src/Entities/Spells.cpp \
                 ../Common/src/Entities/ACharacter.cpp \ 

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 14:34:15 2014 alexis mestag
-// Last update Thu Mar 20 13:00:25 2014 guillaume marescaux
+// Last update Tue Mar 25 22:32:12 2014 alexis mestag
 //
 
 #ifndef				__TALENT_HH__
@@ -35,11 +35,17 @@ public:
   Talent(Talent const &rhs);
   virtual ~Talent();
 
+  bool				operator==(Talent const &rhs);
+  bool				operator!=(Talent const &rhs);
+
   TalentModel const		&getModel() const;
 
   unsigned int			getCurrentPoints() const;
   void				setCurrentPoints(unsigned int const currentPoints);
   bool				addPts(unsigned int const pts);
+
+  void				applyEffect(Player &player, unsigned int const fromPts,
+					    unsigned int const toPts) const;
 
   virtual bool			serialization(Trame &trame) const;
   static Talent			*deserialization(Trame const &trame);

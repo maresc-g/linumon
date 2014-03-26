@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:44:25 2013 alexis mestag
-// Last update Tue Mar 25 14:05:58 2014 cyril jourdain
+// Last update Wed Mar 26 02:52:35 2014 alexis mestag
 //
 
 #ifndef			__PLAYER_HH__
@@ -18,7 +18,6 @@
 #  include		"Entities/DBZone.hh"
 # endif
 # include		"Entities/ACharacter.hh"
-# include		"Stats/TalentTree.hh"
 # include		"Stats/Talents.hh"
 # include		"Zone/Coordinate.hpp"
 # include		"Utility/ISerialization.hh"
@@ -29,6 +28,7 @@
 class			User;
 class			Faction;
 class			Drop;
+class			TalentTree;
 
 class			Player : public Persistent, public ACharacter, public ISerialization
 {
@@ -132,6 +132,8 @@ public:
   void				setTalents(Talents const &list);
   bool				incTalent(TalentModel const &model);
   Talent const			*getTalentFromModel(TalentModel const &model) const;
+  bool				updateTalent(TalentModel const &model, unsigned int const toPoints);
+  void				applyAllTalentsToMob(Mob &mob);
 
   TalentTree const		&getTalentTree() const;
   void				setTalentTree(TalentTree const &tree);
@@ -139,6 +141,8 @@ public:
   User const			&getUser() const;
   void				setUser(User const &user);
 
+  void				addCartridge(Cartridge const &cartridge);
+  Cartridge			*getNextCartridge();
   bool				capture(Mob &mob, bool const check = true);
 
   Mob const			&getMob(unsigned int const id);
@@ -187,6 +191,7 @@ public:
   static Player			*deserialization(Trame const &trame);
 };
 
+# include			"Stats/TalentTree.hh"
 # include			"Entities/User.hh"
 # include			"Entities/Faction.hh"
 
@@ -212,7 +217,8 @@ public:
 #  pragma db member(Player::jobs) virtual(Jobs::container_type) get(_jobs->getContainer()) set(_jobs->setContainer(?)) value_not_null
 #  pragma db member(Player::talents) virtual(Talents::container_type) get(_talents->getContainer()) set(_talents->setContainer(?)) value_not_null
 #  pragma db member(Player::currentPts) virtual(unsigned int) get(_talents->getCurrentPts()) set(_talents->setCurrentPts(?))
-#  pragma db member(Player::digitaliserEfficiency) virtual(double) get(_digitaliser->getEfficiency()) set(_digitaliser->setEfficiency(?))
+// #  pragma db member(Player::digitaliserEfficiency) virtual(double) get(_digitaliser->getEfficiency()) set(_digitaliser->setEfficiency(?))
+#  pragma db member(Player::cartridgeClip) virtual(CartridgeClip::summary_type) get(_digitaliser->getCartridgeClip().getClipSummary()) set(_digitaliser->setCartridgeClip(?))
 #  pragma db member(Player::_talentTree) not_null
 #  pragma db member(Player::_user) not_null
 #  pragma db member(Player::_expCurve) not_null

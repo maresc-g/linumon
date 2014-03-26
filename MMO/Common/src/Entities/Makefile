@@ -5,7 +5,7 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Dec  2 13:08:08 2013 alexis mestag
-## Last update Tue Mar 18 22:53:59 2014 alexis mestag
+## Last update Wed Mar 26 01:36:21 2014 alexis mestag
 ##
 
 ENTITIES_SRC=		AEntity.cpp		\
@@ -13,6 +13,8 @@ ENTITIES_SRC=		AEntity.cpp		\
 			AStatEntity.cpp		\
 			ACharacter.cpp		\
 			Carcass.cpp		\
+			Cartridge.cpp		\
+			CartridgeClip.cpp	\
 			Consumable.cpp		\
 			Craft.cpp		\
 			DBZone.cpp		\

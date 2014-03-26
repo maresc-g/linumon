@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 13:07:00 2014 alexis mestag
-// Last update Fri Mar 21 00:36:19 2014 alexis mestag
+// Last update Tue Mar 25 22:32:01 2014 alexis mestag
 //
 
 #ifndef					__TALENTMODEL_HH__
@@ -16,6 +16,8 @@
 # include				"Utility/Nameable.hh"
 # include				"Effects/EffectLib.hh"
 # include				"Utility/ISerialization.hh"
+
+class					Player;
 
 class					TalentModel : public Persistent, public Nameable, public ISerialization
 {
@@ -50,6 +52,9 @@ public:
   EffectLib const			&getEffectLib() const;
   void					setEffectLib(EffectLib const &effectLib);
 
+  bool					applyEffect(Player &player, unsigned int const fromPts,
+						    unsigned int const toPts) const;
+
   void					addTalent(TalentModel const &talent);
 
   std::list<TalentModel const *> const	&getTalents() const;
@@ -65,6 +70,8 @@ public:
   bool					deserializationTreeModel(Trame const &trame);
   static TalentModel			*deserialization(Trame const &trame);
 };
+
+# include				"Entities/Player.hh"
 
 # ifdef	ODB_COMPILER
 #  pragma db object(TalentModel)

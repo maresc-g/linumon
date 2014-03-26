@@ -5,24 +5,27 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:23 2014 laurent ansel
-// Last update Wed Mar  5 16:37:20 2014 laurent ansel
+// Last update Wed Mar 26 09:17:38 2014 alexis mestag
 //
 
 #include			"Entities/Consumable.hh"
 #include			"Effects/MobEffect.hh"
+#include			"Effects/PlayerEffect.hh"
 
 Consumable::Consumable() :
   Persistent(),
   AItem("", AItem::eItem::CONSUMABLE),
-  _consumableType(eConsumable::NONE)
+  _consumableType(eConsumable::NONE),
+  _forMob(false)
 {
 
 }
 
-Consumable::Consumable(std::string const &name, eConsumable const type) :
+Consumable::Consumable(std::string const &name, eConsumable const type, bool const forMob) :
   Persistent(),
   AItem(name, AItem::eItem::CONSUMABLE),
-  _consumableType(type)
+  _consumableType(type),
+  _forMob(forMob)
 {
 
 }
@@ -47,6 +50,7 @@ Consumable			&Consumable::operator=(Consumable const &rhs)
 #ifndef				CLIENT_COMPILATION
       this->setEffectLib(rhs.getEffectLib());
 #endif
+      this->setForMob(rhs.isForMob());
     }
   return (*this);
 }
@@ -64,10 +68,25 @@ void				Consumable::setEffectLib(EffectLib const &effectLib)
 
 void				Consumable::applyEffect(Mob &mob) const
 {
-  MobEffect			*effect = static_cast<MobEffect *>(_effectLib->getEffect());
+  MobEffect			*effect = dynamic_cast<MobEffect *>(_effectLib->getEffect());
 
-  effect->apply(mob);
+  if (effect) {
+    effect->apply(mob);
+  }
+  else
+    std::cerr << "Bad cast in Consumable::applyEffect()" << std::endl;
   delete effect;
+}
+
+void				Consumable::applyEffect(Player &player) const
+{
+  PlayerEffect		*effect = dynamic_cast<PlayerEffect *>(this->getEffectLib().getEffect());
+
+  if (effect) {
+    effect->apply(player);
+  }
+  else
+    std::cerr << "Bad cast in Consumable::applyEffect()" << std::endl;
 }
 #endif
 
@@ -81,12 +100,23 @@ void				Consumable::setConsumableType(Consumable::eConsumable const consumableTy
   _consumableType = consumableType;
 }
 
+bool				Consumable::isForMob() const
+{
+  return (_forMob);
+}
+
+void				Consumable::setForMob(bool const forMob)
+{
+  _forMob = forMob;
+}
+
 bool				Consumable::serialization(Trame &trame) const
 {
   trame["TYPE"] = this->getItemType();
   trame["NAME"] = this->getName();
   trame["ID"] = static_cast<unsigned int>(this->getId());
   trame["CONS"] = this->getConsumableType();
+  trame["FORMOB"] = this->isForMob();
   return (true);
 }
 
@@ -100,6 +130,7 @@ Consumable			*Consumable::deserialization(Trame const &trame, bool const client)
       if (client)
 	consumable->setId(trame["ID"].asUInt());
       consumable->setItemType(static_cast<AItem::eItem>(trame["TYPE"].asInt()));
+      consumable->setForMob(trame["FORMOB"].asBool());
     }
   return (consumable);
 }

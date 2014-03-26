@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 14:26:11 2014 alexis mestag
-// Last update Sun Mar 23 14:35:01 2014 alexis mestag
+// Last update Tue Mar 25 23:32:31 2014 alexis mestag
 //
 
 #include				"AtkElectric_TalentEffect.hh"
@@ -22,16 +22,23 @@ AtkElectric_TalentEffect::~AtkElectric_TalentEffect()
 
 }
 
-bool					AtkElectric_TalentEffect::apply(Player &player __attribute__((unused)))
+bool					AtkElectric_TalentEffect::apply(Player &player,
+									unsigned int const fromPts,
+									unsigned int const toPts)
 {
+  this->applyToAllMobs(player, fromPts, toPts);
   return (true);
 }
 
-bool					AtkElectric_TalentEffect::apply(Mob &mob __attribute__((unused)))
+bool					AtkElectric_TalentEffect::apply(Mob &mob,
+									unsigned int const fromPts,
+									unsigned int const toPts)
 {
   static Type const			*type = Database::getRepository<Type>().getByName("Electric");
 
-  if (*type == mob.getType())
-    mob.incBonus("Attack", 1);
+  if (*type == mob.getType()) {
+    for (unsigned int i = fromPts ; i <= toPts ; ++i)
+      mob.incBonus("Attack", 1);
+  }
   return (true);
 }
