@@ -1,0 +1,16 @@
+{
+	"info": {
+		"texture": "Sudowoodo",
+		"size": 64
+	},	
+	"sprites": {
+		"Sudowoodo": {
+			"default_down": {
+			    "1":{"x": 0,"y": 0}
+			},
+			"default_up": {
+			    "1":{"x": 64,"y": 0}
+			}
+		}
+	}
+}

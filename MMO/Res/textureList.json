@@ -3,6 +3,11 @@
     "Nyan" : "./Res/Mobs/nyan.png",
     "Dragoball" : "./Res/Mobs/blastoise.png",
     "Charizard" : "./Res/Mobs/charizard.png",
+    "Blastoise" : "./Res/Mobs/blastoise.png",
+    "Klink" : "./Res/Mobs/klink.png",
+    "Pikachu" : "./Res/Mobs/pikachu.png",
+    "Sudowoodo" : "./Res/Mobs/sudowoodo.png",
+    "Venusaur" : "./Res/Mobs/venusaur.png",
     "healer" : "./Res/healer.png",
     "battleScreen":"./Res/battleScreen.png",
     "battleEnd":"./Res/battleEnd.png",
@@ -14,5 +19,6 @@
     "Boutefeu" : "./Res/Spell/Boutefeu.png",
     "Surf":"./Res/Spell/Surf.png",
     "Danse-Fleur":"./Res/Spell/Danse-Fleur.png",
-    "Fatal-Foudre":"./Res/Spell/Fatal-Foudre.png"
+    "Fatal-Foudre":"./Res/Spell/Fatal-Foudre.png",
+    "Capture":"./Res/Spell/capture.png"
 }

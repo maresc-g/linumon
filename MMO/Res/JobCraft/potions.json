@@ -1,0 +1,24 @@
+{
+    "1":
+    {
+	"NAME" : "Potion",
+	"LVL" : 0,
+	"EXP" : 150,
+	"RES" : "Potion",
+	"INGS" :
+	{
+	    "Orchidee" : 3
+	}
+    },
+    "2":
+    {
+	"NAME" : "Super Potion",
+	"LVL" : 0,
+	"EXP" : 450,
+	"RES" : "Super Potion",
+	"INGS" :
+	{
+	    "Orchidee" : 8
+	}
+    }
+}

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Mon Mar 24 17:11:03 2014 guillaume marescaux
+// Last update Wed Mar 26 13:17:12 2014 alexis mestag
 //
 
 #ifndef 		__CORE_HH__
@@ -155,6 +155,7 @@ private:
   bool			job(Trame *);
   bool			caseMap(Trame *);
   bool			objectEffect(Trame *);
+  bool			objectEffectPlayer(Trame *);
   bool			launchTrade(Trame *);
   bool			putItem(Trame *);
   bool			getItem(Trame *);
@@ -177,6 +178,7 @@ private:
   bool			deleteMember(Trame *);
   bool			visible(Trame *);
   bool			newCarcass(Trame *);
+  bool			updateCharacter(Trame *);
 };
 
 #endif

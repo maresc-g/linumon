@@ -90,19 +90,29 @@ CharacterView QPushButton#b_back
 	border-image:url(./Res/UI/back_button.png)
 }
 
- CreateCharView QGroupBox#charBox
+CreateCharView QGroupBox#charBox
 {
 	border-image:url(./Res/UI/CreateCharBorder.png)
 }
 
 CreateCharView QPushButton#b_spritePerso1
 {
-	border-image:url(./Res/UI/char1.png)
+	border-image:url(./Res/UI/hesode.png)
 }
 
 CreateCharView QPushButton#b_spritePerso2
 {
-	border-image:url(./Res/UI/char2.png)
+	border-image:url(./Res/UI/celestia.png)
+}
+
+CreateCharView QPushButton#b_cancel
+{
+	border-image:url(./Res/UI/cancel.png)
+}
+
+CreateCharView QPushButton#b_validate
+{
+	border-image:url(./Res/UI/validate.png)
 }
 
 SpellBarView QPushButton

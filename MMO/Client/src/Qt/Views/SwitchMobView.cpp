@@ -31,7 +31,6 @@ SwitchMobView::SwitchMobView(QWidget *parent, Digitaliser::Mobs const *mobs, Win
   for (auto it = mobs->begin() ; it != mobs->end() ; it++)
     {
       auto it2 = find_if(tmp.begin(), tmp.end(), [&](const Mob *v){
-	  std::cout << "Checking battle mob : " << v->getName() << std::endl;
 	  if (v->getId() == (*it)->getId())
 	    return true;
 	  return false;

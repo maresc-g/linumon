@@ -5,11 +5,12 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Wed Mar 19 10:30:49 2014 guillaume marescaux
+// Last update Wed Mar 26 12:48:47 2014 alexis mestag
 //
 
 #include <iostream>
 #include			"Qt/Views/InventoryView.hh"
+#include			"Entities/Consumable.hh"
 
 InventoryView::InventoryView(QWidget *parent, WindowManager *wMan):
   QWidget(parent), _wMan(wMan), _stacks(new std::list<StackView *>), _hidden(new std::list<StackView *>)
@@ -103,5 +104,14 @@ void				InventoryView::stackAction(StackView *stackView)
             _wMan->getSFMLView()->getStuffView()->initStuff(*static_cast<Player const *>(last));
           initInventory();
         }
+    }
+  else if (stackView->getStack().getItem()->getItemType() == AItem::CONSUMABLE)
+    {
+      Consumable const		*consumable = static_cast<Consumable const *>(stackView->getStack().getItem());
+
+      (**_wMan->getMainPlayer())->useObject((**(_wMan->getMainPlayer()))->getId(), stackView->getStack().getId());
+      Client::getInstance()->useObject((**(_wMan->getMainPlayer()))->getId(), stackView->getStack().getId());
+      _wMan->getSFMLView()->getInventoryView()->initInventory();
+      std::cerr << "StackId = " << stackView->getStack().getId() << std::endl;
     }
 }

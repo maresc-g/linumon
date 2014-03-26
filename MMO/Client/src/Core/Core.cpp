@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 26 14:08:28 2014 antoine maitre
+// Last update Wed Mar 26 15:10:34 2014 antoine maitre
 //
 
 #include			<unistd.h>
@@ -96,6 +96,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("ENDBATTLE", func);
   func = std::bind1st(std::mem_fun(&Core::objectEffect), this);
   _proto->addFunc("OBJECTEFFECT", func);
+  func = std::bind1st(std::mem_fun(&Core::objectEffectPlayer), this);
+  _proto->addFunc("OBJECTEFFECTPLAYER", func);
   func = std::bind1st(std::mem_fun(&Core::launchTrade), this);
   _proto->addFunc("LAUNCHTRADE", func);
   func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::putItem), this);
@@ -140,6 +142,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("REMOVEENTITY", func);
   func = std::bind1st(std::mem_fun(&Core::upTalents), this);
   _proto->addFunc("TALENTUPDATE", func);
+  func = std::bind1st(std::mem_fun(&Core::updateCharacter), this);
+  _proto->addFunc("UPDATECHARACTER", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -384,8 +388,8 @@ bool				Core::upStats(Trame *)
 
 bool				Core::upTalents(Trame *trame)
 {
-  (**_player)->setDigitaliser(*Digitaliser::deserialization((*trame)((*trame)[CONTENT]["UPDATETALENTS"])));
-  (**_player)->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["UPDATETALENTS"])));
+  (**_player)->setDigitaliser(*Digitaliser::deserialization((*trame)((*trame)[CONTENT]["TALENTUPDATE"])));
+  (**_player)->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["TALENTUPDATE"]["STATS"])));
   return (true);
 }
 
@@ -433,6 +437,12 @@ bool				Core::objectEffect(Trame *trame)
   Mob				*mob = (**_player)->getDigitaliser().getMob((*trame)[CONTENT]["OBJECTEFFECT"]["TARGET"].asUInt());
 
   mob->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["OBJECTEFFECT"]["STATS"])));
+  return (true);
+}
+
+bool				Core::objectEffectPlayer(Trame *trame)
+{
+  (**_player)->setDigitaliser(*Digitaliser::deserialization((*trame)((*trame)[CONTENT]["OBJECTEFFECTPLAYER"])));
   return (true);
 }
 
@@ -633,6 +643,22 @@ bool				Core::heal(Trame *)
     (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
   for (auto it = (**_player)->getDigitaliser().getBattleMobs().begin() ; it != (**_player)->getDigitaliser().getBattleMobs().end() ; ++it)
     (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
+  return true;
+}
+
+bool				Core::updateCharacter(Trame *trame)
+{
+  Stats				*stats = Stats::deserialization((*trame)((*trame)[CONTENT]["UPDATECHARACTER"]["STATS"]));
+  unsigned int			id = (*trame)[CONTENT]["UPDATECHARACTER"]["ID"].asUInt();
+
+  if (id == (**_player)->getId())
+    {
+      (**_player)->addToStats(*stats);
+    }
+  else
+    {
+      (**_player)->getDigitaliser().getMob(id)->addToStats(*stats);
+    }
   return true;
 }
 

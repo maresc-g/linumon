@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 26 12:43:18 2014 antoine maitre
+// Last update Wed Mar 26 15:09:34 2014 antoine maitre
 //
 
 #include			<cmath>
@@ -475,25 +475,56 @@ bool				Player::putMobEquipment(unsigned int const idMod,unsigned int const idSt
 void				Player::useObject(unsigned int const target, unsigned int const idStack)
 {
   AItem				*item;
+  Consumable			*c;
   Mob				*mob;
 
-  mob = this->_digitaliser->getMob(target);
-  if (mob)
+  std::cout << "TARGET = " << target << std::endl;
+  item = this->getAndDeleteItem(idStack);
+  if (item)
     {
-      item = this->getAndDeleteItem(idStack);
-      if (!item)
-	std::cout << "ITEM IS NULL" << std::endl;
-#ifndef		CLIENT_COMPILATION
-      if (item && item->getItemType() == AItem::CONSUMABLE)
-	static_cast<Consumable *>(item)->applyEffect(*mob);
-      else if (item)
-	this->addItem(item);
+      std::cout << "STACK ID = " << idStack << " ITEM NAME = " << item->getName() << std::endl;
+#ifndef CLIENT_COMPILATION
+      if (item->getItemType() == AItem::CONSUMABLE)
+	{
+	  std::cout << "ITEM IS A CONSUMABLE" << std::endl;
+	  c = static_cast<Consumable *>(item);
+	  if (c->isForMob())
+	    {
+	      std::cout << "ITEM IS FOR MOBS" << std::endl;
+	      mob = this->_digitaliser->getMob(target);
+	      if (mob)
+		c->applyEffect(*mob);
+	    }
+	  else
+	    {
+	      std::cout << "ITEM IS FOR PLAYERS" << std::endl;
+	      c->applyEffect(*this);
+	    }
+	}
 #else
+      (void)c;
+      (void)mob;
       (void)item;
 #endif
     }
-  else
-    std::cout << "MOB IS NULL" << std::endl;
+
+  //   mob = this->_digitaliser->getMob(target);
+  //   if (mob)
+  //     {
+  //       item = this->getAndDeleteItem(idStack);
+  //       if (!item)
+  // 	std::cout << "ITEM IS NULL" << std::endl;
+  // #ifndef		CLIENT_COMPILATION
+  //       if (item && item->getItemType() == AItem::CONSUMABLE)
+  // 	static_cast<Consumable *>(item)->applyEffect(*mob);
+  //       else if (item)
+  // 	this->addItem(item);
+  // #else
+  //       (void)item;
+  // #endif
+  //     }
+  //   else
+  //     std::cout << "MOB IS NULL" << std::endl;
 }
 
 bool				Player::incTalent(TalentModel const &model)
