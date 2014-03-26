@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Tue Mar 25 19:57:40 2014 guillaume marescaux
+// Last update Wed Mar 26 10:58:23 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -79,7 +79,7 @@ void				StuffView::initStuff(Player const &player)
 {
   if (_last == &player && !_changed)
     return;
-  bool				visible = isVisible();
+  // bool				visible = isVisible();
   _last = &player;
   _changed = false;
   ui.l_name->setText(player.getName().c_str());

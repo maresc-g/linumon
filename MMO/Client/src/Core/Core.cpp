@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 26 10:54:53 2014 guillaume marescaux
+// Last update Wed Mar 26 11:15:58 2014 cyril jourdain
 //
 
 #include			<unistd.h>
@@ -523,7 +523,10 @@ bool				Core::removeEntity(Trame *trame)
 							     (*trame)[CONTENT]["REMOVEENTITY"]["ID"].asUInt());
   if (entity){
     if (entity->getEntityType() == AEntity::STATENTITY)
-      map->delPlayer((**_player)->getZone(), entity);
+      {
+	*_newPlayer = true;
+	map->delPlayer((**_player)->getZone(), entity);
+      }
     else if (entity->getEntityType() == AEntity::CARCASS)
       map->delCarcass((**_player)->getZone(), static_cast<Carcass *>(entity));
     else
@@ -538,6 +541,8 @@ bool				Core::entity(Trame *trame)
   AEntity			*entity = map->getEntityById((**_player)->getZone(),
   							     (*trame)[CONTENT]["ENTITY"]["ID"].asUInt());
 
+  std::cout << (**_player)->getZone() << std::endl;
+  std::cout << (**_player)->getId() << std::endl;
   if (entity)
     {
       std::cout << "MOVING ENTITY WITH ID : " << (*trame)[CONTENT]["ENTITY"]["ID"].asUInt() << std::endl;
