@@ -22,7 +22,7 @@
 	    "Orchidee" : 3,
 	    "Charizard Tooth" : 1
 	}
-    }
+    },
     "3" :
     {
 	"NAME" : "Leather Boots",
@@ -34,7 +34,7 @@
 	    "Orchidee" : 3,
 	    "Venuzaur Leaf" : 1
 	}
-    }
+    },
     "4" :
     {
 	"NAME" : "Slayer Cloak",
@@ -46,7 +46,7 @@
 	    "Orchidee" : 1,
 	    "Venuzaur Leaf" : 3
 	}
-    }
+    },
     "5" :
     {
 	"NAME" : "Blastoise Canon",
