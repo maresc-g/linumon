@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 26 11:22:39 2014 guillaume marescaux
+// Last update Wed Mar 26 11:24:06 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -541,6 +541,8 @@ bool				Core::entity(Trame *trame)
   AEntity			*entity = map->getEntityById((**_player)->getZone(),
   							     (*trame)[CONTENT]["ENTITY"]["ID"].asUInt());
 
+  std::cout << (**_player)->getZone() << std::endl;
+  std::cout << (**_player)->getId() << std::endl;
   if (entity)
     {
       std::cout << "MOVING ENTITY WITH ID : " << (*trame)[CONTENT]["ENTITY"]["ID"].asUInt() << std::endl;

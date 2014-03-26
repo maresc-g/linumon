@@ -163,7 +163,7 @@ MenuView QPushButton#bLogout
 
 MenuView QPushButton#bSwitch
 {
-	border-image:url(./Res/UI/menu_changeCharactere.png);
+	border-image:url(./Res/UI/menu_changeCharacter.png);
 }
 
 MenuView QPushButton#bQuit

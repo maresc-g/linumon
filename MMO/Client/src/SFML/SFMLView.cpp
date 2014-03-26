@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 15:05:46 2013 cyril jourdain
-// Last update Tue Mar 25 20:17:50 2014 guillaume marescaux
+// Last update Wed Mar 26 11:16:07 2014 cyril jourdain
 //
 
 /*
@@ -165,7 +165,7 @@ void			SFMLView::onUpdate()
 	static_cast<BattleView*>(_battleView)->resetHUDPos();
 	static_cast<BattleView*>(_battleView)->setLifeVisibility(true);
 	// SoundManager::getInstance()->playMusic(BATTLE_THEME);
-	_chat->show();
+	// _chat->show();
       }
       break;
     case CLIENT::LOADING_BATTLE:
