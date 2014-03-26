@@ -388,14 +388,14 @@ INSERT INTO `MobModel_stats`(`object_id`, `key`, `value`) VALUES
 DELETE FROM `Mob`;
 
 INSERT INTO `Mob`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `model`) VALUES
-       (1, 'TinyLezard',	2, 36435, 35, 40007, 1),
-       (2, 'BigTurtle',		2,  2035, 15,  2535, 2),
-       (3, 'VastFlowerPot',	2,  3120, 17,  3798, 3),
-       (4, 'MegaFist',		2,  3120, 17,  3798, 1),
-       (5, 'SuperWet',		2, 36435, 35, 40007, 2),
-       (6, 'UltraBushy',	2,  2035, 15,  2535, 3),
-       (7, 'Pikabillaud',	2,  3375, 15,  4096, 4),
-       (8, 'Pikatheorie',	2,  3375, 15,  4096, 4);
+       (1, 'Charizard',		2, 36435, 35, 40007, 1),
+       (2, 'Blastoise',		2,  2035, 15,  2535, 2),
+       (3, 'Venuzaur',		2,  3120, 17,  3798, 3),
+       (4, 'Charizard',		2,  3120, 17,  3798, 1),
+       (5, 'Blastoise',		2, 36435, 35, 40007, 2),
+       (6, 'Venuzaur',		2,  2035, 15,  2535, 3),
+       (7, 'Pikachu',		2,  3375, 15,  4096, 4),
+       (8, 'Pikachu',		2,  3375, 15,  4096, 4);
 
 /* Inserting JobModels */
 DELETE FROM `JobModel`;
