@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Wed Mar 26 12:48:47 2014 alexis mestag
+// Last update Wed Mar 26 14:30:20 2014 cyril jourdain
 //
 
 #include <iostream>
@@ -107,7 +107,7 @@ void				InventoryView::stackAction(StackView *stackView)
     }
   else if (stackView->getStack().getItem()->getItemType() == AItem::CONSUMABLE)
     {
-      Consumable const		*consumable = static_cast<Consumable const *>(stackView->getStack().getItem());
+      // Consumable const		*consumable = static_cast<Consumable const *>(stackView->getStack().getItem());
 
       (**_wMan->getMainPlayer())->useObject((**(_wMan->getMainPlayer()))->getId(), stackView->getStack().getId());
       Client::getInstance()->useObject((**(_wMan->getMainPlayer()))->getId(), stackView->getStack().getId());

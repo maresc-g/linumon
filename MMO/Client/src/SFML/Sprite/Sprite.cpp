@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Jan 28 14:19:12 2014 cyril jourdain
-// Last update Sat Mar 22 21:57:47 2014 cyril jourdain
+// Last update Wed Mar 26 14:32:50 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -99,7 +99,7 @@ void			Sprite::draw(sf::RenderTarget &target, sf::RenderStates states) const
   }
 }
 
-void			Sprite::update(sf::Clock &clock)
+void			Sprite::update(sf::Clock &)
 {
   sf::IntRect		*frame;
 
@@ -139,7 +139,7 @@ void			Sprite::setTexture(sf::Texture *text)
   _texture = text;
 }
 
-void			Sprite::loadFromFile(std::string const path)
+void			Sprite::loadFromFile(std::string const)
 {
   
 }

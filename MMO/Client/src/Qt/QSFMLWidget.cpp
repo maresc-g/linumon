@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Sep 26 13:44:43 2013 cyril jourdain
-// Last update Mon Mar  3 00:29:11 2014 cyril jourdain
+// Last update Wed Mar 26 14:29:24 2014 cyril jourdain
 //
 
 #include		"Qt/QSFMLWidget.hpp"
@@ -63,7 +63,7 @@ void			QSFMLWidget::paintEvent(QPaintEvent*)
   display();
 }
 
-bool			QSFMLWidget::eventFilter(QObject *w, QEvent *event)
+bool			QSFMLWidget::eventFilter(QObject *, QEvent *event)
 {
   if (event->type() == QEvent::Resize)
     {
