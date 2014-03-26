@@ -418,7 +418,8 @@ INSERT INTO `JobModel_gathers`(`object_id`, `index`, `value_level`, `value_exp`,
        (7, 1, 1, 10, 4),
        (7, 2, 1, 10, 5),
        (7, 3, 1, 10, 6),
-       (7, 4, 1, 10, 7);
+       (7, 4, 1, 10, 7),
+       (6, 0, 1, 10, 10);
 
 /* Inserting Job */
 DELETE FROM `Job`;
@@ -584,7 +585,7 @@ DELETE FROM `Heal`;
 
 INSERT INTO `Heal`(`id`, `name`, `pnjType`, `zone`, `x`, `y`) VALUES
        (1, 'Healer0', 'HEAL', 'Plain', 10, 70),
-       (2, 'Healer1', 'HEAL', 'Plain', 30, 30),
+       (2, 'Healer1', 'HEAL', 'Rock', 30, 30),
        (3, 'Healer2', 'HEAL', 'Plain', 40, 40);
 
 /* Inserting Consumable */

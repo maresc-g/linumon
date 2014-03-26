@@ -5,11 +5,12 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 11:16:43 2014 guillaume marescaux
-// Last update Wed Mar 26 14:34:05 2014 guillaume marescaux
+// Last update Wed Mar 26 15:05:34 2014 cyril jourdain
 //
 
 #include		<iostream>
 #include		"Client.hh"
+#include		<stdexcept>
 #include		"Map/Map.hh"
 #include		"Error/SocketError.hpp"
 
