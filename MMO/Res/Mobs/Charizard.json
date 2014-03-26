@@ -1,10 +1,10 @@
 {
 	"info": {
-		"texture": "Nyan",
+		"texture": "Charizard",
 		"size": 64
 	},	
 	"sprites": {
-		"Nyan": {
+		"Charizard": {
 			"default_down": {
 			    "1":{"x": 0,"y": 0}
 			},

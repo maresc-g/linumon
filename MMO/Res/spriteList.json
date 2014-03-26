@@ -1,4 +1,5 @@
 {
+	"Charizard":"./Res/Mobs/Charizard.json",
     "Boutefeu":"./Res/Spell/Boutefeu.json",
     "Danse-Fleur":"./Res/Spell/Danse-Fleur.json",
     "Lance-Flamme":"./Res/Spell/Lance-Flamme.json",
