@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Tue Mar 25 11:22:06 2014 guillaume marescaux
+// Last update Tue Mar 25 20:16:57 2014 guillaume marescaux
 //
 
 #include		<stdexcept>
@@ -78,7 +78,9 @@ void			BattleView::onInit()
 		       static_cast<float>(WIN_H) / static_cast<float>(_battleScreen->getCurrentBound()->height));
   //_battleStarted = true;
   _battleStarted = false;
+  _wMan->getSFMLView()->hideViews();
 }
+
 void			BattleView::onUpdate()
 {
   BattleMob *mob;

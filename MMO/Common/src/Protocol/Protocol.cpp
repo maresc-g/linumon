@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Mar 26 00:25:46 2014 alexis mestag
+// Last update Wed Mar 26 10:54:05 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -56,7 +56,7 @@ if (server)
       this->_container->load<unsigned int, unsigned int, Player const *, unsigned int>("LAUNCHBATTLE", &launchBattle);
       this->_container->load<unsigned int, unsigned int, Spell const *, unsigned int, unsigned int>("SPELL", &spell);
       this->_container->load<unsigned int, unsigned int, int, unsigned int>("SPELLEFFECT", &spellEffect);
-      this->_container->load<unsigned int, unsigned int, bool>("CAPTUREEFFECT", &captureEffect);
+      this->_container->load<unsigned int, unsigned int, Mob const *, bool>("CAPTUREEFFECT", &captureEffect);
       this->_container->load<unsigned int, unsigned int, unsigned int, unsigned int, unsigned int>("SWITCH", &dswitch);
       this->_container->load<unsigned int, unsigned int, unsigned int>("DEADMOB", &deadMob);
       this->_container->load<unsigned int, unsigned int>("TURNTO", &turnTo);
@@ -694,7 +694,7 @@ bool			spellEffect(unsigned int const id,
   return (ret);
 }
 
-bool			captureEffect(unsigned int const id, unsigned int const idBattle, bool success)
+bool			captureEffect(unsigned int const id, unsigned int idBattle, Mob const *mob, bool success)
 {
   Trame			*trame;
   Header		*header;
@@ -707,6 +707,8 @@ bool			captureEffect(unsigned int const id, unsigned int const idBattle, bool su
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["CAPTUREEFFECT"]["IDBATTLE"] = idBattle;
+      if (mob)
+	mob->serialization((*trame)((*trame)[CONTENT]["CAPTUREEFFECT"]["MOB"]));
       (*trame)[CONTENT]["CAPTUREEFFECT"]["SUCCESS"] = success;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
@@ -1677,7 +1679,7 @@ bool			talents(unsigned int const id, Talents const *talents)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      talents->serialization((*trame)((*trame)[CONTENT]["TALENTS"]));
+      talents->serialization((*trame)((*trame)[CONTENT]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }

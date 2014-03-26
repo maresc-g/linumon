@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 14:09:19 2014 guillaume marescaux
-// Last update Sat Mar 22 18:49:18 2014 guillaume marescaux
+// Last update Wed Mar 26 10:58:23 2014 guillaume marescaux
 //
 
 #include			<iostream>
@@ -79,7 +79,7 @@ void				StuffView::initStuff(Player const &player)
 {
   if (_last == &player && !_changed)
     return;
-  bool				visible = isVisible();
+  // bool				visible = isVisible();
   _last = &player;
   _changed = false;
   ui.l_name->setText(player.getName().c_str());
@@ -128,8 +128,9 @@ void				StuffView::initStuff(Player const &player)
   //     _labels->push_back(label);
   //     i++;
   //   }
-  if (visible)
-    _wMan->getSFMLView()->displayView(this);
+
+  // if (visible)
+  //   _wMan->getSFMLView()->displayView(this);
 }
 
 void				StuffView::initStuff(Mob const &mob)
@@ -185,7 +186,8 @@ void				StuffView::initStuff(Mob const &mob)
   //     _labels->push_back(label);
   //     i++;
   //   }
-  _wMan->getSFMLView()->displayView(this);
+
+  // _wMan->getSFMLView()->displayView(this);
 }
 
 void				StuffView::stackAction(StackView *stack)

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar 26 00:25:20 2014 alexis mestag
+// Last update Wed Mar 26 11:11:32 2014 guillaume marescaux
 //
 
 #include			"ClientManager/Client.hh"
@@ -48,7 +48,7 @@ void				Client::clear()
   if (_player)
     {
       Map::getInstance()->delPlayer(_player->getZone(), _player);
-      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _player->getId(), Map::getInstance()->getZone(_player->getZone()));
     }
   delete (*_sockets)["UDP"];
   delete (*_sockets)["TCP"];
@@ -80,7 +80,7 @@ void				Client::disconnectUser()
   if (_player)
     {
       Map::getInstance()->delPlayer(_player->getZone(), _player);
-      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _player->getId(), Map::getInstance()->getZone(_player->getZone()));
     }
   if (_user)
     _user->setId(0);
@@ -107,7 +107,7 @@ void				Client::disconnectPlayer()
   if (_player)
     {
       Map::getInstance()->delPlayer(_player->getZone(), _player);
-      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _id, Map::getInstance()->getZone(_player->getZone()));
+      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, _player->getId(), Map::getInstance()->getZone(_player->getZone()));
     }
 
   if (_player)
@@ -242,11 +242,14 @@ bool				Client::addPlayer(std::string const &name, Faction *faction)
       if (!pv)
 	{
 	  Repository<Player>	*rp = &Database::getRepository<Player>();
-	  Player		*player = new Player(name, faction->getName());
+	  Player		*player = new Player(name, faction->getName(), this->_user);
 
+	  std::cerr << "Creating new Player" << std::endl;
 	  player->resetExp();
 	  delete faction;
-	  this->_user->addPlayer(*player);
+	  // this->_user->addPlayer(*player);
+	  std::cerr << "\tUser is set !" << std::endl;
+	  // Map::getInstance()->getZone(player->getZone())->addPlayer(player);
 	  rp->smartUpdate(*player);
 	  return (true);
 	}
