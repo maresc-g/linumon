@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 14:34:08 2014 guillaume marescaux
-// Last update Thu Mar 13 16:33:10 2014 cyril jourdain
+// Last update Tue Mar 25 20:20:38 2014 guillaume marescaux
 //
 
 #include			"Qt/Views/DigitaliserView.hh"
@@ -24,7 +24,7 @@ DigitaliserView::DigitaliserView(QWidget *parent, WindowManager *wMan):
   _f_battleMobs->setObjectName("f_battleMobs");
   _f_battleMobs->resize(486, 80);
   _f_battleMobs->move(120, 10);
-  _scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+  _scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   _scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
   _scrollArea->setWidget(_frame);
   QLabel			*label = new QLabel(_frame);

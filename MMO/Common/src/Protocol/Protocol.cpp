@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Mar 26 00:25:46 2014 alexis mestag
+// Last update Wed Mar 26 10:33:04 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -1677,7 +1677,7 @@ bool			talents(unsigned int const id, Talents const *talents)
   header->setProtocole("TCP");
   if (header->serialization(*trame))
     {
-      talents->serialization((*trame)((*trame)[CONTENT]["TALENTS"]));
+      talents->serialization((*trame)((*trame)[CONTENT]));
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
     }

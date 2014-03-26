@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Tue Mar 25 16:06:45 2014 cyril jourdain
+// Last update Wed Mar 26 10:28:37 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -138,6 +138,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("NEWCARCASS", func);
   func = std::bind1st(std::mem_fun(&Core::removeEntity), this);
   _proto->addFunc("REMOVEENTITY", func);
+  func = std::bind1st(std::mem_fun(&Core::upTalents), this);
+  _proto->addFunc("TALENTUPDATE", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -380,8 +382,10 @@ bool				Core::upStats(Trame *)
   return (true);
 }
 
-bool				Core::upTalents(Trame *)
+bool				Core::upTalents(Trame *trame)
 {
+  (**_player)->setDigitaliser(*Digitaliser::deserialization((*trame)((*trame)[CONTENT]["UPDATETALENTS"])));
+  (**_player)->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["UPDATETALENTS"])));
   return (true);
 }
 
