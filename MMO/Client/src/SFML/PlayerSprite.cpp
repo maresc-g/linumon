@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar 14 15:33:05 2014 cyril jourdain
-// Last update Wed Mar 26 13:58:01 2014 antoine maitre
+// Last update Wed Mar 26 14:34:40 2014 cyril jourdain
 //
 
 #include		<QMenu>
@@ -87,9 +87,8 @@ void			PlayerSprite::draw(sf::RenderTarget &target, sf::RenderStates states) con
   }
 }
 
-void			PlayerSprite::onClick(QMouseEvent *event)
+void			PlayerSprite::onClick(QMouseEvent *)
 {
-  std::cout << "PLAYER CLICKED" << std::endl;
 }
 
 void			PlayerSprite::moveUp(float px, sf::View *view)
@@ -286,7 +285,7 @@ void			PlayerSprite::updateMoves(sf::Clock *clock, sf::View *view)
 }
 
 
-void			PlayerSprite::updateMoves2(sf::Clock *clock, sf::View *view)
+void			PlayerSprite::updateMoves2(sf::Clock *, sf::View *)
 {
   // float elapsedTime = clock->getElapsedTime().asMicroseconds();
   // float px = elapsedTime * _speed / 1000000;

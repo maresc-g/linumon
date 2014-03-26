@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:04 2014 laurent ansel
-// Last update Tue Mar 25 15:07:36 2014 cyril jourdain
+// Last update Wed Mar 26 14:30:46 2014 cyril jourdain
 //
 
 #include			<sstream>
@@ -189,7 +189,7 @@ bool				Job::doGather(std::list<Stack<AItem> *> *&result, Carcass *carcass)
   bool				ret = false;
   // unsigned int			exp = 0;
   Ressource			*item;
-  auto				itemCarcass = carcass->begin();
+  // auto				itemCarcass = carcass->begin();
   Stack<AItem>			*stack;
 
   for (auto it = carcass->begin(); it != carcass->end(); ++it)

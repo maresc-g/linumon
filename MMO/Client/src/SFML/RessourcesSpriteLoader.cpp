@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Mar 19 16:18:26 2014 cyril jourdain
-// Last update Tue Mar 25 23:12:27 2014 cyril jourdain
+// Last update Wed Mar 26 14:32:26 2014 cyril jourdain
 //
 
 #include			<algorithm>
@@ -45,8 +45,8 @@ void				RessourcesSpriteLoader::loadRessources()
 {
   Zone	*zone = Map::getInstance()->getZone((**(_wMan->getMainPlayer()))->getZone());
   std::list<AEntity*>	*list;
-  RessourceSprite	*tmp;
-  sf::Vector2i		*pos = new sf::Vector2i(0,0);
+  // RessourceSprite	*tmp;
+  // sf::Vector2i		*pos = new sf::Vector2i(0,0);
   std::string		*name;
 
   std::cout << "RessourceSpriteLoader: Player is in : " << (**(_wMan->getMainPlayer()))->getZone() << std::endl;
