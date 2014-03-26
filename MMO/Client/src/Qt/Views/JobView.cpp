@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:55:36 2014 guillaume marescaux
-// Last update Wed Mar 26 14:04:19 2014 guillaume marescaux
+// Last update Wed Mar 26 14:16:00 2014 guillaume marescaux
 //
 
 #include			<QMessageBox>
@@ -33,30 +33,33 @@ void				JobView::handleChange()
   if (!list.isEmpty())
     {
       Craft const			*craft = _job->getJobModel().getCraft(list.first()->text().toStdString());
-      auto				items = craft->getIngredients();
-      auto				inventory = (**(_wMan->getMainPlayer()))->getInventory().getInventory();
-      bool				ret = true;
-
-      std::cout << list.first()->text().toStdString() << std::endl;
-      _currentCraft->setInfos(*craft);
-      _currentCraft->move(5, 460);
-      _currentCraft->show();
-      for (auto it = items.begin() ; it != items.end() ; it++)
+      if (craft)
 	{
-	  auto itb = inventory.begin();
-	  auto end = inventory.end();
-	  while (itb != end && **itb != (*it)->getItem()->getName())
-	    itb++;
-	  if (itb == end || (*it)->getNb() > (*itb)->getNb())
+	  auto				items = craft->getIngredients();
+	  auto				inventory = (**(_wMan->getMainPlayer()))->getInventory().getInventory();
+	  bool				ret = true;
+
+	  std::cout << list.first()->text().toStdString() << std::endl;
+	  _currentCraft->setInfos(*craft);
+	  _currentCraft->move(5, 460);
+	  _currentCraft->show();
+	  for (auto it = items.begin() ; it != items.end() ; it++)
 	    {
-	      ret = false;
-	      break;
+	      auto itb = inventory.begin();
+	      auto end = inventory.end();
+	      while (itb != end && **itb != (*it)->getItem()->getName())
+		itb++;
+	      if (itb == end || (*it)->getNb() > (*itb)->getNb())
+		{
+		  ret = false;
+		  break;
+		}
 	    }
+	  if (ret && _currentCraft->getCraft().getLevel() <= _job->getLevel())
+	    ui.b_craft->setEnabled(true);
+	  else
+	    ui.b_craft->setEnabled(false);
 	}
-      if (ret && _currentCraft->getCraft().getLevel() <= _job->getLevel())
-	ui.b_craft->setEnabled(true);
-      else
-	ui.b_craft->setEnabled(false);
     }
   else if (_currentCraft)
     _currentCraft->hide();
