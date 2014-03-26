@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 26 10:42:18 2014 alexis mestag
+// Last update Wed Mar 26 11:32:37 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -300,7 +300,7 @@ void				Player::setExperienceCurve(ExperienceCurve const &expCurve)
 void				Player::levelUp()
 {
   ACharacter::levelUp();
-  _talents->setCurrentPts(_talents->getCurrentPts() + 5);
+  _talents->setCurrentPts(_talents->getCurrentPts() + 1);
 }
 
 Jobs const			&Player::getJobs() const
@@ -512,6 +512,8 @@ bool				Player::updateTalent(TalentModel const &model,
   }
   unsigned int			fromPoints = talent->getCurrentPoints();
 
+  std::cerr << "I'm updating talent : " << model.getName() << std::endl;
+  std::cerr << "\tfrom : " << fromPoints << " to " << toPoints << std::endl;
   ret = fromPoints != toPoints ? true : false;
   _talents->decCurrentPts(toPoints - fromPoints);
   if (ret) {
@@ -519,6 +521,8 @@ bool				Player::updateTalent(TalentModel const &model,
 
     talent->applyEffect(*this, fromPoints + 1, toPoints);
   }
+  else
+    std::cerr << "\tPlayer::updateTalent = " << ret << std::endl;
   return (ret);
 }
 

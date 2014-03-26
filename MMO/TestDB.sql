@@ -58,21 +58,21 @@ INSERT INTO `ExperienceCurve`(`id`, `name`, `path`) VALUES
 DELETE FROM `TalentModel`;
 
 INSERT INTO `TalentModel`(`id`, `name`, `maxPoints`, `effectLib`) VALUES
-       ( 1, 'HP_Talent',			1, 1),
-       ( 2, 'Attack_Talent',			3, 1),
-       ( 3, 'Defense_Talent',			3, 1),
-       ( 4, 'Heal_Talent',			3, 1),
-       ( 5, 'Attack_Fire_Talent',		3, 1),
-       ( 6, 'Attack_Electric_Talent',		3, 1),
-       ( 7, 'Defense_Rock_Talent',		3, 1),
-       ( 8, 'Defense_Steel_Talent',		3, 1),
-       ( 9, 'Heal_Grass_Talent',		3, 1),
-       (10, 'Heal_Water_Talent',		3, 1),
-       (11, 'Capture_Talent',			3, 1),
-       (12, 'AddBattleMob_Talent',		1, 1),
-       (13, 'Limit_Talent',			1, 1),
-       (14, 'Capture2_Talent',			3, 1),
-       (15, 'AddBattleMob2_Talent',		1, 1);
+       ( 1, 'HP_Talent',			1, 18),
+       ( 2, 'Attack_Talent',			3,  8),
+       ( 3, 'Defense_Talent',			3, 14),
+       ( 4, 'Heal_Talent',			3, 17),
+       ( 5, 'Attack_Fire_Talent',		3,  7),
+       ( 6, 'Attack_Electric_Talent',		3,  6),
+       ( 7, 'Defense_Rock_Talent',		3, 12),
+       ( 8, 'Defense_Steel_Talent',		3, 13),
+       ( 9, 'Heal_Grass_Talent',		3, 15),
+       (10, 'Heal_Water_Talent',		3, 16),
+       (11, 'Capture_Talent',			3, 11),
+       (12, 'AddBattleMob_Talent',		1, 10),
+       (13, 'Limit_Talent',			1,  9),
+       (14, 'Capture2_Talent',			3, 11),
+       (15, 'AddBattleMob2_Talent',		1, 10);
 
 /* Inserting TalentModels_talents */
 DELETE FROM `TalentModel_talents`;
@@ -593,7 +593,7 @@ INSERT INTO `Consumable`(`id`, `name`, `forMob`, `effectlib`) VALUES
        (1, 'Potion',			1,	 4),
        (2, 'Super Potion',		1,	 5),
        (3, 'Normal Cartridge x10',	0,	23),
-       (4, 'Super Cartridge x10',	0,	23);
+       (4, 'Super Cartridge x10',	0,	24);
 
 /* Adding some fancy views because it's quite swag */
 -- DROP VIEW IF EXISTS `StatView`;
