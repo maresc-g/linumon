@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 26 10:29:36 2014 alexis mestag
+// Last update Wed Mar 26 10:42:18 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -66,6 +66,7 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   /*
   ** Capture a Pikachu
   */
+  std::cerr << "Trying to set the User : " << user << std::endl;
   if (user) {
     Repository<MobModel>		*rm = &Database::getRepository<MobModel>();
     MobModel const			*m = rm->getByName("Pikachu");
