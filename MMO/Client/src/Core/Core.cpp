@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 26 11:15:58 2014 cyril jourdain
+// Last update Wed Mar 26 12:29:08 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -96,6 +96,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("ENDBATTLE", func);
   func = std::bind1st(std::mem_fun(&Core::objectEffect), this);
   _proto->addFunc("OBJECTEFFECT", func);
+  func = std::bind1st(std::mem_fun(&Core::objectEffectPlayer), this);
+  _proto->addFunc("OBJECTEFFECTPLAYER", func);
   func = std::bind1st(std::mem_fun(&Core::launchTrade), this);
   _proto->addFunc("LAUNCHTRADE", func);
   func = std::bind1st(std::mem_fun<bool, Core, Trame *>(&Core::putItem), this);
@@ -384,8 +386,8 @@ bool				Core::upStats(Trame *)
 
 bool				Core::upTalents(Trame *trame)
 {
-  (**_player)->setDigitaliser(*Digitaliser::deserialization((*trame)((*trame)[CONTENT]["UPDATETALENTS"])));
-  (**_player)->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["UPDATETALENTS"])));
+  (**_player)->setDigitaliser(*Digitaliser::deserialization((*trame)((*trame)[CONTENT]["TALENTUPDATE"])));
+  (**_player)->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["TALENTUPDATE"]["STATS"])));
   return (true);
 }
 
@@ -433,6 +435,12 @@ bool				Core::objectEffect(Trame *trame)
   Mob				*mob = (**_player)->getDigitaliser().getMob((*trame)[CONTENT]["OBJECTEFFECT"]["TARGET"].asUInt());
 
   mob->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["OBJECTEFFECT"]["STATS"])));
+  return (true);
+}
+
+bool				Core::objectEffectPlayer(Trame *trame)
+{
+  (**_player)->setDigitaliser(*Digitaliser::deserialization((*trame)((*trame)[CONTENT]["OBJECTEFFECTPLAYER"])));
   return (true);
 }
 
