@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 14:01:10 2014 antoine maitre
-// Last update Tue Mar 25 12:25:15 2014 guillaume marescaux
+// Last update Wed Mar 26 12:37:18 2014 antoine maitre
 //
 
 #include			<iostream>
@@ -245,6 +245,7 @@ void				Zone::deserialization(Trame const &trame)
   this->_players->clear();
   for (int i = 1; trame[CONTENT]["MAP"].isMember(std::to_string(i)); i++)
     {
+      std::cout << i << std::endl;
       auto tmp = this->getCase(trame[CONTENT]["MAP"][std::to_string(i)]["X"].asInt(), trame[CONTENT]["MAP"][std::to_string(i)]["Y"].asInt());
       tmp->deserialization(trame(trame[CONTENT]["MAP"][std::to_string(i)]));
       for (auto it = tmp->getEntities()->begin(); it != tmp->getEntities()->end(); it++)

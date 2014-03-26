@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 26 10:29:36 2014 alexis mestag
+// Last update Wed Mar 26 12:34:44 2014 antoine maitre
 //
 
 #include			<cmath>
@@ -63,6 +63,7 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   this->initConstPointersForNewPlayers();
 
   this->setLevel(1);
+  this->setCoord(8, 10);
   /*
   ** Capture a Pikachu
   */
