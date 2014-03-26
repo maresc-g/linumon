@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Wed Mar 26 14:30:20 2014 cyril jourdain
+// Last update Wed Mar 26 15:05:11 2014 guillaume marescaux
 //
 
 #include <iostream>
@@ -42,7 +42,7 @@ void				InventoryView::initInventory()
   MutexVar<Player *>		*player = _wMan->getMainPlayer();
   Inventory const		*inventory = &(**player)->getInventory();
   ui.money->setText(std::to_string(inventory->getMoney()).c_str());
-  unsigned int			limit = inventory->getLimit();
+  unsigned int			limit = (**player)->getStat("Bag capacity");
   auto				stacks = inventory->getInventory();
   auto				it = stacks.begin();
   StackView			*stack;
@@ -56,6 +56,7 @@ void				InventoryView::initInventory()
       _hidden->push_back(*it);
     }
   _stacks->clear();
+  std::cout << "INVENTORY LIMIT = " << limit << std::endl;
   for (unsigned int i = 0 ; i < limit ; i++)
     {
       if (it != stacks.end() && !(*it)->empty())

@@ -60,7 +60,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Validate</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLineEdit" name="le_name">
@@ -144,7 +144,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Cancel</string>
+     <string/>
     </property>
    </widget>
   </widget>
