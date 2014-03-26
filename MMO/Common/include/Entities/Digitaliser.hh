@@ -5,13 +5,14 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:14:59 2013 alexis mestag
-// Last update Sun Mar 23 18:57:45 2014 alexis mestag
+// Last update Wed Mar 26 02:37:21 2014 alexis mestag
 //
 
 #ifndef			__DIGITALISER_HH__
 # define		__DIGITALISER_HH__
 
 # include		<list>
+# include		"Entities/CartridgeClip.hh"
 # include		"Utility/ISerialization.hh"
 # include		"Utility/Wrapper.hpp"
 
@@ -27,6 +28,7 @@ private:
   container_type	_battleMobs;
   Player const		*_player;
   double		_efficiency;
+  CartridgeClip		*_cartridgeClip;
 
 private:
   Digitaliser(Digitaliser const &rhs);
@@ -52,6 +54,12 @@ public:
 
   double		getEfficiency() const;
   void			setEfficiency(double const efficiency);
+
+  CartridgeClip const	&getCartridgeClip() const;
+  void			setCartridgeClip(CartridgeClip const &c);
+  void			setCartridgeClip(CartridgeClip::summary_type const &c);
+  void			addCartridge(Cartridge const &cartridge);
+  Cartridge		*getNextCartridge();
 
   unsigned int		getLimit() const;
 

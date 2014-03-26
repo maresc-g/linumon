@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec 10 15:19:56 2013 alexis mestag
-// Last update Mon Mar 24 16:01:26 2014 guillaume marescaux
+// Last update Wed Mar 26 02:47:59 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -15,7 +15,8 @@
 Digitaliser::Digitaliser(Player const *player) :
   ContainerWrapper<container_type>(),
   _player(player),
-  _efficiency(1)
+  _efficiency(1),
+  _cartridgeClip(new CartridgeClip)
 {
 
 }
@@ -30,6 +31,7 @@ Digitaliser::~Digitaliser()
 {
   this->deleteMobs(this->getContainer());
   this->deleteMobs(this->_battleMobs);
+  delete _cartridgeClip;
 }
 
 Digitaliser			&Digitaliser::operator=(Digitaliser const &rhs)
@@ -45,6 +47,7 @@ Digitaliser			&Digitaliser::operator=(Digitaliser const &rhs)
       this->_battleMobs = rhs.getBattleMobs();
       this->setPlayer(rhs.getPlayer());
       this->setEfficiency(rhs.getEfficiency());
+      this->setCartridgeClip(rhs.getCartridgeClip());
     }
   return (*this);
 }
@@ -67,6 +70,31 @@ double				Digitaliser::getEfficiency() const
 void				Digitaliser::setEfficiency(double const efficiency)
 {
   _efficiency = efficiency;
+}
+
+CartridgeClip const		&Digitaliser::getCartridgeClip() const
+{
+  return (*_cartridgeClip);
+}
+
+void				Digitaliser::setCartridgeClip(CartridgeClip const &c)
+{
+  *_cartridgeClip = c;
+}
+
+void				Digitaliser::setCartridgeClip(CartridgeClip::summary_type const &sum)
+{
+  _cartridgeClip->setClipFromSummary(sum);
+}
+
+void				Digitaliser::addCartridge(Cartridge const &cartridge)
+{
+  _cartridgeClip->addCartridge(cartridge);
+}
+
+Cartridge			*Digitaliser::getNextCartridge()
+{
+  return (_cartridgeClip->getNextCartridge());
 }
 
 Digitaliser::container_type const	&Digitaliser::getMobs() const
@@ -263,6 +291,13 @@ bool				Digitaliser::serialization(Trame &trame) const
       str.str("");
       nb++;
     }
+
+  std::for_each(_cartridgeClip->getClipSummary().begin(),
+		_cartridgeClip->getClipSummary().end(),
+		[&](std::pair<CartridgeClip::summary_type::key_type,
+		    CartridgeClip::summary_type::mapped_type> const &p) -> void {
+		  trame["DIGITALISER"]["CARTRIDGECLIP"][std::to_string(p.first)] = p.second;
+		});
   return (ret);
 }
 
@@ -302,6 +337,17 @@ Digitaliser			*Digitaliser::deserialization(Trame const &trame)
 	}
       digit->setMobs(*mobs);
       digit->setBattleMobs(*battle);
+
+      if (trame["DIGITALISER"].isMember("CARTRIDGECLIP"))
+	{
+	  auto				members = trame["DIGITALISER"]["CARTRIDGECLIP"].getMemberNames();
+	  CartridgeClip::summary_type	sum;
+
+	  std::for_each(members.begin(), members.end(), [&](std::string const &member) -> void {
+	      sum[std::stod(member)] = trame["DIGITALISER"]["CARTRIDGECLIP"][member].asUInt();
+	    });
+	  digit->setCartridgeClip(sum);
+	}
     }
   return (digit);
 }

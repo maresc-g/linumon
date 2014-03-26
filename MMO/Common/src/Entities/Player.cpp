@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 26 00:26:06 2014 alexis mestag
+// Last update Wed Mar 26 03:11:17 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -62,17 +62,21 @@ Player::Player(std::string const &name, std::string const &factionName, User con
 # ifndef	CLIENT_COMPILATION
   this->initConstPointersForNewPlayers();
 
+  this->setLevel(1);
   /*
   ** Capture a Pikachu
   */
   if (user) {
     Repository<MobModel>		*rm = &Database::getRepository<MobModel>();
     MobModel const			*m = rm->getByName("Pikachu");
-    Mob					*pikachu = new Mob(*m, 15, this);
+    Mob					*pikachu = new Mob(*m, 12, this);
 
+    std::cerr << "Adding a Pikachu ? " << (m ? "YES" : "NO") << std::endl;
     pikachu->resetExp();
     this->_digitaliser->addBattleMob(*pikachu);
   }
+  else
+    std::cerr << "User is null : damn !" << std::endl;
 
   /*
   ** Init Faction
@@ -106,6 +110,14 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   */
   this->setStat("Limit mob", 3);
   this->setStat("Bag capacity", 30);
+
+  /*
+  ** Adding Cartridges
+  */
+  Cartridge				c(1);
+
+  for (unsigned int i = 0 ; i < 10 ; ++i)
+    this->addCartridge(c);
 
 # else
   (void)factionName;
@@ -516,8 +528,9 @@ void				Player::applyAllTalentsToMob(Mob &mob)
       effect = talent->getModel().getEffectLib().getEffect();
       tEffect = dynamic_cast<TalentEffect *>(effect);
 
-      if (tEffect && tEffect->isForMob()) {
-	tEffect->apply(mob, 1, talent->getCurrentPoints());
+      if (tEffect) {
+	if (tEffect->isForMob())
+	  tEffect->apply(mob, 1, talent->getCurrentPoints());
       }
       else
 	std::cerr << "Bad cast in Player::applyAllTalentsToMob()" << std::endl;
@@ -688,18 +701,29 @@ Talents const			&Player::getTalents() const
   return (*_talents);
 }
 
+void				Player::addCartridge(Cartridge const &cartridge)
+{
+  _digitaliser->addCartridge(cartridge);
+}
+
+Cartridge			*Player::getNextCartridge()
+{
+  return (_digitaliser->getNextCartridge());
+}
+
 bool				Player::capture(Mob &mob, bool const check)
 {
   bool				done = !check;
+  Cartridge			*cartridge = check ? this->getNextCartridge() : NULL;
 
-  if (!done) {
+  if (!done && cartridge) {
     static unsigned int			seed = std::chrono::system_clock::now().time_since_epoch().count();
     static std::default_random_engine	rGen(seed);
     double				a = 3.0 * mob.getMaxStat("HP") - 2.0 * mob.getCurrentStat("HP");
 
     a *= mob.getCatchRate();
     a /= 3.0 * mob.getMaxStat("HP");
-    a *= this->getDigitaliser().getEfficiency(); // Efficacité du digitaliser
+    a *= cartridge->getEfficiency(); // Efficacité de la cartouche
     a *= 1.0 + this->getStat("Capture") / 100.0; // Multiplicateur de chances
     if (a >= 255)
       done = true;
