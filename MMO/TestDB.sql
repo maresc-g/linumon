@@ -542,7 +542,17 @@ INSERT INTO `Stuff_stats`(`object_id`, `key`, `value`) VALUES
        (10, 2,   5),
        (11, 2,  10),
        (12, 2,  10),
-       (13, 2,  10);
+       (13, 2,  10),
+       (14, 4,  10),
+       (15, 5,  10),
+       (16, 4,  10),
+       (17, 1,  10),
+       (18, 4,  10),
+       (19, 2,  10),
+       (20, 4,  10),
+       (21, 3,  10),
+       (22, 1,  10),
+       (23, 2,  10);
 
 /* Assigning Stuff to Players */
 DELETE FROM `Player_equipment`;
