@@ -55,7 +55,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Craft</string>
+    <string/>
    </property>
   </widget>
   <widget class="QProgressBar" name="pb_exp">
@@ -170,6 +170,19 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="b_quit">
+   <property name="geometry">
+    <rect>
+     <x>482</x>
+     <y>10</y>
+     <width>31</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Quit</string>
    </property>
   </widget>
  </widget>

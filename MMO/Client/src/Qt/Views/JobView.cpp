@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Feb 25 14:55:36 2014 guillaume marescaux
-// Last update Tue Mar 25 16:49:52 2014 guillaume marescaux
+// Last update Wed Mar 26 14:04:19 2014 guillaume marescaux
 //
 
 #include			<QMessageBox>
@@ -103,4 +103,9 @@ void				JobView::setInfos(Job const &job)
 void				JobView::on_b_craft_clicked()
 {
   Client::getInstance()->craft(_job->getJobModel().getName(), _currentCraft->getCraft().getName());
+}
+
+void				JobView::on_b_quit_clicked()
+{
+  _wMan->getSFMLView()->hideView(this);
 }
