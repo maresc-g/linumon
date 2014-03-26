@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 26 10:28:37 2014 guillaume marescaux
+// Last update Wed Mar 26 10:54:53 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -521,13 +521,14 @@ bool				Core::removeEntity(Trame *trame)
   Map				*map = Map::getInstance();
   AEntity			*entity = map->getEntityById((**_player)->getZone(),
 							     (*trame)[CONTENT]["REMOVEENTITY"]["ID"].asUInt());
-
-  if (entity->getEntityType() == AEntity::STATENTITY)
-    map->delPlayer((**_player)->getZone(), entity);
-  else if (entity->getEntityType() == AEntity::CARCASS)
-    map->delCarcass((**_player)->getZone(), static_cast<Carcass *>(entity));
-  else
-    map->delEntity((**_player)->getZone(), entity);
+  if (entity){
+    if (entity->getEntityType() == AEntity::STATENTITY)
+      map->delPlayer((**_player)->getZone(), entity);
+    else if (entity->getEntityType() == AEntity::CARCASS)
+      map->delCarcass((**_player)->getZone(), static_cast<Carcass *>(entity));
+    else
+      map->delEntity((**_player)->getZone(), entity);
+  }
   return (true);
 }
 

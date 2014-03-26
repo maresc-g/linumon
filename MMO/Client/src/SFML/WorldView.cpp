@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 14:01:32 2014 cyril jourdain
-// Last update Tue Mar 25 12:34:07 2014 cyril jourdain
+// Last update Tue Mar 25 23:27:39 2014 cyril jourdain
 //
 
 #include		"SFML/WorldView.hh"
@@ -96,6 +96,7 @@ void			WorldView::drawView()
   _backgroundSprite->setTexture(_backgroundTexture->getTexture());
   _sfmlView->draw(*_backgroundSprite);
   _ressourcesLoader->drawLayer(RessourcesSpriteLoader::FLOOR_LAYER);
+  _ressourcesLoader->drawLayer(RessourcesSpriteLoader::CARCASS_LAYER);
   for (auto it = _playerList->begin(); it != _playerList->end(); ++it)
     {
       if ((**(_wMan->getMainPlayer()))->getId() == ((*it)->getPlayerId()))
@@ -110,7 +111,6 @@ void			WorldView::drawView()
   if (_mainPerso) {
     _sfmlView->draw(*_mainPerso);
   }
-  _ressourcesLoader->drawLayer(RessourcesSpriteLoader::CARCASS_LAYER);
   _ressourcesLoader->drawLayer(RessourcesSpriteLoader::TOP_LAYER);
   if (_currentWindow)
     _currentWindow->draw();

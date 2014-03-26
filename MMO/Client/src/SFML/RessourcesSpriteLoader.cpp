@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Mar 19 16:18:26 2014 cyril jourdain
-// Last update Tue Mar 25 16:18:41 2014 cyril jourdain
+// Last update Tue Mar 25 23:12:27 2014 cyril jourdain
 //
 
 #include			<algorithm>
@@ -141,14 +141,14 @@ void				RessourcesSpriteLoader::checkCarcass()
       if (it == _layers->at(CARCASS_LAYER)->end())
 	{
 	  car = new CarcassSprite(*it2, _wMan);
-	  if (!_wMan->getSFMLView()->getSpriteManager()->copySprite("Dragoball", *car))
+	  if (!_wMan->getSFMLView()->getSpriteManager()->copySprite("Carcass", *car))
 	    {
 	      delete car;
 	      return;
 	    }
 	  pos->x = static_cast<Carcass*>(*it2)->getX();
 	  pos->y = static_cast<Carcass*>(*it2)->getY();
-	  car->play("default_down");
+	  car->play("default");
 	  car->setPosition(pos->x * CASE_SIZE,
 			   pos->y * CASE_SIZE);
 	  car->setPos(pos->x,

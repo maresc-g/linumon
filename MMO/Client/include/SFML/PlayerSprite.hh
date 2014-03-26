@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Feb 16 03:12:14 2014 cyril jourdain
-// Last update Sun Mar 16 17:24:04 2014 cyril jourdain
+// Last update Tue Mar 25 16:59:41 2014 cyril jourdain
 //
 
 #ifndef 		__PLAYERSPRITE_HH__
@@ -37,6 +37,7 @@ private:
   std::string		_playerZone;
   bool			_isInputable;
   bool			_receivedInput;
+  sf::Clock		_timerBlock;
 
 protected:
   sf::Vector2f		_deltaPos;
