@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Wed Mar 26 00:05:18 2014 alexis mestag
+// Last update Wed Mar 26 11:33:35 2014 antoine maitre
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -61,7 +61,7 @@ private:
 bool				launchBattle(unsigned int const id, unsigned int const idBatlle, Player const*, unsigned int limit);
 bool				spell(unsigned int const id, unsigned int const idBattle, Spell const *spell, unsigned int const launcher, unsigned int const target);
 bool				spellEffect(unsigned int const id, unsigned int const idBattle, int const hpChange, unsigned int const target);
-bool				captureEffect(unsigned int const id, unsigned int const idBattle, bool success);
+bool				captureEffect(unsigned int const id, unsigned int const idBattle, Mob const *, bool success);
 bool				dswitch(unsigned int const id, unsigned int const idBattle, unsigned int const target, unsigned int const newMob, unsigned int const player);
 bool				deadMob(unsigned int const id, unsigned int const idBattle, unsigned int const idMob);
 bool				endBattle(unsigned int const id, unsigned int const idBattle, bool win, bool pvp, unsigned int const money, unsigned int const exp, Player const *player, Drop const *drop);

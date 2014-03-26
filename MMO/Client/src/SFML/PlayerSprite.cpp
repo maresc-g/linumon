@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar 14 15:33:05 2014 cyril jourdain
-// Last update Tue Mar 25 12:01:46 2014 antoine maitre
+// Last update Tue Mar 25 23:25:39 2014 cyril jourdain
 //
 
 #include		<QMenu>
@@ -214,12 +214,18 @@ void			PlayerSprite::moveRight(float px, sf::View *view)
 
 void			PlayerSprite::moveFromServer(sf::View *v)
  {
+   if (_dir == WAITING && _timerBlock.getElapsedTime().asSeconds() > 2)
+     {
+       _dir = END_MOVE;
+       _timerBlock.restart();
+     }
    // std::cout << "pos:" << _pos.x << "/"<< _pos.y <<"-"
    // 	     << Map::getInstance()->getPlayerById(_playerId)->getX() << "/"
    // 	     << Map::getInstance()->getPlayerById(_playerId)->getY()
    // 	     << std::endl;
   if (_dir == END_MOVE)
     {
+      _timerBlock.restart();
       // std::cout << "HERE" << std::endl;
       if (Map::getInstance()->getPlayerById(_playerId)){
 	if (_pos.x != Map::getInstance()->getPlayerById(_playerId)->getX() || _pos.y != Map::getInstance()->getPlayerById(_playerId)->getY())
@@ -237,7 +243,7 @@ void			PlayerSprite::moveFromServer(sf::View *v)
 	      //   v->move((15 - _pos.x * CASE_SIZE),
 	      // 	       0);
 	      // std::cout << "NEW POS X AFTER MAGIC TP : "  << _pos.x << std::endl;
-	      std::cout << "WADAFAK WITH POS ?" << std::endl;
+	      // std::cout << "WADAFAK WITH POS ?" << std::endl;
 	    }
 	  }
 	_dir = NONE;
@@ -245,6 +251,7 @@ void			PlayerSprite::moveFromServer(sf::View *v)
     }
   if (_dir == NONE || _dir == WAITING)
     {
+      // std::cout << _dir << std::endl;
       // std::cout << "pos : " << _pos.x << "/" << _pos.y << "-"
       // 		<< Map::getInstance()->getPlayerById(_playerId)->getX()
       // 		<< "/"

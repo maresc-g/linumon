@@ -1,10 +1,10 @@
 {
     "1" :
     {
-	"NAME" : "Plastron Bouftou",
+	"NAME" : "Bouftou Breastplate",
 	"LVL" : 1,
 	"EXP" : 50,
-	"RES" : "Plastron Bouftou",
+	"RES" : "Bouftou Breastplate",
 	"INGS" :
 	{
 	    "Orchidee" : 1,
@@ -13,10 +13,10 @@
     },
     "2" :
     {
-	"NAME" : "Coiffe Bouftou",
+	"NAME" : "Bouftou Helmet",
 	"LVL" : 1,
 	"EXP" : 150,
-	"RES" : "Coiffe Bouftou",
+	"RES" : "Bouftou Helmet",
 	"INGS" :
 	{
 	    "Orchidee" : 3,
