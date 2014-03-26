@@ -32,7 +32,9 @@ INSERT INTO `EffectLib`(`id`, `name`, `path`) VALUES
        (19, 'HealEffect',			'Libs/HealEffect.so'),
        (20, 'HealTargetEffect',			'Libs/HealTargetEffect.so'),
        (21, 'ContreEffect',			'Libs/ContreEffect.so'),
-       (22, 'AttiranceEffect',			'Libs/AttiranceEffect.so');
+       (22, 'AttiranceEffect',			'Libs/AttiranceEffect.so'),
+       (23, 'NormalCartridgeEffect',		'Libs/NormalCartridgeEffect.so'),
+       (24, 'SuperCartridgeEffect',		'Libs/SuperCartridgeEffect.so');
 
 /* Inserting Factions */
 DELETE FROM `Faction`;
@@ -213,9 +215,16 @@ INSERT INTO `Guild`(`id`, `name`) VALUES
 /* Inserting Players */
 DELETE FROM Player;
 
-INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `digitaliserEfficiency`, `inventoryPath`, `money`, `limit`, `expCurve`, `currentPts`) VALUES
-       (1, 'Thinenus', 1, 0, 1, 10, 1, 1, 1, 1, 1, 10, 30, 1, 'Res/Inventories/Thinenus.json', 10000, 30, 6, 5),
-       (2, 'Sezu-Kho', 1, 0, 1, 10, 1, 1, 2, 1, 1, 20, 20, 1, 'Res/Inventories/Sezu-Kho.json', 10000, 30, 6, 0);
+INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`, `expCurve`, `currentPts`) VALUES
+       (1, 'Thinenus', 1, 0, 1, 10, 1, 1, 1, 1, 1, 10, 30, 'Res/Inventories/Thinenus.json', 10000, 30, 6, 5),
+       (2, 'Sezu-Kho', 1, 0, 1, 10, 1, 1, 2, 1, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30, 6, 0);
+
+/* Assigning CartridgeCip to Players */
+DELETE FROM `Player_cartridgeClip`;
+
+INSERT INTO `Player_cartridgeClip`(`object_id`, `key`, `value`) VALUES
+       (1, 1, 10),
+       (2, 1, 10);
 
 /* Assigning Talents to Players */
 DELETE FROM `Player_talents`;
@@ -570,9 +579,11 @@ INSERT INTO `Heal`(`id`, `name`, `pnjType`, `zone`, `x`, `y`) VALUES
 /* Inserting Consumable */
 DELETE FROM `Consumable`;
 
-INSERT INTO `Consumable`(`id`, `name`, `effectlib`) VALUES
-       (1, 'Potion', 4),
-       (2, 'Super Potion', 5);
+INSERT INTO `Consumable`(`id`, `name`, `forMob`, `effectlib`) VALUES
+       (1, 'Potion',			1,	 4),
+       (2, 'Super Potion',		1,	 5),
+       (3, 'Normal Cartridge x10',	0,	23),
+       (4, 'Super Cartridge x10',	0,	23);
 
 /* Adding some fancy views because it's quite swag */
 -- DROP VIEW IF EXISTS `StatView`;
