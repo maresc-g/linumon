@@ -252,8 +252,8 @@ INSERT INTO `Ressource`(`id`, `name`, `gather`, `level`, `exp`) VALUES
        (2, 'Peau de bouftou',		1,  1,  10),
        (3, 'Tree',			0,  0,   0),
        (4, 'Venuzaur Leaf',	1,  0,   0),
-       (5, 'Dent de Charizard',		1,  0,   0),
-       (6, 'Ecaille de Blastoise',	1,  0,   0),
+       (5, 'Charizard Tooth',		1,  0,   0),
+       (6, 'Blastoise Scale',	1,  0,   0),
        (7, 'Bone',			0,  0,   0),
        (8, 'Bush',			0,  0,   0),
        (9, 'House',			0,  0,   0);
