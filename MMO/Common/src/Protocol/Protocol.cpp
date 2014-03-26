@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Mar 26 13:22:38 2014 alexis mestag
+// Last update Wed Mar 26 15:33:11 2014 guillaume marescaux
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -564,7 +564,7 @@ bool                    objectEffect(unsigned int const id, unsigned int const t
       header->setProtocole("TCP");
       if (header->serialization(*trame) && stats->serialization((*trame)((*trame)[CONTENT]["OBJECTEFFECT"]["STATS"])))
 	{
-	  (*trame)[CONTENT]["TARGET"] = target;
+	  (*trame)[CONTENT]["OBJECTEFFECT"]["TARGET"] = target;
 	  trame->setEnd(true);
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 	  ret = true;

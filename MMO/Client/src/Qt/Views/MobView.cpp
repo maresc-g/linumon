@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Wed Mar 26 13:13:33 2014 cyril jourdain
+// Last update Wed Mar 26 15:36:03 2014 guillaume marescaux
 //
 
 #include			<QMenu>
@@ -183,17 +183,19 @@ void				MobView::dropEvent(QDropEvent *de)
 
   if (sourceInfos && sourceInfos->name == "inventoryview")
     {
-      std::pair<AItem const *, unsigned int>	*pair =
-	reinterpret_cast<std::pair<AItem const *, unsigned int> *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
+      Stack<AItem> const	*stack = reinterpret_cast<Stack<AItem> const *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
+      // std::pair<AItem const *, unsigned int>	*pair =
+      // 	reinterpret_cast<std::pair<AItem const *, unsigned int> *>(std::stol(de->mimeData()->text().toLatin1().data(), 0, 16));
 
-      if (pair->first->getItemType() == AItem::CONSUMABLE)
-	{
-	  Consumable const		*consumable = static_cast<Consumable const *>(pair->first);
+      // if (stack->getItem()->getItemType() == AItem::CONSUMABLE)
+      // 	{
+      // 	  Consumable const		*consumable = static_cast<Consumable const *>(stack->getItem());
 
-	  (**_wMan->getMainPlayer())->useObject(_mob->getId(), consumable->getId());
-	  Client::getInstance()->useObject(_mob->getId(), consumable->getId());
-	  _wMan->getSFMLView()->getInventoryView()->initInventory();
-	}
+      // 	  (**_wMan->getMainPlayer())->useObject(_mob->getId(), stack->getItem()->getId());
+      // 	  Client::getInstance()->useObject(_mob->getId(), stack->getItem()->getId());
+      // 	  _wMan->getSFMLView()->getInventoryView()->initInventory();
+      // 	}
+      (void)stack;
     }
   else if (sourceInfos && sourceInfos->name == "digitaliserview" && infos->name == "tradeview" && !_mob)
     {

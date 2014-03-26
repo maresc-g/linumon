@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 26 14:31:20 2014 guillaume marescaux
+// Last update Wed Mar 26 15:37:23 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -432,11 +432,12 @@ bool				Core::caseMap(Trame *)
   return (true);
 }
 
-bool				Core::objectEffect(Trame *trame)
+bool				Core::objectEffect(Trame *)
 {
-  Mob				*mob = (**_player)->getDigitaliser().getMob((*trame)[CONTENT]["OBJECTEFFECT"]["TARGET"].asUInt());
+  // Mob				*mob = (**_player)->getDigitaliser().getMob((*trame)[CONTENT]["OBJECTEFFECT"]["TARGET"].asUInt());
 
-  mob->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["OBJECTEFFECT"]["STATS"])));
+  // if (mob)
+  //   mob->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["OBJECTEFFECT"])));
   return (true);
 }
 
