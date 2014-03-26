@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 26 11:11:02 2014 guillaume marescaux
+// Last update Wed Mar 26 11:22:39 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -384,8 +384,8 @@ bool				Core::upStats(Trame *)
 
 bool				Core::upTalents(Trame *trame)
 {
-  (**_player)->setDigitaliser(*Digitaliser::deserialization((*trame)((*trame)[CONTENT]["UPDATETALENTS"])));
-  (**_player)->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["UPDATETALENTS"])));
+  (**_player)->setDigitaliser(*Digitaliser::deserialization((*trame)((*trame)[CONTENT]["TALENTUPDATE"])));
+  (**_player)->setStats(*Stats::deserialization((*trame)((*trame)[CONTENT]["TALENTUPDATE"]["STATS"])));
   return (true);
 }
 
