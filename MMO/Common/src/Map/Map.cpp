@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Fri Jan 24 16:29:17 2014 antoine maitre
-// Last update Tue Mar 25 16:04:50 2014 cyril jourdain
+// Last update Wed Mar 26 12:19:05 2014 antoine maitre
 //
 
 #include			<algorithm>
@@ -208,20 +208,12 @@ bool				Map::move(AEntity *entity)
 AEntity				*Map::getEntityById(std::string const &zone, unsigned int id)
 {
   this->lock();
-  // for (auto it = this->_map.begin(); it != this->_map.end(); it++)
-  //   {
-  //     for (auto itb = (*it).second->getPlayers().begin(); itb != (*it).second->getPlayers().end(); itb++)
-  // 	if ((*itb)->getId() == id)
-  // 	  {
-  // 	    this->unlock();
-  // 	    return (true);
-  // 	  }
-  //   }
-
+  
   for (auto it = this->_map[zone]->getCases()->begin() ; it != this->_map[zone]->getCases()->end() ; it++)
     {
       for (auto itb = (*it)->getEntities()->begin() ; itb != (*it)->getEntities()->end() ; itb++)
   	{
+	  //std::cout << "JE SUIS DANS LE ENTITY BY ID :" << (*itb)->getId() << " X: " << (*it)->getCoord().getX() << " Y: " << (*it)->getCoord().getY() << std::endl;
   	  if ((*itb)->getId() == id)
   	    {
   	      this->unlock();

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Mar 14 15:33:05 2014 cyril jourdain
-// Last update Wed Mar 26 14:31:54 2014 cyril jourdain
+// Last update Wed Mar 26 14:34:40 2014 cyril jourdain
 //
 
 #include		<QMenu>
@@ -427,8 +427,10 @@ void			PlayerSprite::setPlayerId(unsigned int id, bool setPos)
   if (setPos){
     Player *player = Map::getInstance()->getPlayerById(_playerId);
     
-    _pos.x = player->getX();
-    _pos.y = player->getY();
+    if (player){
+      _pos.x = player->getX();
+      _pos.y = player->getY();
+    }
   }
 }
 
