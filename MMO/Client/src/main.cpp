@@ -5,21 +5,35 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 11:16:43 2014 guillaume marescaux
-// Last update Tue Mar 11 14:37:11 2014 laurent ansel
+// Last update Wed Mar 26 14:34:05 2014 guillaume marescaux
 //
 
 #include		<iostream>
 #include		"Client.hh"
 #include		"Map/Map.hh"
+#include		"Error/SocketError.hpp"
 
 int			main(int ac, char **av)
 {
-  ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
-  ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
-  Client		*client = Client::getInstance();
-  Map::getInstance();
+  try
+    {
+      ObjectPoolManager::getInstance()->runObjectPool<Trame>("trame");
+      ObjectPoolManager::getInstance()->runObjectPool<Header>("header");
+      Client		*client = Client::getInstance();
+      Map::getInstance();
 
-  client->init(ac, av);
-  client->deleteInstance();
+      client->init(ac, av);
+      client->deleteInstance();
+    }
+  catch (std::invalid_argument e)
+    {
+      std::cerr << "Error : Bad arguments" << std::endl;
+      return (1);
+    }
+  catch (SocketError const &e)
+    {
+      std::cerr << "Error : Error socket" << std::endl;
+      return (2);
+    }
   return (0);
 }
