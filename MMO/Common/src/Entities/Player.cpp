@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 26 11:12:05 2014 alexis mestag
+// Last update Wed Mar 26 11:32:37 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -300,7 +300,7 @@ void				Player::setExperienceCurve(ExperienceCurve const &expCurve)
 void				Player::levelUp()
 {
   ACharacter::levelUp();
-  _talents->setCurrentPts(_talents->getCurrentPts() + 5);
+  _talents->setCurrentPts(_talents->getCurrentPts() + 1);
 }
 
 Jobs const			&Player::getJobs() const
