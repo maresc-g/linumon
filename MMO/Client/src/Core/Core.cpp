@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 26 11:15:58 2014 cyril jourdain
+// Last update Wed Mar 26 14:08:28 2014 antoine maitre
 //
 
 #include			<unistd.h>
@@ -521,7 +521,7 @@ bool				Core::removeEntity(Trame *trame)
   Map				*map = Map::getInstance();
   AEntity			*entity = map->getEntityById((**_player)->getZone(),
 							     (*trame)[CONTENT]["REMOVEENTITY"]["ID"].asUInt());
-  if (entity){
+  if (entity && entity->getId() != (**_player)->getId()){
     if (entity->getEntityType() == AEntity::STATENTITY)
       {
 	*_newPlayer = true;
