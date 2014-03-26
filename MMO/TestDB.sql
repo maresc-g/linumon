@@ -32,7 +32,9 @@ INSERT INTO `EffectLib`(`id`, `name`, `path`) VALUES
        (19, 'HealEffect',			'Libs/HealEffect.so'),
        (20, 'HealTargetEffect',			'Libs/HealTargetEffect.so'),
        (21, 'ContreEffect',			'Libs/ContreEffect.so'),
-       (22, 'AttiranceEffect',			'Libs/AttiranceEffect.so');
+       (22, 'AttiranceEffect',			'Libs/AttiranceEffect.so'),
+       (23, 'NormalCartridgeEffect',		'Libs/NormalCartridgeEffect.so'),
+       (24, 'SuperCartridgeEffect',		'Libs/SuperCartridgeEffect.so');
 
 /* Inserting Factions */
 DELETE FROM `Faction`;
@@ -564,9 +566,11 @@ INSERT INTO `Heal`(`id`, `name`, `pnjType`, `zone`, `x`, `y`) VALUES
 /* Inserting Consumable */
 DELETE FROM `Consumable`;
 
-INSERT INTO `Consumable`(`id`, `name`, `effectlib`) VALUES
-       (1, 'Potion', 4),
-       (2, 'Super Potion', 5);
+INSERT INTO `Consumable`(`id`, `name`, `forMob`, `effectlib`) VALUES
+       (1, 'Potion',			1,	 4),
+       (2, 'Super Potion',		1,	 5),
+       (3, 'Normal Cartridge x10',	0,	23),
+       (4, 'Super Cartridge x10',	0,	23);
 
 /* Adding some fancy views because it's quite swag */
 -- DROP VIEW IF EXISTS `StatView`;

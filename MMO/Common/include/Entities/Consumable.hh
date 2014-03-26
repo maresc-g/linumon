@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 15:41:47 2014 laurent ansel
-// Last update Tue Mar 11 21:37:13 2014 alexis mestag
+// Last update Wed Mar 26 09:16:56 2014 alexis mestag
 //
 
 #ifndef 		__CONSUMABLE_HH__
@@ -32,10 +32,11 @@ private:
 # ifndef		CLIENT_COMPILATION
   EffectLib const	*_effectLib;
 # endif
+  bool			_forMob;
 
 protected:
   Consumable();
-  Consumable(std::string const &name, eConsumable const consumableType);
+  Consumable(std::string const &name, eConsumable const consumableType, bool const forMob = false);
 
   Consumable		&operator=(Consumable const &rhs);
 
@@ -54,7 +55,11 @@ public:
   EffectLib const	&getEffectLib() const;
 
   void			applyEffect(Mob &mob) const;
+  void			applyEffect(Player &player) const;
 # endif
+
+  bool			isForMob() const;
+  void			setForMob(bool const forMob);
 
   virtual bool		serialization(Trame &trame) const;
   static Consumable	*deserialization(Trame const &trame, bool const client = true);
@@ -65,6 +70,7 @@ public:
 #  pragma db member(Consumable::_consumableType) transient
 #  pragma db member(Consumable::name) virtual(std::string) get(getName()) set(setName(?)) unique type("VARCHAR(24)")
 #  pragma db member(Consumable::_effectLib) not_null
+#  pragma db member(Consumable::_forMob) get(isForMob()) set(setForMob(?))
 # endif
 
 #endif
