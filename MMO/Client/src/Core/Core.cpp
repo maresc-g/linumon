@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 26 12:29:08 2014 guillaume marescaux
+// Last update Wed Mar 26 13:24:23 2014 alexis mestag
 //
 
 #include			<unistd.h>
@@ -142,6 +142,8 @@ Core::Core(MutexVar<CLIENT::eState> *state, MutexVar<Player *> *player,
   _proto->addFunc("REMOVEENTITY", func);
   func = std::bind1st(std::mem_fun(&Core::upTalents), this);
   _proto->addFunc("TALENTUPDATE", func);
+  func = std::bind1st(std::mem_fun(&Core::updateCharacter), this);
+  _proto->addFunc("UPDATECHARACTER", func);
 
   LoaderManager::getInstance()->init();
   LoaderManager::getInstance()->initReception(*_proto);
@@ -641,6 +643,22 @@ bool				Core::heal(Trame *)
     (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
   for (auto it = (**_player)->getDigitaliser().getBattleMobs().begin() ; it != (**_player)->getDigitaliser().getBattleMobs().end() ; ++it)
     (*it)->setCurrentStat("HP", (*it)->getMaxStat("HP"));
+  return true;
+}
+
+bool				Core::updateCharacter(Trame *trame)
+{
+  Stats				*stats = Stats::deserialization((*trame)((*trame)[CONTENT]["UPDATECHARACTER"]["STATS"]));
+  unsigned int			id = (*trame)[CONTENT]["UPDATECHARACTER"]["ID"].asUInt();
+
+  if (id == (**_player)->getId())
+    {
+      (**_player)->addToStats(*stats);
+    }
+  else
+    {
+      (**_player)->getDigitaliser().getMob(id)->addToStats(*stats);
+    }
   return true;
 }
 

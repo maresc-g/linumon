@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb  7 12:47:37 2014 guillaume marescaux
-// Last update Wed Mar 26 12:40:04 2014 guillaume marescaux
+// Last update Wed Mar 26 12:48:47 2014 alexis mestag
 //
 
 #include <iostream>
@@ -112,5 +112,6 @@ void				InventoryView::stackAction(StackView *stackView)
       (**_wMan->getMainPlayer())->useObject((**(_wMan->getMainPlayer()))->getId(), stackView->getStack().getId());
       Client::getInstance()->useObject((**(_wMan->getMainPlayer()))->getId(), stackView->getStack().getId());
       _wMan->getSFMLView()->getInventoryView()->initInventory();
+      std::cerr << "StackId = " << stackView->getStack().getId() << std::endl;
     }
 }

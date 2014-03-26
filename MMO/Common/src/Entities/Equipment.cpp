@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Feb  6 16:28:56 2014 laurent ansel
-// Last update Sun Mar 16 11:29:22 2014 laurent ansel
+// Last update Wed Mar 26 13:40:35 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -86,8 +86,14 @@ bool				Equipment::getStuff(Stuff *&oldStuff, unsigned int const idItem)
 {
   bool				ret = false;
 
+  oldStuff = NULL;
+  std::cout << "Equipment::getStuff size = " << this->size() << std::endl;
   for (auto it = this->begin() ; it != this->end() && !ret ; ++it)
     {
+      if (it->second)
+	std::cout << "ID ITEM = " << idItem << " ID = " << it->second->getId() << std::endl;
+      else
+	std::cout << "IT SECOND IS NULL" << std::endl;
       if (it->second && it->second->getId() == idItem)
 	{
 	  ret = true;

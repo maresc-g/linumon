@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Wed Mar 26 12:37:53 2014 guillaume marescaux
+// Last update Wed Mar 26 12:51:19 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -477,10 +477,11 @@ void				Player::useObject(unsigned int const target, unsigned int const idStack)
   Consumable			*c;
   Mob				*mob;
 
+  std::cout << "TARGET = " << target << std::endl;
   item = this->getAndDeleteItem(idStack);
   if (item)
     {
-      std::cout << "ITEM IS NOT NULL AND ITS NAME IS " << item->getName() << std::endl;
+      std::cout << "STACK ID = " << idStack << " ITEM NAME = " << item->getName() << std::endl;
 #ifndef CLIENT_COMPILATION
       if (item->getItemType() == AItem::CONSUMABLE)
 	{

@@ -1,0 +1,37 @@
+{
+    "1":
+    {
+	"NAME" : "Poor Ring",
+	"LVL" : 0,
+	"EXP" : 150,
+	"RES" : "Poor Ring",
+	"INGS" :
+	{
+	    "Orchidee" : 3
+	}
+    },
+    "2":
+    {
+	"NAME" : "Egyptian Necklace",
+	"LVL" : 0,
+	"EXP" : 150,
+	"RES" : "Egyptian Necklace",
+	"INGS" :
+	{
+	    "Orchidee" : 3,
+	    "Bone" : 4
+	}
+    },
+    "3":
+    {
+	"NAME" : "Bouftou Hammer",
+	"LVL" : 0,
+	"EXP" : 150,
+	"RES" : "Bouftou Hammer",
+	"INGS" :
+	{
+	    "Orchidee" : 1,
+	    "Venuzaur Leaf" : 2
+	}
+    }
+}

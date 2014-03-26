@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 22:02:08 2013 alexis mestag
-// Last update Sun Mar 23 14:23:00 2014 alexis mestag
+// Last update Wed Mar 26 13:04:32 2014 alexis mestag
 //
 
 #include			<sstream>
@@ -195,6 +195,7 @@ bool				Stats::serialization(Trame &trame) const
 
   for (auto it = this->begin() ; it != this->end() ; ++it)
     {
+      std::cerr << "Passing in Stats::serialization" << std::endl;
       //      str << nb;
       it->serialization(trame/*(trame[str.str()])*/);
       // str.str("");
