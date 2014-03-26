@@ -55,7 +55,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Craft</string>
+    <string/>
    </property>
   </widget>
   <widget class="QProgressBar" name="pb_exp">

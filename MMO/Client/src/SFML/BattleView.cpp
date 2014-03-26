@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Mar  3 18:11:57 2014 cyril jourdain
-// Last update Tue Mar 25 20:16:57 2014 guillaume marescaux
+// Last update Wed Mar 26 12:53:07 2014 cyril jourdain
 //
 
 #include		<stdexcept>
@@ -529,8 +529,9 @@ void			BattleView::rightButton(QMouseEvent *event)
 	  {
 	    (**_wMan->getBattle())->getCapture()->id = _selectedMob->getPlayerId();
 	    (**_wMan->getBattle())->getCapture()->isCapturing = true;
-	    _sfmlView->getSpriteManager()->copySprite("Lance-Flamme", *_captureAnim);
+	    _sfmlView->getSpriteManager()->copySprite("Capture", *_captureAnim);
 	    _captureAnim->play("onEnemy");
+	    _captureAnim->setPosition(_selectedMob->getPosition().x, _selectedMob->getPosition().y);
 	    (*_captureAnim)["onEnemy"]->setLoopPlay(false);
 	    _captureUpdating = true;
 	    Client::getInstance()->capture((**_wMan->getBattle())->getId(), _selectedMob->getPlayerId());

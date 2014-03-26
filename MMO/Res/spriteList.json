@@ -14,5 +14,6 @@
     "CountDown":"./Res/countDown.json",
     "BattleScreen":"./Res/battleScreen.json",
     "BattleResult":"./Res/battleEnd.json",
-    "ComputerScreen":"./Res/ComputerScreen.json"
+    "ComputerScreen":"./Res/ComputerScreen.json",
+    "Capture":"./Res/Spell/Capture.json"
 }

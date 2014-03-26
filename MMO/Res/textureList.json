@@ -14,5 +14,6 @@
     "Boutefeu" : "./Res/Spell/Boutefeu.png",
     "Surf":"./Res/Spell/Surf.png",
     "Danse-Fleur":"./Res/Spell/Danse-Fleur.png",
-    "Fatal-Foudre":"./Res/Spell/Fatal-Foudre.png"
+    "Fatal-Foudre":"./Res/Spell/Fatal-Foudre.png",
+    "Capture":"./Res/Spell/capture.png"
 }
