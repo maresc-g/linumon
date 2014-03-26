@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 13:11:19 2014 laurent ansel
-// Last update Wed Mar 19 00:22:14 2014 alexis mestag
+// Last update Tue Mar 25 14:04:44 2014 cyril jourdain
 //
 
 #ifndef 		__JOB_HH__
@@ -41,8 +41,12 @@ public:
   void			setJobModel(JobModel const &jobModel);
 
   bool			doCraft(std::string const &nameCraft, Stack<> *&result, std::list<Stack<> *> *&object);
-  bool			doGather(std::string const &nameRessource, Stack<> *&result, unsigned int &idRessource);
-  bool			doGather(std::string const &nameRessource, Stack<> *&result, unsigned int &idRessource, Carcass *carcass);
+  bool			doGather(std::string const &nameRessource, Stack<> *&result,
+				 unsigned int &idRessource);
+  bool			doGather(std::string const &nameRessource, Stack<> *&result,
+				 unsigned int &idRessource, Carcass *carcass);
+  bool			doGather(std::list<Stack<> *> *&result,
+				 Carcass *carcass);
 
   virtual bool		serialization(Trame &trame) const;
   static Job		*deserialization(Trame const &trame);

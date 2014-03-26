@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Mar 25 10:23:19 2014 alexis mestag
-// Last update Tue Mar 25 10:45:34 2014 alexis mestag
+// Last update Tue Mar 25 14:48:11 2014 alexis mestag
 //
 
 #include				"HealTargetEffect.hh"
@@ -21,9 +21,10 @@ HealTargetEffect::~HealTargetEffect()
 
 }
 
-void					HealTargetEffect::initialize(Mob &caster __attribute__((unused)),
-								     Spell &spell __attribute__((unused)),
-								     Mob &target)
+void				HealTargetEffect::initialize(Mob &caster __attribute__((unused)),
+							     Spell &spell __attribute__((unused)),
+							     Mob &target,
+							     BattleParams &battle __attribute__((unused)))
 {
   double				hp = target.getCurrentStat("HP") / 2.0;
 

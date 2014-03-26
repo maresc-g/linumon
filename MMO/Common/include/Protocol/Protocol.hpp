@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Dec 12 13:29:12 2013 laurent ansel
-// Last update Wed Mar 26 11:20:33 2014 antoine maitre
+// Last update Wed Mar 26 11:33:35 2014 antoine maitre
 //
 
 #ifndef 			__PROTOCOL_HPP__
@@ -145,5 +145,6 @@ bool				quitGuild(unsigned int const id);
 bool		                isInBattle(unsigned int const id, unsigned int const playerId, bool const battle, Zone *zone);
 
 bool				newCarcass(unsigned int const id, Zone *zone, Carcass const *carcass);
+bool				talentUpdate(unsigned int const id, Player const *player);
 
 #endif

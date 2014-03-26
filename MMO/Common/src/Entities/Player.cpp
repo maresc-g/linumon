@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Tue Dec  3 13:45:16 2013 alexis mestag
-// Last update Mon Mar 24 16:17:10 2014 alexis mestag
+// Last update Wed Mar 26 10:29:36 2014 alexis mestag
 //
 
 #include			<cmath>
@@ -13,6 +13,7 @@
 #include			<chrono>
 #include			<limits>
 #include			<functional>
+#include			"Effects/TalentEffect.hh"
 #include			"Entities/Player.hh"
 #include			"Map/Map.hh"
 #ifndef			CLIENT_COMPILATION
@@ -61,17 +62,21 @@ Player::Player(std::string const &name, std::string const &factionName, User con
 # ifndef	CLIENT_COMPILATION
   this->initConstPointersForNewPlayers();
 
+  this->setLevel(1);
   /*
   ** Capture a Pikachu
   */
   if (user) {
     Repository<MobModel>		*rm = &Database::getRepository<MobModel>();
     MobModel const			*m = rm->getByName("Pikachu");
-    Mob					*pikachu = new Mob(*m, 15, this);
+    Mob					*pikachu = new Mob(*m, 12, this);
 
+    std::cerr << "Adding a Pikachu ? " << (m ? "YES" : "NO") << std::endl;
     pikachu->resetExp();
     this->_digitaliser->addBattleMob(*pikachu);
   }
+  else
+    std::cerr << "User is null : damn !" << std::endl;
 
   /*
   ** Init Faction
@@ -105,6 +110,14 @@ Player::Player(std::string const &name, std::string const &factionName, User con
   */
   this->setStat("Limit mob", 3);
   this->setStat("Bag capacity", 30);
+
+  /*
+  ** Adding Cartridges
+  */
+  Cartridge				c(1);
+
+  for (unsigned int i = 0 ; i < 10 ; ++i)
+    this->addCartridge(c);
 
 # else
   (void)factionName;
@@ -486,6 +499,48 @@ bool				Player::incTalent(TalentModel const &model)
   return (_talents->incTalent(model));
 }
 
+bool				Player::updateTalent(TalentModel const &model,
+						     unsigned int const toPoints)
+{
+  Talent			*talent = _talents->getTalentFromModel(model);
+  bool				ret = false;
+
+  if (!talent) {
+    talent = new Talent(model, 0);
+    _talents->getContainer().push_back(talent);
+  }
+  unsigned int			fromPoints = talent->getCurrentPoints();
+
+  ret = fromPoints != toPoints ? true : false;
+  _talents->decCurrentPts(toPoints - fromPoints);
+  if (ret) {
+    talent->setCurrentPoints(toPoints);
+
+    talent->applyEffect(*this, fromPoints + 1, toPoints);
+  }
+  return (ret);
+}
+
+void				Player::applyAllTalentsToMob(Mob &mob)
+{
+  IEffect			*effect;
+  TalentEffect			*tEffect;
+
+  std::for_each(_talents->begin(), _talents->end(), [&](Talent *talent) -> void {
+      effect = talent->getModel().getEffectLib().getEffect();
+      tEffect = dynamic_cast<TalentEffect *>(effect);
+
+      if (tEffect) {
+	if (tEffect->isForMob())
+	  tEffect->apply(mob, 1, talent->getCurrentPoints());
+      }
+      else
+	std::cerr << "Bad cast in Player::applyAllTalentsToMob()" << std::endl;
+      delete effect;
+    });
+  // Resend the Mob to client
+}
+
 Talent const			*Player::getTalentFromModel(TalentModel const &model) const
 {
   return (const_cast<Talents const *>(_talents)->getTalentFromModel(model));
@@ -648,18 +703,29 @@ Talents const			&Player::getTalents() const
   return (*_talents);
 }
 
+void				Player::addCartridge(Cartridge const &cartridge)
+{
+  _digitaliser->addCartridge(cartridge);
+}
+
+Cartridge			*Player::getNextCartridge()
+{
+  return (_digitaliser->getNextCartridge());
+}
+
 bool				Player::capture(Mob &mob, bool const check)
 {
   bool				done = !check;
+  Cartridge			*cartridge = check ? this->getNextCartridge() : NULL;
 
-  if (!done) {
+  if (!done && cartridge) {
     static unsigned int			seed = std::chrono::system_clock::now().time_since_epoch().count();
     static std::default_random_engine	rGen(seed);
     double				a = 3.0 * mob.getMaxStat("HP") - 2.0 * mob.getCurrentStat("HP");
 
     a *= mob.getCatchRate();
     a /= 3.0 * mob.getMaxStat("HP");
-    a *= this->getDigitaliser().getEfficiency(); // Efficacité du digitaliser
+    a *= cartridge->getEfficiency(); // Efficacité de la cartouche
     a *= 1.0 + this->getStat("Capture") / 100.0; // Multiplicateur de chances
     if (a >= 255)
       done = true;
@@ -681,6 +747,7 @@ bool				Player::capture(Mob &mob, bool const check)
     mob.setPlayer(this);
 #ifndef		CLIENT_COMPILATION
     mob.resetExp();
+    this->applyAllTalentsToMob(mob);
 #endif
   }
   return (done);
@@ -720,6 +787,28 @@ bool				Player::doGather(std::string const &job, std::string const &res, Stack<A
     }
   return (ret);
 }
+
+bool				Player::doGather(std::string const &job, std::list<Stack<AItem>*> *&result,
+						 Carcass *carcass)
+{
+  bool				ret = false;
+  Job				*tmp = NULL;
+
+  tmp = this->getJob(job);
+  std::cout << "Player::doGather() for carcass : tmp=" << tmp << std::endl;
+  if (tmp)
+    {
+      std::cout << "Player::doGather() : if tmp" << std::endl;
+      if (carcass)
+	ret = tmp->doGather(result, carcass);
+      std::for_each(result->begin(), result->end(), [&](Stack<AItem> *s){
+	  addItem(s);
+	});
+      // this->addItem(result);
+    }
+  return (ret);
+}
+
 
 bool				Player::mobtoBattleMob(unsigned int const id)
 {

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 17:32:19 2014 alexis mestag
-// Last update Sun Mar 23 17:37:11 2014 alexis mestag
+// Last update Tue Mar 25 23:02:35 2014 alexis mestag
 //
 
 #ifndef				__CAPTURE_TALENTEFFECT_HH__
@@ -20,8 +20,10 @@ public:
   virtual ~Capture_TalentEffect();
 
 public:
-  virtual bool			apply(Player &player);
-  virtual bool			apply(Mob &mob);
+  virtual bool			apply(Player &player, unsigned int const fromPts,
+				      unsigned int const toPts);
+  virtual bool			apply(Mob &mob, unsigned int const fromPts,
+				      unsigned int const toPts);
 };
 
 extern				"C"

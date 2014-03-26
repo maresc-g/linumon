@@ -30,7 +30,11 @@ INSERT INTO `EffectLib`(`id`, `name`, `path`) VALUES
        (17, 'HealTalentEffect',			'Libs/Heal_TalentEffect.so'),
        (18, 'HPTalentEffect',			'Libs/HP_TalentEffect.so'),
        (19, 'HealEffect',			'Libs/HealEffect.so'),
-       (20, 'HealTargetEffect',			'Libs/HealTargetEffect.so');
+       (20, 'HealTargetEffect',			'Libs/HealTargetEffect.so'),
+       (21, 'ContreEffect',			'Libs/ContreEffect.so'),
+       (22, 'AttiranceEffect',			'Libs/AttiranceEffect.so'),
+       (23, 'NormalCartridgeEffect',		'Libs/NormalCartridgeEffect.so'),
+       (24, 'SuperCartridgeEffect',		'Libs/SuperCartridgeEffect.so');
 
 /* Inserting Factions */
 DELETE FROM `Faction`;
@@ -123,7 +127,8 @@ INSERT INTO `Type`(`id`, `name`) VALUES
        (3, 'Grass'),
        (4, 'Electric'),
        (5, 'Rock'),
-       (6, 'Steel');
+       (6, 'Steel'),
+       (7, 'Normal');
 
 /* Assigning Types to Types */
 DELETE FROM `Type_relations`;
@@ -210,9 +215,16 @@ INSERT INTO `Guild`(`id`, `name`) VALUES
 /* Inserting Players */
 DELETE FROM Player;
 
-INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `digitaliserEfficiency`, `inventoryPath`, `money`, `limit`, `expCurve`, `currentPts`) VALUES
-       (1, 'Thinenus', 1, 0, 1, 10, 1, 1, 1, 1, 1, 10, 30, 1, 'Res/Inventories/Thinenus.json', 10000, 30, 6, 5),
-       (2, 'Sezu-Kho', 1, 0, 1, 10, 1, 1, 2, 1, 1, 20, 20, 1, 'Res/Inventories/Sezu-Kho.json', 10000, 30, 6, 0);
+INSERT INTO `Player`(`id`, `name`, `authKeys`, `currentExp`, `level`, `exp`, `faction`, `talentTree`, `user`, `guild`, `dbZone`, `x`, `y`, `inventoryPath`, `money`, `limit`, `expCurve`, `currentPts`) VALUES
+       (1, 'Thinenus', 1, 0, 1, 10, 1, 1, 1, 1, 1, 10, 30, 'Res/Inventories/Thinenus.json', 10000, 30, 6, 5),
+       (2, 'Sezu-Kho', 1, 0, 1, 10, 1, 1, 2, 1, 1, 20, 20, 'Res/Inventories/Sezu-Kho.json', 10000, 30, 6, 0);
+
+/* Assigning CartridgeCip to Players */
+DELETE FROM `Player_cartridgeClip`;
+
+INSERT INTO `Player_cartridgeClip`(`object_id`, `key`, `value`) VALUES
+       (1, 1, 10),
+       (2, 1, 10);
 
 /* Assigning Talents to Players */
 DELETE FROM `Player_talents`;
@@ -284,7 +296,9 @@ INSERT INTO `Spell`(`id`, `name`, `type`, `power`, `useLimit`, `effectLib`) VALU
        (24, 'Tacle lourd',	6, 100, 0,  3),
        (25, 'Mega-Sangsue',	3,  40, 0, 19),
        (26, 'Absorption',	2,  60, 0, 19),
-       (27, 'Soin',		3,   0, 0, 20);
+       (27, 'Soin',		3,   0, 0, 20),
+       (28, 'Contre',		7,   0, 0, 21),
+       (29, 'Attirance',	7,   0, 0, 22);
 
 /* Assigning Spells to MobModels */
 DELETE FROM `MobModel_spells`;
@@ -295,16 +309,21 @@ INSERT INTO `MobModel_spells`(`object_id`, `index`, `value`) VALUES
        (1, 1,  2),
        (1, 2,  3),
        (1, 3,  4),
+       (1, 4, 28),
+       (1, 5, 29),
        /* Blastoise */
-       (2, 0, 26),
+       (2, 0,  5),
        (2, 1,  6),
        (2, 2,  7),
        (2, 3,  8),
+       (2, 4, 26),
        /* Venusaur */
-       (3, 0, 27),
-       (3, 1, 25),
+       (3, 0,  9),
+       (3, 1, 10),
        (3, 2, 11),
        (3, 3, 12),
+       (3, 4, 27),
+       (3, 5, 25),
        /* Pikachu */
        (4, 0, 13),
        (4, 1, 14),
@@ -315,11 +334,13 @@ INSERT INTO `MobModel_spells`(`object_id`, `index`, `value`) VALUES
        (5, 1, 18),
        (5, 2, 19),
        (5, 3, 20),
+       (5, 4, 29),
        /* Klink */
        (6, 0, 21),
        (6, 1, 22),
        (6, 2, 23),
-       (6, 3, 24);
+       (6, 3, 24),
+       (6, 4, 29);
 
 /* Assigning Stats to MobModels */
 DELETE FROM `MobModel_stats`;
@@ -392,7 +413,11 @@ DELETE FROM `JobModel_gathers`;
 
 INSERT INTO `JobModel_gathers`(`object_id`, `index`, `value_level`, `value_exp`, `value_ressource`) VALUES
        (5, 0, 1, 10, 1),
-       (7, 0, 1, 10, 2);
+       (7, 0, 1, 10, 2),
+       (7, 1, 1, 10, 4),
+       (7, 2, 1, 10, 5),
+       (7, 3, 1, 10, 6),
+       (7, 4, 1, 10, 7);
 
 /* Inserting Job */
 DELETE FROM `Job`;
@@ -541,9 +566,11 @@ INSERT INTO `Heal`(`id`, `name`, `pnjType`, `zone`, `x`, `y`) VALUES
 /* Inserting Consumable */
 DELETE FROM `Consumable`;
 
-INSERT INTO `Consumable`(`id`, `name`, `effectlib`) VALUES
-       (1, 'Potion', 4),
-       (2, 'Super Potion', 5);
+INSERT INTO `Consumable`(`id`, `name`, `forMob`, `effectlib`) VALUES
+       (1, 'Potion',			1,	 4),
+       (2, 'Super Potion',		1,	 5),
+       (3, 'Normal Cartridge x10',	0,	23),
+       (4, 'Super Cartridge x10',	0,	23);
 
 /* Adding some fancy views because it's quite swag */
 -- DROP VIEW IF EXISTS `StatView`;

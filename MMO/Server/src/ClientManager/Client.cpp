@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Tue Mar 25 16:38:14 2014 antoine maitre
+// Last update Wed Mar 26 00:25:20 2014 alexis mestag
 //
 
 #include			"ClientManager/Client.hh"
@@ -332,9 +332,10 @@ void				Client::updateTalents(std::string const &talent, unsigned int const pts)
   if (_state == GAME && _player)
     {
       TalentModel const		*model = (**LoaderManager::getInstance()->getTalentModelLoader())->getValue(talent);
-      for (unsigned int i = 0 ; i < pts ; ++i)
-	_player->incTalent(*model);
-      Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
+      if (_player->updateTalent(*model, pts)) {
+	// Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
+	Server::getInstance()->callProtocol<Player const *>("TALENTUPDATE", _id, _player);
+      }
     }
 }
 
@@ -418,42 +419,65 @@ bool				Client::gather(unsigned int const ressource, std::string const &job, uns
 {
   bool				ret = false;
   Stack<AItem>			*result;
+  std::list<Stack<AItem>*>	*resultList = new std::list<Stack<AItem>*>;
   unsigned int			idRessource;
   AEntity			*entity = NULL;
   Ressource			*res = NULL;;
+  Carcass			*carcassPtr = NULL;;
 
   if (_state == GAME && _player && _user)
     {
-      if (carcass > 0)
+     if (carcass)
 	{
-	  entity = Map::getInstance()->getEntityById(_player->getZone(), carcass);
-	  if (entity)
-	    res = static_cast<Carcass *>(entity)->getRessource(ressource);
+	  carcassPtr = static_cast<Carcass *>(Map::getInstance()->getEntityById(_player->getZone(), carcass));
+	  ret = _player->doGather(job, resultList, carcassPtr);
+	  if (ret)
+	    {
+	      std::for_each(resultList->begin(), resultList->end(), [&](Stack<AItem>* s){
+		  Server::getInstance()->callProtocol<Stack<AItem> *>("ADDTOINVENTORY", _id, s);
+		});
+	      Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
+	      Map::getInstance()->delCarcass(_player->getZone(), carcassPtr);
+	      Server::getInstance()->callProtocol<int, Zone *>("REMOVEENTITY", _id, carcassPtr->getId(), Map::getInstance()->getZone(_player->getZone()));
+	    }
 	}
       else
-	res = static_cast<Ressource *>(Map::getInstance()->getEntityById(_player->getZone(), ressource));
-      result = new Stack<AItem>(1, res);
-      ret = _player->doGather(job, res->getName(), result, idRessource, (carcass > 0 ? static_cast<Carcass *>(entity) : NULL));
-      if (ret)
 	{
-
-	  Server::getInstance()->callProtocol<Stack<AItem> *>("ADDTOINVENTORY", _id, result);
-	  Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
-	  if (!carcass)
+	  res = static_cast<Ressource *>(Map::getInstance()->getEntityById(_player->getZone(), ressource));
+	  result = new Stack<AItem>(1, res);
+	  ret = _player->doGather(job, res->getName(), result, idRessource, (carcass > 0 ? static_cast<Carcass *>(entity) : NULL));
+	  if (ret)
 	    {
-	      std::cout << "NO CARCASS" << std::endl;
-	      if (res)
-		{
-		  std::cout << "ENTITY EXITS" << std::endl;
-		  res->setVisible(false);
-		  RessourceManager::getInstance()->needRessource(res->getName(), _player->getZone(), res);
-		  Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("VISIBLE", _id, ressource, false, Map::getInstance()->getZone(_player->getZone()));
-		}
+	      Server::getInstance()->callProtocol<Stack<AItem> *>("ADDTOINVENTORY", _id, result);
+	      Server::getInstance()->callProtocol<Job const *>("JOB", _id, _player->getJob(job));
+		  std::cout << "NO CARCASS" << std::endl;
+		  if (res)
+		    {
+		      std::cout << "ENTITY EXITS" << std::endl;
+		      res->setVisible(false);
+		      RessourceManager::getInstance()->needRessource(res->getName(), _player->getZone(), res);
+		      Server::getInstance()->callProtocol<unsigned int, bool, Zone *>("VISIBLE", _id, ressource, false, Map::getInstance()->getZone(_player->getZone()));
+		    }
+	  
 	    }
-	  else
-	    if (static_cast<Carcass *>(entity)->empty())
-	      Map::getInstance()->delEntity(_player->getZone(), entity);
 	}
+
+      // if (static_cast<Carcass *>(entity)->empty())
+      // 	Map::getInstance()->delEntity(_player->getZone(), entity);
+
+      // if (carcass > 0)
+      // 	{
+      // 	  std::cout << "WANTS CARCASS" << std::endl;
+      // 	  entity = Map::getInstance()->getEntityById(_player->getZone(), carcass);
+      // 	  std::cout << "Entity : " << entity << std::endl;
+      // 	  if (entity)
+      // 	    res = static_cast<Carcass *>(entity)->getRessource(ressource);
+      // 	  std::cout << "Res : " << res << std::endl;
+      // 	}
+      // else
+      // 	{
+      // 	  std::cout << "CARCASS NOT FOUND" << std::endl;
+      // 	}
     }
   return (ret);
 }

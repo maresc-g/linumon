@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Jan 28 15:37:45 2014 antoine maitre
-// Last update Wed Mar 26 11:20:09 2014 antoine maitre
+// Last update Wed Mar 26 11:32:40 2014 antoine maitre
 //
 
 #ifndef				__BATTLE_HH__
@@ -13,9 +13,8 @@
 
 # include			<string>
 # include			<tuple>
-# include			"AI/AI.hh"
-# include			"Entities/Player.hh"
-# include			"Server/Server.hh"
+# include			"Entities/Mob.hh"
+# include			"Battle/BattleParams.hh"
 
 class				Battle 
 {
@@ -31,10 +30,10 @@ private:
   unsigned int const		_mobNumber;
   std::list<Mob *>		_mobs;
   std::list<Player *>		_players;
-  int				_money;
-  int				_exp;
   unsigned int			_idLooser;
   bool				_success;
+  BattleParams			*_battleParams;
+
 public:
   Battle(unsigned int const id, eBattle const type, unsigned int const mobNumber, Player *player1, Player *player2);
   virtual ~Battle();
@@ -43,7 +42,7 @@ public:
   eBattle 			getType() const;
   bool				dswitch(unsigned int const, unsigned int const);
   bool				capture(unsigned int const);
-  bool				spell(unsigned int const, unsigned int const, Spell *);
+  bool				spell();
   bool				checkEnd();
   bool				isInThisBattle(unsigned int const idPlayer);
   void				setSuccess(bool const val);
@@ -57,6 +56,14 @@ public:
   void				trameTurnTo(unsigned int const idPlayer, unsigned int const idMob) const;
   void				trameEndBattle();
   void				next();
+
+  Mob				*getMobById(unsigned int const id);
+  Mob				*getLauncherMob();
+  void				setLauncherMob(Mob *mob);
+  Mob				*getTargetMob();
+  void				setTargetMob(Mob *mob);
+  Spell				*getSpell();
+  void				setSpell(Spell *);
 };
 
 bool				compareSpeed(Mob *, Mob *);

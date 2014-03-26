@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 17:39:04 2014 alexis mestag
-// Last update Sun Mar 23 17:39:50 2014 alexis mestag
+// Last update Tue Mar 25 23:02:42 2014 alexis mestag
 //
 
 #ifndef				__BAGCAPACITY_TALENTEFFECT_HH__
@@ -20,8 +20,10 @@ public:
   virtual ~BagCapacity_TalentEffect();
 
 public:
-  virtual bool			apply(Player &player);
-  virtual bool			apply(Mob &mob);
+  virtual bool			apply(Player &player, unsigned int const fromPts,
+				      unsigned int const toPts);
+  virtual bool			apply(Mob &mob, unsigned int const fromPts,
+				      unsigned int const toPts);
 };
 
 extern				"C"

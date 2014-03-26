@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Mar 23 13:10:32 2014 alexis mestag
-// Last update Sun Mar 23 13:12:02 2014 alexis mestag
+// Last update Tue Mar 25 23:02:14 2014 alexis mestag
 //
 
 #ifndef				__HEAL_TALENTEFFECT_HH__
@@ -20,8 +20,10 @@ public:
   virtual ~Heal_TalentEffect();
 
 public:
-  virtual bool			apply(Player &player);
-  virtual bool			apply(Mob &mob);
+  virtual bool			apply(Player &player, unsigned int const fromPts,
+				      unsigned int const toPts);
+  virtual bool			apply(Mob &mob, unsigned int const fromPts,
+				      unsigned int const toPts);
 };
 
 extern				"C"

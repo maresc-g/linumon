@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Mar 26 11:29:58 2014 antoine maitre
+// Last update Wed Mar 26 11:32:59 2014 antoine maitre
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -90,6 +90,7 @@ if (server)
       this->_container->load<unsigned int, std::string, Zone *>("DELETEMEMBER", &deleteMember);
       this->_container->load<unsigned int, std::string>("INVITE", &invite);
       this->_container->load<unsigned int, Zone *, Carcass const *>("NEWCARCASS", &newCarcass);
+      this->_container->load<unsigned int, Player const *>("TALENTUPDATE", &talentUpdate);
     }
   else
     {
@@ -294,7 +295,7 @@ bool		         removeEntity(unsigned int const id, int entityId, Zone *zone)
     {
       (*trame)[CONTENT]["REMOVEENTITY"]["ID"] = entityId;
       trame->setEnd(true);
-      ret = sendToAllClient(id, trame, zone, false);
+      ret = sendToAllClient(id, trame, zone, true);
     }
   delete header;
   return (ret);
@@ -1340,6 +1341,27 @@ bool			newCarcass(unsigned int const id, Zone *zone, Carcass const *carcass)
   return (ret);
 }
 
+bool			talentUpdate(unsigned int const id, Player const *player)
+{
+  bool			ret = false;
+  Trame			*trame;
+  Header		*header;
+
+  ObjectPoolManager::getInstance()->setObject<Trame>(trame, "trame");
+  ObjectPoolManager::getInstance()->setObject<Header>(header, "header");
+  header->setIdClient(id);
+  header->setProtocole("TCP");
+  if (header->serialization(*trame))
+    {
+      player->getDigitaliser().serialization((*trame)((*trame)[CONTENT]["TALENTUPDATE"]));
+      player->getStats().serialization((*trame)((*trame)[CONTENT]["TALENTUPDATE"]["STATS"]));
+      trame->setEnd(true);
+      ret = true;
+    }
+  delete header;
+  return (ret);
+}
+
 bool				createGuild(unsigned int const id, std::string name)
 {
   bool			ret = false;
@@ -1899,7 +1921,7 @@ bool			gather(unsigned int const id, unsigned int idRessource, std::string jobNa
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["GATHER"]["IDRESSOURCE"] = idRessource;
-      (*trame)[CONTENT]["GATHER"]["IDCARCASS"] = idCarcass;
+      (*trame)[CONTENT]["GATHER"]["CARCASS"] = idCarcass;
       (*trame)[CONTENT]["GATHER"]["JOBNAME"] = jobName;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);

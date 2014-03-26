@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Fri Jan 31 14:51:25 2014 alexis mestag
-// Last update Thu Mar 20 13:01:02 2014 guillaume marescaux
+// Last update Tue Mar 25 22:33:23 2014 alexis mestag
 //
 
 #include			"Stats/Talent.hh"
@@ -51,6 +51,16 @@ Talent				&Talent::operator=(Talent const &rhs)
   return (*this);
 }
 
+bool				Talent::operator==(Talent const &rhs)
+{
+  return (this->getModel() == rhs.getModel() && this->getCurrentPoints() == rhs.getCurrentPoints());
+}
+
+bool				Talent::operator!=(Talent const &rhs)
+{
+  return (!(*this == rhs));
+}
+
 TalentModel const		&Talent::getModel() const
 {
   return (*_model);
@@ -81,6 +91,12 @@ bool				Talent::addPts(unsigned int const pts)
       ret = true;
     }
   return (ret);
+}
+
+void				Talent::applyEffect(Player &player, unsigned int const fromPts,
+						    unsigned int const toPts) const
+{
+  this->getModel().applyEffect(player, fromPts, toPts);
 }
 
 bool				Talent::serialization(Trame &trame) const
