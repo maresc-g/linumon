@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:58:09 2014 guillaume marescaux
-// Last update Wed Mar 26 13:24:23 2014 alexis mestag
+// Last update Wed Mar 26 14:24:05 2014 guillaume marescaux
 //
 
 #include			<unistd.h>
@@ -936,14 +936,22 @@ void				Core::quitGuild()
   (*_proto).operator()<unsigned int const>("GQUIT", _id);
 }
 
-void				Core::init(void)
+void				Core::init(int ac, char **av)
 {
   Trame				*trame = new Trame();
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
-  Trame::readFile(*trame, CONNECT_FILE);
-  _infos->ip = (*trame)["ip"].asString();
-  _infos->port = (*trame)["port"].asInt();
+  if (ac == 3)
+    {
+      _infos->ip = std::string(av[1]);
+      _infos->port = std::stoi(av[2]);
+    }
+  else
+    {
+      Trame::readFile(*trame, CONNECT_FILE);
+      _infos->ip = (*trame)["ip"].asString();
+      _infos->port = (*trame)["port"].asInt();
+    }
   delete trame;
 
   (*_sockets)[TCP]->initialize("TCP");

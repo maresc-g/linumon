@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Jan 24 13:57:49 2014 guillaume marescaux
-// Last update Wed Mar 26 13:17:12 2014 alexis mestag
+// Last update Wed Mar 26 14:22:26 2014 guillaume marescaux
 //
 
 #ifndef 		__CORE_HH__
@@ -79,7 +79,7 @@ public:
   virtual ~Core();
 
   // Methods
-  void			init(void);
+  void			init(int ac, char **av);
   void			read(int const timeout, bool const setTimeout);
   void			write();
 
