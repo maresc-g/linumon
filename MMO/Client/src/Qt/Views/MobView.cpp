@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Feb 28 15:44:59 2014 guillaume marescaux
-// Last update Tue Mar 25 19:59:05 2014 guillaume marescaux
+// Last update Wed Mar 26 13:13:33 2014 cyril jourdain
 //
 
 #include			<QMenu>
@@ -27,7 +27,7 @@ MobView::MobView(QWidget *parent, WindowManager *wMan, Mob const *mob):
     }
   boost::algorithm::to_lower(name);
   ui.frame->setObjectName(name.c_str());
-  this->setStyleSheet(std::string("MobView QFrame#" + name + "{ border-image: url(./Res/Mobs/" + name + ".png); }").c_str());
+  this->setStyleSheet(std::string("MobView QFrame#" + name + "{ border-image: url(./Res/Mobs/" + name + "_m.png); }").c_str());
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayMenu(const QPoint&)));
 }
@@ -60,7 +60,7 @@ void				MobView::setInfos(Mob const *mob)
 	}
       boost::algorithm::to_lower(name);
       ui.frame->setObjectName(name.c_str());
-      this->setStyleSheet(std::string("MobView QFrame#" + name + "{ border-image: url(./Res/Mobs/" + name + ".png); }").c_str());
+      this->setStyleSheet(std::string("MobView QFrame#" + name + "{ border-image: url(./Res/Mobs/" + name + "_m.png); }").c_str());
       setContextMenuPolicy(Qt::CustomContextMenu);
       connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayMenu(const QPoint&)));
     }

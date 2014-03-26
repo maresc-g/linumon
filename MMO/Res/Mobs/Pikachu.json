@@ -4,7 +4,7 @@
 		"size": 64
 	},	
 	"sprites": {
-		"Pikatchu": {
+		"Pikachu": {
 			"default_down": {
 			    "1":{"x": 0,"y": 0}
 			},

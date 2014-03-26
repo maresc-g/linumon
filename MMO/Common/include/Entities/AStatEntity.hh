@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 21:21:41 2013 alexis mestag
-// Last update Sun Mar 23 14:22:03 2014 alexis mestag
+// Last update Wed Mar 26 13:21:08 2014 alexis mestag
 //
 
 #ifndef			__ASTATENTITY_HH__
@@ -29,6 +29,7 @@ public:
 private:
   eStatEntity			_statEntityType;
   AuthorizedStatKeys const	*_authKeys;
+protected:
   Stats				*_stats;
 
 protected:
@@ -61,6 +62,7 @@ public:
   */
   Stats const		&getStats() const;
   void			setStats(Stats const &stats);
+  void			addToStats(Stats const &stats);
 
   /*
   ** Gets the value of a given stat by the key

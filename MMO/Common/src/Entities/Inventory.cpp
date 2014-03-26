@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Feb  7 11:16:04 2014 laurent ansel
-// Last update Sun Mar 16 16:28:06 2014 laurent ansel
+// Last update Wed Mar 26 12:42:58 2014 alexis mestag
 //
 
 #include			<stdlib.h>
@@ -369,9 +369,17 @@ void				Inventory::loadInventory()
 	  //		  this->getContainer().push_back(new Stack(atol((*inb).c_str())));
       	  for (auto it = members.begin() ; it != members.end() ; ++it)
       	    {
+	      // std::cerr << "Searching item : " << *it << std::endl;
       	      item = LoaderManager::getInstance()->getItemLoader(*it);
-      	      if (item)
+      	      if (item) {
+		// Consumable		*test = dynamic_cast<Consumable *>(item);
+
+		// std::cerr << "\tFound it" << std::endl;
+		// if (test) {
+		//   std::cerr << "\t\tisForMob : " << test->isForMob() << std::endl;
+		// }
 		this->addItem(item, (*file)[*inb][*it].asUInt(), false);
+	      }
       	    }
       	}
     }

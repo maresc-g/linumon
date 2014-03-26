@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Mar 26 11:48:36 2014 guillaume marescaux
+// Last update Wed Mar 26 13:22:38 2014 alexis mestag
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -883,7 +883,7 @@ bool			useObject(unsigned int const id, unsigned int target, unsigned int idItem
   if (header->serialization(*trame))
     {
       (*trame)[CONTENT]["USEOBJECT"]["TARGET"] = target;
-      (*trame)[CONTENT]["USEOBJECT"]["ITEM"] = idItem;
+      (*trame)[CONTENT]["USEOBJECT"]["IDSTACK"] = idItem;
       trame->setEnd(true);
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
@@ -1769,7 +1769,8 @@ bool			updateCharacter(unsigned int const id, ACharacter const *character)
       header->setProtocole("TCP");
       if (header->serialization(*trame))
 	{
-	  character->getStats().serialization((*trame)((*trame)[CONTENT]["UPDATECHARACTER"]));
+	  (*trame)[CONTENT]["UPDATECHARACTER"]["ID"] = static_cast<int>(character->getId());
+	  character->getStats().serialization((*trame)((*trame)[CONTENT]["UPDATECHARACTER"]["STATS"]));
 	  trame->setEnd(true);
 	  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 	  ret = true;

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Thu Nov 28 23:37:01 2013 alexis mestag
-// Last update Mon Mar 24 16:23:03 2014 alexis mestag
+// Last update Wed Mar 26 13:31:20 2014 alexis mestag
 //
 
 #include			"Entities/ACharacter.hh"
@@ -98,7 +98,13 @@ void				ACharacter::setEquipment(Equipment const &equipment)
 
 bool				ACharacter::addStuff(Stuff *item, Stuff *&old)
 {
-  return (this->_equipment->addStuff(item, old));
+  bool				ret = (this->_equipment->addStuff(item, old));
+
+  *this->_stats += item->getStats();
+  if (old) {
+    *this->_stats -= old->getStats();
+  }
+  return (ret);
 }
 
 bool				ACharacter::addStuff(Stuff::eStuff const item, Stuff *&old)
@@ -108,7 +114,12 @@ bool				ACharacter::addStuff(Stuff::eStuff const item, Stuff *&old)
 
 bool				ACharacter::getStuff(Stuff *&old, unsigned int const item)
 {
-  return (this->_equipment->getStuff(old, item));
+  bool				ret = (this->_equipment->getStuff(old, item));
+
+  if (old) {
+    *this->_stats -= old->getStats();
+  }
+  return (ret);
 }
 
 bool				ACharacter::isInBattle() const
