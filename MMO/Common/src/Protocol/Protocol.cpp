@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Jan 24 10:57:48 2014 laurent ansel
-// Last update Wed Mar 26 10:54:05 2014 guillaume marescaux
+// Last update Wed Mar 26 11:20:04 2014 alexis mestag
 //
 
 #include		"Protocol/Protocol.hpp"
@@ -1356,7 +1356,9 @@ bool			talentUpdate(unsigned int const id, Player const *player)
       player->getDigitaliser().serialization((*trame)((*trame)[CONTENT]["TALENTUPDATE"]));
       player->getStats().serialization((*trame)((*trame)[CONTENT]["TALENTUPDATE"]["STATS"]));
       trame->setEnd(true);
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       ret = true;
+      // std::cerr << "TALENTUPDATE sent !! /!\\" << std::endl;
     }
   delete header;
   return (ret);

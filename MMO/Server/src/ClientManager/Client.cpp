@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Dec  3 16:04:56 2013 laurent ansel
-// Last update Wed Mar 26 10:46:59 2014 alexis mestag
+// Last update Wed Mar 26 11:20:14 2014 alexis mestag
 //
 
 #include			"ClientManager/Client.hh"
@@ -332,14 +332,19 @@ void				Client::move(Player::PlayerCoordinate *coord)
 
 void				Client::updateTalents(std::string const &talent, unsigned int const pts) const
 {
+  std::cerr << "In Client::updateTalents" << std::endl;
   if (_state == GAME && _player)
     {
       TalentModel const		*model = (**LoaderManager::getInstance()->getTalentModelLoader())->getValue(talent);
       if (_player->updateTalent(*model, pts)) {
+	// std::cerr << "Calling updateTalent with " << _player->getName() << std::endl;
 	// Server::getInstance()->callProtocol<Player *>("PLAYER", _id, _player);
 	Server::getInstance()->callProtocol<Player const *>("TALENTUPDATE", _id, _player);
+	// std::cerr << "\tmsg sent with protocol" << std::endl;
       }
     }
+  // else
+  //   std::cerr << "\tLe if n'est pas passé" << std::endl;
 }
 
 void				Client::useObject(unsigned int const target, unsigned int const item)

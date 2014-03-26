@@ -593,7 +593,7 @@ INSERT INTO `Consumable`(`id`, `name`, `forMob`, `effectlib`) VALUES
        (1, 'Potion',			1,	 4),
        (2, 'Super Potion',		1,	 5),
        (3, 'Normal Cartridge x10',	0,	23),
-       (4, 'Super Cartridge x10',	0,	23);
+       (4, 'Super Cartridge x10',	0,	24);
 
 /* Adding some fancy views because it's quite swag */
 -- DROP VIEW IF EXISTS `StatView`;
