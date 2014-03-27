@@ -1,0 +1,26 @@
+Paquets à installer : http://www.codesynthesis.com/products/odb/download.xhtml
+- ODB :
+	- ODB compiler
+	- libodb
+	- libodb-mysql
+- BDD :
+	- MariaDB ou MySQL
+- Qt :
+	- Qt4
+- SFML 2.1
+- Boost
+- libcryptocpp
+- libjsoncpp
+
+Pour lancer :
+     - make fclean
+     - make (le -j 4 est fortement recommandé)
+     - make schema.sql
+     - source initDb.sql dans l'interpreteur SQL (sous l'utilisateur root)
+     - source TestDB.sql
+
+=> ./pfa-server 4242
+=> ./pfa-client
+
+Si le client ne compile pas, il faut faire un qmake dans Client/
+   => Si vous avez plusieurs version de Qt, il faut utiliser qmake-qt4
